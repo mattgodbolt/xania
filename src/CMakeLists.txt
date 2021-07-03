@@ -29,6 +29,7 @@ add_library(xania_lib STATIC
         Titles.hpp Titles.cpp
         Socials.hpp Socials.cpp
         ExtraDescription.hpp
+        ObjectIndex.hpp
         Exit.hpp
         Room.hpp
         db.cpp

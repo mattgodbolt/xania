@@ -8,6 +8,7 @@
 #include "Classes.hpp"
 #include "DescriptorList.hpp"
 #include "Note.hpp"
+#include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "Sex.hpp"
 #include "SkillNumbers.hpp"
@@ -401,7 +402,7 @@ bool Char::has_boat() const noexcept {
 }
 
 bool Char::carrying_object_vnum(int vnum) const noexcept {
-    return ranges::contains(carrying | ranges::views::transform(&OBJ_DATA::pIndexData), vnum, &OBJ_INDEX_DATA::vnum);
+    return ranges::contains(carrying | ranges::views::transform(&OBJ_DATA::objIndex), vnum, &ObjectIndex::vnum);
 }
 
 size_t Char::num_group_members_in_room() const noexcept {

@@ -1,4 +1,5 @@
 #include "pfu.hpp"
+#include "ObjectIndex.hpp"
 #include "VnumRooms.hpp"
 #include "WrappedFd.hpp"
 #include "common/Configuration.hpp"
@@ -107,7 +108,7 @@ void ResetModifiableAttrs::execute(Char &ch) const {
             ch.armor[i] -= apply_ac(obj, loc, i);
 
         if (!obj->enchanted)
-            for (const auto &af : obj->pIndexData->affected)
+            for (const auto &af : obj->objIndex->affected)
                 af.apply(ch);
 
         for (auto &af : obj->affected)
@@ -122,7 +123,7 @@ AddUniqueItemFlags::AddUniqueItemFlags(CharVersion version) : UpgradeTask(versio
 
 void AddUniqueItemFlags::walk_inventory_set_unique_flag(const GenericList<OBJ_DATA *> &objects) const {
     for (auto object : objects) {
-        if (IS_SET(object->pIndexData->extra_flags, ITEM_UNIQUE) && !IS_SET(object->extra_flags, ITEM_UNIQUE)) {
+        if (IS_SET(object->objIndex->extra_flags, ITEM_UNIQUE) && !IS_SET(object->extra_flags, ITEM_UNIQUE)) {
             SET_BIT(object->extra_flags, ITEM_UNIQUE);
         }
         if (object->item_type == ITEM_CONTAINER || object->item_type == ITEM_CORPSE_NPC

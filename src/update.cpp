@@ -14,6 +14,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
+#include "ObjectIndex.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -698,7 +699,7 @@ void obj_update() {
             else
                 act(message, obj->carried_by, obj, nullptr, To::Char);
         } else if (obj->in_room != nullptr && !obj->in_room->people.empty()) {
-            if (!(obj->in_obj && obj->in_obj->pIndexData->vnum == objects::Pit && !CAN_WEAR(obj->in_obj, ITEM_TAKE))) {
+            if (!(obj->in_obj && obj->in_obj->objIndex->vnum == objects::Pit && !CAN_WEAR(obj->in_obj, ITEM_TAKE))) {
                 // seems like we pick someone to emote for convenience here...
                 auto *rch = *obj->in_room->people.begin();
                 act(message, rch, obj, nullptr, To::Room);

@@ -18,6 +18,7 @@
 #include "mob_prog.hpp"
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"
+#include "ObjectIndex.hpp"
 #include "Room.hpp"
 #include "db.h"
 #include "handler.hpp"
@@ -787,7 +788,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const OBJ_DATA 
             break;
         case 'o':
             if (obj) {
-                lhsvl = obj->pIndexData->vnum;
+                lhsvl = obj->objIndex->vnum;
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
@@ -795,7 +796,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const OBJ_DATA 
             break;
         case 'p':
             if (v_obj) {
-                lhsvl = v_obj->pIndexData->vnum;
+                lhsvl = v_obj->objIndex->vnum;
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else

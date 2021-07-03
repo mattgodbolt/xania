@@ -1,5 +1,6 @@
 #include "ExtraDescription.hpp"
 #include "MemFile.hpp"
+#include "ObjectIndex.hpp"
 #include "merc.h"
 
 #include <catch2/catch.hpp>
@@ -12,15 +13,15 @@ TEST_CASE("unique object enforcement") {
 
     Char char_from{};
     Char char_to{};
-    OBJ_INDEX_DATA obj_idx{};
+    ObjectIndex obj_idx{};
     obj_idx.item_type = ITEM_LIGHT;
 
     OBJ_DATA existing_obj{};
-    existing_obj.pIndexData = &obj_idx;
+    existing_obj.objIndex = &obj_idx;
     existing_obj.item_type = obj_idx.item_type;
 
     OBJ_DATA moving_obj{};
-    moving_obj.pIndexData = &obj_idx;
+    moving_obj.objIndex = &obj_idx;
     moving_obj.item_type = obj_idx.item_type;
     // Default case for most tests: both the existing & moving object instances are flagged unique.
     SET_BIT(obj_idx.extra_flags, ITEM_UNIQUE);
@@ -90,10 +91,10 @@ TEST_CASE("unique object enforcement") {
         }
     }
     SECTION("moving to a container") {
-        OBJ_INDEX_DATA container_idx;
+        ObjectIndex container_idx;
         container_idx.item_type = ITEM_CONTAINER;
         OBJ_DATA container{};
-        container.pIndexData = &container_idx;
+        container.objIndex = &container_idx;
         container.item_type = container_idx.item_type;
 
         SECTION("unique object to container collides") {

@@ -16,6 +16,7 @@
 #include "Help.hpp"
 #include "MobIndexData.hpp"
 #include "Note.hpp"
+#include "ObjectIndex.hpp"
 #include "ResetData.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -77,7 +78,7 @@ GenericList<Char *> char_list;
 // Mutable global: modified whenever a new object is created or destroyed.
 GenericList<OBJ_DATA *> object_list;
 // Mutable global: object template pointers.
-OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
+ObjectIndex *obj_index_hash[MAX_KEY_HASH];
 // Mutable global: room template pointers.
 Room *room_hash[MAX_KEY_HASH];
 // Mutable global: index number of the latest object template to be created.
@@ -694,7 +695,7 @@ void load_mobiles(FILE *fp) {
  * Snarf an obj section. new style
  */
 void load_objects(FILE *fp) {
-    OBJ_INDEX_DATA *pObjIndex;
+    ObjectIndex *objIndex;
     char temp; /* Used for Death's Wear Strings bit */
 
     auto area_last = AreaList::singleton().back();
@@ -725,106 +726,106 @@ void load_objects(FILE *fp) {
         }
         fBootDb = true;
 
-        pObjIndex = new OBJ_INDEX_DATA;
-        pObjIndex->vnum = vnum;
-        pObjIndex->area = area_last;
-        pObjIndex->reset_num = 0;
+        objIndex = new ObjectIndex;
+        objIndex->vnum = vnum;
+        objIndex->area = area_last;
+        objIndex->reset_num = 0;
         newobjs++;
-        pObjIndex->name = fread_stdstring(fp);
+        objIndex->name = fread_stdstring(fp);
         /*
          * MG added - snarf short descrips to kill:
          * You hit The beastly fido
          */
-        pObjIndex->short_descr = lower_case_articles(fread_stdstring(fp));
-        pObjIndex->description = fread_stdstring(fp);
-        if (pObjIndex->description.empty()) {
+        objIndex->short_descr = lower_case_articles(fread_stdstring(fp));
+        objIndex->description = fread_stdstring(fp);
+        if (objIndex->description.empty()) {
             bug("Load_objects: empty long description in object {}.", vnum);
         }
-        pObjIndex->material = material_lookup(fread_string(fp));
+        objIndex->material = material_lookup(fread_string(fp));
 
-        pObjIndex->item_type = item_lookup(fread_word(fp));
+        objIndex->item_type = item_lookup(fread_word(fp));
 
-        pObjIndex->extra_flags = fread_flag(fp);
+        objIndex->extra_flags = fread_flag(fp);
 
-        if (IS_OBJ_STAT(pObjIndex, ITEM_NOREMOVE) && pObjIndex->item_type != ITEM_WEAPON) {
-            bug("Only weapons are meant to have ITEM_NOREMOVE: {} {}", pObjIndex->vnum, pObjIndex->name);
+        if (IS_OBJ_STAT(objIndex, ITEM_NOREMOVE) && objIndex->item_type != ITEM_WEAPON) {
+            bug("Only weapons are meant to have ITEM_NOREMOVE: {} {}", objIndex->vnum, objIndex->name);
             exit(1);
         }
 
-        pObjIndex->wear_flags = fread_flag(fp);
+        objIndex->wear_flags = fread_flag(fp);
 
         temp = fread_letter(fp);
         if (temp == ',') {
-            pObjIndex->wear_string = fread_stdstring(fp);
+            objIndex->wear_string = fread_stdstring(fp);
         } else {
             ungetc(temp, fp);
         }
 
-        switch (pObjIndex->item_type) {
+        switch (objIndex->item_type) {
         case ITEM_WEAPON:
-            pObjIndex->value[0] = weapon_type(fread_word(fp));
-            pObjIndex->value[1] = fread_number(fp);
-            pObjIndex->value[2] = fread_number(fp);
-            pObjIndex->value[3] = attack_lookup(fread_word(fp));
-            pObjIndex->value[4] = fread_flag(fp);
+            objIndex->value[0] = weapon_type(fread_word(fp));
+            objIndex->value[1] = fread_number(fp);
+            objIndex->value[2] = fread_number(fp);
+            objIndex->value[3] = attack_lookup(fread_word(fp));
+            objIndex->value[4] = fread_flag(fp);
             break;
         case ITEM_CONTAINER:
-            pObjIndex->value[0] = fread_number(fp);
-            pObjIndex->value[1] = fread_flag(fp);
-            pObjIndex->value[2] = fread_number(fp);
-            pObjIndex->value[3] = fread_number(fp);
-            pObjIndex->value[4] = fread_number(fp);
+            objIndex->value[0] = fread_number(fp);
+            objIndex->value[1] = fread_flag(fp);
+            objIndex->value[2] = fread_number(fp);
+            objIndex->value[3] = fread_number(fp);
+            objIndex->value[4] = fread_number(fp);
             break;
         case ITEM_DRINK_CON:
         case ITEM_FOUNTAIN:
-            pObjIndex->value[0] = fread_number(fp);
-            pObjIndex->value[1] = fread_number(fp);
-            pObjIndex->value[2] = liq_lookup(fread_word(fp));
-            pObjIndex->value[3] = fread_number(fp);
-            pObjIndex->value[4] = fread_number(fp);
+            objIndex->value[0] = fread_number(fp);
+            objIndex->value[1] = fread_number(fp);
+            objIndex->value[2] = liq_lookup(fread_word(fp));
+            objIndex->value[3] = fread_number(fp);
+            objIndex->value[4] = fread_number(fp);
             break;
         case ITEM_WAND:
         case ITEM_STAFF:
-            pObjIndex->value[0] = fread_number(fp);
-            pObjIndex->value[1] = fread_number(fp);
-            pObjIndex->value[2] = fread_number(fp);
-            pObjIndex->value[3] = fread_spnumber(fp);
-            pObjIndex->value[4] = fread_number(fp);
+            objIndex->value[0] = fread_number(fp);
+            objIndex->value[1] = fread_number(fp);
+            objIndex->value[2] = fread_number(fp);
+            objIndex->value[3] = fread_spnumber(fp);
+            objIndex->value[4] = fread_number(fp);
             break;
         case ITEM_POTION:
         case ITEM_PILL:
         case ITEM_SCROLL:
         case ITEM_BOMB:
-            pObjIndex->value[0] = fread_number(fp);
-            pObjIndex->value[1] = fread_spnumber(fp);
-            pObjIndex->value[2] = fread_spnumber(fp);
-            pObjIndex->value[3] = fread_spnumber(fp);
-            pObjIndex->value[4] = fread_spnumber(fp);
+            objIndex->value[0] = fread_number(fp);
+            objIndex->value[1] = fread_spnumber(fp);
+            objIndex->value[2] = fread_spnumber(fp);
+            objIndex->value[3] = fread_spnumber(fp);
+            objIndex->value[4] = fread_spnumber(fp);
             break;
         default:
-            pObjIndex->value[0] = fread_flag(fp);
-            pObjIndex->value[1] = fread_flag(fp);
-            pObjIndex->value[2] = fread_flag(fp);
-            pObjIndex->value[3] = fread_flag(fp);
-            pObjIndex->value[4] = fread_flag(fp);
+            objIndex->value[0] = fread_flag(fp);
+            objIndex->value[1] = fread_flag(fp);
+            objIndex->value[2] = fread_flag(fp);
+            objIndex->value[3] = fread_flag(fp);
+            objIndex->value[4] = fread_flag(fp);
             break;
         }
 
-        pObjIndex->level = fread_number(fp);
-        pObjIndex->weight = fread_number(fp);
-        pObjIndex->cost = fread_number(fp);
+        objIndex->level = fread_number(fp);
+        objIndex->weight = fread_number(fp);
+        objIndex->cost = fread_number(fp);
 
         /* condition */
         letter = fread_letter(fp);
         switch (letter) {
-        case ('P'): pObjIndex->condition = 100; break;
-        case ('G'): pObjIndex->condition = 90; break;
-        case ('A'): pObjIndex->condition = 75; break;
-        case ('W'): pObjIndex->condition = 50; break;
-        case ('D'): pObjIndex->condition = 25; break;
-        case ('B'): pObjIndex->condition = 10; break;
-        case ('R'): pObjIndex->condition = 0; break;
-        default: pObjIndex->condition = 100; break;
+        case ('P'): objIndex->condition = 100; break;
+        case ('G'): objIndex->condition = 90; break;
+        case ('A'): objIndex->condition = 75; break;
+        case ('W'): objIndex->condition = 50; break;
+        case ('D'): objIndex->condition = 25; break;
+        case ('B'): objIndex->condition = 10; break;
+        case ('R'): objIndex->condition = 0; break;
+        default: objIndex->condition = 100; break;
         }
 
         for (;;) {
@@ -835,18 +836,18 @@ void load_objects(FILE *fp) {
             if (letter == 'A') {
                 AFFECT_DATA af;
                 af.type = -1;
-                af.level = pObjIndex->level;
+                af.level = objIndex->level;
                 af.duration = -1;
                 af.location = static_cast<AffectLocation>(fread_number(fp));
                 af.modifier = fread_number(fp);
-                pObjIndex->affected.add(af);
+                objIndex->affected.add(af);
                 top_obj_affect++;
             }
 
             else if (letter == 'E') {
                 auto keyword = fread_stdstring(fp);
                 auto description = fread_stdstring(fp);
-                pObjIndex->extra_descr.emplace_back(ExtraDescription{keyword, description});
+                objIndex->extra_descr.emplace_back(ExtraDescription{keyword, description});
             }
 
             else {
@@ -858,25 +859,25 @@ void load_objects(FILE *fp) {
         /*
          * Translate spell "slot numbers" to internal "skill numbers."
          */
-        switch (pObjIndex->item_type) {
+        switch (objIndex->item_type) {
         case ITEM_BOMB:
-            pObjIndex->value[4] = slot_lookup(pObjIndex->value[4]);
+            objIndex->value[4] = slot_lookup(objIndex->value[4]);
             // fall through
         case ITEM_PILL:
         case ITEM_POTION:
         case ITEM_SCROLL:
-            pObjIndex->value[1] = slot_lookup(pObjIndex->value[1]);
-            pObjIndex->value[2] = slot_lookup(pObjIndex->value[2]);
-            pObjIndex->value[3] = slot_lookup(pObjIndex->value[3]);
+            objIndex->value[1] = slot_lookup(objIndex->value[1]);
+            objIndex->value[2] = slot_lookup(objIndex->value[2]);
+            objIndex->value[3] = slot_lookup(objIndex->value[3]);
             break;
 
         case ITEM_STAFF:
-        case ITEM_WAND: pObjIndex->value[3] = slot_lookup(pObjIndex->value[3]); break;
+        case ITEM_WAND: objIndex->value[3] = slot_lookup(objIndex->value[3]); break;
         }
 
         iHash = vnum % MAX_KEY_HASH;
-        pObjIndex->next = obj_index_hash[iHash];
-        obj_index_hash[iHash] = pObjIndex;
+        objIndex->next = obj_index_hash[iHash];
+        obj_index_hash[iHash] = objIndex;
         top_obj_index++;
         assign_area_vnum(vnum);
     }
@@ -1026,7 +1027,7 @@ void reset_room(Room *room) {
         }
 
         case RESETS_OBJ_IN_ROOM: {
-            OBJ_INDEX_DATA *objIndex;
+            ObjectIndex *objIndex;
             Room *room;
             if (!(objIndex = get_obj_index(reset->arg1))) {
                 bug("Reset_room: 'O': bad vnum {}.", reset->arg1);
@@ -1050,8 +1051,8 @@ void reset_room(Room *room) {
 
         case RESETS_PUT_OBJ_OBJ: {
             int limit, count;
-            OBJ_INDEX_DATA *containedObjIndex;
-            OBJ_INDEX_DATA *containerObjIndex;
+            ObjectIndex *containedObjIndex;
+            ObjectIndex *containerObjIndex;
             OBJ_DATA *containerObj;
             if (!(containedObjIndex = get_obj_index(reset->arg1))) {
                 bug("Reset_room: 'P': bad vnum {}.", reset->arg1);
@@ -1090,14 +1091,14 @@ void reset_room(Room *room) {
 
             // Close the container if required.
             if (containerObj->item_type == ITEM_CONTAINER) {
-                containerObj->value[1] = containerObj->pIndexData->value[1];
+                containerObj->value[1] = containerObj->objIndex->value[1];
             }
             break;
         }
 
         case RESETS_GIVE_OBJ_MOB:
         case RESETS_EQUIP_OBJ_MOB: {
-            OBJ_INDEX_DATA *objIndex;
+            ObjectIndex *objIndex;
             OBJ_DATA *object;
             if (!(objIndex = get_obj_index(reset->arg1))) {
                 bug("Reset_room: 'E' or 'G': bad vnum {}.", reset->arg1);
@@ -1329,42 +1330,42 @@ void clone_mobile(Char *parent, Char *clone) {
  * TheMoog 1/10/2k : fixes up portal objects - value[0] of a portal
  * if non-zero is looked up and then destination set accordingly.
  */
-OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
+OBJ_DATA *create_object(ObjectIndex *objIndex) {
     OBJ_DATA *obj;
 
-    if (pObjIndex == nullptr) {
-        bug("Create_object: nullptr pObjIndex.");
+    if (objIndex == nullptr) {
+        bug("Create_object: nullptr objIndex.");
         exit(1);
     }
 
     obj = new OBJ_DATA; // TODO! make an actual constructor for this!
-    obj->pIndexData = pObjIndex;
+    obj->objIndex = objIndex;
     obj->in_room = nullptr;
     obj->enchanted = false;
-    obj->level = pObjIndex->level;
+    obj->level = objIndex->level;
     obj->wear_loc = -1;
 
-    obj->name = pObjIndex->name;
-    obj->short_descr = pObjIndex->short_descr;
-    obj->description = pObjIndex->description;
-    obj->material = pObjIndex->material;
-    obj->item_type = pObjIndex->item_type;
-    obj->extra_flags = pObjIndex->extra_flags;
-    obj->wear_flags = pObjIndex->wear_flags;
-    obj->wear_string = pObjIndex->wear_string;
-    obj->value[0] = pObjIndex->value[0];
-    obj->value[1] = pObjIndex->value[1];
-    obj->value[2] = pObjIndex->value[2];
-    obj->value[3] = pObjIndex->value[3];
-    obj->value[4] = pObjIndex->value[4];
-    obj->weight = pObjIndex->weight;
-    obj->cost = pObjIndex->cost;
+    obj->name = objIndex->name;
+    obj->short_descr = objIndex->short_descr;
+    obj->description = objIndex->description;
+    obj->material = objIndex->material;
+    obj->item_type = objIndex->item_type;
+    obj->extra_flags = objIndex->extra_flags;
+    obj->wear_flags = objIndex->wear_flags;
+    obj->wear_string = objIndex->wear_string;
+    obj->value[0] = objIndex->value[0];
+    obj->value[1] = objIndex->value[1];
+    obj->value[2] = objIndex->value[2];
+    obj->value[3] = objIndex->value[3];
+    obj->value[4] = objIndex->value[4];
+    obj->weight = objIndex->weight;
+    obj->cost = objIndex->cost;
 
     /*
      * Mess with object properties.
      */
     switch (obj->item_type) {
-    default: bug("Read_object: vnum {} bad type.", pObjIndex->vnum); break;
+    default: bug("Read_object: vnum {} bad type.", objIndex->vnum); break;
 
     case ITEM_LIGHT:
         if (obj->value[2] == 999)
@@ -1389,7 +1390,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
         if (obj->value[0] != 0) {
             obj->destination = get_room(obj->value[0]);
             if (!obj->destination)
-                bug("Couldn't find room index {} for a portal (vnum {})", obj->value[0], pObjIndex->vnum);
+                bug("Couldn't find room index {} for a portal (vnum {})", obj->value[0], objIndex->vnum);
             obj->value[0] = 0; // Prevents ppl ever finding the vnum in the obj
         }
         break;
@@ -1405,7 +1406,7 @@ OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex) {
     }
 
     object_list.add_front(obj);
-    pObjIndex->count++;
+    objIndex->count++;
 
     return obj;
 }
@@ -1477,12 +1478,12 @@ const std::map<int, MobIndexData> &all_mob_index_pairs() { return mob_indexes; }
  * Translates mob virtual number to its obj index struct.
  * Hash table lookup.
  */
-OBJ_INDEX_DATA *get_obj_index(int vnum) {
-    OBJ_INDEX_DATA *pObjIndex;
+ObjectIndex *get_obj_index(int vnum) {
+    ObjectIndex *objIndex;
 
-    for (pObjIndex = obj_index_hash[vnum % MAX_KEY_HASH]; pObjIndex != nullptr; pObjIndex = pObjIndex->next) {
-        if (pObjIndex->vnum == vnum)
-            return pObjIndex;
+    for (objIndex = obj_index_hash[vnum % MAX_KEY_HASH]; objIndex != nullptr; objIndex = objIndex->next) {
+        if (objIndex->vnum == vnum)
+            return objIndex;
     }
 
     if (fBootDb) {
@@ -2089,7 +2090,7 @@ void do_dump(Char *ch) {
     int count, num_pcs, aff_count;
     MobIndexData *pMobIndex;
     PcData *pc;
-    OBJ_INDEX_DATA *pObjIndex;
+    ObjectIndex *objIndex;
     Room *room;
     Exit *exit;
     Descriptor *d;
@@ -2129,12 +2130,12 @@ void do_dump(Char *ch) {
 
     /* object prototypes */
     for (vnum = 0; nMatch < top_obj_index; vnum++)
-        if ((pObjIndex = get_obj_index(vnum)) != nullptr) {
-            aff_count += pObjIndex->affected.size();
+        if ((objIndex = get_obj_index(vnum)) != nullptr) {
+            aff_count += objIndex->affected.size();
             nMatch++;
         }
 
-    fprintf(fp, "ObjProt	%4d (%8ld bytes)\n", top_obj_index, top_obj_index * (sizeof(*pObjIndex)));
+    fprintf(fp, "ObjProt	%4d (%8ld bytes)\n", top_obj_index, top_obj_index * (sizeof(*objIndex)));
 
     /* objects */
     count = 0;
@@ -2172,10 +2173,10 @@ void do_dump(Char *ch) {
     fprintf(fp, "---------------\n");
     nMatch = 0;
     for (vnum = 0; nMatch < top_obj_index; vnum++)
-        if ((pObjIndex = get_obj_index(vnum)) != nullptr) {
+        if ((objIndex = get_obj_index(vnum)) != nullptr) {
             nMatch++;
-            fmt::print(fp, "#{:<4} {:3} active {:3} reset      {}\n", pObjIndex->vnum, pObjIndex->count,
-                       pObjIndex->reset_num, pObjIndex->short_descr);
+            fmt::print(fp, "#{:<4} {:3} active {:3} reset      {}\n", objIndex->vnum, objIndex->count,
+                       objIndex->reset_num, objIndex->short_descr);
         }
 
     /* close file */

@@ -22,7 +22,7 @@
 
 struct MobIndexData;
 struct OBJ_DATA;
-struct OBJ_INDEX_DATA;
+struct ObjectIndex;
 struct ExtraDescription;
 struct Room;
 
@@ -32,17 +32,17 @@ struct Room;
 extern GenericList<Char *> char_list;
 extern GenericList<OBJ_DATA *> object_list;
 extern bool fBootDb;
-extern OBJ_INDEX_DATA *obj_index_hash[MAX_KEY_HASH];
+extern ObjectIndex *obj_index_hash[MAX_KEY_HASH];
 extern int top_obj_index;
 
 void boot_db();
 void area_update();
 Char *create_mobile(MobIndexData *pMobIndex);
 void clone_mobile(Char *parent, Char *clone);
-OBJ_DATA *create_object(OBJ_INDEX_DATA *pObjIndex);
+OBJ_DATA *create_object(ObjectIndex *objIndex);
 void clone_object(OBJ_DATA *parent, OBJ_DATA *clone);
 const char *get_extra_descr(std::string_view name, const std::vector<ExtraDescription> &ed);
-OBJ_INDEX_DATA *get_obj_index(int vnum);
+ObjectIndex *get_obj_index(int vnum);
 Room *get_room(int vnum);
 char *fread_word(FILE *fp);
 void *alloc_mem(int sMem);

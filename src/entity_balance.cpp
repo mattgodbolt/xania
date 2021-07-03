@@ -7,6 +7,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
 #include "MobIndexData.hpp"
+#include "ObjectIndex.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "merc.h"
@@ -19,7 +20,7 @@
 
 namespace {
 
-void objectbug(std::string_view str, OBJ_INDEX_DATA *obj) {
+void objectbug(std::string_view str, ObjectIndex *obj) {
     log_string("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str);
 }
 
@@ -32,7 +33,7 @@ void mobbug(std::string_view str, MobIndexData *mob) {
    that could be wrong with the object */
 int report_object(OBJ_DATA *object, int boot) {
     int averagedam, allowedaverage;
-    OBJ_INDEX_DATA *obj = object->pIndexData;
+    ObjectIndex *obj = object->objIndex;
 
     auto value =
         ranges::accumulate(obj->affected | ranges::views::transform(&AFFECT_DATA::worth), AFFECT_DATA::Value{});
@@ -140,12 +141,12 @@ void do_immworth(Char *ch, const char *argument) {
     worth = report_object(obj, 0);
     shouldbe = ((obj->level / 10) + 1);
     if (worth == shouldbe) {
-        ch->send_line("Object '{}' has {} point(s) - exactly right.", obj->pIndexData->short_descr, worth);
+        ch->send_line("Object '{}' has {} point(s) - exactly right.", obj->objIndex->short_descr, worth);
     } else if (worth > shouldbe) {
-        ch->send_line("Object '{}' has {} point(s), {} points |Rtoo high|w.", obj->pIndexData->short_descr, worth,
+        ch->send_line("Object '{}' has {} point(s), {} points |Rtoo high|w.", obj->objIndex->short_descr, worth,
                       worth - shouldbe);
     } else {
-        ch->send_line("Object '{}' has {} point(s), within the {} point maximum.", obj->pIndexData->short_descr, worth,
+        ch->send_line("Object '{}' has {} point(s), within the {} point maximum.", obj->objIndex->short_descr, worth,
                       shouldbe);
     }
 }

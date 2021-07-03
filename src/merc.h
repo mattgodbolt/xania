@@ -57,7 +57,7 @@ typedef struct ban_data BAN_DATA;
 class Descriptor;
 struct ExtraDescription;
 struct OBJ_DATA;
-struct OBJ_INDEX_DATA;
+struct ObjectIndex;
 typedef struct program PROGRAM;
 struct ResetData;
 struct Room;
@@ -727,33 +727,6 @@ struct FingerInfo {
 };
 
 /*
- * Prototype for an object.
- */
-struct OBJ_INDEX_DATA {
-    OBJ_INDEX_DATA *next{};
-    std::vector<ExtraDescription> extra_descr;
-    AffectList affected{};
-    std::string name;
-    std::string short_descr;
-    std::string description;
-    sh_int vnum{};
-    sh_int reset_num{};
-    sh_int material{};
-    sh_int item_type{};
-    unsigned int extra_flags{};
-    int wear_flags{};
-    std::string wear_string;
-    sh_int level{};
-    sh_int condition{};
-    sh_int count{};
-    sh_int weight{};
-    int cost{};
-    std::array<int, 5> value{};
-
-    AREA_DATA *area{};
-};
-
-/*
  * One object.
  */
 struct OBJ_DATA {
@@ -762,7 +735,7 @@ struct OBJ_DATA {
     Char *carried_by{};
     std::vector<ExtraDescription> extra_descr;
     AffectList affected{};
-    OBJ_INDEX_DATA *pIndexData{};
+    ObjectIndex *objIndex{};
     Room *in_room{};
     bool enchanted{};
     std::string owner;

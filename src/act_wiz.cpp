@@ -12,6 +12,7 @@
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
 #include "MobIndexData.hpp"
+#include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -706,7 +707,7 @@ void do_rstat(Char *ch, std::string_view argument) {
 void do_ostat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     OBJ_DATA *obj;
-    OBJ_INDEX_DATA *pObjIndex;
+    ObjectIndex *objIndex;
     sh_int dam_type;
     int vnum;
 
@@ -725,28 +726,28 @@ void do_ostat(Char *ch, const char *argument) {
 
     if (isdigit(argument[0])) {
         vnum = atoi(argument);
-        if ((pObjIndex = get_obj_index(vnum)) == nullptr) {
+        if ((objIndex = get_obj_index(vnum)) == nullptr) {
             ch->send_line("Nothing like that in hell, earth, or heaven.");
             return;
         }
         ch->send_line("Template of object:");
-        ch->send_line("Name(s): {}", pObjIndex->name);
+        ch->send_line("Name(s): {}", objIndex->name);
 
-        ch->send_line("Vnum: {}  Type: {}", pObjIndex->vnum, item_index_type_name(pObjIndex));
+        ch->send_line("Vnum: {}  Type: {}", objIndex->vnum, item_index_type_name(objIndex));
 
-        ch->send_line("Short description: {}", pObjIndex->short_descr);
-        ch->send_line("Long description: {}", pObjIndex->description);
+        ch->send_line("Short description: {}", objIndex->short_descr);
+        ch->send_line("Long description: {}", objIndex->description);
 
-        ch->send_line("Wear bits: {}", wear_bit_name(pObjIndex->wear_flags));
-        ch->send_line("Extra bits: {}", extra_bit_name(pObjIndex->extra_flags));
+        ch->send_line("Wear bits: {}", wear_bit_name(objIndex->wear_flags));
+        ch->send_line("Extra bits: {}", extra_bit_name(objIndex->extra_flags));
 
-        ch->send_line("Wear string: {}", pObjIndex->wear_string);
+        ch->send_line("Wear string: {}", objIndex->wear_string);
 
-        ch->send_line("Weight: {}", pObjIndex->weight);
+        ch->send_line("Weight: {}", objIndex->weight);
 
-        ch->send_line("Level: {}  Cost: {}  Condition: {}", pObjIndex->level, pObjIndex->cost, pObjIndex->condition);
+        ch->send_line("Level: {}  Cost: {}  Condition: {}", objIndex->level, objIndex->cost, objIndex->condition);
 
-        ch->send_line("Values: {}", fmt::join(pObjIndex->value, " "));
+        ch->send_line("Values: {}", fmt::join(objIndex->value, " "));
         ch->send_line("Please load this object if you need to know more about it.");
         return;
     }
@@ -758,8 +759,7 @@ void do_ostat(Char *ch, const char *argument) {
 
     ch->send_line("Name(s): {}", obj->name);
 
-    ch->send_line("Vnum: {}  Type: {}  Resets: {}", obj->pIndexData->vnum, item_type_name(obj),
-                  obj->pIndexData->reset_num);
+    ch->send_line("Vnum: {}  Type: {}  Resets: {}", obj->objIndex->vnum, item_type_name(obj), obj->objIndex->reset_num);
 
     ch->send_line("Short description: {}", obj->short_descr);
     ch->send_line("Long description: {}", obj->description);
@@ -872,9 +872,9 @@ void do_ostat(Char *ch, const char *argument) {
     case ITEM_PORTAL: ch->send_line("Portal to {} ({}).", obj->destination->name, obj->destination->vnum); break;
     }
 
-    if (!obj->extra_descr.empty() || !obj->pIndexData->extra_descr.empty()) {
+    if (!obj->extra_descr.empty() || !obj->objIndex->extra_descr.empty()) {
         ch->send_line("Extra description keywords: '{}'",
-                      fmt::join(ranges::view::concat(obj->extra_descr, obj->pIndexData->extra_descr)
+                      fmt::join(ranges::view::concat(obj->extra_descr, obj->objIndex->extra_descr)
                                     | ranges::view::transform(&ExtraDescription::keyword),
                                 " "));
     }
@@ -883,7 +883,7 @@ void do_ostat(Char *ch, const char *argument) {
         ch->send_line("Affects {}.", af.describe_item_effect(true));
 
     if (!obj->enchanted)
-        for (auto &af : obj->pIndexData->affected)
+        for (auto &af : obj->objIndex->affected)
             ch->send_line("Affects {}.", af.describe_item_effect(true));
 }
 
@@ -1344,10 +1344,10 @@ void do_ofind(Char *ch, const char *argument) {
     // -- Furey
     std::string buffer;
     for (int vnum = 0; nMatch < top_obj_index; vnum++) {
-        if (const auto *pObjIndex = get_obj_index(vnum)) {
+        if (const auto *objIndex = get_obj_index(vnum)) {
             nMatch++;
-            if (is_name(argument, pObjIndex->name))
-                buffer += fmt::format("[{:5}] {}\n\r", pObjIndex->vnum, pObjIndex->short_descr);
+            if (is_name(argument, objIndex->name))
+                buffer += fmt::format("[{:5}] {}\n\r", objIndex->vnum, objIndex->short_descr);
         }
     }
 
@@ -1566,7 +1566,7 @@ bool obj_check(Char *ch, OBJ_DATA *obj) { return ch->get_trust() >= obj->level; 
 void recursive_clone(Char *ch, OBJ_DATA *obj, OBJ_DATA *clone) {
     for (OBJ_DATA *c_obj : obj->contains) {
         if (obj_check(ch, c_obj)) {
-            OBJ_DATA *t_obj = create_object(c_obj->pIndexData);
+            OBJ_DATA *t_obj = create_object(c_obj->objIndex);
             clone_object(c_obj, t_obj);
             obj_to_obj(t_obj, clone);
             recursive_clone(ch, c_obj, t_obj);
@@ -1604,7 +1604,7 @@ void do_clone(Char *ch, const char *argument) {
             return;
         }
 
-        clone = create_object(obj->pIndexData);
+        clone = create_object(obj->objIndex);
         clone_object(obj, clone);
         if (obj->carried_by != nullptr)
             obj_to_char(clone, ch);
@@ -1635,7 +1635,7 @@ void do_clone(Char *ch, const char *argument) {
 
         for (auto *carried : mob->carrying) {
             if (obj_check(ch, carried)) {
-                new_obj = create_object(carried->pIndexData);
+                new_obj = create_object(carried->objIndex);
                 clone_object(carried, new_obj);
                 recursive_clone(ch, carried, new_obj);
                 obj_to_char(new_obj, clone);
@@ -1676,7 +1676,7 @@ void do_mload(Char *ch, const char *argument) {
 
 void do_oload(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
-    OBJ_INDEX_DATA *pObjIndex;
+    ObjectIndex *objIndex;
     OBJ_DATA *obj;
 
     argument = one_argument(argument, arg1);
@@ -1687,12 +1687,12 @@ void do_oload(Char *ch, const char *argument) {
         return;
     }
 
-    if ((pObjIndex = get_obj_index(atoi(arg1))) == nullptr) {
+    if ((objIndex = get_obj_index(atoi(arg1))) == nullptr) {
         ch->send_line("No object has that vnum.");
         return;
     }
 
-    obj = create_object(pObjIndex);
+    obj = create_object(objIndex);
     if (CAN_WEAR(obj, ITEM_TAKE))
         obj_to_char(obj, ch);
     else
@@ -2319,18 +2319,18 @@ void osearch_display_syntax(Char *ch) {
     ch->send_to(osearch_list_item_types(buf));
 }
 
-bool osearch_is_item_in_level_range(const OBJ_INDEX_DATA *pIndexData, const int min_level, const int max_level) {
-    if (pIndexData == nullptr) {
+bool osearch_is_item_in_level_range(const ObjectIndex *objIndex, const int min_level, const int max_level) {
+    if (objIndex == nullptr) {
         return false;
     }
-    return pIndexData->level >= min_level && pIndexData->level <= max_level;
+    return objIndex->level >= min_level && objIndex->level <= max_level;
 }
 
-bool osearch_is_item_type(const OBJ_INDEX_DATA *pIndexData, const sh_int item_type) {
-    if (pIndexData == nullptr) {
+bool osearch_is_item_type(const ObjectIndex *objIndex, const sh_int item_type) {
+    if (objIndex == nullptr) {
         return false;
     }
-    return pIndexData->item_type == item_type;
+    return objIndex->item_type == item_type;
 }
 
 /**
@@ -2341,7 +2341,7 @@ bool osearch_is_item_type(const OBJ_INDEX_DATA *pIndexData, const sh_int item_ty
 std::string osearch_find_items(const int min_level, const int max_level, const sh_int item_type, char *item_name) {
     std::string buffer;
     for (int i = 0; i < MAX_KEY_HASH; i++) {
-        for (OBJ_INDEX_DATA *pIndexData = obj_index_hash[i]; pIndexData != nullptr; pIndexData = pIndexData->next) {
+        for (ObjectIndex *pIndexData = obj_index_hash[i]; pIndexData != nullptr; pIndexData = pIndexData->next) {
             if (!(osearch_is_item_in_level_range(pIndexData, min_level, max_level)
                   && osearch_is_item_type(pIndexData, item_type))) {
                 continue;

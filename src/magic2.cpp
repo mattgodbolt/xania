@@ -7,6 +7,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
+#include "ObjectIndex.hpp"
 #include "Room.hpp"
 #include "SkillTables.hpp"
 #include "VnumMobiles.hpp"
@@ -192,7 +193,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 
     /* scan the room looking for an appropriate objects...count them */
     for (auto *obj : ch->in_room->contents) {
-        if ((obj->pIndexData->item_type == ITEM_CORPSE_NPC) || (obj->pIndexData->item_type == ITEM_CORPSE_PC))
+        if ((obj->objIndex->item_type == ITEM_CORPSE_NPC) || (obj->objIndex->item_type == ITEM_CORPSE_PC))
             num_of_corpses++;
     }
 
@@ -206,7 +207,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
     corpse = number_range(1, num_of_corpses);
     OBJ_DATA *obj{};
     for (auto *c : ch->in_room->contents) {
-        if ((c->pIndexData->item_type == ITEM_CORPSE_NPC) || (c->pIndexData->item_type == ITEM_CORPSE_PC)) {
+        if ((c->objIndex->item_type == ITEM_CORPSE_NPC) || (c->objIndex->item_type == ITEM_CORPSE_PC)) {
             if (--corpse == 0) {
                 obj = c;
                 break;
@@ -225,10 +226,10 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 
     /* Can we re-animate this corpse? Include check for a non-empty PC corpse */
 
-    chance = URANGE(1, (50 + ((ch->level - obj->pIndexData->level) * 3)), 99);
+    chance = URANGE(1, (50 + ((ch->level - obj->objIndex->level) * 3)), 99);
 
     if ((number_percent() > chance) || /* if random failed */
-        ((obj->pIndexData->item_type == ITEM_CORPSE_PC) && !obj->contains.empty()))
+        ((obj->objIndex->item_type == ITEM_CORPSE_PC) && !obj->contains.empty()))
     /* if non-empty PC corpse */ {
         act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Room);
         act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Char);

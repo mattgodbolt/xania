@@ -12,6 +12,7 @@
 #include "ExtraDescription.hpp"
 #include "Format.hpp"
 #include "Materials.hpp"
+#include "ObjectIndex.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -222,9 +223,9 @@ void do_cast(Char *ch, const char *argument) {
     Char *victim;
     OBJ_DATA *obj;
     OBJ_DATA *potion;
-    OBJ_INDEX_DATA *i_Potion;
+    ObjectIndex *i_Potion;
     OBJ_DATA *scroll;
-    OBJ_INDEX_DATA *i_Scroll;
+    ObjectIndex *i_Scroll;
     OBJ_DATA *bomb;
     void *vo;
     int sn;
@@ -1640,7 +1641,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     /* find the bonuses */
     bool ac_found = false;
     if (!obj->enchanted)
-        for (auto &af : obj->pIndexData->affected) {
+        for (auto &af : obj->objIndex->affected) {
             if (af.location == AffectLocation::Ac) {
                 ac_bonus = af.modifier;
                 ac_found = true;
@@ -1704,7 +1705,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     if (!obj->enchanted) {
         obj->enchanted = true;
 
-        for (auto af_clone : obj->pIndexData->affected) {
+        for (auto af_clone : obj->objIndex->affected) {
             af_clone.type = UMAX(0, af_clone.type);
             obj->affected.add(af_clone);
         }
@@ -1782,7 +1783,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
 
     bool hit_found = false, dam_found = false;
     if (!obj->enchanted) {
-        for (auto &af : obj->pIndexData->affected) {
+        for (auto &af : obj->objIndex->affected) {
             if (af.location == AffectLocation::Hitroll) {
                 hit_bonus = af.modifier;
                 hit_found = true;
@@ -1866,7 +1867,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     if (!obj->enchanted) {
         obj->enchanted = true;
 
-        for (auto af_clone : obj->pIndexData->affected) {
+        for (auto af_clone : obj->objIndex->affected) {
             af_clone.type = UMAX(0, af_clone.type);
             obj->affected.add(af_clone);
         }
@@ -2646,7 +2647,7 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
     }
 
     if (!obj->enchanted)
-        for (auto &af : obj->pIndexData->affected) {
+        for (auto &af : obj->objIndex->affected) {
             if (af.affects_stats())
                 ch->send_line("Affects {}.", af.describe_item_effect());
         }

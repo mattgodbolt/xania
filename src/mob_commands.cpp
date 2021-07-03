@@ -329,7 +329,7 @@ void do_mpmload(Char *ch, const char *argument) {
 void do_mpoload(Char *ch, const char *argument) {
     char arg1[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
-    OBJ_INDEX_DATA *pObjIndex;
+    ObjectIndex *objIndex;
     OBJ_DATA *obj;
 
     if (ch->is_pc()) {
@@ -345,12 +345,12 @@ void do_mpoload(Char *ch, const char *argument) {
         return;
     }
 
-    if ((pObjIndex = get_obj_index(atoi(arg1))) == nullptr) {
+    if ((objIndex = get_obj_index(atoi(arg1))) == nullptr) {
         bug("Mpoload - Bad vnum arg from vnum {}.", ch->pIndexData->vnum);
         return;
     }
 
-    obj = create_object(pObjIndex);
+    obj = create_object(objIndex);
     if (CAN_WEAR(obj, ITEM_TAKE)) {
         obj_to_char(obj, ch);
     } else {

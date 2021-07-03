@@ -16,6 +16,7 @@
 #include "Format.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
+#include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -2493,7 +2494,7 @@ void do_sharpen(Char *ch) {
         ch->send_line("You sharpen the weapon to a fine, deadly point.");
     } else {
         ch->send_line("Your lack of skill removes all bonuses on this weapon.");
-        weapon->pIndexData->condition -= 10; /* reduce condition of weapon*/
+        weapon->objIndex->condition -= 10; /* reduce condition of weapon*/
         weapon->value[4] = 0; /* Wipe all bonuses */
     }
     check_improve(ch, gsn_sharpen, true, 5);

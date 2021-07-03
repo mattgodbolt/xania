@@ -13,6 +13,7 @@
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
+#include "ObjectIndex.hpp"
 #include "Pronouns.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -99,12 +100,12 @@ void get_obj(Char *ch, OBJ_DATA *obj, OBJ_DATA *container) {
     }
     if (container != nullptr) {
 
-        if (container->pIndexData->vnum == objects::Pit && ch->get_trust() < obj->level) {
+        if (container->objIndex->vnum == objects::Pit && ch->get_trust() < obj->level) {
             ch->send_line("You are not powerful enough to use it.");
             return;
         }
 
-        if (container->pIndexData->vnum == objects::Pit && !CAN_WEAR(container, ITEM_TAKE) && obj->timer)
+        if (container->objIndex->vnum == objects::Pit && !CAN_WEAR(container, ITEM_TAKE) && obj->timer)
             obj->timer = 0;
         act("You get $p from $P.", ch, obj, container, To::Char);
         act("$n gets $p from $P.", ch, obj, container, To::Room);
@@ -454,7 +455,7 @@ void wear_obj(Char *ch, OBJ_DATA *obj, bool fReplace) {
 }
 
 bool is_made_of(OBJ_DATA *obj, const char *material) {
-    return !str_cmp(material_table[obj->pIndexData->material].material_name, material);
+    return !str_cmp(material_table[obj->objIndex->material].material_name, material);
 }
 
 bool is_mass_looting_npc_undroppable_obj(const OBJ_DATA *obj, const OBJ_DATA *container,
@@ -533,7 +534,7 @@ int get_cost(Char *keeper, OBJ_DATA *obj, bool fBuy) {
         }
 
         for (auto *obj2 : keeper->carrying) {
-            if (obj->pIndexData == obj2->pIndexData) {
+            if (obj->objIndex == obj2->objIndex) {
                 cost = 0;
                 break;
             }
@@ -639,7 +640,7 @@ void do_get(Char *ch, const char *argument) {
             for (auto *obj : container->contains) {
                 if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj)) {
                     found = true;
-                    if (container->pIndexData->vnum == objects::Pit && ch->is_mortal()) {
+                    if (container->objIndex->vnum == objects::Pit && ch->is_mortal()) {
                         ch->send_line("Don't be so greedy!");
                         return;
                     }
@@ -730,7 +731,7 @@ void do_put(Char *ch, const char *argument) {
             return;
         }
 
-        if (container->pIndexData->vnum == objects::Pit && !CAN_WEAR(container, ITEM_TAKE)) {
+        if (container->objIndex->vnum == objects::Pit && !CAN_WEAR(container, ITEM_TAKE)) {
             if (obj->timer) {
                 ch->send_line("Only permanent items may go in the pit.");
                 return;
@@ -754,7 +755,7 @@ void do_put(Char *ch, const char *argument) {
                         nullptr, To::Char);
                     continue;
                 }
-                if (container->pIndexData->vnum == objects::Pit) {
+                if (container->objIndex->vnum == objects::Pit) {
                     if (obj->timer)
                         continue;
                     else
@@ -783,7 +784,7 @@ void do_donate(Char *ch, const char *argument) {
     /* get the pit's OBJ_DATA * */
     auto *altar = get_room(rooms::MidgaardAltar);
 
-    auto pit_it = ranges::find(altar->contents, objects::Pit, [](auto *obj) { return obj->pIndexData->vnum; });
+    auto pit_it = ranges::find(altar->contents, objects::Pit, [](auto *obj) { return obj->objIndex->vnum; });
     if (pit_it == altar->contents.end()) {
         /* just in case someone should accidentally delete the pit... */
         ch->send_line("The psychic field seems to have lost its alignment.");
@@ -883,7 +884,7 @@ void do_drop(Char *ch, const char *argument) {
         ch->gold -= amount;
 
         for (auto *obj : ch->in_room->contents) {
-            switch (obj->pIndexData->vnum) {
+            switch (obj->objIndex->vnum) {
             case objects::MoneyOne:
                 amount += 1;
                 extract_obj(obj);
@@ -1084,11 +1085,11 @@ void pour_from_to(OBJ_DATA *obj, OBJ_DATA *target_obj) {
 }
 
 // Recursively collect the object index data of all in the source object list having the ITEM_UNIQUE flag.
-void collect_unique_obj_indexes(const GenericList<OBJ_DATA *> &objects, std::set<OBJ_INDEX_DATA *> &unique_obj_idxs) {
+void collect_unique_obj_indexes(const GenericList<OBJ_DATA *> &objects, std::set<ObjectIndex *> &unique_obj_idxs) {
 
     for (const auto object : objects) {
         if (IS_SET(object->extra_flags, ITEM_UNIQUE)) {
-            unique_obj_idxs.insert(object->pIndexData);
+            unique_obj_idxs.insert(object->objIndex);
         }
         // This is a small optimization as all OBJ_DATAs have a contains list but only these types are valid containers.
         if (object->item_type == ITEM_CONTAINER || object->item_type == ITEM_CORPSE_NPC
@@ -2025,7 +2026,7 @@ void do_buy(Char *ch, const char *argument) {
         keeper->gold += cost;
 
         if (IS_SET(obj->extra_flags, ITEM_INVENTORY))
-            obj = create_object(obj->pIndexData);
+            obj = create_object(obj->objIndex);
         else
             obj_from_char(obj);
 
@@ -2327,8 +2328,8 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *
         return false;
     }
 
-    std::set<OBJ_INDEX_DATA *> moving_unique_obj_idxs;
-    std::set<OBJ_INDEX_DATA *> to_unique_obj_idxs;
+    std::set<ObjectIndex *> moving_unique_obj_idxs;
+    std::set<ObjectIndex *> to_unique_obj_idxs;
 
     GenericList<OBJ_DATA *> moving_objects;
     moving_objects.add_back(moving_obj);
@@ -2339,7 +2340,7 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, OBJ_DATA *
         return false;
     }
     collect_unique_obj_indexes(objs_to, to_unique_obj_idxs);
-    std::vector<OBJ_INDEX_DATA *> intersection;
+    std::vector<ObjectIndex *> intersection;
     std::set_intersection(moving_unique_obj_idxs.begin(), moving_unique_obj_idxs.end(), to_unique_obj_idxs.begin(),
                           to_unique_obj_idxs.end(), std::back_inserter(intersection));
     return !intersection.empty();

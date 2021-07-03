@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "CharFileMeta.hpp"
 #include "ExtraDescription.hpp"
+#include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -357,28 +358,28 @@ void fwrite_one_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
 
     namespace cf = charfilemeta;
     fmt::print(fp, "#{}\n", cf::SectionObject);
-    fmt::print(fp, "{} {}\n", cf::Vnum, obj->pIndexData->vnum);
+    fmt::print(fp, "{} {}\n", cf::Vnum, obj->objIndex->vnum);
     if (obj->enchanted)
         fmt::print(fp, "{}\n", cf::Enchanted);
     fmt::print(fp, "{} {}\n", cf::Nest, iNest);
 
     /* these data are only used if they do not match the defaults */
 
-    if (obj->name != obj->pIndexData->name)
+    if (obj->name != obj->objIndex->name)
         fmt::print(fp, "{} {}~\n", cf::Name, obj->name);
-    if (obj->short_descr != obj->pIndexData->short_descr)
+    if (obj->short_descr != obj->objIndex->short_descr)
         fmt::print(fp, "{}  {}~\n", cf::ShortDescription, obj->short_descr);
-    if (obj->description != obj->pIndexData->description)
+    if (obj->description != obj->objIndex->description)
         fmt::print(fp, "{} {}~\n", cf::Description, obj->description);
-    if (obj->extra_flags != obj->pIndexData->extra_flags)
+    if (obj->extra_flags != obj->objIndex->extra_flags)
         fmt::print(fp, "{} {}\n", cf::ExtraFlags, obj->extra_flags);
-    if (obj->wear_flags != obj->pIndexData->wear_flags)
+    if (obj->wear_flags != obj->objIndex->wear_flags)
         fmt::print(fp, "{} {}\n", cf::WearFlags, obj->wear_flags);
-    if (obj->wear_string != obj->pIndexData->wear_string)
+    if (obj->wear_string != obj->objIndex->wear_string)
         fmt::print(fp, "{} {}~\n", cf::WearString, obj->wear_string);
-    if (obj->item_type != obj->pIndexData->item_type)
+    if (obj->item_type != obj->objIndex->item_type)
         fmt::print(fp, "{} {}\n", cf::ItemType, obj->item_type);
-    if (obj->weight != obj->pIndexData->weight)
+    if (obj->weight != obj->objIndex->weight)
         fmt::print(fp, "{}   {}\n", cf::Weight, obj->weight);
 
     /* variable data */
@@ -389,9 +390,9 @@ void fwrite_one_obj(const Char *ch, const OBJ_DATA *obj, FILE *fp, int iNest) {
     if (obj->timer != 0)
         fmt::print(fp, "{} {}\n", cf::Time, obj->timer);
     fmt::print(fp, "{} {}\n", cf::Cost, obj->cost);
-    if (obj->value[0] != obj->pIndexData->value[0] || obj->value[1] != obj->pIndexData->value[1]
-        || obj->value[2] != obj->pIndexData->value[2] || obj->value[3] != obj->pIndexData->value[3]
-        || obj->value[4] != obj->pIndexData->value[4])
+    if (obj->value[0] != obj->objIndex->value[0] || obj->value[1] != obj->objIndex->value[1]
+        || obj->value[2] != obj->objIndex->value[2] || obj->value[3] != obj->objIndex->value[3]
+        || obj->value[4] != obj->objIndex->value[4])
         fmt::print(fp, "{}  {} {} {} {} {}\n", cf::Val, obj->value[0], obj->value[1], obj->value[2], obj->value[3],
                    obj->value[4]);
 
@@ -924,19 +925,19 @@ void fread_obj(Char *ch, FILE *fp) {
             auto description = fread_stdstring(fp);
             obj->extra_descr.emplace_back(ExtraDescription{keyword, description});
         } else if (word == cf::End) {
-            if (!fNest || !fVnum || obj->pIndexData == nullptr) {
+            if (!fNest || !fVnum || obj->objIndex == nullptr) {
                 bug("fread_obj: incomplete object.");
                 extract_obj(obj);
                 return;
             } else {
                 if (!new_format) {
                     object_list.add_front(obj);
-                    obj->pIndexData->count++;
+                    obj->objIndex->count++;
                 }
                 if (make_new) {
                     int wear = obj->wear_loc;
                     extract_obj(obj);
-                    obj = create_object(obj->pIndexData);
+                    obj = create_object(obj->objIndex);
                     obj->wear_loc = wear;
                 }
                 if (iNest == 0 || rgObjNest[iNest] == nullptr)
@@ -982,7 +983,7 @@ void fread_obj(Char *ch, FILE *fp) {
             obj->value[4] = fread_number(fp);
         } else if (word == cf::Vnum) {
             int vnum = fread_number(fp);
-            if ((obj->pIndexData = get_obj_index(vnum)) == nullptr)
+            if ((obj->objIndex = get_obj_index(vnum)) == nullptr)
                 bug("fread_obj: bad vnum {}.", vnum);
             else
                 fVnum = true;

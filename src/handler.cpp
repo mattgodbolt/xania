@@ -14,6 +14,7 @@
 #include "Descriptor.hpp"
 #include "ExtraDescription.hpp"
 #include "Materials.hpp"
+#include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -586,7 +587,7 @@ void equip_char(Char *ch, OBJ_DATA *obj, int iWear) {
     obj->wear_loc = iWear;
 
     if (!obj->enchanted)
-        for (auto &af : obj->pIndexData->affected)
+        for (auto &af : obj->objIndex->affected)
             affect_modify(ch, af, true);
     for (auto &af : obj->affected)
         affect_modify(ch, af, true);
@@ -609,7 +610,7 @@ void unequip_char(Char *ch, OBJ_DATA *obj) {
     obj->wear_loc = -1;
 
     if (!obj->enchanted)
-        for (auto &af : obj->pIndexData->affected)
+        for (auto &af : obj->objIndex->affected)
             affect_modify(ch, af, false);
     for (auto &af : obj->affected)
         affect_modify(ch, af, false);
@@ -621,8 +622,8 @@ void unequip_char(Char *ch, OBJ_DATA *obj) {
 /*
  * Count occurrences of an obj in a list.
  */
-int count_obj_list(OBJ_INDEX_DATA *pObjIndex, const GenericList<OBJ_DATA *> &list) {
-    return ranges::count(list, pObjIndex, [](auto *obj) { return obj->pIndexData; });
+int count_obj_list(ObjectIndex *objIndex, const GenericList<OBJ_DATA *> &list) {
+    return ranges::count(list, objIndex, [](auto *obj) { return obj->objIndex; });
 }
 
 /*
@@ -643,7 +644,7 @@ void obj_from_room(OBJ_DATA *obj) {
 }
 
 bool check_sub_issue(OBJ_DATA *obj, Char *ch) {
-    int vnum = obj->pIndexData->vnum;
+    int vnum = obj->objIndex->vnum;
     if (((vnum >= 3700) && (vnum <= 3713)) || (vnum == 3716) || (vnum == 3717)) {
         act("$n drops the $p. It disappears in a puff of acrid smoke.", ch, obj, nullptr, To::Room);
         act("$p disappears in a puff of acrid smoke.", ch, obj, nullptr, To::Char);
@@ -670,7 +671,7 @@ void obj_to_obj(OBJ_DATA *obj, OBJ_DATA *obj_to) {
     obj->in_obj = obj_to;
     obj->in_room = nullptr;
     obj->carried_by = nullptr;
-    if (obj_to->pIndexData->vnum == objects::Pit)
+    if (obj_to->objIndex->vnum == objects::Pit)
         obj->cost = 0;
 
     for (; obj_to != nullptr; obj_to = obj_to->in_obj) {
@@ -721,11 +722,11 @@ void extract_obj(OBJ_DATA *obj) {
         extract_obj(obj_content);
 
     if (!object_list.remove(obj)) {
-        bug("Extract_obj: obj {} not found.", obj->pIndexData->vnum);
+        bug("Extract_obj: obj {} not found.", obj->objIndex->vnum);
         return;
     }
 
-    --obj->pIndexData->count;
+    --obj->objIndex->count;
     delete obj;
 }
 
@@ -830,9 +831,9 @@ Char *get_mob_by_vnum(sh_int vnum) {
  * Find some object with a given index data.
  * Used by area-reset 'P' command.
  */
-OBJ_DATA *get_obj_type(OBJ_INDEX_DATA *pObjIndex) {
+OBJ_DATA *get_obj_type(ObjectIndex *objIndex) {
     for (auto *obj : object_list)
-        if (obj->pIndexData == pObjIndex)
+        if (obj->objIndex == objIndex)
             return obj;
 
     return nullptr;
@@ -888,8 +889,8 @@ OBJ_DATA *get_obj_here(const Char *ch, std::string_view argument) {
 
 /* Written by Wandera & Death */
 OBJ_DATA *get_object(sh_int vnum) {
-    if (OBJ_INDEX_DATA *pObjIndex = get_obj_index(vnum); pObjIndex != nullptr) {
-        return create_object(pObjIndex);
+    if (ObjectIndex *objIndex = get_obj_index(vnum); objIndex != nullptr) {
+        return create_object(objIndex);
     }
     return nullptr;
 }
@@ -1084,7 +1085,7 @@ const char *item_type_name(OBJ_DATA *obj) {
 /*
  * Return ascii name of an object index
  */
-const char *item_index_type_name(OBJ_INDEX_DATA *obj) {
+const char *item_index_type_name(ObjectIndex *obj) {
     switch (obj->item_type) {
     case ITEM_LIGHT: return "light";
     case ITEM_SCROLL: return "scroll";

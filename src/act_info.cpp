@@ -16,6 +16,7 @@
 #include "Exit.hpp"
 #include "Help.hpp"
 #include "Materials.hpp"
+#include "ObjectIndex.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -140,7 +141,7 @@ std::string format_obj_to_char(const OBJ_DATA *obj, const Char *ch, bool fShort)
     std::string desc = fShort ? obj->short_descr : obj->description;
     if (desc.empty()) {
         desc = "This object has no description. Please inform the IMP.";
-        bug("Object {} has no description", obj->pIndexData->vnum);
+        bug("Object {} has no description", obj->objIndex->vnum);
     }
     if (IS_OBJ_STAT(obj, ITEM_UNIQUE))
         buf += "(U) ";
@@ -820,7 +821,7 @@ void look_in_object(const Char &ch, const OBJ_DATA &obj) {
 const char *try_get_descr(const OBJ_DATA &obj, std::string_view name) {
     if (auto *pdesc = get_extra_descr(name, obj.extra_descr))
         return pdesc;
-    if (auto *pdesc = get_extra_descr(name, obj.pIndexData->extra_descr))
+    if (auto *pdesc = get_extra_descr(name, obj.objIndex->extra_descr))
         return pdesc;
     return nullptr;
 }
