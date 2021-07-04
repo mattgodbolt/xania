@@ -49,61 +49,61 @@ void say_spell(Char *ch, int sn);
 
 namespace {
 
-static constexpr std::array AcidBlastExorciseDemonfireDamage = {
+constexpr std::array AcidBlastExorciseDemonfireDamage = {
     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
     0,   0,   0,   0,   0,   0,   0,   108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 131, 132,
     133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 148, 149, 149, 150, 151,
     153, 155, 157, 159, 161, 163, 165, 167, 169, 171, 173, 175, 177, 179, 181, 183, 185, 187, 189, 191, 193,
     195, 197, 199, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218};
 
-static constexpr std::array BurningHandsCauseSerDamage = {
+constexpr std::array BurningHandsCauseSerDamage = {
     0,  0,  0,  0,  0,  14, 17, 20, 23, 26, 29, 29, 29, 30, 30, 31, 31, 32, 32, 33, 33, 34, 34,
     35, 35, 36, 36, 37, 37, 38, 38, 39, 39, 40, 40, 41, 41, 42, 42, 43, 43, 44, 44, 45, 45, 46,
     46, 47, 47, 48, 48, 48, 49, 50, 50, 51, 51, 52, 52, 53, 53, 54, 54, 55, 55, 56, 56, 56, 57,
     57, 57, 58, 58, 58, 59, 59, 59, 59, 60, 60, 61, 61, 62, 62, 62, 63, 64, 65, 66, 67, 68, 69};
 
-static constexpr std::array ChillTouchDamage = {
-    0,  0,  0,  6,  7,  8,  9,  12, 13, 13, 13, 14, 14, 14, 15, 15, 15, 16, 16, 16, 17, 17, 17,
-    18, 18, 18, 19, 19, 19, 20, 20, 20, 21, 21, 21, 22, 22, 22, 23, 23, 23, 24, 24, 24, 25, 25,
-    25, 26, 26, 26, 27, 27, 28, 29, 29, 30, 30, 31, 31, 32, 32, 33, 33, 34, 34, 35, 35, 35, 36,
-    36, 36, 37, 37, 37, 38, 38, 38, 38, 39, 39, 40, 40, 41, 41, 41, 42, 43, 44, 45, 46, 47, 48};
+constexpr std::array ChillTouchDamage = {0,  0,  0,  6,  7,  8,  9,  12, 13, 13, 13, 14, 14, 14, 15, 15, 15, 16, 16,
+                                         16, 17, 17, 17, 18, 18, 18, 19, 19, 19, 20, 20, 20, 21, 21, 21, 22, 22, 22,
+                                         23, 23, 23, 24, 24, 24, 25, 25, 25, 26, 26, 26, 27, 27, 28, 29, 29, 30, 30,
+                                         31, 31, 32, 32, 33, 33, 34, 34, 35, 35, 35, 36, 36, 36, 37, 37, 37, 38, 38,
+                                         38, 38, 39, 39, 40, 40, 41, 41, 41, 42, 43, 44, 45, 46, 47, 48};
 
-static const std::array ColourSprayDispelGoodEvilDamage = {
+const std::array ColourSprayDispelGoodEvilDamage = {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  30, 35, 40, 45, 50, 55, 55, 55, 56, 57, 58, 58,
     59, 60, 61, 61, 62, 63, 64, 64, 65, 66, 67, 67, 68, 69, 70, 70, 71, 72, 73, 73, 74, 75, 76,
     76, 77, 78, 79, 79, 79, 80, 81, 81, 82, 82, 83, 83, 84, 84, 85, 85, 86, 86, 87, 87, 87, 88,
     88, 88, 87, 87, 87, 88, 88, 88, 88, 89, 89, 90, 90, 91, 91, 91, 92, 93, 94, 95, 96, 97, 98};
 
-static constexpr std::array FireballHarmDamage = {
+constexpr std::array FireballHarmDamage = {
     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   30,  35,  40,  45,  50,  55,  60,
     65,  70,  75,  80,  82,  84,  86,  88,  90,  92,  94,  96,  98,  100, 102, 104, 106, 108, 110, 112, 114, 116,
     118, 120, 122, 124, 126, 128, 130, 131, 132, 133, 133, 134, 135, 136, 136, 137, 138, 138, 139, 140, 140, 141,
     142, 143, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182,
     184, 186, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 201, 201};
 
-static constexpr std::array FlamestrikeDamage = {
+constexpr std::array FlamestrikeDamage = {
     0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   50,  55,
     60,  65,  70,  75,  80,  82,  84,  86,  88,  90,  92,  94,  96,  98,  100, 102, 104, 106, 108, 110, 112, 114, 116,
     118, 120, 122, 124, 126, 128, 130, 131, 132, 133, 133, 134, 135, 136, 136, 137, 138, 138, 139, 140, 140, 141, 141,
     142, 143, 143, 144, 144, 145, 145, 146, 146, 147, 147, 148, 148, 149, 149, 150, 151, 152, 153, 154, 155, 156};
 
-static constexpr std::array LightningBoltCauseCritDamage = {
+constexpr std::array LightningBoltCauseCritDamage = {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  25, 28, 31, 34, 37, 40, 40, 41, 42, 42, 43, 44, 44, 45,
     46, 46, 47, 48, 48, 49, 50, 50, 51, 52, 52, 53, 54, 54, 55, 56, 56, 57, 58, 58, 59, 60, 60,
     61, 62, 62, 63, 64, 64, 65, 66, 66, 67, 67, 68, 68, 69, 69, 70, 70, 71, 71, 72, 72, 72, 73,
     73, 73, 74, 74, 74, 75, 75, 75, 75, 76, 76, 77, 77, 78, 78, 78, 79, 80, 81, 82, 83, 84, 85};
 
-static constexpr std::array MagicMissileCauseLightDamage = {
+constexpr std::array MagicMissileCauseLightDamage = {
     0,  3,  3,  4,  4,  5,  6,  6,  6,  6,  6,  7,  7,  7,  7,  7,  8,  8,  8,  8,  8,  9,  9,
     9,  9,  9,  10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13,
     14, 14, 14, 14, 14, 15, 15, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 22, 23,
     23, 23, 24, 24, 24, 25, 25, 25, 25, 26, 26, 26, 27, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35};
 
-static constexpr std::array ShockingGraspDamage = {
-    0,  0,  0,  0,  0,  0,  0,  20, 25, 29, 33, 36, 39, 39, 39, 40, 40, 41, 41, 42, 42, 43, 43,
-    44, 44, 45, 45, 46, 46, 47, 47, 48, 48, 49, 49, 50, 50, 51, 51, 52, 52, 53, 53, 54, 54, 55,
-    55, 56, 56, 57, 57, 57, 58, 59, 59, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 65, 65, 66,
-    66, 66, 67, 67, 67, 68, 68, 68, 68, 69, 69, 70, 70, 71, 71, 71, 72, 73, 74, 75, 76, 77, 78};
+constexpr std::array ShockingGraspDamage = {0,  0,  0,  0,  0,  0,  0,  20, 25, 29, 33, 36, 39, 39, 39, 40, 40, 41, 41,
+                                            42, 42, 43, 43, 44, 44, 45, 45, 46, 46, 47, 47, 48, 48, 49, 49, 50, 50, 51,
+                                            51, 52, 52, 53, 53, 54, 54, 55, 55, 56, 56, 57, 57, 57, 58, 59, 59, 60, 60,
+                                            61, 61, 62, 62, 63, 63, 64, 64, 65, 65, 65, 66, 66, 66, 67, 67, 67, 68, 68,
+                                            68, 68, 69, 69, 70, 70, 71, 71, 71, 72, 73, 74, 75, 76, 77, 78};
 
 /**
  * Most direct damage spells calculate their damage using the same
@@ -115,6 +115,16 @@ std::pair<int, int> get_direct_dmg_and_level(int level, const std::array<int, Si
     int dam = number_range(damage_table[clamped_level] / 2, damage_table[clamped_level] * 2);
     return {dam, clamped_level};
 }
+
+/**
+ * Indexes into attack_table that are used by specific weapon enchantment spells
+ * like spell_acid_wash and spell_tame_lightning. When a weapon is enchanted,
+ * an index into that table is written to the object's value[3] attribute.
+ * These constants are not plain damage types (DAM_*), the attack_table
+ * is actually superset of the damage type enum.
+ */
+constexpr auto AttackTableIndexTameLightning = 28u;
+constexpr auto AttackTableIndexAcidWash = 31u;
 
 }
 
@@ -681,7 +691,7 @@ void spell_acid_wash(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Acid and lightning don't mix.");
         return;
     }
-    obj->value[3] = ATTACK_TABLE_INDEX_ACID_WASH;
+    obj->value[3] = AttackTableIndexAcidWash;
     SET_BIT(obj->value[4], WEAPON_ACID);
     ch->send_to("With a mighty scream you draw acid from the earth.\n\rYou wash your weapon in the acid pool.\n\r");
 }
@@ -2114,7 +2124,7 @@ void spell_tame_lightning(int sn, int level, Char *ch, void *vo) {
     }
 
     ch->gold -= (mana * 100);
-    obj->value[3] = ATTACK_TABLE_INDEX_TAME_LIGHTNING;
+    obj->value[3] = AttackTableIndexTameLightning;
     SET_BIT(obj->value[4], WEAPON_LIGHTNING);
     ch->send_to("You summon a MASSIVE storm.\n\rHolding your weapon aloft you call lightning down from the sky. "
                 "\n\rThe lightning swirls around it - you have |YTAMED|w the |YLIGHTNING|w.\n\r");

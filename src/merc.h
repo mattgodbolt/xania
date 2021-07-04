@@ -26,19 +26,6 @@
 
 #pragma once
 
-/**
- * Indexes into attack_table that are used by specific weapon enchantment spells
- * like spell_acid_wash and spell_tame_lightning. When a weapon is enchanted,
- * an index into that table is written to the object's value[3] attribute.
- * These constants are not plain damage types (DAM_*), the attack_table
- * is actually superset of the damage type enum.
- * See:
- * - enchanting weapon in magic.c
- * - generating the damage message in fight.c
- */
-#define ATTACK_TABLE_INDEX_TAME_LIGHTNING 28
-#define ATTACK_TABLE_INDEX_ACID_WASH 31
-
 #define MAX_DAM 18 /* this should really be down below with dam types*/
 
 /***************************************************************************
