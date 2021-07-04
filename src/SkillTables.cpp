@@ -4,6 +4,7 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "SkillTables.hpp"
+#include "BitsAffect.hpp"
 #include "SkillNumbers.hpp"
 #include "Target.hpp"
 #include "magic.h"

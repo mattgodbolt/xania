@@ -6,6 +6,7 @@
 
 #include "CorpseSummoner.hpp"
 #include "AFFECT_DATA.hpp"
+#include "BitsAffect.hpp"
 #include "Char.hpp"
 #include "ExtraDescription.hpp"
 #include "Object.hpp"

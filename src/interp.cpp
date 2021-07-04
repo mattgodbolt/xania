@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "interp.h"
+#include "BitsAffect.hpp"
 #include "Char.hpp"
 #include "CommandSet.hpp"
 #include "Note.hpp"

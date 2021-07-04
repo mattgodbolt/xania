@@ -5,6 +5,7 @@
 /*************************************************************************/
 #include "InjuredPart.hpp"
 #include "Attacks.hpp"
+#include "BitsAffect.hpp"
 #include "BitsBodyPart.hpp"
 #include "Char.hpp"
 #include "Races.hpp"

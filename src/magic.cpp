@@ -9,6 +9,7 @@
 
 #include "magic.h"
 #include "AFFECT_DATA.hpp"
+#include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsDamageTolerance.hpp"

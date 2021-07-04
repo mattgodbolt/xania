@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "ArgParser.hpp"
+#include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "DescriptorList.hpp"

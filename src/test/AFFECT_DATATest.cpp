@@ -1,4 +1,5 @@
 #include "AFFECT_DATA.hpp"
+#include "BitsAffect.hpp"
 #include "SkillNumbers.hpp"
 
 #include "Char.hpp"

@@ -9,6 +9,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
+#include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "Char.hpp"
