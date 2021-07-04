@@ -29,6 +29,7 @@
 #include "WeatherData.hpp"
 #include "buffer.h"
 #include "common/Configuration.hpp"
+#include "common/urange.hpp"
 #include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
@@ -678,7 +679,7 @@ void assign_area_vnum(int vnum) {
     auto area_last = AreaList::singleton().back();
     if (area_last->lvnum == 0 || area_last->uvnum == 0)
         area_last->lvnum = area_last->uvnum = vnum;
-    if (vnum != URANGE(area_last->lvnum, vnum, area_last->uvnum)) {
+    if (vnum != urange(area_last->lvnum, vnum, area_last->uvnum)) {
         if (vnum < area_last->lvnum)
             area_last->lvnum = vnum;
         else

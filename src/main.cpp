@@ -24,6 +24,7 @@ extern void report_entity_imbalance();
 extern void load_bans();
 
 int main(int argc, char **argv) {
+
     // Init time.
     current_time = Clock::now();
     bool show_entity_imbalance = false;

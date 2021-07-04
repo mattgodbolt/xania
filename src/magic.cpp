@@ -27,6 +27,7 @@
 #include "act_wiz.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
+#include "common/urange.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
@@ -184,14 +185,14 @@ bool saves_spell(int level, const Char *victim) {
     int save = 50 + (victim->level - level - victim->saving_throw);
     if (IS_AFFECTED(victim, AFF_BERSERK))
         save -= victim->level / 3;
-    save = URANGE(5, save, 95);
+    save = urange(5, save, 95);
     return number_percent() < save;
 }
 
 /* RT save for dispels */
 
 bool saves_dispel(int dis_level, int spell_level) {
-    const int save = URANGE(8, 50 + (spell_level - dis_level) * 3, 95);
+    const int save = urange(8, 50 + (spell_level - dis_level) * 3, 95);
     return number_percent() < save;
 }
 
@@ -1564,8 +1565,8 @@ void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    int chance = URANGE(5,
-                        (30 + URANGE(-20, (ch->level - obj->level), 20)
+    int chance = urange(5,
+                        (30 + urange(-20, (ch->level - obj->level), 20)
                          + (material_table[obj->material].magical_resilience / 2)),
                         100)
                  - number_percent();
@@ -1604,8 +1605,8 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    const int levdif = URANGE(-20, (ch->level - obj->level), 20);
-    auto chance = URANGE(5, levdif / 2 + material_table[obj->material].magical_resilience, 100);
+    const int levdif = urange(-20, (ch->level - obj->level), 20);
+    auto chance = urange(5, levdif / 2 + material_table[obj->material].magical_resilience, 100);
     auto score = chance - number_percent();
 
     if ((score <= 20)) {
@@ -1615,7 +1616,7 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
             ch->alignment -= (30 - score);
         if (ch->is_evil())
             ch->alignment += (30 - score);
-        ch->alignment = URANGE(-1000, ch->alignment, 1000);
+        ch->alignment = urange(static_cast<sh_int>(-1000), ch->alignment, 1000_s);
     }
 
     if (score >= 0) {
@@ -1686,7 +1687,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     if (IS_OBJ_STAT(obj, ITEM_GLOW))
         fail -= 5;
 
-    fail = URANGE(5, fail, 95);
+    fail = urange(5, fail, 95);
 
     const int result = number_percent();
 
@@ -1837,7 +1838,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     if (IS_OBJ_STAT(obj, ITEM_GLOW))
         fail -= 5;
 
-    fail = URANGE(5, fail, 95);
+    fail = urange(5, fail, 95);
 
     const int result = number_percent();
 
@@ -3413,7 +3414,7 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
         }
     }
 
-    hpch = URANGE(10, ch->hit, 2000);
+    hpch = urange(10_s, ch->hit, 2000_s);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     dam = number_range(hpch / 20 + 16, hpch / 15);
@@ -3471,7 +3472,7 @@ void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
         }
     }
 
-    hpch = URANGE(10, ch->hit, 2000);
+    hpch = urange(10_s, ch->hit, 2000_s);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     dam = number_range(hpch / 20 + 16, hpch / 15);
@@ -3501,7 +3502,7 @@ void spell_frost_breath(int sn, int level, Char *ch, void *vo) {
         }
     }
 
-    int hpch = URANGE(10, ch->hit, 2000);
+    int hpch = urange(10_s, ch->hit, 2000_s);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     int dam = number_range(hpch / 20 + 16, hpch / 15);
@@ -3517,7 +3518,7 @@ void spell_gas_breath(int sn, int level, Char *ch, void *vo) {
 
     for (auto *vch : ch->in_room->people) {
         if (!is_safe_spell(ch, vch, true)) {
-            hpch = URANGE(10, ch->hit, 2000);
+            hpch = urange(10_s, ch->hit, 2000_s);
             if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
                 hpch = 1000;
             dam = number_range(hpch / 20 + 16, hpch / 15);
@@ -3533,7 +3534,7 @@ void spell_lightning_breath(int sn, int level, Char *ch, void *vo) {
     int dam;
     int hpch;
 
-    hpch = URANGE(10, ch->hit, 2000);
+    hpch = urange(10_s, ch->hit, 2000_s);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     dam = number_range(hpch / 20 + 16, hpch / 15);
@@ -3569,7 +3570,7 @@ void explode_bomb(Object *bomb, Char *ch, Char *thrower) {
     int sn, position;
     void *vo = (void *)ch;
 
-    chance = URANGE(5, (50 + ((bomb->value[0] - ch->level) * 8)), 100);
+    chance = urange(5, (50 + ((bomb->value[0] - ch->level) * 8)), 100);
     if (number_percent() > chance) {
         act("$p emits a loud bang and disappears in a cloud of smoke.", ch, bomb, nullptr, To::Room);
         act("$p emits a loud bang, but thankfully does not affect you.", ch, bomb, nullptr, To::Char);

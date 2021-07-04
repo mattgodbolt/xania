@@ -17,6 +17,7 @@
 #include "VnumRooms.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
+#include "common/urange.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
@@ -229,7 +230,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 
     /* Can we re-animate this corpse? Include check for a non-empty PC corpse */
 
-    chance = URANGE(1, (50 + ((ch->level - obj->objIndex->level) * 3)), 99);
+    chance = urange(1, (50 + ((ch->level - obj->objIndex->level) * 3)), 99);
 
     if ((number_percent() > chance) || /* if random failed */
         ((obj->objIndex->item_type == ITEM_CORPSE_PC) && !obj->contains.empty()))
@@ -327,7 +328,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 //    for (i = 0; i < 4; ++i)
 // zombie->armor[i] *= zScale;
 //
-//    zombie->alignment = URANGE (-1000, ch->alignment - 100, -100);
+//    zombie->alignment = urange (-1000, ch->alignment - 100, -100);
 //
 /*
  * Do some sparks and fizzes XXX

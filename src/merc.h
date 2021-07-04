@@ -596,7 +596,6 @@ static inline constexpr auto ff = BIT(31);
 /*
  * Utility macros.
  */
-#define URANGE(a, b, c) ((b) < (a) ? (a) : ((b) > (c) ? (c) : (b)))
 #define LOWER(c) ((c) >= 'A' && (c) <= 'Z' ? (c) + 'a' - 'A' : (c))
 #define UPPER(c) ((c) >= 'a' && (c) <= 'z' ? (c) + 'A' - 'a' : (c))
 #define IS_SET(flag, bit) (((flag) & (bit)) ? true : false)

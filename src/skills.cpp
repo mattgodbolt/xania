@@ -16,6 +16,7 @@
 #include "Room.hpp"
 #include "SkillTables.hpp"
 #include "comm.hpp"
+#include "common/urange.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "interp.h"
@@ -658,7 +659,7 @@ void check_improve(Char *ch, int sn, bool success, int multiplier) {
     /* now that the character has a CHANCE to learn, see if they really have */
 
     if (success) {
-        chance = URANGE(5, 100 - ch->pcdata->learned[sn], 95);
+        chance = urange(5, 100 - ch->pcdata->learned[sn], 95);
         if (number_percent() < chance) {
             ch->pcdata->learned[sn]++;
             ch->send_to(fmt::format("|WYou have become better at |C{}|W! ({})|w\n\r", skill_table[sn].name,
@@ -668,7 +669,7 @@ void check_improve(Char *ch, int sn, bool success, int multiplier) {
     }
 
     else {
-        chance = URANGE(5, ch->get_skill(sn) / 2, 30);
+        chance = urange(5, ch->get_skill(sn) / 2, 30);
         if (number_percent() < chance) {
             ch->pcdata->learned[sn] += number_range(1, 3);
             ch->pcdata->learned[sn] = std::min(ch->pcdata->learned[sn], 100_s);
