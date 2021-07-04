@@ -5,6 +5,7 @@
 /*************************************************************************/
 #include "SkillTables.hpp"
 #include "SkillNumbers.hpp"
+#include "Target.hpp"
 #include "magic.h"
 #include "merc.h"
 

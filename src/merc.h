@@ -594,17 +594,6 @@ static inline constexpr auto ff = BIT(31);
 #define COMM_NOALLEGE (X)
 
 /*
- *  Target types.
- */
-#define TAR_IGNORE 0
-#define TAR_CHAR_OFFENSIVE 1
-#define TAR_CHAR_DEFENSIVE 2
-#define TAR_CHAR_SELF 3
-#define TAR_OBJ_INV 4
-#define TAR_CHAR_OBJECT 5
-#define TAR_CHAR_OTHER 6
-
-/*
  * Utility macros.
  */
 //#define UMIN(a, b)              ((a) < (b) ? (a) : (b))

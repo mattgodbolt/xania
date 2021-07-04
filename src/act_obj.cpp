@@ -20,6 +20,7 @@
 #include "Shop.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
+#include "Target.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
