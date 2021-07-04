@@ -5,6 +5,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "DamageClass.hpp"
 #include "Exit.hpp"

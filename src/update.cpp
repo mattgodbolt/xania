@@ -10,6 +10,7 @@
 #include "update.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
+#include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"

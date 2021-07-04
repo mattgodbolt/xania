@@ -1,4 +1,5 @@
 #include "CorpseSummoner.hpp"
+#include "BitsCharAct.hpp"
 #include "ExtraDescription.hpp"
 #include "Object.hpp"
 #include "Room.hpp"

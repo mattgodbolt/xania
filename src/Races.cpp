@@ -4,6 +4,7 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Races.hpp"
+#include "BitsCharAct.hpp"
 #include "merc.h"
 
 /* race table */

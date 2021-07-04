@@ -1,4 +1,5 @@
 #include "PcNutrition.hpp"
+#include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "Constants.hpp"
 #include "merc.h"

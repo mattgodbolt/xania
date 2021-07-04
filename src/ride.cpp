@@ -4,6 +4,7 @@
 /*  See the header to file: merc.h for original code copyrights          */
 /*************************************************************************/
 #include "ride.hpp"
+#include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "DamageClass.hpp"
 #include "SkillNumbers.hpp"

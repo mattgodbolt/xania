@@ -1,4 +1,5 @@
 #include "MobIndexData.hpp"
+#include "BitsCharAct.hpp"
 #include "Races.hpp"
 
 #include "db.h"

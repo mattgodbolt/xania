@@ -4,6 +4,7 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Char.hpp"
+#include "BitsCharAct.hpp"
 #include "Classes.hpp"
 #include "DescriptorList.hpp"
 #include "Note.hpp"

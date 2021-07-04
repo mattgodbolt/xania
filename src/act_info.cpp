@@ -9,6 +9,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
+#include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "Descriptor.hpp"

@@ -11,6 +11,7 @@
    direct questions or comments to rtaylor@cie-2.uoregon.edu
    any use of this code must include this header */
 
+#include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "ExtraDescription.hpp"
 #include "Room.hpp"

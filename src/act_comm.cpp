@@ -9,6 +9,7 @@
 
 #include "act_comm.hpp"
 #include "ArgParser.hpp"
+#include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "Descriptor.hpp"
