@@ -22,6 +22,7 @@
 #include "Target.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
+#include "WearLocation.hpp"
 #include "WeatherData.hpp"
 #include "act_comm.hpp"
 #include "act_wiz.hpp"

@@ -22,6 +22,7 @@
 #include "TimeInfoData.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
+#include "WearLocation.hpp"
 #include "act_obj.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"

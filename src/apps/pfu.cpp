@@ -2,6 +2,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "VnumRooms.hpp"
+#include "WearLocation.hpp"
 #include "WrappedFd.hpp"
 #include "common/Configuration.hpp"
 #include "common/Time.hpp"

@@ -27,6 +27,7 @@
 #include "VnumMobiles.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
+#include "WearLocation.hpp"
 #include "act_comm.hpp"
 #include "act_move.hpp"
 #include "act_obj.hpp"

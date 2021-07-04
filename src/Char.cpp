@@ -13,6 +13,7 @@
 #include "Sex.hpp"
 #include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
+#include "WearLocation.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"
 #include "common/urange.hpp"

@@ -24,6 +24,7 @@
 #include "Exit.hpp"
 #include "MobIndexData.hpp"
 #include "Object.hpp"
+#include "WearLocation.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "fight.hpp"

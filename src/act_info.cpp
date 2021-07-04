@@ -23,6 +23,7 @@
 #include "SkillTables.hpp"
 #include "Socials.hpp"
 #include "TimeInfoData.hpp"
+#include "WearLocation.hpp"
 #include "WeatherData.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"
