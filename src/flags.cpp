@@ -56,7 +56,7 @@ void display_flags(const char *format, Char *ch, unsigned long current_val) {
             for (; *src && !isspace(*src);)
                 *dest++ = *src++;
             *dest = '\0';
-            if (IS_SET(current_val, (1u << bit)) && *buf != '*') {
+            if (check_bit(current_val, (1u << bit)) && *buf != '*') {
                 int num;
                 char *bufptr = buf;
                 if (isdigit(*buf)) {

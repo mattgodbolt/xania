@@ -159,12 +159,12 @@ void do_nochannels(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_SET(victim->comm, COMM_NOCHANNELS)) {
-        REMOVE_BIT(victim->comm, COMM_NOCHANNELS);
+    if (check_bit(victim->comm, COMM_NOCHANNELS)) {
+        clear_bit(victim->comm, COMM_NOCHANNELS);
         victim->send_line("The gods have restored your channel privileges.");
         ch->send_line("NOCHANNELS removed.");
     } else {
-        SET_BIT(victim->comm, COMM_NOCHANNELS);
+        set_bit(victim->comm, COMM_NOCHANNELS);
         victim->send_line("The gods have revoked your channel privileges.");
         ch->send_line("NOCHANNELS set.");
     }
@@ -233,7 +233,7 @@ void do_deny(Char *ch, const char *argument) {
         return;
     }
 
-    SET_BIT(victim->act, PLR_DENY);
+    set_bit(victim->act, PLR_DENY);
     victim->send_line("You are denied access!");
     ch->send_line("OK.");
     save_char_obj(victim);
@@ -298,8 +298,8 @@ void do_pardon(Char *ch, const char *argument) {
     }
 
     if (!str_cmp(arg2, "killer")) {
-        if (IS_SET(victim->act, PLR_KILLER)) {
-            REMOVE_BIT(victim->act, PLR_KILLER);
+        if (check_bit(victim->act, PLR_KILLER)) {
+            clear_bit(victim->act, PLR_KILLER);
             ch->send_line("Killer flag removed.");
             victim->send_line("You are no longer a KILLER.");
         }
@@ -307,8 +307,8 @@ void do_pardon(Char *ch, const char *argument) {
     }
 
     if (!str_cmp(arg2, "thief")) {
-        if (IS_SET(victim->act, PLR_THIEF)) {
-            REMOVE_BIT(victim->act, PLR_THIEF);
+        if (check_bit(victim->act, PLR_THIEF)) {
+            clear_bit(victim->act, PLR_THIEF);
             ch->send_line("Thief flag removed.");
             victim->send_line("You are no longer a THIEF.");
         }
@@ -1428,7 +1428,7 @@ void do_reboo(Char *ch) { ch->send_line("If you want to REBOOT, spell it out.");
 void do_reboot(Char *ch) {
     extern bool merc_down;
 
-    if (!IS_SET(ch->act, PLR_WIZINVIS)) {
+    if (!check_bit(ch->act, PLR_WIZINVIS)) {
         do_echo(ch, fmt::format("Reboot by {}.", ch->name));
     }
     do_force(ch, "all save");
@@ -1741,7 +1741,7 @@ void do_purge(Char *ch, const char *argument) {
         /* 'purge' */
 
         for (auto *victim : ch->in_room->people) {
-            if (victim->is_npc() && !IS_SET(victim->act, ACT_NOPURGE) && victim != ch /* safety precaution */)
+            if (victim->is_npc() && !check_bit(victim->act, ACT_NOPURGE) && victim != ch /* safety precaution */)
                 extract_char(victim, true);
         }
 
@@ -2007,12 +2007,12 @@ void do_freeze(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_SET(victim->act, PLR_FREEZE)) {
-        REMOVE_BIT(victim->act, PLR_FREEZE);
+    if (check_bit(victim->act, PLR_FREEZE)) {
+        clear_bit(victim->act, PLR_FREEZE);
         victim->send_line("You can play again.");
         ch->send_line("FREEZE removed.");
     } else {
-        SET_BIT(victim->act, PLR_FREEZE);
+        set_bit(victim->act, PLR_FREEZE);
         victim->send_line("You can't do ANYthing!");
         ch->send_line("FREEZE set.");
     }
@@ -2055,11 +2055,11 @@ void do_log(Char *ch, const char *argument) {
     /*
      * No level check, gods can log anyone.
      */
-    if (IS_SET(victim->act, PLR_LOG)) {
-        REMOVE_BIT(victim->act, PLR_LOG);
+    if (check_bit(victim->act, PLR_LOG)) {
+        clear_bit(victim->act, PLR_LOG);
         ch->send_line("LOG removed.");
     } else {
-        SET_BIT(victim->act, PLR_LOG);
+        set_bit(victim->act, PLR_LOG);
         ch->send_line("LOG set.");
     }
 }
@@ -2085,12 +2085,12 @@ void do_noemote(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_SET(victim->comm, COMM_NOEMOTE)) {
-        REMOVE_BIT(victim->comm, COMM_NOEMOTE);
+    if (check_bit(victim->comm, COMM_NOEMOTE)) {
+        clear_bit(victim->comm, COMM_NOEMOTE);
         victim->send_line("You can emote again.");
         ch->send_line("NOEMOTE removed.");
     } else {
-        SET_BIT(victim->comm, COMM_NOEMOTE);
+        set_bit(victim->comm, COMM_NOEMOTE);
         victim->send_line("You can't emote!");
         ch->send_line("NOEMOTE set.");
     }
@@ -2122,12 +2122,12 @@ void do_noshout(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_SET(victim->comm, COMM_NOSHOUT)) {
-        REMOVE_BIT(victim->comm, COMM_NOSHOUT);
+    if (check_bit(victim->comm, COMM_NOSHOUT)) {
+        clear_bit(victim->comm, COMM_NOSHOUT);
         victim->send_line("You can shout again.");
         ch->send_line("NOSHOUT removed.");
     } else {
-        SET_BIT(victim->comm, COMM_NOSHOUT);
+        set_bit(victim->comm, COMM_NOSHOUT);
         victim->send_line("You can't shout!");
         ch->send_line("NOSHOUT set.");
     }
@@ -2154,12 +2154,12 @@ void do_notell(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_SET(victim->comm, COMM_NOTELL)) {
-        REMOVE_BIT(victim->comm, COMM_NOTELL);
+    if (check_bit(victim->comm, COMM_NOTELL)) {
+        clear_bit(victim->comm, COMM_NOTELL);
         victim->send_line("You can tell again.");
         ch->send_line("NOTELL removed.");
     } else {
-        SET_BIT(victim->comm, COMM_NOTELL);
+        set_bit(victim->comm, COMM_NOTELL);
         victim->send_line("You can't tell!");
         ch->send_line("NOTELL set.");
     }
@@ -2169,8 +2169,8 @@ void do_peace(Char *ch) {
     for (auto *rch : ch->in_room->people) {
         if (rch->fighting)
             stop_fighting(rch, true);
-        if (rch->is_npc() && IS_SET(rch->act, ACT_AGGRESSIVE))
-            REMOVE_BIT(rch->act, ACT_AGGRESSIVE);
+        if (rch->is_npc() && check_bit(rch->act, ACT_AGGRESSIVE))
+            clear_bit(rch->act, ACT_AGGRESSIVE);
         if (rch->is_npc())
             rch->sentient_victim.clear();
     }
@@ -2203,7 +2203,7 @@ void do_awaken(Char *ch, const char *argument) {
         return;
     }
 
-    REMOVE_BIT(victim->affected_by, AFF_SLEEP);
+    clear_bit(victim->affected_by, AFF_SLEEP);
     victim->position = Position::Type::Standing;
 
     act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, To::Room, Position::Type::Resting);
@@ -3063,9 +3063,9 @@ void do_oset(Char *ch, const char *argument) {
     /* NO_LOCATE flag.  0 turns it off, 1 turns it on *WHAHEY!* */
     if (!str_prefix(arg2, "nolocate")) {
         if (value == 0)
-            REMOVE_BIT(obj->extra_flags, ITEM_NO_LOCATE);
+            clear_bit(obj->extra_flags, ITEM_NO_LOCATE);
         else
-            SET_BIT(obj->extra_flags, ITEM_NO_LOCATE);
+            set_bit(obj->extra_flags, ITEM_NO_LOCATE);
         return;
     }
 
@@ -3282,22 +3282,22 @@ void do_invis(Char *ch, const char *argument) {
     if (arg[0] == '\0')
         /* take the default path */
 
-        if (IS_SET(ch->act, PLR_WIZINVIS)) {
-            REMOVE_BIT(ch->act, PLR_WIZINVIS);
+        if (check_bit(ch->act, PLR_WIZINVIS)) {
+            clear_bit(ch->act, PLR_WIZINVIS);
             ch->invis_level = 0;
             act("$n slowly fades into existence.", ch);
             ch->send_line("You slowly fade back into existence.");
         } else {
-            SET_BIT(ch->act, PLR_WIZINVIS);
-            if (IS_SET(ch->act, PLR_PROWL))
-                REMOVE_BIT(ch->act, PLR_PROWL);
+            set_bit(ch->act, PLR_WIZINVIS);
+            if (check_bit(ch->act, PLR_PROWL))
+                clear_bit(ch->act, PLR_PROWL);
             ch->invis_level = ch->get_trust();
             act("$n slowly fades into thin air.", ch);
             ch->send_line("You slowly vanish into thin air.");
             if (ch->pet != nullptr) {
-                SET_BIT(ch->pet->act, PLR_WIZINVIS);
-                if (IS_SET(ch->pet->act, PLR_PROWL))
-                    REMOVE_BIT(ch->pet->act, PLR_PROWL);
+                set_bit(ch->pet->act, PLR_WIZINVIS);
+                if (check_bit(ch->pet->act, PLR_PROWL))
+                    clear_bit(ch->pet->act, PLR_PROWL);
                 ch->pet->invis_level = ch->get_trust();
             }
         }
@@ -3310,7 +3310,7 @@ void do_invis(Char *ch, const char *argument) {
             return;
         } else {
             ch->reply = nullptr;
-            SET_BIT(ch->act, PLR_WIZINVIS);
+            set_bit(ch->act, PLR_WIZINVIS);
             ch->invis_level = level;
             act("$n slowly fades into thin air.", ch);
             ch->send_line("You slowly vanish into thin air.");
@@ -3332,11 +3332,11 @@ void do_prowl(Char *ch, const char *argument) {
 
     argument = one_argument(argument, arg);
     if (arg[0] == '\0') {
-        if (IS_SET(ch->act, PLR_PROWL)) {
-            REMOVE_BIT(ch->act, PLR_PROWL);
+        if (check_bit(ch->act, PLR_PROWL)) {
+            clear_bit(ch->act, PLR_PROWL);
             ch->invis_level = 0;
             if (ch->pet != nullptr) {
-                REMOVE_BIT(ch->pet->act, PLR_PROWL);
+                clear_bit(ch->pet->act, PLR_PROWL);
                 ch->pet->invis_level = 0;
             }
             act("$n slowly fades into existence.", ch);
@@ -3344,16 +3344,16 @@ void do_prowl(Char *ch, const char *argument) {
             return;
         } else {
             ch->invis_level = ch->get_trust();
-            SET_BIT(ch->act, PLR_PROWL);
+            set_bit(ch->act, PLR_PROWL);
             if (ch->pet != nullptr) {
                 ch->pet->invis_level = ch->get_trust();
-                SET_BIT(ch->pet->act, PLR_PROWL);
+                set_bit(ch->pet->act, PLR_PROWL);
             }
             act("$n slowly fades into thin air.", ch);
             ch->send_line("You slowly vanish into thin air.");
-            REMOVE_BIT(ch->act, PLR_WIZINVIS);
+            clear_bit(ch->act, PLR_WIZINVIS);
             if (ch->pet != nullptr)
-                REMOVE_BIT(ch->pet->act, PLR_WIZINVIS);
+                clear_bit(ch->pet->act, PLR_WIZINVIS);
             return;
         }
     }
@@ -3365,11 +3365,11 @@ void do_prowl(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_SET(ch->act, PLR_PROWL)) {
-        REMOVE_BIT(ch->act, PLR_PROWL);
+    if (check_bit(ch->act, PLR_PROWL)) {
+        clear_bit(ch->act, PLR_PROWL);
         ch->invis_level = 0;
         if (ch->pet != nullptr) {
-            REMOVE_BIT(ch->pet->act, PLR_PROWL);
+            clear_bit(ch->pet->act, PLR_PROWL);
             ch->pet->invis_level = 0;
         }
         act("$n slowly fades into existence.", ch);
@@ -3377,16 +3377,16 @@ void do_prowl(Char *ch, const char *argument) {
         return;
     } else {
         ch->invis_level = level;
-        SET_BIT(ch->act, PLR_PROWL);
+        set_bit(ch->act, PLR_PROWL);
         if (ch->pet != nullptr) {
-            SET_BIT(ch->pet->act, PLR_PROWL);
+            set_bit(ch->pet->act, PLR_PROWL);
             ch->pet->invis_level = level;
         }
         act("$n slowly fades into thin air.", ch);
         ch->send_line("You slowly vanish into thin air.");
-        REMOVE_BIT(ch->act, PLR_WIZINVIS);
+        clear_bit(ch->act, PLR_WIZINVIS);
         if (ch->pet != nullptr)
-            REMOVE_BIT(ch->pet->act, PLR_WIZINVIS);
+            clear_bit(ch->pet->act, PLR_WIZINVIS);
         return;
     }
 }
@@ -3395,11 +3395,11 @@ void do_holylight(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->act, PLR_HOLYLIGHT)) {
-        REMOVE_BIT(ch->act, PLR_HOLYLIGHT);
+    if (check_bit(ch->act, PLR_HOLYLIGHT)) {
+        clear_bit(ch->act, PLR_HOLYLIGHT);
         ch->send_line("Holy light mode off.");
     } else {
-        SET_BIT(ch->act, PLR_HOLYLIGHT);
+        set_bit(ch->act, PLR_HOLYLIGHT);
         ch->send_line("Holy light mode on.");
     }
 }

@@ -33,7 +33,7 @@
 namespace {
 Char *find_trainer(Room *room) {
     for (auto *trainer : room->people)
-        if (trainer->is_npc() && IS_SET(trainer->act, ACT_GAIN))
+        if (trainer->is_npc() && check_bit(trainer->act, ACT_GAIN))
             return trainer;
     return nullptr;
 }

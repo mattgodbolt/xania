@@ -69,7 +69,7 @@ TEST_CASE("summoner preconditions") {
 
     SECTION("player is npc") {
         FORBID_CALL(mock, spec_fun_summoner());
-        SET_BIT(player.act, ACT_IS_NPC);
+        set_bit(player.act, ACT_IS_NPC);
 
         CHECK(!summoner.check_summoner_preconditions(&player, &mob));
     }
@@ -81,7 +81,7 @@ TEST_CASE("summoner preconditions") {
     }
 
     SECTION("mob does not have spec_summoner") {
-        SET_BIT(mob.act, ACT_IS_NPC);
+        set_bit(mob.act, ACT_IS_NPC);
         REQUIRE_CALL(mock, spec_fun_summoner()).RETURN(spec_fun_stub);
 
         CHECK(!summoner.check_summoner_preconditions(&player, &mob));
@@ -89,7 +89,7 @@ TEST_CASE("summoner preconditions") {
 
     SECTION("mob has spec_summoner") {
         mob.spec_fun = spec_fun_stub;
-        SET_BIT(mob.act, ACT_IS_NPC);
+        set_bit(mob.act, ACT_IS_NPC);
         REQUIRE_CALL(mock, spec_fun_summoner()).RETURN(spec_fun_stub);
 
         CHECK(summoner.check_summoner_preconditions(&player, &mob));
@@ -110,7 +110,7 @@ TEST_CASE("is catalyst valid") {
 
     SECTION("catalyst is below level range") {
         player.level = 12;
-        SET_BIT(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
+        set_bit(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
         catalyst.level = player.level - 10;
 
         auto msg = summoner.is_catalyst_invalid(&player, &catalyst);
@@ -120,7 +120,7 @@ TEST_CASE("is catalyst valid") {
 
     SECTION("catalyst is valid") {
         player.level = 12;
-        SET_BIT(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
+        set_bit(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
         catalyst.level = player.level - 9;
 
         auto msg = summoner.is_catalyst_invalid(&player, &catalyst);
@@ -152,7 +152,7 @@ TEST_CASE("check catalyst") {
 
     SECTION("with valid catalyst") {
         player.level = 12;
-        SET_BIT(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
+        set_bit(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
         catalyst.level = player.level - 9;
         FORBID_CALL(mock, obj_from_char(&catalyst));
 
@@ -229,7 +229,7 @@ TEST_CASE("summon corpse") {
     mob.in_room = &player_room;
     Object catalyst;
     catalyst.level = 12;
-    SET_BIT(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
+    set_bit(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
     const auto weaken_sn{68};
 
     SECTION("successful summmon") {

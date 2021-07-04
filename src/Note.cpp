@@ -267,7 +267,7 @@ void NoteHandler::post(Char &ch, [[maybe_unused]] ArgParser) {
     on_change_func_(*this);
 
     for (auto &chtarg : descriptors().all_but(ch) | DescriptorFilter::to_person()) {
-        if (!IS_SET(chtarg.comm, COMM_NOANNOUNCE) && !IS_SET(chtarg.comm, COMM_QUIET) && note.is_to(chtarg)) {
+        if (!check_bit(chtarg.comm, COMM_NOANNOUNCE) && !check_bit(chtarg.comm, COMM_QUIET) && note.is_to(chtarg)) {
             chtarg.send_line("The Spirit of Hermes announces the arrival of a new note.");
         }
     }

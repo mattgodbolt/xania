@@ -115,7 +115,7 @@ void check_assist(Char *ch, Char *victim) {
         if (rch->is_pos_awake() && rch->fighting == nullptr) {
 
             /* quick check for ASSIST_PLAYER */
-            if (ch->is_pc() && rch->is_npc() && IS_SET(rch->off_flags, ASSIST_PLAYERS)
+            if (ch->is_pc() && rch->is_npc() && check_bit(rch->off_flags, ASSIST_PLAYERS)
                 && rch->level + 6 > victim->level) {
                 // moog: copied from do_emote:
                 act("|W$n screams and attacks!|w", rch);
@@ -126,7 +126,7 @@ void check_assist(Char *ch, Char *victim) {
 
             /* PCs next */
             if (ch->is_pc() || IS_AFFECTED(ch, AFF_CHARM)) {
-                if (((rch->is_pc() && IS_SET(rch->act, PLR_AUTOASSIST)) || IS_AFFECTED(rch, AFF_CHARM))
+                if (((rch->is_pc() && check_bit(rch->act, PLR_AUTOASSIST)) || IS_AFFECTED(rch, AFF_CHARM))
                     && is_same_group(ch, rch))
                     multi_hit(rch, victim);
 
@@ -138,15 +138,15 @@ void check_assist(Char *ch, Char *victim) {
             if (ch->is_npc() && !IS_AFFECTED(ch, AFF_CHARM))
 
             {
-                if ((rch->is_npc() && IS_SET(rch->off_flags, ASSIST_ALL))
+                if ((rch->is_npc() && check_bit(rch->off_flags, ASSIST_ALL))
 
-                    || (rch->is_npc() && rch->race == ch->race && IS_SET(rch->off_flags, ASSIST_RACE))
+                    || (rch->is_npc() && rch->race == ch->race && check_bit(rch->off_flags, ASSIST_RACE))
 
-                    || (rch->is_npc() && IS_SET(rch->off_flags, ASSIST_ALIGN)
+                    || (rch->is_npc() && check_bit(rch->off_flags, ASSIST_ALIGN)
                         && ((rch->is_good() && ch->is_good()) || (rch->is_evil() && ch->is_evil())
                             || (rch->is_neutral() && ch->is_neutral())))
 
-                    || (rch->pIndexData == ch->pIndexData && IS_SET(rch->off_flags, ASSIST_VNUM)))
+                    || (rch->pIndexData == ch->pIndexData && check_bit(rch->off_flags, ASSIST_VNUM)))
 
                 {
                     if (number_bits(1) == 0)
@@ -222,7 +222,7 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         return;
 
     /* if mob has sentient bit set, set victim name in memory */
-    if (IS_SET(victim->act, ACT_SENTIENT) && ch->is_pc()) {
+    if (check_bit(victim->act, ACT_SENTIENT) && ch->is_pc()) {
         victim->sentient_victim = ch->name;
     };
 
@@ -277,7 +277,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     int chance, number;
     // NPCs with the backstab act bit have a chance to land a backstab on the victim if they're unhurt.
     // Typically this will be the initial blow from an aggressive mob.
-    if (IS_SET(ch->off_flags, OFF_BACKSTAB) && victim->hit == victim->max_hit
+    if (check_bit(ch->off_flags, OFF_BACKSTAB) && victim->hit == victim->max_hit
         && number_percent() < ch->get_skill(gsn_backstab)) {
         one_hit(ch, victim, &skill_table[gsn_backstab]);
         return;
@@ -288,14 +288,14 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     /* Area attack -- BALLS nasty! */
 
-    if (IS_SET(ch->off_flags, OFF_AREA_ATTACK)) {
+    if (check_bit(ch->off_flags, OFF_AREA_ATTACK)) {
         for (auto *vch : ch->in_room->people) {
             if ((vch != victim && vch->fighting == ch))
                 one_hit(ch, vch, opt_skill);
         }
     }
 
-    if (IS_AFFECTED(ch, AFF_HASTE) || IS_SET(ch->off_flags, OFF_FAST))
+    if (IS_AFFECTED(ch, AFF_HASTE) || check_bit(ch->off_flags, OFF_FAST))
         one_hit(ch, victim, opt_skill);
 
     // Perform no additional hits if the mob is not actually fighting the victim (a 'single blow' situation presumably)
@@ -327,10 +327,10 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     number = number_range(0, 2);
 
-    //   if (number == 1 && IS_SET(ch->act,ACT_MAGE))
+    //   if (number == 1 && check_bit(ch->act,ACT_MAGE))
     //      /*  { mob_cast_mage(ch,victim); return; } */ ;
     //
-    //   if (number == 2 && IS_SET(ch->act,ACT_CLERIC))
+    //   if (number == 2 && check_bit(ch->act,ACT_CLERIC))
     //      /* { mob_cast_cleric(ch,victim); return; } */ ;
 
     /* now for the skills */
@@ -339,19 +339,19 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     switch (number) {
     case (0):
-        if (IS_SET(ch->off_flags, OFF_BASH))
+        if (check_bit(ch->off_flags, OFF_BASH))
             do_bash(ch, "");
         break;
 
     case (1):
-        if (IS_SET(ch->off_flags, OFF_BERSERK) && !IS_AFFECTED(ch, AFF_BERSERK))
+        if (check_bit(ch->off_flags, OFF_BERSERK) && !IS_AFFECTED(ch, AFF_BERSERK))
             do_berserk(ch);
         break;
 
     case (2):
-        if (IS_SET(ch->off_flags, OFF_DISARM)
+        if (check_bit(ch->off_flags, OFF_DISARM)
             || (get_weapon_sn(ch) != gsn_hand_to_hand
-                && (IS_SET(ch->act, ACT_WARRIOR) || IS_SET(ch->act, ACT_THIEF)))) {
+                && (check_bit(ch->act, ACT_WARRIOR) || check_bit(ch->act, ACT_THIEF)))) {
             if (IS_AFFECTED(victim, AFF_TALON)) {
                 act("$n tries to disarm you, but your talon like grip stops them!", ch, nullptr, victim, To::Vict);
                 act("$n tries to disarm $N, but fails.", ch, nullptr, victim, To::NotVict);
@@ -360,28 +360,28 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         }
         break;
     case (3):
-        if (IS_SET(ch->off_flags, OFF_KICK))
+        if (check_bit(ch->off_flags, OFF_KICK))
             do_kick(ch, "");
         break;
 
     case (4):
-        if (IS_SET(ch->off_flags, OFF_KICK_DIRT))
+        if (check_bit(ch->off_flags, OFF_KICK_DIRT))
             do_dirt(ch, "");
         break;
 
     case (5):
-        if (IS_SET(ch->off_flags, OFF_TAIL)) {
+        if (check_bit(ch->off_flags, OFF_TAIL)) {
             /* do_tail(ch,"") */;
         }
         break;
 
     case (6):
-        if (IS_SET(ch->off_flags, OFF_TRIP))
+        if (check_bit(ch->off_flags, OFF_TRIP))
             do_trip(ch, "");
         break;
 
     case (7):
-        if (IS_SET(ch->off_flags, OFF_CRUSH)) {
+        if (check_bit(ch->off_flags, OFF_CRUSH)) {
             /* do_crush(ch,"") */;
         }
         break;
@@ -445,13 +445,13 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         thac0_00 = -4;
         thac0_32 = -70; /* as good as a thief */
 
-        if (IS_SET(ch->act, ACT_WARRIOR))
+        if (check_bit(ch->act, ACT_WARRIOR))
             thac0_32 = -76;
-        else if (IS_SET(ch->act, ACT_THIEF))
+        else if (check_bit(ch->act, ACT_THIEF))
             thac0_32 = -70;
-        else if (IS_SET(ch->act, ACT_CLERIC))
+        else if (check_bit(ch->act, ACT_CLERIC))
             thac0_32 = -66;
-        else if (IS_SET(ch->act, ACT_MAGE))
+        else if (check_bit(ch->act, ACT_MAGE))
             thac0_32 = -63;
     } else {
         thac0_00 = class_table[ch->class_num].thac0_00;
@@ -516,7 +516,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
             /* Sharp weapon flag implemented by Wandera */
             if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON) && !self_hitting)
-                if (IS_SET(wield->value[4], WEAPON_SHARP) && number_percent() > 98) {
+                if (check_bit(wield->value[4], WEAPON_SHARP) && number_percent() > 98) {
                     dam *= 2;
                     act("Sunlight glints off your sharpened blade!", ch, nullptr, victim, To::Char);
                     act("Sunlight glints off $n's sharpened blade!", ch, nullptr, victim, To::NotVict);
@@ -526,7 +526,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
             /* Vorpal weapon flag implemented by Wandera and Death*/
             /* Previously this quadrupled damage if you landed a lucky hit. The bonus is now a bit less overpowered. */
             if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON)) {
-                if (IS_SET(wield->value[4], WEAPON_VORPAL)) {
+                if (check_bit(wield->value[4], WEAPON_VORPAL)) {
                     if (dam == (1 + wield->value[2]) * wield->value[1] / 2) {
                         dam *= 1.3;
                         act("With a blood curdling scream you leap forward swinging\n\ryour weapon in a great arc.", ch,
@@ -580,14 +580,14 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     if (wield == nullptr || wield->item_type != ITEM_WEAPON)
         return;
 
-    if ((IS_SET(wield->value[4], WEAPON_POISONED)) && (!IS_AFFECTED(victim, AFF_POISON))) {
+    if ((check_bit(wield->value[4], WEAPON_POISONED)) && (!IS_AFFECTED(victim, AFF_POISON))) {
         if (number_percent() > 75) {
             int p_sn = skill_lookup("poison");
             spell_poison(p_sn, wield->level, ch, victim);
         }
     }
 
-    if ((IS_SET(wield->value[4], WEAPON_PLAGUED)) && (!IS_AFFECTED(victim, AFF_PLAGUE))) {
+    if ((check_bit(wield->value[4], WEAPON_PLAGUED)) && (!IS_AFFECTED(victim, AFF_PLAGUE))) {
         if (number_percent() > 75) {
             int p_sn = skill_lookup("plague");
             spell_plague(p_sn, wield->level, ch, victim);
@@ -602,14 +602,14 @@ void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vn
     Object *corpse;
     if (looter->is_pc() && victim->is_npc() && looter->in_room->vnum == victim_room_vnum) {
         corpse = get_obj_list(looter, "corpse", looter->in_room->contents);
-        if (IS_SET(looter->act, PLR_AUTOLOOT) && corpse && !corpse->contains.empty()) { /* exists and not empty */
+        if (check_bit(looter->act, PLR_AUTOLOOT) && corpse && !corpse->contains.empty()) { /* exists and not empty */
             do_get(looter, "all corpse");
         }
-        if (IS_SET(looter->act, PLR_AUTOGOLD) && corpse && !corpse->contains.empty() && /* exists and not empty */
-            !IS_SET(looter->act, PLR_AUTOLOOT)) {
+        if (check_bit(looter->act, PLR_AUTOGOLD) && corpse && !corpse->contains.empty() && /* exists and not empty */
+            !check_bit(looter->act, PLR_AUTOLOOT)) {
             do_get(looter, "gold corpse");
         }
-        if (IS_SET(looter->act, PLR_AUTOSAC)) {
+        if (check_bit(looter->act, PLR_AUTOSAC)) {
             if (corpse && !corpse->contains.empty()) {
                 return; /* leave if corpse has treasure */
             } else {
@@ -700,7 +700,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
     if (IS_AFFECTED(ch, AFF_INVISIBLE)) {
         affect_strip(ch, gsn_invis);
         affect_strip(ch, gsn_mass_invis);
-        REMOVE_BIT(ch->affected_by, AFF_INVISIBLE);
+        clear_bit(ch->affected_by, AFF_INVISIBLE);
         act("$n fades into existence.", ch);
     }
 
@@ -758,7 +758,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
 
     wield = get_eq_char(ch, WEAR_WIELD);
 
-    if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON) && (IS_SET(wield->value[4], WEAPON_VAMPIRIC))) {
+    if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON) && (check_bit(wield->value[4], WEAPON_VAMPIRIC))) {
         ch->hit += (adjusted_damage / 100) * 10;
         victim->hit -= (adjusted_damage / 100) * 10;
     }
@@ -844,7 +844,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         raw_kill(victim, injured_part);
 
         for (auto *mob : char_list)
-            if (mob->is_npc() && IS_SET(mob->act, ACT_SENTIENT) && matches(mob->sentient_victim, victim->name))
+            if (mob->is_npc() && check_bit(mob->act, ACT_SENTIENT) && matches(mob->sentient_victim, victim->name))
                 mob->sentient_victim.clear();
         /**
          * If the final blow was a pet or charmed mob, its greedy master gets to autoloot.
@@ -871,7 +871,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
      * Wimp out?
      */
     if (victim->is_npc() && adjusted_damage > 0 && victim->wait < PULSE_VIOLENCE / 2) {
-        if ((IS_SET(victim->act, ACT_WIMPY) && number_bits(2) == 0 && victim->hit < victim->max_hit / 5)
+        if ((check_bit(victim->act, ACT_WIMPY) && number_bits(2) == 0 && victim->hit < victim->max_hit / 5)
             || (IS_AFFECTED(victim, AFF_CHARM) && victim->master != nullptr
                 && victim->master->in_room != victim->in_room))
             do_flee(victim);
@@ -920,14 +920,14 @@ bool is_safe(Char *ch, Char *victim) {
     }
     /* no killing healers, adepts, etc */
     if (victim->is_npc()
-        && (IS_SET(victim->act, ACT_TRAIN) || IS_SET(victim->act, ACT_PRACTICE)
-            || IS_SET(victim->act, ACT_IS_HEALER))) {
+        && (check_bit(victim->act, ACT_TRAIN) || check_bit(victim->act, ACT_PRACTICE)
+            || check_bit(victim->act, ACT_IS_HEALER))) {
         ch->send_line("I don't think {} would approve!", deity_name);
         return true;
     }
 
     /* no fighting in safe rooms */
-    if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {
+    if (check_bit(ch->in_room->room_flags, ROOM_SAFE)) {
         ch->send_line("Not in this room.");
         return true;
     }
@@ -937,7 +937,7 @@ bool is_safe(Char *ch, Char *victim) {
 
     if (ch->is_npc()) {
         /* charmed mobs and pets cannot attack players */
-        if (victim->is_pc() && (IS_AFFECTED(ch, AFF_CHARM) || IS_SET(ch->act, ACT_PET)))
+        if (victim->is_pc() && (IS_AFFECTED(ch, AFF_CHARM) || check_bit(ch->act, ACT_PET)))
             return true;
 
         return false;
@@ -949,7 +949,7 @@ bool is_safe(Char *ch, Char *victim) {
             return false;
 
         /* no pets */
-        if (victim->is_npc() && IS_SET(victim->act, ACT_PET)) {
+        if (victim->is_npc() && check_bit(victim->act, ACT_PET)) {
             act("But $N looks so cute and cuddly...", ch, nullptr, victim, To::Char);
             return true;
         }
@@ -984,11 +984,12 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
 
     /* no killing healers, adepts, etc */
     if (victim->is_npc()
-        && (IS_SET(victim->act, ACT_TRAIN) || IS_SET(victim->act, ACT_PRACTICE) || IS_SET(victim->act, ACT_IS_HEALER)))
+        && (check_bit(victim->act, ACT_TRAIN) || check_bit(victim->act, ACT_PRACTICE)
+            || check_bit(victim->act, ACT_IS_HEALER)))
         return true;
 
     /* no fighting in safe rooms */
-    if (IS_SET(ch->in_room->room_flags, ROOM_SAFE))
+    if (check_bit(ch->in_room->room_flags, ROOM_SAFE))
         return true;
 
     if (victim->fighting == ch)
@@ -996,7 +997,7 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
 
     if (ch->is_npc()) {
         /* charmed mobs and pets cannot attack players */
-        if (victim->is_pc() && (IS_AFFECTED(ch, AFF_CHARM) || IS_SET(ch->act, ACT_PET)))
+        if (victim->is_pc() && (IS_AFFECTED(ch, AFF_CHARM) || check_bit(ch->act, ACT_PET)))
             return true;
 
         /* area affects don't hit other mobiles */
@@ -1012,7 +1013,7 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
             return false;
 
         /* no pets */
-        if (victim->is_npc() && IS_SET(victim->act, ACT_PET))
+        if (victim->is_npc() && check_bit(victim->act, ACT_PET))
             return true;
 
         /* no charmed mobs unless char is the the owner */
@@ -1046,22 +1047,22 @@ void check_killer(Char *ch, Char *victim) {
      * NPC's are fair game.
      * So are killers and thieves.
      */
-    if (victim->is_npc() || IS_SET(victim->act, PLR_KILLER) || IS_SET(victim->act, PLR_THIEF))
+    if (victim->is_npc() || check_bit(victim->act, PLR_KILLER) || check_bit(victim->act, PLR_THIEF))
         return;
 
     /*
      * Charm-o-rama.
      */
-    if (IS_SET(ch->affected_by, AFF_CHARM)) {
+    if (check_bit(ch->affected_by, AFF_CHARM)) {
         if (ch->master == nullptr) {
             bug("Check_killer: {} bad AFF_CHARM", ch->short_name());
             affect_strip(ch, gsn_charm_person);
-            REMOVE_BIT(ch->affected_by, AFF_CHARM);
+            clear_bit(ch->affected_by, AFF_CHARM);
             return;
         }
         /*
           ch->master ->send_to( "*** You are now a KILLER!! ***\n\r");
-                  SET_BIT(ch->master->act, PLR_KILLER);
+                  set_bit(ch->master->act, PLR_KILLER);
         */
         stop_follower(ch);
         return;
@@ -1073,12 +1074,12 @@ void check_killer(Char *ch, Char *victim) {
      * So is being immortal (Alander's idea).
      * And current killers stay as they are.
      */
-    if (ch->is_npc() || ch == victim || ch->level >= LEVEL_IMMORTAL || IS_SET(ch->act, PLR_KILLER)
+    if (ch->is_npc() || ch == victim || ch->level >= LEVEL_IMMORTAL || check_bit(ch->act, PLR_KILLER)
         || fighting_duel(ch, victim))
         return;
 
     ch->send_line("*** You are now a KILLER!! ***");
-    SET_BIT(ch->act, PLR_KILLER);
+    set_bit(ch->act, PLR_KILLER);
     save_char_obj(ch);
 }
 
@@ -1100,9 +1101,9 @@ bool check_parry(Char *ch, Char *victim) {
     chance = std::max(5, chance + victim->level - ch->level);
     if (number_percent() >= chance)
         return false;
-    if (IS_SET(victim->comm, COMM_SHOWDEFENCE))
+    if (check_bit(victim->comm, COMM_SHOWDEFENCE))
         act("You parry $n's attack.", ch, nullptr, victim, To::Vict);
-    if (IS_SET(ch->comm, COMM_SHOWDEFENCE))
+    if (check_bit(ch->comm, COMM_SHOWDEFENCE))
         act("$N parries your attack.", ch, nullptr, victim, To::Char);
     check_improve(victim, gsn_parry, true, 6);
     return true;
@@ -1126,9 +1127,9 @@ bool check_shield_block(Char *ch, Char *victim) {
     if (number_percent() >= chance)
         return false;
 
-    if (IS_SET(victim->comm, COMM_SHOWDEFENCE))
+    if (check_bit(victim->comm, COMM_SHOWDEFENCE))
         act("You block $n's attack.", ch, nullptr, victim, To::Vict);
-    if (IS_SET(ch->comm, COMM_SHOWDEFENCE))
+    if (check_bit(ch->comm, COMM_SHOWDEFENCE))
         act("$N blocks your attack.", ch, nullptr, victim, To::Char);
     check_improve(victim, gsn_shield_block, true, 6);
     return true;
@@ -1148,9 +1149,9 @@ bool check_dodge(Char *ch, Char *victim) {
     if (number_percent() >= chance)
         return false;
 
-    if (IS_SET(victim->comm, COMM_SHOWDEFENCE))
+    if (check_bit(victim->comm, COMM_SHOWDEFENCE))
         act("You dodge $n's attack.", ch, nullptr, victim, To::Vict);
-    if (IS_SET(ch->comm, COMM_SHOWDEFENCE))
+    if (check_bit(ch->comm, COMM_SHOWDEFENCE))
         act("$N dodges your attack.", ch, nullptr, victim, To::Char);
     check_improve(victim, gsn_dodge, true, 6);
     return true;
@@ -1234,8 +1235,8 @@ void make_corpse(Char *ch) {
         name = ch->name;
         corpse = create_object(get_obj_index(objects::PlayerCorpse));
         corpse->timer = number_range(25, 40);
-        REMOVE_BIT(ch->act, PLR_CANLOOT);
-        if (!IS_SET(ch->act, PLR_KILLER) && !IS_SET(ch->act, PLR_THIEF))
+        clear_bit(ch->act, PLR_CANLOOT);
+        if (!check_bit(ch->act, PLR_KILLER) && !check_bit(ch->act, PLR_THIEF))
             corpse->owner = ch->name;
         corpse->cost = 0;
     }
@@ -1251,12 +1252,12 @@ void make_corpse(Char *ch) {
             obj->timer = number_range(500, 1000);
         if (obj->item_type == ITEM_SCROLL)
             obj->timer = number_range(1000, 2500);
-        if (IS_SET(obj->extra_flags, ITEM_ROT_DEATH))
+        if (check_bit(obj->extra_flags, ITEM_ROT_DEATH))
             obj->timer = number_range(5, 10);
-        REMOVE_BIT(obj->extra_flags, ITEM_VIS_DEATH);
-        REMOVE_BIT(obj->extra_flags, ITEM_ROT_DEATH);
+        clear_bit(obj->extra_flags, ITEM_VIS_DEATH);
+        clear_bit(obj->extra_flags, ITEM_ROT_DEATH);
 
-        if (IS_SET(obj->extra_flags, ITEM_INVENTORY))
+        if (check_bit(obj->extra_flags, ITEM_INVENTORY))
             extract_obj(obj);
         else
             obj_to_obj(obj, corpse);
@@ -1312,9 +1313,9 @@ void detach_injured_part(const Char *victim, std::optional<InjuredPart> opt_inju
         obj->description = fmt::sprintf(obj->description, victim->short_name());
 
         if (obj->item_type == ITEM_FOOD) {
-            if (IS_SET(victim->form, FORM_POISON))
+            if (check_bit(victim->form, FORM_POISON))
                 obj->value[3] = 1;
-            else if (!IS_SET(victim->form, FORM_EDIBLE))
+            else if (!check_bit(victim->form, FORM_EDIBLE))
                 obj->item_type = ITEM_TRASH;
         }
 
@@ -1350,9 +1351,9 @@ void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
     victim->move = std::max(1_s, victim->move);
     /* RT added to prevent infinite deaths */
     if (!in_duel(victim)) {
-        REMOVE_BIT(victim->act, PLR_KILLER);
-        REMOVE_BIT(victim->act, PLR_THIEF);
-        REMOVE_BIT(victim->act, PLR_BOUGHT_PET);
+        clear_bit(victim->act, PLR_KILLER);
+        clear_bit(victim->act, PLR_THIEF);
+        clear_bit(victim->act, PLR_BOUGHT_PET);
     }
     /*  save_char_obj( victim ); */
 }
@@ -1484,7 +1485,7 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
 
     align = victim->alignment - gch->alignment;
 
-    if (IS_SET(victim->act, ACT_NOALIGN)) {
+    if (check_bit(victim->act, ACT_NOALIGN)) {
         /* no change */
     }
 
@@ -1512,7 +1513,7 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
        when slaying enemies that are of the opposite alignment, and are slightly
        penalised when slaying enemies of similar alignment.
     */
-    if (IS_SET(victim->act, ACT_NOALIGN))
+    if (check_bit(victim->act, ACT_NOALIGN))
         xp = base_exp;
 
     else if (gch->alignment > 500) /* for goodie two shoes */
@@ -1673,7 +1674,7 @@ void do_berserk(Char *ch) {
     int chance, hp_percent;
     /*    Object *wield = get_eq_char( ch, WEAR_WIELD );*/
 
-    if ((chance = get_skill(ch, gsn_berserk)) == 0 || (ch->is_npc() && !IS_SET(ch->off_flags, OFF_BERSERK))
+    if ((chance = get_skill(ch, gsn_berserk)) == 0 || (ch->is_npc() && !check_bit(ch->off_flags, OFF_BERSERK))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_berserk))) {
         ch->send_line("You turn red in the face, but nothing happens.");
         return;
@@ -1737,7 +1738,7 @@ void do_berserk(Char *ch) {
         affect_to_char(ch, af);
 
         /* if ( (wield !=nullptr) && (wield->item_type == ITEM_WEAPON) &&
-              (IS_SET(wield->value[4], WEAPON_FLAMING)))
+              (check_bit(wield->value[4], WEAPON_FLAMING)))
             {
               ch->send_line("Your great energy causes your weapon to burst into
   flame.");
@@ -1761,7 +1762,7 @@ void do_bash(Char *ch, const char *argument) {
 
     one_argument(argument, arg);
 
-    if ((chance = get_skill(ch, gsn_bash)) == 0 || (ch->is_npc() && !IS_SET(ch->off_flags, OFF_BASH))
+    if ((chance = get_skill(ch, gsn_bash)) == 0 || (ch->is_npc() && !check_bit(ch->off_flags, OFF_BASH))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_bash))) {
         ch->send_line("Bashing? What's that?");
         return;
@@ -1824,9 +1825,9 @@ void do_bash(Char *ch, const char *argument) {
     chance -= get_curr_stat(victim, Stat::Dex) * 4 / 3;
 
     /* speed */
-    if (IS_SET(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
+    if (check_bit(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
         chance += 10;
-    if (IS_SET(victim->off_flags, OFF_FAST) || IS_AFFECTED(victim, AFF_HASTE))
+    if (check_bit(victim->off_flags, OFF_FAST) || IS_AFFECTED(victim, AFF_HASTE))
         chance -= 20;
 
     /* level */
@@ -1871,7 +1872,7 @@ void do_dirt(Char *ch, const char *argument) {
 
     one_argument(argument, arg);
 
-    if ((chance = get_skill(ch, gsn_dirt)) == 0 || (ch->is_npc() && !IS_SET(ch->off_flags, OFF_KICK_DIRT))
+    if ((chance = get_skill(ch, gsn_dirt)) == 0 || (ch->is_npc() && !check_bit(ch->off_flags, OFF_KICK_DIRT))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_dirt))) {
         ch->send_line("You get your feet dirty.");
         return;
@@ -1925,9 +1926,9 @@ void do_dirt(Char *ch, const char *argument) {
     chance -= 2 * get_curr_stat(victim, Stat::Dex);
 
     /* speed  */
-    if (IS_SET(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
+    if (check_bit(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
         chance += 10;
-    if (IS_SET(victim->off_flags, OFF_FAST) || IS_AFFECTED(victim, AFF_HASTE))
+    if (check_bit(victim->off_flags, OFF_FAST) || IS_AFFECTED(victim, AFF_HASTE))
         chance -= 25;
 
     /* level */
@@ -1994,7 +1995,7 @@ void do_trip(Char *ch, const char *argument) {
 
     one_argument(argument, arg);
 
-    if ((chance = get_skill(ch, gsn_trip)) == 0 || (ch->is_npc() && !IS_SET(ch->off_flags, OFF_TRIP))
+    if ((chance = get_skill(ch, gsn_trip)) == 0 || (ch->is_npc() && !check_bit(ch->off_flags, OFF_TRIP))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_trip))) {
         ch->send_line("Tripping?  What's that?");
         return;
@@ -2059,9 +2060,9 @@ void do_trip(Char *ch, const char *argument) {
     chance -= get_curr_stat(victim, Stat::Dex) * 3 / 2;
 
     /* speed */
-    if (IS_SET(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
+    if (check_bit(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
         chance += 10;
-    if (IS_SET(victim->off_flags, OFF_FAST) || IS_AFFECTED(victim, AFF_HASTE))
+    if (check_bit(victim->off_flags, OFF_FAST) || IS_AFFECTED(victim, AFF_HASTE))
         chance -= 20;
 
     /* level */
@@ -2105,7 +2106,7 @@ void do_kill(Char *ch, const char *argument) {
     }
 
     if (victim->is_pc()) {
-        if (!IS_SET(victim->act, PLR_KILLER) && !IS_SET(victim->act, PLR_THIEF)) {
+        if (!check_bit(victim->act, PLR_KILLER) && !check_bit(victim->act, PLR_THIEF)) {
             ch->send_line("You must MURDER a player.");
             return;
         }
@@ -2153,7 +2154,7 @@ void do_murder(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) || (ch->is_npc() && IS_SET(ch->act, ACT_PET)))
+    if (IS_AFFECTED(ch, AFF_CHARM) || (ch->is_npc() && check_bit(ch->act, ACT_PET)))
         return;
 
     if ((victim = get_char_room(ch, arg)) == nullptr) {
@@ -2276,8 +2277,8 @@ void do_flee(Char *ch) {
         Exit *pexit;
         auto door = random_direction();
         if ((pexit = was_in->exit[door]) == nullptr || pexit->u1.to_room == nullptr
-            || IS_SET(pexit->exit_info, EX_CLOSED)
-            || (ch->is_npc() && IS_SET(pexit->u1.to_room->room_flags, ROOM_NO_MOB)))
+            || check_bit(pexit->exit_info, EX_CLOSED)
+            || (ch->is_npc() && check_bit(pexit->u1.to_room->room_flags, ROOM_NO_MOB)))
             continue;
 
         move_char(ch, door);
@@ -2387,7 +2388,7 @@ void do_headbutt(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->is_npc() && !IS_SET(ch->off_flags, OFF_HEADBUTT))
+    if (ch->is_npc() && !check_bit(ch->off_flags, OFF_HEADBUTT))
         return;
 
     one_argument(argument, arg);
@@ -2487,14 +2488,14 @@ void do_sharpen(Char *ch) {
         return;
     }
 
-    if (IS_SET(weapon->value[4], WEAPON_SHARP)) {
+    if (check_bit(weapon->value[4], WEAPON_SHARP)) {
         ch->send_line("It can't get any sharper.");
         return;
     }
 
     chance = get_skill(ch, gsn_sharpen);
     if (number_percent() <= chance) {
-        SET_BIT(weapon->value[4], WEAPON_SHARP);
+        set_bit(weapon->value[4], WEAPON_SHARP);
         ch->send_line("You sharpen the weapon to a fine, deadly point.");
     } else {
         ch->send_line("Your lack of skill removes all bonuses on this weapon.");
@@ -2513,7 +2514,7 @@ void do_kick(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->is_npc() && !IS_SET(ch->off_flags, OFF_KICK))
+    if (ch->is_npc() && !check_bit(ch->off_flags, OFF_KICK))
         return;
 
     one_argument(argument, arg);
@@ -2560,7 +2561,7 @@ void do_disarm(Char *ch) {
     }
 
     if (get_eq_char(ch, WEAR_WIELD) == nullptr
-        && ((hth = get_skill(ch, gsn_hand_to_hand)) == 0 || (ch->is_npc() && !IS_SET(ch->off_flags, OFF_DISARM)))) {
+        && ((hth = get_skill(ch, gsn_hand_to_hand)) == 0 || (ch->is_npc() && !check_bit(ch->off_flags, OFF_DISARM)))) {
         ch->send_line("You must wield a weapon to disarm.");
         return;
     }

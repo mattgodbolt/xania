@@ -471,7 +471,7 @@ void load_resets(FILE *fp) {
             auto opt_door = try_cast_direction(pReset->arg2);
 
             if (!opt_door || !room || (pexit = room->exit[*opt_door]) == nullptr
-                || !IS_SET(pexit->rs_flags, EX_ISDOOR)) {
+                || !check_bit(pexit->rs_flags, EX_ISDOOR)) {
                 bug("Load_resets: 'D': exit {} not door.", pReset->arg2);
                 exit(1);
             }
@@ -479,8 +479,8 @@ void load_resets(FILE *fp) {
             switch (pReset->arg3) {
             default: bug("Load_resets: 'D': bad 'locks': {}.", pReset->arg3);
             case 0: break;
-            case 1: SET_BIT(pexit->rs_flags, EX_CLOSED); break;
-            case 2: SET_BIT(pexit->rs_flags, EX_CLOSED | EX_LOCKED); break;
+            case 1: set_bit(pexit->rs_flags, EX_CLOSED); break;
+            case 2: set_bit(pexit->rs_flags, EX_CLOSED | EX_LOCKED); break;
             }
             break;
         }
@@ -540,7 +540,7 @@ void load_rooms(FILE *fp) {
         room->room_flags = fread_flag(fp);
         /* horrible hack */
         if (3000 <= vnum && vnum < 3400)
-            SET_BIT(room->room_flags, ROOM_LAW);
+            set_bit(room->room_flags, ROOM_LAW);
         int sector_value = fread_number(fp);
         if (auto sector_type = try_get_sector_type(sector_value)) {
             room->sector_type = *sector_type;
@@ -928,7 +928,7 @@ void fix_exits() {
                 }
             }
             if (!fexit)
-                SET_BIT(room->room_flags, ROOM_NO_MOB);
+                set_bit(room->room_flags, ROOM_NO_MOB);
         }
     }
 
@@ -1034,8 +1034,8 @@ void reset_room(Room *room) {
             // Pet shop mobiles get ACT_PET set.
             Room *previousRoom;
             previousRoom = get_room(room->vnum - 1);
-            if (previousRoom && IS_SET(previousRoom->room_flags, ROOM_PET_SHOP))
-                SET_BIT(mob->act, ACT_PET);
+            if (previousRoom && check_bit(previousRoom->room_flags, ROOM_PET_SHOP))
+                set_bit(mob->act, ACT_PET);
 
             char_to_room(mob, room);
             lastMob = mob;
@@ -1133,7 +1133,7 @@ void reset_room(Room *room) {
 
             if (lastMob->pIndexData->shop) { /* Shop-keeper? */
                 object = create_object(objIndex);
-                SET_BIT(object->extra_flags, ITEM_INVENTORY);
+                set_bit(object->extra_flags, ITEM_INVENTORY);
             } else {
                 const auto drop_rate = reset->arg2;
                 if (drop_rate <= 0 || drop_rate > 100) {
@@ -1241,31 +1241,31 @@ Char *create_mobile(MobIndexData *pMobIndex) {
 
     ranges::fill(mob->perm_stat, std::min(25, 11 + mob->level / 4));
 
-    if (IS_SET(mob->act, ACT_WARRIOR)) {
+    if (check_bit(mob->act, ACT_WARRIOR)) {
         mob->perm_stat[Stat::Str] += 3;
         mob->perm_stat[Stat::Int] -= 1;
         mob->perm_stat[Stat::Con] += 2;
     }
 
-    if (IS_SET(mob->act, ACT_THIEF)) {
+    if (check_bit(mob->act, ACT_THIEF)) {
         mob->perm_stat[Stat::Dex] += 3;
         mob->perm_stat[Stat::Int] += 1;
         mob->perm_stat[Stat::Wis] -= 1;
     }
 
-    if (IS_SET(mob->act, ACT_CLERIC)) {
+    if (check_bit(mob->act, ACT_CLERIC)) {
         mob->perm_stat[Stat::Wis] += 3;
         mob->perm_stat[Stat::Dex] -= 1;
         mob->perm_stat[Stat::Str] += 1;
     }
 
-    if (IS_SET(mob->act, ACT_MAGE)) {
+    if (check_bit(mob->act, ACT_MAGE)) {
         mob->perm_stat[Stat::Int] += 3;
         mob->perm_stat[Stat::Str] -= 1;
         mob->perm_stat[Stat::Dex] += 1;
     }
 
-    if (IS_SET(mob->off_flags, OFF_FAST))
+    if (check_bit(mob->off_flags, OFF_FAST))
         mob->perm_stat[Stat::Dex] += 2;
 
     mob->perm_stat[Stat::Str] += mob->size - SIZE_MEDIUM;

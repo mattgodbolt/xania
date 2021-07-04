@@ -25,7 +25,7 @@
 namespace {
 Char *find_healer(Room *room) {
     for (auto *mob : room->people) {
-        if (mob->is_npc() && IS_SET(mob->act, ACT_IS_HEALER))
+        if (mob->is_npc() && check_bit(mob->act, ACT_IS_HEALER))
             return mob;
     }
     return nullptr;

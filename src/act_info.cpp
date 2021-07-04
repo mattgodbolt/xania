@@ -175,7 +175,7 @@ void show_list_to_char(const GenericList<Object *> &list, const Char *ch, bool f
     };
     std::vector<DescAndCount> to_show;
 
-    const bool show_counts = ch->is_npc() || IS_SET(ch->comm, COMM_COMBINE);
+    const bool show_counts = ch->is_npc() || check_bit(ch->comm, COMM_COMBINE);
 
     // Format the list of objects.
     for (auto *obj : list) {
@@ -221,9 +221,9 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
 
     if (IS_AFFECTED(victim, AFF_INVISIBLE))
         buf += "(|WInvis|w) ";
-    if (victim->is_pc() && IS_SET(victim->act, PLR_WIZINVIS))
+    if (victim->is_pc() && check_bit(victim->act, PLR_WIZINVIS))
         buf += "(|RWizi|w) ";
-    if (victim->is_pc() && IS_SET(victim->act, PLR_PROWL))
+    if (victim->is_pc() && check_bit(victim->act, PLR_PROWL))
         buf += "(|RProwl|w) ";
     if (IS_AFFECTED(victim, AFF_HIDE))
         buf += "(|WHide|w) ";
@@ -239,13 +239,13 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
         buf += "(|rRed Aura|w) ";
     if (IS_AFFECTED(victim, AFF_SANCTUARY))
         buf += "(|WWhite Aura|w) ";
-    if (victim->is_pc() && IS_SET(victim->act, PLR_KILLER))
+    if (victim->is_pc() && check_bit(victim->act, PLR_KILLER))
         buf += "(|RKILLER|w) ";
-    if (victim->is_pc() && IS_SET(victim->act, PLR_THIEF))
+    if (victim->is_pc() && check_bit(victim->act, PLR_THIEF))
         buf += "(|RTHIEF|w) ";
 
     if (is_affected(ch, gsn_bless)) {
-        if (IS_SET(victim->act, ACT_UNDEAD)) {
+        if (check_bit(victim->act, ACT_UNDEAD)) {
             buf += "(|bUndead|w) ";
         }
     }
@@ -257,7 +257,7 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
     }
 
     buf += pers(victim, ch);
-    if (victim->is_pc() && !IS_SET(ch->comm, COMM_BRIEF))
+    if (victim->is_pc() && !check_bit(ch->comm, COMM_BRIEF))
         buf += victim->pcdata->title;
 
     buf += " is ";
@@ -318,7 +318,7 @@ void show_char_to_char_1(Char *victim, Char *ch) {
         }
     }
 
-    if (victim != ch && ch->is_pc() && number_percent() < ch->get_skill(gsn_peek) && IS_SET(ch->act, PLR_AUTOPEEK)) {
+    if (victim != ch && ch->is_pc() && number_percent() < ch->get_skill(gsn_peek) && check_bit(ch->act, PLR_AUTOPEEK)) {
         ch->send_line("\n\rYou peek at the inventory:");
         check_improve(ch, gsn_peek, true, 4);
         show_list_to_char(victim->carrying, ch, true, true);
@@ -345,7 +345,7 @@ void do_peek(Char *ch, const char *argument) {
     if (!check_blind(ch))
         return;
 
-    if (ch->is_pc() && !IS_SET(ch->act, PLR_HOLYLIGHT) && room_is_dark(ch->in_room)) {
+    if (ch->is_pc() && !check_bit(ch->act, PLR_HOLYLIGHT) && room_is_dark(ch->in_room)) {
         ch->send_line("It is pitch black ... ");
         show_char_to_char(ch->in_room->people, ch);
         return;
@@ -368,7 +368,7 @@ void show_char_to_char(const GenericList<Char *> &list, const Char *ch) {
         if (rch == ch)
             continue;
 
-        if (rch->is_pc() && IS_SET(rch->act, PLR_WIZINVIS) && ch->get_trust() < rch->invis_level)
+        if (rch->is_pc() && check_bit(rch->act, PLR_WIZINVIS) && ch->get_trust() < rch->invis_level)
             continue;
 
         if (can_see(ch, rch)) {
@@ -475,48 +475,48 @@ void do_autolist(Char *ch) {
     ch->send_line("---------------------");
 
     ch->send_line("ANSI colour    {}", OnOff{ch->pcdata->colour});
-    ch->send_line("autoaffect     {}", OnOff{IS_SET(ch->comm, COMM_AFFECT)});
-    ch->send_line("autoassist     {}", OnOff{IS_SET(ch->act, PLR_AUTOASSIST)});
-    ch->send_line("autoexit       {}", OnOff{IS_SET(ch->act, PLR_AUTOEXIT)});
-    ch->send_line("autogold       {}", OnOff{IS_SET(ch->act, PLR_AUTOGOLD)});
-    ch->send_line("autoloot       {}", OnOff{IS_SET(ch->act, PLR_AUTOLOOT)});
-    ch->send_line("autopeek       {}", OnOff{IS_SET(ch->act, PLR_AUTOPEEK)});
-    ch->send_line("autosac        {}", OnOff{IS_SET(ch->act, PLR_AUTOSAC)});
-    ch->send_line("autosplit      {}", OnOff{IS_SET(ch->act, PLR_AUTOSPLIT)});
-    ch->send_line("prompt         {}", OnOff{IS_SET(ch->comm, COMM_PROMPT)});
-    ch->send_line("combine items  {}", OnOff{IS_SET(ch->comm, COMM_COMBINE)});
+    ch->send_line("autoaffect     {}", OnOff{check_bit(ch->comm, COMM_AFFECT)});
+    ch->send_line("autoassist     {}", OnOff{check_bit(ch->act, PLR_AUTOASSIST)});
+    ch->send_line("autoexit       {}", OnOff{check_bit(ch->act, PLR_AUTOEXIT)});
+    ch->send_line("autogold       {}", OnOff{check_bit(ch->act, PLR_AUTOGOLD)});
+    ch->send_line("autoloot       {}", OnOff{check_bit(ch->act, PLR_AUTOLOOT)});
+    ch->send_line("autopeek       {}", OnOff{check_bit(ch->act, PLR_AUTOPEEK)});
+    ch->send_line("autosac        {}", OnOff{check_bit(ch->act, PLR_AUTOSAC)});
+    ch->send_line("autosplit      {}", OnOff{check_bit(ch->act, PLR_AUTOSPLIT)});
+    ch->send_line("prompt         {}", OnOff{check_bit(ch->comm, COMM_PROMPT)});
+    ch->send_line("combine items  {}", OnOff{check_bit(ch->comm, COMM_COMBINE)});
 
-    if (!IS_SET(ch->act, PLR_CANLOOT))
+    if (!check_bit(ch->act, PLR_CANLOOT))
         ch->send_line("Your corpse is safe from thieves.");
     else
         ch->send_line("Your corpse may be looted.");
 
-    if (IS_SET(ch->act, PLR_NOSUMMON))
+    if (check_bit(ch->act, PLR_NOSUMMON))
         ch->send_line("You cannot be summoned.");
     else
         ch->send_line("You can be summoned.");
 
-    if (IS_SET(ch->act, PLR_NOFOLLOW))
+    if (check_bit(ch->act, PLR_NOFOLLOW))
         ch->send_line("You do not welcome followers.");
     else
         ch->send_line("You accept followers.");
 
-    if (IS_SET(ch->comm, COMM_BRIEF))
+    if (check_bit(ch->comm, COMM_BRIEF))
         ch->send_line("Only brief descriptions are being shown.");
     else
         ch->send_line("Full descriptions are being shown.");
 
-    if (IS_SET(ch->comm, COMM_COMPACT))
+    if (check_bit(ch->comm, COMM_COMPACT))
         ch->send_line("Compact mode is set.");
     else
         ch->send_line("Compact mode is not set.");
 
-    if (IS_SET(ch->comm, COMM_SHOWAFK))
+    if (check_bit(ch->comm, COMM_SHOWAFK))
         ch->send_line("Messages sent to you will be shown when afk.");
     else
         ch->send_line("Messages sent to you will not be shown when afk.");
 
-    if (IS_SET(ch->comm, COMM_SHOWDEFENCE))
+    if (check_bit(ch->comm, COMM_SHOWDEFENCE))
         ch->send_line("Shield blocks, parries, and dodges are being shown.");
     else
         ch->send_line("Shield blocks, parries, and dodges are not being shown.");
@@ -526,24 +526,24 @@ void do_autoaffect(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->comm, COMM_AFFECT)) {
+    if (check_bit(ch->comm, COMM_AFFECT)) {
         ch->send_line("Autoaffect removed.");
-        REMOVE_BIT(ch->comm, COMM_AFFECT);
+        clear_bit(ch->comm, COMM_AFFECT);
     } else {
         ch->send_line("Affects will now be shown in score.");
-        SET_BIT(ch->comm, COMM_AFFECT);
+        set_bit(ch->comm, COMM_AFFECT);
     }
 }
 void do_autoassist(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->act, PLR_AUTOASSIST)) {
+    if (check_bit(ch->act, PLR_AUTOASSIST)) {
         ch->send_line("Autoassist removed.");
-        REMOVE_BIT(ch->act, PLR_AUTOASSIST);
+        clear_bit(ch->act, PLR_AUTOASSIST);
     } else {
         ch->send_line("You will now assist when needed.");
-        SET_BIT(ch->act, PLR_AUTOASSIST);
+        set_bit(ch->act, PLR_AUTOASSIST);
     }
 }
 
@@ -551,12 +551,12 @@ void do_autoexit(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->act, PLR_AUTOEXIT)) {
+    if (check_bit(ch->act, PLR_AUTOEXIT)) {
         ch->send_line("Exits will no longer be displayed.");
-        REMOVE_BIT(ch->act, PLR_AUTOEXIT);
+        clear_bit(ch->act, PLR_AUTOEXIT);
     } else {
         ch->send_line("Exits will now be displayed.");
-        SET_BIT(ch->act, PLR_AUTOEXIT);
+        set_bit(ch->act, PLR_AUTOEXIT);
     }
 }
 
@@ -564,12 +564,12 @@ void do_autogold(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->act, PLR_AUTOGOLD)) {
+    if (check_bit(ch->act, PLR_AUTOGOLD)) {
         ch->send_line("Autogold removed.");
-        REMOVE_BIT(ch->act, PLR_AUTOGOLD);
+        clear_bit(ch->act, PLR_AUTOGOLD);
     } else {
         ch->send_line("Automatic gold looting set.");
-        SET_BIT(ch->act, PLR_AUTOGOLD);
+        set_bit(ch->act, PLR_AUTOGOLD);
     }
 }
 
@@ -577,12 +577,12 @@ void do_autoloot(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->act, PLR_AUTOLOOT)) {
+    if (check_bit(ch->act, PLR_AUTOLOOT)) {
         ch->send_line("Autolooting removed.");
-        REMOVE_BIT(ch->act, PLR_AUTOLOOT);
+        clear_bit(ch->act, PLR_AUTOLOOT);
     } else {
         ch->send_line("Automatic corpse looting set.");
-        SET_BIT(ch->act, PLR_AUTOLOOT);
+        set_bit(ch->act, PLR_AUTOLOOT);
     }
 }
 
@@ -590,12 +590,12 @@ void do_autopeek(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->act, PLR_AUTOPEEK)) {
+    if (check_bit(ch->act, PLR_AUTOPEEK)) {
         ch->send_line("Autopeeking removed.");
-        REMOVE_BIT(ch->act, PLR_AUTOPEEK);
+        clear_bit(ch->act, PLR_AUTOPEEK);
     } else {
         ch->send_line("Automatic peeking set.");
-        SET_BIT(ch->act, PLR_AUTOPEEK);
+        set_bit(ch->act, PLR_AUTOPEEK);
     }
 }
 
@@ -603,12 +603,12 @@ void do_autosac(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->act, PLR_AUTOSAC)) {
+    if (check_bit(ch->act, PLR_AUTOSAC)) {
         ch->send_line("Autosacrificing removed.");
-        REMOVE_BIT(ch->act, PLR_AUTOSAC);
+        clear_bit(ch->act, PLR_AUTOSAC);
     } else {
         ch->send_line("Automatic corpse sacrificing set.");
-        SET_BIT(ch->act, PLR_AUTOSAC);
+        set_bit(ch->act, PLR_AUTOSAC);
     }
 }
 
@@ -616,22 +616,22 @@ void do_autosplit(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->act, PLR_AUTOSPLIT)) {
+    if (check_bit(ch->act, PLR_AUTOSPLIT)) {
         ch->send_line("Autosplitting removed.");
-        REMOVE_BIT(ch->act, PLR_AUTOSPLIT);
+        clear_bit(ch->act, PLR_AUTOSPLIT);
     } else {
         ch->send_line("Automatic gold splitting set.");
-        SET_BIT(ch->act, PLR_AUTOSPLIT);
+        set_bit(ch->act, PLR_AUTOSPLIT);
     }
 }
 
 void do_brief(Char *ch) {
-    if (IS_SET(ch->comm, COMM_BRIEF)) {
+    if (check_bit(ch->comm, COMM_BRIEF)) {
         ch->send_line("Full descriptions activated.");
-        REMOVE_BIT(ch->comm, COMM_BRIEF);
+        clear_bit(ch->comm, COMM_BRIEF);
     } else {
         ch->send_line("Short descriptions activated.");
-        SET_BIT(ch->comm, COMM_BRIEF);
+        set_bit(ch->comm, COMM_BRIEF);
     }
 }
 
@@ -650,32 +650,32 @@ void do_colour(Char *ch) {
 }
 
 void do_showafk(Char *ch) {
-    if (IS_SET(ch->comm, COMM_SHOWAFK)) {
+    if (check_bit(ch->comm, COMM_SHOWAFK)) {
         ch->send_line("Messages sent to you will now not be shown when afk.");
-        REMOVE_BIT(ch->comm, COMM_SHOWAFK);
+        clear_bit(ch->comm, COMM_SHOWAFK);
     } else {
         ch->send_line("Messages sent to you will now be shown when afk.");
-        SET_BIT(ch->comm, COMM_SHOWAFK);
+        set_bit(ch->comm, COMM_SHOWAFK);
     }
 }
 
 void do_showdefence(Char *ch) {
-    if (IS_SET(ch->comm, COMM_SHOWDEFENCE)) {
+    if (check_bit(ch->comm, COMM_SHOWDEFENCE)) {
         ch->send_line("Shield blocks, parries and dodges will not be shown during combat.");
-        REMOVE_BIT(ch->comm, COMM_SHOWDEFENCE);
+        clear_bit(ch->comm, COMM_SHOWDEFENCE);
     } else {
         ch->send_line("Shield blocks, parries and dodges will be shown during combat.");
-        SET_BIT(ch->comm, COMM_SHOWDEFENCE);
+        set_bit(ch->comm, COMM_SHOWDEFENCE);
     }
 }
 
 void do_compact(Char *ch) {
-    if (IS_SET(ch->comm, COMM_COMPACT)) {
+    if (check_bit(ch->comm, COMM_COMPACT)) {
         ch->send_line("Compact mode removed.");
-        REMOVE_BIT(ch->comm, COMM_COMPACT);
+        clear_bit(ch->comm, COMM_COMPACT);
     } else {
         ch->send_line("Compact mode set.");
-        SET_BIT(ch->comm, COMM_COMPACT);
+        set_bit(ch->comm, COMM_COMPACT);
     }
 }
 
@@ -687,28 +687,28 @@ void do_prompt(Char *ch, const char *argument) {
 
     if (str_cmp(argument, "off") == 0) {
         ch->send_line("You will no longer see prompts.");
-        REMOVE_BIT(ch->comm, COMM_PROMPT);
+        clear_bit(ch->comm, COMM_PROMPT);
         return;
     }
     if (str_cmp(argument, "on") == 0) {
         ch->send_line("You will now see prompts.");
-        SET_BIT(ch->comm, COMM_PROMPT);
+        set_bit(ch->comm, COMM_PROMPT);
         return;
     }
 
     /* okay that was the old stuff */
     set_prompt(ch, smash_tilde(argument).c_str());
     ch->send_line("Ok - prompt set.");
-    SET_BIT(ch->comm, COMM_PROMPT);
+    set_bit(ch->comm, COMM_PROMPT);
 }
 
 void do_combine(Char *ch) {
-    if (IS_SET(ch->comm, COMM_COMBINE)) {
+    if (check_bit(ch->comm, COMM_COMBINE)) {
         ch->send_line("Long inventory selected.");
-        REMOVE_BIT(ch->comm, COMM_COMBINE);
+        clear_bit(ch->comm, COMM_COMBINE);
     } else {
         ch->send_line("Combined inventory selected.");
-        SET_BIT(ch->comm, COMM_COMBINE);
+        set_bit(ch->comm, COMM_COMBINE);
     }
 }
 
@@ -716,12 +716,12 @@ void do_noloot(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->act, PLR_CANLOOT)) {
+    if (check_bit(ch->act, PLR_CANLOOT)) {
         ch->send_line("Your corpse is now safe from thieves.");
-        REMOVE_BIT(ch->act, PLR_CANLOOT);
+        clear_bit(ch->act, PLR_CANLOOT);
     } else {
         ch->send_line("Your corpse may now be looted.");
-        SET_BIT(ch->act, PLR_CANLOOT);
+        set_bit(ch->act, PLR_CANLOOT);
     }
 }
 
@@ -729,32 +729,32 @@ void do_nofollow(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (IS_SET(ch->act, PLR_NOFOLLOW)) {
+    if (check_bit(ch->act, PLR_NOFOLLOW)) {
         ch->send_line("You now accept followers.");
-        REMOVE_BIT(ch->act, PLR_NOFOLLOW);
+        clear_bit(ch->act, PLR_NOFOLLOW);
     } else {
         ch->send_line("You no longer accept followers.");
-        SET_BIT(ch->act, PLR_NOFOLLOW);
+        set_bit(ch->act, PLR_NOFOLLOW);
         die_follower(ch);
     }
 }
 
 void do_nosummon(Char *ch) {
     if (ch->is_npc()) {
-        if (IS_SET(ch->imm_flags, IMM_SUMMON)) {
+        if (check_bit(ch->imm_flags, IMM_SUMMON)) {
             ch->send_line("You are no longer immune to summon.");
-            REMOVE_BIT(ch->imm_flags, IMM_SUMMON);
+            clear_bit(ch->imm_flags, IMM_SUMMON);
         } else {
             ch->send_line("You are now immune to summoning.");
-            SET_BIT(ch->imm_flags, IMM_SUMMON);
+            set_bit(ch->imm_flags, IMM_SUMMON);
         }
     } else {
-        if (IS_SET(ch->act, PLR_NOSUMMON)) {
+        if (check_bit(ch->act, PLR_NOSUMMON)) {
             ch->send_line("You are no longer immune to summon.");
-            REMOVE_BIT(ch->act, PLR_NOSUMMON);
+            clear_bit(ch->act, PLR_NOSUMMON);
         } else {
             ch->send_line("You are now immune to summoning.");
-            SET_BIT(ch->act, PLR_NOSUMMON);
+            set_bit(ch->act, PLR_NOSUMMON);
         }
     }
 }
@@ -809,7 +809,7 @@ void look_in_object(const Char &ch, const Object &obj) {
     case ITEM_CONTAINER:
     case ITEM_CORPSE_NPC:
     case ITEM_CORPSE_PC:
-        if (IS_SET(obj.value[1], CONT_CLOSED)) {
+        if (check_bit(obj.value[1], CONT_CLOSED)) {
             ch.send_line("It is closed.");
             break;
         }
@@ -887,9 +887,9 @@ void look_direction(const Char &ch, Direction door) {
         ch.send_line("Nothing special there.");
 
     if (pexit->keyword && pexit->keyword[0] != '\0' && pexit->keyword[0] != ' ') {
-        if (IS_SET(pexit->exit_info, EX_CLOSED)) {
+        if (check_bit(pexit->exit_info, EX_CLOSED)) {
             act("The $d is closed.", &ch, nullptr, pexit->keyword, To::Char);
-        } else if (IS_SET(pexit->exit_info, EX_ISDOOR)) {
+        } else if (check_bit(pexit->exit_info, EX_ISDOOR)) {
             act("The $d is open.", &ch, nullptr, pexit->keyword, To::Char);
         }
     }
@@ -1016,8 +1016,8 @@ void do_exits(const Char *ch, const char *argument) {
 
     auto found = false;
     for (auto door : all_directions) {
-        if (auto *pexit = ch->in_room->exit[door];
-            pexit && pexit->u1.to_room && can_see_room(ch, pexit->u1.to_room) && !IS_SET(pexit->exit_info, EX_CLOSED)) {
+        if (auto *pexit = ch->in_room->exit[door]; pexit && pexit->u1.to_room && can_see_room(ch, pexit->u1.to_room)
+                                                   && !check_bit(pexit->exit_info, EX_CLOSED)) {
             found = true;
             if (fAuto) {
                 buf += fmt::format(" {}", to_string(door));
@@ -1139,10 +1139,10 @@ void do_score(Char *ch) {
 
     if (ch->is_immortal()) {
         ch->send_line("");
-        col3.stat("Holy light", IS_SET(ch->act, PLR_HOLYLIGHT) ? "on" : "off");
-        if (IS_SET(ch->act, PLR_WIZINVIS))
+        col3.stat("Holy light", check_bit(ch->act, PLR_HOLYLIGHT) ? "on" : "off");
+        if (check_bit(ch->act, PLR_WIZINVIS))
             col3.stat("Invisible", ch->invis_level);
-        if (IS_SET(ch->act, PLR_PROWL))
+        if (check_bit(ch->act, PLR_PROWL))
             col3.stat("Prowl", ch->invis_level);
         col3.flush();
     }
@@ -1151,7 +1151,7 @@ void do_score(Char *ch) {
         ch->send_line(*opt_nutrition_msg);
     }
 
-    if (IS_SET(ch->comm, COMM_AFFECT)) {
+    if (check_bit(ch->comm, COMM_AFFECT)) {
         ch->send_line("");
         do_affected(ch);
     }
@@ -1234,8 +1234,8 @@ std::string_view who_clan_name_of(const Char &wch) { return wch.clan() ? wch.cla
 std::string who_line_for(const Char &to, const Char &wch) {
     return fmt::format(
         "[{:3} {} {}] {}{}{}{}{}{}|w{}{}\n\r", wch.level, who_race_name_of(wch), who_class_name_of(wch),
-        who_clan_name_of(wch), IS_SET(wch.act, PLR_KILLER) ? "(|RKILLER|w) " : "",
-        IS_SET(wch.act, PLR_THIEF) ? "(|RTHIEF|w) " : "", IS_SET(wch.act, PLR_AFK) ? "(|cAFK|w) " : "", wch.name,
+        who_clan_name_of(wch), check_bit(wch.act, PLR_KILLER) ? "(|RKILLER|w) " : "",
+        check_bit(wch.act, PLR_THIEF) ? "(|RTHIEF|w) " : "", check_bit(wch.act, PLR_AFK) ? "(|cAFK|w) " : "", wch.name,
         wch.is_pc() ? wch.pcdata->title : "",
         wch.is_wizinvis() && to.is_immortal() ? fmt::format(" |g(Wizi at level {})|w", wch.invis_level) : "",
         wch.is_prowlinvis() && to.is_immortal() ? fmt::format(" |g(Prowl level {})|w", wch.invis_level) : "");
@@ -1635,7 +1635,7 @@ void do_report(Char *ch) {
 namespace {
 Char *find_prac_mob(Room *room) {
     for (auto *mob : room->people) {
-        if (mob->is_npc() && IS_SET(mob->act, ACT_PRACTICE))
+        if (mob->is_npc() && check_bit(mob->act, ACT_PRACTICE))
             return mob;
     }
     return nullptr;
@@ -1835,7 +1835,7 @@ void do_scan(Char *ch) {
         for (count_num_rooms = 0; count_num_rooms < num_rooms_scan; count_num_rooms++) {
 
             if ((pexit = current_place->exit[direction]) == nullptr || (current_place = pexit->u1.to_room) == nullptr
-                || !can_see_room(ch, pexit->u1.to_room) || IS_SET(pexit->exit_info, EX_CLOSED))
+                || !can_see_room(ch, pexit->u1.to_room) || check_bit(pexit->exit_info, EX_CLOSED))
                 break;
             // Eliminate cycles in labyrinthine areas.
             if (std::find(found_rooms.begin(), found_rooms.end(), pexit->u1.to_room->vnum) != found_rooms.end()) {

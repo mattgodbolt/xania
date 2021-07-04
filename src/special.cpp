@@ -819,7 +819,7 @@ bool spec_janitor(Char *ch) {
         return false;
 
     for (auto *trash : ch->in_room->contents) {
-        if (!IS_SET(trash->wear_flags, ITEM_TAKE) || !can_loot(ch, trash))
+        if (!check_bit(trash->wear_flags, ITEM_TAKE) || !can_loot(ch, trash))
             continue;
         if (trash->item_type == ITEM_DRINK_CON || trash->item_type == ITEM_TRASH || trash->cost < 10) {
             act("$n picks up some trash.", ch);

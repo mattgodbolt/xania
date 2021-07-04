@@ -61,7 +61,7 @@ bool CorpseSummoner::check_summoner_preconditions(Char *player, Char *summoner) 
 }
 
 std::optional<std::string_view> CorpseSummoner::is_catalyst_invalid(Char *player, Object *catalyst) {
-    if (!IS_SET(catalyst->extra_flags, ITEM_SUMMON_CORPSE)) {
+    if (!check_bit(catalyst->extra_flags, ITEM_SUMMON_CORPSE)) {
         return object_wrong_type;
     } else if (catalyst->level + ShardLevelRange < player->level) {
         return object_too_weak;

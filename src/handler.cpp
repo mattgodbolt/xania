@@ -139,19 +139,19 @@ int check_immune(Char *ch, int dam_type) {
         return immune;
 
     if (dam_type <= 3) {
-        if (IS_SET(ch->imm_flags, IMM_WEAPON))
+        if (check_bit(ch->imm_flags, IMM_WEAPON))
             immune = IS_IMMUNE;
-        else if (IS_SET(ch->res_flags, RES_WEAPON))
+        else if (check_bit(ch->res_flags, RES_WEAPON))
             immune = IS_RESISTANT;
-        else if (IS_SET(ch->vuln_flags, VULN_WEAPON))
+        else if (check_bit(ch->vuln_flags, VULN_WEAPON))
             immune = IS_VULNERABLE;
     } else /* magical attack */
     {
-        if (IS_SET(ch->imm_flags, IMM_MAGIC))
+        if (check_bit(ch->imm_flags, IMM_MAGIC))
             immune = IS_IMMUNE;
-        else if (IS_SET(ch->res_flags, RES_MAGIC))
+        else if (check_bit(ch->res_flags, RES_MAGIC))
             immune = IS_RESISTANT;
-        else if (IS_SET(ch->vuln_flags, VULN_MAGIC))
+        else if (check_bit(ch->vuln_flags, VULN_MAGIC))
             immune = IS_VULNERABLE;
     }
 
@@ -175,11 +175,11 @@ int check_immune(Char *ch, int dam_type) {
     default: return immune;
     }
 
-    if (IS_SET(ch->imm_flags, bit))
+    if (check_bit(ch->imm_flags, bit))
         immune = IS_IMMUNE;
-    else if (IS_SET(ch->res_flags, bit))
+    else if (check_bit(ch->res_flags, bit))
         immune = IS_RESISTANT;
-    else if (IS_SET(ch->vuln_flags, bit))
+    else if (check_bit(ch->vuln_flags, bit))
         immune = IS_VULNERABLE;
 
     return immune;
@@ -269,7 +269,7 @@ int can_carry_n(Char *ch) {
     if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)
         return 1000;
 
-    if (ch->is_npc() && IS_SET(ch->act, ACT_PET))
+    if (ch->is_npc() && check_bit(ch->act, ACT_PET))
         return 4;
 
     return MAX_WEAR + 2 * get_curr_stat(ch, Stat::Dex) + ch->level;
@@ -282,7 +282,7 @@ int can_carry_w(Char *ch) {
     if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)
         return 1000000;
 
-    if (ch->is_npc() && IS_SET(ch->act, ACT_PET))
+    if (ch->is_npc() && check_bit(ch->act, ACT_PET))
         return 1000;
 
     return str_app[get_curr_stat(ch, Stat::Str)].carry + ch->level * 5 / 2;
@@ -434,7 +434,7 @@ void char_to_room(Char *ch, Room *room) {
     if (IS_AFFECTED(ch, AFF_PLAGUE)) {
         auto *existing_plague = ch->affected.find_by_skill(gsn_plague);
         if (!existing_plague) {
-            REMOVE_BIT(ch->affected_by, AFF_PLAGUE);
+            clear_bit(ch->affected_by, AFF_PLAGUE);
             return;
         }
 
@@ -979,7 +979,7 @@ bool room_is_dark(Room *room) {
     if (room->light > 0)
         return false;
 
-    if (IS_SET(room->room_flags, ROOM_DARK))
+    if (check_bit(room->room_flags, ROOM_DARK))
         return true;
 
     if (room->sector_type == SectorType::Inside || room->sector_type == SectorType::City)
@@ -997,13 +997,13 @@ bool room_is_dark(Room *room) {
 bool room_is_private(Room *room) {
     auto count = ranges::distance(room->people);
 
-    if (IS_SET(room->room_flags, ROOM_PRIVATE) && count >= 2)
+    if (check_bit(room->room_flags, ROOM_PRIVATE) && count >= 2)
         return true;
 
-    if (IS_SET(room->room_flags, ROOM_SOLITARY) && count >= 1)
+    if (check_bit(room->room_flags, ROOM_SOLITARY) && count >= 1)
         return true;
 
-    if (IS_SET(room->room_flags, ROOM_IMP_ONLY))
+    if (check_bit(room->room_flags, ROOM_IMP_ONLY))
         return true;
 
     return false;
@@ -1044,7 +1044,7 @@ bool can_see_obj(const Char *ch, const Object *obj) {
  * True if char can drop obj.
  */
 bool can_drop_obj(Char *ch, Object *obj) {
-    if (!IS_SET(obj->extra_flags, ITEM_NODROP))
+    if (!check_bit(obj->extra_flags, ITEM_NODROP))
         return true;
 
     if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)
@@ -1250,7 +1250,7 @@ const char *act_bit_name(int act_flags) {
 
     buf[0] = '\0';
 
-    if (IS_SET(act_flags, ACT_IS_NPC)) {
+    if (check_bit(act_flags, ACT_IS_NPC)) {
         strcat(buf, " npc");
         if (act_flags & ACT_SENTINEL)
             strcat(buf, " sentinel");

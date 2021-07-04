@@ -442,10 +442,10 @@ void interpret(Char *ch, const char *argument) {
         return;
 
     /* No hiding. */
-    REMOVE_BIT(ch->affected_by, AFF_HIDE);
+    clear_bit(ch->affected_by, AFF_HIDE);
 
     /* Implement freeze command. */
-    if (ch->is_pc() && IS_SET(ch->act, PLR_FREEZE)) {
+    if (ch->is_pc() && check_bit(ch->act, PLR_FREEZE)) {
         ch->send_line("You're totally frozen!");
         return;
     }
@@ -480,9 +480,9 @@ void interpret(Char *ch, const char *argument) {
     if (cmd->log == CommandLogLevel::Never)
         logline.clear();
 
-    if ((ch->is_pc() && IS_SET(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
+    if ((ch->is_pc() && check_bit(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
         int level = (cmd->level >= 91) ? (cmd->level) : 0;
-        if (ch->is_pc() && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
+        if (ch->is_pc() && (check_bit(ch->act, PLR_WIZINVIS) || check_bit(ch->act, PLR_PROWL)))
             level = std::max(level, ch->get_trust());
         auto log_level = (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
         if (ch->is_npc() && ch->desc && ch->desc->original()) {
@@ -525,7 +525,7 @@ bool check_social(Char *ch, std::string_view command, std::string_view argument)
     if (!social)
         return false;
 
-    if (ch->is_pc() && IS_SET(ch->comm, COMM_NOEMOTE)) {
+    if (ch->is_pc() && check_bit(ch->comm, COMM_NOEMOTE)) {
         ch->send_line("You are anti-social!");
         return true;
     }

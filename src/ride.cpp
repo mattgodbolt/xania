@@ -99,7 +99,7 @@ void do_ride(Char *ch, const char *argument) {
         return;
     }
 
-    if ((!IS_SET(ridee->act, ACT_CAN_BE_RIDDEN)) || (ridee->master != ch)) {
+    if ((!check_bit(ridee->act, ACT_CAN_BE_RIDDEN)) || (ridee->master != ch)) {
         act("You can't ride $N!", ch, nullptr, ridee, To::Char);
         return;
     }

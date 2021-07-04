@@ -79,21 +79,21 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
             auto vector = fread_flag(fp);
 
             if (!str_prefix(word, "act")) {
-                REMOVE_BIT(act, vector);
+                clear_bit(act, vector);
             } else if (!str_prefix(word, "aff")) {
-                REMOVE_BIT(affected_by, vector);
+                clear_bit(affected_by, vector);
             } else if (!str_prefix(word, "off")) {
-                REMOVE_BIT(off_flags, vector);
+                clear_bit(off_flags, vector);
             } else if (!str_prefix(word, "imm")) {
-                REMOVE_BIT(imm_flags, vector);
+                clear_bit(imm_flags, vector);
             } else if (!str_prefix(word, "res")) {
-                REMOVE_BIT(res_flags, vector);
+                clear_bit(res_flags, vector);
             } else if (!str_prefix(word, "vul")) {
-                REMOVE_BIT(vuln_flags, vector);
+                clear_bit(vuln_flags, vector);
             } else if (!str_prefix(word, "for")) {
-                REMOVE_BIT(form, vector);
+                clear_bit(form, vector);
             } else if (!str_prefix(word, "par")) {
-                REMOVE_BIT(parts, vector);
+                clear_bit(parts, vector);
             } else {
                 bug("Flag remove: flag '{}' not found.", word);
                 exit(1);

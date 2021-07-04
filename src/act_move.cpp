@@ -54,8 +54,8 @@ void move_char(Char *ch, Direction door) {
         return;
     }
 
-    if (IS_SET(pexit->exit_info, EX_CLOSED) && ch->is_mortal()) {
-        if (IS_SET(pexit->exit_info, EX_PASSPROOF) && IS_AFFECTED(ch, AFF_PASS_DOOR)) {
+    if (check_bit(pexit->exit_info, EX_CLOSED) && ch->is_mortal()) {
+        if (check_bit(pexit->exit_info, EX_PASSPROOF) && IS_AFFECTED(ch, AFF_PASS_DOOR)) {
             act("The $d is protected from trespass by a magical barrier.", ch, nullptr, pexit->keyword, To::Char);
             return;
         } else {
@@ -66,8 +66,8 @@ void move_char(Char *ch, Direction door) {
         }
     }
 
-    if (IS_SET(pexit->exit_info, EX_CLOSED) && IS_AFFECTED(ch, AFF_PASS_DOOR)
-        && !(IS_SET(pexit->exit_info, EX_PASSPROOF)) && ch->riding != nullptr
+    if (check_bit(pexit->exit_info, EX_CLOSED) && IS_AFFECTED(ch, AFF_PASS_DOOR)
+        && !(check_bit(pexit->exit_info, EX_PASSPROOF)) && ch->riding != nullptr
         && !(IS_AFFECTED(ch->riding, AFF_PASS_DOOR))) {
         ch->send_line("Your mount cannot travel through solid objects.");
         return;
@@ -156,7 +156,7 @@ void move_char(Char *ch, Direction door) {
     }
 
     if (!(IS_AFFECTED(ch, AFF_SNEAK) && (ch->riding != nullptr))
-        && (ch->is_npc() || !IS_SET(ch->act, PLR_WIZINVIS) || !IS_SET(ch->act, PLR_PROWL))) {
+        && (ch->is_npc() || !check_bit(ch->act, PLR_WIZINVIS) || !check_bit(ch->act, PLR_PROWL))) {
         if (ch->ridden_by == nullptr) {
             if (ch->riding == nullptr) {
                 act("$n leaves $T.", ch, nullptr, to_string(door), To::Room);
@@ -171,7 +171,7 @@ void move_char(Char *ch, Direction door) {
     char_to_room(ch, to_room);
 
     if (!IS_AFFECTED(ch, AFF_SNEAK)
-        && (ch->is_npc() || !IS_SET(ch->act, PLR_WIZINVIS) || !IS_SET(ch->act, PLR_PROWL))) {
+        && (ch->is_npc() || !check_bit(ch->act, PLR_WIZINVIS) || !check_bit(ch->act, PLR_PROWL))) {
         if (ch->ridden_by == nullptr) {
             if (ch->riding == nullptr) {
                 act("$n has arrived.", ch);
@@ -192,7 +192,8 @@ void move_char(Char *ch, Direction door) {
 
         if (fch->master == ch && fch->is_pos_standing()) {
 
-            if (IS_SET(ch->in_room->room_flags, ROOM_LAW) && (fch->is_npc() && IS_SET(fch->act, ACT_AGGRESSIVE))) {
+            if (check_bit(ch->in_room->room_flags, ROOM_LAW)
+                && (fch->is_npc() && check_bit(fch->act, ACT_AGGRESSIVE))) {
                 act("$N may not enter here.", ch, nullptr, fch, To::Char);
                 act("You aren't allowed to go there.", fch, nullptr, nullptr, To::Char);
                 return;
@@ -229,7 +230,8 @@ void do_enter(Char *ch, std::string_view argument) {
                         return;
                     }
 
-                    if (ch->is_npc() && IS_SET(ch->act, ACT_AGGRESSIVE) && IS_SET(to_room->room_flags, ROOM_LAW)) {
+                    if (ch->is_npc() && check_bit(ch->act, ACT_AGGRESSIVE)
+                        && check_bit(to_room->room_flags, ROOM_LAW)) {
                         ch->send_line("Something prevents you from leaving...");
                         return;
                     }
@@ -291,8 +293,8 @@ void do_enter(Char *ch, std::string_view argument) {
 
                         if (fch->master == ch && fch->is_pos_standing()) {
 
-                            if (IS_SET(ch->in_room->room_flags, ROOM_LAW)
-                                && (fch->is_npc() && IS_SET(fch->act, ACT_AGGRESSIVE))) {
+                            if (check_bit(ch->in_room->room_flags, ROOM_LAW)
+                                && (fch->is_npc() && check_bit(fch->act, ACT_AGGRESSIVE))) {
                                 act("You can't bring $N into the city.", ch, nullptr, fch, To::Char);
                                 act("You aren't allowed in the city.", fch, nullptr, nullptr, To::Char);
                                 continue;
@@ -363,7 +365,7 @@ std::optional<Direction> find_door(Char *ch, std::string_view arg) {
             return {};
         }
 
-        if (!IS_SET(pexit->exit_info, EX_ISDOOR)) {
+        if (!check_bit(pexit->exit_info, EX_ISDOOR)) {
             ch->send_line("You can't do that.");
             return {};
         }
@@ -372,8 +374,8 @@ std::optional<Direction> find_door(Char *ch, std::string_view arg) {
     }
 
     for (auto door : all_directions) {
-        if (auto *pexit = ch->in_room->exit[door];
-            pexit && IS_SET(pexit->exit_info, EX_ISDOOR) && pexit->keyword != nullptr && is_name(arg, pexit->keyword))
+        if (auto *pexit = ch->in_room->exit[door]; pexit && check_bit(pexit->exit_info, EX_ISDOOR)
+                                                   && pexit->keyword != nullptr && is_name(arg, pexit->keyword))
             return door;
     }
     act("I see no $T here.", ch, nullptr, arg, To::Char);
@@ -394,20 +396,20 @@ void do_open(Char *ch, ArgParser args) {
             ch->send_line("That's not a container.");
             return;
         }
-        if (!IS_SET(obj->value[1], CONT_CLOSED)) {
+        if (!check_bit(obj->value[1], CONT_CLOSED)) {
             ch->send_line("It's already open.");
             return;
         }
-        if (!IS_SET(obj->value[1], CONT_CLOSEABLE)) {
+        if (!check_bit(obj->value[1], CONT_CLOSEABLE)) {
             ch->send_line("You can't do that.");
             return;
         }
-        if (IS_SET(obj->value[1], CONT_LOCKED)) {
+        if (check_bit(obj->value[1], CONT_LOCKED)) {
             ch->send_line("It's locked.");
             return;
         }
 
-        REMOVE_BIT(obj->value[1], CONT_CLOSED);
+        clear_bit(obj->value[1], CONT_CLOSED);
         ch->send_line("Ok.");
         act("$n opens $p.", ch, obj, nullptr, To::Room);
         return;
@@ -418,16 +420,16 @@ void do_open(Char *ch, ArgParser args) {
         /* 'open door' */
 
         auto *pexit = ch->in_room->exit[door];
-        if (!IS_SET(pexit->exit_info, EX_CLOSED)) {
+        if (!check_bit(pexit->exit_info, EX_CLOSED)) {
             ch->send_line("It's already open.");
             return;
         }
-        if (IS_SET(pexit->exit_info, EX_LOCKED)) {
+        if (check_bit(pexit->exit_info, EX_LOCKED)) {
             ch->send_line("It's locked.");
             return;
         }
 
-        REMOVE_BIT(pexit->exit_info, EX_CLOSED);
+        clear_bit(pexit->exit_info, EX_CLOSED);
         act("$n opens the $d.", ch, nullptr, pexit->keyword, To::Room);
         ch->send_line("Ok.");
 
@@ -437,7 +439,7 @@ void do_open(Char *ch, ArgParser args) {
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
 
-            REMOVE_BIT(pexit_rev->exit_info, EX_CLOSED);
+            clear_bit(pexit_rev->exit_info, EX_CLOSED);
             for (auto *rch : to_room->people)
                 act("The $d opens.", rch, nullptr, pexit_rev->keyword, To::Char);
         }
@@ -457,16 +459,16 @@ void do_close(Char *ch, ArgParser args) {
             ch->send_line("That's not a container.");
             return;
         }
-        if (IS_SET(obj->value[1], CONT_CLOSED)) {
+        if (check_bit(obj->value[1], CONT_CLOSED)) {
             ch->send_line("It's already closed.");
             return;
         }
-        if (!IS_SET(obj->value[1], CONT_CLOSEABLE)) {
+        if (!check_bit(obj->value[1], CONT_CLOSEABLE)) {
             ch->send_line("You can't do that.");
             return;
         }
 
-        SET_BIT(obj->value[1], CONT_CLOSED);
+        set_bit(obj->value[1], CONT_CLOSED);
         ch->send_line("Ok.");
         act("$n closes $p.", ch, obj, nullptr, To::Room);
         return;
@@ -477,12 +479,12 @@ void do_close(Char *ch, ArgParser args) {
         /* 'close door' */
 
         auto *pexit = ch->in_room->exit[door];
-        if (IS_SET(pexit->exit_info, EX_CLOSED)) {
+        if (check_bit(pexit->exit_info, EX_CLOSED)) {
             ch->send_line("It's already closed.");
             return;
         }
 
-        SET_BIT(pexit->exit_info, EX_CLOSED);
+        set_bit(pexit->exit_info, EX_CLOSED);
         act("$n closes the $d.", ch, nullptr, pexit->keyword, To::Room);
         ch->send_line("Ok.");
 
@@ -491,7 +493,7 @@ void do_close(Char *ch, ArgParser args) {
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            SET_BIT(pexit_rev->exit_info, EX_CLOSED);
+            set_bit(pexit_rev->exit_info, EX_CLOSED);
             for (auto *rch : to_room->people)
                 act("The $d closes.", rch, nullptr, pexit_rev->keyword, To::Char);
         }
@@ -511,7 +513,7 @@ void do_lock(Char *ch, ArgParser args) {
             ch->send_line("That's not a container.");
             return;
         }
-        if (!IS_SET(obj->value[1], CONT_CLOSED)) {
+        if (!check_bit(obj->value[1], CONT_CLOSED)) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -523,12 +525,12 @@ void do_lock(Char *ch, ArgParser args) {
             ch->send_line("You lack the key.");
             return;
         }
-        if (IS_SET(obj->value[1], CONT_LOCKED)) {
+        if (check_bit(obj->value[1], CONT_LOCKED)) {
             ch->send_line("It's already locked.");
             return;
         }
 
-        SET_BIT(obj->value[1], CONT_LOCKED);
+        set_bit(obj->value[1], CONT_LOCKED);
         ch->send_line("*Click*");
         act("$n locks $p.", ch, obj, nullptr, To::Room);
         return;
@@ -539,7 +541,7 @@ void do_lock(Char *ch, ArgParser args) {
         /* 'lock door' */
 
         auto *pexit = ch->in_room->exit[door];
-        if (!IS_SET(pexit->exit_info, EX_CLOSED)) {
+        if (!check_bit(pexit->exit_info, EX_CLOSED)) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -551,12 +553,12 @@ void do_lock(Char *ch, ArgParser args) {
             ch->send_line("You lack the key.");
             return;
         }
-        if (IS_SET(pexit->exit_info, EX_LOCKED)) {
+        if (check_bit(pexit->exit_info, EX_LOCKED)) {
             ch->send_line("It's already locked.");
             return;
         }
 
-        SET_BIT(pexit->exit_info, EX_LOCKED);
+        set_bit(pexit->exit_info, EX_LOCKED);
         ch->send_line("*Click*");
         act("$n locks the $d.", ch, nullptr, pexit->keyword, To::Room);
 
@@ -565,7 +567,7 @@ void do_lock(Char *ch, ArgParser args) {
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            SET_BIT(pexit_rev->exit_info, EX_LOCKED);
+            set_bit(pexit_rev->exit_info, EX_LOCKED);
         }
     }
 }
@@ -584,7 +586,7 @@ void do_unlock(Char *ch, ArgParser args) {
             ch->send_line("That's not a container.");
             return;
         }
-        if (!IS_SET(obj->value[1], CONT_CLOSED)) {
+        if (!check_bit(obj->value[1], CONT_CLOSED)) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -596,12 +598,12 @@ void do_unlock(Char *ch, ArgParser args) {
             ch->send_line("You lack the key.");
             return;
         }
-        if (!IS_SET(obj->value[1], CONT_LOCKED)) {
+        if (!check_bit(obj->value[1], CONT_LOCKED)) {
             ch->send_line("It's already unlocked.");
             return;
         }
 
-        REMOVE_BIT(obj->value[1], CONT_LOCKED);
+        clear_bit(obj->value[1], CONT_LOCKED);
         ch->send_line("*Click*");
         act("$n unlocks $p.", ch, obj, nullptr, To::Room);
         return;
@@ -611,7 +613,7 @@ void do_unlock(Char *ch, ArgParser args) {
         auto door = *opt_door;
         /* 'unlock door' */
         auto *pexit = ch->in_room->exit[door];
-        if (!IS_SET(pexit->exit_info, EX_CLOSED)) {
+        if (!check_bit(pexit->exit_info, EX_CLOSED)) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -623,12 +625,12 @@ void do_unlock(Char *ch, ArgParser args) {
             ch->send_line("You lack the key.");
             return;
         }
-        if (!IS_SET(pexit->exit_info, EX_LOCKED)) {
+        if (!check_bit(pexit->exit_info, EX_LOCKED)) {
             ch->send_line("It's already unlocked.");
             return;
         }
 
-        REMOVE_BIT(pexit->exit_info, EX_LOCKED);
+        clear_bit(pexit->exit_info, EX_LOCKED);
         ch->send_line("*Click*");
         act("$n unlocks the $d.", ch, nullptr, pexit->keyword, To::Room);
 
@@ -637,7 +639,7 @@ void do_unlock(Char *ch, ArgParser args) {
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            REMOVE_BIT(pexit_rev->exit_info, EX_LOCKED);
+            clear_bit(pexit_rev->exit_info, EX_LOCKED);
         }
     }
 }
@@ -671,7 +673,7 @@ void do_pick(Char *ch, ArgParser args) {
             ch->send_line("That's not a container.");
             return;
         }
-        if (!IS_SET(obj->value[1], CONT_CLOSED)) {
+        if (!check_bit(obj->value[1], CONT_CLOSED)) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -679,16 +681,16 @@ void do_pick(Char *ch, ArgParser args) {
             ch->send_line("It can't be unlocked.");
             return;
         }
-        if (!IS_SET(obj->value[1], CONT_LOCKED)) {
+        if (!check_bit(obj->value[1], CONT_LOCKED)) {
             ch->send_line("It's already unlocked.");
             return;
         }
-        if (IS_SET(obj->value[1], CONT_PICKPROOF)) {
+        if (check_bit(obj->value[1], CONT_PICKPROOF)) {
             ch->send_line("You failed.");
             return;
         }
 
-        REMOVE_BIT(obj->value[1], CONT_LOCKED);
+        clear_bit(obj->value[1], CONT_LOCKED);
         ch->send_line("*Click*");
         check_improve(ch, gsn_pick_lock, true, 2);
         act("$n picks $p.", ch, obj, nullptr, To::Room);
@@ -700,7 +702,7 @@ void do_pick(Char *ch, ArgParser args) {
         /* 'pick door' */
 
         auto *pexit = ch->in_room->exit[door];
-        if (!IS_SET(pexit->exit_info, EX_CLOSED) && ch->is_mortal()) {
+        if (!check_bit(pexit->exit_info, EX_CLOSED) && ch->is_mortal()) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -708,16 +710,16 @@ void do_pick(Char *ch, ArgParser args) {
             ch->send_line("It can't be picked.");
             return;
         }
-        if (!IS_SET(pexit->exit_info, EX_LOCKED)) {
+        if (!check_bit(pexit->exit_info, EX_LOCKED)) {
             ch->send_line("It's already unlocked.");
             return;
         }
-        if (IS_SET(pexit->exit_info, EX_PICKPROOF) && ch->is_mortal()) {
+        if (check_bit(pexit->exit_info, EX_PICKPROOF) && ch->is_mortal()) {
             ch->send_line("You failed.");
             return;
         }
 
-        REMOVE_BIT(pexit->exit_info, EX_LOCKED);
+        clear_bit(pexit->exit_info, EX_LOCKED);
         ch->send_line("*Click*");
         act("$n picks the $d.", ch, nullptr, pexit->keyword, To::Room);
         check_improve(ch, gsn_pick_lock, true, 2);
@@ -727,7 +729,7 @@ void do_pick(Char *ch, ArgParser args) {
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            REMOVE_BIT(pexit_rev->exit_info, EX_LOCKED);
+            clear_bit(pexit_rev->exit_info, EX_LOCKED);
         }
     }
 }
@@ -916,10 +918,10 @@ void do_hide(Char *ch) {
     ch->send_line("You attempt to hide.");
 
     if (IS_AFFECTED(ch, AFF_HIDE))
-        REMOVE_BIT(ch->affected_by, AFF_HIDE);
+        clear_bit(ch->affected_by, AFF_HIDE);
 
     if (ch->is_npc() || number_percent() < ch->pcdata->learned[gsn_hide]) {
-        SET_BIT(ch->affected_by, AFF_HIDE);
+        set_bit(ch->affected_by, AFF_HIDE);
         check_improve(ch, gsn_hide, true, 3);
     } else
         check_improve(ch, gsn_hide, false, 3);
@@ -932,26 +934,26 @@ void do_visible(Char *ch) {
     affect_strip(ch, gsn_invis);
     affect_strip(ch, gsn_mass_invis);
     affect_strip(ch, gsn_sneak);
-    REMOVE_BIT(ch->affected_by, AFF_HIDE);
-    REMOVE_BIT(ch->affected_by, AFF_INVISIBLE);
-    REMOVE_BIT(ch->affected_by, AFF_SNEAK);
+    clear_bit(ch->affected_by, AFF_HIDE);
+    clear_bit(ch->affected_by, AFF_INVISIBLE);
+    clear_bit(ch->affected_by, AFF_SNEAK);
     ch->send_line("You slowly fade back into existence.");
     act("$n fades into existence.", ch);
 }
 
 void do_recall(Char *ch, ArgParser args) {
-    if (ch->is_npc() && !IS_SET(ch->act, ACT_PET)) {
+    if (ch->is_npc() && !check_bit(ch->act, ACT_PET)) {
         ch->send_line("Only players can recall.");
         return;
     }
 
-    if (!IS_SET(ch->act, PLR_WIZINVIS))
+    if (!check_bit(ch->act, PLR_WIZINVIS))
         act("$n prays for transportation!", ch);
 
     auto vnum = rooms::MidgaardTemple;
     auto destination = args.shift();
     if (matches(destination, "clan")) {
-        if (IS_SET(ch->act, ACT_PET)) {
+        if (check_bit(ch->act, ACT_PET)) {
             if (ch->master != nullptr) {
                 if (ch->master->clan())
                     vnum = ch->master->clan()->recall_vnum;
@@ -980,7 +982,7 @@ void do_recall(Char *ch, ArgParser args) {
         return;
     }
 
-    if (IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL) || IS_AFFECTED(ch, AFF_CURSE)) {
+    if (check_bit(ch->in_room->room_flags, ROOM_NO_RECALL) || IS_AFFECTED(ch, AFF_CURSE)) {
         ch->send_line("{} has forsaken you.", deity_name);
         return;
     }
@@ -1002,11 +1004,11 @@ void do_recall(Char *ch, ArgParser args) {
     }
 
     ch->move /= 2;
-    if (!IS_SET(ch->act, PLR_WIZINVIS))
+    if (!check_bit(ch->act, PLR_WIZINVIS))
         act("$n disappears.", ch);
     char_from_room(ch);
     char_to_room(ch, location);
-    if (!IS_SET(ch->act, PLR_WIZINVIS))
+    if (!check_bit(ch->act, PLR_WIZINVIS))
         act("$n appears in the room.", ch);
 
     look_auto(ch);
@@ -1026,7 +1028,7 @@ void do_recall(Char *ch, ArgParser args) {
 namespace {
 Char *find_trainer(Room *room) {
     for (auto *mob : room->people) {
-        if (mob->is_npc() && IS_SET(mob->act, ACT_TRAIN))
+        if (mob->is_npc() && check_bit(mob->act, ACT_TRAIN))
             return mob;
     }
     return nullptr;

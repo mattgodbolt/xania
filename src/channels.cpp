@@ -21,7 +21,7 @@
 extern void print_status(const Char *ch, const char *name, const char *master_name, int state, int master_state);
 
 static void print_channel_status(const Char *ch, const char *chan, unsigned long reference, unsigned long flag) {
-    print_status(ch, chan, "OFF due to quiet mode", !IS_SET(reference, flag), !IS_SET(ch->comm, COMM_QUIET));
+    print_status(ch, chan, "OFF due to quiet mode", !check_bit(reference, flag), !check_bit(ch->comm, COMM_QUIET));
 }
 
 void do_channels(const Char *ch) {
@@ -48,7 +48,7 @@ void do_channels(const Char *ch) {
     if (ch->is_immortal())
         print_channel_status(ch, "god channel", ch->comm, COMM_NOWIZ);
 
-    print_status(ch, "quiet mode", "", IS_SET(ch->comm, COMM_QUIET), 1);
+    print_status(ch, "quiet mode", "", check_bit(ch->comm, COMM_QUIET), 1);
 
     if (ch->lines != PAGELEN) {
         if (ch->lines) {
@@ -57,37 +57,37 @@ void do_channels(const Char *ch) {
             ch->send_line("Scroll buffering is off.");
     }
 
-    if (IS_SET(ch->comm, COMM_NOTELL))
+    if (check_bit(ch->comm, COMM_NOTELL))
         ch->send_line("You cannot use tell.");
 
-    if (IS_SET(ch->comm, COMM_NOCHANNELS))
+    if (check_bit(ch->comm, COMM_NOCHANNELS))
         ch->send_line("You cannot use channels.");
 
-    if (IS_SET(ch->comm, COMM_NOEMOTE))
+    if (check_bit(ch->comm, COMM_NOEMOTE))
         ch->send_line("You cannot show emotions.");
 }
 
 static void toggle_channel(Char *ch, unsigned long chan_flag, const char *chan_name) {
     char buf[MAX_STRING_LENGTH];
 
-    if (IS_SET(ch->comm, chan_flag)) {
+    if (check_bit(ch->comm, chan_flag)) {
         snprintf(buf, sizeof(buf), "|c%s channel is now %s|c.|w\n\r", chan_name,
-                 IS_SET(ch->comm, COMM_QUIET) ? "|rON (OFF due to quiet mode)" : "|gON");
-        REMOVE_BIT(ch->comm, chan_flag);
+                 check_bit(ch->comm, COMM_QUIET) ? "|rON (OFF due to quiet mode)" : "|gON");
+        clear_bit(ch->comm, chan_flag);
     } else {
         snprintf(buf, sizeof(buf), "|c%s channel is now |rOFF|c.|w\n\r", chan_name);
-        SET_BIT(ch->comm, chan_flag);
+        set_bit(ch->comm, chan_flag);
     }
     ch->send_to(buf);
 }
 
 void do_quiet(Char *ch) {
-    if (IS_SET(ch->comm, COMM_QUIET)) {
+    if (check_bit(ch->comm, COMM_QUIET)) {
         ch->send_line("Quiet mode removed.");
-        REMOVE_BIT(ch->comm, COMM_QUIET);
+        clear_bit(ch->comm, COMM_QUIET);
     } else {
         ch->send_line("From now on, you will only hear says and emotes.");
-        SET_BIT(ch->comm, COMM_QUIET);
+        set_bit(ch->comm, COMM_QUIET);
     }
 }
 
@@ -98,22 +98,22 @@ void channel_command(Char *ch, const char *argument, unsigned long chan_flag, co
     if (argument[0] == '\0') {
         toggle_channel(ch, chan_flag, chan_name);
     } else {
-        if (IS_SET(ch->comm, COMM_QUIET)) {
+        if (check_bit(ch->comm, COMM_QUIET)) {
             ch->send_line("You must turn off quiet mode first.");
             return;
         }
-        if (IS_SET(ch->comm, COMM_NOCHANNELS)) {
+        if (check_bit(ch->comm, COMM_NOCHANNELS)) {
             ch->send_line("The gods have revoked your channel privileges.");
             return;
         }
         ch->set_not_afk();
-        REMOVE_BIT(ch->comm, chan_flag);
+        clear_bit(ch->comm, chan_flag);
 
         snprintf(buf, sizeof(buf), desc_self, argument);
         ch->send_to(buf);
         for (auto &d : descriptors().all_but(*ch)) {
             auto *victim = d.person();
-            if (!IS_SET(victim->comm, chan_flag) && !IS_SET(victim->comm, COMM_QUIET)) {
+            if (!check_bit(victim->comm, chan_flag) && !check_bit(victim->comm, COMM_QUIET)) {
                 act(desc_other, ch, argument, d.character(), To::Vict, Position::Type::Dead);
             }
         }
@@ -128,13 +128,13 @@ void do_immtalk(Char *ch, std::string_view argument) {
         return;
     }
 
-    REMOVE_BIT(ch->comm, COMM_NOWIZ);
+    clear_bit(ch->comm, COMM_NOWIZ);
 
-    const char *format = IS_SET(ch->act, PLR_AFK) ? "|w(|cAFK|w)|W $n: |c$t|w" : "|W$n: |c$t|w";
+    const char *format = check_bit(ch->act, PLR_AFK) ? "|w(|cAFK|w)|W $n: |c$t|w" : "|W$n: |c$t|w";
     if (ch->get_trust() >= LEVEL_HERO)
         act(format, ch, argument, nullptr, To::Char, Position::Type::Dead);
     for (auto &d : descriptors().playing()) {
-        if (d.character()->is_immortal() && !IS_SET(d.character()->comm, COMM_NOWIZ))
+        if (d.character()->is_immortal() && !check_bit(d.character()->comm, COMM_NOWIZ))
             act(format, ch, argument, d.character(), To::Vict, Position::Type::Dead);
     }
 }

@@ -71,7 +71,7 @@ void do_clantalk(Char *ch, const char *argument) {
         return; /* Disallow mortal PC's with no clan */
     }
 
-    if (IS_SET(ch->comm, COMM_QUIET)) {
+    if (check_bit(ch->comm, COMM_QUIET)) {
         ch->send_line("You must remove quiet mode first.");
         return;
     }
@@ -92,7 +92,7 @@ void do_clantalk(Char *ch, const char *argument) {
                             const auto *pcclan = victim->pc_clan();
 
                             return pcclan && pcclan->clan.clanchar == orig_clan->clan.clanchar
-                                   && pcclan->clanlevel >= CLAN_HERO && !IS_SET(victim->comm, COMM_QUIET);
+                                   && pcclan->clanlevel >= CLAN_HERO && !check_bit(victim->comm, COMM_QUIET);
                         })
         == playing.end()) {
         ch->send_to("Your clan lacks the necessary broadcast nexus, causing your vain telepathy to\n\r"
@@ -117,7 +117,7 @@ void do_clantalk(Char *ch, const char *argument) {
         auto *victim = d.person();
         const auto *pcclan = victim->pc_clan();
         if (pcclan && pcclan->clan.clanchar == orig_clan->clan.clanchar && pcclan->channelflags & CLANCHANNEL_ON
-            && !IS_SET(victim->comm, COMM_QUIET)
+            && !check_bit(victim->comm, COMM_QUIET)
             /* || they're an IMM snooping the channels */) {
             d.character()->send_line("|G<{}> {}|w", can_see(d.character(), ch) ? ch->name : "Someone", argument);
         } /* If they can see the message */

@@ -125,8 +125,8 @@ AddUniqueItemFlags::AddUniqueItemFlags(CharVersion version) : UpgradeTask(versio
 
 void AddUniqueItemFlags::walk_inventory_set_unique_flag(const GenericList<Object *> &objects) const {
     for (auto object : objects) {
-        if (IS_SET(object->objIndex->extra_flags, ITEM_UNIQUE) && !IS_SET(object->extra_flags, ITEM_UNIQUE)) {
-            SET_BIT(object->extra_flags, ITEM_UNIQUE);
+        if (check_bit(object->objIndex->extra_flags, ITEM_UNIQUE) && !check_bit(object->extra_flags, ITEM_UNIQUE)) {
+            set_bit(object->extra_flags, ITEM_UNIQUE);
         }
         if (object->item_type == ITEM_CONTAINER || object->item_type == ITEM_CORPSE_NPC
             || object->item_type == ITEM_CORPSE_PC) {

@@ -27,7 +27,7 @@ TEST_CASE("unique object enforcement") {
     moving_obj.objIndex = &obj_idx;
     moving_obj.item_type = obj_idx.item_type;
     // Default case for most tests: both the existing & moving object instances are flagged unique.
-    SET_BIT(obj_idx.extra_flags, ITEM_UNIQUE);
+    set_bit(obj_idx.extra_flags, ITEM_UNIQUE);
     existing_obj.extra_flags = obj_idx.extra_flags;
     moving_obj.extra_flags = obj_idx.extra_flags;
 
@@ -45,7 +45,7 @@ TEST_CASE("unique object enforcement") {
             REQUIRE(!result);
         }
         SECTION("non-unique object doesn't collide") {
-            REMOVE_BIT(obj_idx.extra_flags, ITEM_UNIQUE);
+            clear_bit(obj_idx.extra_flags, ITEM_UNIQUE);
             existing_obj.extra_flags = obj_idx.extra_flags;
             moving_obj.extra_flags = obj_idx.extra_flags;
 
@@ -79,7 +79,7 @@ TEST_CASE("unique object enforcement") {
             Shop shop{};
             char_to.pIndexData = &opt_char_to_idx.value();
             char_to.pIndexData->shop = &shop;
-            SET_BIT(char_to.act, ACT_IS_NPC);
+            set_bit(char_to.act, ACT_IS_NPC);
             char_to.carrying.add_back(&existing_obj);
 
             auto result = obj_move_violates_uniqueness(&char_from, &char_to, &moving_obj, char_to.carrying);
@@ -113,7 +113,7 @@ TEST_CASE("unique object enforcement") {
             REQUIRE(!result);
         }
         SECTION("non-unique object to container doesn't collide") {
-            REMOVE_BIT(obj_idx.extra_flags, ITEM_UNIQUE);
+            clear_bit(obj_idx.extra_flags, ITEM_UNIQUE);
             existing_obj.extra_flags = obj_idx.extra_flags;
             moving_obj.extra_flags = obj_idx.extra_flags;
 

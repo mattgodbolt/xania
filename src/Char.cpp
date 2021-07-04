@@ -34,19 +34,19 @@
 
 Seconds Char::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }
 
-bool Char::is_npc() const { return IS_SET(act, ACT_IS_NPC); }
-bool Char::is_warrior() const { return IS_SET(act, ACT_WARRIOR); }
-bool Char::is_thief() const { return IS_SET(act, ACT_THIEF); }
-bool Char::is_blind() const { return IS_SET(affected_by, AFF_BLIND); }
-bool Char::has_infrared() const { return IS_SET(affected_by, AFF_INFRARED); }
-bool Char::is_invisible() const { return IS_SET(affected_by, AFF_INVISIBLE); }
-bool Char::has_detect_invis() const { return IS_SET(affected_by, AFF_DETECT_INVIS); }
-bool Char::is_sneaking() const { return IS_SET(affected_by, AFF_SNEAK); }
-bool Char::is_hiding() const { return IS_SET(affected_by, AFF_HIDE); }
-bool Char::is_berserk() const { return IS_SET(affected_by, AFF_BERSERK); }
+bool Char::is_npc() const { return check_bit(act, ACT_IS_NPC); }
+bool Char::is_warrior() const { return check_bit(act, ACT_WARRIOR); }
+bool Char::is_thief() const { return check_bit(act, ACT_THIEF); }
+bool Char::is_blind() const { return check_bit(affected_by, AFF_BLIND); }
+bool Char::has_infrared() const { return check_bit(affected_by, AFF_INFRARED); }
+bool Char::is_invisible() const { return check_bit(affected_by, AFF_INVISIBLE); }
+bool Char::has_detect_invis() const { return check_bit(affected_by, AFF_DETECT_INVIS); }
+bool Char::is_sneaking() const { return check_bit(affected_by, AFF_SNEAK); }
+bool Char::is_hiding() const { return check_bit(affected_by, AFF_HIDE); }
+bool Char::is_berserk() const { return check_bit(affected_by, AFF_BERSERK); }
 bool Char::is_shopkeeper() const { return is_npc() && pIndexData->shop; }
-bool Char::has_detect_hidden() const { return IS_SET(affected_by, AFF_DETECT_HIDDEN); }
-bool Char::has_holylight() const { return is_pc() && IS_SET(act, PLR_HOLYLIGHT); }
+bool Char::has_detect_hidden() const { return check_bit(affected_by, AFF_DETECT_HIDDEN); }
+bool Char::has_holylight() const { return is_pc() && check_bit(act, PLR_HOLYLIGHT); }
 
 bool Char::is_pos_dead() const { return position == Position::Type::Dead; }
 bool Char::is_pos_dying() const { return position < Position::Type::Stunned; }
@@ -61,10 +61,10 @@ bool Char::is_pos_fighting() const { return position == Position::Type::Fighting
 bool Char::is_pos_preoccupied() const { return position < Position::Type::Standing; }
 bool Char::is_pos_standing() const { return position == Position::Type::Standing; }
 
-bool Char::is_wizinvis() const { return is_pc() && IS_SET(act, PLR_WIZINVIS); }
+bool Char::is_wizinvis() const { return is_pc() && check_bit(act, PLR_WIZINVIS); }
 bool Char::is_wizinvis_to(const Char &victim) const { return is_wizinvis() && victim.get_trust() < invis_level; }
 
-bool Char::is_prowlinvis() const { return is_pc() && IS_SET(act, PLR_PROWL); }
+bool Char::is_prowlinvis() const { return is_pc() && check_bit(act, PLR_PROWL); }
 bool Char::is_prowlinvis_to(const Char &victim) const {
     return is_prowlinvis() && in_room != victim.in_room && victim.get_trust() < invis_level;
 }
@@ -198,22 +198,22 @@ int Char::get_skill(int skill_number) const {
             // Defensive melee skills: Warrior/Thief NPCs are a little better at them than Mage/Cleric.
             skill = 15 + (level / (is_warrior() || is_thief() ? 2 : 3));
 
-        else if (skill_number == gsn_backstab && IS_SET(off_flags, OFF_BACKSTAB))
+        else if (skill_number == gsn_backstab && check_bit(off_flags, OFF_BACKSTAB))
             skill = std::max(30, level / 3);
 
         else if (skill_number == gsn_hand_to_hand)
             skill = 40 + 2 * level;
 
-        else if (skill_number == gsn_trip && IS_SET(off_flags, OFF_TRIP))
+        else if (skill_number == gsn_trip && check_bit(off_flags, OFF_TRIP))
             skill = std::max(30, level / 3);
 
-        else if (skill_number == gsn_bash && IS_SET(off_flags, OFF_BASH))
+        else if (skill_number == gsn_bash && check_bit(off_flags, OFF_BASH))
             skill = std::max(30, level / 3);
 
-        else if (skill_number == gsn_disarm && (IS_SET(off_flags, OFF_DISARM) || is_warrior() || is_thief()))
+        else if (skill_number == gsn_disarm && (check_bit(off_flags, OFF_DISARM) || is_warrior() || is_thief()))
             skill = std::max(30, level / 3);
 
-        else if (skill_number == gsn_berserk && IS_SET(off_flags, OFF_BERSERK))
+        else if (skill_number == gsn_berserk && check_bit(off_flags, OFF_BERSERK))
             skill = std::max(30, level / 3);
 
         else if (skill_number == gsn_sword || skill_number == gsn_dagger || skill_number == gsn_spear
@@ -258,8 +258,8 @@ const PcClan *Char::pc_clan() const { return is_pc() && pcdata->pcclan ? &pcdata
 
 const Clan *Char::clan() const { return pc_clan() ? &pc_clan()->clan : nullptr; }
 
-bool Char::is_comm_brief() const { return is_pc() && IS_SET(comm, COMM_BRIEF); }
-bool Char::should_autoexit() const { return is_pc() && IS_SET(act, PLR_AUTOEXIT); }
+bool Char::is_comm_brief() const { return is_pc() && check_bit(comm, COMM_BRIEF); }
+bool Char::should_autoexit() const { return is_pc() && check_bit(act, PLR_AUTOEXIT); }
 
 template <typename Func>
 Object *Char::find_filtered_obj(std::string_view argument, Func filter) const {
@@ -287,7 +287,7 @@ bool Char::can_see(const Object &object) const {
     if (has_holylight())
         return true;
 
-    if (IS_SET(object.extra_flags, ITEM_VIS_DEATH))
+    if (check_bit(object.extra_flags, ITEM_VIS_DEATH))
         return false;
 
     if (is_blind() && object.item_type != ITEM_POTION)
@@ -296,10 +296,10 @@ bool Char::can_see(const Object &object) const {
     if (object.item_type == ITEM_LIGHT && object.value[2] != 0)
         return true;
 
-    if (IS_SET(object.extra_flags, ITEM_INVIS) && !has_detect_invis())
+    if (check_bit(object.extra_flags, ITEM_INVIS) && !has_detect_invis())
         return false;
 
-    if (IS_SET(object.extra_flags, ITEM_GLOW))
+    if (check_bit(object.extra_flags, ITEM_GLOW))
         return true;
 
     if (room_is_dark(in_room) && !has_infrared())
@@ -309,16 +309,16 @@ bool Char::can_see(const Object &object) const {
 }
 
 bool Char::can_see(const Room &room) const {
-    if (IS_SET(room.room_flags, ROOM_IMP_ONLY) && get_trust() < MAX_LEVEL)
+    if (check_bit(room.room_flags, ROOM_IMP_ONLY) && get_trust() < MAX_LEVEL)
         return false;
 
-    if (IS_SET(room.room_flags, ROOM_GODS_ONLY) && !is_immortal())
+    if (check_bit(room.room_flags, ROOM_GODS_ONLY) && !is_immortal())
         return false;
 
-    if (IS_SET(room.room_flags, ROOM_HEROES_ONLY) && !is_hero())
+    if (check_bit(room.room_flags, ROOM_HEROES_ONLY) && !is_hero())
         return false;
 
-    if (IS_SET(room.room_flags, ROOM_NEWBIES_ONLY) && level > 5 && !is_immortal())
+    if (check_bit(room.room_flags, ROOM_NEWBIES_ONLY) && level > 5 && !is_immortal())
         return false;
 
     return true;
@@ -350,7 +350,7 @@ void Char::yell(std::string_view exclamation) const {
     ::act("|WYou yell '$t|W'|w", this, exclamation, nullptr, To::Char);
     for (auto &victim :
          descriptors().all_but(*this) | DescriptorFilter::same_area(*this) | DescriptorFilter::to_character()) {
-        if (!IS_SET(victim.comm, COMM_QUIET))
+        if (!check_bit(victim.comm, COMM_QUIET))
             ::act("|W$n yells '$t|W'|w", this, exclamation, &victim, To::Vict);
     }
 }
@@ -364,10 +364,10 @@ void Char::say(std::string_view message) {
     mprog_speech_trigger(as_std.c_str(), this);
 }
 
-bool Char::is_player_killer() const noexcept { return is_pc() && IS_SET(act, PLR_KILLER); }
-bool Char::is_player_thief() const noexcept { return is_pc() && IS_SET(act, PLR_THIEF); }
-bool Char::has_detect_magic() const { return IS_SET(affected_by, AFF_DETECT_MAGIC); }
-bool Char::has_detect_evil() const { return IS_SET(affected_by, AFF_DETECT_EVIL); }
+bool Char::is_player_killer() const noexcept { return is_pc() && check_bit(act, PLR_KILLER); }
+bool Char::is_player_thief() const noexcept { return is_pc() && check_bit(act, PLR_THIEF); }
+bool Char::has_detect_magic() const { return check_bit(affected_by, AFF_DETECT_MAGIC); }
+bool Char::has_detect_evil() const { return check_bit(affected_by, AFF_DETECT_EVIL); }
 
 void Char::set_extra(unsigned int flag) noexcept {
     if (is_npc())
@@ -384,19 +384,19 @@ int Char::get_hitroll() const noexcept { return hitroll + str_app[curr_stat(Stat
 int Char::get_damroll() const noexcept { return damroll + str_app[curr_stat(Stat::Str)].todam; }
 
 void Char::set_not_afk() {
-    if (!IS_SET(act, PLR_AFK))
+    if (!check_bit(act, PLR_AFK))
         return;
     send_line("|cYour keyboard welcomes you back!|w");
     send_line("|cYou are no longer marked as being afk.|w");
     ::act("|W$n's|w keyboard has welcomed $m back!", this, nullptr, nullptr, To::Room, Position::Type::Dead);
     ::act("|W$n|w is no longer afk.", this, nullptr, nullptr, To::Room, Position::Type::Dead);
     announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", this);
-    REMOVE_BIT(act, PLR_AFK);
+    clear_bit(act, PLR_AFK);
 }
 
 void Char::set_afk(std::string_view afk_message) {
     pcdata->afk = afk_message;
-    SET_BIT(act, PLR_AFK);
+    set_bit(act, PLR_AFK);
     ::act(fmt::format("|cYou notify the mud that you are {}|c.|w", afk_message), this, nullptr, nullptr, To::Char,
           Position::Type::Dead);
     ::act(fmt::format("|W$n|w is {}|w.", afk_message), this, nullptr, nullptr, To::Room, Position::Type::Dead);

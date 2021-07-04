@@ -12,9 +12,9 @@ using namespace std::literals;
 
 void AFFECT_DATA::modify(Char &ch, bool apply) const {
     if (apply) {
-        SET_BIT(ch.affected_by, bitvector);
+        set_bit(ch.affected_by, bitvector);
     } else {
-        REMOVE_BIT(ch.affected_by, bitvector);
+        clear_bit(ch.affected_by, bitvector);
     }
     auto mod = apply ? modifier : -modifier;
     switch (location) {

@@ -38,8 +38,8 @@ void tornado_teleport(Char *ch, Char *victim) {
     for (;;) {
         room = get_room(number_range(0, 65535));
         if (room != nullptr)
-            if (can_see_room(ch, room) && !IS_SET(room->room_flags, ROOM_PRIVATE)
-                && !IS_SET(room->room_flags, ROOM_SOLITARY))
+            if (can_see_room(ch, room) && !check_bit(room->room_flags, ROOM_PRIVATE)
+                && !check_bit(room->room_flags, ROOM_SOLITARY))
                 break;
     }
 
@@ -148,7 +148,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Your mighty blast spirals out of control, forming a towering tornado of psychic energy!");
         act("$n's psychic blast spirals into a |Rhuge|w tornado of energy!", ch, nullptr, victim, To::Room);
 
-        if (!IS_SET(victim->act, ACT_AGGRESSIVE)) {
+        if (!check_bit(victim->act, ACT_AGGRESSIVE)) {
             if (number_percent() > 75)
                 tornado_teleport(ch, victim);
         }
@@ -277,7 +277,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 //
 /* no corpse raising in a lawful place please */
 //
-//  if (IS_SET(ch->in_room->room_flags , ROOM_LAW)) {
+//  if (check_bit(ch->in_room->room_flags , ROOM_LAW)) {
 //  ch->send_line( "Raising the dead is not permitted here.");
 //  return;
 //}

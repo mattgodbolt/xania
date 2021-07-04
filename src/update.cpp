@@ -83,7 +83,7 @@ uint32_t save_number = 0;
 bool is_safe_sentient(Char *ch, const Char *victim) {
     if (ch->in_room == nullptr)
         return false;
-    if (IS_SET(ch->in_room->room_flags, ROOM_SAFE)) {
+    if (check_bit(ch->in_room->room_flags, ROOM_SAFE)) {
         ch->yell(fmt::format("|WIf it weren't for the law, you'd be dead meat {}!!!|w", victim->name));
         ch->sentient_victim.clear();
         return true;
@@ -144,7 +144,7 @@ void advance_level(Char *ch) {
     ch->pcdata->perm_move += add_move;
 
     if (ch->is_pc())
-        REMOVE_BIT(ch->act, PLR_BOUGHT_PET);
+        clear_bit(ch->act, PLR_BOUGHT_PET);
 
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
              add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
@@ -194,7 +194,7 @@ void lose_level(Char *ch) {
     ch->pcdata->perm_move += add_move;
 
     if (ch->is_pc())
-        REMOVE_BIT(ch->act, PLR_BOUGHT_PET);
+        clear_bit(ch->act, PLR_BOUGHT_PET);
 
     snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
              add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
@@ -373,7 +373,7 @@ void mobile_update() {
         if (ch->is_pc() || ch->in_room == nullptr || IS_AFFECTED(ch, AFF_CHARM))
             continue;
 
-        if (ch->in_room->area->empty && !IS_SET(ch->act, ACT_UPDATE_ALWAYS))
+        if (ch->in_room->area->empty && !check_bit(ch->act, ACT_UPDATE_ALWAYS))
             continue;
 
         /* Examine call for special procedure */
@@ -395,7 +395,7 @@ void mobile_update() {
                 continue;
         }
         /* Scavenge */
-        if (IS_SET(ch->act, ACT_SCAVENGER) && !ch->in_room->contents.empty() && number_bits(6) == 0) {
+        if (check_bit(ch->act, ACT_SCAVENGER) && !ch->in_room->contents.empty() && number_bits(6) == 0) {
             int max = 1;
             Object *obj_best{};
             for (auto *obj : ch->in_room->contents) {
@@ -415,10 +415,10 @@ void mobile_update() {
 
         /* Wander */
         auto opt_door = try_cast_direction(number_bits(5));
-        if (!IS_SET(ch->act, ACT_SENTINEL) && number_bits(4) == 0 && opt_door
+        if (!check_bit(ch->act, ACT_SENTINEL) && number_bits(4) == 0 && opt_door
             && (pexit = ch->in_room->exit[*opt_door]) != nullptr && pexit->u1.to_room != nullptr
-            && !IS_SET(pexit->exit_info, EX_CLOSED) && !IS_SET(pexit->u1.to_room->room_flags, ROOM_NO_MOB)
-            && (!IS_SET(ch->act, ACT_STAY_AREA) || pexit->u1.to_room->area == ch->in_room->area)) {
+            && !check_bit(pexit->exit_info, EX_CLOSED) && !check_bit(pexit->u1.to_room->room_flags, ROOM_NO_MOB)
+            && (!check_bit(ch->act, ACT_STAY_AREA) || pexit->u1.to_room->area == ch->in_room->area)) {
             move_char(ch, *opt_door);
         }
     }
@@ -597,7 +597,7 @@ void char_update() {
             ch->send_line("You writhe in agony from the plague.");
             auto *existing_plague = ch->affected.find_by_skill(gsn_plague);
             if (existing_plague == nullptr) {
-                REMOVE_BIT(ch->affected_by, AFF_PLAGUE);
+                clear_bit(ch->affected_by, AFF_PLAGUE);
                 return;
             }
 
@@ -776,7 +776,7 @@ void aggr_update() {
 }
 
 void do_aggressive_sentient(Char *wch, Char *ch) {
-    if (IS_SET(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !IS_AFFECTED(ch, AFF_CALM) && ch->is_pos_awake()
+    if (check_bit(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !IS_AFFECTED(ch, AFF_CALM) && ch->is_pos_awake()
         && !IS_AFFECTED(ch, AFF_CHARM) && can_see(ch, wch)) {
         if (ch->hit == ch->max_hit && ch->mana == ch->max_mana)
             ch->sentient_victim.clear();
@@ -787,9 +787,9 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
             multi_hit(ch, wch);
         }
     }
-    if (IS_SET(ch->act, ACT_AGGRESSIVE) && !IS_SET(ch->in_room->room_flags, ROOM_SAFE) && !IS_AFFECTED(ch, AFF_CALM)
-        && (ch->fighting == nullptr) // Changed by Moog
-        && !IS_AFFECTED(ch, AFF_CHARM) && ch->is_pos_awake() && !(IS_SET(ch->act, ACT_WIMPY) && wch->is_pos_awake())
+    if (check_bit(ch->act, ACT_AGGRESSIVE) && !check_bit(ch->in_room->room_flags, ROOM_SAFE)
+        && !IS_AFFECTED(ch, AFF_CALM) && (ch->fighting == nullptr) // Changed by Moog
+        && !IS_AFFECTED(ch, AFF_CHARM) && ch->is_pos_awake() && !(check_bit(ch->act, ACT_WIMPY) && wch->is_pos_awake())
         && can_see(ch, wch) && !number_bits(1) == 0) {
 
         /*
@@ -802,7 +802,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
         Char *victim = nullptr;
         for (auto *vch : wch->in_room->people) {
             if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
-                && (!IS_SET(ch->act, ACT_WIMPY) || !vch->is_pos_awake()) && can_see(ch, vch)) {
+                && (!check_bit(ch->act, ACT_WIMPY) || !vch->is_pos_awake()) && can_see(ch, vch)) {
                 if (number_range(0, count) == 0)
                     victim = vch;
                 count++;

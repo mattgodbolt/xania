@@ -692,12 +692,12 @@ void spell_acid_wash(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (IS_SET(obj->value[4], WEAPON_LIGHTNING)) {
+    if (check_bit(obj->value[4], WEAPON_LIGHTNING)) {
         ch->send_line("Acid and lightning don't mix.");
         return;
     }
     obj->value[3] = AttackTableIndexAcidWash;
-    SET_BIT(obj->value[4], WEAPON_ACID);
+    set_bit(obj->value[4], WEAPON_ACID);
     ch->send_to("With a mighty scream you draw acid from the earth.\n\rYou wash your weapon in the acid pool.\n\r");
 }
 
@@ -852,7 +852,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
     if (number_range(0, chance) >= mlevel) /* hard to stop large fights */
     {
         for (auto *vch : ch->in_room->people) {
-            if (vch->is_npc() && (IS_SET(vch->imm_flags, IMM_MAGIC) || IS_SET(vch->act, ACT_UNDEAD)))
+            if (vch->is_npc() && (check_bit(vch->imm_flags, IMM_MAGIC) || check_bit(vch->act, ACT_UNDEAD)))
                 return;
 
             if (IS_AFFECTED(vch, AFF_CALM) || IS_AFFECTED(vch, AFF_BERSERK) || is_affected(vch, skill_lookup("frenzy")))
@@ -906,7 +906,7 @@ bool try_dispel_all_dispellables(int level, Char *victim) {
             if (!dispelled_perm_affect && victim->is_npc() && IS_AFFECTED(victim, spell.dispel_npc_perm_affect_bit)
                 && !saves_dispel(level, victim->level) && !is_affected(victim, sn)) {
 
-                REMOVE_BIT(victim->affected_by, spell.dispel_npc_perm_affect_bit);
+                clear_bit(victim->affected_by, spell.dispel_npc_perm_affect_bit);
                 act(spell.dispel_victim_msg_to_room, victim);
                 dispelled_perm_affect = true;
                 found = true;
@@ -1056,10 +1056,10 @@ void spell_charm_person(int sn, int level, Char *ch, void *vo) {
     }
 
     if (IS_AFFECTED(victim, AFF_CHARM) || IS_AFFECTED(ch, AFF_CHARM) || ch->get_trust() < victim->get_trust()
-        || IS_SET(victim->imm_flags, IMM_CHARM) || saves_spell(level, victim))
+        || check_bit(victim->imm_flags, IMM_CHARM) || saves_spell(level, victim))
         return;
 
-    if (IS_SET(victim->in_room->room_flags, ROOM_LAW)) {
+    if (check_bit(victim->in_room->room_flags, ROOM_LAW)) {
         ch->send_line("Charming is not permitted here.");
         return;
     }
@@ -1561,7 +1561,7 @@ void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (!IS_SET(obj->extra_flags, ITEM_INVIS)) {
+    if (!check_bit(obj->extra_flags, ITEM_INVIS)) {
         ch->send_line("That object is not invisible!");
         return;
     }
@@ -1575,7 +1575,7 @@ void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
     if (chance >= 0) {
         act("$p appears from nowhere!", ch, obj, nullptr, To::Room);
         act("$p appears from nowhere!", ch, obj, nullptr, To::Char);
-        REMOVE_BIT(obj->extra_flags, ITEM_INVIS);
+        clear_bit(obj->extra_flags, ITEM_INVIS);
     }
 
     if ((chance >= -20) && (chance < 0)) {
@@ -1600,8 +1600,8 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if ((!IS_SET(obj->extra_flags, ITEM_ANTI_EVIL)) && (!IS_SET(obj->extra_flags, ITEM_ANTI_GOOD))
-        && (!IS_SET(obj->extra_flags, ITEM_ANTI_NEUTRAL))) {
+    if ((!check_bit(obj->extra_flags, ITEM_ANTI_EVIL)) && (!check_bit(obj->extra_flags, ITEM_ANTI_GOOD))
+        && (!check_bit(obj->extra_flags, ITEM_ANTI_NEUTRAL))) {
         ch->send_line("That object has no alignment!");
         return;
     }
@@ -1623,9 +1623,9 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
     if (score >= 0) {
         act("$p glows grey.", ch, obj, nullptr, To::Room);
         act("$p glows grey.", ch, obj, nullptr, To::Char);
-        REMOVE_BIT(obj->extra_flags, ITEM_ANTI_GOOD);
-        REMOVE_BIT(obj->extra_flags, ITEM_ANTI_EVIL);
-        REMOVE_BIT(obj->extra_flags, ITEM_ANTI_NEUTRAL);
+        clear_bit(obj->extra_flags, ITEM_ANTI_GOOD);
+        clear_bit(obj->extra_flags, ITEM_ANTI_EVIL);
+        clear_bit(obj->extra_flags, ITEM_ANTI_NEUTRAL);
     } else if (score < -40) {
         act("$p shivers violently and explodes!", ch, obj, nullptr, To::Room);
         act("$p shivers violently and explodes!", ch, obj, nullptr, To::Char);
@@ -1732,13 +1732,13 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     if (result <= (100 - level / 5)) { /* success! */
         act("$p shimmers with a gold aura.", ch, obj, nullptr, To::Char);
         act("$p shimmers with a gold aura.", ch, obj, nullptr, To::Room);
-        SET_BIT(obj->extra_flags, ITEM_MAGIC);
+        set_bit(obj->extra_flags, ITEM_MAGIC);
         added = -1;
     } else { /* exceptional enchant */
         act("$p glows a brillant gold!", ch, obj, nullptr, To::Char);
         act("$p glows a brillant gold!", ch, obj, nullptr, To::Room);
-        SET_BIT(obj->extra_flags, ITEM_MAGIC);
-        SET_BIT(obj->extra_flags, ITEM_GLOW);
+        set_bit(obj->extra_flags, ITEM_MAGIC);
+        set_bit(obj->extra_flags, ITEM_GLOW);
         added = -2;
     }
 
@@ -1894,13 +1894,13 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     if (result <= (100 - level / 5)) { /* success! */
         act("$p glows blue.", ch, obj, nullptr, To::Char);
         act("$p glows blue.", ch, obj, nullptr, To::Room);
-        SET_BIT(obj->extra_flags, ITEM_MAGIC);
+        set_bit(obj->extra_flags, ITEM_MAGIC);
         added = 1;
     } else { /* exceptional enchant */
         act("$p glows a brillant blue!", ch, obj, nullptr, To::Char);
         act("$p glows a brillant blue!", ch, obj, nullptr, To::Room);
-        SET_BIT(obj->extra_flags, ITEM_MAGIC);
-        SET_BIT(obj->extra_flags, ITEM_GLOW);
+        set_bit(obj->extra_flags, ITEM_MAGIC);
+        set_bit(obj->extra_flags, ITEM_GLOW);
         added = 2;
     }
 
@@ -1915,7 +1915,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
                 af.modifier += added;
                 af.level = std::max(af.level, static_cast<sh_int>(level));
                 if (af.modifier > 4)
-                    SET_BIT(obj->extra_flags, ITEM_HUM);
+                    set_bit(obj->extra_flags, ITEM_HUM);
             }
         }
     } else { /* add a new affect */
@@ -1936,7 +1936,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
                 af.modifier += added;
                 af.level = std::max(af.level, static_cast<sh_int>(level));
                 if (af.modifier > 4)
-                    SET_BIT(obj->extra_flags, ITEM_HUM);
+                    set_bit(obj->extra_flags, ITEM_HUM);
             }
         }
     } else { /* add a new affect */
@@ -1977,7 +1977,7 @@ void spell_protect_container(int sn, int level, Char *ch, void *vo) {
     }
 
     ch->gold -= 50000;
-    SET_BIT(obj->extra_flags, ITEM_PROTECT_CONTAINER);
+    set_bit(obj->extra_flags, ITEM_PROTECT_CONTAINER);
     act("$p is now protected!", ch, obj, nullptr, To::Char);
 }
 
@@ -2003,7 +2003,7 @@ void spell_vorpal(int sn, int level, Char *ch, void *vo) {
     }
 
     ch->gold -= (mana * 100);
-    SET_BIT(obj->value[4], WEAPON_VORPAL);
+    set_bit(obj->value[4], WEAPON_VORPAL);
     ch->send_line("You create a flaw in the universe and place it on your blade!");
 }
 
@@ -2028,7 +2028,7 @@ void spell_venom(int sn, int level, Char *ch, void *vo) {
     }
 
     ch->gold -= (mana * 100);
-    SET_BIT(obj->value[4], WEAPON_POISONED);
+    set_bit(obj->value[4], WEAPON_POISONED);
     ch->send_line("You coat the blade in poison!");
 }
 
@@ -2053,7 +2053,7 @@ void spell_black_death(int sn, int level, Char *ch, void *vo) {
     }
 
     ch->gold -= (mana * 100);
-    SET_BIT(obj->value[4], WEAPON_PLAGUED);
+    set_bit(obj->value[4], WEAPON_PLAGUED);
     ch->send_line("Your use your cunning and skill to plague the weapon!");
 }
 
@@ -2078,7 +2078,7 @@ void spell_damnation(int sn, int level, Char *ch, void *vo) {
     }
 
     ch->gold -= (mana * 100);
-    SET_BIT(obj->extra_flags, ITEM_NOREMOVE);
+    set_bit(obj->extra_flags, ITEM_NOREMOVE);
     ch->send_line("You turn red in the face and curse your weapon into the pits of hell!");
 }
 
@@ -2098,7 +2098,7 @@ void spell_vampire(int sn, int level, Char *ch, void *vo) {
     }
 
     if (ch->is_immortal()) {
-        SET_BIT(obj->value[4], WEAPON_VAMPIRIC);
+        set_bit(obj->value[4], WEAPON_VAMPIRIC);
         ch->send_line("You suck the life force from the weapon leaving it hungry for blood.");
     }
 }
@@ -2117,7 +2117,7 @@ void spell_tame_lightning(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (IS_SET(obj->value[4], WEAPON_ACID)) {
+    if (check_bit(obj->value[4], WEAPON_ACID)) {
         ch->send_line("Acid and lightning do not mix.");
         return;
     }
@@ -2130,7 +2130,7 @@ void spell_tame_lightning(int sn, int level, Char *ch, void *vo) {
 
     ch->gold -= (mana * 100);
     obj->value[3] = AttackTableIndexTameLightning;
-    SET_BIT(obj->value[4], WEAPON_LIGHTNING);
+    set_bit(obj->value[4], WEAPON_LIGHTNING);
     ch->send_to("You summon a MASSIVE storm.\n\rHolding your weapon aloft you call lightning down from the sky. "
                 "\n\rThe lightning swirls around it - you have |YTAMED|w the |YLIGHTNING|w.\n\r");
 }
@@ -2215,9 +2215,9 @@ void spell_faerie_fog(int sn, int level, Char *ch, void *vo) {
     ch->send_line("You conjure a cloud of purple smoke.");
 
     for (auto *ich : ch->in_room->people) {
-        if (ich->is_pc() && IS_SET(ich->act, PLR_WIZINVIS))
+        if (ich->is_pc() && check_bit(ich->act, PLR_WIZINVIS))
             continue;
-        if (ich->is_pc() && IS_SET(ich->act, PLR_PROWL))
+        if (ich->is_pc() && check_bit(ich->act, PLR_PROWL))
             continue;
 
         if (ich == ch || saves_spell(level, ich))
@@ -2226,9 +2226,9 @@ void spell_faerie_fog(int sn, int level, Char *ch, void *vo) {
         affect_strip(ich, gsn_invis);
         affect_strip(ich, gsn_mass_invis);
         affect_strip(ich, gsn_sneak);
-        REMOVE_BIT(ich->affected_by, AFF_HIDE);
-        REMOVE_BIT(ich->affected_by, AFF_INVISIBLE);
-        REMOVE_BIT(ich->affected_by, AFF_SNEAK);
+        clear_bit(ich->affected_by, AFF_HIDE);
+        clear_bit(ich->affected_by, AFF_INVISIBLE);
+        clear_bit(ich->affected_by, AFF_SNEAK);
         act("$n is revealed!", ich);
         ich->send_line("You are revealed!");
     }
@@ -2296,7 +2296,7 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
     act("$n gets a wild look in $s eyes!", victim);
 
     /*  if ( (wield !=nullptr) && (wield->item_type == ITEM_WEAPON) &&
-          (IS_SET(wield->value[4], WEAPON_FLAMING)))
+          (check_bit(wield->value[4], WEAPON_FLAMING)))
         ch->send_line("Your great energy causes your weapon to burst into flame.");
       wield->value[3] = 29;*/
 }
@@ -2310,12 +2310,13 @@ void spell_gate(int sn, int level, Char *ch, void *vo) {
     bool gate_pet;
 
     if ((victim = get_char_world(ch, target_name)) == nullptr || victim == ch || victim->in_room == nullptr
-        || !can_see_room(ch, victim->in_room) || IS_SET(victim->in_room->room_flags, ROOM_SAFE)
-        || IS_SET(victim->in_room->room_flags, ROOM_PRIVATE) || IS_SET(victim->in_room->room_flags, ROOM_SOLITARY)
-        || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL) || IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL)
+        || !can_see_room(ch, victim->in_room) || check_bit(victim->in_room->room_flags, ROOM_SAFE)
+        || check_bit(victim->in_room->room_flags, ROOM_PRIVATE) || check_bit(victim->in_room->room_flags, ROOM_SOLITARY)
+        || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)
         || victim->level >= level + 3 || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
-        || (victim->is_npc() && IS_SET(victim->imm_flags, IMM_SUMMON))
-        || (victim->is_pc() && IS_SET(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))) {
+        || (victim->is_npc() && check_bit(victim->imm_flags, IMM_SUMMON))
+        || (victim->is_pc() && check_bit(victim->act, PLR_NOSUMMON))
+        || (victim->is_npc() && saves_spell(level, victim))) {
         ch->send_line("You failed.");
         return;
     }
@@ -2467,7 +2468,7 @@ void spell_lethargy(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (is_affected(victim, sn) || IS_AFFECTED(victim, AFF_LETHARGY) || IS_SET(victim->off_flags, OFF_SLOW)) {
+    if (is_affected(victim, sn) || IS_AFFECTED(victim, AFF_LETHARGY) || check_bit(victim->off_flags, OFF_SLOW)) {
         if (victim == ch)
             ch->send_line("Your heart beat is as low as it can go!");
         else
@@ -2627,25 +2628,25 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
         }
         if ((obj->value[4] != 0) && (obj->item_type == ITEM_WEAPON)) {
             ch->send_to("Weapon flags:");
-            if (IS_SET(obj->value[4], WEAPON_FLAMING))
+            if (check_bit(obj->value[4], WEAPON_FLAMING))
                 ch->send_to(" flaming");
-            if (IS_SET(obj->value[4], WEAPON_FROST))
+            if (check_bit(obj->value[4], WEAPON_FROST))
                 ch->send_to(" frost");
-            if (IS_SET(obj->value[4], WEAPON_VAMPIRIC))
+            if (check_bit(obj->value[4], WEAPON_VAMPIRIC))
                 ch->send_to(" vampiric");
-            if (IS_SET(obj->value[4], WEAPON_SHARP))
+            if (check_bit(obj->value[4], WEAPON_SHARP))
                 ch->send_to(" sharp");
-            if (IS_SET(obj->value[4], WEAPON_VORPAL))
+            if (check_bit(obj->value[4], WEAPON_VORPAL))
                 ch->send_to(" vorpal");
-            if (IS_SET(obj->value[4], WEAPON_TWO_HANDS))
+            if (check_bit(obj->value[4], WEAPON_TWO_HANDS))
                 ch->send_to(" two-handed");
-            if (IS_SET(obj->value[4], WEAPON_POISONED))
+            if (check_bit(obj->value[4], WEAPON_POISONED))
                 ch->send_to(" poisoned");
-            if (IS_SET(obj->value[4], WEAPON_PLAGUED))
+            if (check_bit(obj->value[4], WEAPON_PLAGUED))
                 ch->send_to(" death");
-            if (IS_SET(obj->value[4], WEAPON_ACID))
+            if (check_bit(obj->value[4], WEAPON_ACID))
                 ch->send_to(" acid");
-            if (IS_SET(obj->value[4], WEAPON_LIGHTNING))
+            if (check_bit(obj->value[4], WEAPON_LIGHTNING))
                 ch->send_to(" lightning");
             ch->send_line(".");
         }
@@ -2748,7 +2749,7 @@ void spell_locate_object(int sn, int level, Char *ch, void *vo) {
     std::string buffer;
     for (auto *obj : object_list) {
         if (!ch->can_see(*obj) || !is_name(target_name, obj->name) || (ch->is_mortal() && number_percent() > 2 * level)
-            || ch->level < obj->level || IS_SET(obj->extra_flags, ITEM_NO_LOCATE))
+            || ch->level < obj->level || check_bit(obj->extra_flags, ITEM_NO_LOCATE))
             continue;
 
         found = true;
@@ -2883,7 +2884,7 @@ void spell_plague(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (saves_spell(level, victim) || (victim->is_npc() && IS_SET(victim->act, ACT_UNDEAD))) {
+    if (saves_spell(level, victim) || (victim->is_npc() && check_bit(victim->act, ACT_UNDEAD))) {
         if (ch == victim)
             ch->send_line("You feel momentarily ill, but it passes.");
         else
@@ -2908,16 +2909,18 @@ void spell_portal(int sn, int level, Char *ch, void *vo) {
     (void)vo;
     const auto *victim = get_char_world(ch, target_name);
     if (!victim || victim == ch || victim->in_room == nullptr || !can_see_room(ch, victim->in_room)
-        || IS_SET(victim->in_room->room_flags, ROOM_SAFE) || IS_SET(victim->in_room->room_flags, ROOM_PRIVATE)
-        || IS_SET(victim->in_room->room_flags, ROOM_SOLITARY) || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL)
-        || IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL) || IS_SET(victim->in_room->room_flags, ROOM_LAW)
-        || victim->level >= level + 3 || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
-        || (victim->is_npc() && IS_SET(victim->imm_flags, IMM_SUMMON))
-        || (victim->is_pc() && IS_SET(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))) {
+        || check_bit(victim->in_room->room_flags, ROOM_SAFE) || check_bit(victim->in_room->room_flags, ROOM_PRIVATE)
+        || check_bit(victim->in_room->room_flags, ROOM_SOLITARY)
+        || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)
+        || check_bit(victim->in_room->room_flags, ROOM_LAW) || victim->level >= level + 3
+        || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
+        || (victim->is_npc() && check_bit(victim->imm_flags, IMM_SUMMON))
+        || (victim->is_pc() && check_bit(victim->act, PLR_NOSUMMON))
+        || (victim->is_npc() && saves_spell(level, victim))) {
         ch->send_line("You failed.");
         return;
     }
-    if (IS_SET(ch->in_room->room_flags, ROOM_LAW)) {
+    if (check_bit(ch->in_room->room_flags, ROOM_LAW)) {
         ch->send_line("You cannot portal from this room.");
         return;
     }
@@ -3027,7 +3030,7 @@ namespace {
 bool is_noremove(const Object *obj) { return IS_OBJ_STAT(obj, ITEM_NOREMOVE); }
 void try_strip_noremove(const Char *victim, int level, Object *obj) {
     if (!saves_dispel(level, obj->level)) {
-        REMOVE_BIT(obj->extra_flags, ITEM_NOREMOVE);
+        clear_bit(obj->extra_flags, ITEM_NOREMOVE);
         act("$p glows blue.", victim, obj, nullptr, To::Char);
         act("$p glows blue.", victim, obj, nullptr, To::Room);
     } else {
@@ -3154,8 +3157,8 @@ void spell_sleep(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (IS_AFFECTED(victim, AFF_SLEEP) || (victim->is_npc() && IS_SET(victim->act, ACT_UNDEAD)) || level < victim->level
-        || saves_spell(level, victim))
+    if (IS_AFFECTED(victim, AFF_SLEEP) || (victim->is_npc() && check_bit(victim->act, ACT_UNDEAD))
+        || level < victim->level || saves_spell(level, victim))
         return;
 
     af.type = sn;
@@ -3207,24 +3210,24 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
     Char *victim;
 
     if ((victim = get_char_world(ch, target_name)) == nullptr || victim == ch || victim->in_room == nullptr
-        || ch->in_room == nullptr || IS_SET(victim->in_room->room_flags, ROOM_SAFE)
-        || IS_SET(victim->in_room->room_flags, ROOM_PRIVATE) || IS_SET(victim->in_room->room_flags, ROOM_SOLITARY)
-        || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL)
-        || (victim->is_npc() && IS_SET(victim->act, ACT_AGGRESSIVE)) || victim->level >= level + 3
+        || ch->in_room == nullptr || check_bit(victim->in_room->room_flags, ROOM_SAFE)
+        || check_bit(victim->in_room->room_flags, ROOM_PRIVATE) || check_bit(victim->in_room->room_flags, ROOM_SOLITARY)
+        || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL)
+        || (victim->is_npc() && check_bit(victim->act, ACT_AGGRESSIVE)) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) || victim->fighting != nullptr
-        || (victim->is_npc() && IS_SET(victim->imm_flags, IMM_SUMMON))
-        || (victim->is_pc() && IS_SET(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))
-        || (IS_SET(ch->in_room->room_flags, ROOM_SAFE))) {
+        || (victim->is_npc() && check_bit(victim->imm_flags, IMM_SUMMON))
+        || (victim->is_pc() && check_bit(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))
+        || (check_bit(ch->in_room->room_flags, ROOM_SAFE))) {
         ch->send_line("You failed.");
         return;
     }
-    if (IS_SET(ch->in_room->room_flags, ROOM_LAW)) {
+    if (check_bit(ch->in_room->room_flags, ROOM_LAW)) {
         ch->send_line("You'd probably get locked behind bars for that!");
         return;
     }
     if (victim->is_npc()) {
-        if (victim->pIndexData->shop != nullptr || IS_SET(victim->act, ACT_IS_HEALER) || IS_SET(victim->act, ACT_GAIN)
-            || IS_SET(victim->act, ACT_PRACTICE)) {
+        if (victim->pIndexData->shop != nullptr || check_bit(victim->act, ACT_IS_HEALER)
+            || check_bit(victim->act, ACT_GAIN) || check_bit(victim->act, ACT_PRACTICE)) {
             act("The guildspersons' convention prevents your summons.", ch, nullptr, nullptr, To::Char);
             act("The guildspersons' convention protects $n from summons.", victim);
             act("$n attempted to summon you!", ch, nullptr, victim, To::Vict);
@@ -3247,7 +3250,7 @@ void spell_teleport(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     Room *room;
 
-    if (victim->in_room == nullptr || IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL)
+    if (victim->in_room == nullptr || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL)
         || (ch->is_pc() && victim->fighting != nullptr)
         || (victim != ch && (saves_spell(level, victim) || saves_spell(level, victim)))) {
         ch->send_line("You failed.");
@@ -3257,8 +3260,8 @@ void spell_teleport(int sn, int level, Char *ch, void *vo) {
     for (;;) {
         room = get_room(number_range(0, 65535));
         if (room != nullptr)
-            if (can_see_room(ch, room) && !IS_SET(room->room_flags, ROOM_PRIVATE)
-                && !IS_SET(room->room_flags, ROOM_SOLITARY))
+            if (can_see_room(ch, room) && !check_bit(room->room_flags, ROOM_PRIVATE)
+                && !check_bit(room->room_flags, ROOM_SOLITARY))
                 break;
     }
 
@@ -3335,7 +3338,7 @@ void spell_word_of_recall(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL) || IS_AFFECTED(victim, AFF_CURSE)) {
+    if (check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || IS_AFFECTED(victim, AFF_CURSE)) {
         victim->send_line("Spell failed.");
         return;
     }
@@ -3636,12 +3639,12 @@ void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL)) {
+    if (check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)) {
         ch->send_line("You failed.");
         return;
     }
 
-    if (IS_SET(victim->in_room->room_flags, ROOM_NO_RECALL)) {
+    if (check_bit(victim->in_room->room_flags, ROOM_NO_RECALL)) {
         ch->send_line("You failed.");
         return;
     }

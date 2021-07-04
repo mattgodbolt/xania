@@ -72,7 +72,7 @@ void save_bans() {
     }
 
     for (ban = ban_list; ban != nullptr; ban = ban->next) {
-        if (IS_SET(ban->ban_flags, BAN_PERMANENT)) {
+        if (check_bit(ban->ban_flags, BAN_PERMANENT)) {
             found = true;
             fprintf(fp, "%s %d %s\n", ban->name, ban->level, print_flags(ban->ban_flags));
         }
@@ -123,20 +123,21 @@ bool check_ban(const char *site, int type) {
     strcpy(host, lower_case(site).c_str()); // TODO horrible.
 
     for (pban = ban_list; pban != nullptr; pban = pban->next) {
-        if (!IS_SET(pban->ban_flags, type))
+        if (!check_bit(pban->ban_flags, type))
             continue;
 
-        if (IS_SET(pban->ban_flags, BAN_PREFIX) && IS_SET(pban->ban_flags, BAN_SUFFIX)
+        if (check_bit(pban->ban_flags, BAN_PREFIX) && check_bit(pban->ban_flags, BAN_SUFFIX)
             && strstr(pban->name, host) != nullptr)
             return true;
 
-        if (IS_SET(pban->ban_flags, BAN_PREFIX) && !str_suffix(pban->name, host))
+        if (check_bit(pban->ban_flags, BAN_PREFIX) && !str_suffix(pban->name, host))
             return true;
 
-        if (IS_SET(pban->ban_flags, BAN_SUFFIX) && !str_prefix(pban->name, host))
+        if (check_bit(pban->ban_flags, BAN_SUFFIX) && !str_prefix(pban->name, host))
             return true;
 
-        if (!IS_SET(pban->ban_flags, BAN_SUFFIX) && !IS_SET(pban->ban_flags, BAN_PREFIX) && !str_cmp(pban->name, host))
+        if (!check_bit(pban->ban_flags, BAN_SUFFIX) && !check_bit(pban->ban_flags, BAN_PREFIX)
+            && !str_cmp(pban->name, host))
             return true;
     }
 
@@ -165,14 +166,15 @@ void ban_site(Char *ch, const char *argument, bool fPerm) {
 
         buffer_addline(buffer, "Banned sites       Level  Type     Status\n\r");
         for (pban = ban_list; pban != nullptr; pban = pban->next) {
-            snprintf(buf, sizeof(buf), "%s%s%s", IS_SET(pban->ban_flags, BAN_PREFIX) ? "*" : "", pban->name,
-                     IS_SET(pban->ban_flags, BAN_SUFFIX) ? "*" : "");
-            buffer_addline_fmt(
-                buffer, "%-17s    %-3d  %-7s  %s\n\r", buf, pban->level,
-                IS_SET(pban->ban_flags, BAN_NEWBIES)
-                    ? "newbies"
-                    : IS_SET(pban->ban_flags, BAN_PERMIT) ? "permit" : IS_SET(pban->ban_flags, BAN_ALL) ? "all" : "",
-                IS_SET(pban->ban_flags, BAN_PERMANENT) ? "perm" : "temp");
+            snprintf(buf, sizeof(buf), "%s%s%s", check_bit(pban->ban_flags, BAN_PREFIX) ? "*" : "", pban->name,
+                     check_bit(pban->ban_flags, BAN_SUFFIX) ? "*" : "");
+            buffer_addline_fmt(buffer, "%-17s    %-3d  %-7s  %s\n\r", buf, pban->level,
+                               check_bit(pban->ban_flags, BAN_NEWBIES)
+                                   ? "newbies"
+                                   : check_bit(pban->ban_flags, BAN_PERMIT)
+                                         ? "permit"
+                                         : check_bit(pban->ban_flags, BAN_ALL) ? "all" : "",
+                               check_bit(pban->ban_flags, BAN_PERMANENT) ? "perm" : "temp");
         }
         page_to_char(buffer_string(buffer), ch);
         buffer_destroy(buffer);
@@ -232,18 +234,18 @@ void ban_site(Char *ch, const char *argument, bool fPerm) {
     pban->ban_flags = type;
 
     if (prefix)
-        SET_BIT(pban->ban_flags, BAN_PREFIX);
+        set_bit(pban->ban_flags, BAN_PREFIX);
     if (suffix)
-        SET_BIT(pban->ban_flags, BAN_SUFFIX);
+        set_bit(pban->ban_flags, BAN_SUFFIX);
     if (fPerm)
-        SET_BIT(pban->ban_flags, BAN_PERMANENT);
+        set_bit(pban->ban_flags, BAN_PERMANENT);
 
     pban->next = ban_list;
     ban_list = pban;
     save_bans();
     snprintf(buf, sizeof(buf), "The host(s) matching '%s%s%s' have been banned.\n\r",
-             IS_SET(pban->ban_flags, BAN_PREFIX) ? "*" : "", pban->name,
-             IS_SET(pban->ban_flags, BAN_SUFFIX) ? "*" : "");
+             check_bit(pban->ban_flags, BAN_PREFIX) ? "*" : "", pban->name,
+             check_bit(pban->ban_flags, BAN_SUFFIX) ? "*" : "");
     ch->send_to(buf);
 }
 
@@ -282,8 +284,8 @@ void do_allow(Char *ch, const char *argument) {
             else
                 prev->next = curr->next;
 
-            snprintf(buf, sizeof(buf), "Ban on '%s%s%s' lifted.\n\r", IS_SET(curr->ban_flags, BAN_PREFIX) ? "*" : "",
-                     aargh, IS_SET(curr->ban_flags, BAN_SUFFIX) ? "*" : "");
+            snprintf(buf, sizeof(buf), "Ban on '%s%s%s' lifted.\n\r", check_bit(curr->ban_flags, BAN_PREFIX) ? "*" : "",
+                     aargh, check_bit(curr->ban_flags, BAN_SUFFIX) ? "*" : "");
             free_ban(curr);
             ch->send_to(buf);
             save_bans();

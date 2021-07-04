@@ -69,7 +69,7 @@ bool can_loot(const Char *ch, const Object *obj) {
     if (matches(ch->name, owner->name))
         return true;
 
-    if (owner->is_pc() && IS_SET(owner->act, PLR_CANLOOT))
+    if (owner->is_pc() && check_bit(owner->act, PLR_CANLOOT))
         return true;
 
     if (is_same_group(ch, owner))
@@ -123,7 +123,7 @@ void get_obj(Char *ch, Object *obj, Object *container) {
 
     if (obj->item_type == ITEM_MONEY) {
         ch->gold += obj->value[0];
-        if (IS_SET(ch->act, PLR_AUTOSPLIT)) { /* AUTOSPLIT code */
+        if (check_bit(ch->act, PLR_AUTOSPLIT)) { /* AUTOSPLIT code */
             if (ch->num_group_members_in_room() > 1 && obj->value[0] > 1) {
                 split_coins(ch, obj->value[0]);
             }
@@ -433,7 +433,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
     }
 
     if (CAN_WEAR(obj, ITEM_HOLD))
-        if (!(ch->is_npc() && IS_SET(ch->act, ACT_PET))) {
+        if (!(ch->is_npc() && check_bit(ch->act, ACT_PET))) {
             if (!remove_obj(ch, WEAR_HOLD, fReplace))
                 return;
             if (use_default_message) {
@@ -624,7 +624,7 @@ void do_get(Char *ch, const char *argument) {
         }
         }
 
-        if (IS_SET(container->value[1], CONT_CLOSED)) {
+        if (check_bit(container->value[1], CONT_CLOSED)) {
             act("The $d is closed.", ch, nullptr, container->name, To::Char);
             return;
         }
@@ -700,7 +700,7 @@ void do_put(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_SET(container->value[1], CONT_CLOSED)) {
+    if (check_bit(container->value[1], CONT_CLOSED)) {
         act("The $d is closed.", ch, nullptr, container->name, To::Char);
         return;
     }
@@ -802,7 +802,7 @@ void do_donate(Char *ch, const char *argument) {
     }
 
     /* check to see if the ch is in a non-recall room */
-    if (IS_SET(ch->in_room->room_flags, ROOM_NO_RECALL)) {
+    if (check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)) {
         ch->send_line("The psychic flux is not strong enough here.");
         return;
     }
@@ -1091,7 +1091,7 @@ void pour_from_to(Object *obj, Object *target_obj) {
 void collect_unique_obj_indexes(const GenericList<Object *> &objects, std::set<ObjectIndex *> &unique_obj_idxs) {
 
     for (const auto object : objects) {
-        if (IS_SET(object->extra_flags, ITEM_UNIQUE)) {
+        if (check_bit(object->extra_flags, ITEM_UNIQUE)) {
             unique_obj_idxs.insert(object->objIndex);
         }
         // This is a small optimization as all Objects have a contains list but only these types are valid containers.
@@ -1484,7 +1484,7 @@ void do_sacrifice(Char *ch, const char *argument) {
 
     ch->gold += gold;
 
-    if (IS_SET(ch->act, PLR_AUTOSPLIT)) { /* AUTOSPLIT code */
+    if (check_bit(ch->act, PLR_AUTOSPLIT)) { /* AUTOSPLIT code */
         if (ch->num_group_members_in_room() > 1 && gold > 1) {
             split_coins(ch, gold);
         }
@@ -1839,8 +1839,8 @@ void do_steal(Char *ch, const char *argument) {
                 multi_hit(victim, ch);
             } else {
                 log_string(buf);
-                if (!IS_SET(ch->act, PLR_THIEF)) {
-                    SET_BIT(ch->act, PLR_THIEF);
+                if (!check_bit(ch->act, PLR_THIEF)) {
+                    set_bit(ch->act, PLR_THIEF);
                     ch->send_line("|R*** You are now a THIEF!! ***|r");
                     save_char_obj(ch);
                 }
@@ -1871,7 +1871,7 @@ void do_steal(Char *ch, const char *argument) {
         return;
     }
 
-    if (!can_drop_obj(ch, obj) || IS_SET(obj->extra_flags, ITEM_INVENTORY) || obj->level > ch->level) {
+    if (!can_drop_obj(ch, obj) || check_bit(obj->extra_flags, ITEM_INVENTORY) || obj->level > ch->level) {
         ch->send_line("You can't pry it away.");
         return;
     }
@@ -1899,7 +1899,7 @@ void do_buy(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
+    if (check_bit(ch->in_room->room_flags, ROOM_PET_SHOP)) {
         char arg[MAX_INPUT_LENGTH];
         Char *pet;
         Room *roomNext;
@@ -1922,7 +1922,7 @@ void do_buy(Char *ch, const char *argument) {
         pet = get_char_room(ch, arg);
         ch->in_room = in_room;
 
-        if (pet == nullptr || !IS_SET(pet->act, ACT_PET)) {
+        if (pet == nullptr || !check_bit(pet->act, ACT_PET)) {
             ch->send_line("Sorry, you can't buy that here.");
             return;
         }
@@ -1954,9 +1954,9 @@ void do_buy(Char *ch, const char *argument) {
 
         ch->gold -= cost;
         pet = create_mobile(pet->pIndexData);
-        SET_BIT(ch->act, PLR_BOUGHT_PET);
-        SET_BIT(pet->act, ACT_PET);
-        SET_BIT(pet->affected_by, AFF_CHARM);
+        set_bit(ch->act, PLR_BOUGHT_PET);
+        set_bit(pet->act, ACT_PET);
+        set_bit(pet->affected_by, AFF_CHARM);
         pet->comm = COMM_NOTELL | COMM_NOSHOUT | COMM_NOCHANNELS;
 
         argument = one_argument(argument, arg);
@@ -2028,7 +2028,7 @@ void do_buy(Char *ch, const char *argument) {
         ch->gold -= cost;
         keeper->gold += cost;
 
-        if (IS_SET(obj->extra_flags, ITEM_INVENTORY))
+        if (check_bit(obj->extra_flags, ITEM_INVENTORY))
             obj = create_object(obj->objIndex);
         else
             obj_from_char(obj);
@@ -2043,7 +2043,7 @@ void do_buy(Char *ch, const char *argument) {
 }
 
 void do_list(Char *ch, const char *argument) {
-    if (IS_SET(ch->in_room->room_flags, ROOM_PET_SHOP)) {
+    if (check_bit(ch->in_room->room_flags, ROOM_PET_SHOP)) {
         Room *roomNext;
         bool found;
 
@@ -2056,7 +2056,7 @@ void do_list(Char *ch, const char *argument) {
 
         found = false;
         for (auto *pet : roomNext->people) {
-            if (IS_SET(pet->act, ACT_PET)) {
+            if (check_bit(pet->act, ACT_PET)) {
                 if (!found) {
                     found = true;
                     ch->send_line("Pets for sale:");
@@ -2351,17 +2351,17 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *mo
 
 int check_material_vulnerability(Char *ch, Object *object) {
 
-    if (IS_SET(ch->vuln_flags, VULN_WOOD)) {
+    if (check_bit(ch->vuln_flags, VULN_WOOD)) {
         if (is_made_of(object, "wood"))
             return 1;
     }
 
-    if (IS_SET(ch->vuln_flags, VULN_SILVER)) {
+    if (check_bit(ch->vuln_flags, VULN_SILVER)) {
         if (is_made_of(object, "silver"))
             return 1;
     }
 
-    if (IS_SET(ch->vuln_flags, VULN_IRON)) {
+    if (check_bit(ch->vuln_flags, VULN_IRON)) {
         if (is_made_of(object, "iron"))
             return 1;
     }

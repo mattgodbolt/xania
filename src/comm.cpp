@@ -499,10 +499,10 @@ bool process_output(Descriptor *d, bool fPrompt) {
         if (auto *fighting = character->fighting)
             d->write(colourise_mud_string(ansi, describe_fight_condition(*fighting)));
 
-        if (!IS_SET(person->comm, COMM_COMPACT))
+        if (!check_bit(person->comm, COMM_COMPACT))
             d->write("\n\r");
 
-        if (IS_SET(person->comm, COMM_PROMPT))
+        if (check_bit(person->comm, COMM_PROMPT))
             d->write(colourise_mud_string(ansi, format_prompt(*character, person->pcdata->prompt)));
     }
 
@@ -570,7 +570,7 @@ void nanny(Descriptor *d, const char *argument) {
         d->character(ch);
         ch->desc = d;
 
-        if (IS_SET(ch->act, PLR_DENY)) {
+        if (check_bit(ch->act, PLR_DENY)) {
             log_string("Denying access to {}@{}.", char_name.c_str(), d->host().c_str());
             d->write("You are denied access.\n\r");
             d->close();

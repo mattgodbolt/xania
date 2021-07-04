@@ -26,52 +26,8 @@
 
 #pragma once
 
-/***************************************************************************
- *                                                                         *
- *                   VALUES OF INTEREST TO AREA BUILDERS                   *
- *                   (Start of section ... start here)                     *
- *                                                                         *
- ***************************************************************************/
-
-/* RT ASCII conversions -- used so we can have letters in this file */
-
-static constexpr unsigned int BIT(unsigned int bit) { return 1u << bit; }
-static inline constexpr auto A = BIT(0);
-static inline constexpr auto B = BIT(1);
-static inline constexpr auto C = BIT(2);
-static inline constexpr auto D = BIT(3);
-static inline constexpr auto E = BIT(4);
-static inline constexpr auto F = BIT(5);
-static inline constexpr auto G = BIT(6);
-static inline constexpr auto H = BIT(7);
-
-static inline constexpr auto I = BIT(8);
-static inline constexpr auto J = BIT(9);
-static inline constexpr auto K = BIT(10);
-static inline constexpr auto L = BIT(11);
-static inline constexpr auto M = BIT(12);
-static inline constexpr auto N = BIT(13);
-static inline constexpr auto O = BIT(14);
-static inline constexpr auto P = BIT(15);
-
-static inline constexpr auto Q = BIT(16);
-static inline constexpr auto R = BIT(17);
-static inline constexpr auto S = BIT(18);
-static inline constexpr auto T = BIT(19);
-static inline constexpr auto U = BIT(20);
-static inline constexpr auto V = BIT(21);
-static inline constexpr auto W = BIT(22);
-static inline constexpr auto X = BIT(23);
-
-static inline constexpr auto Y = BIT(24);
-static inline constexpr auto Z = BIT(25);
-static inline constexpr auto aa = BIT(26);
-static inline constexpr auto bb = BIT(27);
-static inline constexpr auto cc = BIT(28);
-static inline constexpr auto dd = BIT(29);
-static inline constexpr auto ee = BIT(30);
-static inline constexpr auto ff = BIT(31);
-
+#include "common/BitOps.hpp"
+#include "common/StandardBits.hpp"
 /*
  * ACT bits for mobs.
  * Used in #MOBILES.
@@ -568,25 +524,18 @@ static inline constexpr auto ff = BIT(31);
 #define COMM_NOALLEGE (X)
 
 /*
- * Utility macros.
- */
-#define IS_SET(flag, bit) (((flag) & (bit)) ? true : false)
-#define SET_BIT(var, bit) ((var) |= (bit))
-#define REMOVE_BIT(var, bit) ((var) &= ~(bit))
-
-/*
  * Character macros.
  */
-#define IS_AFFECTED(ch, sn) (IS_SET((ch)->affected_by, (sn)))
+#define IS_AFFECTED(ch, sn) (check_bit((ch)->affected_by, (sn)))
 
 #define GET_AC(ch, type)                                                                                               \
     ((ch)->armor[type] + (ch->is_pos_awake() ? dex_app[get_curr_stat(ch, Stat::Dex)].defensive : 0))
 
-#define IS_OUTSIDE(ch) (!IS_SET((ch)->in_room->room_flags, ROOM_INDOORS))
+#define IS_OUTSIDE(ch) (!check_bit((ch)->in_room->room_flags, ROOM_INDOORS))
 
 /*
  * Object macros.
  */
-#define CAN_WEAR(obj, part) (IS_SET((obj)->wear_flags, (part)))
-#define IS_OBJ_STAT(obj, stat) (IS_SET((obj)->extra_flags, (stat)))
-#define IS_WEAPON_STAT(obj, stat) (IS_SET((obj)->value[4], (stat)))
+#define CAN_WEAR(obj, part) (check_bit((obj)->wear_flags, (part)))
+#define IS_OBJ_STAT(obj, stat) (check_bit((obj)->extra_flags, (stat)))
+#define IS_WEAPON_STAT(obj, stat) (check_bit((obj)->value[4], (stat)))
