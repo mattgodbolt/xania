@@ -103,7 +103,7 @@ struct Char {
     /* parts stuff */
     unsigned long form{};
     unsigned long parts{};
-    sh_int size{};
+    ush_int size{};
     sh_int material{};
     /* mobile stuff */
     unsigned long off_flags{};

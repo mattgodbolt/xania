@@ -12,6 +12,7 @@
 #include "AREA_DATA.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
+#include "BodySize.hpp"
 #include "Char.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
@@ -1270,8 +1271,8 @@ Char *create_mobile(MobIndexData *pMobIndex) {
     if (check_bit(mob->off_flags, OFF_FAST))
         mob->perm_stat[Stat::Dex] += 2;
 
-    mob->perm_stat[Stat::Str] += mob->size - SIZE_MEDIUM;
-    mob->perm_stat[Stat::Con] += (mob->size - SIZE_MEDIUM) / 2;
+    mob->perm_stat[Stat::Str] += mob->size - BodySizeMedium;
+    mob->perm_stat[Stat::Con] += (mob->size - BodySizeMedium) / 2;
 
     mob->position = mob->start_pos;
 

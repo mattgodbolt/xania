@@ -29,14 +29,6 @@
 #include "common/BitOps.hpp"
 #include "common/StandardBits.hpp"
 
-/* size */
-#define SIZE_TINY 0
-#define SIZE_SMALL 1
-#define SIZE_MEDIUM 2
-#define SIZE_LARGE 3
-#define SIZE_HUGE 4
-#define SIZE_GIANT 5
-
 /*
  * Material types.
  * Used in #OBJECTS

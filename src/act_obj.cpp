@@ -12,6 +12,7 @@
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsDamageTolerance.hpp"
+#include "BodySize.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"
@@ -374,7 +375,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             return;
 
         weapon = get_eq_char(ch, WEAR_WIELD);
-        if (weapon != nullptr && ch->size < SIZE_LARGE && IS_WEAPON_STAT(weapon, WEAPON_TWO_HANDS)) {
+        if (weapon != nullptr && ch->size < BodySizeLarge && IS_WEAPON_STAT(weapon, WEAPON_TWO_HANDS)) {
             ch->send_line("Your hands are tied up with your weapon!");
             return;
         }
@@ -398,7 +399,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             return;
         }
 
-        if (ch->is_pc() && ch->size < SIZE_LARGE && IS_WEAPON_STAT(obj, WEAPON_TWO_HANDS)
+        if (ch->is_pc() && ch->size < BodySizeLarge && IS_WEAPON_STAT(obj, WEAPON_TWO_HANDS)
             && get_eq_char(ch, WEAR_SHIELD) != nullptr) {
             ch->send_line("You need two hands free for that weapon.");
             return;
