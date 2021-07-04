@@ -5,6 +5,7 @@
 /*************************************************************************/
 #include "Char.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsCharOffensive.hpp"
 #include "Classes.hpp"
 #include "DescriptorList.hpp"
 #include "Note.hpp"

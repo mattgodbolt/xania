@@ -10,6 +10,7 @@
 #include "fight.hpp"
 #include "AFFECT_DATA.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsCharOffensive.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"
 #include "DamageMessages.hpp"

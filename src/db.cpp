@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsCharOffensive.hpp"
 #include "Char.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"

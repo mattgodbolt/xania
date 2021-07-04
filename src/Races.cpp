@@ -5,6 +5,7 @@
 /*************************************************************************/
 #include "Races.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsCharOffensive.hpp"
 #include "merc.h"
 
 /* race table */
