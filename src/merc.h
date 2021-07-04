@@ -593,19 +593,6 @@ static inline constexpr auto ff = BIT(31);
 /* spare flags used for new channels */
 #define COMM_NOALLEGE (X)
 
-/**
- * Commands used in #RESETS section of area files
- */
-#define RESETS_MOB_IN_ROOM 'M' /* place mob in a room */
-#define RESETS_EQUIP_OBJ_MOB 'E' /* equip and item on a mobile */
-#define RESETS_GIVE_OBJ_MOB 'G' /* give an item to a mobile's inventory */
-#define RESETS_OBJ_IN_ROOM 'O' /* place a static object in a room */
-#define RESETS_PUT_OBJ_OBJ 'P' /* place a static object in another object */
-#define RESETS_EXIT_FLAGS 'D' /* set exit closed/locked flags */
-#define RESETS_RANDOMIZE_EXITS 'R' /* randomize room exits */
-#define RESETS_COMMENT '*' /* comment line */
-#define RESETS_END_SECTION 'S' /* end of the resets section */
-
 /*
  *  Target types.
  */

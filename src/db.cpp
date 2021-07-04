@@ -70,6 +70,19 @@ int newobjs = 0;
 // Index number of the latest affect on an object.
 int top_obj_affect;
 
+/**
+ * Commands used in #RESETS section of area files
+ */
+constexpr auto ResetMobInRoom = 'M'; /* place mob in a room */
+constexpr auto ResetEquipObjMob = 'E'; /* equip and item on a mobile */
+constexpr auto ResetGiveObjMob = 'G'; /* give an item to a mobile's inventory */
+constexpr auto ResetObjInRoom = 'O'; /* place a static object in a room */
+constexpr auto ResetPutObjInObj = 'P'; /* place a static object in another object */
+constexpr auto ResetExitFlags = 'D'; /* set exit closed/locked flags */
+constexpr auto ResetRandomizeExits = 'R'; /* randomize room exits */
+constexpr auto ResetComment = '*'; /* comment line */
+constexpr auto ResetEndSection = 'S'; /* end of the resets section */
+
 }
 
 /* Externally referenced functions. */
@@ -398,10 +411,10 @@ void load_resets(FILE *fp) {
     for (;;) {
 
         char letter;
-        if ((letter = fread_letter(fp)) == RESETS_END_SECTION)
+        if ((letter = fread_letter(fp)) == ResetEndSection)
             break;
 
-        if (letter == RESETS_COMMENT) {
+        if (letter == ResetComment) {
             fread_to_eol(fp);
             continue;
         }
@@ -413,9 +426,9 @@ void load_resets(FILE *fp) {
 
         pReset->arg2 = fread_number(fp);
 
-        pReset->arg3 = (letter == RESETS_GIVE_OBJ_MOB || letter == RESETS_RANDOMIZE_EXITS) ? 0 : fread_number(fp);
+        pReset->arg3 = (letter == ResetGiveObjMob || letter == ResetRandomizeExits) ? 0 : fread_number(fp);
 
-        if (letter == RESETS_PUT_OBJ_OBJ || letter == RESETS_MOB_IN_ROOM) {
+        if (letter == ResetPutObjInObj || letter == ResetMobInRoom) {
             pReset->arg4 = fread_number(fp);
         } else
             pReset->arg4 = 0;
@@ -429,30 +442,30 @@ void load_resets(FILE *fp) {
             bug("Load_resets: bad command '{}'.", letter);
             exit(1);
             break;
-        case RESETS_MOB_IN_ROOM:
+        case ResetMobInRoom:
             if ((room = get_room(pReset->arg3))) {
                 new_reset(room, pReset);
                 iLastRoom = pReset->arg3;
             }
             break;
-        case RESETS_OBJ_IN_ROOM:
+        case ResetObjInRoom:
             if ((room = get_room(pReset->arg3))) {
                 new_reset(room, pReset);
                 iLastObj = pReset->arg3;
             }
             break;
-        case RESETS_PUT_OBJ_OBJ:
+        case ResetPutObjInObj:
             if ((room = get_room(iLastObj)))
                 new_reset(room, pReset);
             break;
-        case RESETS_GIVE_OBJ_MOB:
-        case RESETS_EQUIP_OBJ_MOB:
+        case ResetGiveObjMob:
+        case ResetEquipObjMob:
             if ((room = get_room(iLastRoom))) {
                 new_reset(room, pReset);
                 iLastObj = iLastRoom;
             }
             break;
-        case RESETS_EXIT_FLAGS: {
+        case ResetExitFlags: {
             room = get_room(pReset->arg1);
             auto opt_door = try_cast_direction(pReset->arg2);
 
@@ -470,7 +483,7 @@ void load_resets(FILE *fp) {
             }
             break;
         }
-        case RESETS_RANDOMIZE_EXITS:
+        case ResetRandomizeExits:
             if (pReset->arg2 < 0 || pReset->arg2 > static_cast<int>(all_directions.size())) {
                 bug("Load_resets: 'R': bad exit {}.", pReset->arg2);
                 exit(1);
@@ -991,7 +1004,7 @@ void reset_room(Room *room) {
         switch (reset->command) {
         default: bug("Reset_room: bad command {}.", reset->command); break;
 
-        case RESETS_MOB_IN_ROOM: {
+        case ResetMobInRoom: {
             MobIndexData *mobIndex;
             if (!(mobIndex = get_mob_index(reset->arg1))) {
                 bug("Reset_room: 'M': bad vnum {}.", reset->arg1);
@@ -1029,7 +1042,7 @@ void reset_room(Room *room) {
             break;
         }
 
-        case RESETS_OBJ_IN_ROOM: {
+        case ResetObjInRoom: {
             ObjectIndex *objIndex;
             Room *room;
             if (!(objIndex = get_obj_index(reset->arg1))) {
@@ -1052,7 +1065,7 @@ void reset_room(Room *room) {
             break;
         }
 
-        case RESETS_PUT_OBJ_OBJ: {
+        case ResetPutObjInObj: {
             int limit, count;
             ObjectIndex *containedObjIndex;
             ObjectIndex *containerObjIndex;
@@ -1099,8 +1112,8 @@ void reset_room(Room *room) {
             break;
         }
 
-        case RESETS_GIVE_OBJ_MOB:
-        case RESETS_EQUIP_OBJ_MOB: {
+        case ResetGiveObjMob:
+        case ResetEquipObjMob: {
             ObjectIndex *objIndex;
             Object *object;
             if (!(objIndex = get_obj_index(reset->arg1))) {
@@ -1133,15 +1146,15 @@ void reset_room(Room *room) {
             }
 
             obj_to_char(object, lastMob);
-            if (reset->command == RESETS_EQUIP_OBJ_MOB)
+            if (reset->command == ResetEquipObjMob)
                 equip_char(lastMob, object, reset->arg3);
             lastMobWasReset = true;
             break;
         }
 
-        case RESETS_EXIT_FLAGS: break;
+        case ResetExitFlags: break;
 
-        case RESETS_RANDOMIZE_EXITS: {
+        case ResetRandomizeExits: {
             Room *room;
             if (!(room = get_room(reset->arg1))) {
                 bug("Reset_room: 'R': bad vnum {}.", reset->arg1);
