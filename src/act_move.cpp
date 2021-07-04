@@ -133,7 +133,7 @@ void move_char(Char *ch, Direction door) {
                 return;
             }
 
-            WAIT_STATE(ch, 1);
+            ch->wait_state(1);
             ch->move -= move;
         } else {
             move /= 2; /* Horses are better at moving ... well probably */
@@ -141,7 +141,7 @@ void move_char(Char *ch, Direction door) {
                 act("$N is too exhausted to carry you further.", ch, nullptr, ch->riding, To::Char);
                 return;
             }
-            WAIT_STATE(ch->riding, 1);
+            ch->riding->wait_state(1);
             ch->riding->move -= move;
         }
     }
@@ -648,7 +648,7 @@ void do_pick(Char *ch, ArgParser args) {
         return;
     }
 
-    WAIT_STATE(ch, skill_table[gsn_pick_lock].beats);
+    ch->wait_state(skill_table[gsn_pick_lock].beats);
 
     /* look for guards */
     for (auto *gch : ch->in_room->people) {
@@ -989,7 +989,7 @@ void do_recall(Char *ch, ArgParser args) {
         const auto skill = ch->get_skill(gsn_recall);
         if (number_percent() < 80 * skill / 100) {
             check_improve(ch, gsn_recall, false, 6);
-            WAIT_STATE(ch, 4);
+            ch->wait_state(4);
             ch->send_line("You failed!");
             return;
         }

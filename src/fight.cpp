@@ -1706,7 +1706,7 @@ void do_berserk(Char *ch) {
     if (number_percent() < chance) {
         AFFECT_DATA af;
 
-        WAIT_STATE(ch, PULSE_VIOLENCE);
+        ch->wait_state(PULSE_VIOLENCE);
         ch->mana -= 50;
         ch->move /= 2;
 
@@ -1743,7 +1743,7 @@ void do_berserk(Char *ch) {
             }*/
 
     } else {
-        WAIT_STATE(ch, 3 * PULSE_VIOLENCE);
+        ch->wait_state(3 * PULSE_VIOLENCE);
         ch->mana -= 25;
         ch->move /= 2;
 
@@ -1839,10 +1839,10 @@ void do_bash(Char *ch, const char *argument) {
         check_improve(ch, gsn_bash, true, 1);
 
         if (fighting_duel(ch, victim))
-            WAIT_STATE(victim, 2 * PULSE_VIOLENCE);
+            victim->wait_state(2 * PULSE_VIOLENCE);
         else
-            WAIT_STATE(victim, 3 * PULSE_VIOLENCE);
-        WAIT_STATE(ch, skill_table[gsn_bash].beats);
+            victim->wait_state(3 * PULSE_VIOLENCE);
+        ch->wait_state(skill_table[gsn_bash].beats);
         victim->position = Position::Type::Resting;
         damage(ch, victim, number_range(2, 2 + 2 * ch->size + chance / 20), &skill_table[gsn_bash], DAM_BASH);
         if (victim->ridden_by != nullptr) {
@@ -1855,7 +1855,7 @@ void do_bash(Char *ch, const char *argument) {
         act("You evade $n's bash, causing $m to fall flat on $s face.", ch, nullptr, victim, To::Vict);
         check_improve(ch, gsn_bash, false, 1);
         ch->position = Position::Type::Resting;
-        WAIT_STATE(ch, skill_table[gsn_bash].beats * 3 / 2);
+        ch->wait_state(skill_table[gsn_bash].beats * 3 / 2);
         if (ch->ridden_by != nullptr) {
             thrown_off(ch->ridden_by, ch);
         }
@@ -1968,7 +1968,7 @@ void do_dirt(Char *ch, const char *argument) {
         damage(ch, victim, number_range(2, 5), &skill_table[gsn_dirt], DAM_NONE);
         victim->send_line("You can't see a thing!");
         check_improve(ch, gsn_dirt, true, 2);
-        WAIT_STATE(ch, skill_table[gsn_dirt].beats);
+        ch->wait_state(skill_table[gsn_dirt].beats);
 
         af.type = gsn_dirt;
         af.level = ch->level;
@@ -1981,7 +1981,7 @@ void do_dirt(Char *ch, const char *argument) {
     } else {
         damage(ch, victim, 0, &skill_table[gsn_dirt], DAM_NONE);
         check_improve(ch, gsn_dirt, false, 2);
-        WAIT_STATE(ch, skill_table[gsn_dirt].beats);
+        ch->wait_state(skill_table[gsn_dirt].beats);
     }
 }
 
@@ -2036,7 +2036,7 @@ void do_trip(Char *ch, const char *argument) {
 
     if (victim == ch) {
         ch->send_line("You fall flat on your face!");
-        WAIT_STATE(ch, 2 * skill_table[gsn_trip].beats);
+        ch->wait_state(2 * skill_table[gsn_trip].beats);
         act("$n trips over $s own feet!", ch);
         return;
     }
@@ -2072,8 +2072,8 @@ void do_trip(Char *ch, const char *argument) {
         act("$n trips $N, sending $M to the ground.", ch, nullptr, victim, To::NotVict);
         check_improve(ch, gsn_trip, true, 1);
 
-        WAIT_STATE(victim, 2 * PULSE_VIOLENCE);
-        WAIT_STATE(ch, skill_table[gsn_trip].beats);
+        victim->wait_state(2 * PULSE_VIOLENCE);
+        ch->wait_state(skill_table[gsn_trip].beats);
         victim->position = Position::Type::Resting;
         damage(ch, victim, number_range(2, 2 + 2 * victim->size), &skill_table[gsn_trip], DAM_BASH);
         if (victim->ridden_by != nullptr) {
@@ -2081,7 +2081,7 @@ void do_trip(Char *ch, const char *argument) {
         }
     } else {
         damage(ch, victim, 0, &skill_table[gsn_trip], DAM_BASH);
-        WAIT_STATE(ch, skill_table[gsn_trip].beats * 2 / 3);
+        ch->wait_state(skill_table[gsn_trip].beats * 2 / 3);
         check_improve(ch, gsn_trip, false, 1);
     }
 }
@@ -2133,7 +2133,7 @@ void do_kill(Char *ch, const char *argument) {
         return;
     }
 
-    WAIT_STATE(ch, 1 * PULSE_VIOLENCE);
+    ch->wait_state(1 * PULSE_VIOLENCE);
     check_killer(ch, victim);
     multi_hit(ch, victim);
 }
@@ -2182,7 +2182,7 @@ void do_murder(Char *ch, const char *argument) {
         return;
     }
 
-    WAIT_STATE(ch, 1 * PULSE_VIOLENCE);
+    ch->wait_state(PULSE_VIOLENCE);
     victim->yell(fmt::format("Help! I am being attacked by {}!", ch->short_name()));
     check_killer(ch, victim);
     multi_hit(ch, victim);
@@ -2241,7 +2241,7 @@ void do_backstab(Char *ch, const char *argument) {
         }
 
     check_killer(ch, victim);
-    WAIT_STATE(ch, skill_table[gsn_backstab].beats);
+    ch->wait_state(skill_table[gsn_backstab].beats);
     if (!victim->is_pos_awake() || number_percent() < chance) {
         check_improve(ch, gsn_backstab, true, 1);
         multi_hit(ch, victim, &skill_table[gsn_backstab]);
@@ -2342,7 +2342,7 @@ void do_rescue(Char *ch, const char *argument) {
         return;
     }
 
-    WAIT_STATE(ch, skill_table[gsn_rescue].beats);
+    ch->wait_state(skill_table[gsn_rescue].beats);
     if (ch->is_pc() && number_percent() > ch->get_skill(gsn_rescue)) {
         ch->send_line("You fail the rescue.");
         check_improve(ch, gsn_rescue, false, 1);
@@ -2433,7 +2433,7 @@ void do_headbutt(Char *ch, const char *argument) {
         return;
     }
 
-    WAIT_STATE(ch, skill_table[gsn_headbutt].beats);
+    ch->wait_state(skill_table[gsn_headbutt].beats);
 
     if ((chance = number_percent()) < ch->get_skill(gsn_headbutt)) {
         damage(ch, victim, number_range(ch->level / 3, ch->level), &skill_table[gsn_headbutt], DAM_BASH);
@@ -2460,7 +2460,7 @@ void do_headbutt(Char *ch, const char *argument) {
         act("$N dodges your headbutt. You feel disoriented.", ch, nullptr, victim, To::Char);
         act("$N dodges $n's headbutt.", ch, nullptr, victim, To::Room);
         act("You dodge $n's headbutt.", ch, nullptr, victim, To::Vict);
-        WAIT_STATE(ch, skill_table[gsn_headbutt].beats / 2);
+        ch->wait_state(skill_table[gsn_headbutt].beats / 2);
     }
 }
 
@@ -2535,7 +2535,7 @@ void do_kick(Char *ch, const char *argument) {
         return;
     }
 
-    WAIT_STATE(ch, skill_table[gsn_kick].beats);
+    ch->wait_state(skill_table[gsn_kick].beats);
     if (number_percent() < ch->get_skill(gsn_kick)) {
         damage(ch, victim, number_range(1, ch->level), &skill_table[gsn_kick], DAM_BASH);
         check_improve(ch, gsn_kick, true, 1);
@@ -2604,11 +2604,11 @@ void do_disarm(Char *ch) {
 
     /* and now the attack */
     if (number_percent() < chance) {
-        WAIT_STATE(ch, skill_table[gsn_disarm].beats);
+        ch->wait_state(skill_table[gsn_disarm].beats);
         disarm(ch, victim);
         check_improve(ch, gsn_disarm, true, 1);
     } else {
-        WAIT_STATE(ch, skill_table[gsn_disarm].beats);
+        ch->wait_state(skill_table[gsn_disarm].beats);
         act("You fail to disarm $N.", ch, nullptr, victim, To::Char);
         act("$n tries to disarm you, but fails.", ch, nullptr, victim, To::Vict);
         act("$n tries to disarm $N, but fails.", ch, nullptr, victim, To::NotVict);

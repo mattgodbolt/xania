@@ -89,7 +89,7 @@ void tornado_mental(Char *ch, Char *victim, int level) {
     af.location = AffectLocation::Int;
     af.modifier = -(1 + (level >= 20) + (level >= 30) + (level >= 50) + (level >= 75) + (level >= 91));
     affect_to_char(victim, af);
-    WAIT_STATE(ch, PULSE_VIOLENCE * 2);
+    ch->wait_state(PULSE_VIOLENCE * 2);
     victim->position = Position::Type::Resting;
 }
 

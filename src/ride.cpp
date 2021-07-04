@@ -65,7 +65,7 @@ void fallen_off_mount(Char *ch) {
     affect_strip(ch, gsn_ride);
     check_improve(ch, gsn_ride, false, 3);
 
-    WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
+    ch->wait_state(2 * PULSE_VIOLENCE);
     ch->position = Position::Type::Resting;
     damage(pet, ch, number_range(2, 2 + 2 * ch->size + pet->size), &skill_table[gsn_bash], DAM_BASH);
 }

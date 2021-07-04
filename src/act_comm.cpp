@@ -365,7 +365,7 @@ void do_save(Char *ch) {
 
     save_char_obj(ch);
     ch->send_line("|cTo Save is wisdom, but don't forget |WXania|c does it automagically!|w");
-    WAIT_STATE(ch, 5 * PULSE_VIOLENCE);
+    ch->wait_state(5 * PULSE_VIOLENCE);
 }
 
 void do_follow(Char *ch, ArgParser args) {
@@ -534,7 +534,7 @@ void do_order(Char *ch, const char *argument) {
         if (IS_AFFECTED(och, AFF_CHARM) && och->master == ch && (fAll || och == victim)) {
             found = true;
             act(fmt::format("|W$n|w orders you to '{}'.", command_remainder), ch, nullptr, och, To::Vict);
-            WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
+            ch->wait_state(2 * PULSE_VIOLENCE);
             // We know this points into the remainder of "argument"
             interpret(och, command_remainder);
         }

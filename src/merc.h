@@ -627,8 +627,6 @@ static inline constexpr auto ff = BIT(31);
 
 #define IS_OUTSIDE(ch) (!IS_SET((ch)->in_room->room_flags, ROOM_INDOORS))
 
-#define WAIT_STATE(ch, npulse) ((ch)->wait = UMAX((ch)->wait, (npulse)))
-
 /*
  * Object macros.
  */

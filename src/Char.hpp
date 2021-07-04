@@ -225,6 +225,9 @@ struct Char {
     // Page text to this character's user (if they have one).
     void page_to(std::string_view txt) const;
 
+    // Set the Char's wait state to npulse if it is higher than the Char's current wait state.
+    void wait_state(const sh_int npulse);
+
     // Sets a PC's title.
     void set_title(std::string title);
 

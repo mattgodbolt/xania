@@ -765,7 +765,7 @@ void do_lore(Char *ch, Object *obj, std::string_view description) {
     } else {
         const auto identify = skill_lookup("identify");
         if (ch->is_mortal())
-            WAIT_STATE(ch, skill_table[identify].beats);
+            ch->wait_state(skill_table[identify].beats);
         ch->send_line(description);
         check_improve(ch, gsn_lore, true, 1);
         (*skill_table[identify].spell_fun)(identify, ch->level, ch, (void *)obj);
@@ -1783,7 +1783,7 @@ void do_password(Char *ch, const char *argument) {
     }
 
     if (!ch->pcdata->pwd.empty() && strcmp(crypt(arg1, ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
-        WAIT_STATE(ch, 40);
+        ch->wait_state(40);
         ch->send_line("Wrong password.  Wait 10 seconds.");
         return;
     }

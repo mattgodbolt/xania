@@ -1633,7 +1633,7 @@ void do_brandish(Char *ch) {
         return;
     }
 
-    WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
+    ch->wait_state(2 * PULSE_VIOLENCE);
 
     if (staff->value[2] > 0) {
         act("|W$n brandishes $p.|w", ch, staff, nullptr, To::Room);
@@ -1743,7 +1743,7 @@ void do_zap(Char *ch, const char *argument) {
         }
     }
 
-    WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
+    ch->wait_state(2 * PULSE_VIOLENCE);
 
     if (wand->value[2] > 0) {
         if (victim != nullptr) {
@@ -1812,7 +1812,7 @@ void do_steal(Char *ch, const char *argument) {
         return;
     }
 
-    WAIT_STATE(ch, skill_table[gsn_steal].beats);
+    ch->wait_state(skill_table[gsn_steal].beats);
     percent = number_percent() + (victim->is_pos_awake() ? 10 : -50);
 
     if (ch->level + 5 < victim->level || victim->is_pos_fighting() || victim->is_pc()
@@ -2230,7 +2230,7 @@ void do_throw(Char *ch, const char *argument) {
         return;
     }
 
-    WAIT_STATE(ch, 2 * PULSE_VIOLENCE);
+    ch->wait_state(2 * PULSE_VIOLENCE);
 
     chance = ch->get_skill(gsn_throw);
 
@@ -2284,7 +2284,7 @@ void do_hailcorpse(Char *ch) {
     ch->send_line("You incant the sacred verse of Necrosis and are overcome with nausea.");
 
     /* make them wait a bit, help prevent abuse */
-    WAIT_STATE(ch, 25);
+    ch->wait_state(25);
 
     /* first thing is to check the ch room to see if it's already here */
     if (find_corpse(ch, ch->in_room->contents)) {

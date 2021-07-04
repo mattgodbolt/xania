@@ -125,7 +125,7 @@ void do_heal(Char *ch, const char *argument) {
         return;
     }
 
-    WAIT_STATE(ch, PULSE_VIOLENCE);
+    ch->wait_state(PULSE_VIOLENCE);
 
     ch->gold -= cost;
     mob->gold += cost;

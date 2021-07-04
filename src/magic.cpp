@@ -292,7 +292,7 @@ void do_cast(Char *ch, const char *argument) {
             return;
         }
 
-        WAIT_STATE(ch, skill_table[sn].beats * 2);
+        ch->wait_state(skill_table[sn].beats * 2);
 
         if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
             ch->send_line("You lost your concentration.");
@@ -394,7 +394,7 @@ void do_cast(Char *ch, const char *argument) {
             return;
         }
 
-        WAIT_STATE(ch, skill_table[sn].beats * 2);
+        ch->wait_state(skill_table[sn].beats * 2);
         if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
             ch->send_line("You lost your concentration.");
             check_improve(ch, sn, false, 8);
@@ -456,7 +456,7 @@ void do_cast(Char *ch, const char *argument) {
             return;
         }
 
-        WAIT_STATE(ch, skill_table[sn].beats * 2);
+        ch->wait_state(skill_table[sn].beats * 2);
 
         if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
             ch->send_line("You lost your concentration.");
@@ -575,7 +575,7 @@ void do_cast(Char *ch, const char *argument) {
     if (str_cmp(skill_table[sn].name, "ventriloquate"))
         say_spell(ch, sn);
 
-    WAIT_STATE(ch, skill_table[sn].beats);
+    ch->wait_state(skill_table[sn].beats);
 
     if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
         ch->send_line("You lost your concentration.");
