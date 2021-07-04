@@ -4,6 +4,7 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Char.hpp"
+#include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
@@ -157,6 +158,11 @@ sh_int Char::max_stat(Stat stat) const {
 
     return std::min(pc_race_table[race].max_stats[stat] + (class_table[class_num].attr_prime == stat ? 6 : 4),
                     MaxStatValue);
+}
+
+sh_int Char::get_armour_class(const ArmourClass ac_slot) const {
+    return armor[magic_enum::enum_integer<ArmourClass>(ac_slot)]
+           + (is_pos_awake() ? dex_app[curr_stat(Stat::Dex)].defensive : 0);
 }
 
 bool Char::is_affected_by(int skill_number) const { return affected.find_by_skill(skill_number); }

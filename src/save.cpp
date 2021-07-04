@@ -544,7 +544,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::Alignment) {
             ch->alignment = fread_number(fp);
         } else if (word == cf::ArmourClasses) {
-            for (int i = 0; i < 4; i++) {
+            for (size_t i = 0; i < ch->armor.size(); i++) {
                 ch->armor[i] = fread_number(fp);
             }
         } else if (word == cf::Affected) {

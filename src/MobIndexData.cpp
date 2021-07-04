@@ -1,4 +1,5 @@
 #include "MobIndexData.hpp"
+#include "ArmourClass.hpp"
 #include "BitsCharAct.hpp"
 #include "Races.hpp"
 
@@ -44,10 +45,9 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
     dam_type = attack_lookup(fread_word(fp));
 
     // read armor class
-    ac[AC_PIERCE] = fread_number(fp);
-    ac[AC_BASH] = fread_number(fp);
-    ac[AC_SLASH] = fread_number(fp);
-    ac[AC_EXOTIC] = fread_number(fp);
+    for (size_t i = 0; i < ac.size(); i++) {
+        ac[i] = fread_number(fp);
+    }
 
     // read flags and add in data from the race table
     off_flags = fread_flag(fp) | race_table[race].off;

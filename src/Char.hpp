@@ -2,6 +2,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "AffectList.hpp"
+#include "ArmourClass.hpp"
 #include "CharVersion.hpp"
 #include "Constants.hpp"
 #include "Descriptor.hpp"
@@ -14,8 +15,10 @@
 #include "Types.hpp"
 
 #include <fmt/core.h>
+#include <magic_enum.hpp>
 #include <memory>
 
+enum class ArmourClass;
 class Note;
 class Sex;
 struct MobIndexData;
@@ -92,7 +95,7 @@ struct Char {
     sh_int alignment{};
     sh_int hitroll{};
     sh_int damroll{};
-    std::array<sh_int, 4> armor{};
+    std::array<sh_int, magic_enum::enum_count<ArmourClass>()> armor{};
     sh_int wimpy{};
     /* stats */
     Stats perm_stat;
@@ -199,6 +202,9 @@ struct Char {
     // Get current and maximum stats.
     [[nodiscard]] sh_int curr_stat(Stat stat) const;
     [[nodiscard]] sh_int max_stat(Stat stat) const;
+
+    // Get the current armour class, taking into account Char position and dexterity.
+    [[nodiscard]] sh_int get_armour_class(const ArmourClass ac_slot) const;
 
     // Return true if a char is affected by a spell.
     [[nodiscard]] bool is_affected_by(int skill_number) const;

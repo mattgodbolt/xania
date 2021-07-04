@@ -9,6 +9,7 @@
 
 #include "fight.hpp"
 #include "AFFECT_DATA.hpp"
+#include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
 #include "BitsBodyForm.hpp"
 #include "BitsCharAct.hpp"
@@ -474,10 +475,10 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     }
 
     switch (dam_type) {
-    case (DAM_PIERCE): victim_ac = GET_AC(victim, AC_PIERCE); break;
-    case (DAM_BASH): victim_ac = GET_AC(victim, AC_BASH); break;
-    case (DAM_SLASH): victim_ac = GET_AC(victim, AC_SLASH); break;
-    default: victim_ac = GET_AC(victim, AC_EXOTIC); break;
+    case (DAM_PIERCE): victim_ac = victim->get_armour_class(ArmourClass::Pierce); break;
+    case (DAM_BASH): victim_ac = victim->get_armour_class(ArmourClass::Bash); break;
+    case (DAM_SLASH): victim_ac = victim->get_armour_class(ArmourClass::Slash); break;
+    default: victim_ac = victim->get_armour_class(ArmourClass::Exotic); break;
     };
 
     // Victim is more vulnerable if they're stunned or sleeping,

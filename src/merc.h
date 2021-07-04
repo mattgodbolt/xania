@@ -29,12 +29,6 @@
 #include "common/BitOps.hpp"
 #include "common/StandardBits.hpp"
 
-/* AC types */
-#define AC_PIERCE 0
-#define AC_BASH 1
-#define AC_SLASH 2
-#define AC_EXOTIC 3
-
 /* size */
 #define SIZE_TINY 0
 #define SIZE_SMALL 1
@@ -308,9 +302,6 @@
  * Character macros.
  */
 #define IS_AFFECTED(ch, sn) (check_bit((ch)->affected_by, (sn)))
-
-#define GET_AC(ch, type)                                                                                               \
-    ((ch)->armor[type] + (ch->is_pos_awake() ? dex_app[get_curr_stat(ch, Stat::Dex)].defensive : 0))
 
 #define IS_OUTSIDE(ch) (!check_bit((ch)->in_room->room_flags, ROOM_INDOORS))
 

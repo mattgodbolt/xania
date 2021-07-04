@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ArmourClass.hpp"
 #include "Dice.hpp"
 #include "Position.hpp"
 #include "Sex.hpp"
@@ -7,6 +8,7 @@
 
 #include <array>
 #include <cstdio>
+#include <magic_enum.hpp>
 #include <optional>
 #include <string>
 
@@ -34,7 +36,7 @@ struct MobIndexData {
     Dice hit;
     Dice mana;
     Dice damage; // The bonus() here is the damroll
-    std::array<sh_int, 4> ac{};
+    std::array<sh_int, magic_enum::enum_count<ArmourClass>()> ac{};
     sh_int dam_type{};
     long off_flags{};
     long imm_flags{};

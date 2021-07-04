@@ -7,6 +7,7 @@
 #include "act_wiz.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
+#include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "Char.hpp"
@@ -1208,8 +1209,9 @@ void do_mstat(Char *ch, const char *argument) {
                   victim->is_npc() ? "mobile" : class_table[victim->class_num].name, victim->alignment, victim->gold,
                   victim->exp);
 
-    bug_snprintf(buf, sizeof(buf), "Armor: pierce: %d  bash: %d  slash: %d  magic: %d\n\r", GET_AC(victim, AC_PIERCE),
-                 GET_AC(victim, AC_BASH), GET_AC(victim, AC_SLASH), GET_AC(victim, AC_EXOTIC));
+    bug_snprintf(buf, sizeof(buf), "Armor: pierce: %d  bash: %d  slash: %d  magic: %d\n\r",
+                 victim->get_armour_class(ArmourClass::Pierce), victim->get_armour_class(ArmourClass::Bash),
+                 victim->get_armour_class(ArmourClass::Slash), victim->get_armour_class(ArmourClass::Exotic));
     ch->send_to(buf);
 
     ch->send_line("Hit: {}  Dam: {}  Saves: {}  Position: {}  Wimpy: {}", victim->get_hitroll(), victim->get_damroll(),
