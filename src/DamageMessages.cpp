@@ -6,6 +6,7 @@
 #include "DamageMessages.hpp"
 #include "Attacks.hpp"
 #include "Char.hpp"
+#include "DamageClass.hpp"
 #include "Logging.hpp"
 #include "SkillTables.hpp"
 #include "merc.h"

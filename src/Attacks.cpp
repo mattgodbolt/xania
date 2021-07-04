@@ -4,8 +4,8 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Attacks.hpp"
+#include "DamageClass.hpp"
 #include "SkillTables.hpp"
-#include "merc.h"
 
 bool is_attack_skill(const skill_type *opt_skill, const sh_int skill_num) {
     if (skill_num < 0 || skill_num >= MAX_SKILL) {

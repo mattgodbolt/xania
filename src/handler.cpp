@@ -12,6 +12,7 @@
 #include "AREA_DATA.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
+#include "DamageClass.hpp"
 #include "Descriptor.hpp"
 #include "ExtraDescription.hpp"
 #include "Materials.hpp"

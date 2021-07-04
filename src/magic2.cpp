@@ -6,6 +6,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
+#include "DamageClass.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
 #include "Object.hpp"

@@ -1,5 +1,6 @@
 #include "DamageMessages.hpp"
 #include "Char.hpp"
+#include "DamageClass.hpp"
 #include "lookup.h"
 #include "merc.h"
 

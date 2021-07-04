@@ -10,6 +10,7 @@
 #include "magic.h"
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
+#include "DamageClass.hpp"
 #include "ExtraDescription.hpp"
 #include "Format.hpp"
 #include "Materials.hpp"
