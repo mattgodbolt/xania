@@ -12,9 +12,11 @@
 #include "AREA_DATA.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
+#include "BitsDamageResistance.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"
+#include "DamageResistance.hpp"
 #include "Descriptor.hpp"
 #include "ExtraDescription.hpp"
 #include "Materials.hpp"
@@ -125,66 +127,6 @@ int class_lookup(const char *name) {
             return class_num;
     }
     return -1;
-}
-
-/* for immunity, vulnerabiltiy, and resistant
-   the 'globals' (magic and weapons) may be overriden
-   three other cases -- wood, silver, and iron -- are checked in fight.c */
-
-int check_immune(Char *ch, int dam_type) {
-    int immune;
-    int bit;
-
-    immune = IS_NORMAL;
-
-    if (dam_type == DAM_NONE)
-        return immune;
-
-    if (dam_type <= 3) {
-        if (check_bit(ch->imm_flags, IMM_WEAPON))
-            immune = IS_IMMUNE;
-        else if (check_bit(ch->res_flags, RES_WEAPON))
-            immune = IS_RESISTANT;
-        else if (check_bit(ch->vuln_flags, VULN_WEAPON))
-            immune = IS_VULNERABLE;
-    } else /* magical attack */
-    {
-        if (check_bit(ch->imm_flags, IMM_MAGIC))
-            immune = IS_IMMUNE;
-        else if (check_bit(ch->res_flags, RES_MAGIC))
-            immune = IS_RESISTANT;
-        else if (check_bit(ch->vuln_flags, VULN_MAGIC))
-            immune = IS_VULNERABLE;
-    }
-
-    /* set bits to check -- VULN etc. must ALL be the same or this will fail */
-    switch (dam_type) {
-    case (DAM_BASH): bit = IMM_BASH; break;
-    case (DAM_PIERCE): bit = IMM_PIERCE; break;
-    case (DAM_SLASH): bit = IMM_SLASH; break;
-    case (DAM_FIRE): bit = IMM_FIRE; break;
-    case (DAM_COLD): bit = IMM_COLD; break;
-    case (DAM_LIGHTNING): bit = IMM_LIGHTNING; break;
-    case (DAM_ACID): bit = IMM_ACID; break;
-    case (DAM_POISON): bit = IMM_POISON; break;
-    case (DAM_NEGATIVE): bit = IMM_NEGATIVE; break;
-    case (DAM_HOLY): bit = IMM_HOLY; break;
-    case (DAM_ENERGY): bit = IMM_ENERGY; break;
-    case (DAM_MENTAL): bit = IMM_MENTAL; break;
-    case (DAM_DISEASE): bit = IMM_DISEASE; break;
-    case (DAM_DROWNING): bit = IMM_DROWNING; break;
-    case (DAM_LIGHT): bit = IMM_LIGHT; break;
-    default: return immune;
-    }
-
-    if (check_bit(ch->imm_flags, bit))
-        immune = IS_IMMUNE;
-    else if (check_bit(ch->res_flags, bit))
-        immune = IS_RESISTANT;
-    else if (check_bit(ch->vuln_flags, bit))
-        immune = IS_VULNERABLE;
-
-    return immune;
 }
 
 /* for returning skill information */
@@ -455,10 +397,10 @@ void char_to_room(Char *ch, Room *room) {
             const int save = [&]() -> int {
                 switch (check_immune(vch, DAM_DISEASE)) {
                 default:
-                case IS_NORMAL: return existing_plague->level - 4;
-                case IS_IMMUNE: return 0;
-                case IS_RESISTANT: return existing_plague->level - 8;
-                case IS_VULNERABLE: return existing_plague->level;
+                case DamageResistance::None: return existing_plague->level - 4;
+                case DamageResistance::Immune: return 0;
+                case DamageResistance::Resistant: return existing_plague->level - 8;
+                case DamageResistance::Vulnerable: return existing_plague->level;
                 }
             }();
 

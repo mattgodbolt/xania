@@ -14,6 +14,7 @@
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"
+#include "DamageResistance.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
@@ -615,10 +616,10 @@ void char_update() {
 
             for (auto *vch : ch->in_room->people) {
                 switch (check_immune(vch, DAM_DISEASE)) {
-                case IS_NORMAL: save = existing_plague->level - 4; break;
-                case IS_IMMUNE: save = 0; break;
-                case IS_RESISTANT: save = existing_plague->level - 8; break;
-                case IS_VULNERABLE: save = existing_plague->level; break;
+                case DamageResistance::None: save = existing_plague->level - 4; break;
+                case DamageResistance::Immune: save = 0; break;
+                case DamageResistance::Resistant: save = existing_plague->level - 8; break;
+                case DamageResistance::Vulnerable: save = existing_plague->level; break;
                 default: save = existing_plague->level - 4; break;
                 }
 

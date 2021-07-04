@@ -10,6 +10,7 @@
 #include "act_obj.hpp"
 #include "AFFECT_DATA.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsDamageResistance.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"

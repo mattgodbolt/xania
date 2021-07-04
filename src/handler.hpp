@@ -40,7 +40,6 @@ void extract_char(Char *ch, bool delete_from_world);
 void reap_old_chars();
 [[nodiscard]] int race_lookup(std::string_view name);
 
-int check_immune(Char *ch, int dam_type);
 int material_lookup(std::string_view name);
 int class_lookup(const char *name);
 int get_skill(const Char *ch, int sn);
