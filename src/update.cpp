@@ -108,7 +108,7 @@ void advance_level(Char *ch) {
 
     add_mana = number_range(
         0, class_table[ch->class_num].fMana * class_table[ch->class_num].fMana
-               * (UMAX(0, get_curr_stat(ch, Stat::Wis) - 15) + 2 * UMAX(0, get_curr_stat(ch, Stat::Int) - 15)));
+               * (std::max(0, get_curr_stat(ch, Stat::Wis) - 15) + 2 * std::max(0, get_curr_stat(ch, Stat::Int) - 15)));
 
     add_mana += 150;
     add_mana /= 300; /* =max (2*int+wis)/10 (10=mage.fMana)*/
@@ -129,8 +129,8 @@ void advance_level(Char *ch) {
     add_move = number_range(1, (get_curr_stat(ch, Stat::Con) + get_curr_stat(ch, Stat::Dex)) / 6);
     add_prac = wis_app[get_curr_stat(ch, Stat::Wis)].practice;
 
-    add_hp = UMAX(1, add_hp * 9 / 10);
-    add_move = UMAX(6, add_move * 9 / 10);
+    add_hp = std::max(1, add_hp * 9 / 10);
+    add_move = std::max(6, add_move * 9 / 10);
 
     ch->max_hit += add_hp;
     ch->max_mana += add_mana;
@@ -176,9 +176,9 @@ void lose_level(Char *ch) {
     add_mana = add_mana * 9 / 10;
     add_move = add_move * 9 / 10;
 
-    add_hp = -(UMAX(1, add_hp));
-    add_mana = -(UMAX(1, add_mana));
-    add_move = -(UMAX(6, add_move));
+    add_hp = -(std::max(1, add_hp));
+    add_mana = -(std::max(1, add_mana));
+    add_move = -(std::max(6, add_move));
 
     /* I negate the additives! Death */
 
@@ -205,7 +205,7 @@ void gain_exp(Char *ch, int gain) {
     if (ch->is_npc() || ch->level >= LEVEL_HERO)
         return;
 
-    ch->exp = UMAX(exp_per_level(ch, ch->pcdata->points), ch->exp + gain);
+    ch->exp = std::max(static_cast<long>(exp_per_level(ch, ch->pcdata->points)), ch->exp + gain);
     if (gain >= 0) {
         while ((ch->level < LEVEL_HERO)
                && ((ch->exp) >= ((int)exp_per_level(ch, ch->pcdata->points) * (ch->level + 1)))) {
@@ -236,7 +236,7 @@ int hit_gain(Char *ch) {
         }
 
     } else {
-        gain = UMAX(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level);
+        gain = std::max(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level);
         gain += class_table[ch->class_num].hp_max - 10;
         number = number_percent();
         if (number < ch->get_skill(gsn_fast_healing)) {
@@ -271,7 +271,7 @@ int hit_gain(Char *ch) {
     if (IS_AFFECTED(ch, AFF_REGENERATION))
         gain *= 2;
 
-    return UMIN(gain, ch->max_hit - ch->hit);
+    return std::min(gain, ch->max_hit - ch->hit);
 }
 
 int mana_gain(Char *ch) {
@@ -319,7 +319,7 @@ int mana_gain(Char *ch) {
     if (IS_AFFECTED(ch, AFF_LETHARGY))
         gain *= 2;
 
-    return UMIN(gain, ch->max_mana - ch->mana);
+    return std::min(gain, ch->max_mana - ch->mana);
 }
 
 int move_gain(Char *ch) {
@@ -328,7 +328,7 @@ int move_gain(Char *ch) {
     if (ch->is_npc()) {
         gain = ch->level;
     } else {
-        gain = UMAX(15, ch->level);
+        gain = std::max(15_s, ch->level);
 
         switch (ch->position) {
         case Position::Type::Sleeping: gain += get_curr_stat(ch, Stat::Dex); break;
@@ -356,7 +356,7 @@ int move_gain(Char *ch) {
     if (IS_AFFECTED(ch, AFF_LETHARGY))
         gain *= 2;
 
-    return UMIN(gain, ch->max_move - ch->move);
+    return std::min(gain, ch->max_move - ch->move);
 }
 
 /*
@@ -628,9 +628,9 @@ void char_update() {
                 }
             }
 
-            dam = UMIN(ch->level, 5);
-            ch->mana = UMAX(0, ch->mana - dam);
-            ch->move = UMAX(0, ch->move - dam);
+            dam = std::min(ch->level, 5_s);
+            ch->mana = std::max(0, ch->mana - dam);
+            ch->move = std::max(0, ch->move - dam);
             damage(ch, ch, dam, &skill_table[gsn_plague], DAM_DISEASE);
         } else if (IS_AFFECTED(ch, AFF_POISON) && ch != nullptr) {
             act("$n shivers and suffers.", ch);

@@ -134,7 +134,7 @@ void do_heal(Char *ch, const char *argument) {
     if (spell == nullptr) /* restore mana trap...kinda hackish */
     {
         ch->mana += dice(2, 8) + mob->level / 4;
-        ch->mana = UMIN(ch->mana, ch->max_mana);
+        ch->mana = std::min(ch->mana, ch->max_mana);
         ch->send_line("A warm glow passes through you.");
         return;
     }

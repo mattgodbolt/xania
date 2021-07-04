@@ -217,13 +217,14 @@ bool check_dispel(int dis_level, Char *victim, int spell_num) {
 int mana_cost(Char *ch, int min_mana, int level) {
     if (ch->level + 2 == level)
         return 1000;
-    return UMAX(min_mana, (100 / (2 + ch->level - level)));
+    return std::max(min_mana, (100 / (2 + ch->level - level)));
 }
 
 int mana_for_spell(Char *ch, int sn) {
     if (ch->level + 2 == get_skill_level(ch, sn))
         return 50;
-    return UMAX(skill_table[sn].min_mana, 100 / (2 + ch->level - get_skill_level(ch, sn)));
+    const sh_int mana = 100 / (2 + ch->level - get_skill_level(ch, sn));
+    return std::max(skill_table[sn].min_mana, mana);
 }
 
 /*
@@ -826,7 +827,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
     (void)vo;
     int mlevel = 0;
     int count = 0;
-    int high_level = 0;
+    sh_int high_level = 0;
 
     /* get sum of all mobile levels in the room */
     for (auto *vch : ch->in_room->people) {
@@ -836,7 +837,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
                 mlevel += vch->level;
             else
                 mlevel += vch->level / 2;
-            high_level = UMAX(high_level, vch->level);
+            high_level = std::max(high_level, vch->level);
         }
     }
 
@@ -1166,7 +1167,7 @@ void spell_create_water(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    int water = UMIN(level * (weather_info.is_raining() ? 4 : 2), obj->value[0] - obj->value[1]);
+    int water = std::min(level * (weather_info.is_raining() ? 4 : 2), obj->value[0] - obj->value[1]);
 
     if (water > 0) {
         obj->value[2] = LIQ_WATER;
@@ -1202,8 +1203,8 @@ void spell_cure_critical(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
 
-    int heal = dice(3, 8) + level - 6;
-    victim->hit = UMIN(victim->hit + heal, victim->max_hit);
+    const sh_int adjusted = victim->hit + (dice(3, 8) + level - 6);
+    victim->hit = std::min(adjusted, victim->max_hit);
     update_pos(victim);
     victim->send_line("You feel better!");
     if (ch != victim)
@@ -1233,8 +1234,8 @@ void spell_cure_light(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
 
-    int heal = dice(1, 8) + level / 3;
-    victim->hit = UMIN(victim->hit + heal, victim->max_hit);
+    const sh_int adjusted = victim->hit + (dice(1, 8) + level / 3);
+    victim->hit = std::min(adjusted, victim->max_hit);
     update_pos(victim);
     victim->send_line("You feel better!");
     if (ch != victim)
@@ -1264,8 +1265,8 @@ void spell_cure_serious(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
 
-    int heal = dice(2, 8) + level / 2;
-    victim->hit = UMIN(victim->hit + heal, victim->max_hit);
+    const sh_int adjusted = victim->hit + (dice(2, 8) + level / 2);
+    victim->hit = std::min(adjusted, victim->max_hit);
     update_pos(victim);
     victim->send_line("You feel better!");
     if (ch != victim)
@@ -1314,7 +1315,7 @@ void spell_exorcise(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Your exorcism turns upon you!");
     }
 
-    ch->alignment = UMIN(1000, ch->alignment + 50);
+    ch->alignment = std::min(1000, ch->alignment + 50);
 
     if (victim != ch) {
         act("$n calls forth the wrath of the Gods upon $N!", ch, nullptr, victim, To::NotVict);
@@ -1341,7 +1342,7 @@ void spell_demonfire(int sn, int level, Char *ch, void *vo) {
         ch->send_line("The demons turn upon you!");
     }
 
-    ch->alignment = UMAX(-1000, ch->alignment - 50);
+    ch->alignment = std::max(-1000, ch->alignment - 50);
 
     if (victim != ch) {
         act("$n calls forth the demons of Hell upon $N!", ch, nullptr, victim, To::Room);
@@ -1720,7 +1721,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
         obj->enchanted = true;
 
         for (auto af_clone : obj->objIndex->affected) {
-            af_clone.type = UMAX(0, af_clone.type);
+            af_clone.type = std::max(0_s, af_clone.type);
             obj->affected.add(af_clone);
         }
     }
@@ -1742,14 +1743,14 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     /* now add the enchantments */
 
     if (obj->level < LEVEL_HERO)
-        obj->level = UMIN(LEVEL_HERO - 1, obj->level + 1);
+        obj->level = std::min(LEVEL_HERO - 1, obj->level + 1);
 
     if (ac_found) {
         for (auto &af : obj->affected) {
             if (af.location == AffectLocation::Ac) {
                 af.type = sn;
                 af.modifier += added;
-                af.level = UMAX(af.level, level);
+                af.level = std::max(af.level, static_cast<sh_int>(level));
             }
         }
     } else { /* add a new affect */
@@ -1882,7 +1883,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
         obj->enchanted = true;
 
         for (auto af_clone : obj->objIndex->affected) {
-            af_clone.type = UMAX(0, af_clone.type);
+            af_clone.type = std::max(0_s, af_clone.type);
             obj->affected.add(af_clone);
         }
     }
@@ -1903,14 +1904,14 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
 
     /* now add the enchantments */
     if (obj->level < LEVEL_HERO - 1)
-        obj->level = UMIN(LEVEL_HERO - 1, obj->level + 1);
+        obj->level = std::min(LEVEL_HERO - 1, obj->level + 1);
 
     if (dam_found) {
         for (auto &af : obj->affected) {
             if (af.location == AffectLocation::Damroll) {
                 af.type = sn;
                 af.modifier += added;
-                af.level = UMAX(af.level, level);
+                af.level = std::max(af.level, static_cast<sh_int>(level));
                 if (af.modifier > 4)
                     SET_BIT(obj->extra_flags, ITEM_HUM);
             }
@@ -1931,7 +1932,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
             if (af.location == AffectLocation::Hitroll) {
                 af.type = sn;
                 af.modifier += added;
-                af.level = UMAX(af.level, level);
+                af.level = std::max(af.level, static_cast<sh_int>(level));
                 if (af.modifier > 4)
                     SET_BIT(obj->extra_flags, ITEM_HUM);
             }
@@ -2146,7 +2147,7 @@ void spell_energy_drain(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    ch->alignment = UMAX(-1000, ch->alignment - 50);
+    ch->alignment = std::max(-1000, ch->alignment - 50);
     if (victim->level <= 2) {
         dam = victim->hit + 1;
     } else {
@@ -2496,10 +2497,8 @@ void spell_lethargy(int sn, int level, Char *ch, void *vo) {
 void spell_heal(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
-    int heal;
-
-    heal = 2 * (dice(3, 8) + level - 6);
-    victim->hit = UMIN(victim->hit + heal, victim->max_hit);
+    const sh_int adjusted = victim->hit + (2 * (dice(3, 8) + level - 6));
+    victim->hit = std::min(adjusted, victim->max_hit);
     update_pos(victim);
     victim->send_line("A warm feeling fills your body.");
     if (ch != victim)
@@ -3012,7 +3011,8 @@ void spell_protection_good(int sn, int level, Char *ch, void *vo) {
 void spell_refresh(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
-    victim->move = UMIN(victim->move + level, victim->max_move);
+    const sh_int adjusted = victim->move + level;
+    victim->move = std::min(adjusted, victim->max_move);
     if (victim->max_move == victim->move)
         victim->send_line("You feel fully refreshed!");
     else

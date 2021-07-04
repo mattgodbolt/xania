@@ -306,7 +306,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
  * The zombie default level is 10, everythin is scaled
  * linearly
 //     */
-//    zLevel = UMIN (ch->level, victim->level) - 5; /* XXX needs sorting out */
+//    zLevel = std::min (ch->level, victim->level) - 5; /* XXX needs sorting out */
 //    if (zLevel < 1)
 // zLevel = 1;
 //    zScale = zLevel / 10.f;

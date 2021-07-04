@@ -1006,7 +1006,8 @@ void do_mspells(Char *ch, const char *argument) {
             if (victim->level < lev)
                 bug_snprintf(buf, sizeof(buf), "%-18s   n/a      ", skill_table[sn].name);
             else {
-                mana = UMAX(skill_table[sn].min_mana, 100 / (2 + victim->level - lev));
+                const sh_int level_adjusted_mana = 100 / (2 + victim->level - lev);
+                mana = std::max(skill_table[sn].min_mana, level_adjusted_mana);
                 bug_snprintf(buf, sizeof(buf), "%-18s  %3d mana  ", skill_table[sn].name, mana);
             }
 
@@ -1861,7 +1862,7 @@ void do_advance(Char *ch, const char *argument) {
             victim->level += 1;
             advance_level(victim);
         }
-        victim->exp = (exp_per_level(victim, victim->pcdata->points) * UMAX(1, victim->level));
+        victim->exp = (exp_per_level(victim, victim->pcdata->points) * std::max(1_s, victim->level));
         victim->trust = 0;
         save_char_obj(victim);
     }
@@ -3001,7 +3002,7 @@ void do_oset(Char *ch, const char *argument) {
      * Set something.
      */
     if (!str_cmp(arg2, "value0") || !str_cmp(arg2, "v0")) {
-        obj->value[0] = UMIN(75, value);
+        obj->value[0] = std::min(75, value);
         return;
     }
 

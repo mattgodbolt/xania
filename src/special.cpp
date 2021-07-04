@@ -933,8 +933,8 @@ bool spec_thief(Char *ch) {
             act("$N discovers $n's hands in $S wallet!", ch, nullptr, victim, To::NotVict);
             return true;
         } else {
-            gold = victim->gold * UMIN(number_range(1, 15), ch->level) / 100;
-            gold = UMIN(gold, ch->level * ch->level * 15);
+            gold = victim->gold * std::min(static_cast<sh_int>(number_range(1, 15)), ch->level) / 100;
+            gold = std::min(gold, static_cast<long>(ch->level * ch->level * 15));
             if (gold > victim->gold)
                 gold = victim->gold;
             ch->gold += gold;

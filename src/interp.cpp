@@ -483,7 +483,7 @@ void interpret(Char *ch, const char *argument) {
     if ((ch->is_pc() && IS_SET(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
         int level = (cmd->level >= 91) ? (cmd->level) : 0;
         if (ch->is_pc() && (IS_SET(ch->act, PLR_WIZINVIS) || IS_SET(ch->act, PLR_PROWL)))
-            level = UMAX(level, ch->get_trust());
+            level = std::max(level, ch->get_trust());
         auto log_level = (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
         if (ch->is_npc() && ch->desc && ch->desc->original()) {
             log_new(fmt::format("Log {} (as '{}'): {}", ch->desc->original()->name, ch->name, logline), log_level,

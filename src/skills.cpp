@@ -219,7 +219,8 @@ void do_spells(Char *ch) {
             if (ch->level < lev)
                 buf = fmt::format("{:<18}   n/a           ", skill_table[sn].name);
             else {
-                mana = UMAX(skill_table[sn].min_mana, 100 / (2 + ch->level - lev));
+                const sh_int level_adjusted_mana = 100 / (2 + ch->level - lev);
+                mana = std::max(skill_table[sn].min_mana, level_adjusted_mana);
                 buf = fmt::format("{:<18}  {:>3} mana {:>3}%  ", skill_table[sn].name, mana, ch->pcdata->learned[sn]);
             }
 
@@ -670,7 +671,7 @@ void check_improve(Char *ch, int sn, bool success, int multiplier) {
         chance = URANGE(5, ch->get_skill(sn) / 2, 30);
         if (number_percent() < chance) {
             ch->pcdata->learned[sn] += number_range(1, 3);
-            ch->pcdata->learned[sn] = UMIN(ch->pcdata->learned[sn], 100);
+            ch->pcdata->learned[sn] = std::min(ch->pcdata->learned[sn], 100_s);
             ch->send_to(fmt::format("|WYou learn from your mistakes, and your |C{}|W skill improves. ({})|w\n\r",
                                     skill_table[sn].name, ch->pcdata->learned[sn]));
             gain_exp(ch, 2 * how_good);

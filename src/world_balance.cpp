@@ -52,7 +52,7 @@ int report_object(Object *object, int boot) {
         /* Calculate the damage allowed and actual */
         allowedaverage = (object->level / 2) + 4;
         if (IS_SET(obj->value[4], WEAPON_TWO_HANDS) && IS_SET(obj->wear_flags, ITEM_TWO_HANDS))
-            allowedaverage += UMAX(1, (allowedaverage) / 20);
+            allowedaverage += std::max(1, (allowedaverage) / 20);
         averagedam = (obj->value[1] * obj->value[2] + obj->value[1]) / 2;
         if ((averagedam > allowedaverage) && boot) {
             objectbug("average damage too high", obj);
@@ -75,7 +75,7 @@ int report_object(Object *object, int boot) {
     case ITEM_SCROLL:
     case ITEM_BOMB:
     case ITEM_STAFF:
-        if ((obj->value[4] > (object->level + (UMAX(5, obj->level / 10)))) && boot)
+        if ((obj->value[4] > (object->level + (std::max(5, obj->level / 10)))) && boot)
             objectbug("level of spell too high", obj);
         break;
 

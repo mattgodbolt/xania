@@ -1238,7 +1238,7 @@ Char *create_mobile(MobIndexData *pMobIndex) {
 
     /* computed on the spot */
 
-    ranges::fill(mob->perm_stat, UMIN(25, 11 + mob->level / 4));
+    ranges::fill(mob->perm_stat, std::min(25, 11 + mob->level / 4));
 
     if (IS_SET(mob->act, ACT_WARRIOR)) {
         mob->perm_stat[Stat::Str] += 3;
@@ -1802,7 +1802,8 @@ char *do_horrible_boot_strdup_thing(const std::string &str) {
 
     strcpy(plast, str.c_str());
     plast += str.size() + 1;
-    iHash = UMIN(MAX_KEY_HASH - 1, plast - 1 - top_string);
+    const int diff = plast - 1 - top_string;
+    iHash = std::min(MAX_KEY_HASH - 1, diff);
     for (pHash = string_hash[iHash]; pHash; pHash = pHashPrev) {
         for (ic = 0; ic < (int)sizeof(char *); ic++)
             u1.rgc[ic] = pHash[ic];
@@ -2212,7 +2213,7 @@ int number_fuzzy(int number) {
     case 3: number += 1; break;
     }
 
-    return UMAX(1, number);
+    return std::max(1, number);
 }
 
 int number_range(int from, int to) { return knuth_rng.number_range(from, to); }

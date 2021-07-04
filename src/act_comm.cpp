@@ -283,7 +283,7 @@ void do_pose(Char *ch) {
     if (ch->is_npc())
         return;
 
-    level = UMIN(ch->level, (int)(sizeof(pose_table) / sizeof(pose_table[0]) - 1));
+    level = std::min(ch->level, static_cast<sh_int>(sizeof(pose_table) / sizeof(pose_table[0]) - 1));
     pose = number_range(0, level);
 
     act(pose_table[pose].message[2 * ch->class_num + 0], ch, nullptr, nullptr, To::Char);

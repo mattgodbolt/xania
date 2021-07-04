@@ -1301,7 +1301,7 @@ void do_drink(Char *ch, const char *argument) {
         // Liquids are more complex than foods because they can have variable bonuses to all three nutrition
         // types including negative ones.
         amount = number_range(3, 10);
-        amount = UMIN(amount, obj->value[1]);
+        amount = std::min(amount, obj->value[1]);
         if (const auto opt_message =
                 ch->delta_inebriation(amount * liq_table[liquid].liq_affect[Nutrition::LiquidAffect::Inebriation])) {
             ch->send_line(*opt_message);
@@ -1378,7 +1378,7 @@ void do_eat(Char *ch, const char *argument) {
             AFFECT_DATA af;
             af.type = gsn_poison;
             af.level = number_fuzzy(obj->value[0]);
-            af.duration = UMAX(1, obj->value[0]);
+            af.duration = std::max(1, obj->value[0]);
             af.bitvector = AFF_POISON;
             affect_join(ch, af);
         }
@@ -1469,10 +1469,10 @@ void do_sacrifice(Char *ch, const char *argument) {
         return;
     }
 
-    gold = UMAX(1, obj->level * 2);
+    gold = std::max(1, obj->level * 2);
 
     if (obj->item_type != ITEM_CORPSE_NPC && obj->item_type != ITEM_CORPSE_PC)
-        gold = UMIN(gold, obj->cost);
+        gold = std::min(gold, obj->cost);
 
     switch (gold) {
     default: ch->send_line("{} gives you {} gold coins for your sacrifice.", deity_name, gold); break;
@@ -1851,7 +1851,7 @@ void do_steal(Char *ch, const char *argument) {
     if (!str_cmp(arg1, "coin") || !str_cmp(arg1, "coins") || !str_cmp(arg1, "gold")) {
         int amount;
 
-        amount = (int)(victim->gold * number_range(1, 10) / 100);
+        amount = static_cast<int>(victim->gold * number_range(1, 10) / 100);
         if (amount <= 0) {
             ch->send_line("You couldn't get any gold.");
             return;
@@ -2143,8 +2143,8 @@ void do_sell(Char *ch, const char *argument) {
     if (ch->is_pc() && roll < ch->get_skill(gsn_haggle)) {
         ch->send_line("You haggle with the shopkeeper.");
         cost += obj->cost / 2 * roll / 100;
-        cost = UMIN(cost, 95 * get_cost(keeper, obj, true) / 100);
-        cost = UMIN(cost, (int)keeper->gold);
+        cost = std::min(cost, 95 * get_cost(keeper, obj, true) / 100);
+        cost = std::min(cost, static_cast<int>(keeper->gold));
         check_improve(ch, gsn_haggle, true, 4);
     }
     act(fmt::format("You sell $p for {} gold piece{}.", cost, cost == 1 ? "" : "s"), ch, obj, nullptr, To::Char);

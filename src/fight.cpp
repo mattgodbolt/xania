@@ -226,7 +226,7 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     /* decrement the wait */
     if (ch->desc == nullptr)
-        ch->wait = UMAX(0, ch->wait - PULSE_VIOLENCE);
+        ch->wait = std::max(0, ch->wait - PULSE_VIOLENCE);
 
     /* no attacks for stunnies -- just a check */
     if (ch->is_pos_sleeping() || ch->is_pos_stunned_or_dying())
@@ -566,7 +566,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
             dam *= 2 + ch->level / 8;
     }
 
-    dam += ch->get_damroll() * UMIN(100, weapon_skill) / 100;
+    dam += ch->get_damroll() * std::min(100, weapon_skill) / 100;
 
     if (dam <= 0)
         dam = 1;
@@ -1095,7 +1095,7 @@ bool check_parry(Char *ch, Char *victim) {
             return false;
     }
     auto chance = victim->get_skill(gsn_parry) / 3;
-    chance = UMAX(5, chance + victim->level - ch->level);
+    chance = std::max(5, chance + victim->level - ch->level);
     if (number_percent() >= chance)
         return false;
     if (IS_SET(victim->comm, COMM_SHOWDEFENCE))
@@ -1120,7 +1120,7 @@ bool check_shield_block(Char *ch, Char *victim) {
             return false;
     }
     auto chance = victim->get_skill(gsn_shield_block) / 3;
-    chance = UMAX(5, chance + victim->level - ch->level);
+    chance = std::max(5, chance + victim->level - ch->level);
     if (number_percent() >= chance)
         return false;
 
@@ -1142,7 +1142,7 @@ bool check_dodge(Char *ch, Char *victim) {
     auto chance = victim->get_skill(gsn_dodge) / 3;
     auto ddex = get_curr_stat(victim, Stat::Dex) - get_curr_stat(ch, Stat::Dex);
     chance += ddex;
-    chance = UMAX(5, chance + victim->level - ch->level);
+    chance = std::max(5, chance + victim->level - ch->level);
     if (number_percent() >= chance)
         return false;
 
@@ -1343,9 +1343,9 @@ void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
     if (!in_duel(victim))
         victim->armor.fill(-1);
     victim->position = Position::Type::Resting;
-    victim->hit = UMAX(1, victim->hit);
-    victim->mana = UMAX(1, victim->mana);
-    victim->move = UMAX(1, victim->move);
+    victim->hit = std::max(1_s, victim->hit);
+    victim->mana = std::max(1_s, victim->mana);
+    victim->move = std::max(1_s, victim->move);
     /* RT added to prevent infinite deaths */
     if (!in_duel(victim)) {
         REMOVE_BIT(victim->act, PLR_KILLER);
@@ -1489,15 +1489,15 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     else if (align > 500) /* monster is more good than slayer */
     {
         change = (align - 500) * base_exp / 500 * base_level / total_levels;
-        change = UMAX(1, change);
-        gch->alignment = UMAX(-1000, gch->alignment - change);
+        change = std::max(1, change);
+        gch->alignment = std::max(-1000, gch->alignment - change);
     }
 
     else if (align < -500) /* monster is more evil than slayer */
     {
         change = (-1 * align - 500) * base_exp / 500 * base_level / total_levels;
-        change = UMAX(1, change);
-        gch->alignment = UMIN(1000, gch->alignment + change);
+        change = std::max(1, change);
+        gch->alignment = std::min(1000, gch->alignment + change);
     }
 
     else /* improve this someday */
@@ -1624,7 +1624,7 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     time_per_level = URANGE(2, time_per_level, 6);
 
     if (base_level < 15)
-        time_per_level = UMAX(time_per_level, (8 - base_level));
+        time_per_level = std::max(time_per_level, (8 - base_level));
     xp = xp * time_per_level / 6;
 
     /* randomize the rewards */
@@ -1712,7 +1712,7 @@ void do_berserk(Char *ch) {
 
         /* heal a little damage */
         ch->hit += ch->level * 2;
-        ch->hit = UMIN(ch->hit, ch->max_hit);
+        ch->hit = std::min(ch->hit, ch->max_hit);
 
         ch->send_line("|RYour pulse races as you are consumed by rage!|w");
         act("$n gets a wild look in $s eyes.", ch);
@@ -1721,7 +1721,7 @@ void do_berserk(Char *ch) {
         af.type = gsn_berserk;
         af.level = ch->level;
         af.duration = number_fuzzy(ch->level / 8);
-        af.modifier = UMAX(1, ch->level / 5);
+        af.modifier = std::max(1, ch->level / 5);
         af.bitvector = AFF_BERSERK;
 
         af.location = AffectLocation::Hitroll;
@@ -1730,7 +1730,7 @@ void do_berserk(Char *ch) {
         af.location = AffectLocation::Damroll;
         affect_to_char(ch, af);
 
-        af.modifier = UMAX(10, ch->level);
+        af.modifier = std::max(10_s, ch->level);
         af.location = AffectLocation::Ac;
         affect_to_char(ch, af);
 

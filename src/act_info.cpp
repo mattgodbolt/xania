@@ -1817,7 +1817,7 @@ void do_scan(Char *ch) {
     Room *current_place;
     Exit *pexit;
     int count_num_rooms;
-    int num_rooms_scan = UMAX(1, ch->level / 10);
+    int num_rooms_scan = std::max(1, ch->level / 10);
     bool found_anything = false;
     std::vector<sh_int> found_rooms{ch->in_room->vnum};
 

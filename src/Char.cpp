@@ -149,8 +149,8 @@ sh_int Char::max_stat(Stat stat) const {
     if (is_npc() || level > LEVEL_IMMORTAL)
         return MaxStatValue;
 
-    return UMIN(pc_race_table[race].max_stats[stat] + (class_table[class_num].attr_prime == stat ? 6 : 4),
-                MaxStatValue);
+    return std::min(pc_race_table[race].max_stats[stat] + (class_table[class_num].attr_prime == stat ? 6 : 4),
+                    MaxStatValue);
 }
 
 bool Char::is_affected_by(int skill_number) const { return affected.find_by_skill(skill_number); }
@@ -183,7 +183,7 @@ int Char::get_skill(int skill_number) const {
 
         else if (skill_number == gsn_second_attack && (is_warrior() || is_thief()))
             // i.e. level 100 NPC: 50% skill (and thus chance) of 2nd attack happening.
-            skill = UMAX(25, level / 2);
+            skill = std::max(25, level / 2);
 
         else if (skill_number == gsn_third_attack && is_warrior())
             // i.e. a level 100 NPC only has a 70% skill in 3rd attack (minus other
@@ -196,22 +196,22 @@ int Char::get_skill(int skill_number) const {
             skill = 15 + (level / (is_warrior() || is_thief() ? 2 : 3));
 
         else if (skill_number == gsn_backstab && IS_SET(off_flags, OFF_BACKSTAB))
-            skill = UMAX(30, level / 3);
+            skill = std::max(30, level / 3);
 
         else if (skill_number == gsn_hand_to_hand)
             skill = 40 + 2 * level;
 
         else if (skill_number == gsn_trip && IS_SET(off_flags, OFF_TRIP))
-            skill = UMAX(30, level / 3);
+            skill = std::max(30, level / 3);
 
         else if (skill_number == gsn_bash && IS_SET(off_flags, OFF_BASH))
-            skill = UMAX(30, level / 3);
+            skill = std::max(30, level / 3);
 
         else if (skill_number == gsn_disarm && (IS_SET(off_flags, OFF_DISARM) || is_warrior() || is_thief()))
-            skill = UMAX(30, level / 3);
+            skill = std::max(30, level / 3);
 
         else if (skill_number == gsn_berserk && IS_SET(off_flags, OFF_BERSERK))
-            skill = UMAX(30, level / 3);
+            skill = std::max(30, level / 3);
 
         else if (skill_number == gsn_sword || skill_number == gsn_dagger || skill_number == gsn_spear
                  || skill_number == gsn_mace || skill_number == gsn_axe || skill_number == gsn_flail

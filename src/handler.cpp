@@ -244,7 +244,7 @@ int get_curr_stat(const Char *ch, Stat stat) { return ch->curr_stat(stat); }
 
 /* command for returning max training score */
 int get_max_train(Char *ch, Stat stat) {
-    uint max;
+    int max;
 
     if (ch->is_npc() || ch->level > LEVEL_IMMORTAL)
         return MaxStatValue;
@@ -256,7 +256,7 @@ int get_max_train(Char *ch, Stat stat) {
          else*/
         max += 2;
 
-    return UMIN(max, MaxStatValue);
+    return std::min(max, MaxStatValue);
 }
 
 /*

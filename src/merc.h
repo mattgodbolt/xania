@@ -596,20 +596,6 @@ static inline constexpr auto ff = BIT(31);
 /*
  * Utility macros.
  */
-//#define UMIN(a, b)              ((a) < (b) ? (a) : (b))
-//#define UMAX(a, b)              ((a) > (b) ? (a) : (b))
-#define UMIN(a, b)                                                                                                     \
-    ({                                                                                                                 \
-        __typeof__(a) _a = (a);                                                                                        \
-        __typeof__(b) _b = (b);                                                                                        \
-        _a < _b ? _a : _b;                                                                                             \
-    })
-#define UMAX(a, b)                                                                                                     \
-    ({                                                                                                                 \
-        __typeof__(a) _a = (a);                                                                                        \
-        __typeof__(b) _b = (b);                                                                                        \
-        _a > _b ? _a : _b;                                                                                             \
-    })
 #define URANGE(a, b, c) ((b) < (a) ? (a) : ((b) > (c) ? (c) : (b)))
 #define LOWER(c) ((c) >= 'A' && (c) <= 'Z' ? (c) + 'a' - 'A' : (c))
 #define UPPER(c) ((c) >= 'a' && (c) <= 'z' ? (c) + 'A' - 'a' : (c))
