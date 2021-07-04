@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
 #include "BitsBodyForm.hpp"
+#include "BitsBodyPart.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsDamageTolerance.hpp"
