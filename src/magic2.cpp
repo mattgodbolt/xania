@@ -6,10 +6,10 @@
 
 #include "AFFECT_DATA.hpp"
 #include "BitsCharAct.hpp"
-#include "BitsDamageResistance.hpp"
+#include "BitsDamageTolerance.hpp"
 #include "Char.hpp"
 #include "DamageClass.hpp"
-#include "DamageResistance.hpp"
+#include "DamageTolerance.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
 #include "Object.hpp"
@@ -125,7 +125,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (check_immune(victim, DAM_MENTAL) == DamageResistance::Immune) {
+    if (check_damage_tolerance(victim, DAM_MENTAL) == DamageTolerance::Immune) {
         act("The great mental fortitude of $N deflects your psychic blast!", ch, nullptr, victim, To::Char);
         act("$n attempts to unleash a psychic blast upon $N, but $s efforts backfire with\n\rcatastrophic effects!", ch,
             nullptr, victim, To::NotVict);
@@ -161,7 +161,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
                 continue;
             if (vch->in_room == ch->in_room) {
                 if (vch != ch && !is_safe_spell(ch, vch, true) && (vch != victim)
-                    && (check_immune(vch, DAM_MENTAL) != DamageResistance::Immune))
+                    && (check_damage_tolerance(vch, DAM_MENTAL) != DamageTolerance::Immune))
                     tornado_mental(ch, victim, ch->level);
                 continue;
             }
@@ -177,7 +177,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
                     for (auto *current_person : room->people) {
                         current_person->send_line("Suddenly, a gale of psychic energy blows through the room!");
                         if (!is_safe_spell(ch, current_person, true)
-                            && (check_immune(current_person, DAM_MENTAL) != DamageResistance::Immune))
+                            && (check_damage_tolerance(current_person, DAM_MENTAL) != DamageTolerance::Immune))
                             tornado_mental(ch, current_person, ch->level);
 
                     } /* Closes the for_each_char_loop */

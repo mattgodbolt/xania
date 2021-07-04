@@ -10,7 +10,7 @@
 #include "act_obj.hpp"
 #include "AFFECT_DATA.hpp"
 #include "BitsCharAct.hpp"
-#include "BitsDamageResistance.hpp"
+#include "BitsDamageTolerance.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"
@@ -2353,17 +2353,17 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *mo
 
 int check_material_vulnerability(Char *ch, Object *object) {
 
-    if (check_bit(ch->vuln_flags, VULN_WOOD)) {
+    if (check_bit(ch->vuln_flags, DMG_TOL_WOOD)) {
         if (is_made_of(object, "wood"))
             return 1;
     }
 
-    if (check_bit(ch->vuln_flags, VULN_SILVER)) {
+    if (check_bit(ch->vuln_flags, DMG_TOL_SILVER)) {
         if (is_made_of(object, "silver"))
             return 1;
     }
 
-    if (check_bit(ch->vuln_flags, VULN_IRON)) {
+    if (check_bit(ch->vuln_flags, DMG_TOL_IRON)) {
         if (is_made_of(object, "iron"))
             return 1;
     }

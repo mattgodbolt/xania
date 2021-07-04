@@ -11,10 +11,10 @@
 #include "AFFECT_DATA.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsDamageResistance.hpp"
+#include "BitsDamageTolerance.hpp"
 #include "Char.hpp"
 #include "DamageClass.hpp"
-#include "DamageResistance.hpp"
+#include "DamageTolerance.hpp"
 #include "ExtraDescription.hpp"
 #include "Format.hpp"
 #include "Materials.hpp"
@@ -856,7 +856,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
     if (number_range(0, chance) >= mlevel) /* hard to stop large fights */
     {
         for (auto *vch : ch->in_room->people) {
-            if (vch->is_npc() && (check_bit(vch->imm_flags, IMM_MAGIC) || check_bit(vch->act, ACT_UNDEAD)))
+            if (vch->is_npc() && (check_bit(vch->imm_flags, DMG_TOL_MAGIC) || check_bit(vch->act, ACT_UNDEAD)))
                 return;
 
             if (IS_AFFECTED(vch, AFF_CALM) || IS_AFFECTED(vch, AFF_BERSERK) || is_affected(vch, skill_lookup("frenzy")))
@@ -1060,7 +1060,7 @@ void spell_charm_person(int sn, int level, Char *ch, void *vo) {
     }
 
     if (IS_AFFECTED(victim, AFF_CHARM) || IS_AFFECTED(ch, AFF_CHARM) || ch->get_trust() < victim->get_trust()
-        || check_bit(victim->imm_flags, IMM_CHARM) || saves_spell(level, victim))
+        || check_bit(victim->imm_flags, DMG_TOL_CHARM) || saves_spell(level, victim))
         return;
 
     if (check_bit(victim->in_room->room_flags, ROOM_LAW)) {
@@ -2318,7 +2318,7 @@ void spell_gate(int sn, int level, Char *ch, void *vo) {
         || check_bit(victim->in_room->room_flags, ROOM_PRIVATE) || check_bit(victim->in_room->room_flags, ROOM_SOLITARY)
         || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)
         || victim->level >= level + 3 || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
-        || (victim->is_npc() && check_bit(victim->imm_flags, IMM_SUMMON))
+        || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
         || (victim->is_pc() && check_bit(victim->act, PLR_NOSUMMON))
         || (victim->is_npc() && saves_spell(level, victim))) {
         ch->send_line("You failed.");
@@ -2918,7 +2918,7 @@ void spell_portal(int sn, int level, Char *ch, void *vo) {
         || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)
         || check_bit(victim->in_room->room_flags, ROOM_LAW) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
-        || (victim->is_npc() && check_bit(victim->imm_flags, IMM_SUMMON))
+        || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
         || (victim->is_pc() && check_bit(victim->act, PLR_NOSUMMON))
         || (victim->is_npc() && saves_spell(level, victim))) {
         ch->send_line("You failed.");
@@ -3219,7 +3219,7 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
         || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL)
         || (victim->is_npc() && check_bit(victim->act, ACT_AGGRESSIVE)) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) || victim->fighting != nullptr
-        || (victim->is_npc() && check_bit(victim->imm_flags, IMM_SUMMON))
+        || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
         || (victim->is_pc() && check_bit(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))
         || (check_bit(ch->in_room->room_flags, ROOM_SAFE))) {
         ch->send_line("You failed.");

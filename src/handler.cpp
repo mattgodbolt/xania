@@ -12,11 +12,11 @@
 #include "AREA_DATA.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsDamageResistance.hpp"
+#include "BitsDamageTolerance.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"
-#include "DamageResistance.hpp"
+#include "DamageTolerance.hpp"
 #include "Descriptor.hpp"
 #include "ExtraDescription.hpp"
 #include "Materials.hpp"
@@ -395,12 +395,12 @@ void char_to_room(Char *ch, Room *room) {
 
         for (auto *vch : ch->in_room->people) {
             const int save = [&]() -> int {
-                switch (check_immune(vch, DAM_DISEASE)) {
+                switch (check_damage_tolerance(vch, DAM_DISEASE)) {
                 default:
-                case DamageResistance::None: return existing_plague->level - 4;
-                case DamageResistance::Immune: return 0;
-                case DamageResistance::Resistant: return existing_plague->level - 8;
-                case DamageResistance::Vulnerable: return existing_plague->level;
+                case DamageTolerance::None: return existing_plague->level - 4;
+                case DamageTolerance::Immune: return 0;
+                case DamageTolerance::Resistant: return existing_plague->level - 8;
+                case DamageTolerance::Vulnerable: return existing_plague->level;
                 }
             }();
 
@@ -1334,49 +1334,49 @@ const char *imm_bit_name(int imm_flags) {
 
     buf[0] = '\0';
 
-    if (imm_flags & IMM_SUMMON)
+    if (imm_flags & DMG_TOL_SUMMON)
         strcat(buf, " summon");
-    if (imm_flags & IMM_CHARM)
+    if (imm_flags & DMG_TOL_CHARM)
         strcat(buf, " charm");
-    if (imm_flags & IMM_MAGIC)
+    if (imm_flags & DMG_TOL_MAGIC)
         strcat(buf, " magic");
-    if (imm_flags & IMM_WEAPON)
+    if (imm_flags & DMG_TOL_WEAPON)
         strcat(buf, " weapon");
-    if (imm_flags & IMM_BASH)
+    if (imm_flags & DMG_TOL_BASH)
         strcat(buf, " blunt");
-    if (imm_flags & IMM_PIERCE)
+    if (imm_flags & DMG_TOL_PIERCE)
         strcat(buf, " piercing");
-    if (imm_flags & IMM_SLASH)
+    if (imm_flags & DMG_TOL_SLASH)
         strcat(buf, " slashing");
-    if (imm_flags & IMM_FIRE)
+    if (imm_flags & DMG_TOL_FIRE)
         strcat(buf, " fire");
-    if (imm_flags & IMM_COLD)
+    if (imm_flags & DMG_TOL_COLD)
         strcat(buf, " cold");
-    if (imm_flags & IMM_LIGHTNING)
+    if (imm_flags & DMG_TOL_LIGHTNING)
         strcat(buf, " lightning");
-    if (imm_flags & IMM_ACID)
+    if (imm_flags & DMG_TOL_ACID)
         strcat(buf, " acid");
-    if (imm_flags & IMM_POISON)
+    if (imm_flags & DMG_TOL_POISON)
         strcat(buf, " poison");
-    if (imm_flags & IMM_NEGATIVE)
+    if (imm_flags & DMG_TOL_NEGATIVE)
         strcat(buf, " negative");
-    if (imm_flags & IMM_HOLY)
+    if (imm_flags & DMG_TOL_HOLY)
         strcat(buf, " holy");
-    if (imm_flags & IMM_ENERGY)
+    if (imm_flags & DMG_TOL_ENERGY)
         strcat(buf, " energy");
-    if (imm_flags & IMM_MENTAL)
+    if (imm_flags & DMG_TOL_MENTAL)
         strcat(buf, " mental");
-    if (imm_flags & IMM_DISEASE)
+    if (imm_flags & DMG_TOL_DISEASE)
         strcat(buf, " disease");
-    if (imm_flags & IMM_DROWNING)
+    if (imm_flags & DMG_TOL_DROWNING)
         strcat(buf, " drowning");
-    if (imm_flags & IMM_LIGHT)
+    if (imm_flags & DMG_TOL_LIGHT)
         strcat(buf, " light");
-    if (imm_flags & VULN_IRON)
+    if (imm_flags & DMG_TOL_IRON)
         strcat(buf, " iron");
-    if (imm_flags & VULN_WOOD)
+    if (imm_flags & DMG_TOL_WOOD)
         strcat(buf, " wood");
-    if (imm_flags & VULN_SILVER)
+    if (imm_flags & DMG_TOL_SILVER)
         strcat(buf, " silver");
 
     return (buf[0] != '\0') ? buf + 1 : "none";

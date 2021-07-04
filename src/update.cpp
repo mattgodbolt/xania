@@ -14,7 +14,7 @@
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"
-#include "DamageResistance.hpp"
+#include "DamageTolerance.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
@@ -615,11 +615,11 @@ void char_update() {
             plague.bitvector = AFF_PLAGUE;
 
             for (auto *vch : ch->in_room->people) {
-                switch (check_immune(vch, DAM_DISEASE)) {
-                case DamageResistance::None: save = existing_plague->level - 4; break;
-                case DamageResistance::Immune: save = 0; break;
-                case DamageResistance::Resistant: save = existing_plague->level - 8; break;
-                case DamageResistance::Vulnerable: save = existing_plague->level; break;
+                switch (check_damage_tolerance(vch, DAM_DISEASE)) {
+                case DamageTolerance::None: save = existing_plague->level - 4; break;
+                case DamageTolerance::Immune: save = 0; break;
+                case DamageTolerance::Resistant: save = existing_plague->level - 8; break;
+                case DamageTolerance::Vulnerable: save = existing_plague->level; break;
                 default: save = existing_plague->level - 4; break;
                 }
 

@@ -10,7 +10,7 @@
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
 #include "BitsCharAct.hpp"
-#include "BitsDamageResistance.hpp"
+#include "BitsDamageTolerance.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "Descriptor.hpp"
@@ -743,12 +743,12 @@ void do_nofollow(Char *ch) {
 
 void do_nosummon(Char *ch) {
     if (ch->is_npc()) {
-        if (check_bit(ch->imm_flags, IMM_SUMMON)) {
+        if (check_bit(ch->imm_flags, DMG_TOL_SUMMON)) {
             ch->send_line("You are no longer immune to summon.");
-            clear_bit(ch->imm_flags, IMM_SUMMON);
+            clear_bit(ch->imm_flags, DMG_TOL_SUMMON);
         } else {
             ch->send_line("You are now immune to summoning.");
-            set_bit(ch->imm_flags, IMM_SUMMON);
+            set_bit(ch->imm_flags, DMG_TOL_SUMMON);
         }
     } else {
         if (check_bit(ch->act, PLR_NOSUMMON)) {

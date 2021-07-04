@@ -14,7 +14,7 @@
 #include "Classes.hpp"
 #include "DamageClass.hpp"
 #include "DamageMessages.hpp"
-#include "DamageResistance.hpp"
+#include "DamageTolerance.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
 #include "Format.hpp"
@@ -731,13 +731,13 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
             return false;
     }
 
-    switch (check_immune(victim, dam_type)) {
-    case (DamageResistance::Immune):
+    switch (check_damage_tolerance(victim, dam_type)) {
+    case (DamageTolerance::Immune):
         immune = true;
         adjusted_damage = 0;
         break;
-    case (DamageResistance::Resistant): adjusted_damage -= adjusted_damage / 3; break;
-    case (DamageResistance::Vulnerable): adjusted_damage += adjusted_damage / 2; break;
+    case (DamageTolerance::Resistant): adjusted_damage -= adjusted_damage / 3; break;
+    case (DamageTolerance::Vulnerable): adjusted_damage += adjusted_damage / 2; break;
     default:;
     }
     if (((wield = get_eq_char(ch, WEAR_WIELD)) != nullptr) && check_material_vulnerability(victim, wield))
