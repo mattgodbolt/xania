@@ -687,7 +687,7 @@ int group_lookup(const char *name) {
     for (gn = 0; gn < MAX_GROUP; gn++) {
         if (group_table[gn].name == nullptr)
             break;
-        if (LOWER(name[0]) == LOWER(group_table[gn].name[0]) && !str_prefix(name, group_table[gn].name))
+        if (tolower(name[0]) == tolower(group_table[gn].name[0]) && !str_prefix(name, group_table[gn].name))
             return gn;
     }
 

@@ -283,7 +283,7 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
     }
 
     buf += "\n\r";
-    buf[0] = UPPER(buf[0]);
+    buf[0] = toupper(buf[0]);
     ch->send_to(buf);
 }
 

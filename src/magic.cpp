@@ -3289,7 +3289,7 @@ void spell_ventriloquate(int sn, int level, Char *ch, void *vo) {
 
     snprintf(buf1, sizeof(buf1), "%s says '%s'.\n\r", speaker, target_name);
     snprintf(buf2, sizeof(buf2), "Someone makes %s say '%s'.\n\r", speaker, target_name);
-    buf1[0] = UPPER(buf1[0]);
+    buf1[0] = toupper(buf1[0]);
 
     for (auto *vch : ch->in_room->people) {
         if (!is_name(speaker, vch->name))

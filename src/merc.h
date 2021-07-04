@@ -596,8 +596,6 @@ static inline constexpr auto ff = BIT(31);
 /*
  * Utility macros.
  */
-#define LOWER(c) ((c) >= 'A' && (c) <= 'Z' ? (c) + 'a' - 'A' : (c))
-#define UPPER(c) ((c) >= 'a' && (c) <= 'z' ? (c) + 'A' - 'a' : (c))
 #define IS_SET(flag, bit) (((flag) & (bit)) ? true : false)
 #define SET_BIT(var, bit) ((var) |= (bit))
 #define REMOVE_BIT(var, bit) ((var) &= ~(bit))

@@ -2259,7 +2259,7 @@ bool str_cmp(const char *astr, const char *bstr) {
     }
 
     for (; *astr || *bstr; astr++, bstr++) {
-        if (LOWER(*astr) != LOWER(*bstr))
+        if (tolower(*astr) != tolower(*bstr))
             return true;
     }
     return false;
@@ -2282,7 +2282,7 @@ bool str_prefix(const char *astr, const char *bstr) {
     }
 
     for (; *astr; astr++, bstr++) {
-        if (LOWER(*astr) != LOWER(*bstr))
+        if (tolower(*astr) != tolower(*bstr))
             return true;
     }
 

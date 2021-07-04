@@ -1032,7 +1032,7 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
             if (can_see(mob, actor))
                 one_argument(actor->name.c_str(), t);
         if (actor->is_pc())
-            *t = UPPER(*t);
+            *t = toupper(*t);
         break;
 
     case 'N':
@@ -1056,7 +1056,7 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
                 one_argument(vict->name.c_str(), t);
         }
         if (vict->is_pc())
-            *t = UPPER(*t);
+            *t = toupper(*t);
         break;
 
     case 'T':
@@ -1081,7 +1081,7 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
                 one_argument(rndm->name.c_str(), t);
         }
         if (rndm->is_pc())
-            *t = UPPER(*t);
+            *t = toupper(*t);
         break;
 
     case 'R':
@@ -1297,11 +1297,11 @@ void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const O
             strcpy(temp1, mprg->arglist);
             list = temp1;
             for (i = 0; i < (int)strlen(list); i++)
-                list[i] = LOWER(list[i]);
+                list[i] = tolower(list[i]);
             strcpy(temp2, arg);
             dupl = temp2;
             for (i = 0; i < (int)strlen(dupl); i++)
-                dupl[i] = LOWER(dupl[i]);
+                dupl[i] = tolower(dupl[i]);
             if ((list[0] == 'p') && (list[1] == ' ')) {
                 list += 2;
                 while ((start = strstr(dupl, list)))
