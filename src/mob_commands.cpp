@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "ArgParser.hpp"
+#include "Char.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
 #include "MobIndexData.hpp"

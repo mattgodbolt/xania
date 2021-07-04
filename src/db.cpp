@@ -10,6 +10,7 @@
 #include "db.h"
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
+#include "Char.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"

@@ -1,4 +1,5 @@
 #include "DescriptorList.hpp"
+#include "Char.hpp"
 
 void DescriptorList::reap_closed() {
     // In C++20 we get map::erase_if. For now, we copy paste from cppreference.

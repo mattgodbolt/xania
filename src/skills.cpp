@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "skills.hpp"
+#include "Char.hpp"
 #include "CharGeneration.hpp"
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "mob_prog.hpp"
+#include "Char.hpp"
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Object.hpp"

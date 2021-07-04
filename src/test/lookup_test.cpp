@@ -3,6 +3,7 @@
 #include "merc.h"
 
 #include <catch2/catch.hpp>
+#include <fmt/format.h>
 
 TEST_CASE("looks up skills") {
     auto check_spell = [](const char *x, std::string_view y) {

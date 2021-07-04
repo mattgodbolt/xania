@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "flags.h"
+#include "Char.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "db.h"

@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Note.hpp"
+#include "Char.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
 #include "common/Configuration.hpp"

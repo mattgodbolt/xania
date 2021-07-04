@@ -26,42 +26,6 @@
 
 #pragma once
 
-#include "Char.hpp"
-#include "Constants.hpp"
-#include "Direction.hpp"
-#include "SectorType.hpp"
-#include "Stats.hpp"
-#include "Types.hpp"
-#include "clan.h"
-#include "common/Time.hpp"
-#include "version.h"
-
-#include <crypt.h>
-#include <cstdio>
-#include <cstdlib>
-#include <ctime>
-#include <string>
-#include <unistd.h>
-#include <utility>
-#include <variant>
-#include <vector>
-
-/* Buffer structure */
-typedef struct _BUFFER BUFFER;
-
-/*
- * Structure types.
- */
-struct AREA_DATA;
-class Descriptor;
-struct ExtraDescription;
-struct Object;
-struct ObjectIndex;
-typedef struct program PROGRAM;
-struct ResetData;
-struct Room;
-struct SHOP_DATA;
-
 /**
  * Indexes into attack_table that are used by specific weapon enchantment spells
  * like spell_acid_wash and spell_tame_lightning. When a weapon is enchanted,

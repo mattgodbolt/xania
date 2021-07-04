@@ -9,7 +9,8 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 #include <lyra/lyra.hpp>
-#include <unordered_map>
+#include <unistd.h>
+#include <unordered_set>
 
 int main(int argc, const char **argv) {
     bool help{};

@@ -10,6 +10,7 @@
 #include "handler.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
+#include "Char.hpp"
 #include "Classes.hpp"
 #include "Descriptor.hpp"
 #include "ExtraDescription.hpp"

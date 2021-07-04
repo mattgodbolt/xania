@@ -7,6 +7,7 @@
 #include "act_wiz.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AREA_DATA.hpp"
+#include "Char.hpp"
 #include "Classes.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"

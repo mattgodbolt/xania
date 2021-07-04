@@ -1,4 +1,6 @@
 #include "Descriptor.hpp"
+#include "Char.hpp"
+#include "Constants.hpp"
 
 #include "TimeInfoData.hpp"
 #include "challenge.hpp"

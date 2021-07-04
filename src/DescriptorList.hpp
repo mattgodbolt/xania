@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Char.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorFilter.hpp"
 #include "merc.h"

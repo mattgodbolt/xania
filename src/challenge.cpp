@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "challenge.hpp"
+#include "Char.hpp"
 #include "Classes.hpp"
 #include "Descriptor.hpp"
 #include "ExtraDescription.hpp"

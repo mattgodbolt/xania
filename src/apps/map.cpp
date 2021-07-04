@@ -9,7 +9,7 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 #include <lyra/lyra.hpp>
-
+#include <unistd.h>
 #include <unordered_set>
 
 extern Room *room_hash[MAX_KEY_HASH];

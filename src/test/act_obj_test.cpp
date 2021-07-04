@@ -1,3 +1,4 @@
+#include "Char.hpp"
 #include "ExtraDescription.hpp"
 #include "MemFile.hpp"
 #include "Object.hpp"

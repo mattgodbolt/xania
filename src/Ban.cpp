@@ -19,6 +19,7 @@
 /*************************************************************************/
 
 #include "Ban.hpp"
+#include "Char.hpp"
 #include "buffer.h"
 #include "comm.hpp"
 #include "common/Configuration.hpp"

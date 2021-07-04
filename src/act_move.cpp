@@ -9,6 +9,7 @@
 
 #include "act_move.hpp"
 #include "AFFECT_DATA.hpp"
+#include "Char.hpp"
 #include "Classes.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"

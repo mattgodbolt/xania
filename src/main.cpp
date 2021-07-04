@@ -1,5 +1,6 @@
 #include "merc.h"
 
+#include "Char.hpp"
 #include "TimeInfoData.hpp"
 #include "Tip.hpp"
 #include "chat/chatlink.h"
@@ -9,6 +10,7 @@
 #include "common/doorman_protocol.h"
 #include "db.h"
 #include "string_utils.hpp"
+#include "version.h"
 
 #include <cstdlib>
 #include <cstring>

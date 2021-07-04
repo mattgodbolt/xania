@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "interp.h"
+#include "Char.hpp"
 #include "CommandSet.hpp"
 #include "Note.hpp"
 #include "Socials.hpp"

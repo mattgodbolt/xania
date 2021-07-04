@@ -4,6 +4,7 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "InjuredPart.hpp"
+#include "Char.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "handler.hpp"

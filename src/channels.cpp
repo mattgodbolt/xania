@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Char.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "comm.hpp"

@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "merc.h"
+#include "Types.hpp"
 
 struct size_type {
     const char *name;

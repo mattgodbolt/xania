@@ -7,7 +7,9 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Char.hpp"
 #include "CommandSet.hpp"
+#include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "interp.h"
 

@@ -5,6 +5,7 @@
 /*************************************************************************/
 #include "InjuredPart.hpp"
 #include "Attacks.hpp"
+#include "Char.hpp"
 #include "Races.hpp"
 #include "Rng.hpp"
 #include "SkillNumbers.hpp"

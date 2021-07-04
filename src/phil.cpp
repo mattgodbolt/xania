@@ -7,6 +7,7 @@
 /*                                                                      */
 /************************************************************************/
 
+#include "Char.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"
