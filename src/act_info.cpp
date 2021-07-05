@@ -17,6 +17,7 @@
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
+#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"

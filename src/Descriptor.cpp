@@ -1,4 +1,5 @@
 #include "Descriptor.hpp"
+#include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "Constants.hpp"
 

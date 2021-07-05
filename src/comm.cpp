@@ -15,6 +15,7 @@
 #include "comm.hpp"
 #include "AREA_DATA.hpp"
 #include "Ban.hpp"
+#include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "CharGeneration.hpp"
 #include "Classes.hpp"

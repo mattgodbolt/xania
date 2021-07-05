@@ -29,47 +29,6 @@
 #include "common/BitOps.hpp"
 #include "common/StandardBits.hpp"
 
-/***************************************************************************
- *                                                                         *
- *                   VALUES OF INTEREST TO AREA BUILDERS                   *
- *                   (End of this section ... stop here)                   *
- *                                                                         *
- ***************************************************************************/
-/*
- * ACT bits for players.
- */
-#define PLR_IS_NPC (A) /* Don't EVER set.      */
-#define PLR_BOUGHT_PET (B)
-
-/* RT auto flags */
-#define PLR_AUTOASSIST (C)
-#define PLR_AUTOEXIT (D)
-#define PLR_AUTOLOOT (E)
-#define PLR_AUTOSAC (F)
-#define PLR_AUTOGOLD (G)
-#define PLR_AUTOSPLIT (H)
-#define PLR_AUTOPEEK (bb)
-/* 5 bits reserved, I-M */
-
-/* RT personal flags */
-#define PLR_HOLYLIGHT (N)
-#define PLR_WIZINVIS (O)
-#define PLR_CANLOOT (P)
-#define PLR_NOSUMMON (Q)
-#define PLR_NOFOLLOW (R)
-#define PLR_AFK (S)
-/* 3 bits reserved, T-V */
-/* XT personal flags */
-#define PLR_PROWL (cc)
-
-/* penalty flags */
-
-#define PLR_LOG (W)
-#define PLR_DENY (X)
-#define PLR_FREEZE (Y)
-#define PLR_THIEF (Z)
-#define PLR_KILLER (aa)
-
 /* RT comm flags -- may be used on both mobs and chars */
 #define COMM_QUIET (A)
 #define COMM_DEAF (B)

@@ -16,6 +16,7 @@
 #include "BitsCharOffensive.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
+#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "BitsWeaponFlags.hpp"
 #include "Classes.hpp"

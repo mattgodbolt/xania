@@ -13,6 +13,7 @@
 #include "BitsCharAct.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsExitState.hpp"
+#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"

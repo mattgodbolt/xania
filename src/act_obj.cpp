@@ -15,6 +15,7 @@
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
+#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "BitsWeaponFlags.hpp"
 #include "BodySize.hpp"
