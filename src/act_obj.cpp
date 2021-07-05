@@ -1,9 +1,9 @@
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
+/*  (C) 1995-2000 Xania Development Team                                 */
 /*  See the header to file: merc.h for original code copyrights          */
 /*                                                                       */
-/*  act_obj.c: interaction with objects                                  */
+/*  act_obj.cpp: interaction with objects                                */
 /*                                                                       */
 /*************************************************************************/
 
@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsCommChannel.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"

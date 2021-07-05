@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "BitsCommChannel.hpp"
 #include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "Descriptor.hpp"

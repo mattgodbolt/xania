@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "Note.hpp"
+#include "BitsCommChannel.hpp"
 #include "Char.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"

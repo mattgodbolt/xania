@@ -8,6 +8,7 @@
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
+#include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"

@@ -9,6 +9,7 @@
 
 #include "interp.h"
 #include "BitsAffect.hpp"
+#include "BitsCommChannel.hpp"
 #include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "CommandSet.hpp"

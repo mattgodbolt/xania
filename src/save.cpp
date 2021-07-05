@@ -9,6 +9,7 @@
 
 #include "save.hpp"
 #include "AFFECT_DATA.hpp"
+#include "BitsCommChannel.hpp"
 #include "BitsPlayerAct.hpp"
 #include "CharFileMeta.hpp"
 #include "ExtraDescription.hpp"

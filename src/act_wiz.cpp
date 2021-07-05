@@ -10,6 +10,7 @@
 #include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
 #include "BitsPlayerAct.hpp"
