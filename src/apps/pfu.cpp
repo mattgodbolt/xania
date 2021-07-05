@@ -1,4 +1,5 @@
 #include "pfu.hpp"
+#include "BitsObjectExtra.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"

@@ -12,6 +12,7 @@
 #include "AREA_DATA.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
+#include "BitsObjectExtra.hpp"
 #include "BodySize.hpp"
 #include "Char.hpp"
 #include "Descriptor.hpp"

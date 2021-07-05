@@ -16,6 +16,7 @@
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsDamageTolerance.hpp"
+#include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"

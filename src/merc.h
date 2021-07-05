@@ -30,36 +30,6 @@
 #include "common/StandardBits.hpp"
 
 /*
- * Extra flags.
- * Used in #OBJECTS.
- */
-#define ITEM_GLOW (A)
-#define ITEM_HUM (B)
-#define ITEM_DARK (C)
-#define ITEM_LOCK (D)
-#define ITEM_EVIL (E)
-#define ITEM_INVIS (F)
-#define ITEM_MAGIC (G)
-#define ITEM_NODROP (H)
-#define ITEM_BLESS (I)
-#define ITEM_ANTI_GOOD (J)
-#define ITEM_ANTI_EVIL (K)
-#define ITEM_ANTI_NEUTRAL (L)
-#define ITEM_NOREMOVE (M) // Only weapons are meant to have this, it prevents disarm.
-#define ITEM_INVENTORY (N)
-#define ITEM_NOPURGE (O)
-#define ITEM_ROT_DEATH (P)
-#define ITEM_VIS_DEATH (Q)
-#define ITEM_PROTECT_CONTAINER (R)
-#define ITEM_NO_LOCATE (S)
-#define ITEM_SUMMON_CORPSE (T)
-#define ITEM_UNIQUE (U)
-
-#define ITEM_EXTRA_FLAGS                                                                                               \
-    "glow hum dark lock evil invis magic nodrop bless antigood antievil antineutral "                                  \
-    "noremove inventory nopurge rotdeath visdeath protected nolocate summon_corpse unique"
-
-/*
  * Wear flags.
  * Used in #OBJECTS.
  */

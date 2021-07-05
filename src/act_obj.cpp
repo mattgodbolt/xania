@@ -12,6 +12,7 @@
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsDamageTolerance.hpp"
+#include "BitsObjectExtra.hpp"
 #include "BodySize.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"

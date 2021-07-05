@@ -8,6 +8,7 @@
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
+#include "BitsObjectExtra.hpp"
 #include "Classes.hpp"
 #include "DescriptorList.hpp"
 #include "Note.hpp"

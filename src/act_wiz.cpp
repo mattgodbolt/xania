@@ -10,6 +10,7 @@
 #include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "Columner.hpp"

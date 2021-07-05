@@ -1,4 +1,5 @@
 #include "BitsCharAct.hpp"
+#include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "ExtraDescription.hpp"
 #include "MemFile.hpp"
