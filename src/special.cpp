@@ -7,6 +7,7 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "BitsObjectWear.hpp"
 #include "Char.hpp"
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"

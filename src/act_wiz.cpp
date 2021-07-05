@@ -11,6 +11,7 @@
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsObjectExtra.hpp"
+#include "BitsObjectWear.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "Columner.hpp"

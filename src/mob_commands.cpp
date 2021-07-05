@@ -21,6 +21,7 @@
 #include "ArgParser.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsObjectWear.hpp"
 #include "Char.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"

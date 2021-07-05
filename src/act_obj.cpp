@@ -13,6 +13,7 @@
 #include "BitsCharAct.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
+#include "BitsObjectWear.hpp"
 #include "BodySize.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"

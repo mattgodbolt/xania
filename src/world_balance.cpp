@@ -5,6 +5,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "BitsObjectWear.hpp"
 #include "Char.hpp"
 #include "MobIndexData.hpp"
 #include "Object.hpp"
