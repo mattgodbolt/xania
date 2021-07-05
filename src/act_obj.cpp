@@ -19,6 +19,7 @@
 #include "Materials.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "Pronouns.hpp"
 #include "Room.hpp"
 #include "Shop.hpp"
@@ -125,7 +126,7 @@ void get_obj(Char *ch, Object *obj, Object *container) {
         obj_from_room(obj);
     }
 
-    if (obj->item_type == ITEM_MONEY) {
+    if (obj->type == ObjectType::Money) {
         ch->gold += obj->value[0];
         if (check_bit(ch->act, PLR_AUTOSPLIT)) { /* AUTOSPLIT code */
             if (ch->num_group_members_in_room() > 1 && obj->value[0] > 1) {
@@ -183,7 +184,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         act("You use $p.", ch, obj, nullptr, To::Char);
     }
 
-    if (obj->item_type == ITEM_LIGHT) {
+    if (obj->type == ObjectType::Light) {
         if (!remove_obj(ch, WEAR_LIGHT, fReplace))
             return;
 
@@ -464,7 +465,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
 }
 
 bool is_mass_looting_npc_undroppable_obj(const Object *obj, const Object *container, const char looting_all_item_dot) {
-    return container->item_type == ITEM_CORPSE_NPC && looting_all_item_dot == '\0'
+    return container->type == ObjectType::Npccorpse && looting_all_item_dot == '\0'
            && (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE));
 }
 
@@ -530,7 +531,7 @@ int get_cost(Char *keeper, Object *obj, bool fBuy) {
         uint itype;
         cost = 0;
         for (itype = 0; itype < MaxTrade; itype++) {
-            if (obj->item_type == shop->buy_type[itype]) {
+            if (obj->type == shop->buy_type[itype]) {
                 cost = obj->cost * shop->profit_sell / 100;
                 break;
             }
@@ -544,7 +545,7 @@ int get_cost(Char *keeper, Object *obj, bool fBuy) {
         }
     }
 
-    if (obj->item_type == ITEM_STAFF || obj->item_type == ITEM_WAND)
+    if (obj->type == ObjectType::Staff || obj->type == ObjectType::Wand)
         cost = cost * obj->value[2] / obj->value[1];
 
     return cost;
@@ -609,13 +610,13 @@ void do_get(Char *ch, const char *argument) {
             return;
         }
 
-        switch (container->item_type) {
+        switch (container->type) {
         default: ch->send_line("That's not a container."); return;
 
-        case ITEM_CONTAINER:
-        case ITEM_CORPSE_NPC: break;
+        case ObjectType::Container:
+        case ObjectType::Npccorpse: break;
 
-        case ITEM_CORPSE_PC: {
+        case ObjectType::Pccorpse: {
 
             if (!can_loot(ch, container)) {
                 ch->send_line("You can't do that.");
@@ -695,7 +696,7 @@ void do_put(Char *ch, const char *argument) {
         return;
     }
 
-    if (container->item_type != ITEM_CONTAINER) {
+    if (container->type != ObjectType::Container) {
         ch->send_line("That's not a container.");
         return;
     }
@@ -1071,7 +1072,7 @@ namespace {
 
 Object *find_pour_target(GenericList<Object *> &list, Object *obj) {
     for (auto *target_obj : list) {
-        if (target_obj->item_type == ITEM_DRINK_CON && obj != target_obj) {
+        if (target_obj->type == ObjectType::Drink && obj != target_obj) {
             return target_obj;
         }
     }
@@ -1095,8 +1096,8 @@ void collect_unique_obj_indexes(const GenericList<Object *> &objects, std::set<O
             unique_obj_idxs.insert(object->objIndex);
         }
         // This is a small optimization as all Objects have a contains list but only these types are valid containers.
-        if (object->item_type == ITEM_CONTAINER || object->item_type == ITEM_CORPSE_NPC
-            || object->item_type == ITEM_CORPSE_PC) {
+        if (object->type == ObjectType::Container || object->type == ObjectType::Npccorpse
+            || object->type == ObjectType::Pccorpse) {
             collect_unique_obj_indexes(object->contains, unique_obj_idxs);
         }
     }
@@ -1126,7 +1127,7 @@ void do_pour(Char *ch, const char *argument) {
         return;
     }
 
-    if (obj->item_type != ITEM_DRINK_CON) {
+    if (obj->type != ObjectType::Drink) {
         ch->send_line("You cannot pour that.");
         return;
     }
@@ -1202,7 +1203,7 @@ void do_pour(Char *ch, const char *argument) {
 namespace {
 Object *find_fountain(GenericList<Object *> &list) {
     for (auto *fountain : list)
-        if (fountain->item_type == ITEM_FOUNTAIN)
+        if (fountain->type == ObjectType::Fountain)
             return fountain;
     return nullptr;
 }
@@ -1230,7 +1231,7 @@ void do_fill(Char *ch, const char *argument) {
         return;
     }
 
-    if (obj->item_type != ITEM_DRINK_CON) {
+    if (obj->type != ObjectType::Drink) {
         ch->send_line("You can't fill that.");
         return;
     }
@@ -1276,17 +1277,17 @@ void do_drink(Char *ch, const char *argument) {
         return;
     }
 
-    switch (obj->item_type) {
+    switch (obj->type) {
     default: ch->send_line("You can't drink from that."); break;
 
-    case ITEM_FOUNTAIN:
+    case ObjectType::Fountain:
         act("$n drinks from $p.", ch, obj, nullptr, To::Room);
         if (const auto opt_message = ch->delta_thirst(48)) {
             ch->send_line(*opt_message);
         }
         break;
 
-    case ITEM_DRINK_CON:
+    case ObjectType::Drink:
         if (obj->value[1] <= 0) {
             ch->send_line("It is already empty.");
             return;
@@ -1351,7 +1352,7 @@ void do_eat(Char *ch, const char *argument) {
     }
 
     if (ch->is_mortal()) {
-        if (obj->item_type != ITEM_FOOD && obj->item_type != ITEM_PILL) {
+        if (obj->type != ObjectType::Food && obj->type != ObjectType::Pill) {
             ch->send_line("That's not edible.");
             return;
         }
@@ -1365,9 +1366,9 @@ void do_eat(Char *ch, const char *argument) {
     act("$n eats $p.", ch, obj, nullptr, To::Room);
     act("You eat $p.", ch, obj, nullptr, To::Char);
 
-    switch (obj->item_type) {
+    switch (obj->type) {
 
-    case ITEM_FOOD:
+    case ObjectType::Food:
         if (const auto opt_message = ch->delta_hunger(obj->value[0])) {
             ch->send_line(*opt_message);
         }
@@ -1386,12 +1387,13 @@ void do_eat(Char *ch, const char *argument) {
         }
         break;
 
-    case ITEM_PILL:
+    case ObjectType::Pill:
         target_name = "";
         obj_cast_spell(obj->value[1], obj->value[0], ch, ch, nullptr);
         obj_cast_spell(obj->value[2], obj->value[0], ch, ch, nullptr);
         obj_cast_spell(obj->value[3], obj->value[0], ch, ch, nullptr);
         break;
+    default:;
     }
 
     extract_obj(obj);
@@ -1459,7 +1461,7 @@ void do_sacrifice(Char *ch, const char *argument) {
         return;
     }
 
-    if (obj->item_type == ITEM_CORPSE_PC) {
+    if (obj->type == ObjectType::Pccorpse) {
         if (!obj->contains.empty()) {
             ch->send_line("{} wouldn't like that.", deity_name);
             return;
@@ -1473,7 +1475,7 @@ void do_sacrifice(Char *ch, const char *argument) {
 
     gold = std::max(1, obj->level * 2);
 
-    if (obj->item_type != ITEM_CORPSE_NPC && obj->item_type != ITEM_CORPSE_PC)
+    if (obj->type != ObjectType::Npccorpse && obj->type != ObjectType::Pccorpse)
         gold = std::min(gold, obj->cost);
 
     switch (gold) {
@@ -1512,7 +1514,7 @@ void do_trash(Char *ch, ArgParser args) {
     }
     // Disallow trashing of containers having contents because we don't want a player
     // to shoot themselves in the foot.
-    if (obj->item_type == ITEM_CONTAINER && !obj->contains.empty()) {
+    if (obj->type == ObjectType::Container && !obj->contains.empty()) {
         ch->send_line("To trash a container please empty it first.");
         return;
     }
@@ -1537,7 +1539,7 @@ void do_quaff(Char *ch, const char *argument) {
         return;
     }
 
-    if (obj->item_type != ITEM_POTION) {
+    if (obj->type != ObjectType::Potion) {
         ch->send_line("You can quaff only potions.");
         return;
     }
@@ -1573,7 +1575,7 @@ void do_recite(Char *ch, const char *argument) {
         return;
     }
 
-    if (scroll->item_type != ITEM_SCROLL) {
+    if (scroll->type != ObjectType::Scroll) {
         ch->send_line("You can recite only scrolls.");
         return;
     }
@@ -1625,7 +1627,7 @@ void do_brandish(Char *ch) {
         return;
     }
 
-    if (staff->item_type != ITEM_STAFF) {
+    if (staff->type != ObjectType::Staff) {
         ch->send_line("You can brandish only with a staff.");
         return;
     }
@@ -1707,7 +1709,7 @@ void do_zap(Char *ch, const char *argument) {
         return;
     }
 
-    if (wand->item_type != ITEM_WAND) {
+    if (wand->type != ObjectType::Wand) {
         ch->send_line("You can zap only with a wand.");
         return;
     }
@@ -2155,7 +2157,7 @@ void do_sell(Char *ch, const char *argument) {
     if (keeper->gold < 0)
         keeper->gold = 0;
 
-    if (obj->item_type == ITEM_TRASH) {
+    if (obj->type == ObjectType::Trash) {
         extract_obj(obj);
     } else {
         obj_from_char(obj);
@@ -2222,7 +2224,7 @@ void do_throw(Char *ch, const char *argument) {
         return;
     }
 
-    if (bomb->item_type != ITEM_BOMB) {
+    if (bomb->type != ObjectType::Bomb) {
         ch->send_line("You can throw only bombs.");
         return;
     }
@@ -2266,7 +2268,7 @@ void do_throw(Char *ch, const char *argument) {
 namespace {
 Object *find_corpse(Char *ch, GenericList<Object *> &list) {
     for (auto *current_obj : list)
-        if (current_obj->item_type == ITEM_CORPSE_PC && matches_inside(ch->name, current_obj->short_descr))
+        if (current_obj->type == ObjectType::Pccorpse && matches_inside(ch->name, current_obj->short_descr))
             return current_obj;
     return nullptr;
 }

@@ -1,6 +1,7 @@
 #include "pfu.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "VnumRooms.hpp"
 #include "WearLocation.hpp"
 #include "WrappedFd.hpp"
@@ -128,8 +129,8 @@ void AddUniqueItemFlags::walk_inventory_set_unique_flag(const GenericList<Object
         if (check_bit(object->objIndex->extra_flags, ITEM_UNIQUE) && !check_bit(object->extra_flags, ITEM_UNIQUE)) {
             set_bit(object->extra_flags, ITEM_UNIQUE);
         }
-        if (object->item_type == ITEM_CONTAINER || object->item_type == ITEM_CORPSE_NPC
-            || object->item_type == ITEM_CORPSE_PC) {
+        if (object->type == ObjectType::Container || object->type == ObjectType::Npccorpse
+            || object->type == ObjectType::Pccorpse) {
             walk_inventory_set_unique_flag(object->contains);
         }
     }

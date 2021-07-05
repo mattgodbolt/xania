@@ -30,35 +30,6 @@
 #include "common/StandardBits.hpp"
 
 /*
- * Item types.
- * Used in #OBJECTS.
- */
-#define ITEM_LIGHT 1
-#define ITEM_SCROLL 2
-#define ITEM_WAND 3
-#define ITEM_STAFF 4
-#define ITEM_WEAPON 5
-#define ITEM_TREASURE 8
-#define ITEM_ARMOR 9
-#define ITEM_POTION 10
-#define ITEM_CLOTHING 11
-#define ITEM_FURNITURE 12
-#define ITEM_TRASH 13
-#define ITEM_CONTAINER 15
-#define ITEM_DRINK_CON 17
-#define ITEM_KEY 18
-#define ITEM_FOOD 19
-#define ITEM_MONEY 20
-#define ITEM_BOAT 22
-#define ITEM_CORPSE_NPC 23
-#define ITEM_CORPSE_PC 24
-#define ITEM_FOUNTAIN 25
-#define ITEM_PILL 26
-#define ITEM_MAP 28
-#define ITEM_BOMB 29
-#define ITEM_PORTAL 30
-
-/*
  * Extra flags.
  * Used in #OBJECTS.
  */

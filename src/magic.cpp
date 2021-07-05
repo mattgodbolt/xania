@@ -21,6 +21,7 @@
 #include "Materials.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -314,7 +315,7 @@ void do_cast(Char *ch, const char *argument) {
             ch->gold -= (mana * 100);
 
             if (((bomb = get_eq_char(ch, WEAR_HOLD)) != nullptr)) {
-                if (bomb->item_type != ITEM_BOMB) {
+                if (bomb->type != ObjectType::Bomb) {
                     ch->send_line("You must be holding a bomb to add to it.");
                     ch->send_line("Or, to create a new bomb you must have free hands.");
                     ch->mana += (mana * 2);
@@ -687,7 +688,7 @@ void spell_acid_wash(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->item_type != ITEM_WEAPON) {
+    if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
     }
@@ -1164,7 +1165,7 @@ void spell_create_water(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Object *obj = (Object *)vo;
 
-    if (obj->item_type != ITEM_DRINK_CON) {
+    if (obj->type != ObjectType::Drink) {
         ch->send_line("It is unable to hold water.");
         return;
     }
@@ -1465,7 +1466,7 @@ void spell_detect_poison(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->item_type == ITEM_DRINK_CON || obj->item_type == ITEM_FOOD) {
+    if (obj->type == ObjectType::Drink || obj->type == ObjectType::Food) {
         if (obj->value[3] != 0)
             ch->send_line("You smell poisonous fumes.");
         else
@@ -1645,7 +1646,7 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
 void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     Object *obj = (Object *)vo;
 
-    if (obj->item_type != ITEM_ARMOR) {
+    if (obj->type != ObjectType::Armor) {
         ch->send_line("That isn't an armor.");
         return;
     }
@@ -1776,7 +1777,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
 void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     Object *obj = (Object *)vo;
 
-    if ((obj->item_type != ITEM_WEAPON) && (obj->item_type != ITEM_ARMOR)) {
+    if ((obj->type != ObjectType::Weapon) && (obj->type != ObjectType::Armor)) {
         ch->send_line("That isn't a weapon or armour.");
         return;
     }
@@ -1798,7 +1799,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
 
     /* TheMoog added material fiddling */
     fail += ((100 - material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience) / 3);
-    if (obj->item_type == ITEM_ARMOR) {
+    if (obj->type == ObjectType::Armor) {
         fail += 25; /* harder to enchant armor with weapon */
         modifier = 2;
     }
@@ -1851,7 +1852,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
 
     /* We don't want armor, with more than 2 ench. hit&dam */
     int no_ench_num = 0;
-    if (obj->item_type == ITEM_ARMOR && (ch->get_trust() < MAX_LEVEL)) {
+    if (obj->type == ObjectType::Armor && (ch->get_trust() < MAX_LEVEL)) {
         if (auto it = ranges::find_if(
                 obj->affected, [&](const auto &af) { return af.type == sn && af.location == AffectLocation::Damroll; });
             it != obj->affected.end()) {
@@ -1956,7 +1957,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
         obj->affected.add(af);
     }
     /* Make armour become level 50 */
-    if ((obj->item_type == ITEM_ARMOR) && (obj->level < 50)) {
+    if ((obj->type == ObjectType::Armor) && (obj->level < 50)) {
         act("$p looks way better than it did before!", ch, obj, nullptr, To::Char);
         obj->level = 50;
     }
@@ -1967,7 +1968,7 @@ void spell_protect_container(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->item_type != ITEM_CONTAINER) {
+    if (obj->type != ObjectType::Container) {
         ch->send_line("That isn't a container.");
         return;
     }
@@ -1992,7 +1993,7 @@ void spell_vorpal(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->item_type != ITEM_WEAPON) {
+    if (obj->type != ObjectType::Weapon) {
         ch->send_line("This isn't a weapon.");
         return;
     }
@@ -2017,7 +2018,7 @@ void spell_venom(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->item_type != ITEM_WEAPON) {
+    if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
     }
@@ -2042,7 +2043,7 @@ void spell_black_death(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->item_type != ITEM_WEAPON) {
+    if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
     }
@@ -2067,7 +2068,7 @@ void spell_damnation(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->item_type != ITEM_WEAPON) {
+    if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
     }
@@ -2093,7 +2094,7 @@ void spell_vampire(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->item_type != ITEM_WEAPON) {
+    if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
     }
@@ -2113,7 +2114,7 @@ void spell_tame_lightning(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->item_type != ITEM_WEAPON) {
+    if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
     }
@@ -2301,7 +2302,7 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
     victim->send_line("You are filled with holy wrath!");
     act("$n gets a wild look in $s eyes!", victim);
 
-    /*  if ( (wield !=nullptr) && (wield->item_type == ITEM_WEAPON) &&
+    /*  if ( (wield !=nullptr) && (wield->type == ObjectType::Weapon) &&
           (check_bit(wield->value[4], WEAPON_FLAMING)))
         ch->send_line("Your great energy causes your weapon to burst into flame.");
       wield->value[3] = 29;*/
@@ -2568,7 +2569,7 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
     Object *obj = (Object *)vo;
     char buf[MAX_STRING_LENGTH];
 
-    ch->send_line("Object '{}' is type {}, extra flags {}.", obj->name, item_type_name(obj),
+    ch->send_line("Object '{}' is type {}, extra flags {}.", obj->name, obj->type_name(),
                   extra_bit_name(obj->extra_flags));
     ch->send_line("Weight is {}, value is {}, level is {}.", obj->weight, obj->cost, obj->level);
 
@@ -2576,11 +2577,11 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Made of {}.", lower_case(magic_enum::enum_name<Material>(obj->material)));
     }
 
-    switch (obj->item_type) {
-    case ITEM_SCROLL:
-    case ITEM_POTION:
-    case ITEM_PILL:
-    case ITEM_BOMB:
+    switch (obj->type) {
+    case ObjectType::Scroll:
+    case ObjectType::Potion:
+    case ObjectType::Pill:
+    case ObjectType::Bomb:
         ch->send_to("Level {} spells of:", obj->value[0]);
 
         if (obj->value[1] >= 0 && obj->value[1] < MAX_SKILL) {
@@ -2595,15 +2596,15 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
             ch->send_to(" '{}'", skill_table[obj->value[3]].name);
         }
 
-        if (obj->value[4] >= 0 && obj->value[4] < MAX_SKILL && obj->item_type == ITEM_BOMB) {
+        if (obj->value[4] >= 0 && obj->value[4] < MAX_SKILL && obj->type == ObjectType::Bomb) {
             ch->send_to(" '{}'", skill_table[obj->value[4]].name);
         }
 
         ch->send_line(".");
         break;
 
-    case ITEM_WAND:
-    case ITEM_STAFF:
+    case ObjectType::Wand:
+    case ObjectType::Staff:
         ch->send_to("Has {}({}) charges of level {}", obj->value[1], obj->value[2], obj->value[0]);
 
         if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL) {
@@ -2613,11 +2614,11 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
         ch->send_line(".");
         break;
 
-    case ITEM_CONTAINER: ch->send_line("Weight capacity: {}.", obj->value[0]); break;
+    case ObjectType::Container: ch->send_line("Weight capacity: {}.", obj->value[0]); break;
 
-    case ITEM_DRINK_CON: ch->send_line("Liquid capacity: {}.", obj->value[0]); break;
+    case ObjectType::Drink: ch->send_line("Liquid capacity: {}.", obj->value[0]); break;
 
-    case ITEM_WEAPON:
+    case ObjectType::Weapon:
         ch->send_to("Weapon type is ");
         switch (obj->value[0]) {
         case (WEAPON_EXOTIC): ch->send_line("exotic."); break;
@@ -2631,7 +2632,7 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
         case (WEAPON_POLEARM): ch->send_line("polearm."); break;
         default: ch->send_line("unknown."); break;
         }
-        if ((obj->value[4] != 0) && (obj->item_type == ITEM_WEAPON)) {
+        if ((obj->value[4] != 0) && (obj->type == ObjectType::Weapon)) {
             ch->send_to("Weapon flags:");
             if (check_bit(obj->value[4], WEAPON_FLAMING))
                 ch->send_to(" flaming");
@@ -2660,11 +2661,12 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
         ch->send_to(buf);
         break;
 
-    case ITEM_ARMOR:
+    case ObjectType::Armor:
         snprintf(buf, sizeof(buf), "Armor class is %d pierce, %d bash, %d slash, and %d vs. magic.\n\r", obj->value[0],
                  obj->value[1], obj->value[2], obj->value[3]);
         ch->send_to(buf);
         break;
+    default:; // TODO #259 support more types
     }
 
     if (!obj->enchanted)
@@ -3383,8 +3385,8 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
             if (number_bits(2) != 0)
                 continue;
 
-            switch (obj_lose->item_type) {
-            case ITEM_ARMOR:
+            switch (obj_lose->type) {
+            case ObjectType::Armor:
                 if (obj_lose->value[0] > 0) {
                     int iWear;
                     act("$p is pitted and etched!", victim, obj_lose, nullptr, To::Char);
@@ -3400,7 +3402,7 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
                 }
                 break;
 
-            case ITEM_CONTAINER:
+            case ObjectType::Container:
                 if (!IS_OBJ_STAT(obj_lose, ITEM_PROTECT_CONTAINER)) {
                     act("$p fumes and dissolves, destroying some of the contents.", victim, obj_lose, nullptr,
                         To::Char);
@@ -3419,6 +3421,8 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
                 } else {
                     act("$p was protected from damage, saving the contents!", victim, obj_lose, nullptr, To::Char);
                 }
+
+            default:;
             }
         }
     }
@@ -3445,18 +3449,18 @@ void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
             if (number_bits(2) != 0)
                 continue;
 
-            switch (obj_lose->item_type) {
+            switch (obj_lose->type) {
             default: continue;
-            case ITEM_POTION: msg = "$p bubbles and boils!"; break;
-            case ITEM_SCROLL: msg = "$p crackles and burns!"; break;
-            case ITEM_STAFF: msg = "$p smokes and chars!"; break;
-            case ITEM_WAND: msg = "$p sparks and sputters!"; break;
-            case ITEM_FOOD: msg = "$p blackens and crisps!"; break;
-            case ITEM_PILL: msg = "$p melts and drips!"; break;
+            case ObjectType::Potion: msg = "$p bubbles and boils!"; break;
+            case ObjectType::Scroll: msg = "$p crackles and burns!"; break;
+            case ObjectType::Staff: msg = "$p smokes and chars!"; break;
+            case ObjectType::Wand: msg = "$p sparks and sputters!"; break;
+            case ObjectType::Food: msg = "$p blackens and crisps!"; break;
+            case ObjectType::Pill: msg = "$p melts and drips!"; break;
             }
 
             act(msg, victim, obj_lose, nullptr, To::Char);
-            if (obj_lose->item_type == ITEM_CONTAINER) {
+            if (obj_lose->type == ObjectType::Container) {
                 /* save some of  the contents */
 
                 if (!IS_OBJ_STAT(obj_lose, ITEM_PROTECT_CONTAINER)) {
@@ -3500,10 +3504,10 @@ void spell_frost_breath(int sn, int level, Char *ch, void *vo) {
             if (number_bits(2) != 0)
                 continue;
 
-            switch (obj_lose->item_type) {
+            switch (obj_lose->type) {
             default: continue;
-            case ITEM_DRINK_CON:
-            case ITEM_POTION: msg = "$p freezes and shatters!"; break;
+            case ObjectType::Drink:
+            case ObjectType::Potion: msg = "$p freezes and shatters!"; break;
             }
 
             act(msg, victim, obj_lose, nullptr, To::Char);

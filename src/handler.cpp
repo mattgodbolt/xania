@@ -25,6 +25,7 @@
 #include "Materials.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -89,7 +90,7 @@ int get_weapon_sn(Char *ch) {
     int sn;
 
     wield = get_eq_char(ch, WEAR_WIELD);
-    if (wield == nullptr || wield->item_type != ITEM_WEAPON)
+    if (wield == nullptr || wield->type != ObjectType::Weapon)
         sn = gsn_hand_to_hand;
     else
         switch (wield->value[0]) {
@@ -291,7 +292,7 @@ void char_from_room(Char *ch) {
     if (ch->is_pc())
         --ch->in_room->area->nplayer;
 
-    if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] != 0
+    if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->type == ObjectType::Light && obj->value[2] != 0
         && ch->in_room->light > 0)
         --ch->in_room->light;
 
@@ -323,7 +324,7 @@ void char_to_room(Char *ch, Room *room) {
         ++ch->in_room->area->nplayer;
     }
 
-    if (auto *obj = get_eq_char(ch, WEAR_LIGHT); obj && obj->item_type == ITEM_LIGHT && obj->value[2] != 0)
+    if (auto *obj = get_eq_char(ch, WEAR_LIGHT); obj && obj->type == ObjectType::Light && obj->value[2] != 0)
         ++ch->in_room->light;
 
     if (IS_AFFECTED(ch, AFF_PLAGUE)) {
@@ -403,7 +404,7 @@ void obj_from_char(Object *obj) {
  * Find the ac value of an obj, including position effect.
  */
 int apply_ac(Object *obj, int iWear, int type) {
-    if (obj->item_type != ITEM_ARMOR)
+    if (obj->type != ObjectType::Armor)
         return 0;
 
     switch (iWear) {
@@ -493,7 +494,7 @@ void equip_char(Char *ch, Object *obj, int iWear) {
     for (auto &af : obj->affected)
         affect_modify(ch, af, true);
 
-    if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != nullptr)
+    if (obj->type == ObjectType::Light && obj->value[2] != 0 && ch->in_room != nullptr)
         ++ch->in_room->light;
 }
 
@@ -516,7 +517,7 @@ void unequip_char(Char *ch, Object *obj) {
     for (auto &af : obj->affected)
         affect_modify(ch, af, false);
 
-    if (obj->item_type == ITEM_LIGHT && obj->value[2] != 0 && ch->in_room != nullptr && ch->in_room->light > 0)
+    if (obj->type == ObjectType::Light && obj->value[2] != 0 && ch->in_room != nullptr && ch->in_room->light > 0)
         --ch->in_room->light;
 }
 
@@ -843,7 +844,7 @@ Object *create_money(int amount) {
 int get_obj_number(Object *obj) {
     int number;
 
-    if (obj->item_type == ITEM_CONTAINER || obj->item_type == ITEM_MONEY)
+    if (obj->type == ObjectType::Container || obj->type == ObjectType::Money)
         number = 0;
     else
         number = 1;
@@ -946,76 +947,6 @@ bool can_drop_obj(Char *ch, Object *obj) {
         return true;
 
     return false;
-}
-
-/*
- * Return ascii name of an item type.
- */
-const char *item_type_name(Object *obj) {
-    switch (obj->item_type) {
-    case ITEM_LIGHT: return "light";
-    case ITEM_SCROLL: return "scroll";
-    case ITEM_WAND: return "wand";
-    case ITEM_STAFF: return "staff";
-    case ITEM_WEAPON: return "weapon";
-    case ITEM_TREASURE: return "treasure";
-    case ITEM_ARMOR: return "armor";
-    case ITEM_POTION: return "potion";
-    case ITEM_CLOTHING: return "clothing";
-    case ITEM_FURNITURE: return "furniture";
-    case ITEM_TRASH: return "trash";
-    case ITEM_CONTAINER: return "container";
-    case ITEM_DRINK_CON: return "drink container";
-    case ITEM_KEY: return "key";
-    case ITEM_FOOD: return "food";
-    case ITEM_MONEY: return "money";
-    case ITEM_BOAT: return "boat";
-    case ITEM_CORPSE_NPC: return "npc corpse";
-    case ITEM_CORPSE_PC: return "pc corpse";
-    case ITEM_FOUNTAIN: return "fountain";
-    case ITEM_PILL: return "pill";
-    case ITEM_MAP: return "map";
-    case ITEM_BOMB: return "bomb";
-    case ITEM_PORTAL: return "portal";
-    }
-
-    bug("Item_type_name: unknown type {}.", obj->item_type);
-    return "(unknown)";
-}
-
-/*
- * Return ascii name of an object index
- */
-const char *item_index_type_name(ObjectIndex *obj) {
-    switch (obj->item_type) {
-    case ITEM_LIGHT: return "light";
-    case ITEM_SCROLL: return "scroll";
-    case ITEM_WAND: return "wand";
-    case ITEM_STAFF: return "staff";
-    case ITEM_WEAPON: return "weapon";
-    case ITEM_TREASURE: return "treasure";
-    case ITEM_ARMOR: return "armor";
-    case ITEM_POTION: return "potion";
-    case ITEM_CLOTHING: return "clothing";
-    case ITEM_FURNITURE: return "furniture";
-    case ITEM_TRASH: return "trash";
-    case ITEM_CONTAINER: return "container";
-    case ITEM_DRINK_CON: return "drink container";
-    case ITEM_KEY: return "key";
-    case ITEM_FOOD: return "food";
-    case ITEM_MONEY: return "money";
-    case ITEM_BOAT: return "boat";
-    case ITEM_CORPSE_NPC: return "npc corpse";
-    case ITEM_CORPSE_PC: return "pc corpse";
-    case ITEM_FOUNTAIN: return "fountain";
-    case ITEM_PILL: return "pill";
-    case ITEM_MAP: return "map";
-    case ITEM_BOMB: return "bomb";
-    case ITEM_PORTAL: return "portal";
-    }
-
-    bug("Item_type_name: unknown type {}.", obj->item_type);
-    return "(unknown)";
 }
 
 /*

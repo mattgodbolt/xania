@@ -21,6 +21,7 @@
 #include "Exit.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -533,7 +534,7 @@ void char_update() {
         if (ch->is_pc() && ch->level < LEVEL_IMMORTAL) {
             Object *obj;
 
-            if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->item_type == ITEM_LIGHT && obj->value[2] > 0) {
+            if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->type == ObjectType::Light && obj->value[2] > 0) {
                 if (--obj->value[2] == 0 && ch->in_room != nullptr) {
                     --ch->in_room->light;
                     act("$p goes out.", ch, obj, nullptr, To::Room);
@@ -690,14 +691,14 @@ void obj_update() {
         if (obj->timer <= 0 || --obj->timer > 0)
             continue;
 
-        switch (obj->item_type) {
+        switch (obj->type) {
         default: message = "$p crumbles into dust."; break;
-        case ITEM_FOUNTAIN: message = "$p dries up."; break;
-        case ITEM_CORPSE_NPC: message = "$p decays into dust."; break;
-        case ITEM_CORPSE_PC: message = "$p decays into dust."; break;
-        case ITEM_FOOD: message = "$p decomposes."; break;
-        case ITEM_POTION: message = "$p has evaporated from disuse."; break;
-        case ITEM_PORTAL: message = "$p shimmers and fades away."; break;
+        case ObjectType::Fountain: message = "$p dries up."; break;
+        case ObjectType::Npccorpse: message = "$p decays into dust."; break;
+        case ObjectType::Pccorpse: message = "$p decays into dust."; break;
+        case ObjectType::Food: message = "$p decomposes."; break;
+        case ObjectType::Potion: message = "$p has evaporated from disuse."; break;
+        case ObjectType::Portal: message = "$p shimmers and fades away."; break;
         }
 
         if (obj->carried_by != nullptr) {
@@ -714,7 +715,7 @@ void obj_update() {
             }
         }
 
-        if (obj->item_type == ITEM_CORPSE_PC && !obj->contains.empty()) { /* save the contents */
+        if (obj->type == ObjectType::Pccorpse && !obj->contains.empty()) { /* save the contents */
             for (auto *t_obj : obj->contains) {
                 obj_from_obj(t_obj);
 

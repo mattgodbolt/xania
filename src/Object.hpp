@@ -16,6 +16,7 @@ enum class Material;
 struct Char;
 struct ExtraDescription;
 struct ObjectIndex;
+enum class ObjectType;
 struct Room;
 
 /*
@@ -34,7 +35,7 @@ struct Object {
     std::string name;
     std::string short_descr;
     std::string description;
-    sh_int item_type{};
+    ObjectType type{};
     unsigned int extra_flags{};
     int wear_flags{};
     std::string wear_string;
@@ -47,4 +48,6 @@ struct Object {
     sh_int timer{};
     std::array<int, 5> value{};
     Room *destination{};
+
+    [[nodiscard]] std::string type_name() const;
 };

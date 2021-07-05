@@ -18,13 +18,15 @@
 
 #pragma once
 
-#include "Position.hpp"
+#include <string_view>
+
+// Support function: checks if a string is numeric and in 0<=x<max
+// Returns number or -1 if not
+int numeric_lookup_check(std::string_view name, const int max);
 
 int size_lookup(const char *name);
 
 int liq_lookup(const char *name);
-int item_lookup(const char *name);
-int item_lookup_strict(const char *name);
 int attack_lookup(const char *name);
 int weapon_type(const char *name);
 int skill_lookup(const char *name);

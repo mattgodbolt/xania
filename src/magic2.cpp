@@ -15,6 +15,7 @@
 #include "ExtraDescription.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "Room.hpp"
 #include "SkillTables.hpp"
 #include "VnumMobiles.hpp"
@@ -201,7 +202,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 
     /* scan the room looking for an appropriate objects...count them */
     for (auto *obj : ch->in_room->contents) {
-        if ((obj->objIndex->item_type == ITEM_CORPSE_NPC) || (obj->objIndex->item_type == ITEM_CORPSE_PC))
+        if ((obj->objIndex->type == ObjectType::Npccorpse) || (obj->objIndex->type == ObjectType::Pccorpse))
             num_of_corpses++;
     }
 
@@ -215,7 +216,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
     corpse = number_range(1, num_of_corpses);
     Object *obj{};
     for (auto *c : ch->in_room->contents) {
-        if ((c->objIndex->item_type == ITEM_CORPSE_NPC) || (c->objIndex->item_type == ITEM_CORPSE_PC)) {
+        if ((c->objIndex->type == ObjectType::Npccorpse) || (c->objIndex->type == ObjectType::Pccorpse)) {
             if (--corpse == 0) {
                 obj = c;
                 break;
@@ -237,7 +238,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
     chance = urange(1, (50 + ((ch->level - obj->objIndex->level) * 3)), 99);
 
     if ((number_percent() > chance) || /* if random failed */
-        ((obj->objIndex->item_type == ITEM_CORPSE_PC) && !obj->contains.empty()))
+        ((obj->objIndex->type == ObjectType::Pccorpse) && !obj->contains.empty()))
     /* if non-empty PC corpse */ {
         act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Room);
         act("$s stands, then falls over again - lifeless.", ch, nullptr, obj, To::Char);
@@ -362,7 +363,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
  */
 //    for (obj = victim->contains; obj; obj = objNext) {
 // objNext = obj->next_content;
-// if (obj->item_type == ITEM_MONEY) {
+// if (obj->type == ObjectType::Money) {
 //  zombie->gold += obj->value[0];
 //  extract_obj (obj);
 //} else {

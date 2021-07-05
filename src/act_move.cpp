@@ -16,6 +16,7 @@
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
 #include "Object.hpp"
+#include "ObjectType.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -222,7 +223,7 @@ void do_enter(Char *ch, std::string_view argument) {
     for (auto *obj : ch->in_room->contents) {
         if (can_see_obj(ch, obj) && (is_name(arg, obj->name))) {
             if (++count == number) {
-                if (obj->item_type == ITEM_PORTAL) {
+                if (obj->type == ObjectType::Portal) {
 
                     to_room = obj->destination;
 
@@ -394,7 +395,7 @@ void do_open(Char *ch, ArgParser args) {
 
     if (auto *obj = get_obj_here(ch, arg)) {
         /* 'open object' */
-        if (obj->item_type != ITEM_CONTAINER) {
+        if (obj->type != ObjectType::Container) {
             ch->send_line("That's not a container.");
             return;
         }
@@ -457,7 +458,7 @@ void do_close(Char *ch, ArgParser args) {
     auto arg = args.shift();
     if (auto *obj = get_obj_here(ch, arg)) {
         /* 'close object' */
-        if (obj->item_type != ITEM_CONTAINER) {
+        if (obj->type != ObjectType::Container) {
             ch->send_line("That's not a container.");
             return;
         }
@@ -511,7 +512,7 @@ void do_lock(Char *ch, ArgParser args) {
 
     if (auto *obj = get_obj_here(ch, arg)) {
         /* 'lock object' */
-        if (obj->item_type != ITEM_CONTAINER) {
+        if (obj->type != ObjectType::Container) {
             ch->send_line("That's not a container.");
             return;
         }
@@ -584,7 +585,7 @@ void do_unlock(Char *ch, ArgParser args) {
 
     if (auto *obj = get_obj_here(ch, arg)) {
         /* 'unlock object' */
-        if (obj->item_type != ITEM_CONTAINER) {
+        if (obj->type != ObjectType::Container) {
             ch->send_line("That's not a container.");
             return;
         }
@@ -671,7 +672,7 @@ void do_pick(Char *ch, ArgParser args) {
     auto arg = args.shift();
     if (auto *obj = get_obj_here(ch, arg)) {
         /* 'pick object' */
-        if (obj->item_type != ITEM_CONTAINER) {
+        if (obj->type != ObjectType::Container) {
             ch->send_line("That's not a container.");
             return;
         }

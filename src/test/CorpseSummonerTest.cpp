@@ -2,6 +2,7 @@
 #include "BitsCharAct.hpp"
 #include "ExtraDescription.hpp"
 #include "Object.hpp"
+#include "ObjectType.hpp"
 #include "Room.hpp"
 #include "merc.h"
 
@@ -31,11 +32,11 @@ struct MockDependencies : public CorpseSummoner::Dependencies {
     MAKE_CONST_MOCK0(weaken_sn, int(), override);
 };
 
-Object make_test_obj(Room *room, std::string_view descr, int item_type) {
+Object make_test_obj(Room *room, std::string_view descr, const ObjectType type) {
     Object obj;
     obj.in_room = room;
     obj.short_descr = descr;
-    obj.item_type = item_type;
+    obj.type = type;
     return obj;
 }
 }
@@ -171,7 +172,7 @@ TEST_CASE("get pc corpse world") {
     auto tests_corpse_desc{"corpse of Test"};
 
     SECTION("no pc corpse in world") {
-        Object weapon = make_test_obj(&object_room, "", ITEM_WEAPON);
+        Object weapon = make_test_obj(&object_room, "", ObjectType::Weapon);
         auto obj_list = GenericList<Object *>::of(&weapon);
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
@@ -182,7 +183,7 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("ignore corpse owned by another player") {
         char descr[] = "corpse of Sinbad";
-        Object corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
+        Object corpse = make_test_obj(&object_room, descr, ObjectType::Pccorpse);
         auto obj_list = GenericList<Object *>::of(&corpse);
         player.in_room = &player_room;
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
@@ -194,7 +195,7 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("ignore player's corpse in same room as summoner") {
         char descr[] = "corpse of Sinbad";
-        Object corpse = make_test_obj(&player_room, descr, ITEM_CORPSE_PC);
+        Object corpse = make_test_obj(&player_room, descr, ObjectType::Pccorpse);
         auto obj_list = GenericList<Object *>::of(&corpse);
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
@@ -205,7 +206,7 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("found player's corpse") {
         char descr[] = "corpse of Test";
-        Object corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
+        Object corpse = make_test_obj(&object_room, descr, ObjectType::Pccorpse);
         auto obj_list = GenericList<Object *>::of(&corpse);
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
@@ -235,7 +236,7 @@ TEST_CASE("summon corpse") {
 
     SECTION("successful summmon") {
         char descr[] = "corpse of Test";
-        Object corpse = make_test_obj(&object_room, descr, ITEM_CORPSE_PC);
+        Object corpse = make_test_obj(&object_room, descr, ObjectType::Pccorpse);
         auto obj_list = GenericList<Object *>::of(&corpse);
         trompeloeil::sequence seq;
         REQUIRE_CALL(mock, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob, &catalyst,

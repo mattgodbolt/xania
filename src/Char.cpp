@@ -13,6 +13,7 @@
 #include "Note.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "Races.hpp"
 #include "Sex.hpp"
 #include "SkillNumbers.hpp"
@@ -299,10 +300,10 @@ bool Char::can_see(const Object &object) const {
     if (check_bit(object.extra_flags, ITEM_VIS_DEATH))
         return false;
 
-    if (is_blind() && object.item_type != ITEM_POTION)
+    if (is_blind() && object.type != ObjectType::Potion)
         return false;
 
-    if (object.item_type == ITEM_LIGHT && object.value[2] != 0)
+    if (object.type == ObjectType::Light && object.value[2] != 0)
         return true;
 
     if (check_bit(object.extra_flags, ITEM_INVIS) && !has_detect_invis())
@@ -413,7 +414,7 @@ void Char::set_afk(std::string_view afk_message) {
 }
 
 bool Char::has_boat() const noexcept {
-    return is_immortal() || ranges::contains(carrying, ITEM_BOAT, &Object::item_type);
+    return is_immortal() || ranges::contains(carrying, ObjectType::Boat, &Object::type);
 }
 
 bool Char::carrying_object_vnum(int vnum) const noexcept {

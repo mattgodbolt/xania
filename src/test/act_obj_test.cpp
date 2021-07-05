@@ -4,6 +4,7 @@
 #include "MemFile.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "Shop.hpp"
 #include "merc.h"
 
@@ -18,15 +19,15 @@ TEST_CASE("unique object enforcement") {
     Char char_from{};
     Char char_to{};
     ObjectIndex obj_idx{};
-    obj_idx.item_type = ITEM_LIGHT;
+    obj_idx.type = ObjectType::Light;
 
     Object existing_obj{};
     existing_obj.objIndex = &obj_idx;
-    existing_obj.item_type = obj_idx.item_type;
+    existing_obj.type = obj_idx.type;
 
     Object moving_obj{};
     moving_obj.objIndex = &obj_idx;
-    moving_obj.item_type = obj_idx.item_type;
+    moving_obj.type = obj_idx.type;
     // Default case for most tests: both the existing & moving object instances are flagged unique.
     set_bit(obj_idx.extra_flags, ITEM_UNIQUE);
     existing_obj.extra_flags = obj_idx.extra_flags;
@@ -96,10 +97,10 @@ TEST_CASE("unique object enforcement") {
     }
     SECTION("moving to a container") {
         ObjectIndex container_idx;
-        container_idx.item_type = ITEM_CONTAINER;
+        container_idx.type = ObjectType::Container;
         Object container{};
         container.objIndex = &container_idx;
-        container.item_type = container_idx.item_type;
+        container.type = container_idx.type;
 
         SECTION("unique object to container collides") {
             container.contains.add_back(&existing_obj);

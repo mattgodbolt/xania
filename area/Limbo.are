@@ -78,7 +78,7 @@ corpse~
 corpse of %s~
 The corpse of %s is lying here.~
 meat~
-npc_corpse 0 A
+npccorpse 0 A
 0 0 0 1 0
 0 100 0 D
 #11
@@ -86,7 +86,7 @@ corpse~
 corpse of %s~
 The corpse of %s is lying here.~
 meat~
-pc_corpse O A
+pccorpse O A
 0 0 0 1 0
 0 100 0 D
 #12

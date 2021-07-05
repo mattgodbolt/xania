@@ -26,6 +26,7 @@
 #include "Materials.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -433,7 +434,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         return;
 
     const auto wield = get_eq_char(ch, WEAR_WIELD);
-    const auto atk_table_idx = (wield && wield->item_type == ITEM_WEAPON) ? wield->value[3] : ch->dam_type;
+    const auto atk_table_idx = (wield && wield->type == ObjectType::Weapon) ? wield->value[3] : ch->dam_type;
     const auto dam_type = attack_table[atk_table_idx].damage;
     AttackType atk_type;
     if (!opt_skill) {
@@ -522,7 +523,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
             dam = dice(wield->value[1], wield->value[2]) * weapon_skill / 100;
 
             /* Sharp weapon flag implemented by Wandera */
-            if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON) && !self_hitting)
+            if ((wield != nullptr) && (wield->type == ObjectType::Weapon) && !self_hitting)
                 if (check_bit(wield->value[4], WEAPON_SHARP) && number_percent() > 98) {
                     dam *= 2;
                     act("Sunlight glints off your sharpened blade!", ch, nullptr, victim, To::Char);
@@ -532,7 +533,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
             /* Vorpal weapon flag implemented by Wandera and Death*/
             /* Previously this quadrupled damage if you landed a lucky hit. The bonus is now a bit less overpowered. */
-            if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON)) {
+            if ((wield != nullptr) && (wield->type == ObjectType::Weapon)) {
                 if (check_bit(wield->value[4], WEAPON_VORPAL)) {
                     if (dam == (1 + wield->value[2]) * wield->value[1] / 2) {
                         dam *= 1.3;
@@ -584,7 +585,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     damage(ch, victim, dam, atk_type, dam_type);
 
-    if (wield == nullptr || wield->item_type != ITEM_WEAPON)
+    if (wield == nullptr || wield->type != ObjectType::Weapon)
         return;
 
     if ((check_bit(wield->value[4], WEAPON_POISONED)) && (!IS_AFFECTED(victim, AFF_POISON))) {
@@ -766,7 +767,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
 
     wield = get_eq_char(ch, WEAR_WIELD);
 
-    if ((wield != nullptr) && (wield->item_type == ITEM_WEAPON) && (check_bit(wield->value[4], WEAPON_VAMPIRIC))) {
+    if ((wield != nullptr) && (wield->type == ObjectType::Weapon) && (check_bit(wield->value[4], WEAPON_VAMPIRIC))) {
         ch->hit += (adjusted_damage / 100) * 10;
         victim->hit -= (adjusted_damage / 100) * 10;
     }
@@ -1256,9 +1257,9 @@ void make_corpse(Char *ch) {
 
     for (auto *obj : ch->carrying) {
         obj_from_char(obj);
-        if (obj->item_type == ITEM_POTION)
+        if (obj->type == ObjectType::Potion)
             obj->timer = number_range(500, 1000);
-        if (obj->item_type == ITEM_SCROLL)
+        if (obj->type == ObjectType::Scroll)
             obj->timer = number_range(1000, 2500);
         if (check_bit(obj->extra_flags, ITEM_ROT_DEATH))
             obj->timer = number_range(5, 10);
@@ -1320,11 +1321,11 @@ void detach_injured_part(const Char *victim, std::optional<InjuredPart> opt_inju
         obj->short_descr = fmt::sprintf(obj->short_descr, victim->short_name());
         obj->description = fmt::sprintf(obj->description, victim->short_name());
 
-        if (obj->item_type == ITEM_FOOD) {
+        if (obj->type == ObjectType::Food) {
             if (check_bit(victim->form, FORM_POISON))
                 obj->value[3] = 1;
             else if (!check_bit(victim->form, FORM_EDIBLE))
-                obj->item_type = ITEM_TRASH;
+                obj->type = ObjectType::Trash;
         }
 
         obj_to_room(obj, victim->in_room);
@@ -1745,7 +1746,7 @@ void do_berserk(Char *ch) {
         af.location = AffectLocation::Ac;
         affect_to_char(ch, af);
 
-        /* if ( (wield !=nullptr) && (wield->item_type == ITEM_WEAPON) &&
+        /* if ( (wield !=nullptr) && (wield->type == ObjectType::Weapon) &&
               (check_bit(wield->value[4], WEAPON_FLAMING)))
             {
               ch->send_line("Your great energy causes your weapon to burst into
@@ -2486,7 +2487,7 @@ void do_sharpen(Char *ch) {
         return;
     }
 
-    if (weapon->item_type != ITEM_WEAPON) {
+    if (weapon->type != ObjectType::Weapon) {
         ch->send_line("You can't sharpen it. It is not a weapon.");
         return;
     }

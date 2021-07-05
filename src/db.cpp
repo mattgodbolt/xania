@@ -23,6 +23,7 @@
 #include "Note.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "ResetData.hpp"
 #include "Shop.hpp"
 #include "SkillNumbers.hpp"
@@ -628,8 +629,15 @@ void load_shops(FILE *fp) {
             break;
         shop = static_cast<Shop *>(alloc_perm(sizeof(*shop)));
         shop->keeper = shopkeeper_vnum;
-        for (iTrade = 0; iTrade < MaxTrade; iTrade++)
-            shop->buy_type[iTrade] = fread_number(fp);
+        for (iTrade = 0; iTrade < MaxTrade; iTrade++) {
+            const auto raw_obj_type = fread_number(fp);
+            if (const auto opt_obj_type = ObjectTypes::try_from_ordinal(raw_obj_type)) {
+                shop->buy_type[iTrade] = *opt_obj_type;
+            }
+            // If the raw object type number is zero or unrecognized we silently ignore it.
+            // The typical case is that the shopkeeper is configured to not buy anything and you can use zero to state
+            // that.
+        }
         shop->profit_buy = fread_number(fp);
         shop->profit_sell = fread_number(fp);
         shop->open_hour = fread_number(fp);
@@ -764,11 +772,11 @@ void load_objects(FILE *fp) {
         }
         objIndex->material = material_lookup(fread_string(fp));
 
-        objIndex->item_type = item_lookup(fread_word(fp));
+        objIndex->type = ObjectTypes::lookup_with_default(fread_word(fp));
 
         objIndex->extra_flags = fread_flag(fp);
 
-        if (IS_OBJ_STAT(objIndex, ITEM_NOREMOVE) && objIndex->item_type != ITEM_WEAPON) {
+        if (IS_OBJ_STAT(objIndex, ITEM_NOREMOVE) && objIndex->type != ObjectType::Weapon) {
             bug("Only weapons are meant to have ITEM_NOREMOVE: {} {}", objIndex->vnum, objIndex->name);
             exit(1);
         }
@@ -782,41 +790,41 @@ void load_objects(FILE *fp) {
             ungetc(temp, fp);
         }
 
-        switch (objIndex->item_type) {
-        case ITEM_WEAPON:
+        switch (objIndex->type) {
+        case ObjectType::Weapon:
             objIndex->value[0] = weapon_type(fread_word(fp));
             objIndex->value[1] = fread_number(fp);
             objIndex->value[2] = fread_number(fp);
             objIndex->value[3] = attack_lookup(fread_word(fp));
             objIndex->value[4] = fread_flag(fp);
             break;
-        case ITEM_CONTAINER:
+        case ObjectType::Container:
             objIndex->value[0] = fread_number(fp);
             objIndex->value[1] = fread_flag(fp);
             objIndex->value[2] = fread_number(fp);
             objIndex->value[3] = fread_number(fp);
             objIndex->value[4] = fread_number(fp);
             break;
-        case ITEM_DRINK_CON:
-        case ITEM_FOUNTAIN:
+        case ObjectType::Drink:
+        case ObjectType::Fountain:
             objIndex->value[0] = fread_number(fp);
             objIndex->value[1] = fread_number(fp);
             objIndex->value[2] = liq_lookup(fread_word(fp));
             objIndex->value[3] = fread_number(fp);
             objIndex->value[4] = fread_number(fp);
             break;
-        case ITEM_WAND:
-        case ITEM_STAFF:
+        case ObjectType::Wand:
+        case ObjectType::Staff:
             objIndex->value[0] = fread_number(fp);
             objIndex->value[1] = fread_number(fp);
             objIndex->value[2] = fread_number(fp);
             objIndex->value[3] = fread_spnumber(fp);
             objIndex->value[4] = fread_number(fp);
             break;
-        case ITEM_POTION:
-        case ITEM_PILL:
-        case ITEM_SCROLL:
-        case ITEM_BOMB:
+        case ObjectType::Potion:
+        case ObjectType::Pill:
+        case ObjectType::Scroll:
+        case ObjectType::Bomb:
             objIndex->value[0] = fread_number(fp);
             objIndex->value[1] = fread_spnumber(fp);
             objIndex->value[2] = fread_spnumber(fp);
@@ -880,20 +888,21 @@ void load_objects(FILE *fp) {
         /*
          * Translate spell "slot numbers" to internal "skill numbers."
          */
-        switch (objIndex->item_type) {
-        case ITEM_BOMB:
+        switch (objIndex->type) {
+        case ObjectType::Bomb:
             objIndex->value[4] = slot_lookup(objIndex->value[4]);
             // fall through
-        case ITEM_PILL:
-        case ITEM_POTION:
-        case ITEM_SCROLL:
+        case ObjectType::Pill:
+        case ObjectType::Potion:
+        case ObjectType::Scroll:
             objIndex->value[1] = slot_lookup(objIndex->value[1]);
             objIndex->value[2] = slot_lookup(objIndex->value[2]);
             objIndex->value[3] = slot_lookup(objIndex->value[3]);
             break;
 
-        case ITEM_STAFF:
-        case ITEM_WAND: objIndex->value[3] = slot_lookup(objIndex->value[3]); break;
+        case ObjectType::Staff:
+        case ObjectType::Wand: objIndex->value[3] = slot_lookup(objIndex->value[3]); break;
+        default:;
         }
 
         iHash = vnum % MAX_KEY_HASH;
@@ -1111,7 +1120,7 @@ void reset_room(Room *room) {
             }
 
             // Close the container if required.
-            if (containerObj->item_type == ITEM_CONTAINER) {
+            if (containerObj->type == ObjectType::Container) {
                 containerObj->value[1] = containerObj->objIndex->value[1];
             }
             break;
@@ -1370,7 +1379,7 @@ Object *create_object(ObjectIndex *objIndex) {
     obj->short_descr = objIndex->short_descr;
     obj->description = objIndex->description;
     obj->material = objIndex->material;
-    obj->item_type = objIndex->item_type;
+    obj->type = objIndex->type;
     obj->extra_flags = objIndex->extra_flags;
     obj->wear_flags = objIndex->wear_flags;
     obj->wear_string = objIndex->wear_string;
@@ -1385,29 +1394,29 @@ Object *create_object(ObjectIndex *objIndex) {
     /*
      * Mess with object properties.
      */
-    switch (obj->item_type) {
+    switch (obj->type) {
     default: bug("Read_object: vnum {} bad type.", objIndex->vnum); break;
 
-    case ITEM_LIGHT:
+    case ObjectType::Light:
         if (obj->value[2] == 999)
             obj->value[2] = -1;
         break;
-    case ITEM_TREASURE:
-    case ITEM_FURNITURE:
-    case ITEM_TRASH:
-    case ITEM_CONTAINER:
-    case ITEM_DRINK_CON:
-    case ITEM_KEY:
-    case ITEM_FOOD:
-    case ITEM_BOAT:
-    case ITEM_CORPSE_NPC:
-    case ITEM_CORPSE_PC:
-    case ITEM_FOUNTAIN:
-    case ITEM_MAP:
-    case ITEM_CLOTHING:
-    case ITEM_BOMB: break;
+    case ObjectType::Treasure:
+    case ObjectType::Furniture:
+    case ObjectType::Trash:
+    case ObjectType::Container:
+    case ObjectType::Drink:
+    case ObjectType::Key:
+    case ObjectType::Food:
+    case ObjectType::Boat:
+    case ObjectType::Npccorpse:
+    case ObjectType::Pccorpse:
+    case ObjectType::Fountain:
+    case ObjectType::Map:
+    case ObjectType::Clothing:
+    case ObjectType::Bomb: break;
 
-    case ITEM_PORTAL:
+    case ObjectType::Portal:
         if (obj->value[0] != 0) {
             obj->destination = get_room(obj->value[0]);
             if (!obj->destination)
@@ -1416,14 +1425,14 @@ Object *create_object(ObjectIndex *objIndex) {
         }
         break;
 
-    case ITEM_SCROLL:
-    case ITEM_WAND:
-    case ITEM_STAFF:
-    case ITEM_WEAPON:
-    case ITEM_ARMOR:
-    case ITEM_POTION:
-    case ITEM_PILL:
-    case ITEM_MONEY: break;
+    case ObjectType::Scroll:
+    case ObjectType::Wand:
+    case ObjectType::Staff:
+    case ObjectType::Weapon:
+    case ObjectType::Armor:
+    case ObjectType::Potion:
+    case ObjectType::Pill:
+    case ObjectType::Money: break;
     }
 
     object_list.add_front(obj);
@@ -1441,7 +1450,7 @@ void clone_object(Object *parent, Object *clone) {
     clone->name = parent->name;
     clone->short_descr = parent->short_descr;
     clone->description = parent->description;
-    clone->item_type = parent->item_type;
+    clone->type = parent->type;
     clone->extra_flags = parent->extra_flags;
     clone->wear_flags = parent->wear_flags;
     clone->weight = parent->weight;

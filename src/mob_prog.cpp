@@ -653,14 +653,14 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         {
         case 'o':
             if (obj) {
-                lhsvl = obj->item_type;
+                lhsvl = magic_enum::enum_integer<ObjectType>(obj->type);
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
         case 'p':
             if (v_obj) {
-                lhsvl = v_obj->item_type;
+                lhsvl = magic_enum::enum_integer<ObjectType>(v_obj->type);
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else

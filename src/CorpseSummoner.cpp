@@ -10,6 +10,7 @@
 #include "Char.hpp"
 #include "ExtraDescription.hpp"
 #include "Object.hpp"
+#include "ObjectType.hpp"
 #include "Room.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"
@@ -90,7 +91,7 @@ bool CorpseSummoner::check_catalyst(Char *player, Char *summoner, Object *cataly
  */
 std::optional<Object *> CorpseSummoner::get_pc_corpse_world(Char *ch, std::string_view corpse_short_descr) {
     for (auto obj : mud_.object_list()) {
-        if (obj->item_type == ITEM_CORPSE_PC && obj->in_room && obj->in_room != ch->in_room) {
+        if (obj->type == ObjectType::Pccorpse && obj->in_room && obj->in_room != ch->in_room) {
             if (matches(corpse_short_descr, obj->short_descr))
                 return obj;
         }

@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tables.h"
+#include "ObjectType.hpp"
 #include "SkillNumbers.hpp"
 #include "VnumObjects.hpp"
 #include "merc.h"
@@ -35,32 +36,6 @@ const struct size_type size_table[] = {{"tiny"},
                                        },
                                        {"giant"},
                                        {nullptr}};
-
-const struct item_type item_table[] = {{ITEM_LIGHT, "light"},
-                                       {ITEM_SCROLL, "scroll"},
-                                       {ITEM_WAND, "wand"},
-                                       {ITEM_STAFF, "staff"},
-                                       {ITEM_WEAPON, "weapon"},
-                                       {ITEM_TREASURE, "treasure"},
-                                       {ITEM_ARMOR, "armor"},
-                                       {ITEM_POTION, "potion"},
-                                       {ITEM_CLOTHING, "clothing"},
-                                       {ITEM_FURNITURE, "furniture"},
-                                       {ITEM_TRASH, "trash"},
-                                       {ITEM_CONTAINER, "container"},
-                                       {ITEM_DRINK_CON, "drink"},
-                                       {ITEM_KEY, "key"},
-                                       {ITEM_FOOD, "food"},
-                                       {ITEM_MONEY, "money"},
-                                       {ITEM_BOAT, "boat"},
-                                       {ITEM_CORPSE_NPC, "npc_corpse"},
-                                       {ITEM_CORPSE_PC, "pc_corpse"},
-                                       {ITEM_FOUNTAIN, "fountain"},
-                                       {ITEM_PILL, "pill"},
-                                       {ITEM_MAP, "map"},
-                                       {ITEM_PORTAL, "portal"},
-                                       {ITEM_BOMB, "bomb"},
-                                       {0, nullptr}};
 
 const struct weapon_type weapon_table[] = {{"sword", objects::SchoolSword, WEAPON_SWORD, &gsn_sword},
                                            {"mace", objects::SchoolMace, WEAPON_MACE, &gsn_mace},

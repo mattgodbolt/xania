@@ -19,6 +19,7 @@
 #include "Attacks.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
+#include "ObjectType.hpp"
 #include "Position.hpp"
 #include "SkillTables.hpp"
 #include "db.h"
@@ -37,11 +38,10 @@
 
 // Support function: checks if a string is numeric and in 0<=x<max
 // Returns number or -1 if not
-int numeric_lookup_check(const char *name, int max) {
-    int retVal;
-    if (!isdigit(name[0]))
+int numeric_lookup_check(std::string_view name, const int max) {
+    if (!is_number(name))
         return -1;
-    retVal = atoi(name);
+    const auto retVal = parse_number(name);
     if (retVal >= 0 && retVal < max)
         return retVal;
     else
@@ -69,38 +69,6 @@ int attack_lookup(const char *name) {
     bug("Load_objects: Unknown attack: {}", name);
     exit(1);
 }
-
-int item_lookup_impl(const char *name) {
-    int type;
-    for (type = 0; item_table[type].name != nullptr; type++) {
-        if (tolower(name[0]) == tolower(item_table[type].name[0]) && !str_prefix(name, item_table[type].name))
-            return item_table[type].type;
-    }
-    // Match on the item type number instead.
-    type = numeric_lookup_check(name, type);
-    return type;
-}
-
-/**
- * Lookup an item type by its type name or type number.
- * Returns a default type if no match is found, which is a bug
- * when this is being used while loading area or player files so
- * it gets logged.
- */
-int item_lookup(const char *name) {
-    int type = item_lookup_impl(name);
-    if (type >= 0)
-        return type;
-    bug("Unknown item type '{}' - defaulting!", name);
-    return item_table[0].type;
-}
-
-/**
- * Lookup an item type by its type name or type number.
- * This is stricter than item_lookup() as it doesn't fallback to a default type
- * and will instead return -1 if no match is found.
- */
-int item_lookup_strict(const char *name) { return item_lookup_impl(name); }
 
 int liq_lookup(const char *name) {
     int liq;

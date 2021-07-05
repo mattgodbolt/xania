@@ -11,6 +11,7 @@
 #include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Object.hpp"
+#include "ObjectType.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -770,7 +771,7 @@ bool spec_fido(Char *ch) {
         return false;
 
     for (auto *corpse : ch->in_room->contents) {
-        if (corpse->item_type != ITEM_CORPSE_NPC)
+        if (corpse->type != ObjectType::Npccorpse)
             continue;
 
         act("$n savagely devours a corpse.", ch);
@@ -821,7 +822,7 @@ bool spec_janitor(Char *ch) {
     for (auto *trash : ch->in_room->contents) {
         if (!check_bit(trash->wear_flags, ITEM_TAKE) || !can_loot(ch, trash))
             continue;
-        if (trash->item_type == ITEM_DRINK_CON || trash->item_type == ITEM_TRASH || trash->cost < 10) {
+        if (trash->type == ObjectType::Drink || trash->type == ObjectType::Trash || trash->cost < 10) {
             act("$n picks up some trash.", ch);
             obj_from_room(trash);
             obj_to_char(trash, ch);

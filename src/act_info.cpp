@@ -22,6 +22,7 @@
 #include "Materials.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -795,10 +796,10 @@ void room_look(const Char &ch, bool force_full) {
 }
 
 void look_in_object(const Char &ch, const Object &obj) {
-    switch (obj.item_type) {
+    switch (obj.type) {
     default: ch.send_line("That is not a container."); break;
 
-    case ITEM_DRINK_CON:
+    case ObjectType::Drink:
         if (obj.value[1] <= 0) {
             ch.send_line("It is empty.");
             break;
@@ -810,9 +811,9 @@ void look_in_object(const Char &ch, const Object &obj) {
                      liq_table[obj.value[2]].liq_color);
         break;
 
-    case ITEM_CONTAINER:
-    case ITEM_CORPSE_NPC:
-    case ITEM_CORPSE_PC:
+    case ObjectType::Container:
+    case ObjectType::Npccorpse:
+    case ObjectType::Pccorpse:
         if (check_bit(obj.value[1], CONT_CLOSED)) {
             ch.send_line("It is closed.");
             break;
@@ -992,13 +993,13 @@ void do_examine(Char *ch, ArgParser args) {
     do_look(ch, ArgParser(arg));
 
     if (auto *obj = get_obj_here(ch, arg)) {
-        switch (obj->item_type) {
+        switch (obj->type) {
         default: break;
 
-        case ITEM_DRINK_CON:
-        case ITEM_CONTAINER:
-        case ITEM_CORPSE_NPC:
-        case ITEM_CORPSE_PC:
+        case ObjectType::Drink:
+        case ObjectType::Container:
+        case ObjectType::Npccorpse:
+        case ObjectType::Pccorpse:
             ch->send_line("When you look inside, you see:");
             do_look(ch, ArgParser(fmt::format("in {}", arg)));
             break;
@@ -1426,7 +1427,7 @@ void do_equipment(Char *ch) {
 namespace {
 Object *find_comparable(Char *ch, Object *obj_to_compare_to) {
     for (auto *obj : ch->carrying) {
-        if (obj->wear_loc != WEAR_NONE && can_see_obj(ch, obj) && obj_to_compare_to->item_type == obj->item_type
+        if (obj->wear_loc != WEAR_NONE && can_see_obj(ch, obj) && obj_to_compare_to->type == obj->type
             && (obj_to_compare_to->wear_flags & obj->wear_flags & ~ITEM_TAKE) != 0) {
             return obj;
         }
@@ -1468,18 +1469,18 @@ void do_compare(Char *ch, ArgParser args) {
 
     if (obj1 == obj2) {
         msg = "You compare $p to itself.  It looks about the same.";
-    } else if (obj1->item_type != obj2->item_type) {
+    } else if (obj1->type != obj2->type) {
         msg = "You can't compare $p and $P.";
     } else {
-        switch (obj1->item_type) {
+        switch (obj1->type) {
         default: msg = "You can't compare $p and $P."; break;
 
-        case ITEM_ARMOR:
+        case ObjectType::Armor:
             value1 = obj1->value[0] + obj1->value[1] + obj1->value[2];
             value2 = obj2->value[0] + obj2->value[1] + obj2->value[2];
             break;
 
-        case ITEM_WEAPON:
+        case ObjectType::Weapon:
             value1 = (1 + obj1->value[2]) * obj1->value[1];
             value2 = (1 + obj2->value[2]) * obj2->value[1];
             break;

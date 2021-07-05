@@ -12,8 +12,10 @@
 #include <vector>
 
 enum class Material;
+enum class ObjectType;
 struct AREA_DATA;
 struct ExtraDescription;
+
 /*
  * Prototype for an object.
  */
@@ -27,7 +29,7 @@ struct ObjectIndex {
     sh_int vnum{};
     sh_int reset_num{};
     Material material{};
-    sh_int item_type{};
+    ObjectType type{};
     unsigned int extra_flags{};
     int wear_flags{};
     std::string wear_string;
@@ -37,6 +39,7 @@ struct ObjectIndex {
     sh_int weight{};
     int cost{};
     std::array<int, 5> value{};
-
     AREA_DATA *area{};
+
+    [[nodiscard]] std::string type_name() const;
 };

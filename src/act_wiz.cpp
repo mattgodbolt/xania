@@ -19,6 +19,7 @@
 #include "MobIndexData.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -740,7 +741,7 @@ void do_ostat(Char *ch, const char *argument) {
         ch->send_line("Template of object:");
         ch->send_line("Name(s): {}", objIndex->name);
 
-        ch->send_line("Vnum: {}  Type: {}", objIndex->vnum, item_index_type_name(objIndex));
+        ch->send_line("Vnum: {}  Type: {}", objIndex->vnum, objIndex->type_name());
 
         ch->send_line("Short description: {}", objIndex->short_descr);
         ch->send_line("Long description: {}", objIndex->description);
@@ -766,7 +767,7 @@ void do_ostat(Char *ch, const char *argument) {
 
     ch->send_line("Name(s): {}", obj->name);
 
-    ch->send_line("Vnum: {}  Type: {}  Resets: {}", obj->objIndex->vnum, item_type_name(obj), obj->objIndex->reset_num);
+    ch->send_line("Vnum: {}  Type: {}  Resets: {}", obj->objIndex->vnum, obj->type_name(), obj->objIndex->reset_num);
 
     ch->send_line("Short description: {}", obj->short_descr);
     ch->send_line("Long description: {}", obj->description);
@@ -790,11 +791,11 @@ void do_ostat(Char *ch, const char *argument) {
 
     /* now give out vital statistics as per identify */
 
-    switch (obj->item_type) {
-    case ITEM_SCROLL:
-    case ITEM_POTION:
-    case ITEM_PILL:
-    case ITEM_BOMB:
+    switch (obj->type) {
+    case ObjectType::Scroll:
+    case ObjectType::Potion:
+    case ObjectType::Pill:
+    case ObjectType::Bomb:
         ch->send_to("Level {} spells of:", obj->value[0]);
 
         if (obj->value[1] >= 0 && obj->value[1] < MAX_SKILL)
@@ -806,14 +807,14 @@ void do_ostat(Char *ch, const char *argument) {
         if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL)
             ch->send_to(" '{}'", skill_table[obj->value[3]].name);
 
-        if ((obj->value[4] >= 0 && obj->value[4] < MAX_SKILL) && obj->item_type == ITEM_BOMB)
+        if ((obj->value[4] >= 0 && obj->value[4] < MAX_SKILL) && obj->type == ObjectType::Bomb)
             ch->send_to(" '{}'", skill_table[obj->value[4]].name);
 
         ch->send_line(".");
         break;
 
-    case ITEM_WAND:
-    case ITEM_STAFF:
+    case ObjectType::Wand:
+    case ObjectType::Staff:
         ch->send_to("Has {}({}) charges of level {}", obj->value[1], obj->value[2], obj->value[0]);
 
         if (obj->value[3] >= 0 && obj->value[3] < MAX_SKILL)
@@ -822,7 +823,7 @@ void do_ostat(Char *ch, const char *argument) {
         ch->send_line(".");
         break;
 
-    case ITEM_WEAPON:
+    case ObjectType::Weapon:
         ch->send_to("Weapon type is ");
         switch (obj->value[0]) {
         case WEAPON_EXOTIC: ch->send_line("exotic"); break;
@@ -871,12 +872,14 @@ void do_ostat(Char *ch, const char *argument) {
         }
         break;
 
-    case ITEM_ARMOR:
+    case ObjectType::Armor:
         ch->send_line("Armor class is {} pierce, {} bash, {} slash, and {} vs. magic", obj->value[0], obj->value[1],
                       obj->value[2], obj->value[3]);
         break;
 
-    case ITEM_PORTAL: ch->send_line("Portal to {} ({}).", obj->destination->name, obj->destination->vnum); break;
+    case ObjectType::Portal: ch->send_line("Portal to {} ({}).", obj->destination->name, obj->destination->vnum); break;
+
+    default:; // TODO #260 support Light objects.
     }
 
     if (!obj->extra_descr.empty() || !obj->objIndex->extra_descr.empty()) {
@@ -2308,24 +2311,10 @@ bool osearch_is_valid_level_range(int min_level, int max_level) {
     }
 }
 
-char *osearch_list_item_types(char *buf) {
-    buf[0] = '\0';
-    for (int type = 0; item_table[type].name != nullptr;) {
-        strcat(buf, item_table[type].name);
-        strcat(buf, " ");
-        if (++type % 7 == 0) {
-            strcat(buf, "\n\r        ");
-        }
-    }
-    strcat(buf, "\n\r");
-    return buf;
-}
-
 void osearch_display_syntax(Char *ch) {
-    char buf[MAX_STRING_LENGTH];
     ch->send_line("Syntax: osearch [min level] [max level] [item type] optional item name...");
     ch->send_line("        Level range no greater than 10. Item types:\n\r        ");
-    ch->send_to(osearch_list_item_types(buf));
+    ch->send_to(ObjectTypes::list_type_names());
 }
 
 bool osearch_is_item_in_level_range(const ObjectIndex *objIndex, const int min_level, const int max_level) {
@@ -2335,11 +2324,11 @@ bool osearch_is_item_in_level_range(const ObjectIndex *objIndex, const int min_l
     return objIndex->level >= min_level && objIndex->level <= max_level;
 }
 
-bool osearch_is_item_type(const ObjectIndex *objIndex, const sh_int item_type) {
+bool osearch_is_item_type(const ObjectIndex *objIndex, const ObjectType item_type) {
     if (objIndex == nullptr) {
         return false;
     }
-    return objIndex->item_type == item_type;
+    return objIndex->type == item_type;
 }
 
 /**
@@ -2347,7 +2336,7 @@ bool osearch_is_item_type(const ObjectIndex *objIndex, const sh_int item_type) {
  * optional name. Adds their item vnum, name, level and area name to a new buffer.
  * Caller must release the buffer!
  */
-std::string osearch_find_items(const int min_level, const int max_level, const sh_int item_type, char *item_name) {
+std::string osearch_find_items(const int min_level, const int max_level, const ObjectType item_type, char *item_name) {
     std::string buffer;
     for (int i = 0; i < MAX_KEY_HASH; i++) {
         for (ObjectIndex *pIndexData = obj_index_hash[i]; pIndexData != nullptr; pIndexData = pIndexData->next) {
@@ -2379,7 +2368,6 @@ void do_osearch(Char *ch, const char *argument) {
     char item_name[MAX_INPUT_LENGTH];
     int min_level;
     int max_level;
-    sh_int item_type;
     if (argument[0] == '\0') {
         osearch_display_syntax(ch);
         return;
@@ -2399,12 +2387,12 @@ void do_osearch(Char *ch, const char *argument) {
         osearch_display_syntax(ch);
         return;
     }
-    item_type = item_lookup_strict(item_type_str);
-    if (item_type < 0) {
+    const auto opt_item_type = ObjectTypes::try_lookup(item_type_str);
+    if (!opt_item_type) {
         osearch_display_syntax(ch);
         return;
     }
-    ch->page_to(osearch_find_items(min_level, max_level, item_type, item_name));
+    ch->page_to(osearch_find_items(min_level, max_level, *opt_item_type, item_name));
 }
 
 void do_slookup(Char *ch, const char *argument) {

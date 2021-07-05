@@ -1,12 +1,12 @@
 #include "ExtraDescription.hpp"
+#include "MemFile.hpp"
+#include "ObjectType.hpp"
 #include "Room.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
-#include "save.hpp"
-
-#include "MemFile.hpp"
 #include "fileutils.hpp"
 #include "merc.h"
+#include "save.hpp"
 #include "string_utils.hpp"
 
 #include <catch2/catch.hpp>
@@ -14,6 +14,7 @@
 using namespace std::literals;
 
 TEST_CASE("loading and saving player files") {
+
     // For now: prevent us from loading multiple times, as there's no tear-down, and it takes ages.
     static bool massive_hack = false;
     if (!massive_hack) {

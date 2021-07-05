@@ -13,6 +13,7 @@
 #include "ExtraDescription.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -353,8 +354,8 @@ void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, int iNest) {
     /*
      * Scupper storage characters.
      */
-    if ((ch->level < obj->level - 2 && obj->item_type != ITEM_CONTAINER) || obj->item_type == ITEM_KEY
-        || (obj->item_type == ITEM_MAP && !obj->value[0]))
+    if ((ch->level < obj->level - 2 && obj->type != ObjectType::Container) || obj->type == ObjectType::Key
+        || (obj->type == ObjectType::Map && !obj->value[0]))
         return;
 
     namespace cf = charfilemeta;
@@ -378,8 +379,8 @@ void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, int iNest) {
         fmt::print(fp, "{} {}\n", cf::WearFlags, obj->wear_flags);
     if (obj->wear_string != obj->objIndex->wear_string)
         fmt::print(fp, "{} {}~\n", cf::WearString, obj->wear_string);
-    if (obj->item_type != obj->objIndex->item_type)
-        fmt::print(fp, "{} {}\n", cf::ItemType, obj->item_type);
+    if (obj->type != obj->objIndex->type)
+        fmt::print(fp, "{} {}\n", cf::ItemType, obj->type);
     if (obj->weight != obj->objIndex->weight)
         fmt::print(fp, "{}   {}\n", cf::Weight, obj->weight);
 
@@ -397,9 +398,9 @@ void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, int iNest) {
         fmt::print(fp, "{}  {} {} {} {} {}\n", cf::Val, obj->value[0], obj->value[1], obj->value[2], obj->value[3],
                    obj->value[4]);
 
-    switch (obj->item_type) {
-    case ITEM_POTION:
-    case ITEM_SCROLL:
+    switch (obj->type) {
+    case ObjectType::Potion:
+    case ObjectType::Scroll:
         for (auto i = 1; i < 4; i++) { // potion & scroll spells occupy object value slots 1-3
             if (obj->value[i] > 0) {
                 fmt::print(fp, "{} {} '{}'\n", cf::Spell, i, skill_table[obj->value[i]].name);
@@ -407,14 +408,15 @@ void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, int iNest) {
         }
         break;
 
-    case ITEM_PILL:
-    case ITEM_STAFF:
-    case ITEM_WAND:
+    case ObjectType::Pill:
+    case ObjectType::Staff:
+    case ObjectType::Wand:
         if (obj->value[3] > 0) {
             fmt::print(fp, "{} 3 '{}'\n", cf::Spell, skill_table[obj->value[3]].name);
         }
 
         break;
+    default:;
     }
 
     for (auto &af : obj->affected) {
@@ -948,7 +950,12 @@ void fread_obj(Char *ch, FILE *fp) {
                 return;
             }
         } else if (word == cf::ItemType) {
-            obj->item_type = fread_number(fp);
+            const auto raw_obj_type = fread_number(fp);
+            if (const auto opt_obj_type = ObjectTypes::try_from_ordinal(raw_obj_type)) {
+                obj->type = *opt_obj_type;
+            } else {
+                bug("fread_obj: bad object type: {}", raw_obj_type);
+            }
         } else if (word == cf::ObjectLevel) {
             obj->level = fread_number(fp);
         } else if (word == cf::Name) {

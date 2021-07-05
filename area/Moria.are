@@ -507,7 +507,7 @@ corpse~
 a corpse~
 A halfway decayed corpse of a cartographer.~
 flesh~
-npc_corpse P A
+npccorpse P A
 0 0 0 0 0
 0 100 0 P
 E

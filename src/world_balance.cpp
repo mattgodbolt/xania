@@ -9,6 +9,7 @@
 #include "MobIndexData.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "ObjectType.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "merc.h"
@@ -42,13 +43,13 @@ int report_object(Object *object, int boot) {
     /* Weapons are allowed 1 hit and 1 dam for each point */
 
     auto worth =
-        value.worth + obj->item_type == ITEM_WEAPON ? (value.hit + value.damage) / 2 : value.hit + value.damage;
+        value.worth + (obj->type == ObjectType::Weapon ? (value.hit + value.damage) / 2 : value.hit + value.damage);
 
     /* Object specific routines */
 
-    switch (obj->item_type) {
+    switch (obj->type) {
 
-    case ITEM_WEAPON:
+    case ObjectType::Weapon:
         /* Calculate the damage allowed and actual */
         allowedaverage = (object->level / 2) + 4;
         if (check_bit(obj->value[4], WEAPON_TWO_HANDS) && check_bit(obj->wear_flags, ITEM_TWO_HANDS))
@@ -70,11 +71,11 @@ int report_object(Object *object, int boot) {
             worth++;
         break;
 
-    case ITEM_POTION:
-    case ITEM_PILL:
-    case ITEM_SCROLL:
-    case ITEM_BOMB:
-    case ITEM_STAFF:
+    case ObjectType::Potion:
+    case ObjectType::Pill:
+    case ObjectType::Scroll:
+    case ObjectType::Bomb:
+    case ObjectType::Staff:
         if ((obj->value[4] > (object->level + (std::max(5, obj->level / 10)))) && boot)
             objectbug("level of spell too high", obj);
         break;
