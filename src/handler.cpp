@@ -20,7 +20,7 @@
 #include "BitsObjectWear.hpp"
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
-#include "BitsWeaponFlags.hpp"
+#include "BitsWeaponFlag.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"

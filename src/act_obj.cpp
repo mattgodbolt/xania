@@ -17,7 +17,7 @@
 #include "BitsObjectWear.hpp"
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
-#include "BitsWeaponFlags.hpp"
+#include "BitsWeaponFlag.hpp"
 #include "BodySize.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"

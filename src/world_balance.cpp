@@ -6,7 +6,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "BitsObjectWear.hpp"
-#include "BitsWeaponFlags.hpp"
+#include "BitsWeaponFlag.hpp"
 #include "Char.hpp"
 #include "MobIndexData.hpp"
 #include "Object.hpp"

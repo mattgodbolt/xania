@@ -16,7 +16,7 @@
 #include "BitsObjectExtra.hpp"
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
-#include "BitsWeaponFlags.hpp"
+#include "BitsWeaponFlag.hpp"
 #include "Char.hpp"
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
