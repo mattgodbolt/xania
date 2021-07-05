@@ -29,18 +29,6 @@
 #include "common/BitOps.hpp"
 #include "common/StandardBits.hpp"
 
-/* weapon types */
-#define WEAPON_FLAMING (A)
-#define WEAPON_FROST (B)
-#define WEAPON_VAMPIRIC (C)
-#define WEAPON_SHARP (D)
-#define WEAPON_VORPAL (E)
-#define WEAPON_TWO_HANDS (F)
-#define WEAPON_POISONED (G)
-#define WEAPON_PLAGUED (I)
-#define WEAPON_LIGHTNING (J)
-#define WEAPON_ACID (K)
-
 /*
  * Values for containers (value[1]).
  * Used in #OBJECTS.

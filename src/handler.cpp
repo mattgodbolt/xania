@@ -18,6 +18,7 @@
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
+#include "BitsWeaponFlags.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"

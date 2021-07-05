@@ -15,6 +15,7 @@
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsObjectExtra.hpp"
+#include "BitsWeaponFlags.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"
 #include "DamageMessages.hpp"
