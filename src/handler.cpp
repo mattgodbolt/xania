@@ -33,6 +33,7 @@
 #include "SkillNumbers.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
+#include "Weapon.hpp"
 #include "WearLocation.hpp"
 #include "WeatherData.hpp"
 #include "act_comm.hpp"
@@ -88,25 +89,26 @@ int get_skill(const Char *ch, int sn) { return ch->get_skill(sn); }
 
 /* for returning weapon information */
 int get_weapon_sn(Char *ch) {
-    Object *wield;
-    int sn;
-
-    wield = get_eq_char(ch, WEAR_WIELD);
+    const Object *wield = get_eq_char(ch, WEAR_WIELD);
     if (wield == nullptr || wield->type != ObjectType::Weapon)
-        sn = gsn_hand_to_hand;
-    else
-        switch (wield->value[0]) {
-        default: sn = -1; break;
-        case (WEAPON_SWORD): sn = gsn_sword; break;
-        case (WEAPON_DAGGER): sn = gsn_dagger; break;
-        case (WEAPON_SPEAR): sn = gsn_spear; break;
-        case (WEAPON_MACE): sn = gsn_mace; break;
-        case (WEAPON_AXE): sn = gsn_axe; break;
-        case (WEAPON_FLAIL): sn = gsn_flail; break;
-        case (WEAPON_WHIP): sn = gsn_whip; break;
-        case (WEAPON_POLEARM): sn = gsn_polearm; break;
+        return gsn_hand_to_hand;
+    else {
+        const auto opt_weapon_type = Weapons::try_from_ordinal(wield->value[0]);
+        if (opt_weapon_type) {
+            switch (*opt_weapon_type) {
+            case (Weapon::Sword): return gsn_sword;
+            case (Weapon::Dagger): return gsn_dagger;
+            case (Weapon::Spear): return gsn_spear;
+            case (Weapon::Mace): return gsn_mace;
+            case (Weapon::Axe): return gsn_axe;
+            case (Weapon::Flail): return gsn_flail;
+            case (Weapon::Whip): return gsn_whip;
+            case (Weapon::Polearm): return gsn_polearm;
+            case (Weapon::Exotic): return -1;
+            }
         }
-    return sn;
+    }
+    return -1;
 }
 
 int get_weapon_skill(Char *ch, int sn) {

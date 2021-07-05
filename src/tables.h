@@ -24,13 +24,4 @@ struct size_type {
     const char *name;
 };
 
-struct weapon_type {
-    const char *name;
-    sh_int vnum;
-    sh_int type;
-    sh_int *gsn;
-};
-
 extern const struct size_type size_table[];
-
-extern const struct weapon_type weapon_table[];

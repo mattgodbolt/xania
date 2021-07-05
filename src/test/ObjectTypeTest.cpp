@@ -21,7 +21,7 @@ TEST_CASE("object index type name") {
     obj_index.type = ObjectType::Armor;
     SECTION("armor") { CHECK(obj_index.type_name() == "armor"); }
 }
-TEST_CASE("try from ordinal") {
+TEST_CASE("object type try from ordinal") {
     SECTION("valid") {
         const auto result = ObjectTypes::try_from_ordinal(30);
 
@@ -33,7 +33,7 @@ TEST_CASE("try from ordinal") {
         CHECK(!result);
     }
 }
-TEST_CASE("lookup with default") {
+TEST_CASE("object type lookup with default") {
     SECTION("valid") {
         const auto result = ObjectTypes::lookup_with_default("armor");
 
@@ -45,7 +45,7 @@ TEST_CASE("lookup with default") {
         CHECK(result == ObjectType::Light);
     }
 }
-TEST_CASE("try lookup") {
+TEST_CASE("object type try lookup") {
     SECTION("valid") {
         const auto result = ObjectTypes::try_lookup("armor");
 
@@ -67,7 +67,7 @@ TEST_CASE("try lookup") {
         CHECK(!result);
     }
 }
-TEST_CASE("sorted type names") {
+TEST_CASE("object type sorted type names") {
     SECTION("expected entries") {
         const auto expected = std::vector<std::string>{
             "armor",     "boat",   "bomb",   "clothing", "container", "drink",     "food",     "fountain",

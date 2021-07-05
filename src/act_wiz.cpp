@@ -29,6 +29,7 @@
 #include "TimeInfoData.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
+#include "Weapon.hpp"
 #include "WearLocation.hpp"
 #include "act_obj.hpp"
 #include "challenge.hpp"
@@ -827,19 +828,7 @@ void do_ostat(Char *ch, const char *argument) {
         break;
 
     case ObjectType::Weapon:
-        ch->send_to("Weapon type is ");
-        switch (obj->value[0]) {
-        case WEAPON_EXOTIC: ch->send_line("exotic"); break;
-        case WEAPON_SWORD: ch->send_line("sword"); break;
-        case WEAPON_DAGGER: ch->send_line("dagger"); break;
-        case WEAPON_SPEAR: ch->send_line("spear/staff"); break;
-        case WEAPON_MACE: ch->send_line("mace/club"); break;
-        case WEAPON_AXE: ch->send_line("axe"); break;
-        case WEAPON_FLAIL: ch->send_line("flail"); break;
-        case WEAPON_WHIP: ch->send_line("whip"); break;
-        case WEAPON_POLEARM: ch->send_line("polearm"); break;
-        default: ch->send_line("unknown"); break;
-        }
+        ch->send_line("Weapon type is {}", Weapons::name_from_ordinal(obj->value[0]));
         ch->send_line("Damage is {}d{} (average {})", obj->value[1], obj->value[2],
                       (1 + obj->value[2]) * obj->value[1] / 2);
 

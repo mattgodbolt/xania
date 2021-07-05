@@ -29,17 +29,6 @@
 #include "common/BitOps.hpp"
 #include "common/StandardBits.hpp"
 
-/* weapon class */
-#define WEAPON_EXOTIC 0
-#define WEAPON_SWORD 1
-#define WEAPON_DAGGER 2
-#define WEAPON_SPEAR 3
-#define WEAPON_MACE 4
-#define WEAPON_AXE 5
-#define WEAPON_FLAIL 6
-#define WEAPON_WHIP 7
-#define WEAPON_POLEARM 8
-
 /* weapon types */
 #define WEAPON_FLAMING (A)
 #define WEAPON_FROST (B)

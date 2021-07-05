@@ -32,6 +32,7 @@
 #include "Socials.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"
+#include "Weapon.hpp"
 #include "WeatherData.hpp"
 #include "buffer.h"
 #include "common/Configuration.hpp"
@@ -792,13 +793,20 @@ void load_objects(FILE *fp) {
         }
 
         switch (objIndex->type) {
-        case ObjectType::Weapon:
-            objIndex->value[0] = weapon_type(fread_word(fp));
+        case ObjectType::Weapon: {
+            const auto raw_weapon_type = fread_word(fp);
+            if (const auto opt_weapon_type = Weapons::try_from_name(raw_weapon_type)) {
+                objIndex->value[0] = magic_enum::enum_integer<Weapon>(*opt_weapon_type);
+            } else {
+                bug("Invalid weapon type {} in object: {} {}", raw_weapon_type, objIndex->vnum, objIndex->short_descr);
+                objIndex->value[0] = 0;
+            }
             objIndex->value[1] = fread_number(fp);
             objIndex->value[2] = fread_number(fp);
             objIndex->value[3] = attack_lookup(fread_word(fp));
             objIndex->value[4] = fread_flag(fp);
             break;
+        }
         case ObjectType::Container:
             objIndex->value[0] = fread_number(fp);
             objIndex->value[1] = fread_flag(fp);

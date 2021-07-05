@@ -128,20 +128,3 @@ int slot_lookup(int slot) {
 
     return -1;
 }
-
-int weapon_type(const char *name) {
-    int type;
-
-    for (type = 0; weapon_table[type].name != nullptr; type++) {
-        if (tolower(name[0]) == tolower(weapon_table[type].name[0]) && !str_prefix(name, weapon_table[type].name))
-            return weapon_table[type].type;
-    }
-
-    type = numeric_lookup_check(name, type);
-    if (type >= 0)
-        return type;
-
-    bug("Unknown weapon type '{}' - defaulting!", name);
-
-    return 0;
-}

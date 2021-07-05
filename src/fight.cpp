@@ -36,6 +36,7 @@
 #include "VnumMobiles.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
+#include "Weapon.hpp"
 #include "WearLocation.hpp"
 #include "act_comm.hpp"
 #include "act_move.hpp"
@@ -1093,19 +1094,27 @@ void check_killer(Char *ch, Char *victim) {
     save_char_obj(ch);
 }
 
+namespace {
+bool is_wielding_whip(Char *attacker) {
+    if (const auto *weapon = get_eq_char(attacker, WEAR_WIELD)) {
+        return Weapons::try_from_ordinal(weapon->value[0]) == Weapon::Whip;
+    } else {
+        return false;
+    }
+}
+}
+
 /*
  * Check for parry. Mod by Faramir 10/8/96 so whips can't be blocked
  * or parried. mwahahaha
  */
 bool check_parry(Char *ch, Char *victim) {
-    Object *weapon;
     if (!victim->is_pos_awake())
         return false;
     if (get_eq_char(victim, WEAR_WIELD) == nullptr)
         return false;
-    if ((weapon = get_eq_char(ch, WEAR_WIELD)) != nullptr) {
-        if (weapon->value[0] == WEAPON_WHIP)
-            return false;
+    if (is_wielding_whip(ch)) {
+        return false;
     }
     auto chance = victim->get_skill(gsn_parry) / 3;
     chance = std::max(5, chance + victim->level - ch->level);
@@ -1123,14 +1132,12 @@ bool check_parry(Char *ch, Char *victim) {
  * Check for shield block.
  */
 bool check_shield_block(Char *ch, Char *victim) {
-    Object *weapon;
     if (!victim->is_pos_awake())
         return false;
     if (get_eq_char(victim, WEAR_SHIELD) == nullptr)
         return false;
-    if ((weapon = get_eq_char(ch, WEAR_WIELD)) != nullptr) {
-        if (weapon->value[0] == WEAPON_WHIP)
-            return false;
+    if (is_wielding_whip(ch)) {
+        return false;
     }
     auto chance = victim->get_skill(gsn_shield_block) / 3;
     chance = std::max(5, chance + victim->level - ch->level);

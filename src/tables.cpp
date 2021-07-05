@@ -17,14 +17,6 @@
  ***************************************************************************/
 
 #include "tables.h"
-#include "ObjectType.hpp"
-#include "SkillNumbers.hpp"
-#include "VnumObjects.hpp"
-#include "merc.h"
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
 
 /* for sizes */
 const struct size_type size_table[] = {{"tiny"},
@@ -36,15 +28,3 @@ const struct size_type size_table[] = {{"tiny"},
                                        },
                                        {"giant"},
                                        {nullptr}};
-
-const struct weapon_type weapon_table[] = {{"sword", objects::SchoolSword, WEAPON_SWORD, &gsn_sword},
-                                           {"mace", objects::SchoolMace, WEAPON_MACE, &gsn_mace},
-                                           {"dagger", objects::SchoolDagger, WEAPON_DAGGER, &gsn_dagger},
-                                           {"axe", objects::SchoolAxe, WEAPON_AXE, &gsn_axe},
-
-                                           {"exotic", objects::SchoolSword, WEAPON_EXOTIC, nullptr},
-                                           {"spear", objects::SchoolMace, WEAPON_SPEAR, &gsn_spear},
-                                           {"flail", objects::SchoolDagger, WEAPON_FLAIL, &gsn_flail},
-                                           {"whip", objects::SchoolAxe, WEAPON_WHIP, &gsn_whip},
-                                           {"polearm", objects::SchoolAxe, WEAPON_POLEARM, &gsn_polearm},
-                                           {nullptr, 0, 0, nullptr}};
