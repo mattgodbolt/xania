@@ -12,6 +12,7 @@
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsContainerState.hpp"
+#include "BitsExitState.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"

@@ -12,6 +12,7 @@
 #include "AREA_DATA.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsExitState.hpp"
 #include "BitsObjectWear.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"

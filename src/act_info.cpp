@@ -14,6 +14,7 @@
 #include "BitsCharAct.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsDamageTolerance.hpp"
+#include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
 #include "BitsRoomState.hpp"

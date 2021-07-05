@@ -14,6 +14,7 @@
 #include "BitsBodyForm.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
+#include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsRoomState.hpp"
 #include "BitsWeaponFlags.hpp"
