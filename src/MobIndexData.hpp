@@ -14,6 +14,7 @@
 
 struct Shop;
 struct MPROG_DATA;
+enum class Material;
 
 // Prototype for a mob.
 // This is the in-memory version of #MOBILES.
@@ -50,7 +51,7 @@ struct MobIndexData {
     long form{};
     long parts{};
     sh_int size{};
-    sh_int material{}; // TODO: is this actually used in any meaningful way?
+    Material material{}; // TODO: is this actually used in any meaningful way?
     MPROG_DATA *mobprogs{}; /* Used by MOBprogram */
     int progtypes{}; /* Used by MOBprogram */
 

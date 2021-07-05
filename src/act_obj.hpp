@@ -15,4 +15,4 @@ void get_obj(Char *ch, Object *obj, Object *container);
 bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj, Object *obj_to);
 bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj,
                                   GenericList<Object *> &objs_to);
-int check_material_vulnerability(Char *ch, Object *object);
+bool check_material_vulnerability(Char *ch, Object *object);

@@ -51,6 +51,7 @@
 #include <cctype>
 #include <cstdio>
 #include <cstring>
+#include <magic_enum.hpp>
 #include <range/v3/iterator/operations.hpp>
 
 void spell_poison(int spell_num, int level, Char *ch, void *vo);
@@ -59,59 +60,6 @@ void spell_poison(int spell_num, int level, Char *ch, void *vo);
  * Local functions.
  */
 void affect_modify(Char *ch, const AFFECT_DATA &af, bool fAdd);
-
-struct guess_type {
-    const char *name;
-    int material;
-};
-
-const struct guess_type material_guess_table[] = {{"armor", MATERIAL_STEEL},     {"armour", MATERIAL_STEEL},
-                                                  {"ring", MATERIAL_GOLD},       {"sword", MATERIAL_STEEL},
-                                                  {"potion", MATERIAL_GLASS},    {"scroll", MATERIAL_VELLUM},
-                                                  {"wand", MATERIAL_WOOD},       {"flask", MATERIAL_GLASS},
-                                                  {"amulet", MATERIAL_GOLD},     {"axe", MATERIAL_IRON},
-                                                  {"plates", MATERIAL_STEEL},    {"barrel", MATERIAL_WOOD},
-                                                  {"sleeves", MATERIAL_STEEL},   {"bottle", MATERIAL_GLASS},
-                                                  {"pike", MATERIAL_STEEL},      {"knife", MATERIAL_STEEL},
-                                                  {"key", MATERIAL_BRASS},       {"staff", MATERIAL_WOOD},
-                                                  {"whip", MATERIAL_LEATHER},    {"spear", MATERIAL_IRON},
-                                                  {"flail", MATERIAL_IRON},      {"mace", MATERIAL_IRON},
-                                                  {"shield", MATERIAL_WOOD},     {"polearm", MATERIAL_STEEL},
-                                                  {"bracer", MATERIAL_STEEL},    {"cloak", MATERIAL_CLOTH},
-                                                  {"mask", MATERIAL_WOOD},       {"vial", MATERIAL_GLASS},
-                                                  {"claw", MATERIAL_BONE},       {"pants", MATERIAL_CLOTH},
-                                                  {"pelt", MATERIAL_LEATHER},    {"broadsword", MATERIAL_STEEL},
-                                                  {"longsword", MATERIAL_STEEL}, {"bracelet", MATERIAL_SILVER},
-                                                  {"girdle", MATERIAL_CLOTH},    {"rod", MATERIAL_WOOD},
-                                                  {"scale", MATERIAL_LEATHER},   {"arrow", MATERIAL_WOOD},
-                                                  {"bow", MATERIAL_WOOD},        {nullptr, 0}};
-
-int material_guess(char *name) {
-    int type = MATERIAL_DEFAULT;
-    int count;
-
-    for (count = 0; material_guess_table[count].name != nullptr; count++) {
-        if (is_name(material_guess_table[count].name, name))
-            type = material_guess_table[count].material;
-    }
-    for (count = 0; material_table[count].material_name != nullptr; count++) {
-        if (is_name(material_table[count].material_name, name))
-            type = count;
-    }
-    return type;
-}
-
-#define SCP(string) if (!str_cmp(string, name))
-/* returns material number */
-int material_lookup(std::string_view name) {
-    int material = MATERIAL_DEFAULT;
-    int count = 0;
-    for (; material_table[count].material_name; count++) {
-        if (is_name(material_table[count].material_name, name))
-            material = count;
-    }
-    return material;
-}
 
 /* returns race number */
 int race_lookup(std::string_view name) {
@@ -501,7 +449,7 @@ Object *get_eq_char(Char *ch, int iWear) {
  * stack with existing poison, that would be pretty nasty.
  */
 void enforce_material_vulnerability(Char *ch, Object *obj) {
-    if (check_material_vulnerability(ch, obj) == 1) {
+    if (check_material_vulnerability(ch, obj)) {
         act("As you equip $p it burns you, causing you to shriek in pain!", ch, obj, nullptr, To::Char);
         act("$n shrieks in pain!", ch, obj, nullptr, To::Room);
         if (!IS_AFFECTED(ch, AFF_POISON)) {

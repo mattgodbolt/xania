@@ -19,6 +19,7 @@
 #include <memory>
 
 enum class ArmourClass;
+enum class Material;
 class Note;
 class Sex;
 struct MobIndexData;
@@ -104,7 +105,7 @@ struct Char {
     unsigned long form{};
     unsigned long parts{};
     ush_int size{};
-    sh_int material{};
+    Material material{}; // TODO is this used in any meaningful way?
     /* mobile stuff */
     unsigned long off_flags{};
     Dice damage; // This is non-wielding damage, and does not include the damroll bonus.

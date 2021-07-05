@@ -463,10 +463,6 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         ch->send_line("You can't wear, wield, or hold that.");
 }
 
-bool is_made_of(Object *obj, const char *material) {
-    return !str_cmp(material_table[obj->objIndex->material].material_name, material);
-}
-
 bool is_mass_looting_npc_undroppable_obj(const Object *obj, const Object *container, const char looting_all_item_dot) {
     return container->item_type == ITEM_CORPSE_NPC && looting_all_item_dot == '\0'
            && (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE));
@@ -2353,21 +2349,11 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *mo
     return !intersection.empty();
 }
 
-int check_material_vulnerability(Char *ch, Object *object) {
-
-    if (check_bit(ch->vuln_flags, DMG_TOL_WOOD)) {
-        if (is_made_of(object, "wood"))
-            return 1;
+bool check_material_vulnerability(Char *ch, Object *object) {
+    switch (object->material) {
+    case Material::Wood: return check_bit(ch->vuln_flags, DMG_TOL_WOOD);
+    case Material::Silver: return check_bit(ch->vuln_flags, DMG_TOL_SILVER);
+    case Material::Iron: return check_bit(ch->vuln_flags, DMG_TOL_IRON);
+    default: return false;
     }
-
-    if (check_bit(ch->vuln_flags, DMG_TOL_SILVER)) {
-        if (is_made_of(object, "silver"))
-            return 1;
-    }
-
-    if (check_bit(ch->vuln_flags, DMG_TOL_IRON)) {
-        if (is_made_of(object, "iron"))
-            return 1;
-    }
-    return 0;
 }

@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+enum class Material;
 struct Char;
 struct ExtraDescription;
 struct ObjectIndex;
@@ -42,7 +43,7 @@ struct Object {
     int cost{};
     sh_int level{};
     sh_int condition{};
-    sh_int material{};
+    Material material{};
     sh_int timer{};
     std::array<int, 5> value{};
     Room *destination{};

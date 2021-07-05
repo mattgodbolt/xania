@@ -30,34 +30,6 @@
 #include "common/StandardBits.hpp"
 
 /*
- * Material types.
- * Used in #OBJECTS
- */
-#define MATERIAL_NONE 0
-#define MATERIAL_DEFAULT 1
-#define MATERIAL_ADAMANTITE 2
-#define MATERIAL_IRON 3
-#define MATERIAL_GLASS 4
-#define MATERIAL_BRONZE 5
-#define MATERIAL_CLOTH 6
-#define MATERIAL_WOOD 7
-#define MATERIAL_PAPER 8
-#define MATERIAL_STEEL 9
-#define MATERIAL_STONE 10
-#define MATERIAL_FOOD 11
-#define MATERIAL_SILVER 12
-#define MATERIAL_GOLD 13
-#define MATERIAL_LEATHER 14
-#define MATERIAL_VELLUM 15
-#define MATERIAL_CHINA 16
-#define MATERIAL_CLAY 17
-#define MATERIAL_BRASS 18
-#define MATERIAL_BONE 19
-#define MATERIAL_PLATINUM 20
-#define MATERIAL_PEARL 21
-#define MATERIAL_MITHRIL 22
-#define MATERIAL_OCTARINE 23
-/*
  * Item types.
  * Used in #OBJECTS.
  */

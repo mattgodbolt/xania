@@ -22,6 +22,7 @@ std::optional<MobIndexData> MobIndexData::from_file(FILE *fp) {
 
     return MobIndexData(vnum, fp);
 }
+#include "Materials.hpp"
 
 MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
     player_name = fread_stdstring(fp);

@@ -23,6 +23,7 @@
 #include "Format.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
+#include "Materials.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Races.hpp"
@@ -1279,7 +1280,7 @@ void death_cry(Char *ch) {
 
     switch (number_range(0, 1)) {
     case 1:
-        if (ch->material == 0) {
+        if (ch->material == Material::None) {
             msg = "$n splatters blood on your armor.";
             break;
         }

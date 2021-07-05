@@ -4,6 +4,9 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Materials.hpp"
+#include "string_utils.hpp"
+
+#include <magic_enum.hpp>
 
 /*
  * Liquid properties.
@@ -40,3 +43,11 @@ const struct materials_type material_table[] = {
     {85, "stone"},    {0, "food"},     {55, "silver"},     {55, "gold"},      {30, "leather"},
     {20, "vellum"},   {5, "china"},    {10, "clay"},       {75, "brass"},     {45, "bone"},
     {82, "platinum"}, {40, "pearl"},   {65, "mithril"},    {100, "octarine"}, {0, nullptr}};
+
+Material material_lookup(std::string_view name) {
+    for (auto count = 0; material_table[count].material_name; count++) {
+        if (is_name(material_table[count].material_name, name))
+            return magic_enum::enum_value<Material>(count);
+    }
+    return Material::Default;
+}

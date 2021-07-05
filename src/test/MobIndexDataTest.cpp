@@ -1,6 +1,7 @@
 #include "MobIndexData.hpp"
 #include "Attacks.hpp"
 #include "BodySize.hpp"
+#include "Materials.hpp"
 #include "Races.hpp"
 
 #include "CatchFormatters.hpp"
@@ -63,6 +64,6 @@ stand stand male 200
         CHECK(mob->default_pos == Position::Type::Standing);
         CHECK(mob->start_pos == Position::Type::Standing);
         CHECK(mob->size == BodySizeMedium);
-        CHECK(mob->material == MATERIAL_DEFAULT);
+        CHECK(mob->material == Material::Default);
     }
 }

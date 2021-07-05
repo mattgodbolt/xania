@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+enum class Material;
 struct AREA_DATA;
 struct ExtraDescription;
 /*
@@ -25,7 +26,7 @@ struct ObjectIndex {
     std::string description;
     sh_int vnum{};
     sh_int reset_num{};
-    sh_int material{};
+    Material material{};
     sh_int item_type{};
     unsigned int extra_flags{};
     int wear_flags{};
