@@ -33,17 +33,12 @@ ObjectType ObjectTypes::lookup_with_default(std::string_view name) {
  */
 std::optional<ObjectType> ObjectTypes::try_lookup(std::string_view name) { return lookup_impl(name); }
 
-std::string ObjectTypes::list_type_names() {
-    std::string result = "\t";
-    for (size_t i = 1; i < magic_enum::enum_count<ObjectType>(); i++) {
-        const auto val = magic_enum::enum_value<ObjectType>(i);
-        result += lower_case(magic_enum::enum_name(val));
-        result += " ";
-        if (i % 7 == 0) {
-            result += "\n\r\t";
-        }
+std::vector<std::string> ObjectTypes::sorted_type_names() {
+    std::vector<std::string> result;
+    for (const auto &enum_name : magic_enum::enum_names<ObjectType>()) {
+        result.emplace_back(lower_case(enum_name));
     }
-    result += "\n\r";
+    std::sort(result.begin(), result.end());
     return result;
 }
 

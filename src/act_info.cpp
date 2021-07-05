@@ -15,6 +15,7 @@
 #include "BitsDamageTolerance.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
+#include "Columner.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
@@ -70,64 +71,7 @@ std::string wear_string_for(const Object *obj, int wear_location) {
     return fmt::format("<{}>", obj->wear_string.empty() ? where_name[wear_location] : obj->wear_string);
 }
 
-class Columner {
-    Char &ch_;
-    std::string current_;
-    int cur_col_{};
-    int num_cols_{};
-    int col_size_{};
-
-    Columner &add_col(const std::string &column) {
-        if (cur_col_ == 0) {
-            current_ = column;
-        } else {
-            auto num_spaces = std::max(1, cur_col_ * col_size_ - static_cast<int>(mud_string_width(current_)));
-            current_ += std::string(num_spaces, ' ') + column;
-        }
-        if (++cur_col_ == num_cols_)
-            flush();
-        return *this;
-    }
-
-public:
-    explicit Columner(Char &ch, int num_cols, int col_size = 24) : ch_(ch), num_cols_(num_cols), col_size_(col_size) {}
-    ~Columner() { flush(); }
-    Columner(const Columner &) = delete;
-    Columner &operator=(const Columner &) = delete;
-    Columner(Columner &&) = delete;
-    Columner &operator=(Columner &&) = delete;
-
-    template <typename... Args>
-    Columner &add(std::string_view txt, Args &&... args) {
-        return add_col(fmt::format(txt, std::forward<Args>(args)...));
-    }
-    template <typename... Args>
-    Columner &kv(std::string_view key, std::string_view value_fmt, Args &&... args) {
-        return add_col(fmt::format("|C{}|w: {}", key, fmt::format(value_fmt, std::forward<Args>(args)...)));
-    }
-    template <typename StatVal>
-    Columner &stat(std::string_view stat, StatVal val) {
-        return kv(stat, "|W{}|w", val);
-    }
-    template <typename StatVal, typename MaxVal>
-    Columner &stat_of(std::string_view stat, StatVal val, MaxVal max) {
-        return kv(stat, "|W{}|w / {}", val, max);
-    }
-    template <typename StatVal, typename MaxVal>
-    Columner &stat_eff(std::string_view stat, StatVal val, MaxVal max) {
-        return kv(stat, "{} (|W{}|w)", val, max);
-    }
-    void flush() {
-        if (current_.empty())
-            return;
-        ch_.send_line(current_);
-        current_.clear();
-        cur_col_ = 0;
-    }
-};
-
 }
-
 /* for do_count */
 size_t max_on = 0;
 

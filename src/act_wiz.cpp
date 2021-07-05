@@ -12,6 +12,7 @@
 #include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
+#include "Columner.hpp"
 #include "DamageClass.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
@@ -2314,7 +2315,10 @@ bool osearch_is_valid_level_range(int min_level, int max_level) {
 void osearch_display_syntax(Char *ch) {
     ch->send_line("Syntax: osearch [min level] [max level] [item type] optional item name...");
     ch->send_line("        Level range no greater than 10. Item types:\n\r        ");
-    ch->send_to(ObjectTypes::list_type_names());
+    Columner col4(*ch, 4, 20);
+    for (const auto type_name : ObjectTypes::sorted_type_names()) {
+        col4.add(type_name);
+    }
 }
 
 bool osearch_is_item_in_level_range(const ObjectIndex *objIndex, const int min_level, const int max_level) {

@@ -7,6 +7,7 @@
 
 #include <magic_enum.hpp>
 #include <optional>
+#include <vector>
 
 enum class ObjectType {
     // There's no 0 type. Shopkeepers have a list of type slots they will trade in
@@ -44,8 +45,8 @@ public:
     // Returns a default type if no match is found, which is a bug.
     [[nodiscard]] static ObjectType lookup_with_default(std::string_view name);
     [[nodiscard]] static std::optional<ObjectType> try_lookup(std::string_view name);
-    // Returns a formatted string containing all type names in lower case.
-    [[nodiscard]] static std::string list_type_names();
+    // Returns all the object type enum names in lower case.
+    [[nodiscard]] static std::vector<std::string> sorted_type_names();
     ObjectTypes() = delete;
 
 private:

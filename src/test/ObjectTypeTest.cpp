@@ -9,6 +9,7 @@
 #include "ObjectIndex.hpp"
 
 #include <catch2/catch.hpp>
+#include <vector>
 
 TEST_CASE("object type name") {
     Object obj{};
@@ -66,12 +67,15 @@ TEST_CASE("try lookup") {
         CHECK(!result);
     }
 }
-TEST_CASE("list type names") {
-    SECTION("formatted string") {
-        const auto result = ObjectTypes::list_type_names();
+TEST_CASE("sorted type names") {
+    SECTION("expected entries") {
+        const auto expected = std::vector<std::string>{
+            "armor",     "boat",   "bomb",   "clothing", "container", "drink",     "food",     "fountain",
+            "furniture", "key",    "light",  "map",      "money",     "npccorpse", "pccorpse", "pill",
+            "portal",    "potion", "scroll", "staff",    "trash",     "treasure",  "wand",     "weapon"};
 
-        CHECK(result
-              == "	scroll wand staff weapon treasure armor potion \n\r\tclothing furniture trash container drink "
-                 "key food \n\r\tmoney boat npccorpse pccorpse fountain pill map \n\r\tbomb portal \n\r");
+        const auto result = ObjectTypes::sorted_type_names();
+
+        CHECK(result == expected);
     }
 }
