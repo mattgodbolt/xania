@@ -13,6 +13,7 @@
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsObjectExtra.hpp"
+#include "BitsRoomState.hpp"
 #include "BodySize.hpp"
 #include "Char.hpp"
 #include "Descriptor.hpp"

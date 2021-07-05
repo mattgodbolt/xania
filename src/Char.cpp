@@ -9,6 +9,7 @@
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsObjectExtra.hpp"
+#include "BitsRoomState.hpp"
 #include "Classes.hpp"
 #include "DescriptorList.hpp"
 #include "Note.hpp"

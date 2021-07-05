@@ -1,9 +1,9 @@
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
+/*  (C) 1995-2000 Xania Development Team                                 */
 /*  See the header to file: merc.h for original code copyrights          */
 /*                                                                       */
-/*  act_move.c: player and mobile movement                               */
+/*  act_move.cpp: player and mobile movement                             */
 /*                                                                       */
 /*************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsContainerState.hpp"
+#include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "Exit.hpp"

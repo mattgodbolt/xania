@@ -8,6 +8,7 @@
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsDamageTolerance.hpp"
+#include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
