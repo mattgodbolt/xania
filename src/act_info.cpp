@@ -12,6 +12,7 @@
 #include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsContainerState.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"

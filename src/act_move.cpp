@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
+#include "BitsContainerState.hpp"
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "Exit.hpp"
