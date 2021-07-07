@@ -91,7 +91,7 @@ bool can_loot(const Char *ch, const Object *obj) {
 }
 
 void get_obj(Char *ch, Object *obj, Object *container) {
-    if (!CAN_WEAR(obj, ITEM_TAKE)) {
+    if (!obj->is_takeable()) {
         ch->send_line("You can't take that.");
         return;
     }
@@ -122,7 +122,7 @@ void get_obj(Char *ch, Object *obj, Object *container) {
             return;
         }
 
-        if (container->objIndex->vnum == objects::Pit && !CAN_WEAR(container, ITEM_TAKE) && obj->timer)
+        if (container->objIndex->vnum == objects::Pit && !container->is_takeable() && obj->timer)
             obj->timer = 0;
         act("You get $p from $P.", ch, obj, container, To::Char);
         act("$n gets $p from $P.", ch, obj, container, To::Room);
@@ -204,7 +204,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_FINGER)) {
+    if (obj->is_wear_finger()) {
         if (get_eq_char(ch, WEAR_FINGER_L) != nullptr && get_eq_char(ch, WEAR_FINGER_R) != nullptr
             && !remove_obj(ch, WEAR_FINGER_L, fReplace) && !remove_obj(ch, WEAR_FINGER_R, fReplace))
             return;
@@ -232,7 +232,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_NECK)) {
+    if (obj->is_wear_neck()) {
         if (get_eq_char(ch, WEAR_NECK_1) != nullptr && get_eq_char(ch, WEAR_NECK_2) != nullptr
             && !remove_obj(ch, WEAR_NECK_1, fReplace) && !remove_obj(ch, WEAR_NECK_2, fReplace))
             return;
@@ -260,7 +260,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_BODY)) {
+    if (obj->is_wear_body()) {
         if (!remove_obj(ch, WEAR_BODY, fReplace))
             return;
         if (use_default_message) {
@@ -271,7 +271,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_HEAD)) {
+    if (obj->is_wear_head()) {
         if (!remove_obj(ch, WEAR_HEAD, fReplace))
             return;
         if (use_default_message) {
@@ -282,7 +282,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_LEGS)) {
+    if (obj->is_wear_legs()) {
         if (!remove_obj(ch, WEAR_LEGS, fReplace))
             return;
         if (use_default_message) {
@@ -293,7 +293,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_FEET)) {
+    if (obj->is_wear_feet()) {
         if (!remove_obj(ch, WEAR_FEET, fReplace))
             return;
         if (use_default_message) {
@@ -304,7 +304,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_HANDS)) {
+    if (obj->is_wear_hands()) {
         if (!remove_obj(ch, WEAR_HANDS, fReplace))
             return;
         if (use_default_message) {
@@ -315,7 +315,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_ARMS)) {
+    if (obj->is_wear_arms()) {
         if (!remove_obj(ch, WEAR_ARMS, fReplace))
             return;
         if (use_default_message) {
@@ -326,7 +326,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_ABOUT)) {
+    if (obj->is_wear_about()) {
         if (!remove_obj(ch, WEAR_ABOUT, fReplace))
             return;
         if (use_default_message) {
@@ -337,7 +337,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_WAIST)) {
+    if (obj->is_wear_waist()) {
         if (!remove_obj(ch, WEAR_WAIST, fReplace))
             return;
         if (use_default_message) {
@@ -348,7 +348,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_WRIST)) {
+    if (obj->is_wear_wrist()) {
         if (get_eq_char(ch, WEAR_WRIST_L) != nullptr && get_eq_char(ch, WEAR_WRIST_R) != nullptr
             && !remove_obj(ch, WEAR_WRIST_L, fReplace) && !remove_obj(ch, WEAR_WRIST_R, fReplace))
             return;
@@ -376,7 +376,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_SHIELD)) {
+    if (obj->is_wear_shield()) {
         Object *weapon;
 
         if (!remove_obj(ch, WEAR_SHIELD, fReplace))
@@ -396,7 +396,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_WIELD)) {
+    if (obj->is_wieldable()) {
         int sn, skill;
 
         if (!remove_obj(ch, WEAR_WIELD, fReplace))
@@ -444,7 +444,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         return;
     }
 
-    if (CAN_WEAR(obj, ITEM_HOLD))
+    if (obj->is_holdable())
         if (!(ch->is_npc() && check_bit(ch->act, ACT_PET))) {
             if (!remove_obj(ch, WEAR_HOLD, fReplace))
                 return;
@@ -456,7 +456,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             return;
         }
 
-    if (CAN_WEAR(obj, ITEM_WEAR_EARS)) {
+    if (obj->is_wear_ears()) {
         if (!remove_obj(ch, WEAR_EARS, fReplace))
             return;
         if (use_default_message) {
@@ -742,7 +742,7 @@ void do_put(Char *ch, const char *argument) {
             return;
         }
 
-        if (container->objIndex->vnum == objects::Pit && !CAN_WEAR(container, ITEM_TAKE)) {
+        if (container->objIndex->vnum == objects::Pit && !container->is_takeable()) {
             if (obj->timer) {
                 ch->send_line("Only permanent items may go in the pit.");
                 return;
@@ -1475,7 +1475,7 @@ void do_sacrifice(Char *ch, const char *argument) {
         }
     }
 
-    if (!CAN_WEAR(obj, ITEM_TAKE)) {
+    if (!obj->is_takeable()) {
         act("$p is not an acceptable sacrifice.", ch, obj, nullptr, To::Char);
         return;
     }

@@ -407,7 +407,7 @@ void mobile_update() {
             int max = 1;
             Object *obj_best{};
             for (auto *obj : ch->in_room->contents) {
-                if (CAN_WEAR(obj, ITEM_TAKE) && can_loot(ch, obj) && obj->cost > max && obj->cost > 0) {
+                if (obj->is_takeable() && can_loot(ch, obj) && obj->cost > max && obj->cost > 0) {
                     obj_best = obj;
                     max = obj->cost;
                 }
@@ -711,7 +711,7 @@ void obj_update() {
             else
                 act(message, obj->carried_by, obj, nullptr, To::Char);
         } else if (obj->in_room != nullptr && !obj->in_room->people.empty()) {
-            if (!(obj->in_obj && obj->in_obj->objIndex->vnum == objects::Pit && !CAN_WEAR(obj->in_obj, ITEM_TAKE))) {
+            if (!(obj->in_obj && obj->in_obj->objIndex->vnum == objects::Pit && !obj->in_obj->is_takeable())) {
                 // seems like we pick someone to emote for convenience here...
                 auto *rch = *obj->in_room->people.begin();
                 act(message, rch, obj, nullptr, To::Room);

@@ -50,4 +50,21 @@ struct Object {
     Room *destination{};
 
     [[nodiscard]] std::string type_name() const;
+    [[nodiscard]] bool is_holdable() const;
+    [[nodiscard]] bool is_takeable() const;
+    [[nodiscard]] bool is_two_handed() const;
+    [[nodiscard]] bool is_wieldable() const;
+    [[nodiscard]] bool is_wear_about() const;
+    [[nodiscard]] bool is_wear_arms() const;
+    [[nodiscard]] bool is_wear_body() const;
+    [[nodiscard]] bool is_wear_ears() const;
+    [[nodiscard]] bool is_wear_feet() const;
+    [[nodiscard]] bool is_wear_finger() const;
+    [[nodiscard]] bool is_wear_hands() const;
+    [[nodiscard]] bool is_wear_head() const;
+    [[nodiscard]] bool is_wear_legs() const;
+    [[nodiscard]] bool is_wear_neck() const;
+    [[nodiscard]] bool is_wear_shield() const;
+    [[nodiscard]] bool is_wear_waist() const;
+    [[nodiscard]] bool is_wear_wrist() const;
 };

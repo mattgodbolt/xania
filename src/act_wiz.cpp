@@ -1699,7 +1699,7 @@ void do_oload(Char *ch, const char *argument) {
     }
 
     obj = create_object(objIndex);
-    if (CAN_WEAR(obj, ITEM_TAKE))
+    if (obj->is_takeable())
         obj_to_char(obj, ch);
     else
         obj_to_room(obj, ch->in_room);
