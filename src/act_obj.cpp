@@ -804,7 +804,7 @@ void do_donate(Char *ch, const char *argument) {
     auto *pit = *pit_it;
 
     /* check to see if the ch is currently cursed */
-    if (IS_AFFECTED(ch, AFF_CURSE)) {
+    if (ch->is_aff_curse()) {
         ch->send_line("The psychic flux seems to be avoiding you today.");
         return;
     }

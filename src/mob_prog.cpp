@@ -358,20 +358,20 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (arg[1]) /* arg should be "$*" so just get the letter */
         {
             // TheMoog changed here to get rid of warning
-        case 'i': return IS_AFFECTED(mob, AFF_CHARM) ? true : false;
+        case 'i': return mob->is_aff_charm() ? true : false;
         case 'n':
             if (actor)
-                return IS_AFFECTED(actor, AFF_CHARM) ? true : false;
+                return actor->is_aff_charm() ? true : false;
             else
                 return -1;
         case 't':
             if (vict)
-                return IS_AFFECTED(vict, AFF_CHARM) ? true : false;
+                return vict->is_aff_charm() ? true : false;
             else
                 return -1;
         case 'r':
             if (rndm)
-                return IS_AFFECTED(rndm, AFF_CHARM) ? true : false;
+                return rndm->is_aff_charm() ? true : false;
             else
                 return -1;
         default: bug("Mob: {} bad argument to 'ischarmed'", mob->pIndexData->vnum); return -1;
@@ -1248,7 +1248,7 @@ void mprog_driver(char *com_list, Char *mob, const Char *actor, const Object *ob
     Char *rndm = nullptr;
     int count = 0;
 
-    if IS_AFFECTED (mob, AFF_CHARM)
+    if (mob->is_aff_charm())
         return;
 
     /* get a random visible mortal player who is in the room with the mob */

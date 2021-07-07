@@ -140,8 +140,8 @@ void check_assist(Char *ch, Char *victim) {
             }
 
             /* PCs next */
-            if (ch->is_pc() || IS_AFFECTED(ch, AFF_CHARM)) {
-                if (((rch->is_pc() && check_bit(rch->act, PLR_AUTOASSIST)) || IS_AFFECTED(rch, AFF_CHARM))
+            if (ch->is_pc() || ch->is_aff_charm()) {
+                if (((rch->is_pc() && check_bit(rch->act, PLR_AUTOASSIST)) || rch->is_aff_charm())
                     && is_same_group(ch, rch))
                     multi_hit(rch, victim);
 
@@ -150,7 +150,7 @@ void check_assist(Char *ch, Char *victim) {
 
             /* now check the NPC cases */
 
-            if (ch->is_npc() && !IS_AFFECTED(ch, AFF_CHARM))
+            if (ch->is_npc() && !ch->is_aff_charm())
 
             {
                 if ((rch->is_npc() && check_bit(rch->off_flags, ASSIST_ALL))
@@ -264,7 +264,7 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     if (ch->fighting != victim)
         return;
 
-    if ((IS_AFFECTED(ch, AFF_HASTE)) && !(IS_AFFECTED(ch, AFF_LETHARGY)))
+    if (ch->is_aff_haste() && !ch->is_aff_lethargy())
         one_hit(ch, victim, opt_skill);
 
     if (ch->fighting != victim || is_attack_skill(opt_skill, gsn_backstab))
@@ -310,7 +310,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         }
     }
 
-    if (IS_AFFECTED(ch, AFF_HASTE) || check_bit(ch->off_flags, OFF_FAST))
+    if (ch->is_aff_haste() || check_bit(ch->off_flags, OFF_FAST))
         one_hit(ch, victim, opt_skill);
 
     // Perform no additional hits if the mob is not actually fighting the victim (a 'single blow' situation presumably)
@@ -359,7 +359,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         break;
 
     case (1):
-        if (check_bit(ch->off_flags, OFF_BERSERK) && !IS_AFFECTED(ch, AFF_BERSERK))
+        if (check_bit(ch->off_flags, OFF_BERSERK) && !ch->is_aff_berserk())
             do_berserk(ch);
         break;
 
@@ -367,7 +367,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         if (check_bit(ch->off_flags, OFF_DISARM)
             || (get_weapon_sn(ch) != gsn_hand_to_hand
                 && (check_bit(ch->act, ACT_WARRIOR) || check_bit(ch->act, ACT_THIEF)))) {
-            if (IS_AFFECTED(victim, AFF_TALON)) {
+            if (victim->is_aff_talon()) {
                 act("$n tries to disarm you, but your talon like grip stops them!", ch, nullptr, victim, To::Vict);
                 act("$n tries to disarm $N, but fails.", ch, nullptr, victim, To::NotVict);
             } else
@@ -595,14 +595,14 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     if (wield == nullptr || wield->type != ObjectType::Weapon)
         return;
 
-    if ((check_bit(wield->value[4], WEAPON_POISONED)) && (!IS_AFFECTED(victim, AFF_POISON))) {
+    if ((check_bit(wield->value[4], WEAPON_POISONED)) && !victim->is_aff_poison()) {
         if (number_percent() > 75) {
             int p_sn = skill_lookup("poison");
             spell_poison(p_sn, wield->level, ch, victim);
         }
     }
 
-    if ((check_bit(wield->value[4], WEAPON_PLAGUED)) && (!IS_AFFECTED(victim, AFF_PLAGUE))) {
+    if ((check_bit(wield->value[4], WEAPON_PLAGUED)) && !victim->is_aff_plague()) {
         if (number_percent() > 75) {
             int p_sn = skill_lookup("plague");
             spell_plague(p_sn, wield->level, ch, victim);
@@ -694,7 +694,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
             /*
              * If victim is charmed, ch might attack victim's master.
              */
-            if (ch->is_npc() && victim->is_npc() && IS_AFFECTED(victim, AFF_CHARM) && victim->master != nullptr
+            if (ch->is_npc() && victim->is_npc() && victim->is_aff_charm() && victim->master != nullptr
                 && victim->master->in_room == ch->in_room && number_bits(3) == 0) {
                 stop_fighting(ch, false);
                 multi_hit(ch, victim->master);
@@ -712,7 +712,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
     /*
      * Inviso attacks ... not.
      */
-    if (IS_AFFECTED(ch, AFF_INVISIBLE)) {
+    if (ch->is_aff_invisible()) {
         affect_strip(ch, gsn_invis);
         affect_strip(ch, gsn_mass_invis);
         clear_bit(ch->affected_by, AFF_INVISIBLE);
@@ -722,13 +722,13 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
     /*
      * Damage modifiers.
      */
-    if (IS_AFFECTED(victim, AFF_SANCTUARY))
+    if (victim->is_aff_sanctuary())
         adjusted_damage /= 1.6f;
 
-    if (IS_AFFECTED(victim, AFF_PROTECTION_EVIL) && ch->is_evil())
+    if (victim->is_aff_protection_evil() && ch->is_evil())
         adjusted_damage -= adjusted_damage / 4;
 
-    if (IS_AFFECTED(victim, AFF_PROTECTION_GOOD) && ch->is_good())
+    if (victim->is_aff_protection_good() && ch->is_good())
         adjusted_damage -= adjusted_damage / 4;
 
     immune = false;
@@ -865,7 +865,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         /**
          * If the final blow was a pet or charmed mob, its greedy master gets to autoloot.
          */
-        Char *looter = ((IS_AFFECTED(ch, AFF_CHARM) && !(ch->master->is_npc()))) ? ch->master : ch;
+        Char *looter = (ch->is_aff_charm() && !(ch->master->is_npc())) ? ch->master : ch;
         loot_and_sacrifice_corpse(looter, victim, victim_room_vnum);
         return true;
     }
@@ -888,8 +888,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
      */
     if (victim->is_npc() && adjusted_damage > 0 && victim->wait < PULSE_VIOLENCE / 2) {
         if ((check_bit(victim->act, ACT_WIMPY) && number_bits(2) == 0 && victim->hit < victim->max_hit / 5)
-            || (IS_AFFECTED(victim, AFF_CHARM) && victim->master != nullptr
-                && victim->master->in_room != victim->in_room))
+            || (victim->is_aff_charm() && victim->master != nullptr && victim->master->in_room != victim->in_room))
             do_flee(victim);
     }
 
@@ -953,7 +952,7 @@ bool is_safe(Char *ch, Char *victim) {
 
     if (ch->is_npc()) {
         /* charmed mobs and pets cannot attack players */
-        if (victim->is_pc() && (IS_AFFECTED(ch, AFF_CHARM) || check_bit(ch->act, ACT_PET)))
+        if (victim->is_pc() && (ch->is_aff_charm() || check_bit(ch->act, ACT_PET)))
             return true;
 
         return false;
@@ -971,7 +970,7 @@ bool is_safe(Char *ch, Char *victim) {
         }
 
         /* no charmed mobs unless char is the the owner */
-        if (IS_AFFECTED(victim, AFF_CHARM) && ch != victim->master) {
+        if (victim->is_aff_charm() && ch != victim->master) {
             ch->send_line("You don't own that monster.");
             return true;
         }
@@ -1013,7 +1012,7 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
 
     if (ch->is_npc()) {
         /* charmed mobs and pets cannot attack players */
-        if (victim->is_pc() && (IS_AFFECTED(ch, AFF_CHARM) || check_bit(ch->act, ACT_PET)))
+        if (victim->is_pc() && (ch->is_aff_charm() || check_bit(ch->act, ACT_PET)))
             return true;
 
         /* area affects don't hit other mobiles */
@@ -1033,7 +1032,7 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
             return true;
 
         /* no charmed mobs unless char is the the owner */
-        if (IS_AFFECTED(victim, AFF_CHARM) && ch != victim->master)
+        if (victim->is_aff_charm() && ch != victim->master)
             return true;
 
         /* no player killing */
@@ -1056,7 +1055,7 @@ void check_killer(Char *ch, Char *victim) {
      * Follow charm thread to responsible character.
      * Attacking someone's charmed char is hostile!
      */
-    while (IS_AFFECTED(victim, AFF_CHARM) && victim->master != nullptr)
+    while (victim->is_aff_charm() && victim->master != nullptr)
         victim = victim->master;
 
     /*
@@ -1217,7 +1216,7 @@ void set_fighting(Char *ch, Char *victim) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_SLEEP))
+    if (ch->is_aff_sleep())
         affect_strip(ch, gsn_sleep);
 
     ch->fighting = victim;
@@ -1702,14 +1701,12 @@ void do_berserk(Char *ch) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_BERSERK) || is_affected(ch, gsn_berserk) || is_affected(ch, skill_lookup("frenzy")))
-
-    {
+    if (ch->is_aff_berserk() || ch->is_affected_by(gsn_berserk) || ch->is_affected_by(skill_lookup("frenzy"))) {
         ch->send_line("|rYou get a little madder|r.");
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CALM)) {
+    if (ch->is_aff_calm()) {
         ch->send_line("You're feeling too mellow to berserk.");
         return;
     }
@@ -1826,7 +1823,7 @@ void do_bash(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim) {
+    if (ch->is_aff_charm() && ch->master == victim) {
         act("But $N is your friend!", ch, nullptr, victim, To::Char);
         return;
     }
@@ -1847,9 +1844,9 @@ void do_bash(Char *ch, const char *argument) {
     chance -= get_curr_stat(victim, Stat::Dex) * 4 / 3;
 
     /* speed */
-    if (check_bit(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
+    if (check_bit(ch->off_flags, OFF_FAST) || ch->is_aff_haste())
         chance += 10;
-    if (check_bit(victim->off_flags, OFF_FAST) || IS_AFFECTED(victim, AFF_HASTE))
+    if (check_bit(victim->off_flags, OFF_FAST) || victim->is_aff_haste())
         chance -= 20;
 
     /* level */
@@ -1918,7 +1915,7 @@ void do_dirt(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(victim, AFF_BLIND)) {
+    if (victim->is_aff_blind()) {
         act("$E's already been blinded.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -1936,7 +1933,7 @@ void do_dirt(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim) {
+    if (ch->is_aff_charm() && ch->master == victim) {
         act("But $N is such a good friend!", ch, nullptr, victim, To::Char);
         return;
     }
@@ -1948,9 +1945,9 @@ void do_dirt(Char *ch, const char *argument) {
     chance -= 2 * get_curr_stat(victim, Stat::Dex);
 
     /* speed  */
-    if (check_bit(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
+    if (check_bit(ch->off_flags, OFF_FAST) || ch->is_aff_haste())
         chance += 10;
-    if (check_bit(victim->off_flags, OFF_FAST) || IS_AFFECTED(victim, AFF_HASTE))
+    if (check_bit(victim->off_flags, OFF_FAST) || victim->is_aff_haste())
         chance -= 25;
 
     /* level */
@@ -2049,7 +2046,7 @@ void do_trip(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(victim, AFF_FLYING) || (victim->riding != nullptr)) {
+    if (victim->is_aff_fly() || (victim->riding != nullptr)) {
         act("$S feet aren't on the ground.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -2066,7 +2063,7 @@ void do_trip(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim) {
+    if (ch->is_aff_charm() && ch->master == victim) {
         act("$N is your beloved master.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -2082,9 +2079,9 @@ void do_trip(Char *ch, const char *argument) {
     chance -= get_curr_stat(victim, Stat::Dex) * 3 / 2;
 
     /* speed */
-    if (check_bit(ch->off_flags, OFF_FAST) || IS_AFFECTED(ch, AFF_HASTE))
+    if (check_bit(ch->off_flags, OFF_FAST) || ch->is_aff_haste())
         chance += 10;
-    if (check_bit(victim->off_flags, OFF_FAST) || IS_AFFECTED(victim, AFF_HASTE))
+    if (check_bit(victim->off_flags, OFF_FAST) || victim->is_aff_haste())
         chance -= 20;
 
     /* level */
@@ -2148,7 +2145,7 @@ void do_kill(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim) {
+    if (ch->is_aff_charm() && ch->master == victim) {
         act("$N is your beloved master.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -2176,7 +2173,7 @@ void do_murder(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) || (ch->is_npc() && check_bit(ch->act, ACT_PET)))
+    if (ch->is_aff_charm() || (ch->is_npc() && check_bit(ch->act, ACT_PET)))
         return;
 
     if ((victim = get_char_room(ch, arg)) == nullptr) {
@@ -2197,7 +2194,7 @@ void do_murder(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim) {
+    if (ch->is_aff_charm() && ch->master == victim) {
         act("$N is your beloved master.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -2289,7 +2286,7 @@ void do_flee(Char *ch) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_LETHARGY)) {
+    if (ch->is_aff_lethargy()) {
         act("You are too lethargic to flee.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -2467,7 +2464,7 @@ void do_headbutt(Char *ch, const char *argument) {
         if (ch->size >= (victim->size - 1) && ch->size <= (victim->size + 1)) {
 
             chance = chance - ch->level + victim->level;
-            if ((chance < 5) || !IS_AFFECTED(victim, AFF_BLIND)) {
+            if ((chance < 5) || !victim->is_aff_blind()) {
                 act("$n is blinded by the blood running into $s eyes!", victim);
                 victim->send_line("Blood runs into your eyes - you can't see!");
 
@@ -2598,7 +2595,7 @@ void do_disarm(Char *ch) {
         return;
     }
 
-    if (IS_AFFECTED(victim, AFF_TALON)) {
+    if (victim->is_aff_talon()) {
         act("$N's talon-like grip stops you from disarming $M!", ch, nullptr, victim, To::Char);
         act("$n tries to disarm you, but your talon like grip stops them!", ch, nullptr, victim, To::Vict);
         act("$n tries to disarm $N, but fails.", ch, nullptr, victim, To::NotVict);

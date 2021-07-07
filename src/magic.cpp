@@ -195,7 +195,7 @@ void say_spell(Char *ch, int sn) {
  */
 bool saves_spell(int level, const Char *victim) {
     int save = 50 + (victim->level - level - victim->saving_throw);
-    if (IS_AFFECTED(victim, AFF_BERSERK))
+    if (victim->is_aff_berserk())
         save -= victim->level / 3;
     save = urange(5, save, 95);
     return number_percent() < save;
@@ -533,7 +533,7 @@ void do_cast(Char *ch, const char *argument) {
             }
         }
 
-        if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim) {
+        if (ch->is_aff_charm() && ch->master == victim) {
             ch->send_line("You can't do that on your own follower.");
             return;
         }
@@ -771,7 +771,7 @@ void spell_bless(int sn, int level, Char *ch, void *vo) {
 void spell_blindness(int sn, int level, Char *ch, void *vo) {
     (void)ch;
     Char *victim = (Char *)vo;
-    if (IS_AFFECTED(victim, AFF_BLIND)) {
+    if (victim->is_aff_blind()) {
         if (ch == victim) {
             ch->send_line("You are already blind.");
         } else {
@@ -866,7 +866,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
             if (vch->is_npc() && (check_bit(vch->imm_flags, DMG_TOL_MAGIC) || check_bit(vch->act, ACT_UNDEAD)))
                 return;
 
-            if (IS_AFFECTED(vch, AFF_CALM) || IS_AFFECTED(vch, AFF_BERSERK) || is_affected(vch, skill_lookup("frenzy")))
+            if (vch->is_aff_calm() || vch->is_aff_berserk() || vch->is_affected_by(skill_lookup("frenzy")))
                 return;
 
             vch->send_line("A wave of calm passes over you.");
@@ -914,8 +914,8 @@ bool try_dispel_all_dispellables(int level, Char *victim) {
             }
             // Dispel permanent effects on NPCs. Only try one per cast of dispel magic
             // otherwise it'll be too easy potentially fully debuff a mob.
-            if (!dispelled_perm_affect && victim->is_npc() && IS_AFFECTED(victim, spell.dispel_npc_perm_affect_bit)
-                && !saves_dispel(level, victim->level) && !is_affected(victim, sn)) {
+            if (!dispelled_perm_affect && victim->is_npc() && victim->has_affect_bit(spell.dispel_npc_perm_affect_bit)
+                && !saves_dispel(level, victim->level) && victim->is_affected_by(sn)) {
 
                 clear_bit(victim->affected_by, spell.dispel_npc_perm_affect_bit);
                 act(spell.dispel_victim_msg_to_room, victim);
@@ -932,7 +932,7 @@ void spell_cancellation(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     level += 2;
 
-    if ((ch->is_pc() && victim->is_npc() && !(IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim))
+    if ((ch->is_pc() && victim->is_npc() && !(ch->is_aff_charm() && ch->master == victim))
         || (ch->is_npc() && victim->is_pc())) {
         ch->send_line("You failed, try dispel magic.");
         return;
@@ -1035,7 +1035,7 @@ void spell_change_sex(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (is_affected(victim, sn)) {
+    if (victim->is_affected_by(sn)) {
         if (victim == ch)
             ch->send_line("You've already been changed.");
         else
@@ -1066,7 +1066,7 @@ void spell_charm_person(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (IS_AFFECTED(victim, AFF_CHARM) || IS_AFFECTED(ch, AFF_CHARM) || ch->get_trust() < victim->get_trust()
+    if (victim->is_aff_charm() || ch->is_aff_charm() || ch->get_trust() < victim->get_trust()
         || check_bit(victim->imm_flags, DMG_TOL_CHARM) || saves_spell(level, victim))
         return;
 
@@ -1197,7 +1197,7 @@ void spell_cure_blindness(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
 
-    if (!is_affected(victim, gsn_blindness)) {
+    if (!victim->is_affected_by(gsn_blindness)) {
         if (victim == ch)
             ch->send_line("You aren't blind.");
         else
@@ -1229,7 +1229,7 @@ void spell_cure_disease(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
 
-    if (!is_affected(victim, gsn_plague)) {
+    if (!victim->is_affected_by(gsn_plague)) {
         if (victim == ch)
             ch->send_line("You aren't ill.");
         else
@@ -1259,7 +1259,7 @@ void spell_cure_poison(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     Char *victim = (Char *)vo;
 
-    if (!is_affected(victim, gsn_poison)) {
+    if (!victim->is_affected_by(gsn_poison)) {
         if (victim == ch)
             ch->send_line("You aren't poisoned.");
         else
@@ -1290,7 +1290,7 @@ void spell_curse(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (IS_AFFECTED(victim, AFF_CURSE)) {
+    if (victim->is_aff_curse()) {
         act("A curse has already befallen $N.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -1549,7 +1549,7 @@ void spell_earthquake(int sn, int level, Char *ch, void *vo) {
             continue;
         if (vch->in_room == ch->in_room) {
             if (vch != ch && !is_safe_spell(ch, vch, true)) {
-                if (IS_AFFECTED(vch, AFF_FLYING))
+                if (vch->is_aff_fly())
                     damage(ch, vch, 0, &skill_table[sn], DAM_BASH);
                 else
                     damage(ch, vch, level + dice(2, 8), &skill_table[sn], DAM_BASH);
@@ -2204,7 +2204,7 @@ void spell_faerie_fire(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (IS_AFFECTED(victim, AFF_FAERIE_FIRE)) {
+    if (victim->is_aff_faerie_fire()) {
         act("$N is already surrounded by a pink outline.", ch, nullptr, victim, To::Char);
         return;
     }
@@ -2267,7 +2267,7 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
     /*  Object *wield = get_eq_char( ch, WEAR_WIELD );*/
 
     AFFECT_DATA af;
-    if (is_affected(victim, sn) || IS_AFFECTED(victim, AFF_BERSERK)) {
+    if (victim->is_affected_by(sn) || victim->is_aff_berserk()) {
         if (victim == ch)
             ch->send_line("You are already in a frenzy.");
         else
@@ -2275,7 +2275,7 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (is_affected(victim, skill_lookup("calm"))) {
+    if (victim->is_aff_calm()) {
         if (victim == ch)
             ch->send_line("Why don't you just relax for a while?");
         else
@@ -2446,7 +2446,7 @@ void spell_insanity(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (is_affected(victim, sn)) {
+    if (victim->is_affected_by(sn)) {
         if (victim == ch)
             ch->send_line("You're mad enough!");
         else
@@ -2480,7 +2480,7 @@ void spell_lethargy(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (is_affected(victim, sn) || IS_AFFECTED(victim, AFF_LETHARGY) || check_bit(victim->off_flags, OFF_SLOW)) {
+    if (victim->is_affected_by(sn) || victim->is_aff_lethargy() || check_bit(victim->off_flags, OFF_SLOW)) {
         if (victim == ch)
             ch->send_line("Your heart beat is as low as it can go!");
         else
@@ -2692,7 +2692,7 @@ void spell_invis(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (IS_AFFECTED(victim, AFF_INVISIBLE))
+    if (victim->is_aff_invisible())
         return;
 
     act("$n fades out of existence.", victim);
@@ -2817,7 +2817,7 @@ void spell_mass_invis(int sn, int level, Char *ch, void *vo) {
     AFFECT_DATA af;
 
     for (auto *gch : ch->in_room->people) {
-        if (!is_same_group(gch, ch) || IS_AFFECTED(gch, AFF_INVISIBLE))
+        if (!is_same_group(gch, ch) || gch->is_aff_invisible())
             continue;
         act("$n slowly fades out of existence.", gch);
         gch->send_line("You slowly fade out of existence.");
@@ -2842,7 +2842,7 @@ void spell_octarine_fire(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (IS_AFFECTED(victim, AFF_OCTARINE_FIRE))
+    if (victim->is_aff_octarine_fire())
         return;
     af.type = sn;
     af.level = level;
@@ -3045,7 +3045,7 @@ void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
     (void)ch;
     Char *victim = (Char *)vo;
 
-    if (is_affected(victim, gsn_curse)) {
+    if (victim->is_affected_by(gsn_curse)) {
         if (check_dispel(level, victim, gsn_curse)) {
             victim->send_line("You feel better.");
             act("$n looks more relaxed.", victim);
@@ -3157,8 +3157,8 @@ void spell_sleep(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (IS_AFFECTED(victim, AFF_SLEEP) || (victim->is_npc() && check_bit(victim->act, ACT_UNDEAD))
-        || level < victim->level || saves_spell(level, victim))
+    if (victim->is_aff_sleep() || (victim->is_npc() && check_bit(victim->act, ACT_UNDEAD)) || level < victim->level
+        || saves_spell(level, victim))
         return;
 
     af.type = sn;
@@ -3306,7 +3306,7 @@ void spell_weaken(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (is_affected(victim, sn) || saves_spell(level, victim)) {
+    if (victim->is_affected_by(sn) || saves_spell(level, victim)) {
         act("$n looks unsteady for a moment, but it passes.", victim);
         victim->send_line("You feel unsteady for a moment, but it passes.");
         return;
@@ -3338,7 +3338,7 @@ void spell_word_of_recall(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || IS_AFFECTED(victim, AFF_CURSE)) {
+    if (check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || victim->is_aff_curse()) {
         victim->send_line("Spell failed.");
         return;
     }
@@ -3699,7 +3699,7 @@ void spell_undo_spell(int sn, int level, Char *ch, void *vo) {
         ch->send_line("What kind of spell is that?");
         return;
     }
-    if (!is_affected(victim, undo_spell_num)) {
+    if (!victim->is_affected_by(undo_spell_num)) {
         if (victim == ch) {
             ch->send_line("You're not affected by that.");
         } else {

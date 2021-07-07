@@ -234,7 +234,7 @@ int hit_gain(Char *ch) {
 
     if (ch->is_npc()) {
         gain = 5 + ch->level;
-        if (IS_AFFECTED(ch, AFF_REGENERATION))
+        if (ch->is_aff_regeneration())
             gain *= 2;
 
         switch (ch->position) {
@@ -269,15 +269,15 @@ int hit_gain(Char *ch) {
         }
     }
 
-    if (IS_AFFECTED(ch, AFF_POISON))
+    if (ch->is_aff_poison())
         gain /= 4;
 
-    if (IS_AFFECTED(ch, AFF_PLAGUE))
+    if (ch->is_aff_plague())
         gain /= 8;
 
-    if (IS_AFFECTED(ch, AFF_LETHARGY))
+    if (ch->is_aff_lethargy())
         gain *= 2;
-    if (IS_AFFECTED(ch, AFF_REGENERATION))
+    if (ch->is_aff_regeneration())
         gain *= 2;
 
     return std::min(gain, ch->max_hit - ch->hit);
@@ -319,13 +319,13 @@ int mana_gain(Char *ch) {
         }
     }
 
-    if (IS_AFFECTED(ch, AFF_POISON))
+    if (ch->is_aff_poison())
         gain /= 4;
 
-    if (IS_AFFECTED(ch, AFF_PLAGUE))
+    if (ch->is_aff_plague())
         gain /= 8;
 
-    if (IS_AFFECTED(ch, AFF_LETHARGY))
+    if (ch->is_aff_lethargy())
         gain *= 2;
 
     return std::min(gain, ch->max_mana - ch->mana);
@@ -353,16 +353,16 @@ int move_gain(Char *ch) {
         }
     }
 
-    if (IS_AFFECTED(ch, AFF_POISON))
+    if (ch->is_aff_poison())
         gain /= 4;
 
-    if (IS_AFFECTED(ch, AFF_PLAGUE))
+    if (ch->is_aff_plague())
         gain /= 8;
 
-    if (IS_AFFECTED(ch, AFF_HASTE))
+    if (ch->is_aff_haste())
         gain /= 2;
 
-    if (IS_AFFECTED(ch, AFF_LETHARGY))
+    if (ch->is_aff_lethargy())
         gain *= 2;
 
     return std::min(gain, ch->max_move - ch->move);
@@ -378,7 +378,7 @@ void mobile_update() {
 
     /* Examine all mobs. */
     for (auto *ch : char_list) {
-        if (ch->is_pc() || ch->in_room == nullptr || IS_AFFECTED(ch, AFF_CHARM))
+        if (ch->is_pc() || ch->in_room == nullptr || ch->is_aff_charm())
             continue;
 
         if (ch->in_room->area->empty && !check_bit(ch->act, ACT_UPDATE_ALWAYS))
@@ -595,7 +595,7 @@ void char_update() {
          *   as it may be lethal damage (on NPC).
          */
 
-        if (is_affected(ch, gsn_plague) && ch != nullptr) {
+        if (ch->is_affected_by(gsn_plague) && ch != nullptr) {
             int save, dam;
 
             if (ch->in_room == nullptr)
@@ -629,7 +629,7 @@ void char_update() {
                 default: save = existing_plague->level - 4; break;
                 }
 
-                if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !IS_AFFECTED(vch, AFF_PLAGUE)
+                if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !vch->is_aff_plague()
                     && number_bits(4) == 0) {
                     vch->send_line("You feel hot and feverish.");
                     act("$n shivers and looks very ill.", vch);
@@ -641,7 +641,7 @@ void char_update() {
             ch->mana = std::max(0, ch->mana - dam);
             ch->move = std::max(0, ch->move - dam);
             damage(ch, ch, dam, &skill_table[gsn_plague], DAM_DISEASE);
-        } else if (IS_AFFECTED(ch, AFF_POISON) && ch != nullptr) {
+        } else if (ch->is_aff_poison() && ch != nullptr) {
             act("$n shivers and suffers.", ch);
             ch->send_line("You shiver and suffer.");
             damage(ch, ch, 2, &skill_table[gsn_poison], DAM_POISON);
@@ -784,8 +784,8 @@ void aggr_update() {
 }
 
 void do_aggressive_sentient(Char *wch, Char *ch) {
-    if (check_bit(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !IS_AFFECTED(ch, AFF_CALM) && ch->is_pos_awake()
-        && !IS_AFFECTED(ch, AFF_CHARM) && can_see(ch, wch)) {
+    if (check_bit(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !ch->is_aff_calm() && ch->is_pos_awake()
+        && !ch->is_aff_charm() && can_see(ch, wch)) {
         if (ch->hit == ch->max_hit && ch->mana == ch->max_mana)
             ch->sentient_victim.clear();
         if (matches(wch->name, ch->sentient_victim)) {
@@ -795,9 +795,9 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
             multi_hit(ch, wch);
         }
     }
-    if (check_bit(ch->act, ACT_AGGRESSIVE) && !check_bit(ch->in_room->room_flags, ROOM_SAFE)
-        && !IS_AFFECTED(ch, AFF_CALM) && (ch->fighting == nullptr) // Changed by Moog
-        && !IS_AFFECTED(ch, AFF_CHARM) && ch->is_pos_awake() && !(check_bit(ch->act, ACT_WIMPY) && wch->is_pos_awake())
+    if (check_bit(ch->act, ACT_AGGRESSIVE) && !check_bit(ch->in_room->room_flags, ROOM_SAFE) && !ch->is_aff_calm()
+        && (ch->fighting == nullptr) // Changed by Moog
+        && !ch->is_aff_charm() && ch->is_pos_awake() && !(check_bit(ch->act, ACT_WIMPY) && wch->is_pos_awake())
         && can_see(ch, wch) && !number_bits(1) == 0) {
 
         /*

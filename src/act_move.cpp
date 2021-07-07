@@ -62,25 +62,24 @@ void move_char(Char *ch, Direction door) {
     }
 
     if (check_bit(pexit->exit_info, EX_CLOSED) && ch->is_mortal()) {
-        if (check_bit(pexit->exit_info, EX_PASSPROOF) && IS_AFFECTED(ch, AFF_PASS_DOOR)) {
+        if (check_bit(pexit->exit_info, EX_PASSPROOF) && ch->is_aff_pass_door()) {
             act("The $d is protected from trespass by a magical barrier.", ch, nullptr, pexit->keyword, To::Char);
             return;
         } else {
-            if (!IS_AFFECTED(ch, AFF_PASS_DOOR)) {
+            if (!ch->is_aff_pass_door()) {
                 act("The $d is closed.", ch, nullptr, pexit->keyword, To::Char);
                 return;
             }
         }
     }
 
-    if (check_bit(pexit->exit_info, EX_CLOSED) && IS_AFFECTED(ch, AFF_PASS_DOOR)
-        && !(check_bit(pexit->exit_info, EX_PASSPROOF)) && ch->riding != nullptr
-        && !(IS_AFFECTED(ch->riding, AFF_PASS_DOOR))) {
+    if (check_bit(pexit->exit_info, EX_CLOSED) && ch->is_aff_pass_door() && !(check_bit(pexit->exit_info, EX_PASSPROOF))
+        && ch->riding != nullptr && !ch->riding->is_aff_pass_door()) {
         ch->send_line("Your mount cannot travel through solid objects.");
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) && ch->master != nullptr && in_room == ch->master->in_room) {
+    if (ch->is_aff_charm() && ch->master != nullptr && in_room == ch->master->in_room) {
         ch->send_line("What?  And leave your beloved master?");
         return;
     }
@@ -115,8 +114,7 @@ void move_char(Char *ch, Direction door) {
         }
 
         if (in_room->sector_type == SectorType::Air || to_room->sector_type == SectorType::Air) {
-            if ((!IS_AFFECTED(ch, AFF_FLYING) && ch->is_mortal())
-                && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
+            if ((!ch->is_aff_fly() && ch->is_mortal()) && !(ch->riding != nullptr && ch->riding->is_aff_fly())) {
                 ch->send_line("You can't fly.");
                 return;
             }
@@ -124,8 +122,7 @@ void move_char(Char *ch, Direction door) {
 
         if ((in_room->sector_type == SectorType::NonSwimmableWater
              || to_room->sector_type == SectorType::NonSwimmableWater)
-            && !IS_AFFECTED(ch, AFF_FLYING) && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))
-            && !ch->has_boat()) {
+            && !ch->is_aff_fly() && !(ch->riding != nullptr && ch->riding->is_aff_fly()) && !ch->has_boat()) {
             ch->send_line("You need a boat to go there.");
             return;
         }
@@ -162,8 +159,8 @@ void move_char(Char *ch, Direction door) {
         }
     }
 
-    if (!(IS_AFFECTED(ch, AFF_SNEAK) && (ch->riding != nullptr))
-        && (ch->is_npc() || !check_bit(ch->act, PLR_WIZINVIS) || !check_bit(ch->act, PLR_PROWL))) {
+    if (!(ch->is_aff_sneak() && (ch->riding != nullptr))
+        && (ch->is_npc() || !ch->is_wizinvis() || !ch->is_prowlinvis())) {
         if (ch->ridden_by == nullptr) {
             if (ch->riding == nullptr) {
                 act("$n leaves $T.", ch, nullptr, to_string(door), To::Room);
@@ -177,8 +174,7 @@ void move_char(Char *ch, Direction door) {
     char_from_room(ch);
     char_to_room(ch, to_room);
 
-    if (!IS_AFFECTED(ch, AFF_SNEAK)
-        && (ch->is_npc() || !check_bit(ch->act, PLR_WIZINVIS) || !check_bit(ch->act, PLR_PROWL))) {
+    if (!ch->is_aff_sneak() && (ch->is_npc() || !ch->is_wizinvis() || !ch->is_prowlinvis())) {
         if (ch->ridden_by == nullptr) {
             if (ch->riding == nullptr) {
                 act("$n has arrived.", ch);
@@ -194,7 +190,7 @@ void move_char(Char *ch, Direction door) {
         return;
 
     for (auto *fch : in_room->people) {
-        if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->is_pos_preoccupied())
+        if (fch->master == ch && fch->is_aff_charm() && fch->is_pos_preoccupied())
             do_stand(fch);
 
         if (fch->master == ch && fch->is_pos_standing()) {
@@ -269,8 +265,8 @@ void do_enter(Char *ch, std::string_view argument) {
                         }
 
                         if (in_room->sector_type == SectorType::Air || to_room->sector_type == SectorType::Air) {
-                            if ((!IS_AFFECTED(ch, AFF_FLYING) && ch->is_mortal())
-                                && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING))) {
+                            if ((!ch->is_aff_fly() && ch->is_mortal())
+                                && !(ch->riding != nullptr && ch->riding->is_aff_fly())) {
                                 ch->send_line("You can't fly.");
                                 return;
                             }
@@ -278,8 +274,8 @@ void do_enter(Char *ch, std::string_view argument) {
 
                         if ((in_room->sector_type == SectorType::NonSwimmableWater
                              || to_room->sector_type == SectorType::NonSwimmableWater)
-                            && !IS_AFFECTED(ch, AFF_FLYING)
-                            && !(ch->riding != nullptr && IS_AFFECTED(ch->riding, AFF_FLYING)) && !ch->has_boat()) {
+                            && !ch->is_aff_fly() && !(ch->riding != nullptr && ch->riding->is_aff_fly())
+                            && !ch->has_boat()) {
                             ch->send_line("You need a boat to go there.");
                             return;
                         }
@@ -295,7 +291,7 @@ void do_enter(Char *ch, std::string_view argument) {
                         return;
 
                     for (auto *fch : in_room->people) {
-                        if (fch->master == ch && IS_AFFECTED(fch, AFF_CHARM) && fch->is_pos_preoccupied())
+                        if (fch->master == ch && fch->is_aff_charm() && fch->is_pos_preoccupied())
                             do_stand(fch);
 
                         if (fch->master == ch && fch->is_pos_standing()) {
@@ -753,7 +749,7 @@ void do_stand(Char *ch) {
     case Position::Type::Incap: ch->send_line("You're mortally wounded and can't stand up!"); break;
     case Position::Type::Stunned: ch->send_line("You're too disorientated to stand up!"); break;
     case Position::Type::Sleeping:
-        if (IS_AFFECTED(ch, AFF_SLEEP)) {
+        if (ch->is_aff_sleep()) {
             ch->send_line("You can't wake up!");
             return;
         }
@@ -895,7 +891,7 @@ void do_wake(Char *ch, ArgParser args) {
         return;
     }
 
-    if (IS_AFFECTED(victim, AFF_SLEEP)) {
+    if (victim->is_aff_sleep()) {
         act("You can't wake $M!", ch, nullptr, victim, To::Char);
         return;
     }
@@ -924,7 +920,7 @@ void do_sneak(Char *ch) {
 void do_hide(Char *ch) {
     ch->send_line("You attempt to hide.");
 
-    if (IS_AFFECTED(ch, AFF_HIDE))
+    if (ch->is_aff_hide())
         clear_bit(ch->affected_by, AFF_HIDE);
 
     if (ch->is_npc() || number_percent() < ch->pcdata->learned[gsn_hide]) {
@@ -989,7 +985,7 @@ void do_recall(Char *ch, ArgParser args) {
         return;
     }
 
-    if (check_bit(ch->in_room->room_flags, ROOM_NO_RECALL) || IS_AFFECTED(ch, AFF_CURSE)) {
+    if (check_bit(ch->in_room->room_flags, ROOM_NO_RECALL) || ch->is_aff_curse()) {
         ch->send_line("{} has forsaken you.", deity_name);
         return;
     }

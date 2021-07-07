@@ -69,7 +69,7 @@ const struct body_part_attrs body_part_attrs_table[MAX_BODY_PARTS] = {
 // the victim. This is dependent on size, unless ch is affected by fly or
 // haste in which case you are pretty likely to be able to hit them anywhere
 int body_size_diff(const Char *ch, const Char *victim) {
-    if (is_affected(ch, AFF_FLYING) || is_affected(ch, AFF_HASTE))
+    if (ch->is_aff_fly() || ch->is_aff_haste())
         return 0;
     return ch->size - victim->size;
 }

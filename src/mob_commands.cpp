@@ -181,7 +181,7 @@ void do_mpkill(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim) {
+    if (ch->is_aff_charm() && ch->master == victim) {
         bug("MpKill - Charmed mob attacking master from vnum {}.", ch->pIndexData->vnum);
         return;
     }

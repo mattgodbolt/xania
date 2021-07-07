@@ -32,7 +32,6 @@
 /*
  * Character macros.
  */
-#define IS_AFFECTED(ch, sn) (check_bit((ch)->affected_by, (sn)))
 
 #define IS_OUTSIDE(ch) (!check_bit((ch)->in_room->room_flags, ROOM_INDOORS))
 

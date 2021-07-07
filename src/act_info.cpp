@@ -105,9 +105,9 @@ std::string format_obj_to_char(const Object *obj, const Char *ch, bool fShort) {
         buf += "(U) ";
     if (IS_OBJ_STAT(obj, ITEM_INVIS))
         buf += "(|cInvis|w) ";
-    if (ch->has_detect_evil() && IS_OBJ_STAT(obj, ITEM_EVIL))
+    if (ch->is_aff_detect_evil() && IS_OBJ_STAT(obj, ITEM_EVIL))
         buf += "(|rRed Aura|w) ";
-    if (ch->has_detect_magic() && IS_OBJ_STAT(obj, ITEM_MAGIC))
+    if (ch->is_aff_detect_magic() && IS_OBJ_STAT(obj, ITEM_MAGIC))
         buf += "(|gMagical|w) ";
     if (IS_OBJ_STAT(obj, ITEM_GLOW))
         buf += "(|WGlowing|w) ";
@@ -175,32 +175,32 @@ void show_list_to_char(const GenericList<Object *> &list, const Char *ch, bool f
 void show_char_to_char_0(const Char *victim, const Char *ch) {
     std::string buf;
 
-    if (IS_AFFECTED(victim, AFF_INVISIBLE))
+    if (victim->is_aff_invisible())
         buf += "(|WInvis|w) ";
     if (victim->is_pc() && check_bit(victim->act, PLR_WIZINVIS))
         buf += "(|RWizi|w) ";
     if (victim->is_pc() && check_bit(victim->act, PLR_PROWL))
         buf += "(|RProwl|w) ";
-    if (IS_AFFECTED(victim, AFF_HIDE))
+    if (victim->is_aff_hide())
         buf += "(|WHide|w) ";
-    if (IS_AFFECTED(victim, AFF_CHARM))
+    if (victim->is_aff_charm())
         buf += "(|yCharmed|w) ";
-    if (IS_AFFECTED(victim, AFF_PASS_DOOR))
+    if (victim->is_aff_pass_door())
         buf += "(|bTranslucent|w) ";
-    if (IS_AFFECTED(victim, AFF_FAERIE_FIRE))
+    if (victim->is_aff_faerie_fire())
         buf += "(|PPink Aura|w) ";
-    if (IS_AFFECTED(victim, AFF_OCTARINE_FIRE))
+    if (victim->is_aff_octarine_fire())
         buf += "(|GOctarine Aura|w) ";
-    if (victim->is_evil() && IS_AFFECTED(ch, AFF_DETECT_EVIL))
+    if (victim->is_evil() && ch->is_aff_detect_evil())
         buf += "(|rRed Aura|w) ";
-    if (IS_AFFECTED(victim, AFF_SANCTUARY))
+    if (victim->is_aff_sanctuary())
         buf += "(|WWhite Aura|w) ";
     if (victim->is_pc() && check_bit(victim->act, PLR_KILLER))
         buf += "(|RKILLER|w) ";
     if (victim->is_pc() && check_bit(victim->act, PLR_THIEF))
         buf += "(|RTHIEF|w) ";
 
-    if (is_affected(ch, gsn_bless)) {
+    if (ch->is_affected_by(gsn_bless)) {
         if (check_bit(victim->act, ACT_UNDEAD)) {
             buf += "(|bUndead|w) ";
         }
@@ -329,14 +329,14 @@ void show_char_to_char(const GenericList<Char *> &list, const Char *ch) {
 
         if (can_see(ch, rch)) {
             show_char_to_char_0(rch, ch);
-        } else if (room_is_dark(ch->in_room) && IS_AFFECTED(rch, AFF_INFRARED)) {
+        } else if (room_is_dark(ch->in_room) && rch->is_aff_infrared()) {
             ch->send_line("You see |Rglowing red|w eyes watching |RYOU!|w");
         }
     }
 }
 
 bool check_blind(const Char *ch) {
-    if (!ch->is_blind() || ch->has_holylight())
+    if (!ch->is_aff_blind() || ch->has_holylight())
         return true;
 
     ch->send_line("You can't see a thing!");
@@ -1475,9 +1475,8 @@ void do_where(Char *ch, const char *argument) {
     } else {
         auto found = false;
         for (auto *victim : char_list) {
-            if (victim->in_room != nullptr && victim->in_room->area == ch->in_room->area
-                && !IS_AFFECTED(victim, AFF_HIDE) && !IS_AFFECTED(victim, AFF_SNEAK) && can_see(ch, victim)
-                && victim != ch && is_name(arg, victim->name)) {
+            if (victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && !victim->is_aff_hide()
+                && !victim->is_aff_sneak() && can_see(ch, victim) && victim != ch && is_name(arg, victim->name)) {
                 found = true;
                 ch->send_line("|W{:<28}|w {}", pers(victim, ch), victim->in_room->name);
                 break;

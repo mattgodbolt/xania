@@ -553,7 +553,7 @@ bool check_social(Char *ch, std::string_view command, std::string_view argument)
         act(social->char_found, ch, nullptr, victim, To::Char);
         act(social->vict_found, ch, nullptr, victim, To::Vict);
 
-        if (ch->is_pc() && victim->is_npc() && !IS_AFFECTED(victim, AFF_CHARM) && victim->is_pos_awake()
+        if (ch->is_pc() && victim->is_npc() && !victim->is_aff_charm() && victim->is_pos_awake()
             && victim->desc == nullptr) {
             switch (number_bits(4)) {
             case 0:

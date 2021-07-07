@@ -136,17 +136,41 @@ struct Char {
 
     [[nodiscard]] bool is_npc() const;
     [[nodiscard]] bool is_pc() const { return !is_npc(); }
-    [[nodiscard]] bool is_blind() const;
     [[nodiscard]] bool is_warrior() const;
     [[nodiscard]] bool is_thief() const;
-    [[nodiscard]] bool is_invisible() const;
-    [[nodiscard]] bool is_sneaking() const;
-    [[nodiscard]] bool is_hiding() const;
-    [[nodiscard]] bool is_berserk() const;
     [[nodiscard]] bool is_shopkeeper() const;
 
-    // Some positional convenience methods in order of most to least vulnerable.
+    // is_aff_() methods return true if the Char is affected by the relevant spell affect bit.
+    // See: has_affect_bit() and is_affected_by().
+    [[nodiscard]] bool is_aff_berserk() const;
+    [[nodiscard]] bool is_aff_blind() const;
+    [[nodiscard]] bool is_aff_calm() const;
+    [[nodiscard]] bool is_aff_charm() const;
+    [[nodiscard]] bool is_aff_curse() const;
+    [[nodiscard]] bool is_aff_detect_evil() const;
+    [[nodiscard]] bool is_aff_detect_hidden() const;
+    [[nodiscard]] bool is_aff_detect_invis() const;
+    [[nodiscard]] bool is_aff_detect_magic() const;
+    [[nodiscard]] bool is_aff_faerie_fire() const;
+    [[nodiscard]] bool is_aff_fly() const;
+    [[nodiscard]] bool is_aff_haste() const;
+    [[nodiscard]] bool is_aff_hide() const;
+    [[nodiscard]] bool is_aff_infrared() const;
+    [[nodiscard]] bool is_aff_invisible() const;
+    [[nodiscard]] bool is_aff_lethargy() const;
+    [[nodiscard]] bool is_aff_octarine_fire() const;
+    [[nodiscard]] bool is_aff_plague() const;
+    [[nodiscard]] bool is_aff_pass_door() const;
+    [[nodiscard]] bool is_aff_poison() const;
+    [[nodiscard]] bool is_aff_protection_evil() const;
+    [[nodiscard]] bool is_aff_protection_good() const;
+    [[nodiscard]] bool is_aff_regeneration() const;
+    [[nodiscard]] bool is_aff_sanctuary() const;
+    [[nodiscard]] bool is_aff_sneak() const;
+    [[nodiscard]] bool is_aff_sleep() const;
+    [[nodiscard]] bool is_aff_talon() const;
 
+    // Some positional convenience methods in order of most to least vulnerable.
     [[nodiscard]] bool is_pos_dead() const;
     // Dead,  mortally wounded or incapacitated.
     [[nodiscard]] bool is_pos_dying() const;
@@ -162,12 +186,8 @@ struct Char {
     // Standing ready for action.
     [[nodiscard]] bool is_pos_standing() const;
 
-    [[nodiscard]] bool has_detect_invis() const;
-    [[nodiscard]] bool has_detect_hidden() const;
-    [[nodiscard]] bool has_detect_magic() const;
-    [[nodiscard]] bool has_detect_evil() const;
-    [[nodiscard]] bool has_infrared() const;
-
+    // Special states for Gods.
+    [[nodiscard]] bool has_holylight() const;
     // Is the player wizinvis/prowl at all, and are they invisible to a particular character?
     [[nodiscard]] bool is_wizinvis() const;
     [[nodiscard]] bool is_wizinvis_to(const Char &victim) const;
@@ -191,7 +211,6 @@ struct Char {
     [[nodiscard]] Char *player() { return desc ? desc->person() : nullptr; }
     [[nodiscard]] bool is_switched() const noexcept { return is_npc() && desc; }
 
-    [[nodiscard]] bool has_holylight() const;
     [[nodiscard]] bool is_immortal() const;
     [[nodiscard]] bool is_mortal() const { return !is_immortal(); }
     // True for max level mortals and for all immortals.
@@ -207,8 +226,10 @@ struct Char {
     // Get the current armour class, taking into account Char position and dexterity.
     [[nodiscard]] sh_int get_armour_class(const ArmourClass ac_slot) const;
 
-    // Return true if a char is affected by a spell.
+    // Return true if a char is affected by a spell based on its skill number (not its affect bit!)
     [[nodiscard]] bool is_affected_by(int skill_number) const;
+    // Return true if a char is affected by a spell affect bit (not its skill number!)
+    [[nodiscard]] bool has_affect_bit(int affect_bit) const;
 
     // Return a pointer to the character's overall clan if they have one.
     [[nodiscard]] const Clan *clan() const;

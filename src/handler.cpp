@@ -267,8 +267,6 @@ void affect_strip(Char *ch, int sn) {
         affect_remove(ch, *aff);
 }
 
-bool is_affected(const Char *ch, int sn) { return ch->is_affected_by(sn); }
-
 // Returns the AFFECT_DATA * structure for a char.
 // return nullptr if the char isn't affected.
 AFFECT_DATA *find_affect(Char *ch, int sn) { return ch->affected.find_by_skill(sn); }
@@ -335,7 +333,7 @@ void char_to_room(Char *ch, Room *room) {
     if (auto *obj = get_eq_char(ch, WEAR_LIGHT); obj && obj->type == ObjectType::Light && obj->value[2] != 0)
         ++ch->in_room->light;
 
-    if (IS_AFFECTED(ch, AFF_PLAGUE)) {
+    if (ch->is_aff_plague()) {
         auto *existing_plague = ch->affected.find_by_skill(gsn_plague);
         if (!existing_plague) {
             clear_bit(ch->affected_by, AFF_PLAGUE);
@@ -364,7 +362,7 @@ void char_to_room(Char *ch, Room *room) {
                 }
             }();
 
-            if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !IS_AFFECTED(vch, AFF_PLAGUE)
+            if (save != 0 && !saves_spell(save, vch) && vch->is_mortal() && !vch->is_aff_plague()
                 && number_bits(6) == 0) {
                 vch->send_line("You feel hot and feverish.");
                 act("$n shivers and looks very ill.", vch);
@@ -461,7 +459,7 @@ void enforce_material_vulnerability(Char *ch, Object *obj) {
     if (check_material_vulnerability(ch, obj)) {
         act("As you equip $p it burns you, causing you to shriek in pain!", ch, obj, nullptr, To::Char);
         act("$n shrieks in pain!", ch, obj, nullptr, To::Room);
-        if (!IS_AFFECTED(ch, AFF_POISON)) {
+        if (!ch->is_aff_poison()) {
             int p_sn = skill_lookup("poison");
             spell_poison(p_sn, ch->level, ch, ch);
         }

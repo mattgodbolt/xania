@@ -2271,7 +2271,7 @@ void do_coma(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(victim, AFF_SLEEP))
+    if (victim->is_aff_sleep())
         return;
 
     if (ch == victim) {

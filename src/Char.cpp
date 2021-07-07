@@ -46,16 +46,36 @@ Seconds Char::total_played() const { return std::chrono::duration_cast<Seconds>(
 bool Char::is_npc() const { return check_bit(act, ACT_IS_NPC); }
 bool Char::is_warrior() const { return check_bit(act, ACT_WARRIOR); }
 bool Char::is_thief() const { return check_bit(act, ACT_THIEF); }
-bool Char::is_blind() const { return check_bit(affected_by, AFF_BLIND); }
-bool Char::has_infrared() const { return check_bit(affected_by, AFF_INFRARED); }
-bool Char::is_invisible() const { return check_bit(affected_by, AFF_INVISIBLE); }
-bool Char::has_detect_invis() const { return check_bit(affected_by, AFF_DETECT_INVIS); }
-bool Char::is_sneaking() const { return check_bit(affected_by, AFF_SNEAK); }
-bool Char::is_hiding() const { return check_bit(affected_by, AFF_HIDE); }
-bool Char::is_berserk() const { return check_bit(affected_by, AFF_BERSERK); }
 bool Char::is_shopkeeper() const { return is_npc() && pIndexData->shop; }
-bool Char::has_detect_hidden() const { return check_bit(affected_by, AFF_DETECT_HIDDEN); }
-bool Char::has_holylight() const { return is_pc() && check_bit(act, PLR_HOLYLIGHT); }
+
+// Affected by spell bit checks.
+bool Char::is_aff_berserk() const { return check_bit(affected_by, AFF_BERSERK); }
+bool Char::is_aff_blind() const { return check_bit(affected_by, AFF_BLIND); }
+bool Char::is_aff_calm() const { return check_bit(affected_by, AFF_CALM); }
+bool Char::is_aff_charm() const { return check_bit(affected_by, AFF_CHARM); }
+bool Char::is_aff_curse() const { return check_bit(affected_by, AFF_CURSE); }
+bool Char::is_aff_detect_evil() const { return check_bit(affected_by, AFF_DETECT_EVIL); }
+bool Char::is_aff_detect_magic() const { return check_bit(affected_by, AFF_DETECT_MAGIC); }
+bool Char::is_aff_detect_hidden() const { return check_bit(affected_by, AFF_DETECT_HIDDEN); }
+bool Char::is_aff_detect_invis() const { return check_bit(affected_by, AFF_DETECT_INVIS); }
+bool Char::is_aff_faerie_fire() const { return check_bit(affected_by, AFF_FAERIE_FIRE); }
+bool Char::is_aff_fly() const { return check_bit(affected_by, AFF_FLYING); }
+bool Char::is_aff_haste() const { return check_bit(affected_by, AFF_HASTE); }
+bool Char::is_aff_hide() const { return check_bit(affected_by, AFF_HIDE); }
+bool Char::is_aff_invisible() const { return check_bit(affected_by, AFF_INVISIBLE); }
+bool Char::is_aff_infrared() const { return check_bit(affected_by, AFF_INFRARED); }
+bool Char::is_aff_lethargy() const { return check_bit(affected_by, AFF_LETHARGY); }
+bool Char::is_aff_octarine_fire() const { return check_bit(affected_by, AFF_OCTARINE_FIRE); }
+bool Char::is_aff_pass_door() const { return check_bit(affected_by, AFF_PASS_DOOR); }
+bool Char::is_aff_plague() const { return check_bit(affected_by, AFF_PLAGUE); }
+bool Char::is_aff_poison() const { return check_bit(affected_by, AFF_POISON); }
+bool Char::is_aff_protection_evil() const { return check_bit(affected_by, AFF_PROTECTION_EVIL); }
+bool Char::is_aff_protection_good() const { return check_bit(affected_by, AFF_PROTECTION_GOOD); }
+bool Char::is_aff_regeneration() const { return check_bit(affected_by, AFF_REGENERATION); }
+bool Char::is_aff_sanctuary() const { return check_bit(affected_by, AFF_SANCTUARY); }
+bool Char::is_aff_sneak() const { return check_bit(affected_by, AFF_SNEAK); }
+bool Char::is_aff_sleep() const { return check_bit(affected_by, AFF_SLEEP); }
+bool Char::is_aff_talon() const { return check_bit(affected_by, AFF_TALON); }
 
 bool Char::is_pos_dead() const { return position == Position::Type::Dead; }
 bool Char::is_pos_dying() const { return position < Position::Type::Stunned; }
@@ -70,6 +90,7 @@ bool Char::is_pos_fighting() const { return position == Position::Type::Fighting
 bool Char::is_pos_preoccupied() const { return position < Position::Type::Standing; }
 bool Char::is_pos_standing() const { return position == Position::Type::Standing; }
 
+bool Char::has_holylight() const { return is_pc() && check_bit(act, PLR_HOLYLIGHT); }
 bool Char::is_wizinvis() const { return is_pc() && check_bit(act, PLR_WIZINVIS); }
 bool Char::is_wizinvis_to(const Char &victim) const { return is_wizinvis() && victim.get_trust() < invis_level; }
 
@@ -114,22 +135,22 @@ bool Char::can_see(const Char &victim) const {
         return true;
 
     // If you're blind you can't see anything.
-    if (is_blind())
+    if (is_aff_blind())
         return false;
 
     // If it's dark, and you haven't got infrared, you can't see that person.
-    if (room_is_dark(in_room) && !has_infrared())
+    if (room_is_dark(in_room) && !is_aff_infrared())
         return false;
 
     // Check invisibility.
-    if (victim.is_invisible() && !has_detect_invis())
+    if (victim.is_aff_invisible() && !is_aff_detect_invis())
         return false;
 
     // Sneak and hide work only for PCs sneaking/hiding against NPCs and vice versa, and for when the victim is not in a
     // fight.
     if (!victim.fighting && victim.is_npc() != is_npc()) {
 
-        if (victim.is_sneaking() && !has_detect_invis()) {
+        if (victim.is_aff_sneak() && !is_aff_detect_invis()) {
             // Sneak is skill based.
             auto chance = victim.get_skill(gsn_sneak);
             chance += curr_stat(Stat::Dex) * 3 / 2;
@@ -140,7 +161,7 @@ bool Char::can_see(const Char &victim) const {
                 return false;
         }
 
-        if (victim.is_hiding() && !has_detect_hidden())
+        if (victim.is_aff_hide() && !is_aff_detect_hidden())
             return false;
     }
 
@@ -171,6 +192,8 @@ sh_int Char::get_armour_class(const ArmourClass ac_slot) const {
 }
 
 bool Char::is_affected_by(int skill_number) const { return affected.find_by_skill(skill_number); }
+
+bool Char::has_affect_bit(int affect_bit) const { return check_bit(affected_by, affect_bit); }
 
 int Char::get_skill(int skill_number) const {
     int skill;
@@ -239,7 +262,7 @@ int Char::get_skill(int skill_number) const {
             skill = 0;
     }
 
-    if (is_berserk())
+    if (is_aff_berserk())
         skill /= 1.5;
 
     if (is_affected_by(gsn_insanity))
@@ -304,19 +327,19 @@ bool Char::can_see(const Object &object) const {
     if (check_bit(object.extra_flags, ITEM_VIS_DEATH))
         return false;
 
-    if (is_blind() && object.type != ObjectType::Potion)
+    if (is_aff_blind() && object.type != ObjectType::Potion)
         return false;
 
     if (object.type == ObjectType::Light && object.value[2] != 0)
         return true;
 
-    if (check_bit(object.extra_flags, ITEM_INVIS) && !has_detect_invis())
+    if (check_bit(object.extra_flags, ITEM_INVIS) && !is_aff_detect_invis())
         return false;
 
     if (check_bit(object.extra_flags, ITEM_GLOW))
         return true;
 
-    if (room_is_dark(in_room) && !has_infrared())
+    if (room_is_dark(in_room) && !is_aff_infrared())
         return false;
 
     return true;
@@ -380,8 +403,6 @@ void Char::say(std::string_view message) {
 
 bool Char::is_player_killer() const noexcept { return is_pc() && check_bit(act, PLR_KILLER); }
 bool Char::is_player_thief() const noexcept { return is_pc() && check_bit(act, PLR_THIEF); }
-bool Char::has_detect_magic() const { return check_bit(affected_by, AFF_DETECT_MAGIC); }
-bool Char::has_detect_evil() const { return check_bit(affected_by, AFF_DETECT_EVIL); }
 
 void Char::set_extra(unsigned int flag) noexcept {
     if (is_npc())

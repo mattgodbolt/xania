@@ -385,7 +385,7 @@ void do_follow(Char *ch, ArgParser args) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM) && ch->master != nullptr) {
+    if (ch->is_aff_charm() && ch->master != nullptr) {
         act("But you'd rather follow $N!", ch, nullptr, ch->master, To::Char);
         return;
     }
@@ -433,7 +433,7 @@ void stop_follower(Char *ch) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM)) {
+    if (ch->is_aff_charm()) {
         clear_bit(ch->affected_by, AFF_CHARM);
         affect_strip(ch, gsn_charm_person);
     }
@@ -507,7 +507,7 @@ void do_order(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM)) {
+    if (ch->is_aff_charm()) {
         ch->send_line("You feel like taking, not giving, orders.");
         return;
     }
@@ -527,7 +527,7 @@ void do_order(Char *ch, const char *argument) {
             return;
         }
 
-        if (!IS_AFFECTED(victim, AFF_CHARM) || victim->master != ch) {
+        if (!victim->is_aff_charm() || victim->master != ch) {
             ch->send_line("Do it yourself!");
             return;
         }
@@ -535,7 +535,7 @@ void do_order(Char *ch, const char *argument) {
 
     found = false;
     for (auto *och : ch->in_room->people) {
-        if (IS_AFFECTED(och, AFF_CHARM) && och->master == ch && (fAll || och == victim)) {
+        if (och->is_aff_charm() && och->master == ch && (fAll || och == victim)) {
             found = true;
             act(fmt::format("|W$n|w orders you to '{}'.", command_remainder), ch, nullptr, och, To::Vict);
             ch->wait_state(2 * PULSE_VIOLENCE);
@@ -584,12 +584,12 @@ void do_group(Char *ch, const char *argument) {
         return;
     }
 
-    if (IS_AFFECTED(victim, AFF_CHARM)) {
+    if (victim->is_aff_charm()) {
         ch->send_line("You can't remove charmed mobs from your group.");
         return;
     }
 
-    if (IS_AFFECTED(ch, AFF_CHARM)) {
+    if (ch->is_aff_charm()) {
         act("You like your master too much to leave $m!", ch, nullptr, victim, To::Vict);
         return;
     }
@@ -648,7 +648,7 @@ void split_coins(Char *ch, int amount) {
 
     int members = 0;
     for (auto *gch : ch->in_room->people) {
-        if (is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM))
+        if (is_same_group(gch, ch) && !gch->is_aff_charm())
             members++;
     }
 
@@ -673,7 +673,7 @@ void split_coins(Char *ch, int amount) {
     auto message = fmt::format("$n splits {} gold coins.  Your share is {} gold coins.", amount, share);
 
     for (auto *gch : ch->in_room->people) {
-        if (gch != ch && is_same_group(gch, ch) && !IS_AFFECTED(gch, AFF_CHARM)) {
+        if (gch != ch && is_same_group(gch, ch) && !gch->is_aff_charm()) {
             act(message, ch, nullptr, gch, To::Vict);
             gch->gold += share;
         }

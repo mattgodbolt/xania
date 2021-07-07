@@ -55,7 +55,6 @@ void affect_to_obj(Object *obj, const AFFECT_DATA &af);
 void affect_remove(Char *ch, const AFFECT_DATA &af);
 void affect_remove_obj(Object *obj, const AFFECT_DATA &af);
 void affect_strip(Char *ch, int sn);
-bool is_affected(const Char *ch, int sn);
 AFFECT_DATA *find_affect(Char *ch, int sn);
 void affect_join(Char *ch, const AFFECT_DATA &af);
 void char_from_room(Char *ch);
