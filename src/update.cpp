@@ -442,7 +442,7 @@ void weather_update() {
 
     if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
         for (auto &d : descriptors().playing()) {
-            if (IS_OUTSIDE(d.character()) && d.character()->is_pos_awake())
+            if (d.character()->is_outside() && d.character()->is_pos_awake())
                 d.character()->send_to(update_msg);
         }
     }

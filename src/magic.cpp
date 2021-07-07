@@ -805,8 +805,8 @@ void spell_burning_hands(int sn, int level, Char *ch, void *vo) {
 
 void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
     (void)vo;
-    if (!IS_OUTSIDE(ch)) {
-        ch->send_line("You must be out of doors.");
+    if (ch->is_inside()) {
+        ch->send_line("You must be outside to invoke the power of lightning.");
         return;
     }
 
@@ -829,7 +829,7 @@ void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
             continue;
         }
 
-        if (vch->in_room->area == ch->in_room->area && IS_OUTSIDE(vch) && vch->is_pos_awake())
+        if (vch->in_room->area == ch->in_room->area && vch->is_outside() && vch->is_pos_awake())
             vch->send_line("Lightning flashes in the sky.");
     }
 }

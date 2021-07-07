@@ -35,4 +35,7 @@ struct Room {
 
     ResetData *reset_first{};
     ResetData *reset_last{};
+
+    [[nodiscard]] bool is_outside() const;
+    [[nodiscard]] bool is_inside() const;
 };

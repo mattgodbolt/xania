@@ -1132,7 +1132,7 @@ void do_time(Char *ch) {
 }
 
 void do_weather(Char *ch) {
-    if (!IS_OUTSIDE(ch)) {
+    if (ch->is_inside()) {
         ch->send_line("You can't see the weather indoors.");
         return;
     }

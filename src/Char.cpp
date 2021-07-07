@@ -195,6 +195,10 @@ bool Char::is_affected_by(int skill_number) const { return affected.find_by_skil
 
 bool Char::has_affect_bit(int affect_bit) const { return check_bit(affected_by, affect_bit); }
 
+bool Char::is_outside() const { return in_room && in_room->is_outside(); }
+
+bool Char::is_inside() const { return in_room && in_room->is_inside(); }
+
 int Char::get_skill(int skill_number) const {
     int skill;
 

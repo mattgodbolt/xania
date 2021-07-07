@@ -231,6 +231,11 @@ struct Char {
     // Return true if a char is affected by a spell affect bit (not its skill number!)
     [[nodiscard]] bool has_affect_bit(int affect_bit) const;
 
+    // Return true if the Room the Char is currently in is not flagged as indoor.
+    [[nodiscard]] bool is_outside() const;
+    // Return true if the Room the Char is currently in is flagged as indoor.
+    [[nodiscard]] bool is_inside() const;
+
     // Return a pointer to the character's overall clan if they have one.
     [[nodiscard]] const Clan *clan() const;
     // Return a pointer to the character's individual clan membership info, if they have one.

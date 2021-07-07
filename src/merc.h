@@ -30,12 +30,6 @@
 #include "common/StandardBits.hpp"
 
 /*
- * Character macros.
- */
-
-#define IS_OUTSIDE(ch) (!check_bit((ch)->in_room->room_flags, ROOM_INDOORS))
-
-/*
  * Object macros.
  */
 #define CAN_WEAR(obj, part) (check_bit((obj)->wear_flags, (part)))
