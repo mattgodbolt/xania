@@ -32,5 +32,4 @@
 /*
  * Object macros.
  */
-#define IS_OBJ_STAT(obj, stat) (check_bit((obj)->extra_flags, (stat)))
 #define IS_WEAPON_STAT(obj, stat) (check_bit((obj)->value[4], (stat)))

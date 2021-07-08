@@ -101,17 +101,17 @@ std::string format_obj_to_char(const Object *obj, const Char *ch, bool fShort) {
         desc = "This object has no description. Please inform the IMP.";
         bug("Object {} has no description", obj->objIndex->vnum);
     }
-    if (IS_OBJ_STAT(obj, ITEM_UNIQUE))
+    if (obj->is_unique())
         buf += "(U) ";
-    if (IS_OBJ_STAT(obj, ITEM_INVIS))
+    if (obj->is_invisible())
         buf += "(|cInvis|w) ";
-    if (ch->is_aff_detect_evil() && IS_OBJ_STAT(obj, ITEM_EVIL))
+    if (ch->is_aff_detect_evil() && obj->is_evil())
         buf += "(|rRed Aura|w) ";
-    if (ch->is_aff_detect_magic() && IS_OBJ_STAT(obj, ITEM_MAGIC))
+    if (ch->is_aff_detect_magic() && obj->is_magic())
         buf += "(|gMagical|w) ";
-    if (IS_OBJ_STAT(obj, ITEM_GLOW))
+    if (obj->is_glowing())
         buf += "(|WGlowing|w) ";
-    if (IS_OBJ_STAT(obj, ITEM_HUM))
+    if (obj->is_humming())
         buf += "(|yHumming|w) ";
     buf += desc;
     return buf;

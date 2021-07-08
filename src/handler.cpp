@@ -476,8 +476,8 @@ void equip_char(Char *ch, Object *obj, int iWear) {
         return;
     }
 
-    if ((IS_OBJ_STAT(obj, ITEM_ANTI_EVIL) && ch->is_evil()) || (IS_OBJ_STAT(obj, ITEM_ANTI_GOOD) && ch->is_good())
-        || (IS_OBJ_STAT(obj, ITEM_ANTI_NEUTRAL) && ch->is_neutral())) {
+    if ((obj->is_anti_evil() && ch->is_evil()) || (obj->is_anti_good() && ch->is_good())
+        || (obj->is_anti_neutral() && ch->is_neutral())) {
         /*
          * Thanks to Morgenes for the bug fix here!
          */

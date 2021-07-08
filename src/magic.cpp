@@ -1695,9 +1695,9 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     /* apply other modifiers */
     fail -= level;
 
-    if (IS_OBJ_STAT(obj, ITEM_BLESS))
+    if (obj->is_blessed())
         fail -= 15;
-    if (IS_OBJ_STAT(obj, ITEM_GLOW))
+    if (obj->is_glowing())
         fail -= 5;
 
     fail = urange(5, fail, 95);
@@ -1846,9 +1846,9 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     /* apply other modifiers */
     fail -= 3 * level / 2;
 
-    if (IS_OBJ_STAT(obj, ITEM_BLESS))
+    if (obj->is_blessed())
         fail -= 15;
-    if (IS_OBJ_STAT(obj, ITEM_GLOW))
+    if (obj->is_glowing())
         fail -= 5;
 
     fail = urange(5, fail, 95);
@@ -1978,7 +1978,7 @@ void spell_protect_container(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (IS_OBJ_STAT(obj, ITEM_PROTECT_CONTAINER)) {
+    if (obj->is_protect_container()) {
         act("$p is already protected!", ch, obj, nullptr, To::Char);
         return;
     }
@@ -3027,7 +3027,6 @@ void spell_refresh(int sn, int level, Char *ch, void *vo) {
 }
 
 namespace {
-bool is_noremove(const Object *obj) { return IS_OBJ_STAT(obj, ITEM_NOREMOVE); }
 void try_strip_noremove(const Char *victim, int level, Object *obj) {
     if (!saves_dispel(level, obj->level)) {
         clear_bit(obj->extra_flags, ITEM_NOREMOVE);
@@ -3057,14 +3056,14 @@ void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
 
     for (int iWear = 0; iWear < MAX_WEAR; iWear++) {
         auto *obj = get_eq_char(victim, iWear);
-        if (obj && is_noremove(obj)) {
+        if (obj && obj->is_no_remove()) {
             try_strip_noremove(victim, level, obj);
             return;
         }
     }
 
     for (auto *obj : victim->carrying) {
-        if (is_noremove(obj)) {
+        if (obj->is_no_remove()) {
             try_strip_noremove(victim, level, obj);
             return;
         }
@@ -3396,7 +3395,7 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
                 break;
 
             case ObjectType::Container:
-                if (!IS_OBJ_STAT(obj_lose, ITEM_PROTECT_CONTAINER)) {
+                if (!obj_lose->is_protect_container()) {
                     act("$p fumes and dissolves, destroying some of the contents.", victim, obj_lose, nullptr,
                         To::Char);
                     /* save some of  the contents */
@@ -3456,7 +3455,7 @@ void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
             if (obj_lose->type == ObjectType::Container) {
                 /* save some of  the contents */
 
-                if (!IS_OBJ_STAT(obj_lose, ITEM_PROTECT_CONTAINER)) {
+                if (!obj_lose->is_protect_container()) {
                     msg = "$p ignites and burns!";
                     break;
                     act(msg, victim, obj_lose, nullptr, To::Char);
@@ -3473,7 +3472,7 @@ void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
                     act("$p was protected from damage, saving the contents!", victim, obj_lose, nullptr, To::Char);
                 }
             }
-            if (!IS_OBJ_STAT(obj_lose, ITEM_PROTECT_CONTAINER))
+            if (!obj_lose->is_protect_container())
                 extract_obj(obj_lose);
         }
     }

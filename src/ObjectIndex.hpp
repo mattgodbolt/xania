@@ -42,4 +42,7 @@ struct ObjectIndex {
     AREA_DATA *area{};
 
     [[nodiscard]] std::string type_name() const;
+
+    // A subset of the object extra attribute checkers available on Object.
+    [[nodiscard]] bool is_no_remove() const;
 };

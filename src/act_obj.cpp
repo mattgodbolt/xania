@@ -161,7 +161,7 @@ bool remove_obj(Char *ch, int iWear, bool fReplace) {
     if (!fReplace)
         return false;
 
-    if (IS_OBJ_STAT(obj, ITEM_NOREMOVE)) {
+    if (obj->is_no_remove()) {
         act("|rYou can't remove $p because it is cursed. Seek one who is skilled in benedictions.|w", ch, obj, nullptr,
             To::Char);
         return false;
@@ -473,7 +473,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
 
 bool is_mass_looting_npc_undroppable_obj(const Object *obj, const Object *container, const char looting_all_item_dot) {
     return container->type == ObjectType::Npccorpse && looting_all_item_dot == '\0'
-           && (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_NOREMOVE));
+           && (obj->is_no_drop() || obj->is_no_remove());
 }
 
 Char *shopkeeper_in(const Room &room) {

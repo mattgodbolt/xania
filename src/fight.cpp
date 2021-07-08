@@ -1442,9 +1442,8 @@ void group_gain(Char *ch, Char *victim) {
             if (obj->wear_loc == WEAR_NONE)
                 continue;
 
-            if ((IS_OBJ_STAT(obj, ITEM_ANTI_EVIL) && ch->is_evil())
-                || (IS_OBJ_STAT(obj, ITEM_ANTI_GOOD) && ch->is_good())
-                || (IS_OBJ_STAT(obj, ITEM_ANTI_NEUTRAL) && ch->is_neutral())) {
+            if ((obj->is_anti_evil() && ch->is_evil()) || (obj->is_anti_good() && ch->is_good())
+                || (obj->is_anti_neutral() && ch->is_neutral())) {
                 act("You are zapped by $p.", ch, obj, nullptr, To::Char);
                 act("$n is zapped by $p.", ch, obj, nullptr, To::Room);
                 obj_from_char(obj);
@@ -1670,7 +1669,7 @@ void disarm(Char *ch, Char *victim) {
     if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr)
         return;
 
-    if (IS_OBJ_STAT(obj, ITEM_NOREMOVE)) {
+    if (obj->is_no_remove()) {
         act("$S weapon won't budge!", ch, nullptr, victim, To::Char);
         act("$n tries to disarm you, but your weapon won't budge!", ch, nullptr, victim, To::Vict);
         act("$n tries to disarm $N, but fails.", ch, nullptr, victim, To::NotVict);
@@ -1682,7 +1681,7 @@ void disarm(Char *ch, Char *victim) {
     act("|W$n disarms $N!|w", ch, nullptr, victim, To::NotVict);
 
     obj_from_char(obj);
-    if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_INVENTORY))
+    if (obj->is_no_drop() || obj->is_inventory())
         obj_to_char(obj, victim);
     else {
         obj_to_room(obj, victim->in_room);

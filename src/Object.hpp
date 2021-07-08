@@ -67,4 +67,26 @@ struct Object {
     [[nodiscard]] bool is_wear_shield() const;
     [[nodiscard]] bool is_wear_waist() const;
     [[nodiscard]] bool is_wear_wrist() const;
+    // Various Object attribute checkers.
+    [[nodiscard]] bool is_anti_evil() const;
+    [[nodiscard]] bool is_anti_good() const;
+    [[nodiscard]] bool is_anti_neutral() const;
+    [[nodiscard]] bool is_blessed() const;
+    [[nodiscard]] bool is_dark() const;
+    [[nodiscard]] bool is_evil() const;
+    [[nodiscard]] bool is_glowing() const;
+    [[nodiscard]] bool is_humming() const;
+    [[nodiscard]] bool is_inventory() const;
+    [[nodiscard]] bool is_invisible() const;
+    [[nodiscard]] bool is_lock() const; // unused?
+    [[nodiscard]] bool is_magic() const;
+    [[nodiscard]] bool is_no_drop() const;
+    [[nodiscard]] bool is_no_locate() const;
+    [[nodiscard]] bool is_no_purge() const; // Won't be destroyed if the purge command is used.
+    [[nodiscard]] bool is_no_remove() const;
+    [[nodiscard]] bool is_protect_container() const;
+    [[nodiscard]] bool is_rot_death() const; // Decays quickly after death of owner.
+    [[nodiscard]] bool is_summon_corpse() const; // Reagent consumed by corpse summoners.
+    [[nodiscard]] bool is_unique() const;
+    [[nodiscard]] bool is_vis_death() const; // Invisible until its owner dies.
 };

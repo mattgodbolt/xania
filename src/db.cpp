@@ -781,7 +781,7 @@ void load_objects(FILE *fp) {
 
         objIndex->extra_flags = fread_flag(fp);
 
-        if (IS_OBJ_STAT(objIndex, ITEM_NOREMOVE) && objIndex->type != ObjectType::Weapon) {
+        if (objIndex->is_no_remove() && objIndex->type != ObjectType::Weapon) {
             bug("Only weapons are meant to have ITEM_NOREMOVE: {} {}", objIndex->vnum, objIndex->name);
             exit(1);
         }

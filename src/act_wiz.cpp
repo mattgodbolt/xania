@@ -1747,7 +1747,7 @@ void do_purge(Char *ch, const char *argument) {
         }
 
         for (auto *obj : ch->in_room->contents) {
-            if (!IS_OBJ_STAT(obj, ITEM_NOPURGE))
+            if (!obj->is_no_purge())
                 extract_obj(obj);
         }
 
