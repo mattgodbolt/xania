@@ -13,7 +13,6 @@
 #include "SkillNumbers.hpp"
 #include "VnumObjects.hpp"
 #include "handler.hpp"
-#include "merc.h"
 
 #include <tuple>
 

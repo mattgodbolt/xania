@@ -9,7 +9,6 @@
 #include "BitsCharOffensive.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BodySize.hpp"
-#include "merc.h"
 
 /* race table */
 /* when adding a new PC race ensure that it appears towards the top

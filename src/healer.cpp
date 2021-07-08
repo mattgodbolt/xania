@@ -16,11 +16,11 @@
 #include "ExtraDescription.hpp"
 #include "Room.hpp"
 #include "comm.hpp"
+#include "common/BitOps.hpp"
 #include "db.h"
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"
-#include "merc.h"
 #include "string_utils.hpp"
 
 namespace {

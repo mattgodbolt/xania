@@ -25,7 +25,6 @@
 
 #include "DescriptorList.hpp"
 #include "comm.hpp"
-#include "merc.h"
 
 void print_status(const Char *ch, const char *name, const char *master_name, int state, int master_state) {
     char buff[MAX_STRING_LENGTH];

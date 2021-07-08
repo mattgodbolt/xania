@@ -27,7 +27,6 @@
 #include "db.h"
 #include "handler.hpp"
 #include "interp.h"
-#include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>

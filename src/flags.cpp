@@ -11,8 +11,8 @@
 #include "Char.hpp"
 #include "buffer.h"
 #include "comm.hpp"
+#include "common/BitOps.hpp"
 #include "db.h"
-#include "merc.h"
 
 #include <cctype>
 #include <cstdlib>

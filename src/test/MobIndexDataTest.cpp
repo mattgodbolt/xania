@@ -5,7 +5,6 @@
 #include "Races.hpp"
 
 #include "CatchFormatters.hpp"
-#include "merc.h"
 #include "string_utils.hpp"
 
 #include <catch2/catch.hpp>

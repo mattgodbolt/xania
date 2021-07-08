@@ -20,7 +20,6 @@
 #include "Logging.hpp"
 #include "buffer.h"
 #include "comm.hpp"
-#include "merc.h"
 
 #define BUFFER_GRANULARITY 4096 /* Must be a power of 2. */
 

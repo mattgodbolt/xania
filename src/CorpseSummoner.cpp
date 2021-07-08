@@ -15,10 +15,10 @@
 #include "Room.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"
+#include "common/BitOps.hpp"
 #include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
-#include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>

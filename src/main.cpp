@@ -1,4 +1,3 @@
-#include "merc.h"
 
 #include "Char.hpp"
 #include "TimeInfoData.hpp"

@@ -17,19 +17,9 @@
 
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                 */
-/*  See the header to file: merc.h for original code copyrights          */
+/*  (C) 1995-2021 Xania Development Team                                 */
 /*                                                                       */
-/*  merc.h:  the core header file, most stuff needs to refer to this!    */
-/*                                                                       */
+/*  merc.h was originally the core header file but it has been broken    */
+/*  up and now exists only to capture the original license terms         */
+/*  and author credits.                                                  */
 /*************************************************************************/
-
-#pragma once
-
-#include "common/BitOps.hpp"
-#include "common/StandardBits.hpp"
-
-/*
- * Object macros.
- */
-#define IS_WEAPON_STAT(obj, stat) (check_bit((obj)->value[4], (stat)))

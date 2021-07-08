@@ -3,8 +3,8 @@
 #include "Char.hpp"
 #include "Logging.hpp"
 #include "SkillNumbers.hpp"
+#include "common/BitOps.hpp"
 #include "handler.hpp"
-#include "merc.h"
 
 #include <fmt/format.h>
 

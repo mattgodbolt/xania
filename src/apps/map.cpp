@@ -2,7 +2,6 @@
 #include "ExtraDescription.hpp"
 #include "Room.hpp"
 #include "db.h"
-#include "merc.h"
 
 #include "AREA_DATA.hpp"
 

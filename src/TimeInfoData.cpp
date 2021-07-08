@@ -1,6 +1,5 @@
 #include "TimeInfoData.hpp"
 #include "Constants.hpp"
-#include "merc.h"
 #include "nth.hpp"
 
 #include <fmt/format.h>

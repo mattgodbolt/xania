@@ -2,7 +2,6 @@
 #include "Char.hpp"
 #include "DamageClass.hpp"
 #include "lookup.h"
-#include "merc.h"
 
 #include <catch2/catch.hpp>
 #include <tuple>

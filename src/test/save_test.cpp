@@ -5,7 +5,6 @@
 #include "common/Configuration.hpp"
 #include "db.h"
 #include "fileutils.hpp"
-#include "merc.h"
 #include "save.hpp"
 #include "string_utils.hpp"
 

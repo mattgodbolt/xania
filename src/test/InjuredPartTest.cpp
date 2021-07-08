@@ -9,7 +9,6 @@
 #include "SkillTables.hpp"
 #include "handler.hpp"
 #include "lookup.h"
-#include "merc.h"
 
 #include <catch2/catch.hpp>
 

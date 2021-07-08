@@ -2,7 +2,6 @@
 #include "ArgParser.hpp"
 #include "Char.hpp"
 #include "Sex.hpp"
-#include "merc.h"
 
 #include <catch2/catch.hpp>
 

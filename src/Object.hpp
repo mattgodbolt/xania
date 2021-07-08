@@ -89,4 +89,6 @@ struct Object {
     [[nodiscard]] bool is_summon_corpse() const; // Reagent consumed by corpse summoners.
     [[nodiscard]] bool is_unique() const;
     [[nodiscard]] bool is_vis_death() const; // Invisible until its owner dies.
+    // Weapon specific attribute checks.
+    [[nodiscard]] bool is_weapon_two_handed() const;
 };

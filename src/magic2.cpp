@@ -23,6 +23,7 @@
 #include "VnumRooms.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
+#include "common/BitOps.hpp"
 #include "common/urange.hpp"
 #include "db.h"
 #include "fight.hpp"
@@ -30,7 +31,6 @@
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"
-#include "merc.h"
 #include "ride.hpp"
 #include "string_utils.hpp"
 

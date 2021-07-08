@@ -2,7 +2,7 @@
 #include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "Constants.hpp"
-#include "merc.h"
+#include "common/BitOps.hpp"
 
 #include <catch2/catch.hpp>
 

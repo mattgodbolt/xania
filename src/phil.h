@@ -9,7 +9,5 @@
 
 #pragma once
 
-#include "merc.h"
-
 /* function declarations */
 bool spec_phil(Char *ch);

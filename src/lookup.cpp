@@ -23,7 +23,6 @@
 #include "Position.hpp"
 #include "SkillTables.hpp"
 #include "db.h"
-#include "merc.h"
 #include "string_utils.hpp"
 #include "tables.h"
 

@@ -23,13 +23,13 @@
 #include "act_move.hpp"
 #include "act_obj.hpp"
 #include "comm.hpp"
+#include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"
-#include "merc.h"
 
 #include <fmt/format.h>
 

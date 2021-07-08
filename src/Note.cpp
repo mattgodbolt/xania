@@ -12,10 +12,10 @@
 #include "Char.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
+#include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
 #include "interp.h"
-#include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>

@@ -8,7 +8,6 @@
 #include "SkillNumbers.hpp"
 #include "Target.hpp"
 #include "magic.h"
-#include "merc.h"
 
 /*
  * The skill and spell table.

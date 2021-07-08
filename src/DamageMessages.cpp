@@ -9,7 +9,6 @@
 #include "DamageClass.hpp"
 #include "Logging.hpp"
 #include "SkillTables.hpp"
-#include "merc.h"
 
 #include <fmt/format.h>
 #include <variant>

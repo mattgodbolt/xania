@@ -25,6 +25,7 @@
 #include "challenge.hpp"
 #include "chat/chatlink.h"
 #include "comm.hpp"
+#include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
 #include "handler.hpp"

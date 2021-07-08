@@ -12,9 +12,9 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "common/BitOps.hpp"
 #include "db.h"
 #include "handler.hpp"
-#include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>

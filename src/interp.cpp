@@ -17,9 +17,9 @@
 #include "Socials.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"
+#include "common/BitOps.hpp"
 #include "db.h"
 #include "handler.hpp"
-#include "merc.h"
 
 #include <fmt/format.h>
 #include <magic_enum.hpp>

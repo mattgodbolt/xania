@@ -1,6 +1,5 @@
 #include "PcNutrition.hpp"
 #include "common/urange.hpp"
-#include "merc.h"
 
 namespace {
 

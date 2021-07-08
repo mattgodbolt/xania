@@ -13,8 +13,8 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "comm.hpp"
+#include "common/BitOps.hpp"
 #include "interp.h"
-#include "merc.h"
 
 #include <fmt/format.h>
 

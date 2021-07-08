@@ -27,7 +27,6 @@
 #include "db.h"
 #include "handler.hpp"
 #include "lookup.h"
-#include "merc.h"
 #include "skills.hpp"
 #include "string_utils.hpp"
 

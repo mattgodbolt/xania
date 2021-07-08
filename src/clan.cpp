@@ -12,10 +12,10 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "comm.hpp"
+#include "common/BitOps.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "interp.h"
-#include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>

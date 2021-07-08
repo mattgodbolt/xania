@@ -23,7 +23,6 @@
 #include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
-#include "merc.h"
 
 #include <fmt/format.h>
 

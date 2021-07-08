@@ -22,11 +22,11 @@
 #include "Char.hpp"
 #include "buffer.h"
 #include "comm.hpp"
+#include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
 #include "flags.h"
 #include "interp.h"
-#include "merc.h"
 #include "string_utils.hpp"
 
 #include <cstdio>

@@ -13,7 +13,6 @@
 #include "db.h"
 #include "interp.h"
 #include "lookup.h"
-#include "merc.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>

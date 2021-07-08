@@ -5,7 +5,7 @@
 #include "Object.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
-#include "merc.h"
+#include "common/BitOps.hpp"
 
 #include <catch2/catch.hpp>
 #include <catch2/trompeloeil.hpp>

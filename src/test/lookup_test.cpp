@@ -1,6 +1,5 @@
 #include "SkillTables.hpp"
 #include "lookup.h"
-#include "merc.h"
 
 #include <catch2/catch.hpp>
 #include <fmt/format.h>

@@ -3,7 +3,6 @@
 #include "SkillNumbers.hpp"
 
 #include "Char.hpp"
-#include "merc.h"
 
 #include <catch2/catch.hpp>
 

@@ -3,7 +3,6 @@
 #include "Char.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorFilter.hpp"
-#include "merc.h"
 
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>

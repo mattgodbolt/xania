@@ -7,7 +7,7 @@
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "Shop.hpp"
-#include "merc.h"
+#include "common/BitOps.hpp"
 
 #include <catch2/catch.hpp>
 

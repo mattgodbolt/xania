@@ -2,11 +2,11 @@
 #include "ArmourClass.hpp"
 #include "BitsCharAct.hpp"
 #include "Races.hpp"
+#include "common/BitOps.hpp"
 
 #include "db.h"
 #include "handler.hpp"
 #include "lookup.h"
-#include "merc.h"
 #include "string_utils.hpp"
 
 std::optional<MobIndexData> MobIndexData::from_file(FILE *fp) {
