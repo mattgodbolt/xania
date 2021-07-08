@@ -9,7 +9,6 @@
 #include "BitsAffect.hpp"
 #include "BitsObjectExtra.hpp"
 #include "Char.hpp"
-#include "ExtraDescription.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"

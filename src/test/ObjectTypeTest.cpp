@@ -4,7 +4,6 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "ObjectType.hpp"
-#include "ExtraDescription.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 

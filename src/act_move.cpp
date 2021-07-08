@@ -18,7 +18,6 @@
 #include "Char.hpp"
 #include "Classes.hpp"
 #include "Exit.hpp"
-#include "ExtraDescription.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"

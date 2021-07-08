@@ -1,7 +1,6 @@
 #include "CorpseSummoner.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsObjectExtra.hpp"
-#include "ExtraDescription.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"

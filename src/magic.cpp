@@ -20,7 +20,6 @@
 #include "Char.hpp"
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
-#include "ExtraDescription.hpp"
 #include "Format.hpp"
 #include "Materials.hpp"
 #include "Object.hpp"

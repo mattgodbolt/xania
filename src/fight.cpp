@@ -25,7 +25,6 @@
 #include "DamageMessages.hpp"
 #include "DamageTolerance.hpp"
 #include "Exit.hpp"
-#include "ExtraDescription.hpp"
 #include "Format.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"

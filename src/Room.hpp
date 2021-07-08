@@ -6,12 +6,12 @@
 #pragma once
 
 #include "Direction.hpp"
+#include "ExtraDescription.hpp"
 #include "GenericList.hpp"
 #include "SectorType.hpp"
 #include "Types.hpp"
 
 struct Object;
-struct ExtraDescription;
 struct AREA_DATA;
 struct Exit;
 struct ResetData;

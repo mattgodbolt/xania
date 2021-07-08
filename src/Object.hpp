@@ -5,6 +5,7 @@
 /*************************************************************************/
 #pragma once
 #include "AffectList.hpp"
+#include "ExtraDescription.hpp"
 #include "GenericList.hpp"
 #include "Types.hpp"
 
@@ -14,7 +15,6 @@
 
 enum class Material;
 struct Char;
-struct ExtraDescription;
 struct ObjectIndex;
 enum class ObjectType;
 struct Room;

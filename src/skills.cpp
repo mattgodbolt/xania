@@ -11,7 +11,6 @@
 #include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "CharGeneration.hpp"
-#include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"
 #include "Room.hpp"

@@ -6,7 +6,6 @@
 
 #include "AREA_DATA.hpp"
 #include "Char.hpp"
-#include "ExtraDescription.hpp"
 #include "Room.hpp"
 #include "SkillTables.hpp"
 #include "comm.hpp"

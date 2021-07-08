@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Descriptor.hpp"
-#include "ExtraDescription.hpp"
 #include "Room.hpp"
 
 #include <range/v3/view/filter.hpp>

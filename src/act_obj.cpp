@@ -21,7 +21,6 @@
 #include "BitsWeaponFlag.hpp"
 #include "BodySize.hpp"
 #include "Exit.hpp"
-#include "ExtraDescription.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
 #include "Object.hpp"

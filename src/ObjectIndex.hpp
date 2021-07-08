@@ -6,6 +6,7 @@
 #pragma once
 
 #include "AffectList.hpp"
+#include "ExtraDescription.hpp"
 #include "Types.hpp"
 #include <array>
 #include <string>
@@ -14,7 +15,6 @@
 enum class Material;
 enum class ObjectType;
 struct AREA_DATA;
-struct ExtraDescription;
 
 /*
  * Prototype for an object.

@@ -5,7 +5,6 @@
 /*************************************************************************/
 #include "Room.hpp"
 #include "BitsRoomState.hpp"
-#include "ExtraDescription.hpp"
 #include "common/BitOps.hpp"
 
 bool Room::is_outside() const { return !is_inside(); }

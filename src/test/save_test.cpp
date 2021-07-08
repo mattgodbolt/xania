@@ -1,4 +1,3 @@
-#include "ExtraDescription.hpp"
 #include "MemFile.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"

@@ -27,7 +27,6 @@
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
 #include "Descriptor.hpp"
-#include "ExtraDescription.hpp"
 #include "Materials.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
