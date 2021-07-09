@@ -332,7 +332,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 //    for (i = 0; i < 4; ++i)
 // zombie->armor[i] *= zScale;
 //
-//    zombie->alignment = urange (-1000, ch->alignment - 100, -100);
+//    zombie->alignment = std::clamp(ch->alignment - 100, -1000, -100);
 //
 /*
  * Do some sparks and fizzes XXX

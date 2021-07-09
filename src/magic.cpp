@@ -1616,7 +1616,8 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
 
     const auto base_level_diff = std::clamp((ch->level - obj->level), -20, 20);
     const auto chance = std::clamp(
-        base_level_diff / 2 + material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience, 5, 100);
+        base_level_diff / 2 + material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience, 5,
+        100);
     const auto score = chance - number_percent();
 
     if ((score <= 20)) {
