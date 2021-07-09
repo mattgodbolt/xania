@@ -49,7 +49,6 @@
 #include "challenge.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
-#include "common/urange.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "interp.h"
@@ -423,7 +422,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
      * Check for insanity
      */
     if ((af = find_affect(ch, gsn_insanity)) != nullptr) {
-        int chance = urange(2, af->level / 5, 5);
+        int chance = std::clamp(af->level / 5, 2, 5);
         if (number_percent() < chance) {
             act("In your confused state, you attack yourself!", ch, nullptr, victim, To::Char);
             act("$n stumbles and in a confused state, hits $r.", ch, nullptr, victim, To::Room);
@@ -506,7 +505,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     thac0 = -thac0;
     float to_hit_ratio = ((float)thac0 / (float)victim_ac) * 100;
     // Regardless of how strong thac0 is relative to victim ac, there's always a chance to hit or miss.
-    int hit_chance = urange(10.0f, to_hit_ratio, 95.0f);
+    int hit_chance = std::clamp(to_hit_ratio, 10.0f, 95.0f);
     diceroll = dice(1, 100);
 
     if (diceroll >= hit_chance) {
@@ -901,7 +900,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
     if ((victim->riding != nullptr) && (ch != nullptr)) {
         int fallchance;
         if (victim->is_npc()) {
-            fallchance = urange(2, victim->level * 2, 98);
+            fallchance = std::clamp(victim->level * 2, 2, 98);
         } else {
             fallchance = victim->get_skill(gsn_ride);
         }
@@ -914,7 +913,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         default: fallchance += 40;
         }
         fallchance += (victim->level - ch->level) / 4;
-        fallchance = urange(20, fallchance, 100);
+        fallchance = std::clamp(fallchance, 20, 100);
         if (number_percent() > fallchance) {
             /* Oh dear something nasty happened to you ...
                You fell off your horse! */
@@ -1643,7 +1642,7 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     time_per_level = 4 * duration_cast<hours>(gch->total_played()).count() / base_level;
 
     /* ensure minimum of 6 quarts (1.5 hours) per level */
-    time_per_level = urange(2, time_per_level, 6);
+    time_per_level = std::clamp(time_per_level, 2, 6);
 
     if (base_level < 15)
         time_per_level = std::max(time_per_level, (8 - base_level));

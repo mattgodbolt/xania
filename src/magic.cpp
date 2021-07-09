@@ -39,7 +39,6 @@
 #include "challenge.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
-#include "common/urange.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
@@ -196,14 +195,14 @@ bool saves_spell(int level, const Char *victim) {
     int save = 50 + (victim->level - level - victim->saving_throw);
     if (victim->is_aff_berserk())
         save -= victim->level / 3;
-    save = urange(5, save, 95);
+    save = std::clamp(save, 5, 95);
     return number_percent() < save;
 }
 
 /* RT save for dispels */
 
 bool saves_dispel(int dis_level, int spell_level) {
-    const int save = urange(8, 50 + (spell_level - dis_level) * 3, 95);
+    const int save = std::clamp(50 + (spell_level - dis_level) * 3, 8, 95);
     return number_percent() < save;
 }
 
@@ -1576,11 +1575,10 @@ void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    int chance = urange(5,
-                        (30 + urange(-20, (ch->level - obj->level), 20)
-                         + (material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience / 2)),
-                        100)
-                 - number_percent();
+    const auto base_level_diff = 30 + std::clamp((ch->level - obj->level), -20, 20);
+    const auto material_resilience_bonus =
+        material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience / 2;
+    const auto chance = std::clamp(base_level_diff + material_resilience_bonus, 5, 100) - number_percent();
 
     if (chance >= 0) {
         act("$p appears from nowhere!", ch, obj, nullptr, To::Room);
@@ -1616,10 +1614,10 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    const int levdif = urange(-20, (ch->level - obj->level), 20);
-    auto chance = urange(
-        5, levdif / 2 + material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience, 100);
-    auto score = chance - number_percent();
+    const auto base_level_diff = std::clamp((ch->level - obj->level), -20, 20);
+    const auto chance = std::clamp(
+        base_level_diff / 2 + material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience, 5, 100);
+    const auto score = chance - number_percent();
 
     if ((score <= 20)) {
         act("The powerful nature of $n's spell removes some of $m alignment!", ch, obj, nullptr, To::Room);
@@ -1628,7 +1626,7 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
             ch->alignment -= (30 - score);
         if (ch->is_evil())
             ch->alignment += (30 - score);
-        ch->alignment = urange(static_cast<sh_int>(-1000), ch->alignment, 1000_s);
+        ch->alignment = std::clamp(ch->alignment, static_cast<sh_int>(-1000), 1000_s);
     }
 
     if (score >= 0) {
@@ -1699,7 +1697,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     if (obj->is_glowing())
         fail -= 5;
 
-    fail = urange(5, fail, 95);
+    fail = std::clamp(fail, 5, 95);
 
     const int result = number_percent();
 
@@ -1850,7 +1848,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     if (obj->is_glowing())
         fail -= 5;
 
-    fail = urange(5, fail, 95);
+    fail = std::clamp(fail, 5, 95);
 
     const int result = number_percent();
 
@@ -3418,7 +3416,7 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
         }
     }
 
-    hpch = urange(10_s, ch->hit, 2000_s);
+    hpch = std::clamp(ch->hit, 10_s, 2000_s);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     dam = number_range(hpch / 20 + 16, hpch / 15);
@@ -3476,7 +3474,7 @@ void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
         }
     }
 
-    hpch = urange(10_s, ch->hit, 2000_s);
+    hpch = std::clamp(ch->hit, 10_s, 2000_s);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     dam = number_range(hpch / 20 + 16, hpch / 15);
@@ -3506,7 +3504,7 @@ void spell_frost_breath(int sn, int level, Char *ch, void *vo) {
         }
     }
 
-    int hpch = urange(10_s, ch->hit, 2000_s);
+    int hpch = std::clamp(ch->hit, 10_s, 2000_s);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     int dam = number_range(hpch / 20 + 16, hpch / 15);
@@ -3522,7 +3520,7 @@ void spell_gas_breath(int sn, int level, Char *ch, void *vo) {
 
     for (auto *vch : ch->in_room->people) {
         if (!is_safe_spell(ch, vch, true)) {
-            hpch = urange(10_s, ch->hit, 2000_s);
+            hpch = std::clamp(ch->hit, 10_s, 2000_s);
             if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
                 hpch = 1000;
             dam = number_range(hpch / 20 + 16, hpch / 15);
@@ -3538,7 +3536,7 @@ void spell_lightning_breath(int sn, int level, Char *ch, void *vo) {
     int dam;
     int hpch;
 
-    hpch = urange(10_s, ch->hit, 2000_s);
+    hpch = std::clamp(ch->hit, 10_s, 2000_s);
     if (hpch > 1000 && ch->level < MAX_LEVEL - 7 && ch->is_pc())
         hpch = 1000;
     dam = number_range(hpch / 20 + 16, hpch / 15);
@@ -3574,7 +3572,7 @@ void explode_bomb(Object *bomb, Char *ch, Char *thrower) {
     int sn, position;
     void *vo = (void *)ch;
 
-    chance = urange(5, (50 + ((bomb->value[0] - ch->level) * 8)), 100);
+    chance = std::clamp((50 + ((bomb->value[0] - ch->level) * 8)), 5, 100);
     if (number_percent() > chance) {
         act("$p emits a loud bang and disappears in a cloud of smoke.", ch, bomb, nullptr, To::Room);
         act("$p emits a loud bang, but thankfully does not affect you.", ch, bomb, nullptr, To::Char);

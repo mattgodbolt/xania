@@ -26,7 +26,6 @@
 #include "act_comm.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
-#include "common/urange.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "interp.h"
@@ -175,7 +174,7 @@ void Char::send_to(std::string_view txt) const {
 }
 
 sh_int Char::curr_stat(Stat stat) const {
-    return urange(3_s, static_cast<sh_int>(perm_stat[stat] + mod_stat[stat]), max_stat(stat));
+    return std::clamp(static_cast<sh_int>(perm_stat[stat] + mod_stat[stat]), 3_s, max_stat(stat));
 }
 
 sh_int Char::max_stat(Stat stat) const {
@@ -272,7 +271,7 @@ int Char::get_skill(int skill_number) const {
     if (is_affected_by(gsn_insanity))
         skill -= 10;
 
-    return urange(0, skill, 100);
+    return std::clamp(skill, 0, 100);
 }
 
 void Char::set_title(std::string title) {

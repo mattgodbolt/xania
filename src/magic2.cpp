@@ -23,7 +23,6 @@
 #include "challenge.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
-#include "common/urange.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
@@ -235,7 +234,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 
     /* Can we re-animate this corpse? Include check for a non-empty PC corpse */
 
-    chance = urange(1, (50 + ((ch->level - obj->objIndex->level) * 3)), 99);
+    chance = std::clamp((50 + ((ch->level - obj->objIndex->level) * 3)), 1, 99);
 
     if ((number_percent() > chance) || /* if random failed */
         ((obj->objIndex->type == ObjectType::Pccorpse) && !obj->contains.empty()))

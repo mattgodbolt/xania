@@ -44,7 +44,6 @@
 #include "buffer.h"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
-#include "common/urange.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "interp.h"
@@ -129,12 +128,12 @@ int get_weapon_skill(Char *ch, int sn) {
 
     else {
         if (sn == -1)
-            skill = urange(0, 2 * ch->level, 90);
+            skill = std::clamp(2 * ch->level, 0, 90);
         else
             skill = ch->pcdata->learned[sn];
     }
 
-    return urange(0, skill, 100);
+    return std::clamp(skill, 0, 100);
 }
 
 /*

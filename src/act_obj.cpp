@@ -40,7 +40,6 @@
 #include "act_wiz.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
-#include "common/urange.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
@@ -2244,7 +2243,7 @@ void do_throw(Char *ch, const char *argument) {
 
     chance = ch->get_skill(gsn_throw);
 
-    chance += urange(-20, (ch->level - victim->level), 20) - number_percent();
+    chance += std::clamp((ch->level - victim->level), -20, 20) - number_percent();
 
     if (chance >= 0) {
         act("$n throws a bomb at $N!", ch, nullptr, victim, To::NotVict);

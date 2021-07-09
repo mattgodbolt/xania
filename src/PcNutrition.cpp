@@ -1,5 +1,6 @@
 #include "PcNutrition.hpp"
-#include "common/urange.hpp"
+
+#include <algorithm>
 
 namespace {
 
@@ -34,7 +35,7 @@ PcNutrition::PcNutrition(const Nutrition &nutrition, const sh_int condition)
 sh_int PcNutrition::get() const noexcept { return condition_; }
 
 std::optional<std::string_view> PcNutrition::apply_delta(const sh_int delta) noexcept {
-    condition_ = urange(0_s, static_cast<sh_int>(condition_ + delta), nutrition_.max_condition());
+    condition_ = std::clamp(static_cast<sh_int>(condition_ + delta), 0_s, nutrition_.max_condition());
     if (condition_ == 0) {
         return nutrition_.nil_message();
     } else if (condition_ > nutrition_.satisfaction_threshold()) {
@@ -44,7 +45,7 @@ std::optional<std::string_view> PcNutrition::apply_delta(const sh_int delta) noe
 }
 
 void PcNutrition::set(const sh_int condition) noexcept {
-    condition_ = urange(0_s, static_cast<sh_int>(condition), nutrition_.max_condition());
+    condition_ = std::clamp(static_cast<sh_int>(condition), 0_s, nutrition_.max_condition());
 }
 
 // Note that for negative scale nutrition like inebriation a Char
