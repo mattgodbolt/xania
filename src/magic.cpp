@@ -1173,7 +1173,7 @@ void spell_create_water(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (magic_enum::enum_cast<Liquid>(obj->value[2]) != Liquid::Water && obj->value[1] != 0) {
+    if (magic_enum::enum_cast<Liquid::Type>(obj->value[2]) != Liquid::Type::Water && obj->value[1] != 0) {
         ch->send_line("It contains some other liquid.");
         return;
     }
@@ -1181,7 +1181,7 @@ void spell_create_water(int sn, int level, Char *ch, void *vo) {
     int water = std::min(level * (weather_info.is_raining() ? 4 : 2), obj->value[0] - obj->value[1]);
 
     if (water > 0) {
-        obj->value[2] = magic_enum::enum_integer<Liquid>(Liquid::Water);
+        obj->value[2] = magic_enum::enum_integer<Liquid::Type>(Liquid::Type::Water);
         obj->value[1] += water;
         if (!is_name("water", obj->name))
             obj->name = fmt::format("{} water", obj->name);

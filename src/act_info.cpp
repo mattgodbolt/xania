@@ -755,13 +755,13 @@ void look_in_object(const Char &ch, const Object &obj) {
             ch.send_line("It is empty.");
             break;
         }
-        const liq_type *liquid = Liquids::get_liq_type(obj.value[2]);
+        const auto *liquid = Liquid::get_by_index(obj.value[2]);
         if (!liquid) {
             bug("{} attempted to look in a drink containing an unknown liquid: {} {} -> {}", ch.name,
                 obj.objIndex->vnum, obj.short_descr, obj.value[2]);
             return;
         }
-        const auto &liq_color = liq_table[obj.value[2]].liq_color;
+        const auto &liq_color = Liquids[obj.value[2]].color;
         ch.send_line("It's {} full of a{} {} liquid.",
                      obj.value[1] < obj.value[0] / 4 ? "less than"
                                                      : obj.value[1] < 3 * obj.value[0] / 4 ? "about" : "more than",

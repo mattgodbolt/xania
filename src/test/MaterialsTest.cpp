@@ -11,36 +11,36 @@
 TEST_CASE("liquid try lookup") {
     SECTION("valid cases match by full name") {
         using std::make_tuple;
-        Liquid expected;
+        Liquid::Type expected;
         std::string_view name;
-        std::tie(expected, name) = GENERATE(table<Liquid, std::string_view>({
-            make_tuple(Liquid::Water, "water"),
-            make_tuple(Liquid::Beer, "beer"),
-            make_tuple(Liquid::Wine, "wine"),
-            make_tuple(Liquid::Ale, "ale"),
-            make_tuple(Liquid::DarkAle, "'dark ale'"),
-            make_tuple(Liquid::Whisky, "whisky"),
-            make_tuple(Liquid::Lemonade, "lemonade"),
-            make_tuple(Liquid::Firebreather, "firebreather"),
-            make_tuple(Liquid::LocalSpecialty, "'local specialty'"),
-            make_tuple(Liquid::SlimeMoldJuice, "'slime mold juice'"),
-            make_tuple(Liquid::Milk, "milk"),
-            make_tuple(Liquid::Tea, "tea"),
-            make_tuple(Liquid::Coffee, "coffee"),
-            make_tuple(Liquid::Blood, "blood"),
-            make_tuple(Liquid::SaltWater, "'salt water'"),
-            make_tuple(Liquid::Cola, "cola"),
-            make_tuple(Liquid::RedWine, "'red wine'"),
+        std::tie(expected, name) = GENERATE(table<Liquid::Type, std::string_view>({
+            make_tuple(Liquid::Type::Water, "water"),
+            make_tuple(Liquid::Type::Beer, "beer"),
+            make_tuple(Liquid::Type::Wine, "wine"),
+            make_tuple(Liquid::Type::Ale, "ale"),
+            make_tuple(Liquid::Type::DarkAle, "'dark ale'"),
+            make_tuple(Liquid::Type::Whisky, "whisky"),
+            make_tuple(Liquid::Type::Lemonade, "lemonade"),
+            make_tuple(Liquid::Type::Firebreather, "firebreather"),
+            make_tuple(Liquid::Type::LocalSpecialty, "'local specialty'"),
+            make_tuple(Liquid::Type::SlimeMoldJuice, "'slime mold juice'"),
+            make_tuple(Liquid::Type::Milk, "milk"),
+            make_tuple(Liquid::Type::Tea, "tea"),
+            make_tuple(Liquid::Type::Coffee, "coffee"),
+            make_tuple(Liquid::Type::Blood, "blood"),
+            make_tuple(Liquid::Type::SaltWater, "'salt water'"),
+            make_tuple(Liquid::Type::Cola, "cola"),
+            make_tuple(Liquid::Type::RedWine, "'red wine'"),
         }));
 
         SECTION("ok") {
-            const auto result = Liquids::try_lookup(name);
+            const auto *result = Liquid::try_lookup(name);
 
-            CHECK(result == expected);
+            CHECK(result == &Liquids[magic_enum::enum_integer<Liquid::Type>(expected)]);
         }
     }
     SECTION("invalid") {
-        const auto result = Liquids::try_lookup("redbull");
+        const auto *result = Liquid::try_lookup("redbull");
 
         CHECK(!result);
     }
@@ -48,26 +48,26 @@ TEST_CASE("liquid try lookup") {
 
 TEST_CASE("get liq type") {
     SECTION("water") {
-        const auto result = Liquids::get_liq_type(0);
+        const auto *result = Liquid::get_by_index(0);
 
         CHECK(result);
-        CHECK(result->liq_name == "water");
-        CHECK(result->liq_color == "clear");
+        CHECK(result->name == "water");
+        CHECK(result->color == "clear");
     }
     SECTION("red wine") {
-        const auto result = Liquids::get_liq_type(16);
+        const auto *result = Liquid::get_by_index(16);
 
         CHECK(result);
-        CHECK(result->liq_name == "red wine");
-        CHECK(result->liq_color == "red");
+        CHECK(result->name == "red wine");
+        CHECK(result->color == "red");
     }
     SECTION("out of range") {
-        const auto result = Liquids::get_liq_type(17);
+        const auto *result = Liquid::get_by_index(17);
 
         CHECK(!result);
     }
     SECTION("negative") {
-        const auto result = Liquids::get_liq_type(-1);
+        const auto *result = Liquid::get_by_index(-1);
 
         CHECK(!result);
     }

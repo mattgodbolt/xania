@@ -1296,28 +1296,26 @@ void do_drink(Char *ch, const char *argument) {
             ch->send_line("It is already empty.");
             return;
         }
-        const auto *liquid = Liquids::get_liq_type(obj->value[2]);
+        const auto *liquid = Liquid::get_by_index(obj->value[2]);
         if (!liquid) {
             bug("{} attempted to drink a liquid having an unknown type: {} {} -> {}", ch->name, obj->objIndex->vnum,
                 obj->short_descr, obj->value[2]);
             return;
         }
-        act("$n drinks $T from $p.", ch, obj, liquid->liq_name, To::Room);
-        act("You drink $T from $p.", ch, obj, liquid->liq_name, To::Char);
+        act("$n drinks $T from $p.", ch, obj, liquid->name, To::Room);
+        act("You drink $T from $p.", ch, obj, liquid->name, To::Char);
         // Liquids are more complex than foods because they can have variable bonuses to all three nutrition
         // types including negative ones.
         amount = number_range(3, 10);
         amount = std::min(amount, obj->value[1]);
         if (const auto opt_message =
-                ch->delta_inebriation(amount * liquid->liq_affect[Nutrition::LiquidAffect::Inebriation])) {
+                ch->delta_inebriation(amount * liquid->affect[Nutrition::LiquidAffect::Inebriation])) {
             ch->send_line(*opt_message);
         }
-        if (const auto opt_message =
-                ch->delta_hunger(amount * liquid->liq_affect[Nutrition::LiquidAffect::Satiation])) {
+        if (const auto opt_message = ch->delta_hunger(amount * liquid->affect[Nutrition::LiquidAffect::Satiation])) {
             ch->send_line(*opt_message);
         }
-        if (const auto opt_message =
-                ch->delta_thirst(amount * liquid->liq_affect[Nutrition::LiquidAffect::Hydration])) {
+        if (const auto opt_message = ch->delta_thirst(amount * liquid->affect[Nutrition::LiquidAffect::Hydration])) {
             ch->send_line(*opt_message);
         }
 

@@ -38,41 +38,36 @@ enum class Material {
     Octarine = 23
 };
 
-enum class Liquid {
-    Water = 0,
-    Beer = 1,
-    Wine = 2,
-    Ale = 3,
-    DarkAle = 4,
-    Whisky = 5,
-    Lemonade = 6,
-    Firebreather = 7,
-    LocalSpecialty = 8,
-    SlimeMoldJuice = 9,
-    Milk = 10,
-    Tea = 11,
-    Coffee = 12,
-    Blood = 13,
-    SaltWater = 14,
-    Cola = 15,
-    RedWine = 16
+struct Liquid {
+    enum class Type {
+        Water = 0,
+        Beer = 1,
+        Wine = 2,
+        Ale = 3,
+        DarkAle = 4,
+        Whisky = 5,
+        Lemonade = 6,
+        Firebreather = 7,
+        LocalSpecialty = 8,
+        SlimeMoldJuice = 9,
+        Milk = 10,
+        Tea = 11,
+        Coffee = 12,
+        Blood = 13,
+        SaltWater = 14,
+        Cola = 15,
+        RedWine = 16
+    };
+    const Type liquid;
+    std::string_view name;
+    std::string_view color;
+    std::array<sh_int, 3> affect;
+
+    [[nodiscard]] static const Liquid *try_lookup(std::string_view name);
+    [[nodiscard]] static const Liquid *get_by_index(const int index);
 };
 
-struct liq_type {
-    const Liquid liquid;
-    std::string_view liq_name;
-    std::string_view liq_color;
-    std::array<sh_int, 3> liq_affect;
-};
-
-extern const std::array<struct liq_type, magic_enum::enum_count<Liquid>()> liq_table;
-
-class Liquids {
-public:
-    [[nodiscard]] static std::optional<Liquid> try_lookup(std::string_view name);
-    [[nodiscard]] static const liq_type *get_liq_type(const int index);
-    Liquids() = delete;
-};
+extern const std::array<struct Liquid, magic_enum::enum_count<Liquid::Type>()> Liquids;
 
 struct materials_type {
     sh_int magical_resilience;

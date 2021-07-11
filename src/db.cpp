@@ -821,8 +821,8 @@ void load_objects(FILE *fp) {
             objIndex->value[0] = fread_number(fp);
             objIndex->value[1] = fread_number(fp);
             const auto raw_liquid = fread_word(fp);
-            if (const auto opt_liquid = Liquids::try_lookup(raw_liquid)) {
-                objIndex->value[2] = magic_enum::enum_integer<Liquid>(*opt_liquid);
+            if (const auto *liquid = Liquid::try_lookup(raw_liquid)) {
+                objIndex->value[2] = magic_enum::enum_integer<Liquid::Type>(liquid->liquid);
             } else {
                 bug("Invalid liquid {} in object: {} {}, defaulting.", raw_liquid, objIndex->vnum,
                     objIndex->short_descr);
