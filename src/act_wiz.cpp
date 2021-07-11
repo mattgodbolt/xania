@@ -2341,8 +2341,8 @@ std::string osearch_find_items(const int min_level, const int max_level, const O
             if (item_name[0] != '\0' && !is_name(item_name, objIndex->name)) {
                 continue;
             }
-            buffer += fmt::format("{:5} {:<27}|w ({:3}) {}\n\r", objIndex->vnum, objIndex->short_descr,
-                                  objIndex->level, objIndex->area->filename);
+            buffer += fmt::format("{:5} {:<27}|w ({:3}) {}\n\r", objIndex->vnum, objIndex->short_descr, objIndex->level,
+                                  objIndex->area->filename);
         }
     }
     return buffer;

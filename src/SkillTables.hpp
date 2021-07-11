@@ -8,6 +8,8 @@
 #include "Position.hpp"
 #include "Types.hpp"
 
+enum class Target;
+
 /*
  *  Skill rating magic numbers.
  */
@@ -33,7 +35,7 @@ struct skill_type {
      * as an entry in an AffectList.
      */
     const unsigned int dispel_npc_perm_affect_bit;
-    sh_int target; /* Legal targets                */
+    Target target; /* Legal targets                */
     Position::Type minimum_position;
     sh_int slot; /* Slot for #OBJECT loading     */
     sh_int min_mana; /* Minimum mana used            */

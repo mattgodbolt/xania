@@ -192,7 +192,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
     (void)vo;
-    /* is of type TAR_IGNORE so ignore *vo */
+    /* is of type Target::Ignore so ignore *vo */
 
     int num_of_corpses = 0, corpse, chance;
 

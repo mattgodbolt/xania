@@ -1596,8 +1596,8 @@ void do_recite(Char *ch, const char *argument) {
         victim = ch;
     } else {
         if ((victim = get_char_room(ch, arg2)) == nullptr && (obj = get_obj_here(ch, arg2)) == nullptr
-            && (skill_table[scroll->value[1]].target != TAR_IGNORE)
-            && (skill_table[scroll->value[1]].target != TAR_CHAR_OTHER)) {
+            && (skill_table[scroll->value[1]].target != Target::Ignore)
+            && (skill_table[scroll->value[1]].target != Target::CharOther)) {
             ch->send_line("You can't find it.");
             return;
         }
@@ -1658,22 +1658,22 @@ void do_brandish(Char *ch) {
                 switch (skill_table[sn].target) {
                 default: bug("Do_brandish: bad target for sn {}.", sn); return;
 
-                case TAR_IGNORE:
+                case Target::Ignore:
                     if (vch != ch)
                         continue;
                     break;
 
-                case TAR_CHAR_OFFENSIVE:
+                case Target::CharOffensive:
                     if (ch->is_npc() ? vch->is_npc() : vch->is_pc())
                         continue;
                     break;
 
-                case TAR_CHAR_DEFENSIVE:
+                case Target::CharDefensive:
                     if (ch->is_npc() ? vch->is_pc() : vch->is_npc())
                         continue;
                     break;
 
-                case TAR_CHAR_SELF:
+                case Target::CharSelf:
                     if (vch != ch)
                         continue;
                     break;
@@ -1729,19 +1729,20 @@ void do_zap(Char *ch, const char *argument) {
         }
     } else {
         if ((victim = get_char_room(ch, arg)) == nullptr && (victim = get_char_world(ch, arg)) == nullptr
-            && (obj = get_obj_here(ch, arg)) == nullptr && (skill_table[wand->value[3]].target) != TAR_CHAR_OTHER
-            && (skill_table[wand->value[3]].target) != TAR_IGNORE) {
+            && (obj = get_obj_here(ch, arg)) == nullptr && (skill_table[wand->value[3]].target) != Target::CharOther
+            && (skill_table[wand->value[3]].target) != Target::Ignore) {
             ch->send_line("You can't find it.");
             return;
         }
-        if (skill_table[wand->value[3]].target == TAR_CHAR_OTHER || skill_table[wand->value[3]].target == TAR_IGNORE) {
+        if (skill_table[wand->value[3]].target == Target::CharOther
+            || skill_table[wand->value[3]].target == Target::Ignore) {
             target_name = arg;
         } else {
             target_name = "";
         }
 
         if ((victim != nullptr && victim != ch && victim->in_room->vnum != ch->in_room->vnum)
-            && skill_table[wand->value[3]].target == TAR_CHAR_OFFENSIVE) {
+            && skill_table[wand->value[3]].target == Target::CharOffensive) {
             act(fmt::format("You attempt to zap {}.....", get_char_room(ch, arg) ? victim->short_descr : "someone"), ch,
                 nullptr, nullptr, To::Char);
             act("$n attempts to zap something....", ch);

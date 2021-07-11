@@ -509,9 +509,9 @@ void do_cast(Char *ch, const char *argument) {
     switch (skill_table[sn].target) {
     default: bug("Do_cast: bad target for sn {}.", sn); return;
 
-    case TAR_IGNORE: break;
+    case Target::Ignore: break;
 
-    case TAR_CHAR_OFFENSIVE:
+    case Target::CharOffensive:
         if (arg2[0] == '\0') {
             if ((victim = ch->fighting) == nullptr) {
                 ch->send_line("Cast the spell on whom?");
@@ -539,7 +539,7 @@ void do_cast(Char *ch, const char *argument) {
         vo = (void *)victim;
         break;
 
-    case TAR_CHAR_DEFENSIVE:
+    case Target::CharDefensive:
         if (arg2[0] == '\0') {
             victim = ch;
         } else {
@@ -552,10 +552,10 @@ void do_cast(Char *ch, const char *argument) {
         vo = (void *)victim;
         break;
 
-    case TAR_CHAR_OBJECT:
-    case TAR_CHAR_OTHER: vo = (void *)arg2; break;
+    case Target::CharObject:
+    case Target::CharOther: vo = (void *)arg2; break;
 
-    case TAR_CHAR_SELF:
+    case Target::CharSelf:
         if (arg2[0] != '\0' && !is_name(arg2, ch->name)) {
             ch->send_line("You cannot cast this spell on another.");
             return;
@@ -564,7 +564,7 @@ void do_cast(Char *ch, const char *argument) {
         vo = (void *)ch;
         break;
 
-    case TAR_OBJ_INV:
+    case Target::ObjectInventory:
         if (arg2[0] == '\0') {
             ch->send_line("What should the spell be cast upon?");
             return;
@@ -599,7 +599,7 @@ void do_cast(Char *ch, const char *argument) {
         check_improve(ch, sn, true, 1);
     }
 
-    if (skill_table[sn].target == TAR_CHAR_OFFENSIVE && victim != ch && victim->master != ch
+    if (skill_table[sn].target == Target::CharOffensive && victim != ch && victim->master != ch
         && (victim->is_npc() || fighting_duel(ch, victim))) {
         if (ch && ch->in_room) {
             for (auto *vch : ch->in_room->people) {
@@ -629,9 +629,9 @@ void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj) {
     switch (skill_table[sn].target) {
     default: bug("Obj_cast_spell: bad target for sn {}.", sn); return;
 
-    case TAR_IGNORE: vo = nullptr; break;
+    case Target::Ignore: vo = nullptr; break;
 
-    case TAR_CHAR_OFFENSIVE:
+    case Target::CharOffensive:
         if (victim == nullptr)
             victim = ch->fighting;
         if (victim == nullptr) {
@@ -645,15 +645,15 @@ void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj) {
         vo = (void *)victim;
         break;
 
-    case TAR_CHAR_DEFENSIVE:
+    case Target::CharDefensive:
         if (victim == nullptr)
             victim = ch;
         vo = (void *)victim;
         break;
 
-    case TAR_CHAR_SELF: vo = (void *)ch; break;
+    case Target::CharSelf: vo = (void *)ch; break;
 
-    case TAR_OBJ_INV:
+    case Target::ObjectInventory:
         if (obj == nullptr) {
             ch->send_line("You can't do that.");
             return;
@@ -665,7 +665,7 @@ void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj) {
     /*   target_name = ""; - no longer needed */
     (*skill_table[sn].spell_fun)(sn, level, ch, vo);
 
-    if (skill_table[sn].target == TAR_CHAR_OFFENSIVE && victim != ch && victim->master != ch) {
+    if (skill_table[sn].target == Target::CharOffensive && victim != ch && victim->master != ch) {
         for (auto *vch : ch->in_room->people) {
             if (victim == vch && victim->fighting == nullptr) {
                 multi_hit(victim, ch);
@@ -3584,7 +3584,7 @@ void explode_bomb(Object *bomb, Char *ch, Char *thrower) {
     for (position = 1; ((position <= 4) && (bomb->value[position] < MAX_SKILL) && (bomb->value[position] != -1));
          position++) {
         sn = bomb->value[position];
-        if (skill_table[sn].target == TAR_CHAR_OFFENSIVE)
+        if (skill_table[sn].target == Target::CharOffensive)
             (*skill_table[sn].spell_fun)(sn, bomb->value[0], thrower, vo);
     }
     extract_obj(bomb);

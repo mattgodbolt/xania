@@ -6,11 +6,12 @@
 #pragma once
 
 // Target types.
-// TODO: convert to enum.
-#define TAR_IGNORE 0
-#define TAR_CHAR_OFFENSIVE 1
-#define TAR_CHAR_DEFENSIVE 2
-#define TAR_CHAR_SELF 3
-#define TAR_OBJ_INV 4
-#define TAR_CHAR_OBJECT 5
-#define TAR_CHAR_OTHER 6
+enum class Target {
+    Ignore = 0,
+    CharOffensive = 1,
+    CharDefensive = 2,
+    CharSelf = 3,
+    ObjectInventory = 4,
+    CharObject = 5,
+    CharOther = 6
+};
