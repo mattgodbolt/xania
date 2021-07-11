@@ -581,7 +581,7 @@ void char_update() {
 
         /* scan all undead zombies created by raise_dead style spells
            and randomly decay them */
-        if (ch->is_npc() && ch->pIndexData->vnum == mobiles::Zombie) {
+        if (ch->is_npc() && ch->mobIndex->vnum == mobiles::Zombie) {
             if (number_percent() > 90) {
                 act("$n fits violently before decaying in to a pile of dust.", ch);
                 extract_char(ch, true);
@@ -706,7 +706,7 @@ void obj_update() {
         }
 
         if (obj->carried_by != nullptr) {
-            if ((obj->carried_by->is_npc()) && obj->carried_by->pIndexData->shop != nullptr)
+            if ((obj->carried_by->is_npc()) && obj->carried_by->mobIndex->shop != nullptr)
                 obj->carried_by->gold += obj->cost;
             else
                 act(message, obj->carried_by, obj, nullptr, To::Char);

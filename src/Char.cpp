@@ -45,7 +45,7 @@ Seconds Char::total_played() const { return std::chrono::duration_cast<Seconds>(
 bool Char::is_npc() const { return check_bit(act, ACT_IS_NPC); }
 bool Char::is_warrior() const { return check_bit(act, ACT_WARRIOR); }
 bool Char::is_thief() const { return check_bit(act, ACT_THIEF); }
-bool Char::is_shopkeeper() const { return is_npc() && pIndexData->shop; }
+bool Char::is_shopkeeper() const { return is_npc() && mobIndex->shop; }
 
 // Affected by spell bit checks.
 bool Char::is_aff_berserk() const { return check_bit(affected_by, AFF_BERSERK); }

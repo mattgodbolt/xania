@@ -46,7 +46,7 @@ struct Char {
     Char *riding{};
     Char *ridden_by{};
     SpecialFunc spec_fun{};
-    MobIndexData *pIndexData{};
+    MobIndexData *mobIndex{};
     Descriptor *desc{};
     AffectList affected;
     std::unique_ptr<Note> pnote;

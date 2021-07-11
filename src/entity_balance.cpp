@@ -125,7 +125,7 @@ void report_entity_imbalance() {
     bug("mob> **********************************************************************");
 
     for (auto *mobile : char_list) {
-        report_mobile(mobile->pIndexData);
+        report_mobile(mobile->mobIndex);
     }
 
     bug("mob> **********************************************************************");

@@ -743,7 +743,7 @@ void chatperformtoroom(std::string_view text, Char *ch) {
         return;
 
     for (auto *vch : ch->in_room->people)
-        if (vch->is_npc() && check_bit(vch->pIndexData->act, ACT_TALKATIVE) && vch->is_pos_awake()) {
+        if (vch->is_npc() && check_bit(vch->mobIndex->act, ACT_TALKATIVE) && vch->is_pos_awake()) {
             if (number_percent() > 66) /* less spammy - Fara */
                 chatperform(vch, ch, text);
         }

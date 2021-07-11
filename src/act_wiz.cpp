@@ -1180,14 +1180,13 @@ void do_mstat(Char *ch, const char *argument) {
                             victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)"));
 
     bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
-                 victim->is_npc() ? victim->pIndexData->vnum : 0, victim->is_npc() ? ".are" : "pc",
+                 victim->is_npc() ? victim->mobIndex->vnum : 0, victim->is_npc() ? ".are" : "pc",
                  race_table[victim->race].name, std::string(victim->sex.name()).c_str(),
                  victim->in_room == nullptr ? 0 : victim->in_room->vnum);
     ch->send_to(buf);
 
     if (victim->is_npc()) {
-        bug_snprintf(buf, sizeof(buf), "Count: %d  Killed: %d\n\r", victim->pIndexData->count,
-                     victim->pIndexData->killed);
+        bug_snprintf(buf, sizeof(buf), "Count: %d  Killed: %d\n\r", victim->mobIndex->count, victim->mobIndex->killed);
         ch->send_to(buf);
     }
 
@@ -1297,7 +1296,7 @@ void do_mstat(Char *ch, const char *argument) {
     if (victim->is_npc() && victim->spec_fun)
         ch->send_line("Mobile has special procedure.");
 
-    if (victim->is_npc() && victim->pIndexData->progtypes) {
+    if (victim->is_npc() && victim->mobIndex->progtypes) {
         ch->send_line("Mobile has MOBPROG: view with \"stat prog '{}'\"", victim->name);
     }
 
@@ -1412,9 +1411,8 @@ void do_mwhere(Char *ch, const char *argument) {
             || (victim->is_pc() && find_pc && can_see(ch, victim))) {
             found = true;
             number++;
-            buffer +=
-                fmt::format("{:3} [{:5}] {:<28} [{:5}] {:>20}\n\r", number, find_pc ? 0 : victim->pIndexData->vnum,
-                            victim->short_name(), victim->in_room->vnum, victim->in_room->name);
+            buffer += fmt::format("{:3} [{:5}] {:<28} [{:5}] {:>20}\n\r", number, find_pc ? 0 : victim->mobIndex->vnum,
+                                  victim->short_name(), victim->in_room->vnum, victim->in_room->name);
         }
     }
     ch->page_to(buffer);
@@ -1635,7 +1633,7 @@ void do_clone(Char *ch, const char *argument) {
             return;
         }
 
-        clone = create_mobile(mob->pIndexData);
+        clone = create_mobile(mob->mobIndex);
         clone_mobile(mob, clone);
 
         for (auto *carried : mob->carrying) {
@@ -2335,16 +2333,16 @@ bool osearch_is_item_type(const ObjectIndex *objIndex, const ObjectType item_typ
 std::string osearch_find_items(const int min_level, const int max_level, const ObjectType item_type, char *item_name) {
     std::string buffer;
     for (int i = 0; i < MAX_KEY_HASH; i++) {
-        for (ObjectIndex *pIndexData = obj_index_hash[i]; pIndexData != nullptr; pIndexData = pIndexData->next) {
-            if (!(osearch_is_item_in_level_range(pIndexData, min_level, max_level)
-                  && osearch_is_item_type(pIndexData, item_type))) {
+        for (ObjectIndex *objIndex = obj_index_hash[i]; objIndex != nullptr; objIndex = objIndex->next) {
+            if (!(osearch_is_item_in_level_range(objIndex, min_level, max_level)
+                  && osearch_is_item_type(objIndex, item_type))) {
                 continue;
             }
-            if (item_name[0] != '\0' && !is_name(item_name, pIndexData->name)) {
+            if (item_name[0] != '\0' && !is_name(item_name, objIndex->name)) {
                 continue;
             }
-            buffer += fmt::format("{:5} {:<27}|w ({:3}) {}\n\r", pIndexData->vnum, pIndexData->short_descr,
-                                  pIndexData->level, pIndexData->area->filename);
+            buffer += fmt::format("{:5} {:<27}|w ({:3}) {}\n\r", objIndex->vnum, objIndex->short_descr,
+                                  objIndex->level, objIndex->area->filename);
         }
     }
     return buffer;

@@ -98,12 +98,12 @@ void do_mpstat(Char *ch, const char *argument) {
         return;
     }
 
-    if (!(victim->pIndexData->progtypes)) {
+    if (!(victim->mobIndex->progtypes)) {
         ch->send_line("That Mobile has no Programs set.");
         return;
     }
 
-    ch->send_line("Name: {}.  Vnum: {}.", victim->name, victim->pIndexData->vnum);
+    ch->send_line("Name: {}.  Vnum: {}.", victim->name, victim->mobIndex->vnum);
 
     ch->send_to(fmt::format("Short description:{}.\n\rLong  description: {}", victim->short_descr,
                             victim->long_descr.empty() ? "(none).\n\r" : victim->long_descr));
@@ -116,7 +116,7 @@ void do_mpstat(Char *ch, const char *argument) {
              victim->class_num, victim->alignment, victim->gold, victim->exp);
     ch->send_to(buf);
 
-    for (mprg = victim->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next) {
+    for (mprg = victim->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next) {
         snprintf(buf, sizeof(buf), ">%s %s\n\r%s\n\r", mprog_type_to_name(mprg->type), mprg->arglist, mprg->comlist);
         ch->send_to(buf);
     }
@@ -134,7 +134,7 @@ void do_mpasound(Char *ch, const char *argument) {
     }
 
     if (argument[0] == '\0') {
-        bug("Mpasound - No argument from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpasound - No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -167,27 +167,27 @@ void do_mpkill(Char *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        bug("MpKill - No argument from vnum {}.", ch->pIndexData->vnum);
+        bug("MpKill - No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if ((victim = get_char_room(ch, arg)) == nullptr) {
-        bug("MpKill - Victim not in room from vnum {}.", ch->pIndexData->vnum);
+        bug("MpKill - Victim not in room from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if (victim == ch) {
-        bug("MpKill - Bad victim to attack from vnum {}.", ch->pIndexData->vnum);
+        bug("MpKill - Bad victim to attack from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if (ch->is_aff_charm() && ch->master == victim) {
-        bug("MpKill - Charmed mob attacking master from vnum {}.", ch->pIndexData->vnum);
+        bug("MpKill - Charmed mob attacking master from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if (ch->is_pos_fighting()) {
-        bug("MpKill - Already fighting from vnum {}", ch->pIndexData->vnum);
+        bug("MpKill - Already fighting from vnum {}", ch->mobIndex->vnum);
         return;
     }
 
@@ -209,7 +209,7 @@ void do_mpjunk(Char *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        bug("Mpjunk - No argument from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpjunk - No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -248,12 +248,12 @@ void do_mpechoaround(Char *ch, const char *argument) {
     argument = one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        bug("Mpechoaround - No argument from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpechoaround - No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if (!(victim = get_char_room(ch, arg))) {
-        bug("Mpechoaround - Victim does not exist from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpechoaround - Victim does not exist from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -274,12 +274,12 @@ void do_mpechoat(Char *ch, const char *argument) {
     argument = one_argument(argument, arg);
 
     if (arg[0] == '\0' || argument[0] == '\0') {
-        bug("Mpechoat - No argument from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpechoat - No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if (!(victim = get_char_room(ch, arg))) {
-        bug("Mpechoat - Victim does not exist from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpechoat - Victim does not exist from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -295,7 +295,7 @@ void do_mpecho(Char *ch, const char *argument) {
     }
 
     if (argument[0] == '\0') {
-        bug("Mpecho - Called w/o argument from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpecho - Called w/o argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -319,12 +319,12 @@ void do_mpmload(Char *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0' || !is_number(arg)) {
-        bug("Mpmload - Bad vnum as arg from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpmload - Bad vnum as arg from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if ((mobIndex = get_mob_index(atoi(arg))) == nullptr) {
-        bug("Mpmload - Bad mob vnum from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpmload - Bad mob vnum from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -347,12 +347,12 @@ void do_mpoload(Char *ch, const char *argument) {
     argument = one_argument(argument, arg2);
 
     if (arg1[0] == '\0' || !is_number(arg1)) {
-        bug("Mpoload - Bad syntax from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpoload - Bad syntax from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if ((objIndex = get_obj_index(atoi(arg1))) == nullptr) {
-        bug("Mpoload - Bad vnum arg from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpoload - Bad vnum arg from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -398,13 +398,13 @@ void do_mppurge(Char *ch, const char *argument) {
         if (obj) {
             extract_obj(obj);
         } else {
-            bug("Mppurge - Bad argument from vnum {}.", ch->pIndexData->vnum);
+            bug("Mppurge - Bad argument from vnum {}.", ch->mobIndex->vnum);
         }
         return;
     }
 
     if (victim->is_pc()) {
-        bug("Mppurge - Purging a PC from vnum {}.", ch->pIndexData->vnum);
+        bug("Mppurge - Purging a PC from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -424,12 +424,12 @@ void do_mpgoto(Char *ch, const char *argument) {
 
     one_argument(argument, arg);
     if (arg[0] == '\0') {
-        bug("Mpgoto - No argument from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpgoto - No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if ((location = find_location(ch, arg)) == nullptr) {
-        bug("Mpgoto - No such location from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpgoto - No such location from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -455,12 +455,12 @@ void do_mpat(Char *ch, const char *argument) {
     argument = one_argument(argument, arg);
 
     if (arg[0] == '\0' || argument[0] == '\0') {
-        bug("Mpat - Bad argument from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpat - Bad argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if ((location = find_location(ch, arg)) == nullptr) {
-        bug("Mpat - No such location from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpat - No such location from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -498,7 +498,7 @@ void do_mptransfer(Char *ch, const char *argument) {
     argument = one_argument(argument, arg2);
 
     if (arg1[0] == '\0') {
-        bug("Mptransfer - Bad syntax from vnum {}.", ch->pIndexData->vnum);
+        bug("Mptransfer - Bad syntax from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -519,24 +519,24 @@ void do_mptransfer(Char *ch, const char *argument) {
         location = ch->in_room;
     } else {
         if ((location = find_location(ch, arg2)) == nullptr) {
-            bug("Mptransfer - No such location from vnum {}.", ch->pIndexData->vnum);
+            bug("Mptransfer - No such location from vnum {}.", ch->mobIndex->vnum);
             return;
         }
 
         if (room_is_private(location)) {
-            bug("Mptransfer - Private room from vnum {}.", ch->pIndexData->vnum);
+            bug("Mptransfer - Private room from vnum {}.", ch->mobIndex->vnum);
             return;
         }
     }
 
     Char *victim;
     if ((victim = get_char_world(ch, arg1)) == nullptr) {
-        bug("Mptransfer - No such person from vnum {}.", ch->pIndexData->vnum);
+        bug("Mptransfer - No such person from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
     if (victim->in_room == nullptr) {
-        bug("Mptransfer - Victim in Limbo from vnum {}.", ch->pIndexData->vnum);
+        bug("Mptransfer - Victim in Limbo from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -561,7 +561,7 @@ void do_mpforce(Char *ch, const char *argument) {
     argument = one_argument(argument, arg);
 
     if (arg[0] == '\0' || argument[0] == '\0') {
-        bug("Mpforce - Bad syntax from vnum {}.", ch->pIndexData->vnum);
+        bug("Mpforce - Bad syntax from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -574,12 +574,12 @@ void do_mpforce(Char *ch, const char *argument) {
         Char *victim;
 
         if ((victim = get_char_room(ch, arg)) == nullptr) {
-            bug("Mpforce - No such victim from vnum {}.", ch->pIndexData->vnum);
+            bug("Mpforce - No such victim from vnum {}.", ch->mobIndex->vnum);
             return;
         }
 
         if (victim == ch) {
-            bug("Mpforce - Forcing oneself from vnum {}.", ch->pIndexData->vnum);
+            bug("Mpforce - Forcing oneself from vnum {}.", ch->mobIndex->vnum);
             return;
         }
 

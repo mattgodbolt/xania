@@ -476,7 +476,7 @@ bool is_mass_looting_npc_undroppable_obj(const Object *obj, const Object *contai
 
 Char *shopkeeper_in(const Room &room) {
     for (auto *maybe_keeper : room.people) {
-        if (maybe_keeper->is_npc() && maybe_keeper->pIndexData->shop)
+        if (maybe_keeper->is_npc() && maybe_keeper->mobIndex->shop)
             return maybe_keeper;
     }
     return nullptr;
@@ -503,7 +503,7 @@ Char *find_keeper(Char *ch) {
     }
 
     // Shop hours.
-    const auto *shop = keeper->pIndexData->shop;
+    const auto *shop = keeper->mobIndex->shop;
     if (time_info.hour() < shop->open_hour) {
         keeper->say("Sorry, I am closed. Come back later.");
         return nullptr;
@@ -527,7 +527,7 @@ int get_cost(Char *keeper, Object *obj, bool fBuy) {
     Shop *shop;
     int cost;
 
-    if (obj == nullptr || (shop = keeper->pIndexData->shop) == nullptr)
+    if (obj == nullptr || (shop = keeper->mobIndex->shop) == nullptr)
         return 0;
 
     if (fBuy) {
@@ -1960,7 +1960,7 @@ void do_buy(Char *ch, const char *argument) {
         }
 
         ch->gold -= cost;
-        pet = create_mobile(pet->pIndexData);
+        pet = create_mobile(pet->mobIndex);
         set_bit(ch->act, PLR_BOUGHT_PET);
         set_bit(pet->act, ACT_PET);
         set_bit(pet->affected_by, AFF_CHARM);

@@ -469,7 +469,7 @@ void enforce_material_vulnerability(Char *ch, Object *obj) {
  */
 void equip_char(Char *ch, Object *obj, int iWear) {
     if (get_eq_char(ch, iWear) != nullptr) {
-        bug("Equip_char: {} #{} already equipped in slot {}.", ch->name, (ch->is_npc() ? ch->pIndexData->vnum : 0),
+        bug("Equip_char: {} #{} already equipped in slot {}.", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0),
             iWear);
         return;
     }
@@ -671,7 +671,7 @@ void extract_char(Char *ch, bool delete_from_world) {
     }
 
     if (ch->is_npc())
-        --ch->pIndexData->count;
+        --ch->mobIndex->count;
 
     if (ch->desc != nullptr && ch->desc->is_switched()) {
         do_return(ch);
@@ -727,7 +727,7 @@ Char *get_char_world(Char *ch, std::string_view argument) {
 /* find a MOB by vnum in the world, returning its Char * */
 Char *get_mob_by_vnum(sh_int vnum) {
     for (auto *current : char_list)
-        if (current->pIndexData && current->pIndexData->vnum == vnum)
+        if (current->mobIndex && current->mobIndex->vnum == vnum)
             return current;
 
     return nullptr;

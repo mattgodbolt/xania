@@ -3223,7 +3223,7 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
         return;
     }
     if (victim->is_npc()) {
-        if (victim->pIndexData->shop != nullptr || check_bit(victim->act, ACT_IS_HEALER)
+        if (victim->mobIndex->shop != nullptr || check_bit(victim->act, ACT_IS_HEALER)
             || check_bit(victim->act, ACT_GAIN) || check_bit(victim->act, ACT_PRACTICE)) {
             act("The guildspersons' convention prevents your summons.", ch, nullptr, nullptr, To::Char);
             act("The guildspersons' convention protects $n from summons.", victim);

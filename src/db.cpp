@@ -1041,7 +1041,7 @@ void reset_room(Room *room) {
             }
             int count = 0;
             for (auto *mch : room->people) {
-                if (mch->pIndexData == mobIndex) {
+                if (mch->mobIndex == mobIndex) {
                     count++;
                     if (count >= reset->arg4) {
                         lastMobWasReset = false;
@@ -1155,7 +1155,7 @@ void reset_room(Room *room) {
                 continue;
             }
 
-            if (lastMob->pIndexData->shop) { /* Shop-keeper? */
+            if (lastMob->mobIndex->shop) { /* Shop-keeper? */
                 object = create_object(objIndex);
                 set_bit(object->extra_flags, ITEM_INVENTORY);
             } else {
@@ -1219,7 +1219,7 @@ Char *create_mobile(MobIndexData *mobIndex) {
     }
 
     auto *mob = new Char;
-    mob->pIndexData = mobIndex;
+    mob->mobIndex = mobIndex;
 
     mob->name = mobIndex->player_name;
     mob->short_descr = mobIndex->short_descr;

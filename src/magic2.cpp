@@ -292,7 +292,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
  * Find a corpse to work on
  */
 //  for (victim = ch->in_room->contents; victim; victim = victim->next_content) {
-//  if (victim->pIndexData->vnum == objects::NonPlayerCorpse) {
+//  if (victim->mobIndex->vnum == objects::NonPlayerCorpse) {
 //    Char *zombie;
 //    MobIndexData *zIndex;
 //    Object *obj, *objNext;

@@ -160,7 +160,7 @@ void check_assist(Char *ch, Char *victim) {
                         && ((rch->is_good() && ch->is_good()) || (rch->is_evil() && ch->is_evil())
                             || (rch->is_neutral() && ch->is_neutral())))
 
-                    || (rch->pIndexData == ch->pIndexData && check_bit(rch->off_flags, ASSIST_VNUM)))
+                    || (rch->mobIndex == ch->mobIndex && check_bit(rch->off_flags, ASSIST_VNUM)))
 
                 {
                     if (number_bits(1) == 0)
@@ -839,7 +839,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
             announce(fmt::format("|P###|w Sadly, {} was killed by {}.", victim->name, ch->short_name()), victim);
 
             for (auto *squib : victim->in_room->people) {
-                if ((squib->is_npc()) && (squib->pIndexData->vnum == mobiles::LesserMinionDeath)) {
+                if ((squib->is_npc()) && (squib->mobIndex->vnum == mobiles::LesserMinionDeath)) {
                     act("$n swings his scythe and ushers $N's soul into the next world.", squib, nullptr, victim,
                         To::Room);
                     break;
@@ -937,7 +937,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
 
 bool is_safe(Char *ch, Char *victim) {
     /* no killing in shops hack */
-    if (victim->is_npc() && victim->pIndexData->shop != nullptr) {
+    if (victim->is_npc() && victim->mobIndex->shop != nullptr) {
         ch->send_line("The shopkeeper wouldn't like that.");
         return true;
     }
@@ -1002,7 +1002,7 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
         return true;
 
     /* no killing in shops hack */
-    if (victim->is_npc() && victim->pIndexData->shop != nullptr)
+    if (victim->is_npc() && victim->mobIndex->shop != nullptr)
         return true;
 
     /* no killing healers, adepts, etc */
@@ -1362,7 +1362,7 @@ void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
         make_corpse(victim);
 
     if (victim->is_npc()) {
-        victim->pIndexData->killed++;
+        victim->mobIndex->killed++;
         extract_char(victim, true);
         return;
     }

@@ -158,7 +158,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
     int rhsvl;
 
     if (*point == '\0') {
-        bug("Mob: {} null ifchck", mob->pIndexData->vnum);
+        bug("Mob: {} null ifchck", mob->mobIndex->vnum);
         return -1;
     }
     /* skip leading spaces */
@@ -168,7 +168,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
     /* get whatever comes before the left paren.. ignore spaces */
     while (*point != '(')
         if (*point == '\0') {
-            bug("Mob: {} ifchck syntax error", mob->pIndexData->vnum);
+            bug("Mob: {} ifchck syntax error", mob->mobIndex->vnum);
             return -1;
         } else if (*point == ' ')
             point++;
@@ -181,7 +181,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
     /* get whatever is in between the parens.. ignore spaces */
     while (*point != ')')
         if (*point == '\0') {
-            bug("Mob: {} ifchck syntax error", mob->pIndexData->vnum);
+            bug("Mob: {} ifchck syntax error", mob->mobIndex->vnum);
             return -1;
         } else if (*point == ' ')
             point++;
@@ -201,7 +201,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
     {
         while ((*point != ' ') && (!isalnum(*point)))
             if (*point == '\0') {
-                bug("Mob: {} ifchck operator without value", mob->pIndexData->vnum);
+                bug("Mob: {} ifchck operator without value", mob->mobIndex->vnum);
                 return -1;
             } else
                 *oprpt++ = *point++;
@@ -256,7 +256,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return (rndm->is_pc());
             else
                 return -1;
-        default: bug("Mob: {} bad argument to 'ispc'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'ispc'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -279,7 +279,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return rndm->is_npc();
             else
                 return -1;
-        default: bug("Mob: {} bad argument to 'isnpc'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'isnpc'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -302,7 +302,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return rndm->is_good();
             else
                 return -1;
-        default: bug("Mob: {} bad argument to 'isgood'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'isgood'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -325,7 +325,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return (rndm->fighting) ? 1 : 0;
             else
                 return -1;
-        default: bug("Mob: {} bad argument to 'isfight'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'isfight'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -348,7 +348,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return (rndm->get_trust() > LEVEL_IMMORTAL);
             else
                 return -1;
-        default: bug("Mob: {} bad argument to 'isimmort'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'isimmort'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -372,7 +372,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return rndm->is_aff_charm() ? true : false;
             else
                 return -1;
-        default: bug("Mob: {} bad argument to 'ischarmed'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'ischarmed'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -395,7 +395,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return (rndm->master != nullptr && rndm->master->in_room == rndm->in_room);
             else
                 return -1;
-        default: bug("Mob: {} bad argument to 'isfollow'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'isfollow'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -418,7 +418,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return (rndm->affected_by & atoi(arg));
             else
                 return -1;
-        default: bug("Mob: {} bad argument to 'isaffected'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'isaffected'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -450,7 +450,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'hitprcnt'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'hitprcnt'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -482,7 +482,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'inroom'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'inroom'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -514,7 +514,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'sex'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'sex'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -546,7 +546,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'position'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'position'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -578,7 +578,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'level'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'level'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -610,7 +610,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'class'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'class'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -642,7 +642,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'goldamt'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'goldamt'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -663,7 +663,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'objtype'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'objtype'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -684,7 +684,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'objval0'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'objval0'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -705,7 +705,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'objval1'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'objval1'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -726,7 +726,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'objval2'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'objval2'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -747,7 +747,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-        default: bug("Mob: {} bad argument to 'objval3'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'objval3'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -761,7 +761,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         case 'n':
             if (actor) {
                 if (actor->is_npc()) {
-                    lhsvl = actor->pIndexData->vnum;
+                    lhsvl = actor->mobIndex->vnum;
                     rhsvl = atoi(val);
                     return mprog_veval(lhsvl, opr, rhsvl);
                 }
@@ -771,7 +771,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         case 't':
             if (vict) {
                 if (actor->is_npc()) {
-                    lhsvl = vict->pIndexData->vnum;
+                    lhsvl = vict->mobIndex->vnum;
                     rhsvl = atoi(val);
                     return mprog_veval(lhsvl, opr, rhsvl);
                 }
@@ -781,7 +781,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         case 'r':
             if (rndm) {
                 if (actor->is_npc()) {
-                    lhsvl = rndm->pIndexData->vnum;
+                    lhsvl = rndm->mobIndex->vnum;
                     rhsvl = atoi(val);
                     return mprog_veval(lhsvl, opr, rhsvl);
                 }
@@ -804,7 +804,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
             } else
                 return -1;
             break;
-        default: bug("Mob: {} bad argument to 'number'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'number'", mob->mobIndex->vnum); return -1;
         }
     }
 
@@ -837,14 +837,14 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_seval(v_obj->name, opr, val);
             else
                 return -1;
-        default: bug("Mob: {} bad argument to 'name'", mob->pIndexData->vnum); return -1;
+        default: bug("Mob: {} bad argument to 'name'", mob->mobIndex->vnum); return -1;
         }
     }
 
     /* Ok... all the ifchcks are done, so if we didnt find ours then something
      * odd happened.  So report the bug and abort the MOBprogram (return error)
      */
-    bug("Mob: {} unknown ifchck", mob->pIndexData->vnum);
+    bug("Mob: {} unknown ifchck", mob->mobIndex->vnum);
     return -1;
 }
 /* Quite a long and arduous function, this guy handles the control
@@ -882,7 +882,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
         while (*cmnd == ' ')
             cmnd++;
         if (*cmnd == '\0') {
-            bug("Mob: {} no commands after IF/OR", mob->pIndexData->vnum);
+            bug("Mob: {} no commands after IF/OR", mob->mobIndex->vnum);
             return nullptr;
         }
         morebuf = one_argument(cmnd, buf);
@@ -922,7 +922,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
                     while (*cmnd == ' ')
                         cmnd++;
                     if (*cmnd == '\0') {
-                        bug("Mob: {} missing endif after else", mob->pIndexData->vnum);
+                        bug("Mob: {} missing endif after else", mob->mobIndex->vnum);
                         return nullptr;
                     }
                     morebuf = one_argument(cmnd, buf);
@@ -935,7 +935,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
             while (*cmnd == ' ')
                 cmnd++;
             if (*cmnd == '\0') {
-                bug("Mob: {} missing else or endif", mob->pIndexData->vnum);
+                bug("Mob: {} missing else or endif", mob->mobIndex->vnum);
                 return nullptr;
             }
             morebuf = one_argument(cmnd, buf);
@@ -948,7 +948,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
             while (*cmnd == ' ')
                 cmnd++;
             if (*cmnd == '\0') {
-                bug("Mob: {} missing an else or endif", mob->pIndexData->vnum);
+                bug("Mob: {} missing an else or endif", mob->mobIndex->vnum);
                 return nullptr;
             }
             morebuf = one_argument(cmnd, buf);
@@ -962,7 +962,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
         while (*cmnd == ' ')
             cmnd++;
         if (*cmnd == '\0') {
-            bug("Mob: {} missing endif", mob->pIndexData->vnum);
+            bug("Mob: {} missing endif", mob->mobIndex->vnum);
             return nullptr;
         }
         morebuf = one_argument(cmnd, buf);
@@ -981,7 +981,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
                 continue;
             }
             if (!str_cmp(buf, "else")) {
-                bug("Mob: {} found else in an else section", mob->pIndexData->vnum);
+                bug("Mob: {} found else in an else section", mob->mobIndex->vnum);
                 return nullptr;
             }
             if (!str_cmp(buf, "break"))
@@ -994,7 +994,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
             while (*cmnd == ' ')
                 cmnd++;
             if (*cmnd == '\0') {
-                bug("Mob:{} missing endif in else section", mob->pIndexData->vnum);
+                bug("Mob:{} missing endif in else section", mob->mobIndex->vnum);
                 return nullptr;
             }
             morebuf = one_argument(cmnd, buf);
@@ -1197,7 +1197,7 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
 
     case '$': strcpy(t, "$"); break;
 
-    default: bug("Mob: {} bad $var", mob->pIndexData->vnum); break;
+    default: bug("Mob: {} bad $var", mob->mobIndex->vnum); break;
     }
 }
 
@@ -1292,7 +1292,7 @@ void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const O
     char *end;
     int i;
 
-    for (mprg = mob->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next)
+    for (mprg = mob->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next)
         if (mprg->type & type) {
             strcpy(temp1, mprg->arglist);
             list = temp1;
@@ -1328,7 +1328,7 @@ void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const O
 void mprog_percent_check(Char *mob, Char *actor, Object *obj, void *vo, int type) {
     MPROG_DATA *mprg;
 
-    for (mprg = mob->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next)
+    for (mprg = mob->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next)
         if ((mprg->type & type) && (number_percent() < atoi(mprg->arglist))) {
             mprog_driver(mprg->comlist, mob, actor, obj, vo);
             if (type != GREET_PROG && type != ALL_GREET_PROG)
@@ -1348,7 +1348,7 @@ void mprog_act_trigger(const char *buf, Char *mob, const Char *ch, const Object 
 
     MPROG_ACT_LIST *tmp_act;
 
-    if (mob->is_npc() && (mob->pIndexData->progtypes & ACT_PROG)) {
+    if (mob->is_npc() && (mob->mobIndex->progtypes & ACT_PROG)) {
         tmp_act = (MPROG_ACT_LIST *)alloc_mem(sizeof(MPROG_ACT_LIST));
         if (mob->mpactnum > 0)
             tmp_act->next = mob->mpact->next;
@@ -1368,8 +1368,8 @@ void mprog_bribe_trigger(Char *mob, Char *ch, int amount) {
 
     MPROG_DATA *mprg;
 
-    if (mob->is_npc() && (mob->pIndexData->progtypes & BRIBE_PROG)) {
-        for (mprg = mob->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next)
+    if (mob->is_npc() && (mob->mobIndex->progtypes & BRIBE_PROG)) {
+        for (mprg = mob->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next)
             if ((mprg->type & BRIBE_PROG) && (amount >= atoi(mprg->arglist))) {
                 /* this function previously created a gold object and gave it to ch
                    but there is zero point - the gold transfer is handled in do_give now */
@@ -1381,20 +1381,20 @@ void mprog_bribe_trigger(Char *mob, Char *ch, int amount) {
 
 void mprog_death_trigger(Char *mob) {
 
-    if (mob->is_npc() && (mob->pIndexData->progtypes & DEATH_PROG)) {
+    if (mob->is_npc() && (mob->mobIndex->progtypes & DEATH_PROG)) {
         mprog_percent_check(mob, nullptr, nullptr, nullptr, DEATH_PROG);
     }
 }
 
 void mprog_entry_trigger(Char *mob) {
 
-    if (mob->is_npc() && (mob->pIndexData->progtypes & ENTRY_PROG))
+    if (mob->is_npc() && (mob->mobIndex->progtypes & ENTRY_PROG))
         mprog_percent_check(mob, nullptr, nullptr, nullptr, ENTRY_PROG);
 }
 
 void mprog_fight_trigger(Char *mob, Char *ch) {
 
-    if (mob->is_npc() && (mob->pIndexData->progtypes & FIGHT_PROG))
+    if (mob->is_npc() && (mob->mobIndex->progtypes & FIGHT_PROG))
         mprog_percent_check(mob, ch, nullptr, nullptr, FIGHT_PROG);
 }
 
@@ -1403,8 +1403,8 @@ void mprog_give_trigger(Char *mob, Char *ch, Object *obj) {
     char buf[MAX_INPUT_LENGTH];
     MPROG_DATA *mprg;
 
-    if (mob->is_npc() && (mob->pIndexData->progtypes & GIVE_PROG))
-        for (mprg = mob->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next) {
+    if (mob->is_npc() && (mob->mobIndex->progtypes & GIVE_PROG))
+        for (mprg = mob->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next) {
             one_argument(mprg->arglist, buf);
             if ((mprg->type & GIVE_PROG) && ((matches(obj->name, mprg->arglist)) || (!str_cmp("all", buf)))) {
                 mprog_driver(mprg->comlist, mob, ch, obj, nullptr);
@@ -1416,10 +1416,10 @@ void mprog_give_trigger(Char *mob, Char *ch, Object *obj) {
 void mprog_greet_trigger(Char *mob) {
     for (auto *vmob : mob->in_room->people)
         if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && vmob->is_pos_awake()
-            && (vmob->pIndexData->progtypes & GREET_PROG))
+            && (vmob->mobIndex->progtypes & GREET_PROG))
             mprog_percent_check(vmob, mob, nullptr, nullptr, GREET_PROG);
         else if (vmob->is_npc() && (vmob->fighting == nullptr) && vmob->is_pos_awake()
-                 && (vmob->pIndexData->progtypes & ALL_GREET_PROG))
+                 && (vmob->mobIndex->progtypes & ALL_GREET_PROG))
             mprog_percent_check(vmob, mob, nullptr, nullptr, ALL_GREET_PROG);
 }
 
@@ -1427,8 +1427,8 @@ void mprog_hitprcnt_trigger(Char *mob, Char *ch) {
 
     MPROG_DATA *mprg;
 
-    if (mob->is_npc() && (mob->pIndexData->progtypes & HITPRCNT_PROG))
-        for (mprg = mob->pIndexData->mobprogs; mprg != nullptr; mprg = mprg->next)
+    if (mob->is_npc() && (mob->mobIndex->progtypes & HITPRCNT_PROG))
+        for (mprg = mob->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next)
             if ((mprg->type & HITPRCNT_PROG) && ((100 * mob->hit / mob->max_hit) < atoi(mprg->arglist))) {
                 mprog_driver(mprg->comlist, mob, ch, nullptr, nullptr);
                 break;
@@ -1437,12 +1437,12 @@ void mprog_hitprcnt_trigger(Char *mob, Char *ch) {
 
 void mprog_random_trigger(Char *mob) {
 
-    if (mob->pIndexData->progtypes & RAND_PROG)
+    if (mob->mobIndex->progtypes & RAND_PROG)
         mprog_percent_check(mob, nullptr, nullptr, nullptr, RAND_PROG);
 }
 
 void mprog_speech_trigger(const char *txt, const Char *mob) {
     for (auto *vmob : mob->in_room->people)
-        if (vmob->is_npc() && (vmob->pIndexData->progtypes & SPEECH_PROG))
+        if (vmob->is_npc() && (vmob->mobIndex->progtypes & SPEECH_PROG))
             mprog_wordlist_check(txt, vmob, mob, nullptr, nullptr, SPEECH_PROG);
 }

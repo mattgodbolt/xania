@@ -211,7 +211,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
                ch->mod_stat[Stat::Wis], ch->mod_stat[Stat::Dex], ch->mod_stat[Stat::Con]);
 
     if (ch->is_npc()) {
-        fmt::print(fp, "{} {}\n", cf::Vnum, ch->pIndexData->vnum);
+        fmt::print(fp, "{} {}\n", cf::Vnum, ch->mobIndex->vnum);
     } else {
         fmt::print(fp, "{} {}~\n", cf::Password, ch->pcdata->pwd);
         if (!ch->pcdata->bamfin.empty())
@@ -278,19 +278,19 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
     namespace cf = charfilemeta;
     fmt::print(fp, "#{}\n", cf::SectionPet);
 
-    fmt::print(fp, "{} {}\n", cf::Vnum, pet->pIndexData->vnum);
+    fmt::print(fp, "{} {}\n", cf::Vnum, pet->mobIndex->vnum);
 
     fmt::print(fp, "{} {}~\n", cf::Name, pet->name);
-    if (pet->short_descr != pet->pIndexData->short_descr)
+    if (pet->short_descr != pet->mobIndex->short_descr)
         fmt::print(fp, "{}  {}~\n", cf::ShortDescription, pet->short_descr);
-    if (pet->long_descr != pet->pIndexData->long_descr)
+    if (pet->long_descr != pet->mobIndex->long_descr)
         fmt::print(fp, "{}  {}~\n", cf::LongDescription, pet->long_descr);
-    if (pet->description != pet->pIndexData->description)
+    if (pet->description != pet->mobIndex->description)
         fmt::print(fp, "{} {}~\n", cf::Description, pet->description);
-    if (pet->race != pet->pIndexData->race)
+    if (pet->race != pet->mobIndex->race)
         fmt::print(fp, "{} {}~\n", cf::Race, race_table[pet->race].name);
     fmt::print(fp, "{}  {}\n", cf::Sex, pet->sex.ordinal());
-    if (pet->level != pet->pIndexData->level)
+    if (pet->level != pet->mobIndex->level)
         fmt::print(fp, "{} {}\n", cf::Level, pet->level);
     fmt::print(fp, "{}  {} {} {} {} {} {}\n", cf::HitManaMove, pet->hit, pet->max_hit, pet->mana, pet->max_mana,
                pet->move, pet->max_move);
@@ -298,9 +298,9 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
         fmt::print(fp, "{} {}\n", cf::Gold, pet->gold);
     if (pet->exp > 0)
         fmt::print(fp, "{}  {}\n", cf::Experience, pet->exp);
-    if (pet->act != pet->pIndexData->act)
+    if (pet->act != pet->mobIndex->act)
         fmt::print(fp, "{}  {}\n", cf::ActFlags, pet->act);
-    if (pet->affected_by != pet->pIndexData->affected_by)
+    if (pet->affected_by != pet->mobIndex->affected_by)
         fmt::print(fp, "{} {}\n", cf::AffectedBy, pet->affected_by);
     if (pet->comm != 0)
         fmt::print(fp, "{} {}\n", cf::CommFlags, pet->comm);
@@ -309,11 +309,11 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
         magic_enum::enum_integer<Position::Type>(pet->is_pos_fighting() ? Position::Type::Standing : pet->position));
     if (pet->saving_throw != 0)
         fmt::print(fp, "{} {}\n", cf::SavingThrow, pet->saving_throw);
-    if (pet->alignment != pet->pIndexData->alignment)
+    if (pet->alignment != pet->mobIndex->alignment)
         fmt::print(fp, "{} {}\n", cf::Alignment, pet->alignment);
-    if (pet->hitroll != pet->pIndexData->hitroll)
+    if (pet->hitroll != pet->mobIndex->hitroll)
         fmt::print(fp, "{}  {}\n", cf::HitRoll, pet->hitroll);
-    if (pet->damroll != pet->pIndexData->damage.bonus())
+    if (pet->damroll != pet->mobIndex->damage.bonus())
         fmt::print(fp, "{}  {}\n", cf::DamRoll, pet->damroll);
     fmt::print(fp, "{}  {} {} {} {}\n", cf::ArmourClasses, pet->armor[0], pet->armor[1], pet->armor[2], pet->armor[3]);
     fmt::print(fp, "{} {} {} {} {} {}\n", cf::Attribs, pet->perm_stat[Stat::Str], pet->perm_stat[Stat::Int],
@@ -734,7 +734,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
                 bug("fread_char: unknown version: {}", raw_version);
             }
         } else if (word == cf::Vnum) {
-            ch->pIndexData = get_mob_index(fread_number(fp));
+            ch->mobIndex = get_mob_index(fread_number(fp));
         } else if (word == cf::Wimpy) {
             ch->wimpy = fread_number(fp);
         } else if (word == cf::PronounPossessive) {
