@@ -31,7 +31,11 @@ include(scripts/conan.cmake)
 
 # See Makefile - CONAN_VERSION 
 message("If the following conan check fails; please remove your .tools directory")
-conan_check(VERSION 1.34.1 REQUIRED)
+conan_check(VERSION 1.38.0 REQUIRED)
+
+conan_add_remote(NAME conancenter
+        INDEX 0
+        URL https://center.conan.io)
 
 conan_cmake_run(CONANFILE conanfile.txt
         BASIC_SETUP CMAKE_TARGETS
