@@ -7,12 +7,12 @@
 
 #include "AffectList.hpp"
 #include "ExtraDescription.hpp"
+#include "Materials.hpp"
 #include "Types.hpp"
 #include <array>
 #include <string>
 #include <vector>
 
-enum class Material;
 enum class ObjectType;
 struct AREA_DATA;
 
@@ -28,7 +28,7 @@ struct ObjectIndex {
     std::string description;
     sh_int vnum{};
     sh_int reset_num{};
-    Material material{};
+    Material::Type material{};
     ObjectType type{};
     unsigned int extra_flags{};
     int wear_flags{};

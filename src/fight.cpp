@@ -1301,7 +1301,7 @@ void death_cry(Char *ch) {
 
     switch (number_range(0, 1)) {
     case 1:
-        if (ch->material == Material::None) {
+        if (ch->material == Material::Type::None) {
             msg = "$n splatters blood on your armor.";
             break;
         }

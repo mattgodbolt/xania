@@ -774,7 +774,8 @@ void load_objects(FILE *fp) {
         if (objIndex->description.empty()) {
             bug("Load_objects: empty long description in object {}.", vnum);
         }
-        objIndex->material = material_lookup(fread_string(fp));
+
+        objIndex->material = Material::lookup_with_default(fread_string(fp))->material;
 
         objIndex->type = ObjectTypes::lookup_with_default(fread_word(fp));
 

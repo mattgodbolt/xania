@@ -2,6 +2,7 @@
 
 #include "ArmourClass.hpp"
 #include "Dice.hpp"
+#include "Materials.hpp"
 #include "Position.hpp"
 #include "Sex.hpp"
 #include "Types.hpp"
@@ -15,7 +16,6 @@
 struct Shop;
 struct MPROG_DATA;
 enum class BodySize;
-enum class Material;
 
 // Prototype for a mob.
 // This is the in-memory version of #MOBILES.
@@ -52,7 +52,7 @@ struct MobIndexData {
     long form{};
     long parts{};
     BodySize body_size{};
-    Material material{}; // TODO: is this actually used in any meaningful way?
+    Material::Type material{}; // TODO: is this actually used in any meaningful way?
     MPROG_DATA *mobprogs{}; /* Used by MOBprogram */
     int progtypes{}; /* Used by MOBprogram */
 

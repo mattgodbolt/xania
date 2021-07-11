@@ -2355,9 +2355,9 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *mo
 
 bool check_material_vulnerability(Char *ch, Object *object) {
     switch (object->material) {
-    case Material::Wood: return check_bit(ch->vuln_flags, DMG_TOL_WOOD);
-    case Material::Silver: return check_bit(ch->vuln_flags, DMG_TOL_SILVER);
-    case Material::Iron: return check_bit(ch->vuln_flags, DMG_TOL_IRON);
+    case Material::Type::Wood: return check_bit(ch->vuln_flags, DMG_TOL_WOOD);
+    case Material::Type::Silver: return check_bit(ch->vuln_flags, DMG_TOL_SILVER);
+    case Material::Type::Iron: return check_bit(ch->vuln_flags, DMG_TOL_IRON);
     default: return false;
     }
 }

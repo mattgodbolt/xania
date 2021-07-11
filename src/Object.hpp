@@ -7,13 +7,13 @@
 #include "AffectList.hpp"
 #include "ExtraDescription.hpp"
 #include "GenericList.hpp"
+#include "Materials.hpp"
 #include "Types.hpp"
 
 #include <array>
 #include <string>
 #include <vector>
 
-enum class Material;
 struct Char;
 struct ObjectIndex;
 enum class ObjectType;
@@ -44,7 +44,7 @@ struct Object {
     int cost{};
     sh_int level{};
     sh_int condition{};
-    Material material{};
+    Material::Type material{};
     sh_int timer{};
     std::array<int, 5> value{};
     Room *destination{};

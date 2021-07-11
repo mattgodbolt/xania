@@ -23,13 +23,13 @@
 #pragma once
 
 #include "GenericList.hpp"
+#include "Materials.hpp"
 #include "Types.hpp"
 
 #include <string_view>
 
 struct Char;
 enum class Stat;
-enum class Material;
 struct AFFECT_DATA;
 struct Object;
 struct ObjectIndex;

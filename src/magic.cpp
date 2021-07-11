@@ -1576,8 +1576,7 @@ void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
     }
 
     const auto base_level_diff = 30 + std::clamp((ch->level - obj->level), -20, 20);
-    const auto material_resilience_bonus =
-        material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience / 2;
+    const auto material_resilience_bonus = Material::get_magical_resilience(obj->material) / 2;
     const auto chance = std::clamp(base_level_diff + material_resilience_bonus, 5, 100) - number_percent();
 
     if (chance >= 0) {
@@ -1615,9 +1614,7 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
     }
 
     const auto base_level_diff = std::clamp((ch->level - obj->level), -20, 20);
-    const auto chance = std::clamp(
-        base_level_diff / 2 + material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience, 5,
-        100);
+    const auto chance = std::clamp(base_level_diff / 2 + Material::get_magical_resilience(obj->material), 5, 100);
     const auto score = chance - number_percent();
 
     if ((score <= 20)) {
@@ -1663,7 +1660,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     int ac_bonus = 0;
     int fail = 15; /* base 15% chance of failure */
     /* TheMoog added material fiddling */
-    fail += ((100 - material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience) / 3);
+    fail += ((100 - Material::get_magical_resilience(obj->material)) / 3);
 
     /* find the bonuses */
     bool ac_found = false;
@@ -1801,7 +1798,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
         fail = -16535;
 
     /* TheMoog added material fiddling */
-    fail += ((100 - material_table[magic_enum::enum_integer<Material>(obj->material)].magical_resilience) / 3);
+    fail += ((100 - Material::get_magical_resilience(obj->material)) / 3);
     if (obj->type == ObjectType::Armor) {
         fail += 25; /* harder to enchant armor with weapon */
         modifier = 2;
@@ -2576,8 +2573,8 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
                   extra_bit_name(obj->extra_flags));
     ch->send_line("Weight is {}, value is {}, level is {}.", obj->weight, obj->cost, obj->level);
 
-    if ((obj->material != Material::None) && (obj->material != Material::Default)) {
-        ch->send_line("Made of {}.", lower_case(magic_enum::enum_name<Material>(obj->material)));
+    if ((obj->material != Material::Type::None) && (obj->material != Material::Type::Default)) {
+        ch->send_line("Made of {}.", lower_case(magic_enum::enum_name<Material::Type>(obj->material)));
     }
 
     switch (obj->type) {

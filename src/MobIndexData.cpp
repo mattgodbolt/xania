@@ -76,8 +76,7 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
         bug("Unrecognized body size: {},  defaulting!", raw_body_size);
         body_size = BodySize::Medium;
     }
-    material = material_lookup(fread_word(fp));
-
+    material = Material::lookup_with_default(fread_word(fp))->material;
     for (;;) {
         // TODO: I'm pretty sure this is not exercised anywhere: the old code would unconditionally bug() and exit after
         // reading the "S". Confirm and remove if unused.

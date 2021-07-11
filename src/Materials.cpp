@@ -33,7 +33,7 @@ constexpr std::array<struct Liquid, magic_enum::enum_count<Liquid::Type>()> Liqu
 
 const Liquid *Liquid::try_lookup(std::string_view name) {
     for (const auto &liquid : Liquids) {
-        if (is_name(liquid.name, name))
+        if (is_name(name, liquid.name))
             return &liquid;
     }
     return nullptr;
@@ -50,18 +50,43 @@ const Liquid *Liquid::get_by_index(const int index) {
     }
 }
 
-const struct materials_type material_table[] = {
-    /* { percentage resilience, name } */
-    {0, "none"},      {40, "default"}, {90, "adamantite"}, {70, "iron"},      {15, "glass"},
-    {71, "bronze"},   {30, "cloth"},   {35, "wood"},       {10, "paper"},     {75, "steel"},
-    {85, "stone"},    {0, "food"},     {55, "silver"},     {55, "gold"},      {30, "leather"},
-    {20, "vellum"},   {5, "china"},    {10, "clay"},       {75, "brass"},     {45, "bone"},
-    {82, "platinum"}, {40, "pearl"},   {65, "mithril"},    {100, "octarine"}, {0, nullptr}};
+constexpr std::array<struct Material, magic_enum::enum_count<Material::Type>()> Materials{{
+    // clang-format off
+    {Material::Type::None, "none", 0},
+    {Material::Type::Default, "default", 40},
+    {Material::Type::Adamantite, "adamantite", 90},
+    {Material::Type::Iron, "iron", 70},
+    {Material::Type::Glass, "glass", 15},
+    {Material::Type::Bronze, "bronze", 71},
+    {Material::Type::Cloth, "cloth", 30},
+    {Material::Type::Wood, "wood", 35},
+    {Material::Type::Paper, "paper", 10},
+    {Material::Type::Steel, "steel", 75},
+    {Material::Type::Stone, "stone", 85},
+    {Material::Type::Food, "food", 0},
+    {Material::Type::Silver, "silver", 55},
+    {Material::Type::Gold, "gold", 55},
+    {Material::Type::Leather, "leather", 30},
+    {Material::Type::Vellum, "vellum", 20},
+    {Material::Type::China, "china", 5},
+    {Material::Type::Clay, "clay", 10},
+    {Material::Type::Brass, "brass", 75},
+    {Material::Type::Bone, "bone", 45},
+    {Material::Type::Platinum, "platinum", 82},
+    {Material::Type::Pearl, "pearl", 40},
+    {Material::Type::Mithril, "mithril", 65},
+    {Material::Type::Octarine, "octarine", 100}
+    // clang-format on
+}};
 
-Material material_lookup(std::string_view name) {
-    for (auto count = 0; material_table[count].material_name; count++) {
-        if (is_name(material_table[count].material_name, name))
-            return magic_enum::enum_value<Material>(count);
+const Material *Material::lookup_with_default(std::string_view name) {
+    for (const auto &material : Materials) {
+        if (is_name(name, material.material_name))
+            return &material;
     }
-    return Material::Default;
+    return &Materials[magic_enum::enum_integer<Material::Type>(Material::Type::Default)];
+}
+
+sh_int Material::get_magical_resilience(const Material::Type type) {
+    return Materials[magic_enum::enum_integer<Material::Type>(type)].magical_resilience;
 }

@@ -7,6 +7,7 @@
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "ExtraFlags.hpp"
+#include "Materials.hpp"
 #include "MobIndexData.hpp"
 #include "PcData.hpp"
 #include "Position.hpp"
@@ -20,7 +21,6 @@
 
 enum class ArmourClass;
 enum class BodySize;
-enum class Material;
 class Note;
 class Sex;
 struct MobIndexData;
@@ -106,7 +106,7 @@ struct Char {
     unsigned long form{};
     unsigned long parts{};
     BodySize body_size{};
-    Material material{}; // TODO is this used in any meaningful way?
+    Material::Type material{}; // TODO is this used in any meaningful way?
     /* mobile stuff */
     unsigned long off_flags{};
     Dice damage; // This is non-wielding damage, and does not include the damroll bonus.
