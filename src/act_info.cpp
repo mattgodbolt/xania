@@ -761,7 +761,7 @@ void look_in_object(const Char &ch, const Object &obj) {
                 obj.objIndex->vnum, obj.short_descr, obj.value[2]);
             return;
         }
-        const auto &liq_color = Liquids[obj.value[2]].color;
+        const auto &liq_color = liquid->color;
         ch.send_line("It's {} full of a{} {} liquid.",
                      obj.value[1] < obj.value[0] / 4 ? "less than"
                                                      : obj.value[1] < 3 * obj.value[0] / 4 ? "about" : "more than",
