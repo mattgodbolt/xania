@@ -8,6 +8,8 @@
 #include "Stats.hpp"
 #include "Types.hpp"
 
+enum class BodySize;
+
 struct race_type {
     const char *name; /* call name of the race */
     bool pc_race; /* can be chosen by pcs */
@@ -30,7 +32,7 @@ struct pc_race_type /* additional data for pc races */
     std::array<const char *, 5> skills{}; /* bonus skills for the race */
     Stats stats; /* starting stats */
     Stats max_stats; /* maximum stats */
-    sh_int size; /* aff bits for the race */
+    BodySize body_size;
 };
 
 extern const struct race_type race_table[];

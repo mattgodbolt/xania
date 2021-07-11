@@ -24,7 +24,6 @@
 #include "SkillTables.hpp"
 #include "db.h"
 #include "string_utils.hpp"
-#include "tables.h"
 
 #include <magic_enum.hpp>
 
@@ -45,17 +44,6 @@ int numeric_lookup_check(std::string_view name, const int max) {
         return retVal;
     else
         return -1;
-}
-
-int size_lookup(const char *name) {
-    int size;
-
-    for (size = 0; size_table[size].name != nullptr; size++) {
-        if (tolower(name[0]) == tolower(size_table[size].name[0]) && !str_prefix(name, size_table[size].name))
-            return size;
-    }
-    bug("Load_objects: Unknown size: {}", name);
-    exit(1);
 }
 
 int attack_lookup(const char *name) {

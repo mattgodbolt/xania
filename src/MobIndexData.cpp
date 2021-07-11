@@ -1,6 +1,7 @@
 #include "MobIndexData.hpp"
 #include "ArmourClass.hpp"
 #include "BitsCharAct.hpp"
+#include "BodySize.hpp"
 #include "Races.hpp"
 #include "common/BitOps.hpp"
 
@@ -68,7 +69,13 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
 
     form = fread_flag(fp) | race_table[race].form;
     parts = fread_flag(fp) | race_table[race].parts;
-    size = size_lookup(fread_word(fp));
+    const auto raw_body_size = fread_word(fp);
+    if (const auto opt_body_size = BodySizes::try_lookup(raw_body_size)) {
+        body_size = *opt_body_size;
+    } else {
+        bug("Unrecognized body size: {},  defaulting!", raw_body_size);
+        body_size = BodySize::Medium;
+    }
     material = material_lookup(fread_word(fp));
 
     for (;;) {

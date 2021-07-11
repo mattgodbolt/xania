@@ -50,7 +50,6 @@
 #include "save.hpp"
 #include "skills.hpp"
 #include "string_utils.hpp"
-#include "tables.h"
 #include "update.hpp"
 
 #include <fmt/format.h>

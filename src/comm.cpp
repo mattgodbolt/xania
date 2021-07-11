@@ -854,7 +854,7 @@ void nanny(Descriptor *d, const char *argument) {
         }
         /* add cost */
         ch->pcdata->points = pc_race_table[race].points;
-        ch->size = pc_race_table[race].size;
+        ch->body_size = pc_race_table[race].body_size;
 
         d->write("Are you male, female or other (M/F/O)? ");
         d->state(DescriptorState::GetNewSex);

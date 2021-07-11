@@ -14,6 +14,7 @@
 
 struct Shop;
 struct MPROG_DATA;
+enum class BodySize;
 enum class Material;
 
 // Prototype for a mob.
@@ -50,7 +51,7 @@ struct MobIndexData {
     long gold{};
     long form{};
     long parts{};
-    sh_int size{};
+    BodySize body_size{};
     Material material{}; // TODO: is this actually used in any meaningful way?
     MPROG_DATA *mobprogs{}; /* Used by MOBprogram */
     int progtypes{}; /* Used by MOBprogram */

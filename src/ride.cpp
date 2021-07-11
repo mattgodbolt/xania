@@ -38,6 +38,10 @@ void char_ride(Char *ch, Char *ridee) {
     affect_to_char(ch, af);
 }
 
+int calc_max_fall_damage(const BodySize rider_size, const BodySize ridee_size) {
+    return 2 + 2 * magic_enum::enum_integer<BodySize>(rider_size) + magic_enum::enum_integer<BodySize>(ridee_size);
+}
+
 }
 
 void unride_char(Char *ch, Char *pet) {
@@ -68,7 +72,8 @@ void fallen_off_mount(Char *ch) {
 
     ch->wait_state(2 * PULSE_VIOLENCE);
     ch->position = Position::Type::Resting;
-    damage(pet, ch, number_range(2, 2 + 2 * ch->size + pet->size), &skill_table[gsn_bash], DAM_BASH);
+    damage(pet, ch, number_range(2, calc_max_fall_damage(ch->body_size, pet->body_size)), &skill_table[gsn_bash],
+           DAM_BASH);
 }
 
 void do_ride(Char *ch, const char *argument) {

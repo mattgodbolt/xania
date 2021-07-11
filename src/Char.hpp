@@ -19,6 +19,7 @@
 #include <memory>
 
 enum class ArmourClass;
+enum class BodySize;
 enum class Material;
 class Note;
 class Sex;
@@ -104,7 +105,7 @@ struct Char {
     /* parts stuff */
     unsigned long form{};
     unsigned long parts{};
-    ush_int size{};
+    BodySize body_size{};
     Material material{}; // TODO is this used in any meaningful way?
     /* mobile stuff */
     unsigned long off_flags{};

@@ -20,6 +20,7 @@
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "BitsWeaponFlag.hpp"
+#include "BodySize.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"
 #include "DamageMessages.hpp"
@@ -215,6 +216,15 @@ void send_dam_messages(const Char *ch, const Char *victim, const DamageMessages 
         act(messages.to_victim(), ch, nullptr, victim, To::Vict);
     }
 }
+
+// Calculates the max damage that the bash skill may do based on the current chance to hit
+// and the size of the attacker.
+int calc_max_bash_damage(const BodySize attacker_size, const int chance) {
+    return 2 + (2 * magic_enum::enum_integer<BodySize>(attacker_size) + (chance / 20));
+}
+
+// Calculates the max damage the trip skill may do based on the victim's size.
+int calc_max_trip_damage(const BodySize victim_size) { return 2 + 2 * magic_enum::enum_integer<BodySize>(victim_size); }
 
 }
 
@@ -1831,10 +1841,10 @@ void do_bash(Char *ch, const char *argument) {
     chance += ch->carry_weight / 25;
     chance -= victim->carry_weight / 20;
 
-    if (ch->size < victim->size)
-        chance += (ch->size - victim->size) * 25;
+    if (ch->body_size < victim->body_size)
+        chance += BodySizes::size_diff(ch->body_size, victim->body_size) * 25;
     else
-        chance += (ch->size - victim->size) * 10;
+        chance += BodySizes::size_diff(ch->body_size, victim->body_size) * 10;
 
     /* stats */
     chance += get_curr_stat(ch, Stat::Str);
@@ -1863,7 +1873,8 @@ void do_bash(Char *ch, const char *argument) {
             victim->wait_state(3 * PULSE_VIOLENCE);
         ch->wait_state(skill_table[gsn_bash].beats);
         victim->position = Position::Type::Resting;
-        damage(ch, victim, number_range(2, 2 + 2 * ch->size + chance / 20), &skill_table[gsn_bash], DAM_BASH);
+        damage(ch, victim, number_range(2, calc_max_bash_damage(ch->body_size, chance)), &skill_table[gsn_bash],
+               DAM_BASH);
         if (victim->ridden_by != nullptr) {
             thrown_off(victim->ridden_by, victim);
         }
@@ -2068,8 +2079,8 @@ void do_trip(Char *ch, const char *argument) {
     /* modifiers */
 
     /* size */
-    if (ch->size < victim->size)
-        chance += (ch->size - victim->size) * 10; /* bigger = harder to trip */
+    if (ch->body_size < victim->body_size)
+        chance += BodySizes::size_diff(ch->body_size, victim->body_size) * 10; /* bigger = harder to trip */
 
     /* dex */
     chance += get_curr_stat(ch, Stat::Dex);
@@ -2094,7 +2105,7 @@ void do_trip(Char *ch, const char *argument) {
         victim->wait_state(2 * PULSE_VIOLENCE);
         ch->wait_state(skill_table[gsn_trip].beats);
         victim->position = Position::Type::Resting;
-        damage(ch, victim, number_range(2, 2 + 2 * victim->size), &skill_table[gsn_trip], DAM_BASH);
+        damage(ch, victim, number_range(2, calc_max_trip_damage(victim->body_size)), &skill_table[gsn_trip], DAM_BASH);
         if (victim->ridden_by != nullptr) {
             thrown_off(victim->ridden_by, victim);
         }
@@ -2458,22 +2469,19 @@ void do_headbutt(Char *ch, const char *argument) {
         damage(ch, victim, number_range(ch->level / 3, ch->level), &skill_table[gsn_headbutt], DAM_BASH);
         check_improve(ch, gsn_headbutt, true, 2);
 
-        if (ch->size >= (victim->size - 1) && ch->size <= (victim->size + 1)) {
+        chance = chance - ch->level + victim->level;
+        if ((chance < 5) || !victim->is_aff_blind()) {
+            act("$n is blinded by the blood running into $s eyes!", victim);
+            victim->send_line("Blood runs into your eyes - you can't see!");
 
-            chance = chance - ch->level + victim->level;
-            if ((chance < 5) || !victim->is_aff_blind()) {
-                act("$n is blinded by the blood running into $s eyes!", victim);
-                victim->send_line("Blood runs into your eyes - you can't see!");
+            af.type = gsn_headbutt;
+            af.level = ch->level;
+            af.duration = 0;
+            af.location = AffectLocation::Hitroll;
+            af.modifier = -5;
+            af.bitvector = AFF_BLIND;
 
-                af.type = gsn_headbutt;
-                af.level = ch->level;
-                af.duration = 0;
-                af.location = AffectLocation::Hitroll;
-                af.modifier = -5;
-                af.bitvector = AFF_BLIND;
-
-                affect_to_char(victim, af);
-            }
+            affect_to_char(victim, af);
         }
     } else {
         act("$N dodges your headbutt. You feel disoriented.", ch, nullptr, victim, To::Char);

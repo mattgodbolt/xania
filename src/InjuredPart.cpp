@@ -7,6 +7,7 @@
 #include "Attacks.hpp"
 #include "BitsAffect.hpp"
 #include "BitsBodyPart.hpp"
+#include "BodySize.hpp"
 #include "Char.hpp"
 #include "Races.hpp"
 #include "Rng.hpp"
@@ -14,6 +15,7 @@
 #include "VnumObjects.hpp"
 #include "handler.hpp"
 
+#include <magic_enum.hpp>
 #include <tuple>
 
 namespace {
@@ -70,7 +72,7 @@ const struct body_part_attrs body_part_attrs_table[MAX_BODY_PARTS] = {
 int body_size_diff(const Char *ch, const Char *victim) {
     if (ch->is_aff_fly() || ch->is_aff_haste())
         return 0;
-    return ch->size - victim->size;
+    return BodySizes::size_diff(ch->body_size, victim->body_size);
 }
 
 // Small creatures are more likely to hit the lower parts of their opponent

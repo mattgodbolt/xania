@@ -62,7 +62,7 @@ stand stand male 200
         // TODO: check flags
         CHECK(mob->default_pos == Position::Type::Standing);
         CHECK(mob->start_pos == Position::Type::Standing);
-        CHECK(mob->size == BodySizeMedium);
+        CHECK(mob->body_size == BodySize::Medium);
         CHECK(mob->material == Material::Default);
     }
 }

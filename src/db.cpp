@@ -1258,7 +1258,7 @@ Char *create_mobile(MobIndexData *pMobIndex) {
         mob->gold = number_range(pMobIndex->gold / 2, pMobIndex->gold * 3 / 2);
     mob->form = pMobIndex->form;
     mob->parts = pMobIndex->parts;
-    mob->size = pMobIndex->size;
+    mob->body_size = pMobIndex->body_size;
     mob->material = pMobIndex->material;
 
     /* computed on the spot */
@@ -1292,8 +1292,8 @@ Char *create_mobile(MobIndexData *pMobIndex) {
     if (check_bit(mob->off_flags, OFF_FAST))
         mob->perm_stat[Stat::Dex] += 2;
 
-    mob->perm_stat[Stat::Str] += mob->size - BodySizeMedium;
-    mob->perm_stat[Stat::Con] += (mob->size - BodySizeMedium) / 2;
+    mob->perm_stat[Stat::Str] += BodySizes::get_mob_str_bonus(mob->body_size);
+    mob->perm_stat[Stat::Con] += BodySizes::get_mob_con_bonus(mob->body_size);
 
     mob->position = mob->start_pos;
 
@@ -1347,7 +1347,7 @@ void clone_mobile(Char *parent, Char *clone) {
     clone->wimpy = parent->wimpy;
     clone->form = parent->form;
     clone->parts = parent->parts;
-    clone->size = parent->size;
+    clone->body_size = parent->body_size;
     clone->material = parent->material;
     clone->off_flags = parent->off_flags;
     clone->dam_type = parent->dam_type;

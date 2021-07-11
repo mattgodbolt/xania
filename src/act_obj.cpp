@@ -381,7 +381,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             return;
 
         weapon = get_eq_char(ch, WEAR_WIELD);
-        if (weapon != nullptr && ch->size < BodySizeLarge && weapon->is_weapon_two_handed()) {
+        if (weapon != nullptr && ch->body_size < BodySize::Large && weapon->is_weapon_two_handed()) {
             ch->send_line("Your hands are tied up with your weapon!");
             return;
         }
@@ -405,7 +405,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             return;
         }
 
-        if (ch->is_pc() && ch->size < BodySizeLarge && obj->is_weapon_two_handed()
+        if (ch->is_pc() && ch->body_size < BodySize::Large && obj->is_weapon_two_handed()
             && get_eq_char(ch, WEAR_SHIELD) != nullptr) {
             ch->send_line("You need two hands free for that weapon.");
             return;

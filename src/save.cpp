@@ -498,7 +498,7 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
         if (ch->race == 0)
             ch->race = race_lookup("human");
 
-        ch->size = pc_race_table[ch->race].size;
+        ch->body_size = pc_race_table[ch->race].body_size;
         ch->dam_type = attack_lookup("punch");
 
         for (auto *group : pc_race_table[ch->race].skills) {

@@ -125,7 +125,7 @@ const struct race_type race_table[] = {
     {nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
 const struct pc_race_type pc_race_table[] = {
-    {"null race", "", 0, {100, 100, 100, 100}, {""}, {13, 13, 13, 13, 13}, {18, 18, 18, 18, 18}, 0},
+    {"null race", "", 0, {100, 100, 100, 100}, {""}, {13, 13, 13, 13, 13}, {18, 18, 18, 18, 18}, BodySize::Tiny},
 
     /*
         {
@@ -135,7 +135,7 @@ const struct pc_race_type pc_race_table[] = {
         },
     */
 
-    {"human", "Human", 0, {100, 100, 100, 100}, {""}, {14, 14, 14, 14, 14}, {18, 18, 18, 18, 18}, BodySizeMedium},
+    {"human", "Human", 0, {100, 100, 100, 100}, {""}, {14, 14, 14, 14, 14}, {18, 18, 18, 18, 18}, BodySize::Medium},
 
     {"hobbit",
      "Hobbt",
@@ -144,7 +144,7 @@ const struct pc_race_type pc_race_table[] = {
      {"backstab", "pick lock"},
      {13, 15, 16, 16, 14},
      {17, 19, 21, 20, 17},
-     BodySizeSmall},
+     BodySize::Small},
 
     {"minotaur",
      "Mintr",
@@ -153,7 +153,7 @@ const struct pc_race_type pc_race_table[] = {
      {"headbutt"},
      {16, 14, 15, 11, 16},
      {21, 18, 19, 15, 20},
-     BodySizeLarge},
+     BodySize::Large},
 
     {"elf",
      " Elf ",
@@ -162,7 +162,7 @@ const struct pc_race_type pc_race_table[] = {
      {"sneak", "hide"},
      {11, 16, 14, 16, 11},
      {16, 21, 18, 21, 15},
-     BodySizeMedium},
+     BodySize::Medium},
 
     {"half-elf",
      "H/Elf",
@@ -171,7 +171,7 @@ const struct pc_race_type pc_race_table[] = {
      {"dodge"},
      {14, 15, 14, 15, 14},
      {18, 20, 18, 19, 18},
-     BodySizeMedium},
+     BodySize::Medium},
 
     {"dragon",
      "Dragn",
@@ -180,7 +180,7 @@ const struct pc_race_type pc_race_table[] = {
      {"draconian", "transportation", "bash"},
      {16, 16, 16, 16, 16},
      {21, 20, 20, 13, 21},
-     BodySizeLarge},
+     BodySize::Large},
 
     {"eagle",
      "Eagle",
@@ -189,7 +189,7 @@ const struct pc_race_type pc_race_table[] = {
      {"fly", "lore"},
      {13, 15, 15, 13, 14},
      {17, 20, 20, 17, 18},
-     BodySizeSmall},
+     BodySize::Small},
 
     {"orc",
      " Orc ",
@@ -198,7 +198,7 @@ const struct pc_race_type pc_race_table[] = {
      {"fast healing", "berserk"},
      {16, 12, 16, 12, 16},
      {20, 16, 20, 16, 20},
-     BodySizeLarge},
+     BodySize::Large},
 
     {"dwarf",
      "Dwarf",
@@ -207,7 +207,7 @@ const struct pc_race_type pc_race_table[] = {
      {"haggle", "peek"},
      {16, 12, 16, 10, 16},
      {20, 16, 20, 14, 21},
-     BodySizeMedium},
+     BodySize::Medium},
 
     {"wolf",
      "Wolf ",
@@ -216,7 +216,7 @@ const struct pc_race_type pc_race_table[] = {
      {"berserk", "second attack"},
      {16, 11, 15, 16, 15},
      {21, 14, 19, 21, 19},
-     BodySizeMedium},
+     BodySize::Medium},
     /* commented out for the time being --Fara
     {
        "wraith",          "Wrait",       15,       {
@@ -229,7 +229,7 @@ const struct pc_race_type pc_race_table[] = {
           13, 16, 16, 14, 14       }
        , {
           17, 20, 20, 16, 18       }
-       , BodySizeMedium
+       , BodySize::Medium
        }*/
 
 };
