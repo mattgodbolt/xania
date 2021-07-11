@@ -65,8 +65,6 @@ struct liq_type {
     std::array<sh_int, 3> liq_affect;
 };
 
-// extern const struct liq_type liq_table[];
-
 extern const std::array<struct liq_type, magic_enum::enum_count<Liquid>()> liq_table;
 
 class Liquids {
