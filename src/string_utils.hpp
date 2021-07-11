@@ -26,6 +26,8 @@
 // Parses a string as a number.
 [[nodiscard]] int parse_number(std::string_view sv);
 
+[[nodiscard]] bool is_vowel(const char c);
+
 // Given a string like 14.foo, return 14 and 'foo'.
 [[nodiscard]] std::pair<int, std::string_view> number_argument(std::string_view argument);
 

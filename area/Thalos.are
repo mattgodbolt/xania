@@ -1904,7 +1904,7 @@ a large cracked fountain~
 Some stagnant water lies in the bottom of the fountain.~
 stone~
 fountain 0 0
-10 10 0 1 0
+10 10 water 1 0
 0 0 0 P
 
 #5221

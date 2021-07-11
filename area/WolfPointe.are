@@ -1154,7 +1154,7 @@ fountain~
 A simple fountain covered in gold and emeralds flows here.~
 adamantite~
 fountain AO 0
-999 999 0 0 0
+999 999 water 0 0
 1 999 0 P
 E
 fount fountain~
@@ -1168,7 +1168,7 @@ fountain~
 A beautiful glass fountain.~
 glass~
 fountain AO 0
-999 999 0 0 0
+999 999 water 0 0
 1 999 0 P
 E
 fount fountain glass~

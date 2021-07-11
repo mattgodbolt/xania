@@ -24,6 +24,5 @@
 // Returns number or -1 if not
 int numeric_lookup_check(std::string_view name, const int max);
 
-int liq_lookup(const char *name);
 int attack_lookup(const char *name);
 int skill_lookup(const char *name);

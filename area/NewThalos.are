@@ -7251,7 +7251,7 @@ A fountain~
 A large fountain is here gurgling out an endless stream of water.~
 ~
 fountain 0 0
-50 50 0 0 0
+50 50 water 0 0
 0 5000 3000 G
 
 #9602
@@ -7376,7 +7376,7 @@ A fountain~
 A small fountain trickles gently.~
 ~
 fountain 0 0
-50 50 0 0 0
+50 50 water 0 0
 0 5000 3000 G
 
 

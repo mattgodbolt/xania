@@ -1890,7 +1890,7 @@ a fountain~
 A small white fountain gushes forth here.~
 ~
 fountain 0 0
-50 50 0 0 0
+50 50 water 0 0
 0 500 3000 G
 E
 fountain~

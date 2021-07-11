@@ -6,6 +6,8 @@
 #pragma once
 #include "Types.hpp"
 
+#include <array>
+#include <magic_enum.hpp>
 #include <string_view>
 
 // Material types. Used by objects and mobiles.
@@ -36,17 +38,43 @@ enum class Material {
     Octarine = 23
 };
 
-// TODO: constants
-#define LIQ_WATER 0
-#define LIQ_MAX 17
-
-struct liq_type {
-    const char *liq_name;
-    const char *liq_color;
-    sh_int liq_affect[3];
+enum class Liquid {
+    Water = 0,
+    Beer = 1,
+    Wine = 2,
+    Ale = 3,
+    DarkAle = 4,
+    Whisky = 5,
+    Lemonade = 6,
+    Firebreather = 7,
+    LocalSpecialty = 8,
+    SlimeMoldJuice = 9,
+    Milk = 10,
+    Tea = 11,
+    Coffee = 12,
+    Blood = 13,
+    SaltWater = 14,
+    Cola = 15,
+    RedWine = 16
 };
 
-extern const struct liq_type liq_table[];
+struct liq_type {
+    const Liquid liquid;
+    std::string_view liq_name;
+    std::string_view liq_color;
+    std::array<sh_int, 3> liq_affect;
+};
+
+// extern const struct liq_type liq_table[];
+
+extern const std::array<struct liq_type, magic_enum::enum_count<Liquid>()> liq_table;
+
+class Liquids {
+public:
+    [[nodiscard]] static std::optional<Liquid> try_lookup(std::string_view name);
+    [[nodiscard]] static const liq_type *get_liq_type(const int index);
+    Liquids() = delete;
+};
 
 struct materials_type {
     sh_int magical_resilience;

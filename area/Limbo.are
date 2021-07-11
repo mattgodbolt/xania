@@ -175,7 +175,7 @@ a magical spring~
 A magical spring flows from the ground here.~
 water~
 fountain G 0
-100000 100000 0 0 0
+100000 100000 water 0 0
 0 0 0 P
 #23
 scroll hand written handwritten %s~

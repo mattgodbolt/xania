@@ -57,23 +57,6 @@ int attack_lookup(const char *name) {
     exit(1);
 }
 
-int liq_lookup(const char *name) {
-    int liq;
-
-    for (liq = 0; liq_table[liq].liq_name != nullptr; liq++) {
-        if (tolower(name[0]) == tolower(liq_table[liq].liq_name[0]) && !str_prefix(name, liq_table[liq].liq_name))
-            return liq;
-    }
-
-    liq = numeric_lookup_check(name, liq);
-    if (liq >= 0)
-        return liq;
-
-    bug("Unknown liquid type '{}' - defaulting!", name);
-
-    return 0;
-}
-
 /*
  * Lookup a skill by name.
  */

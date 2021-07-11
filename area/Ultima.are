@@ -5383,7 +5383,7 @@ a fountain~
 A fountain shaped in an Ankh pours water.~
 stone~
 fountain 0 0
-0 0 0 0 0
+0 0 water 0 0
 1 1000 207 P
 
 #2468

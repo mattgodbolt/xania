@@ -6,35 +6,49 @@
 #include "Materials.hpp"
 #include "string_utils.hpp"
 
-#include <magic_enum.hpp>
-
 /*
  * Liquid properties.
  */
-const struct liq_type liq_table[] = {{"water", "clear", {0, 1, 10}}, /*  0 */
-                                     {"beer", "amber", {3, 2, 5}},
-                                     {"wine", "rose", {5, 2, 5}},
-                                     {"ale", "brown", {2, 2, 5}},
-                                     {"dark ale", "dark", {1, 2, 5}},
+constexpr std::array<struct liq_type, magic_enum::enum_count<Liquid>()> liq_table{{
+    // clang-format off
+    {Liquid::Water,            "water",            "clear",     {0, 1, 10}},
+    {Liquid::Beer,             "beer",             "amber",     {3, 2, 5}},
+    {Liquid::Wine,             "wine",             "rose",      {5, 2, 5}},
+    {Liquid::Ale,              "ale",              "brown",     {2, 2, 5}},
+    {Liquid::DarkAle,          "dark ale",         "dark",      {1, 2, 5}},
+    {Liquid::Whisky,           "whisky",           "golden",    {6, 1, 4}},
+    {Liquid::Lemonade,         "lemonade",         "pink",      {0, 1, 8}},
+    {Liquid::Firebreather,     "firebreather",     "boiling",   {10, 0, 0}},
+    {Liquid::LocalSpecialty,   "local specialty",  "everclear", {3, 3, 3}},
+    {Liquid::SlimeMoldJuice,   "slime mold juice", "green",     {0, 4, -8}},
+    {Liquid::Milk,             "milk",             "white",     {0, 3, 6}},
+    {Liquid::Tea,              "tea",              "tan",       {0, 1, 6}},
+    {Liquid::Coffee,           "coffee",           "black",     {0, 1, 6}},
+    {Liquid::Blood,            "blood",            "red",       {0, 2, -1}},
+    {Liquid::SaltWater,        "salt water",       "clear",     {0, 1, -2}},
+    {Liquid::Cola,             "cola",             "cherry",    {0, 1, 5}},
+    {Liquid::RedWine,          "red wine",         "red",       {5, 2, 5}}
+    // clang-format on
+}};
 
-                                     {"whisky", "golden", {6, 1, 4}}, /*  5 */
-                                     {"lemonade", "pink", {0, 1, 8}},
-                                     {"firebreather", "boiling", {10, 0, 0}},
-                                     {"local specialty", "everclear", {3, 3, 3}},
-                                     {"slime mold juice", "green", {0, 4, -8}},
+std::optional<Liquid> Liquids::try_lookup(std::string_view name) {
+    for (const auto &liquid : liq_table) {
+        if (is_name(liquid.liq_name, name))
+            return liquid.liquid;
+    }
+    return std::nullopt;
+}
 
-                                     {"milk", "white", {0, 3, 6}}, /* 10 */
-                                     {"tea", "tan", {0, 1, 6}},
-                                     {"coffee", "black", {0, 1, 6}},
-                                     {"blood", "red", {0, 2, -1}},
-                                     {"salt water", "clear", {0, 1, -2}},
-
-                                     {"cola", "cherry", {0, 1, 5}} /* 15 */
-                                     ,
-                                     {"red wine", "red", {5, 2, 5}}
-                                     /* 16 */
-                                     ,
-                                     {nullptr, nullptr, {}}};
+const liq_type *Liquids::get_liq_type(const int index) {
+    if (index < 0 || static_cast<size_t>(index) >= liq_table.size()) {
+        // In theory this should never happen, at least w.r.t. liquids defined in area files as they
+        // are validated on startup. However, imms can use the 'set obj' command to customize object attributes
+        // and there's insufficient input validation there.
+        return nullptr;
+    } else {
+        return &liq_table[index];
+    }
+}
 
 const struct materials_type material_table[] = {
     /* { percentage resilience, name } */

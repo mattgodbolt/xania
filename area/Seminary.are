@@ -3674,7 +3674,7 @@ the Fountain of Knowledge~
 The Fountain of Knowledge springs forth from the ground.~
 stone~
 fountain KO 0
-999 999 0 0 0
+999 999 water 0 0
 0 1500 500000 P
 E
 fountain~

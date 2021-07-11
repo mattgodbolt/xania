@@ -10,9 +10,13 @@
 #include <range/v3/view/zip.hpp>
 
 #include <algorithm>
+#include <array>
 #include <cstring>
 
 using namespace std::literals;
+
+constexpr std::array<char, 10> Vowels{'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'};
+
 int parse_number(std::string_view sv) {
     if (sv.empty())
         return 0;
@@ -45,6 +49,8 @@ std::pair<int, std::string_view> number_argument(std::string_view argument) {
         return {parse_number(argument.substr(0, dot)), argument.substr(dot + 1)};
     return {1, argument};
 }
+
+bool is_vowel(const char c) { return std::find(Vowels.begin(), Vowels.end(), c) != Vowels.end(); }
 
 std::string smash_tilde(std::string_view str) {
     std::string result;

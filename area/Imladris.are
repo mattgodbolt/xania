@@ -3116,7 +3116,7 @@ the well of elbereth~
 A smooth, stony well protrudes from the ground.~
 stone~
 fountain G 0
-999 999 0 0 0
+999 999 water 0 0
 0 0 0 P
 E
 well stone~

@@ -817,13 +817,21 @@ void load_objects(FILE *fp) {
             objIndex->value[4] = fread_number(fp);
             break;
         case ObjectType::Drink:
-        case ObjectType::Fountain:
+        case ObjectType::Fountain: {
             objIndex->value[0] = fread_number(fp);
             objIndex->value[1] = fread_number(fp);
-            objIndex->value[2] = liq_lookup(fread_word(fp));
+            const auto raw_liquid = fread_word(fp);
+            if (const auto opt_liquid = Liquids::try_lookup(raw_liquid)) {
+                objIndex->value[2] = magic_enum::enum_integer<Liquid>(*opt_liquid);
+            } else {
+                bug("Invalid liquid {} in object: {} {}, defaulting.", raw_liquid, objIndex->vnum,
+                    objIndex->short_descr);
+                objIndex->value[2] = 0;
+            }
             objIndex->value[3] = fread_number(fp);
             objIndex->value[4] = fread_number(fp);
             break;
+        }
         case ObjectType::Wand:
         case ObjectType::Staff:
             objIndex->value[0] = fread_number(fp);

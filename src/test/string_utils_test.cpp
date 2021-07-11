@@ -402,3 +402,14 @@ TEST_CASE("is_name()") {
         CHECK(is_name("full match", "somet 'full match' yibble"));
     }
 }
+
+TEST_CASE("is vowel") {
+    SECTION("valid") {
+        auto vowel = GENERATE('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U');
+        SECTION("ok") { CHECK(is_vowel(vowel)); }
+    }
+    SECTION("consonant") {
+        auto vowel = GENERATE('b', 'c', 'd', 'X', 'Y', 'Z');
+        SECTION("ok") { CHECK(!is_vowel(vowel)); }
+    }
+}
