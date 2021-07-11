@@ -308,7 +308,7 @@ the load object portion as well. */
 
 void do_mpmload(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    MobIndexData *pMobIndex;
+    MobIndexData *mobIndex;
     Char *victim;
 
     if (ch->is_pc()) {
@@ -323,12 +323,12 @@ void do_mpmload(Char *ch, const char *argument) {
         return;
     }
 
-    if ((pMobIndex = get_mob_index(atoi(arg))) == nullptr) {
+    if ((mobIndex = get_mob_index(atoi(arg))) == nullptr) {
         bug("Mpmload - Bad mob vnum from vnum {}.", ch->pIndexData->vnum);
         return;
     }
 
-    victim = create_mobile(pMobIndex);
+    victim = create_mobile(mobIndex);
     char_to_room(victim, ch->in_room);
 }
 

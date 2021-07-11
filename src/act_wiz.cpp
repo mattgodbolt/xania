@@ -1659,7 +1659,7 @@ void do_clone(Char *ch, const char *argument) {
 
 void do_mload(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    MobIndexData *pMobIndex;
+    MobIndexData *mobIndex;
 
     one_argument(argument, arg);
 
@@ -1668,12 +1668,12 @@ void do_mload(Char *ch, const char *argument) {
         return;
     }
 
-    if ((pMobIndex = get_mob_index(atoi(arg))) == nullptr) {
+    if ((mobIndex = get_mob_index(atoi(arg))) == nullptr) {
         ch->send_line("No mob has that vnum.");
         return;
     }
 
-    Char *victim = create_mobile(pMobIndex);
+    Char *victim = create_mobile(mobIndex);
     char_to_room(victim, ch->in_room);
     act("$n has created $N!", ch, nullptr, victim, To::Room);
     ch->send_line("Ok.");

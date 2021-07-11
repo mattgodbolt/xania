@@ -37,7 +37,7 @@ extern int top_obj_index;
 
 void boot_db();
 void area_update();
-Char *create_mobile(MobIndexData *pMobIndex);
+Char *create_mobile(MobIndexData *mobIndex);
 void clone_mobile(Char *parent, Char *clone);
 Object *create_object(ObjectIndex *objIndex);
 void clone_object(Object *parent, Object *clone);
@@ -79,4 +79,4 @@ inline auto all_mob_indexes() {
     return all_mob_index_pairs()
            | ranges::views::transform([](const auto &p) -> const MobIndexData & { return p.second; });
 }
-void mprog_read_programs(FILE *fp, MobIndexData *pMobIndex);
+void mprog_read_programs(FILE *fp, MobIndexData *mobIndex);

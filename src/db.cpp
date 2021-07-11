@@ -180,9 +180,9 @@ sh_int gsn_bless;
  */
 
 int mprog_name_to_type(char *name);
-MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *pMobIndex);
+MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *mobIndex);
 void load_mobprogs(FILE *fp);
-void mprog_read_programs(FILE *fp, MobIndexData *pMobIndex);
+void mprog_read_programs(FILE *fp, MobIndexData *mobIndex);
 
 /*
  * Memory management.
@@ -626,7 +626,7 @@ void load_shops(FILE *fp) {
     Shop *shop;
 
     for (;;) {
-        MobIndexData *pMobIndex;
+        MobIndexData *mobIndex;
         uint iTrade;
         auto shopkeeper_vnum = fread_number(fp);
         if (shopkeeper_vnum == 0)
@@ -647,8 +647,8 @@ void load_shops(FILE *fp) {
         shop->open_hour = fread_number(fp);
         shop->close_hour = fread_number(fp);
         fread_to_eol(fp);
-        pMobIndex = get_mob_index(shop->keeper);
-        pMobIndex->shop = shop;
+        mobIndex = get_mob_index(shop->keeper);
+        mobIndex->shop = shop;
 
         if (shop_first == nullptr)
             shop_first = shop;
@@ -664,7 +664,7 @@ void load_shops(FILE *fp) {
 /* Snarf spec proc declarations. */
 void load_specials(FILE *fp) {
     for (;;) {
-        MobIndexData *pMobIndex;
+        MobIndexData *mobIndex;
         char letter;
 
         switch (letter = fread_letter(fp)) {
@@ -675,10 +675,10 @@ void load_specials(FILE *fp) {
         case '*': break;
 
         case 'M':
-            pMobIndex = get_mob_index(fread_number(fp));
-            pMobIndex->spec_fun = spec_lookup(fread_word(fp));
-            if (pMobIndex->spec_fun == 0) {
-                bug("Load_specials: 'M': vnum {}.", pMobIndex->vnum);
+            mobIndex = get_mob_index(fread_number(fp));
+            mobIndex->spec_fun = spec_lookup(fread_word(fp));
+            if (mobIndex->spec_fun == 0) {
+                bug("Load_specials: 'M': vnum {}.", mobIndex->vnum);
                 exit(1);
             }
             break;
@@ -1212,54 +1212,54 @@ void reset_area(AREA_DATA *pArea) {
 /*
  * Create an instance of a mobile.
  */
-Char *create_mobile(MobIndexData *pMobIndex) {
-    if (pMobIndex == nullptr) {
-        bug("Create_mobile: nullptr pMobIndex.");
+Char *create_mobile(MobIndexData *mobIndex) {
+    if (mobIndex == nullptr) {
+        bug("Create_mobile: nullptr mobIndex.");
         exit(1);
     }
 
     auto *mob = new Char;
-    mob->pIndexData = pMobIndex;
+    mob->pIndexData = mobIndex;
 
-    mob->name = pMobIndex->player_name;
-    mob->short_descr = pMobIndex->short_descr;
-    mob->long_descr = pMobIndex->long_descr;
-    mob->description = pMobIndex->description;
-    mob->spec_fun = pMobIndex->spec_fun;
+    mob->name = mobIndex->player_name;
+    mob->short_descr = mobIndex->short_descr;
+    mob->long_descr = mobIndex->long_descr;
+    mob->description = mobIndex->description;
+    mob->spec_fun = mobIndex->spec_fun;
 
     /* read from prototype */
-    mob->act = pMobIndex->act;
+    mob->act = mobIndex->act;
     mob->comm = COMM_NOCHANNELS | COMM_NOSHOUT | COMM_NOTELL;
-    mob->affected_by = pMobIndex->affected_by;
-    mob->alignment = pMobIndex->alignment;
-    mob->level = pMobIndex->level;
-    mob->hitroll = pMobIndex->hitroll;
-    mob->max_hit = pMobIndex->hit.roll();
+    mob->affected_by = mobIndex->affected_by;
+    mob->alignment = mobIndex->alignment;
+    mob->level = mobIndex->level;
+    mob->hitroll = mobIndex->hitroll;
+    mob->max_hit = mobIndex->hit.roll();
     mob->hit = mob->max_hit;
-    mob->max_mana = pMobIndex->mana.roll();
+    mob->max_mana = mobIndex->mana.roll();
     mob->mana = mob->max_mana;
-    mob->damage = pMobIndex->damage;
+    mob->damage = mobIndex->damage;
     mob->damage.bonus(0); // clear the bonus; it's accounted for in the damroll
-    mob->damroll = pMobIndex->damage.bonus();
-    mob->dam_type = pMobIndex->dam_type;
+    mob->damroll = mobIndex->damage.bonus();
+    mob->dam_type = mobIndex->dam_type;
     for (int i = 0; i < 4; i++)
-        mob->armor[i] = pMobIndex->ac[i];
-    mob->off_flags = pMobIndex->off_flags;
-    mob->imm_flags = pMobIndex->imm_flags;
-    mob->res_flags = pMobIndex->res_flags;
-    mob->vuln_flags = pMobIndex->vuln_flags;
-    mob->start_pos = pMobIndex->start_pos;
-    mob->default_pos = pMobIndex->default_pos;
-    mob->sex = pMobIndex->sex;
-    mob->race = pMobIndex->race;
-    if (pMobIndex->gold == 0)
+        mob->armor[i] = mobIndex->ac[i];
+    mob->off_flags = mobIndex->off_flags;
+    mob->imm_flags = mobIndex->imm_flags;
+    mob->res_flags = mobIndex->res_flags;
+    mob->vuln_flags = mobIndex->vuln_flags;
+    mob->start_pos = mobIndex->start_pos;
+    mob->default_pos = mobIndex->default_pos;
+    mob->sex = mobIndex->sex;
+    mob->race = mobIndex->race;
+    if (mobIndex->gold == 0)
         mob->gold = 0;
     else
-        mob->gold = number_range(pMobIndex->gold / 2, pMobIndex->gold * 3 / 2);
-    mob->form = pMobIndex->form;
-    mob->parts = pMobIndex->parts;
-    mob->body_size = pMobIndex->body_size;
-    mob->material = pMobIndex->material;
+        mob->gold = number_range(mobIndex->gold / 2, mobIndex->gold * 3 / 2);
+    mob->form = mobIndex->form;
+    mob->parts = mobIndex->parts;
+    mob->body_size = mobIndex->body_size;
+    mob->material = mobIndex->material;
 
     /* computed on the spot */
 
@@ -1299,7 +1299,7 @@ Char *create_mobile(MobIndexData *pMobIndex) {
 
     /* link the mob to the world list */
     char_list.add_front(mob);
-    pMobIndex->count++;
+    mobIndex->count++;
     return mob;
 }
 
@@ -2130,7 +2130,7 @@ void do_memory(Char *ch) {
 
 void do_dump(Char *ch) {
     int count, num_pcs, aff_count;
-    MobIndexData *pMobIndex;
+    MobIndexData *mobIndex;
     PcData *pc;
     ObjectIndex *objIndex;
     Room *room;
@@ -2149,7 +2149,7 @@ void do_dump(Char *ch) {
     aff_count = 0;
 
     /* mobile prototypes */
-    fprintf(fp, "MobProt	%4lu (%8ld bytes)\n", mob_indexes.size(), mob_indexes.size() * (sizeof(*pMobIndex)));
+    fprintf(fp, "MobProt	%4lu (%8ld bytes)\n", mob_indexes.size(), mob_indexes.size() * (sizeof(*mobIndex)));
 
     /* mobs */
     count = 0;
@@ -2381,7 +2381,7 @@ int mprog_name_to_type(char *name) {
 }
 
 /* This routine reads in scripts of MOBprograms from a file */
-MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *pMobIndex) {
+MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *mobIndex) {
     MPROG_DATA *mprg2;
     FILE *progfile;
     char letter;
@@ -2389,7 +2389,7 @@ MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *pMo
     std::string file_path = Configuration::singleton().area_dir() + file_name;
     progfile = fopen(file_path.c_str(), "r");
     if (!progfile) {
-        bug("Mob:{} couldnt open mobprog file {}", pMobIndex->vnum, file_path);
+        bug("Mob:{} couldnt open mobprog file {}", mobIndex->vnum, file_path);
         exit(1);
     }
     mprg2 = mprg;
@@ -2416,7 +2416,7 @@ MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *pMo
             exit(1);
             break;
         default:
-            pMobIndex->progtypes = pMobIndex->progtypes | mprg2->type;
+            mobIndex->progtypes = mobIndex->progtypes | mprg2->type;
             mprg2->arglist = fread_string(progfile);
             mprg2->comlist = fread_string(progfile);
             switch (letter = fread_letter(progfile)) {
@@ -2489,25 +2489,25 @@ void load_mobprogs(FILE *fp) {
 
 /* This procedure is responsible for reading any in_file MOBprograms.
  */
-void mprog_read_programs(FILE *fp, MobIndexData *pMobIndex) {
+void mprog_read_programs(FILE *fp, MobIndexData *mobIndex) {
     MPROG_DATA *mprg;
     bool done = false;
     char letter;
     if ((letter = fread_letter(fp)) != '>') {
-        bug("Load_mobiles: vnum {} MOBPROG char", pMobIndex->vnum);
+        bug("Load_mobiles: vnum {} MOBPROG char", mobIndex->vnum);
         exit(1);
     }
-    pMobIndex->mobprogs = (MPROG_DATA *)alloc_perm(sizeof(MPROG_DATA));
-    mprg = pMobIndex->mobprogs;
+    mobIndex->mobprogs = (MPROG_DATA *)alloc_perm(sizeof(MPROG_DATA));
+    mprg = mobIndex->mobprogs;
     while (!done) {
         mprg->type = mprog_name_to_type(fread_word(fp));
         switch (mprg->type) {
         case ERROR_PROG:
-            bug("Load_mobiles: vnum {} MOBPROG type.", pMobIndex->vnum);
+            bug("Load_mobiles: vnum {} MOBPROG type.", mobIndex->vnum);
             exit(1);
             break;
         case IN_FILE_PROG:
-            mprg = mprog_file_read(fread_string(fp), mprg, pMobIndex);
+            mprg = mprog_file_read(fread_string(fp), mprg, mobIndex);
             fread_to_eol(fp);
             switch (letter = fread_letter(fp)) {
             case '>':
@@ -2521,13 +2521,13 @@ void mprog_read_programs(FILE *fp, MobIndexData *pMobIndex) {
                 done = true;
                 break;
             default:
-                bug("Load_mobiles: vnum {} bad MOBPROG.", pMobIndex->vnum);
+                bug("Load_mobiles: vnum {} bad MOBPROG.", mobIndex->vnum);
                 exit(1);
                 break;
             }
             break;
         default:
-            pMobIndex->progtypes = pMobIndex->progtypes | mprg->type;
+            mobIndex->progtypes = mobIndex->progtypes | mprg->type;
             mprg->arglist = fread_string(fp);
             fread_to_eol(fp);
             mprg->comlist = fread_string(fp);
@@ -2544,7 +2544,7 @@ void mprog_read_programs(FILE *fp, MobIndexData *pMobIndex) {
                 done = true;
                 break;
             default:
-                bug("Load_mobiles: vnum {} bad MOBPROG.", pMobIndex->vnum);
+                bug("Load_mobiles: vnum {} bad MOBPROG.", mobIndex->vnum);
                 exit(1);
                 break;
             }
