@@ -28,6 +28,7 @@
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
+#include "SkillsTabulator.hpp"
 #include "TimeInfoData.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
@@ -891,13 +892,8 @@ void do_ostat(Char *ch, const char *argument) {
 }
 
 void do_mskills(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
-    char skill_list[LEVEL_HERO][MAX_STRING_LENGTH];
-    char skill_columns[LEVEL_HERO];
-    int sn, lev;
-    bool found = false;
 
     one_argument(argument, arg);
 
@@ -914,62 +910,17 @@ void do_mskills(Char *ch, const char *argument) {
     if (victim->is_npc())
         return;
 
-    ch->send_line("Skill list for {}:", victim->name);
-
-    /* initilize data */
-    for (lev = 0; lev < LEVEL_HERO; lev++) {
-        skill_columns[lev] = 0;
-        skill_list[lev][0] = '\0';
-    }
-
-    for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == nullptr)
-            break;
-
-        if (get_skill_level(victim, sn) < LEVEL_HERO && skill_table[sn].spell_fun == spell_null
-            && victim->pcdata->learned[sn] > 0) // NOT victim.get_skill()
-        {
-            found = true;
-            lev = get_skill_level(victim, sn);
-            if (victim->level < lev)
-                bug_snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
-            else
-                bug_snprintf(buf, sizeof(buf), "%-18s %3d%%      ", skill_table[sn].name,
-                             victim->pcdata->learned[sn]); // NOT victim.get_skill()
-
-            if (skill_list[lev][0] == '\0')
-                bug_snprintf(skill_list[lev], sizeof(skill_list[lev]), "\n\rLevel %2d: %s", lev, buf);
-            else /* append */
-            {
-                if (++skill_columns[lev] % 2 == 0)
-                    strcat(skill_list[lev], "\n\r          ");
-                strcat(skill_list[lev], buf);
-            }
-        }
-    }
-
-    /* return results */
-
-    if (!found) {
+    ch->send_line("Skill table for {}:", victim->name);
+    const auto tabulator = SkillsTabulator::skills(ch, victim);
+    if (!tabulator.tabulate()) {
         ch->send_line("They know no skills.");
         return;
     }
-
-    for (lev = 0; lev < LEVEL_HERO; lev++)
-        if (skill_list[lev][0] != '\0')
-            ch->send_to(skill_list[lev]);
-    ch->send_line("");
 }
 
-/* Corrected 28/8/96 by Oshea to give correct list of spell costs. */
 void do_mspells(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
-    char spell_list[LEVEL_HERO][MAX_STRING_LENGTH];
-    char spell_columns[LEVEL_HERO];
-    int sn, lev, mana;
-    bool found = false;
 
     one_argument(argument, arg);
 
@@ -987,52 +938,11 @@ void do_mspells(Char *ch, const char *argument) {
         return;
 
     ch->send_line("Spell list for {}:", victim->name);
-
-    /* initilize data */
-    for (lev = 0; lev < LEVEL_HERO; lev++) {
-        spell_columns[lev] = 0;
-        spell_list[lev][0] = '\0';
-    }
-
-    for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == nullptr)
-            break;
-
-        if (get_skill_level(victim, sn) < LEVEL_HERO && skill_table[sn].spell_fun != spell_null
-            && victim->pcdata->learned[sn] > 0) // NOT victim.get_skill()
-        {
-            found = true;
-            lev = get_skill_level(victim, sn);
-            if (victim->level < lev)
-                bug_snprintf(buf, sizeof(buf), "%-18s   n/a      ", skill_table[sn].name);
-            else {
-                const sh_int level_adjusted_mana = 100 / (2 + victim->level - lev);
-                mana = std::max(skill_table[sn].min_mana, level_adjusted_mana);
-                bug_snprintf(buf, sizeof(buf), "%-18s  %3d mana  ", skill_table[sn].name, mana);
-            }
-
-            if (spell_list[lev][0] == '\0')
-                bug_snprintf(spell_list[lev], sizeof(spell_list[lev]), "\n\rLevel %2d: %s", lev, buf);
-            else /* append */
-            {
-                if (++spell_columns[lev] % 2 == 0)
-                    strcat(spell_list[lev], "\n\r          ");
-                strcat(spell_list[lev], buf);
-            }
-        }
-    }
-
-    /* return results */
-
-    if (!found) {
+    const auto tabulator = SkillsTabulator::spells(ch, victim);
+    if (!tabulator.tabulate()) {
         ch->send_line("They know no spells.");
         return;
     }
-
-    for (lev = 0; lev < LEVEL_HERO; lev++)
-        if (spell_list[lev][0] != '\0')
-            ch->send_to(spell_list[lev]);
-    ch->send_line("");
 }
 
 void do_maffects(Char *ch, const char *argument) {

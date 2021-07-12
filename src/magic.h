@@ -11,7 +11,7 @@
 struct Char;
 struct Object;
 
-int mana_cost(Char *ch, int min_mana, int level);
+int mana_for_spell(const Char *ch, const int sn);
 int slot_lookup(int slot);
 bool saves_spell(int level, const Char *victim);
 void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj);

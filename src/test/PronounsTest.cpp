@@ -1,3 +1,8 @@
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 2021 Xania Development Team                                      */
+/*  See merc.h and README for original copyrights                        */
+/*************************************************************************/
 #include "Pronouns.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"

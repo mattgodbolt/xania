@@ -224,14 +224,7 @@ bool check_dispel(int dis_level, Char *victim, int spell_num) {
     return false;
 }
 
-/* for finding mana costs -- temporary version */
-int mana_cost(Char *ch, int min_mana, int level) {
-    if (ch->level + 2 == level)
-        return 1000;
-    return std::max(min_mana, (100 / (2 + ch->level - level)));
-}
-
-int mana_for_spell(Char *ch, int sn) {
+int mana_for_spell(const Char *ch, const int sn) {
     if (ch->level + 2 == get_skill_level(ch, sn))
         return 50;
     const sh_int mana = 100 / (2 + ch->level - get_skill_level(ch, sn));

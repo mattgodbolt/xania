@@ -15,6 +15,7 @@
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillTables.hpp"
+#include "SkillsTabulator.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
@@ -201,100 +202,23 @@ void do_gain(Char *ch, const char *argument) {
 /* Display the player's spells, mana cost and skill level, organized by level. */
 
 void do_spells(Char *ch) {
-    int sn, lev, mana;
-    std::map<int, std::string> level_to_spells;
-    std::map<int, size_t> level_to_column_count;
-
     if (ch->is_npc())
         return;
-
-    for (sn = 0; sn < MAX_SKILL; sn++) {
-        std::string buf;
-        if (skill_table[sn].name == nullptr)
-            break;
-
-        if (get_skill_level(ch, sn) < LEVEL_HERO && skill_table[sn].spell_fun != spell_null
-            && ch->pcdata->learned[sn] > 0) { // NOT ch.get_skill()
-            lev = get_skill_level(ch, sn);
-            if (ch->level < lev)
-                buf = fmt::format("{:<18}   n/a           ", skill_table[sn].name);
-            else {
-                const sh_int level_adjusted_mana = 100 / (2 + ch->level - lev);
-                mana = std::max(skill_table[sn].min_mana, level_adjusted_mana);
-                buf = fmt::format("{:<18}  {:>3} mana {:>3}%  ", skill_table[sn].name, mana, ch->pcdata->learned[sn]);
-            }
-
-            if (level_to_spells[lev].empty())
-                level_to_spells[lev] = fmt::format("\n\rLevel {:<2}: {}", lev, buf);
-            else {
-                if (++level_to_column_count[lev] % 2 == 0)
-                    level_to_spells[lev] += "\n\r          ";
-                level_to_spells[lev] += buf;
-            }
-        }
-    }
-    if (level_to_spells.empty()) {
+    const auto tabulator = SkillsTabulator::spells(ch);
+    if (!tabulator.tabulate()) {
         ch->send_line("You know no spells.");
         return;
     }
-    for (auto it = level_to_spells.begin(); it != level_to_spells.end(); it++) {
-        ch->send_to(it->second);
-    }
-    ch->send_line("");
 }
 
 void do_skills(Char *ch) {
-    char skill_list[LEVEL_HERO][MAX_STRING_LENGTH];
-    char skill_columns[LEVEL_HERO];
-    int sn, lev;
-    bool found = false;
-    char buf[MAX_STRING_LENGTH];
-
     if (ch->is_npc())
         return;
-
-    /* initilize data */
-    for (lev = 0; lev < LEVEL_HERO; lev++) {
-        skill_columns[lev] = 0;
-        skill_list[lev][0] = '\0';
-    }
-
-    for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == nullptr)
-            break;
-
-        if (get_skill_level(ch, sn) < LEVEL_HERO && skill_table[sn].spell_fun == spell_null
-            && ch->pcdata->learned[sn] > 0) // NOT ch.get_skill()
-        {
-            found = true;
-            lev = get_skill_level(ch, sn);
-            if (ch->level < lev)
-                bug_snprintf(buf, sizeof(buf), "%-18s  n/a      ", skill_table[sn].name);
-            else
-                bug_snprintf(buf, sizeof(buf), "%-18s %3d%%      ", skill_table[sn].name, ch->pcdata->learned[sn]);
-
-            if (skill_list[lev][0] == '\0')
-                bug_snprintf(skill_list[lev], sizeof(skill_list[lev]), "\n\rLevel %2d: %s", lev, buf);
-            else /* append */
-            {
-                if (++skill_columns[lev] % 2 == 0)
-                    strcat(skill_list[lev], "\n\r          ");
-                strcat(skill_list[lev], buf);
-            }
-        }
-    }
-
-    /* return results */
-
-    if (!found) {
+    const auto tabulator = SkillsTabulator::skills(ch);
+    if (!tabulator.tabulate()) {
         ch->send_line("You know no skills.");
         return;
     }
-
-    for (lev = 0; lev < LEVEL_HERO; lev++)
-        if (skill_list[lev][0] != '\0')
-            ch->send_to(skill_list[lev]);
-    ch->send_line("");
 }
 
 /* shows skills, groups and costs (only if not bought) */
