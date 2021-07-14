@@ -12,13 +12,7 @@
 
 namespace ObjectTypes {
 
-std::optional<ObjectType> try_from_ordinal(const int num) {
-    if (auto enum_val = magic_enum::enum_cast<ObjectType>(num)) {
-        return *enum_val;
-    } else {
-        return std::nullopt;
-    }
-}
+std::optional<ObjectType> try_from_ordinal(const int num) { return magic_enum::enum_cast<ObjectType>(num); }
 
 std::optional<ObjectType> lookup_impl(std::string_view name) {
     for (const auto &enum_name : magic_enum::enum_names<ObjectType>()) {
@@ -31,12 +25,7 @@ std::optional<ObjectType> lookup_impl(std::string_view name) {
     }
     // Try lookup by number.
     const auto num = parse_number(name);
-    const auto val = magic_enum::enum_cast<ObjectType>(num);
-    if (val.has_value()) {
-        return *val;
-    } else {
-        return std::nullopt;
-    }
+    return magic_enum::enum_cast<ObjectType>(num);
 }
 
 ObjectType lookup_with_default(std::string_view name) {
