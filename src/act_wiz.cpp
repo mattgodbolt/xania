@@ -25,6 +25,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PracticeTabulator.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -974,11 +975,8 @@ void do_maffects(Char *ch, const char *argument) {
 
 /* Corrected 28/8/96 by Oshea to give correct list of spells/skills. */
 void do_mpracs(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
-    int sn;
-    int col;
 
     one_argument(argument, arg);
 
@@ -996,25 +994,7 @@ void do_mpracs(Char *ch, const char *argument) {
         return;
 
     ch->send_line("Practice list for {}:", victim->name);
-
-    col = 0;
-    for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == nullptr)
-            break;
-        if (victim->level < get_skill_level(victim, sn) || victim->pcdata->learned[sn] < 1 /* NOT victim.get_skill() */)
-            continue;
-
-        bug_snprintf(buf, sizeof(buf), "%-18s %3d%%  ", skill_table[sn].name, victim->pcdata->learned[sn]);
-        ch->send_to(buf);
-        if (++col % 3 == 0)
-            ch->send_line("");
-    }
-
-    if (col % 3 != 0)
-        ch->send_line("");
-
-    bug_snprintf(buf, sizeof(buf), "They have %d practice sessions left.\n\r", victim->practice);
-    ch->send_to(buf);
+    PracticeTabulator::tabulate(ch, victim);
 }
 
 /* Correct on 28/8/96 by Oshea to give correct cp's */

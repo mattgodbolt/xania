@@ -31,6 +31,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PracticeTabulator.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -1608,17 +1609,7 @@ void do_practice(Char *ch, const char *argument) {
         return;
 
     if (argument[0] == '\0') {
-        Columner col(*ch, 3);
-        for (auto sn = 0; sn < MAX_SKILL; sn++) {
-            if (skill_table[sn].name == nullptr)
-                break;
-            auto skill_level = ch->pcdata->learned[sn]; // NOT ch.get_skill()
-            if (ch->level >= get_skill_level(ch, sn) && skill_level > 0)
-                col.add("{:<18} {:3}%", skill_table[sn].name, skill_level);
-        }
-        col.flush();
-
-        ch->send_line("You have {} practice sessions left.", ch->practice);
+        PracticeTabulator::tabulate(ch);
     } else {
         if (!ch->is_pos_awake()) {
             ch->send_line("In your dreams, or what?");
