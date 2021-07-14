@@ -8,7 +8,9 @@
 
 #include <magic_enum.hpp>
 
-std::optional<BodySize> BodySizes::try_lookup(std::string_view name) {
+namespace BodySizes {
+
+std::optional<BodySize> try_lookup(std::string_view name) {
     for (const auto &enum_name : magic_enum::enum_names<BodySize>()) {
         // This doesn't use enum_cast() here as we want a case insensitive prefix match.
         if (matches_start(name, enum_name)) {
@@ -22,14 +24,16 @@ std::optional<BodySize> BodySizes::try_lookup(std::string_view name) {
     return std::nullopt;
 }
 
-sh_int BodySizes::size_diff(const BodySize size_a, const BodySize size_b) {
+sh_int size_diff(const BodySize size_a, const BodySize size_b) {
     return magic_enum::enum_integer<BodySize>(size_a) - magic_enum::enum_integer<BodySize>(size_b);
 }
 
-sh_int BodySizes::get_mob_str_bonus(const BodySize body_size) {
+sh_int get_mob_str_bonus(const BodySize body_size) {
     return magic_enum::enum_integer<BodySize>(body_size) - magic_enum::enum_integer<BodySize>(BodySize::Medium);
 }
 
-sh_int BodySizes::get_mob_con_bonus(const BodySize body_size) {
+sh_int get_mob_con_bonus(const BodySize body_size) {
     return (magic_enum::enum_integer<BodySize>(body_size) - magic_enum::enum_integer<BodySize>(BodySize::Medium)) / 2;
+}
+
 }

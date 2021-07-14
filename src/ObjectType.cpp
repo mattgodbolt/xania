@@ -10,7 +10,9 @@
 
 #include <magic_enum.hpp>
 
-std::optional<ObjectType> ObjectTypes::try_from_ordinal(const int num) {
+namespace ObjectTypes {
+
+std::optional<ObjectType> try_from_ordinal(const int num) {
     if (auto enum_val = magic_enum::enum_cast<ObjectType>(num)) {
         return *enum_val;
     } else {
@@ -18,31 +20,7 @@ std::optional<ObjectType> ObjectTypes::try_from_ordinal(const int num) {
     }
 }
 
-ObjectType ObjectTypes::lookup_with_default(std::string_view name) {
-    if (const auto opt_type = lookup_impl(name)) {
-        return *opt_type;
-    }
-    bug("Unknown item type '{}' - defaulting!", name);
-    return ObjectType::Light;
-}
-
-/**
- * Lookup an item type by its type name or type number.
- * This is stricter than item_lookup() as it doesn't fallback to a default type
- * and will instead return std::nullopt if no match is found.
- */
-std::optional<ObjectType> ObjectTypes::try_lookup(std::string_view name) { return lookup_impl(name); }
-
-std::vector<std::string> ObjectTypes::sorted_type_names() {
-    std::vector<std::string> result;
-    for (const auto &enum_name : magic_enum::enum_names<ObjectType>()) {
-        result.emplace_back(lower_case(enum_name));
-    }
-    std::sort(result.begin(), result.end());
-    return result;
-}
-
-std::optional<ObjectType> ObjectTypes::lookup_impl(std::string_view name) {
+std::optional<ObjectType> lookup_impl(std::string_view name) {
     for (const auto &enum_name : magic_enum::enum_names<ObjectType>()) {
         // This doesn't use enum_cast() here as we want a case insensitive prefix match.
         if (matches_start(name, enum_name)) {
@@ -59,4 +37,30 @@ std::optional<ObjectType> ObjectTypes::lookup_impl(std::string_view name) {
     } else {
         return std::nullopt;
     }
+}
+
+ObjectType lookup_with_default(std::string_view name) {
+    if (const auto opt_type = lookup_impl(name)) {
+        return *opt_type;
+    }
+    bug("Unknown item type '{}' - defaulting!", name);
+    return ObjectType::Light;
+}
+
+/**
+ * Lookup an item type by its type name or type number.
+ * This is stricter than item_lookup() as it doesn't fallback to a default type
+ * and will instead return std::nullopt if no match is found.
+ */
+std::optional<ObjectType> try_lookup(std::string_view name) { return lookup_impl(name); }
+
+std::vector<std::string> sorted_type_names() {
+    std::vector<std::string> result;
+    for (const auto &enum_name : magic_enum::enum_names<ObjectType>()) {
+        result.emplace_back(lower_case(enum_name));
+    }
+    std::sort(result.begin(), result.end());
+    return result;
+}
+
 }

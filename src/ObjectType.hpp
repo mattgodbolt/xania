@@ -38,17 +38,14 @@ enum class ObjectType {
     Portal = 30
 };
 
-class ObjectTypes {
-public:
-    [[nodiscard]] static std::optional<ObjectType> try_from_ordinal(const int num);
-    // Lookup an item type by its type name or type number.
-    // Returns a default type if no match is found, which is a bug.
-    [[nodiscard]] static ObjectType lookup_with_default(std::string_view name);
-    [[nodiscard]] static std::optional<ObjectType> try_lookup(std::string_view name);
-    // Returns all the object type enum names in lower case.
-    [[nodiscard]] static std::vector<std::string> sorted_type_names();
-    ObjectTypes() = delete;
+namespace ObjectTypes {
 
-private:
-    [[nodiscard]] static std::optional<ObjectType> lookup_impl(std::string_view name);
-};
+[[nodiscard]] std::optional<ObjectType> try_from_ordinal(const int num);
+// Lookup an item type by its type name or type number.
+// Returns a default type if no match is found, which is a bug.
+[[nodiscard]] ObjectType lookup_with_default(std::string_view name);
+[[nodiscard]] std::optional<ObjectType> try_lookup(std::string_view name);
+// Returns all the object type enum names in lower case.
+[[nodiscard]] std::vector<std::string> sorted_type_names();
+
+}
