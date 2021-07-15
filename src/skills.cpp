@@ -11,6 +11,7 @@
 #include "BitsCharAct.hpp"
 #include "Char.hpp"
 #include "CharGeneration.hpp"
+#include "Columner.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
@@ -367,7 +368,6 @@ unsigned int exp_per_level(const Char *ch, int points) {
 /* this procedure handles the input parsing for the skill generator */
 bool parse_gen_groups(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    char buf[100];
     int gn, sn, i;
 
     if (argument[0] == '\0')
@@ -404,8 +404,7 @@ bool parse_gen_groups(Char *ch, const char *argument) {
                 return true;
             }
 
-            bug_snprintf(buf, sizeof(buf), "%s group added\n\r", group_table[gn].name);
-            ch->send_to(buf);
+            ch->send_line(fmt::format("{} group added", group_table[gn].name));
             ch->generation->group_chosen[gn] = true;
             ch->generation->points_chosen += get_group_trains(ch, gn);
             gn_add(ch, gn);
@@ -431,8 +430,7 @@ bool parse_gen_groups(Char *ch, const char *argument) {
                 ch->send_line("That skill is not available.");
                 return true;
             }
-            bug_snprintf(buf, sizeof(buf), "%s skill added\n\r", skill_table[sn].name);
-            ch->send_to(buf);
+            ch->send_line(fmt::format("{} skill added", skill_table[sn].name));
             ch->generation->skill_chosen[sn] = true;
             ch->generation->points_chosen += get_skill_trains(ch, sn);
             ch->pcdata->learned[sn] = 1;
@@ -499,66 +497,44 @@ bool parse_gen_groups(Char *ch, const char *argument) {
 
 /* shows all groups, or the sub-members of a group */
 void do_groups(Char *ch, const char *argument) {
-    char buf[100];
-    int gn, sn, col;
-
     if (ch->is_npc())
         return;
-
-    col = 0;
+    Columner col3(*ch, 3);
 
     if (argument[0] == '\0') { /* show all groups */
-
-        for (gn = 0; gn < MAX_GROUP; gn++) {
+        for (auto gn = 0; gn < MAX_GROUP; gn++) {
             if (group_table[gn].name == nullptr)
                 break;
             if (ch->pcdata->group_known[gn]) {
-                bug_snprintf(buf, sizeof(buf), "%-20s ", group_table[gn].name);
-                ch->send_to(buf);
-                if (++col % 3 == 0)
-                    ch->send_line("");
+                col3.add(group_table[gn].name);
             }
         }
-        if (col % 3 != 0)
-            ch->send_line("");
-        bug_snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->pcdata->points);
-        ch->send_to(buf);
+        ch->send_line(fmt::format("Creation points: {}", ch->pcdata->points));
         return;
     }
 
-    if (!str_cmp(argument, "all")) /* show all groups */
-    {
-        for (gn = 0; gn < MAX_GROUP; gn++) {
+    if (!str_cmp(argument, "all")) { /* show all groups */
+        for (auto gn = 0; gn < MAX_GROUP; gn++) {
             if (group_table[gn].name == nullptr)
                 break;
-            bug_snprintf(buf, sizeof(buf), "%-20s ", group_table[gn].name);
-            ch->send_to(buf);
-            if (++col % 3 == 0)
-                ch->send_line("");
+            col3.add(group_table[gn].name);
         }
-        if (col % 3 != 0)
-            ch->send_line("");
         return;
     }
 
     /* show the sub-members of a group */
-    gn = group_lookup(argument);
+    const auto gn = group_lookup(argument);
     if (gn == -1) {
         ch->send_line("No group of that name exist.");
         ch->send_line("Type 'groups all' or 'info all' for a full listing.");
         return;
     }
 
-    for (sn = 0; sn < MAX_IN_GROUP; sn++) {
+    for (auto sn = 0; sn < MAX_IN_GROUP; sn++) {
         if (group_table[gn].spells[sn] == nullptr)
             break;
-        bug_snprintf(buf, sizeof(buf), "%-20s ", group_table[gn].spells[sn]);
-        ch->send_to(buf);
-        if (++col % 3 == 0)
-            ch->send_line("");
+        col3.add(group_table[gn].spells[sn]);
     }
-    if (col % 3 != 0)
-        ch->send_line("");
 }
 
 /* checks for skill improvement */
