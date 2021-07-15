@@ -939,7 +939,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->generation = (CharGeneration *)alloc_perm(sizeof(*ch->generation));
             ch->generation->points_chosen = ch->pcdata->points;
             do_help(ch, "group header");
-            list_group_costs(ch);
+            list_available_group_costs(ch);
             ch->send_line("You already have the following skills:");
             do_skills(ch);
             do_help(ch, "menu choice");

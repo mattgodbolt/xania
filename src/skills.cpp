@@ -148,6 +148,40 @@ void gain_skill(Char *ch, const int skill, const Char *trainer) {
     ch->train -= skill_trains;
 }
 
+// Private routine for listing skill/group costs in creation points
+// filtering on whether they're learned by the Char yet.
+void list_group_costs(Char *ch, const auto group_filter, const auto skill_filter) {
+    if (ch->is_npc())
+        return;
+    Columner col3(*ch, 3);
+    for (auto i = 0; i < 3; i++) {
+        col3.add(fmt::format("{:<14}{:<10}", "Group", "Points"));
+    }
+    for (auto gn = 0; gn < MAX_GROUP; gn++) {
+        if (group_table[gn].name == nullptr)
+            break;
+        if (group_filter(gn) && (get_group_trains(ch, gn) > 0)) {
+            col3.add("{:<18}{:>2}    ", group_table[gn].name, get_group_trains(ch, gn));
+        }
+    }
+    col3.flush();
+    ch->send_line("");
+    for (auto i = 0; i < 3; i++) {
+        col3.add(fmt::format("{:<14}{:<10}", "Skill", "Points"));
+    }
+    for (auto sn = 0; sn < MAX_SKILL; sn++) {
+        if (skill_table[sn].name == nullptr)
+            break;
+        if (skill_filter(sn) && skill_table[sn].spell_fun == spell_null && get_skill_trains(ch, sn) > 0) {
+            col3.add("{:<18}{:>2}    ", skill_table[sn].name, get_skill_trains(ch, sn));
+        }
+    }
+    col3.flush();
+    ch->send_line("");
+    ch->send_line(fmt::format("Creation points: {}", ch->pcdata->points));
+    ch->send_line(fmt::format("Experience per level: {}", exp_per_level(ch, ch->generation->points_chosen)));
+}
+
 }
 
 /* used to get new skills */
@@ -200,112 +234,18 @@ void do_skills(Char *ch) {
     }
 }
 
-/* shows skills, groups and costs (only if not bought) */
-void list_group_costs(Char *ch) {
-    char buf[100];
-    int gn, sn, col;
-
-    if (ch->is_npc())
-        return;
-
-    col = 0;
-
-    bug_snprintf(buf, sizeof(buf), "%-18s %-5s %-18s %-5s %-18s %-5s\n\r", "group", "cp", "group", "cp", "group", "cp");
-    ch->send_to(buf);
-
-    for (gn = 0; gn < MAX_GROUP; gn++) {
-        if (group_table[gn].name == nullptr)
-            break;
-
-        if (!ch->generation->group_chosen[gn] && !ch->pcdata->group_known[gn] && (get_group_trains(ch, gn) > 0)) {
-            bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", group_table[gn].name, get_group_trains(ch, gn));
-            ch->send_to(buf);
-            if (++col % 3 == 0)
-                ch->send_line("");
-        }
-    }
-    if (col % 3 != 0)
-        ch->send_line("");
-    ch->send_line("");
-
-    col = 0;
-
-    bug_snprintf(buf, sizeof(buf), "%-18s %-5s %-18s %-5s %-18s %-5s\n\r", "skill", "cp", "skill", "cp", "skill", "cp");
-    ch->send_to(buf);
-
-    for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == nullptr)
-            break;
-
-        if (!ch->generation->skill_chosen[sn] && ch->pcdata->learned[sn] == 0 // NOT ch.get_skill()
-            && skill_table[sn].spell_fun == spell_null && get_skill_trains(ch, sn) > 0) {
-            bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", skill_table[sn].name, get_skill_trains(ch, sn));
-            ch->send_to(buf);
-            if (++col % 3 == 0)
-                ch->send_line("");
-        }
-    }
-    if (col % 3 != 0)
-        ch->send_line("");
-    ch->send_line("");
-
-    bug_snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->pcdata->points);
-    ch->send_to(buf);
-    bug_snprintf(buf, sizeof(buf), "Experience per level: %u\n\r", exp_per_level(ch, ch->generation->points_chosen));
-    ch->send_to(buf);
+// Shows skills, groups and costs in creation points if not yet learned.
+void list_available_group_costs(Char *ch) {
+    list_group_costs(
+        ch, [&ch](const auto gn) { return !ch->generation->group_chosen[gn] && !ch->pcdata->group_known[gn]; },
+        [&ch](const auto sn) { return !ch->generation->skill_chosen[sn] && ch->pcdata->learned[sn] == 0; });
 }
 
-void list_group_chosen(Char *ch) {
-    char buf[100];
-    int gn, sn, col;
-
-    if (ch->is_npc())
-        return;
-
-    col = 0;
-
-    bug_snprintf(buf, sizeof(buf), "%-18s %-5s %-18s %-5s %-18s %-5s", "group", "cp", "group", "cp", "group", "cp\n\r");
-    ch->send_to(buf);
-
-    for (gn = 0; gn < MAX_GROUP; gn++) {
-        if (group_table[gn].name == nullptr)
-            break;
-
-        if (ch->generation->group_chosen[gn] && get_group_trains(ch, gn) > 0) {
-            bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", group_table[gn].name, get_group_trains(ch, gn));
-            ch->send_to(buf);
-            if (++col % 3 == 0)
-                ch->send_line("");
-        }
-    }
-    if (col % 3 != 0)
-        ch->send_line("");
-    ch->send_line("");
-
-    col = 0;
-
-    bug_snprintf(buf, sizeof(buf), "%-18s %-5s %-18s %-5s %-18s %-5s", "skill", "cp", "skill", "cp", "skill", "cp\n\r");
-    ch->send_to(buf);
-
-    for (sn = 0; sn < MAX_SKILL; sn++) {
-        if (skill_table[sn].name == nullptr)
-            break;
-
-        if (ch->generation->skill_chosen[sn] && get_skill_level(ch, sn) > 0) {
-            bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", skill_table[sn].name, get_skill_trains(ch, sn));
-            ch->send_to(buf);
-            if (++col % 3 == 0)
-                ch->send_line("");
-        }
-    }
-    if (col % 3 != 0)
-        ch->send_line("");
-    ch->send_line("");
-
-    bug_snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->generation->points_chosen);
-    ch->send_to(buf);
-    bug_snprintf(buf, sizeof(buf), "Experience per level: %u\n\r", exp_per_level(ch, ch->generation->points_chosen));
-    ch->send_to(buf);
+// Shows skills, groups and costs in creation points if already learned.
+void list_learned_group_costs(Char *ch) {
+    list_group_costs(
+        ch, [&ch](const auto gn) { return ch->generation->group_chosen[gn]; },
+        [&ch](const auto sn) { return ch->generation->skill_chosen[sn]; });
 }
 
 unsigned int exp_per_level(const Char *ch, int points) {
@@ -456,12 +396,12 @@ bool parse_gen_groups(Char *ch, const char *argument) {
     }
 
     if (!str_prefix(arg, "list")) {
-        list_group_costs(ch);
+        list_available_group_costs(ch);
         return true;
     }
 
     if (!str_prefix(arg, "learned")) {
-        list_group_chosen(ch);
+        list_learned_group_costs(ch);
         return true;
     }
 

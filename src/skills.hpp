@@ -8,7 +8,7 @@
 class Char;
 
 bool parse_gen_groups(Char *ch, const char *argument);
-void list_group_costs(Char *ch);
+void list_available_group_costs(Char *ch);
 unsigned int exp_per_level(const Char *ch, int points);
 void check_improve(Char *ch, int sn, bool success, int multiplier);
 int group_lookup(const char *name);
