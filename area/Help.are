@@ -2499,6 +2499,18 @@ Display choices:
         pronouns show
 ~
 
+0 GROUPS INFO~
+
+Syntax:
+  groups              Lists all skill groups your character has currently.
+  groups all          Lists all skill groups available.
+  groups <group name> Lists skills within the specified group.
+
+The groups command provides a list of the skill groups your character has,
+as well as showing all available groups and the skills within a particular
+group. The info command is an alias for the groups command.
+~
+
 0 $~
 
 
