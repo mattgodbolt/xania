@@ -38,166 +38,144 @@ Char *find_trainer(Room *room) {
             return trainer;
     return nullptr;
 }
+
+// "gain list" -- show the Char the list of skill groups and skills they can gain.
+void gain_list(Char *ch) {
+    Columner col3(*ch, 3);
+    for (auto i = 0; i < 3; i++)
+        col3.add(fmt::format("{:<18} {:<5}", "Group", "Cost"));
+
+    for (auto gn = 0; gn < MAX_GROUP; gn++) {
+        if (group_table[gn].name == nullptr)
+            break;
+
+        if (!ch->pcdata->group_known[gn]) {
+            const auto group_trains = get_group_trains(ch, gn);
+            if (group_trains != 0) {
+                col3.add(fmt::format("{:<18} {:<5}", group_table[gn].name, group_trains));
+            }
+        }
+    }
+    ch->send_line("");
+    for (auto i = 0; i < 3; i++)
+        col3.add(fmt::format("{:<18} {:<5}", "Skill", "Cost"));
+
+    for (auto sn = 0; sn < MAX_SKILL; sn++) {
+        if (skill_table[sn].name == nullptr)
+            break;
+
+        if (!ch->pcdata->learned[sn]) { // NOT ch.get_skill()
+            const auto skill_trains = get_skill_trains(ch, sn);
+            if (skill_trains != 0) {
+                col3.add(fmt::format("{:<18} {:<5}", skill_table[sn].name, skill_trains));
+            }
+        }
+    }
+}
+
+// "gain convert" -- convert 10 practice points into 1 train.
+void gain_convert(Char *ch, const Char *trainer) {
+    if (ch->practice < 10) {
+        act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, To::Char);
+        return;
+    }
+
+    act("$N helps you apply your practice to training.", ch, nullptr, trainer, To::Char);
+    ch->practice -= 10;
+    ch->train += 1;
+}
+
+// "gain points" -- convert 2 trains into 1 fewer creatoin points.
+void gain_points(Char *ch, const Char *trainer) {
+    if (ch->train < 2) {
+        act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, To::Char);
+        return;
+    }
+    if (ch->pcdata->points <= 40) {
+        act("$N tells you 'Your ability to learn more quickly cannot be improved any further.'", ch, nullptr, trainer,
+            To::Char);
+        return;
+    }
+    act("$N trains you, and you feel more at ease with your skills.", ch, nullptr, trainer, To::Char);
+
+    ch->train -= 2;
+    ch->pcdata->points -= 1;
+    ch->exp = exp_per_level(ch, ch->pcdata->points) * ch->level;
+}
+
+// "gain <skill group name>" -- learn a skill group for the price of the group in train points.
+void gain_skill_group(Char *ch, const int group, const Char *trainer) {
+    if (ch->pcdata->group_known[group]) {
+        act("$N tells you 'You already know that group!'", ch, nullptr, trainer, To::Char);
+        return;
+    }
+    const auto group_trains = get_group_trains(ch, group);
+    if (group_trains == 0) {
+        act("$N tells you 'That group is beyond your powers.'", ch, nullptr, trainer, To::Char);
+        return;
+    }
+    if (ch->train < group_trains) {
+        act("$N tells you 'You are not yet ready for that group.'", ch, nullptr, trainer, To::Char);
+        return;
+    }
+    gn_add(ch, group);
+    act("$N trains you in the art of $t.", ch, group_table[group].name, trainer, To::Char);
+    ch->train -= group_trains;
+}
+
+// "gain <skill name>" -- learn a skill for the price of the skill in train points.
+void gain_skill(Char *ch, const int skill, const Char *trainer) {
+    if (skill_table[skill].spell_fun != spell_null) {
+        act("$N tells you 'You must learn the full group.'", ch, nullptr, trainer, To::Char);
+        return;
+    }
+    if (ch->pcdata->learned[skill]) { // NOT ch.get_skill()
+        act("$N tells you 'You already know that skill!'", ch, nullptr, trainer, To::Char);
+        return;
+    }
+    const auto skill_trains = get_skill_trains(ch, skill);
+    if (skill_trains == 0) {
+        act("$N tells you 'That skill is beyond your powers.'", ch, nullptr, trainer, To::Char);
+        return;
+    }
+    if (ch->train < skill_trains) {
+        act("$N tells you 'You are not yet ready for that skill.'", ch, nullptr, trainer, To::Char);
+        return;
+    }
+    /* add the skill */
+    ch->pcdata->learned[skill] = 1;
+    act("$N trains you in the art of $t", ch, skill_table[skill].name, trainer, To::Char);
+    ch->train -= skill_trains;
+}
+
 }
 
 /* used to get new skills */
 void do_gain(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    int gn = 0, sn = 0, i = 0;
-
     if (ch->is_npc())
         return;
-
     auto *trainer = find_trainer(ch->in_room);
     if (!trainer || !can_see(ch, trainer)) {
         ch->send_line("You can't do that here.");
         return;
     }
-
     one_argument(argument, arg);
-
     if (arg[0] == '\0') {
-        trainer->say("Pardon me?");
-        return;
+        trainer->say("Gain what? Pssst! Try help gain.");
+    } else if (matches_start(arg, "list")) {
+        gain_list(ch);
+    } else if (matches_start(arg, "convert")) {
+        gain_convert(ch, trainer);
+    } else if (matches_start(arg, "points")) {
+        gain_points(ch, trainer);
+    } else if (const auto group = group_lookup(argument); group > 0) {
+        gain_skill_group(ch, group, trainer);
+    } else if (const auto skill = skill_lookup(argument); skill > -1) {
+        gain_skill(ch, skill, trainer);
+    } else {
+        trainer->say("I don't think I can help you gain that.");
     }
-
-    if (!str_prefix(arg, "list")) {
-        int col;
-
-        col = 0;
-
-        bug_snprintf(buf, sizeof(buf), "%-18s %-5s %-18s %-5s %-18s %-5s\n\r", "group", "cost", "group", "cost",
-                     "group", "cost");
-        ch->send_to(buf);
-
-        for (gn = 0; gn < MAX_GROUP; gn++) {
-            if (group_table[gn].name == nullptr)
-                break;
-
-            if (!ch->pcdata->group_known[gn] && ((i = get_group_trains(ch, gn)) != 0)) {
-                bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", group_table[gn].name, i);
-                ch->send_to(buf);
-                if (++col % 3 == 0)
-                    ch->send_line("");
-            }
-        }
-        if (col % 3 != 0)
-            ch->send_line("");
-
-        ch->send_line("");
-
-        col = 0;
-
-        bug_snprintf(buf, sizeof(buf), "%-18s %-5s %-18s %-5s %-18s %-5s\n\r", "skill", "cost", "skill", "cost",
-                     "skill", "cost");
-        ch->send_to(buf);
-
-        for (sn = 0; sn < MAX_SKILL; sn++) {
-            if (skill_table[sn].name == nullptr)
-                break;
-
-            if (!ch->pcdata->learned[sn] // NOT ch.get_skill()
-                && ((i = get_skill_trains(ch, sn)) != 0)) {
-                bug_snprintf(buf, sizeof(buf), "%-18s %-5d ", skill_table[sn].name, i);
-                ch->send_to(buf);
-                if (++col % 3 == 0)
-                    ch->send_line("");
-            }
-        }
-        if (col % 3 != 0)
-            ch->send_line("");
-        return;
-    }
-
-    if (!str_prefix(arg, "convert")) {
-        if (ch->practice < 10) {
-            act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, To::Char);
-            return;
-        }
-
-        act("$N helps you apply your practice to training.", ch, nullptr, trainer, To::Char);
-        ch->practice -= 10;
-        ch->train += 1;
-        return;
-    }
-
-    if (!str_prefix(arg, "points")) {
-        if (ch->train < 2) {
-            act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, To::Char);
-            return;
-        }
-
-        if (ch->pcdata->points <= 40) {
-            act("$N tells you 'There would be no point in that.'", ch, nullptr, trainer, To::Char);
-            return;
-        }
-
-        act("$N trains you, and you feel more at ease with your skills.", ch, nullptr, trainer, To::Char);
-
-        ch->train -= 2;
-        ch->pcdata->points -= 1;
-        ch->exp = exp_per_level(ch, ch->pcdata->points) * ch->level;
-        return;
-    }
-
-    /* else add a group/skill */
-
-    gn = group_lookup(argument);
-    if (gn > 0) {
-        if (ch->pcdata->group_known[gn]) {
-            act("$N tells you 'You already know that group!'", ch, nullptr, trainer, To::Char);
-            return;
-        }
-
-        if ((i = get_group_trains(ch, gn)) == 0) {
-            act("$N tells you 'That group is beyond your powers.'", ch, nullptr, trainer, To::Char);
-            return;
-        }
-
-        if (ch->train < i) {
-            act("$N tells you 'You are not yet ready for that group.'", ch, nullptr, trainer, To::Char);
-            return;
-        }
-
-        /* add the group */
-        gn_add(ch, gn);
-        act("$N trains you in the art of $t.", ch, group_table[gn].name, trainer, To::Char);
-        ch->train -= i;
-        return;
-    }
-
-    sn = skill_lookup(argument);
-    if (sn > -1) {
-        if (skill_table[sn].spell_fun != spell_null) {
-            act("$N tells you 'You must learn the full group.'", ch, nullptr, trainer, To::Char);
-            return;
-        }
-
-        if (ch->pcdata->learned[sn]) // NOT ch.get_skill()
-        {
-            act("$N tells you 'You already know that skill!'", ch, nullptr, trainer, To::Char);
-            return;
-        }
-
-        if ((i = get_skill_trains(ch, sn)) == 0) {
-            act("$N tells you 'That skill is beyond your powers.'", ch, nullptr, trainer, To::Char);
-            return;
-        }
-
-        if (ch->train < i) {
-            act("$N tells you 'You are not yet ready for that skill.'", ch, nullptr, trainer, To::Char);
-            return;
-        }
-
-        /* add the skill */
-        ch->pcdata->learned[sn] = 1;
-        act("$N trains you in the art of $t", ch, skill_table[sn].name, trainer, To::Char);
-        ch->train -= i;
-        return;
-    }
-
-    act("$N tells you 'I do not understand...'", ch, nullptr, trainer, To::Char);
 }
 
 /* Display the player's spells, mana cost and skill level, organized by level. */
