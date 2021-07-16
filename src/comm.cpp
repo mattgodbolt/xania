@@ -525,6 +525,7 @@ void nanny(Descriptor *d, const char *argument) {
     int i;
     int notes;
     bool fOld;
+    const auto &bans = Bans::singleton();
 
     while (isspace(*argument))
         argument++;
@@ -602,11 +603,8 @@ void nanny(Descriptor *d, const char *argument) {
                 d->close();
                 return;
             }
-
-            // Check for a newban on player's site. This is the one time we use the full host name.
-            if (check_ban(d->raw_full_hostname().c_str(), BAN_NEWBIES)
-                || check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT)) {
-                d->write("Your site has been banned.  Only existing players from your site may connect.\n\r");
+            if (bans.check_ban(d->raw_full_hostname(), BAN_NEWBIES | BAN_ALL)) {
+                d->write("Your site has been banned.\n\r");
                 d->close();
                 return;
             }
@@ -638,8 +636,8 @@ void nanny(Descriptor *d, const char *argument) {
 
         SetEchoState(d, 1);
 
-        // This is the one time we use the full host name.
-        if (check_ban(d->raw_full_hostname().c_str(), BAN_PERMIT) && (!ch->is_set_extra(EXTRA_PERMIT))) {
+        if ((!ch->is_set_extra(EXTRA_PERMIT) && (bans.check_ban(d->raw_full_hostname(), BAN_PERMIT)))
+            || bans.check_ban(d->raw_full_hostname(), BAN_ALL)) {
             d->write("Your site has been banned.  Sorry.\n\r");
             d->close();
             return;

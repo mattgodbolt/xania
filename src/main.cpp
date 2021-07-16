@@ -1,4 +1,9 @@
-
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 2021 Xania Development Team                                      */
+/*  See merc.h and README for original copyrights                        */
+/*************************************************************************/
+#include "Ban.hpp"
 #include "Char.hpp"
 #include "TimeInfoData.hpp"
 #include "Tip.hpp"
@@ -20,7 +25,6 @@
 /* SIGTRAP on/off */
 bool debug = false;
 extern void report_entity_imbalance();
-extern void load_bans();
 
 int main(int argc, char **argv) {
 
@@ -49,7 +53,8 @@ int main(int argc, char **argv) {
 
     auto control = init_socket(pipe_file.c_str());
     boot_db();
-    load_bans();
+    const auto ban_count = Bans::singleton().load();
+    log_string("{} site bans loaded.", ban_count);
     startchat(config.chat_data_file());
     if (show_entity_imbalance)
         report_entity_imbalance();

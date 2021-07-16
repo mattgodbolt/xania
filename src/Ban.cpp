@@ -10,7 +10,7 @@
 
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
+/*  (C) 1995-2021 Xania Development Team                                 */
 /*  See the header to file: merc.h for original code copyrights          */
 /*  Additional: ROM2.4 copyright as stated at top of file: ban.c         */
 /*                                                                       */
@@ -19,8 +19,8 @@
 /*************************************************************************/
 
 #include "Ban.hpp"
+#include "ArgParser.hpp"
 #include "Char.hpp"
-#include "buffer.h"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
@@ -29,269 +29,196 @@
 #include "interp.h"
 #include "string_utils.hpp"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <range/v3/algorithm/find_if.hpp>
+#include <range/v3/algorithm/remove_if.hpp>
 
-namespace {
+void do_ban(Char *ch, ArgParser args) { Bans::singleton().ban_site(ch, args, false); }
 
-struct Ban {
-    Ban *next{};
-    char *name{};
-    int ban_flags{};
-    int level{};
-};
+void do_permban(Char *ch, ArgParser args) { Bans::singleton().ban_site(ch, args, true); }
 
-Ban *ban_list;
+void do_allow(Char *ch, ArgParser args) { Bans::singleton().allow_site(ch, args); }
 
-}
+Bans::Bans(Dependencies &dependencies) : dependencies_{dependencies}, bans_{} {}
 
-Ban *new_ban() {
-    Ban *res;
-    res = (Ban *)(malloc(sizeof(Ban)));
-    res->level = 0;
-    res->name = nullptr;
-    res->next = nullptr;
-    res->ban_flags = 0;
-    return res;
-}
-
-void free_ban(Ban *foo) {
-    free_string(foo->name);
-    free(foo);
-}
-
-void save_bans() {
-    Ban *ban;
-    FILE *fp;
-    bool found = false;
-    const auto ban_file = Configuration::singleton().ban_file();
-
-    if ((fp = fopen(ban_file.c_str(), "w")) == nullptr) {
-        perror(ban_file.c_str());
-    }
-
-    for (ban = ban_list; ban != nullptr; ban = ban->next) {
-        if (check_bit(ban->ban_flags, BAN_PERMANENT)) {
-            found = true;
-            fprintf(fp, "%s %d %s\n", ban->name, ban->level, print_flags(ban->ban_flags));
-        }
-    }
-
-    fclose(fp);
-    if (!found)
-        unlink(ban_file.c_str());
-}
-
-void load_bans() {
-    FILE *fp;
-    Ban *ban_last;
-    const auto ban_file = Configuration::singleton().ban_file();
-
-    if ((fp = fopen(ban_file.c_str(), "r")) == nullptr)
-        return;
-
-    ban_last = nullptr;
-    for (;;) {
-        Ban *pban;
-        if (feof(fp)) {
-            fclose(fp);
-            return;
-        }
-
-        pban = new_ban();
-
-        pban->name = str_dup(fread_word(fp));
-        pban->level = fread_number(fp);
-        pban->ban_flags = fread_flag(fp);
-        pban->next = nullptr;
-        fread_to_eol(fp);
-
-        if (ban_list == nullptr)
-            ban_list = pban;
-        else
-            ban_last->next = pban;
-        ban_last = pban;
-    }
-}
-
-bool check_ban(const char *site, int type) {
-    Ban *pban;
-
-    char host[MAX_STRING_LENGTH];
-
-    strcpy(host, lower_case(site).c_str()); // TODO horrible.
-
-    for (pban = ban_list; pban != nullptr; pban = pban->next) {
-        if (!check_bit(pban->ban_flags, type))
+bool Bans::check_ban(std::string_view site, const int type_bits) const {
+    const auto host = lower_case(site);
+    for (auto &&ban : bans_) {
+        if (!check_bit(ban->ban_flags_, type_bits))
             continue;
 
-        if (check_bit(pban->ban_flags, BAN_PREFIX) && check_bit(pban->ban_flags, BAN_SUFFIX)
-            && strstr(pban->name, host) != nullptr)
+        if (check_bit(ban->ban_flags_, BAN_PREFIX) && check_bit(ban->ban_flags_, BAN_SUFFIX)
+            && matches_inside(ban->site_, host))
             return true;
 
-        if (check_bit(pban->ban_flags, BAN_PREFIX) && !str_suffix(pban->name, host))
+        if (check_bit(ban->ban_flags_, BAN_PREFIX)
+            && !str_suffix(ban->site_.c_str(), host.c_str())) // FIXME: we need a matches_end()
             return true;
 
-        if (check_bit(pban->ban_flags, BAN_SUFFIX) && !str_prefix(pban->name, host))
+        if (check_bit(ban->ban_flags_, BAN_SUFFIX) && matches_start(ban->site_, host))
             return true;
 
-        if (!check_bit(pban->ban_flags, BAN_SUFFIX) && !check_bit(pban->ban_flags, BAN_PREFIX)
-            && !str_cmp(pban->name, host))
+        if (!check_bit(ban->ban_flags_, BAN_SUFFIX) && !check_bit(ban->ban_flags_, BAN_PREFIX)
+            && matches(ban->site_, host))
             return true;
     }
-
     return false;
 }
 
-void ban_site(Char *ch, const char *argument, bool fPerm) {
-    char buf[MAX_STRING_LENGTH];
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    char *name;
-    BUFFER *buffer;
-    Ban *pban, *prev;
-    bool prefix = false, suffix = false;
-    int type;
-
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if (arg1[0] == '\0') {
-        if (ban_list == nullptr) {
-            ch->send_line("No sites banned at this time.");
-            return;
-        }
-        buffer = buffer_create();
-
-        buffer_addline(buffer, "Banned sites       Level  Type     Status\n\r");
-        for (pban = ban_list; pban != nullptr; pban = pban->next) {
-            snprintf(buf, sizeof(buf), "%s%s%s", check_bit(pban->ban_flags, BAN_PREFIX) ? "*" : "", pban->name,
-                     check_bit(pban->ban_flags, BAN_SUFFIX) ? "*" : "");
-            buffer_addline_fmt(buffer, "%-17s    %-3d  %-7s  %s\n\r", buf, pban->level,
-                               check_bit(pban->ban_flags, BAN_NEWBIES)
-                                   ? "newbies"
-                                   : check_bit(pban->ban_flags, BAN_PERMIT)
-                                         ? "permit"
-                                         : check_bit(pban->ban_flags, BAN_ALL) ? "all" : "",
-                               check_bit(pban->ban_flags, BAN_PERMANENT) ? "perm" : "temp");
-        }
-        page_to_char(buffer_string(buffer), ch);
-        buffer_destroy(buffer);
-        return;
+bool Bans::ban_site(Char *ch, ArgParser args, const bool is_permanent) {
+    if (args.empty()) {
+        list(ch);
+        return false;
+    }
+    int ban_type_flag{0};
+    const std::string site_arg{args.shift()};
+    if (site_arg[0] == '*') {
+        set_bit(ban_type_flag, BAN_PREFIX);
+    }
+    if (site_arg[site_arg.size() - 1] == '*') {
+        set_bit(ban_type_flag, BAN_SUFFIX);
+    }
+    if (is_permanent) {
+        set_bit(ban_type_flag, BAN_PERMANENT);
+    }
+    const auto site = replace_strings(site_arg, "*", "");
+    if (site.empty()) {
+        ch->send_line("Ban which site?");
+        return false;
     }
 
+    const auto ban_type_arg = args.shift();
     /* find out what type of ban */
-    if (arg2[0] == '\0' || !str_prefix(arg2, "all"))
-        type = BAN_ALL;
-    else if (!str_prefix(arg2, "newbies"))
-        type = BAN_NEWBIES;
-    else if (!str_prefix(arg2, "permit"))
-        type = BAN_PERMIT;
+    if (ban_type_arg.empty() || matches(ban_type_arg, "all"))
+        set_bit(ban_type_flag, BAN_ALL);
+    else if (matches(ban_type_arg, "newbies"))
+        set_bit(ban_type_flag, BAN_NEWBIES);
+    else if (matches(ban_type_arg, "permit"))
+        set_bit(ban_type_flag, BAN_PERMIT);
     else {
         ch->send_line("Acceptable ban types are 'all', 'newbies', and 'permit'.");
-        return;
+        return false;
     }
-
-    name = arg1;
-
-    if (name[0] == '*') {
-        prefix = true;
-        name++;
+    if (auto existing = ranges::find_if(
+            bans_,
+            [&site, &ch](const auto &ban) { return matches(site, ban->site_) && ban->level_ > ch->get_trust(); });
+        existing != bans_.end()) {
+        ch->send_line("That ban was set by a higher power.");
+        return false;
     }
+    // Clear out any existing ban matching the new one.
+    bans_.erase(ranges::remove_if(bans_, [&site](auto &&ban) { return matches(site, ban->site_); }), bans_.end());
 
-    if (name[strlen(name) - 1] == '*') {
-        suffix = true;
-        name[strlen(name) - 1] = '\0';
-    }
-
-    if (strlen(name) == 0) {
-        ch->send_line("Ban which site?");
-        return;
-    }
-
-    prev = nullptr;
-    for (pban = ban_list; pban != nullptr; prev = pban, pban = pban->next) {
-        if (!str_cmp(name, pban->name)) {
-            if (pban->level > ch->get_trust()) {
-                ch->send_line("That ban was set by a higher power.");
-                return;
-            } else {
-                if (prev == nullptr)
-                    ban_list = pban->next;
-                else
-                    prev->next = pban->next;
-                free_ban(pban);
-            }
-        }
-    }
-
-    pban = new_ban();
-    pban->name = str_dup(name);
-    pban->level = ch->get_trust();
-
-    /* set ban type */
-    pban->ban_flags = type;
-
-    if (prefix)
-        set_bit(pban->ban_flags, BAN_PREFIX);
-    if (suffix)
-        set_bit(pban->ban_flags, BAN_SUFFIX);
-    if (fPerm)
-        set_bit(pban->ban_flags, BAN_PERMANENT);
-
-    pban->next = ban_list;
-    ban_list = pban;
-    save_bans();
-    snprintf(buf, sizeof(buf), "The host(s) matching '%s%s%s' have been banned.\n\r",
-             check_bit(pban->ban_flags, BAN_PREFIX) ? "*" : "", pban->name,
-             check_bit(pban->ban_flags, BAN_SUFFIX) ? "*" : "");
-    ch->send_to(buf);
+    bans_.emplace_back(std::make_unique<const Ban>(site, ch->get_trust(), ban_type_flag));
+    save();
+    ch->send_line("Bans updated.");
+    return true;
 }
 
-void do_ban(Char *ch, const char *argument) { ban_site(ch, argument, false); }
-
-void do_permban(Char *ch, const char *argument) { ban_site(ch, argument, true); }
-
-void do_allow(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH], *aargh = arg;
-    char buf[MAX_STRING_LENGTH];
-    Ban *prev;
-    Ban *curr;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        ch->send_line("Remove which site from the ban list?");
-        return;
+bool Bans::allow_site(Char *ch, ArgParser args) {
+    if (const auto opt_index = args.try_shift_number()) {
+        const size_t index = static_cast<size_t>(*opt_index);
+        if (index >= bans_.size()) {
+            ch->send_line("Please specify a value between 0 and {}.", bans_.size() - 1);
+            return false;
+        }
+        bans_.erase(bans_.begin() + index);
+        save();
+        ch->send_line("Bans updated.");
+        return true;
+    } else {
+        ch->send_line("Please specify the number of the ban you wish to lift.");
+        return false;
     }
+}
 
-    if (arg[0] == '*')
-        aargh++;
+size_t Bans::load() {
+    FILE *fp;
+    if ((fp = dependencies_.open_read()) == nullptr) {
+        return 0;
+    }
+    auto count = 0;
+    for (;;) {
+        auto c = getc(fp);
+        if (c == EOF)
+            break;
+        else
+            ungetc(c, fp);
+        // This isn't resilient against malformed ban lines.
+        const std::string name = fread_word(fp);
+        const int level = fread_number(fp);
+        const int flags = fread_flag(fp);
+        bans_.emplace_back(std::make_unique<const Ban>(name, level, flags));
+        count++;
+        fread_to_eol(fp);
+    }
+    dependencies_.close(fp);
+    return bans_.size();
+}
 
-    if (aargh[strlen(aargh)] == '*')
-        aargh[strlen(aargh)] = '\0';
-
-    prev = nullptr;
-    for (curr = ban_list; curr != nullptr; prev = curr, curr = curr->next) {
-        if (!str_cmp(aargh, curr->name)) {
-            if (curr->level > ch->get_trust()) {
-                ch->send_line("You are not powerful enough to lift that ban.");
-                return;
-            }
-            if (prev == nullptr)
-                ban_list = ban_list->next;
-            else
-                prev->next = curr->next;
-
-            snprintf(buf, sizeof(buf), "Ban on '%s%s%s' lifted.\n\r", check_bit(curr->ban_flags, BAN_PREFIX) ? "*" : "",
-                     aargh, check_bit(curr->ban_flags, BAN_SUFFIX) ? "*" : "");
-            free_ban(curr);
-            ch->send_to(buf);
-            save_bans();
-            return;
+void Bans::save() {
+    FILE *fp;
+    bool found = false;
+    if ((fp = dependencies_.open_write()) == nullptr) {
+        perror("Error opening ban file for write");
+    }
+    for (auto &&ban : bans_) {
+        if (check_bit(ban->ban_flags_, BAN_PERMANENT)) {
+            found = true;
+            fmt::print(fp, "{} {} {}\n", ban->site_, ban->level_, print_flags(ban->ban_flags_));
         }
     }
+    dependencies_.close(fp);
+    if (!found)
+        dependencies_.unlink();
+}
 
-    ch->send_line("That site is not banned.");
+void Bans::list(Char *ch) {
+    if (bans_.empty()) {
+        ch->send_line("No sites banned at this time.");
+        return;
+    }
+    ch->send_line(" No.  Banned sites       Level  Type     Status");
+    auto index = 0;
+    for (auto &&ban : bans_) {
+        const auto ban_flags_ = fmt::format("{}{}{}", check_bit(ban->ban_flags_, BAN_PREFIX) ? "*" : "", ban->site_,
+                                            check_bit(ban->ban_flags_, BAN_SUFFIX) ? "*" : "");
+        const auto ban_line = fmt::format(
+            "{:>3})  {:<17}    {:<3}  {:<7}  {}", index++, ban_flags_, ban->level_,
+            check_bit(ban->ban_flags_, BAN_NEWBIES)
+                ? "newbies"
+                : check_bit(ban->ban_flags_, BAN_PERMIT) ? "permit" : check_bit(ban->ban_flags_, BAN_ALL) ? "all" : "",
+            check_bit(ban->ban_flags_, BAN_PERMANENT) ? "perm" : "temp");
+        ch->send_line(ban_line);
+    }
+}
+
+class DependenciesImpl : public Bans::Dependencies {
+public:
+    DependenciesImpl();
+    FILE *open_read();
+    FILE *open_write();
+    void close(FILE *fp);
+    void unlink();
+
+private:
+    FILE *open_file(const char *mode);
+    std::string ban_file_;
+};
+
+DependenciesImpl::DependenciesImpl() { ban_file_ = Configuration::singleton().ban_file(); }
+
+FILE *DependenciesImpl::open_read() { return open_file("r"); }
+
+FILE *DependenciesImpl::open_write() { return open_file("w"); }
+
+FILE *DependenciesImpl::open_file(const char *mode) { return fopen(ban_file_.c_str(), mode); }
+
+void DependenciesImpl::close(FILE *fp) { fclose(fp); }
+
+void DependenciesImpl::unlink() { ::unlink(ban_file_.c_str()); }
+
+Bans &Bans::singleton() {
+    static DependenciesImpl dependencies;
+    static Bans singleton(dependencies);
+    return singleton;
 }

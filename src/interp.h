@@ -26,7 +26,7 @@ char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of thi
  * Command functions.
  * Defined in act_*.cpp (mostly).
  */
-extern void do_permban(Char *ch, const char *arg);
+extern void do_permban(Char *ch, ArgParser args);
 extern void do_permit(Char *ch, const char *arg);
 extern void do_prowl(Char *ch, const char *arg);
 extern void do_sharpen(Char *ch);
@@ -38,7 +38,7 @@ extern void do_affected(Char *ch);
 extern void do_afk(Char *ch, std::string_view argument);
 extern void do_alist(Char *ch);
 extern void do_allege(Char *ch, const char *arg);
-extern void do_allow(Char *ch, const char *arg);
+extern void do_allow(Char *ch, ArgParser args);
 extern void do_announce(Char *ch);
 extern void do_answer(Char *ch, const char *arg);
 extern void do_areas(Char *ch, ArgParser args);
@@ -57,7 +57,7 @@ extern void do_awaken(Char *ch, const char *arg);
 extern void do_backstab(Char *ch, const char *arg);
 extern void do_bamfin(Char *ch, const char *argument);
 extern void do_bamfout(Char *ch, const char *argument);
-extern void do_ban(Char *ch, const char *arg);
+extern void do_ban(Char *ch, ArgParser args);
 extern void do_bash(Char *ch, const char *arg);
 extern void do_berserk(Char *ch);
 extern void do_brandish(Char *ch);

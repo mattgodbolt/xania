@@ -1249,20 +1249,24 @@ to be altered.
 ~
 
 98 ALLOW BAN PERMBAN PERMIT~
-Syntax: allow   <site>
+Syntax: 
+        ban                     (list existing bans)
+        allow   <site number>   (remove a ban)
         ban     <site> <type>
         permban <site> <type>
         permban
-        ban
-        permit <player>
+        permit +/-<player>      (grant or remove a site ban exemption)
 
 
 ban and permban allow restrictions on the sites that can connect to Xania.
-All bans are temporary and take effect only until the Mud shuts down,
-whereas permbans are permanent.  
+Bans created using the "ban" command are temporary and take effect
+only until the Mud shuts down. Those created using "permban"
+are permanent.  
 
-The site name can be wildcarded, so '*.demon.co.uk' prevents all demon users
-from using Xania, and 'ws101.*' bans anyone using a machine called 'ws101'.
+In either case, the ban can be lifted using the allow command.
+
+When adding a site ban, site name can have an optional wildcard prefix or
+suffix, e.g. '*.mysite.com' or 'node123-*'.
 
 The type of bans are:
    all     - which prevents any players from that site from connecting
@@ -1271,8 +1275,14 @@ The type of bans are:
              players who have been explicitly allowed using the permit
              command
 
-The permit command takes a player name as a parameter; if this is prepended
-with a '-' character then that character's permit privilege is revoked.
+Permit command:
+
+The immortal using this command MUST be in the same room as the target!
+
+For sites that have been slapped with a "ban permit", individuals can be
+granted an exemption using the "permit" command. This command takes a
+player name as a parameter. You can optionally prefix this with '+' to
+grant the exemption, or with '-' to to remove the exemption.
 ~
 
 99 REBOOT SHUTDOWN~

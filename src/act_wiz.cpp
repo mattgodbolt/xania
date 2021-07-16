@@ -3033,7 +3033,11 @@ void do_sockets(Char *ch, const char *argument) {
         }
         if (!name.empty()) {
             count++;
-            buf += fmt::format("[{:3} {:>5}] {}@{}\n\r", d.channel(), short_name_of(d.state()), name, d.host());
+            // Hostname is displayed to high level immortals when using the 'socket' command so that it
+            // is possible for them to apply site bans. However, the mud doesn't write the full hostname
+            // to the log files when connections are established or closed.
+            buf += fmt::format("[{:3} {:>5}] {}@{}\n\r", d.channel(), short_name_of(d.state()), name,
+                               d.raw_full_hostname());
         }
     }
     if (count == 0) {

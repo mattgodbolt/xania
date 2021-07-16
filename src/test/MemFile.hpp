@@ -30,6 +30,14 @@ public:
 
     [[nodiscard]] FILE *file() const noexcept { return file_; }
     void rewind() { ::fseek(file_, 0, SEEK_SET); }
+    // Provides a way to release the original in-memory file and start a fresh one.
+    // Useful in scenarios where the SUT is both reading then rewriting
+    // the same logical file.
+    void truncate() {
+        ::fclose(file_);
+        ::free(ptr_);
+        file_ = open_memstream(&ptr_, &size_);
+    }
 
     [[nodiscard]] std::string_view as_string_view() const noexcept {
         ::fflush(file_);
