@@ -1878,7 +1878,7 @@ void fread_to_eol(FILE *fp) {
 
     do {
         c = getc(fp);
-    } while (c != '\n' && c != '\r');
+    } while (c != '\n' && c != '\r' && c != EOF);
 
     do {
         c = getc(fp);
