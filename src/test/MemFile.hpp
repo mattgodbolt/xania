@@ -35,7 +35,10 @@ public:
         ::fflush(file_);
         if (!ptr_)
             return "";
-        return std::string_view(ptr_, size_);
+        // Not passing size_ to the overloaded constructor, because in some
+        // cases, fflush() causes size_ to be zero (especially after two flushes),
+        // and open_memstream() maintains a null at the end of the buffer anyway.
+        return std::string_view(ptr_);
     }
 };
 
