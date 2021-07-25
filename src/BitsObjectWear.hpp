@@ -25,6 +25,3 @@
 #define ITEM_HOLD (O)
 #define ITEM_TWO_HANDS (P)
 #define ITEM_WEAR_EARS (Q)
-
-#define ITEM_WEAR_FLAGS                                                                                                \
-    "take finger neck body head legs feet hands arms shield about waist wrist wield hold twohands ears"

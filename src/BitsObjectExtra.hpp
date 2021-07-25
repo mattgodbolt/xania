@@ -29,7 +29,3 @@
 #define ITEM_NO_LOCATE (S)
 #define ITEM_SUMMON_CORPSE (T)
 #define ITEM_UNIQUE (U)
-
-#define ITEM_EXTRA_FLAGS                                                                                               \
-    "glow hum dark lock evil invis magic nodrop bless antigood antievil antineutral "                                  \
-    "noremove inventory nopurge rotdeath visdeath protected nolocate summon_corpse unique"

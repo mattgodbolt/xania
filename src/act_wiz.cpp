@@ -21,6 +21,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
+#include "Flag.hpp"
 #include "MobIndexData.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
@@ -42,7 +43,6 @@
 #include "common/Configuration.hpp"
 #include "db.h"
 #include "fight.hpp"
-#include "flags.h"
 #include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
@@ -70,9 +70,6 @@ std::string deity_name = "Etaine";
 // Log-all switch.
 // Mutable global: imms can toggle it using the log command.
 bool fLogAll = false;
-
-static const char ROOM_FLAGS[] = "dark * nomob indoors * * * * * private safe solitary petshop norecall 100imponly "
-                                 "92godonly heroonly newbieonly law";
 
 void do_mskills(Char *ch, const char *argument);
 void do_maffects(Char *ch, const char *argument);
@@ -686,7 +683,7 @@ void do_rstat(Char *ch, std::string_view argument) {
     ch->send_line("Vnum: {}.  Sector: {} ({}).  Light: {}.", location->vnum, to_string(location->sector_type),
                   static_cast<int>(location->sector_type), location->light);
     ch->send_to("Flags: ");
-    display_flags(ROOM_FLAGS, ch, location->room_flags);
+    ch->send_line(format_set_flags(Room::AllStateFlags, ch, location->room_flags));
     ch->send_line("Description:");
     ch->send_to(location->description);
 
@@ -2906,13 +2903,15 @@ void do_oset(Char *ch, const char *argument) {
     if (!str_prefix(arg2, "extra")) {
 
         ch->send_line("Current extra flags are: ");
-        obj->extra_flags = (int)flag_set(ITEM_EXTRA_FLAGS, arg3, obj->extra_flags, ch);
+        auto flag_args = ArgParser(arg3);
+        obj->extra_flags = static_cast<unsigned int>(flag_set(Object::AllExtraFlags, flag_args, obj->extra_flags, ch));
         return;
     }
 
     if (!str_prefix(arg2, "wear")) {
         ch->send_line("Current wear flags are: ");
-        obj->wear_flags = (int)flag_set(ITEM_WEAR_FLAGS, arg3, obj->wear_flags, ch);
+        auto flag_args = ArgParser(arg3);
+        obj->wear_flags = static_cast<unsigned int>(flag_set(Object::AllWearFlags, flag_args, obj->wear_flags, ch));
         return;
     }
 
@@ -2982,7 +2981,9 @@ void do_rset(Char *ch, const char *argument) {
 
     if (!str_prefix(arg2, "flags")) {
         ch->send_line("The current room flags are:");
-        location->room_flags = (int)flag_set(ROOM_FLAGS, arg3, location->room_flags, ch);
+        auto flag_args = ArgParser(arg3);
+        location->room_flags =
+            static_cast<unsigned int>(flag_set(Room::AllStateFlags, flag_args, location->room_flags, ch));
         return;
     }
 

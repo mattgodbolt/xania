@@ -19,3 +19,8 @@ template <typename F, typename B>
 inline bool clear_bit(F &flag, const B bit) {
     return flag &= ~bit;
 }
+
+template <typename F, typename B>
+inline bool toggle_bit(F &flag, const B bit) {
+    return flag ^= bit;
+}

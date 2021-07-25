@@ -5,7 +5,10 @@
 /*************************************************************************/
 #pragma once
 #include "AffectList.hpp"
+#include "BitsObjectExtra.hpp"
+#include "BitsObjectWear.hpp"
 #include "ExtraDescription.hpp"
+#include "Flag.hpp"
 #include "GenericList.hpp"
 #include "Materials.hpp"
 #include "Types.hpp"
@@ -37,7 +40,7 @@ struct Object {
     std::string description;
     ObjectType type{};
     unsigned int extra_flags{};
-    int wear_flags{};
+    unsigned int wear_flags{};
     std::string wear_string;
     int wear_loc{};
     sh_int weight{};
@@ -91,4 +94,52 @@ struct Object {
     [[nodiscard]] bool is_vis_death() const; // Invisible until its owner dies.
     // Weapon specific attribute checks.
     [[nodiscard]] bool is_weapon_two_handed() const;
+
+    inline static constexpr std::array<Flag, 21> AllExtraFlags = {{
+        // clang-format off
+        {ITEM_GLOW, 0, "glow"},
+        {ITEM_HUM, 0, "hum"},
+        {ITEM_DARK, 0, "dark"},
+        {ITEM_LOCK, 0, "lock"},
+        {ITEM_EVIL, 0, "evil"},
+        {ITEM_INVIS, 0, "invis"},
+        {ITEM_MAGIC, 0, "magic"},
+        {ITEM_NODROP, 0, "nodrop"},
+        {ITEM_BLESS, 0, "bless"},
+        {ITEM_ANTI_GOOD, 0, "antigood"},
+        {ITEM_ANTI_EVIL, 0, "antievil"},
+        {ITEM_ANTI_NEUTRAL, 0, "antineutral"},
+        {ITEM_NOREMOVE, 0, "noremove"}, // Only weapons are meant to have this, it prevents disarm.
+        {ITEM_INVENTORY, 0, "inventory"},
+        {ITEM_NOPURGE, 0, "nopurge"},
+        {ITEM_ROT_DEATH, 0, "rotdeath"},
+        {ITEM_VIS_DEATH, 0, "visdeath"},
+        {ITEM_PROTECT_CONTAINER, 0, "protected"},
+        {ITEM_NO_LOCATE, 0, "nolocate"},
+        {ITEM_SUMMON_CORPSE, 0, "summon_corpse"},
+        {ITEM_UNIQUE, 0, "unique"},
+        // clang-format on
+    }};
+
+    inline static constexpr std::array<Flag, 17> AllWearFlags = {{
+        // clang-format off
+        {ITEM_TAKE, 0, "take"},
+        {ITEM_WEAR_FINGER, 0, "finger"},
+        {ITEM_WEAR_NECK, 0, "neck"},
+        {ITEM_WEAR_BODY, 0, "body"},
+        {ITEM_WEAR_HEAD, 0, "head"},
+        {ITEM_WEAR_LEGS, 0, "legs"},
+        {ITEM_WEAR_FEET, 0, "feet"},
+        {ITEM_WEAR_HANDS, 0, "hands"},
+        {ITEM_WEAR_ARMS, 0, "arms"},
+        {ITEM_WEAR_SHIELD, 0, "shield"},
+        {ITEM_WEAR_ABOUT, 0, "about"},
+        {ITEM_WEAR_WAIST, 0, "waist"},
+        {ITEM_WEAR_WRIST, 0, "wrist"},
+        {ITEM_WIELD, 0, "wield"},
+        {ITEM_HOLD, 0, "hold"},
+        {ITEM_TWO_HANDS, 0, "twohands"},
+        {ITEM_WEAR_EARS, 0, "ears"},
+        // clang-format on
+    }};
 };

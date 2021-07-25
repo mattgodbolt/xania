@@ -21,11 +21,11 @@
 #include "Ban.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
+#include "Flag.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
-#include "flags.h"
 #include "interp.h"
 #include "string_utils.hpp"
 
@@ -164,7 +164,7 @@ void Bans::save() {
     for (auto &&ban : bans_) {
         if (check_bit(ban->ban_flags_, BAN_PERMANENT)) {
             found = true;
-            fmt::print(fp, "{} {} {}\n", ban->site_, ban->level_, print_flags(ban->ban_flags_));
+            fmt::print(fp, "{} {} {}\n", ban->site_, ban->level_, serialize_flags(ban->ban_flags_));
         }
     }
     dependencies_.close(fp);

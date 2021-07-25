@@ -31,7 +31,7 @@ struct ObjectIndex {
     Material::Type material{};
     ObjectType type{};
     unsigned int extra_flags{};
-    int wear_flags{};
+    unsigned int wear_flags{};
     std::string wear_string;
     sh_int level{};
     sh_int condition{};
