@@ -37,7 +37,6 @@
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
 #include "WeatherData.hpp"
-#include "buffer.h"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
 #include "handler.hpp"
@@ -1721,51 +1720,6 @@ long fread_flag(FILE *fp) {
             ungetc(c, fp);
     }
     return number;
-}
-
-/* Reads a ~-terminated string from a file into a new buffer. */
-BUFFER *fread_string_tobuffer(FILE *fp) {
-    char buf[MAX_STRING_LENGTH];
-    char c;
-    int index = 0;
-    BUFFER *buffer = buffer_create();
-
-    if (buffer == nullptr) {
-        bug("fread_string_tobuffer: Failed to create new buffer.");
-        return nullptr;
-    }
-    do {
-        c = getc(fp);
-    } while (isspace(c));
-    ungetc(c, fp);
-    while (index < MAX_STRING_LENGTH - 2) {
-        switch (buf[index] = getc(fp)) {
-        default: index++; break;
-
-        case EOF:
-            bug("fread_string_tobuffer: EOF found.");
-            buffer_shrink(buffer);
-            return buffer;
-
-        case '\r': break;
-
-        case '\n':
-            buf[index + 1] = '\r';
-            buf[index + 2] = '\0';
-            buffer_addline(buffer, buf);
-            index = 0;
-            break;
-
-        case '~':
-            buf[index] = '\0';
-            buffer_addline(buffer, buf);
-            buffer_shrink(buffer);
-            return buffer;
-        }
-    }
-    bug("fread_string_tobuffer: String overflow - aborting read.");
-    buffer_shrink(buffer);
-    return buffer;
 }
 
 void skip_ws(FILE *fp) {

@@ -41,7 +41,6 @@
 #include "WeatherData.hpp"
 #include "act_comm.hpp"
 #include "act_obj.hpp"
-#include "buffer.h"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"

@@ -12,7 +12,6 @@
 #include "Constants.hpp"
 #include "GenericList.hpp"
 #include "MobIndexData.hpp"
-#include "buffer.h"
 
 #include <range/v3/view/transform.hpp>
 
@@ -65,7 +64,6 @@ char fread_letter(FILE *fp);
 int fread_number(FILE *fp);
 int fread_spnumber(FILE *fp);
 long fread_flag(FILE *fp);
-BUFFER *fread_string_tobuffer(FILE *fp);
 char *fread_string(FILE *fp);
 std::string fread_stdstring(FILE *fp);
 char *fread_string_eol(FILE *fp);
