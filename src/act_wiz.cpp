@@ -751,7 +751,7 @@ void do_ostat(Char *ch, const char *argument) {
         ch->send_line("Long description: {}", objIndex->description);
 
         ch->send_line("Wear bits: {}", wear_bit_name(objIndex->wear_flags));
-        ch->send_line("Extra bits: {}", extra_bit_name(objIndex->extra_flags));
+        ch->send_line("Extra bits: {}", format_set_flags(Object::AllExtraFlags, ch, objIndex->extra_flags));
 
         ch->send_line("Wear string: {}", objIndex->wear_string);
 
@@ -777,7 +777,7 @@ void do_ostat(Char *ch, const char *argument) {
     ch->send_line("Long description: {}", obj->description);
 
     ch->send_line("Wear bits: {}", wear_bit_name(obj->wear_flags));
-    ch->send_line("Extra bits: {}", extra_bit_name(obj->extra_flags));
+    ch->send_line("Extra bits: {}", format_set_flags(Object::AllExtraFlags, ch, obj->extra_flags));
 
     ch->send_line("Wear string: {}", obj->wear_string);
 

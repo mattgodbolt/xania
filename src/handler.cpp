@@ -1021,58 +1021,6 @@ std::string affect_bit_name(unsigned int vector) {
     return buf.substr(1);
 }
 
-/*
- * Return ascii name of extra flags vector.
- */
-std::string extra_bit_name(unsigned int extra_flags) {
-    std::string buf;
-    if (extra_flags & ITEM_GLOW)
-        buf += " glow";
-    if (extra_flags & ITEM_HUM)
-        buf += " hum";
-    if (extra_flags & ITEM_DARK)
-        buf += " dark";
-    if (extra_flags & ITEM_LOCK)
-        buf += " lock";
-    if (extra_flags & ITEM_EVIL)
-        buf += " evil";
-    if (extra_flags & ITEM_INVIS)
-        buf += " invis";
-    if (extra_flags & ITEM_MAGIC)
-        buf += " magic";
-    if (extra_flags & ITEM_SUMMON_CORPSE)
-        buf += " summon_corpse";
-    if (extra_flags & ITEM_NODROP)
-        buf += " nodrop";
-    if (extra_flags & ITEM_BLESS)
-        buf += " bless";
-    if (extra_flags & ITEM_ANTI_GOOD)
-        buf += " anti-good";
-    if (extra_flags & ITEM_ANTI_EVIL)
-        buf += " anti-evil";
-    if (extra_flags & ITEM_ANTI_NEUTRAL)
-        buf += " anti-neutral";
-    if (extra_flags & ITEM_PROTECT_CONTAINER)
-        buf += " protected";
-    if (extra_flags & ITEM_NOREMOVE)
-        buf += " noremove";
-    if (extra_flags & ITEM_INVENTORY)
-        buf += " inventory";
-    if (extra_flags & ITEM_NOPURGE)
-        buf += " nopurge";
-    if (extra_flags & ITEM_VIS_DEATH)
-        buf += " vis_death";
-    if (extra_flags & ITEM_ROT_DEATH)
-        buf += " rot_death";
-    if (extra_flags & ITEM_NO_LOCATE)
-        buf += " no_locate";
-    if (extra_flags & ITEM_UNIQUE)
-        buf += " unique";
-    if (buf.empty())
-        return "none";
-    return buf.substr(1);
-}
-
 /* return ascii name of an act vector */
 const char *act_bit_name(int act_flags) {
     static char buf[512];
