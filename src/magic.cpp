@@ -233,6 +233,7 @@ int mana_for_spell(const Char *ch, const int sn) {
 
 /*
  * The kludgy global is for spells who want more stuff from command line.
+ * TODO: #261 replace.
  */
 const char *target_name;
 
@@ -2560,7 +2561,6 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)level;
     Object *obj = (Object *)vo;
-    char buf[MAX_STRING_LENGTH];
 
     ch->send_line("Object '{}' is type {}, extra flags {}.", obj->name, obj->type_name(),
                   format_set_flags(Object::AllExtraFlags, ch, obj->extra_flags));
@@ -2637,15 +2637,13 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
                 ch->send_to(" lightning");
             ch->send_line(".");
         }
-        snprintf(buf, sizeof(buf), "Damage is %dd%d (average %d).\n\r", obj->value[1], obj->value[2],
-                 (1 + obj->value[2]) * obj->value[1] / 2);
-        ch->send_to(buf);
+        ch->send_line("Damage is {}d{} (average {}).", obj->value[1], obj->value[2],
+                      (1 + obj->value[2]) * obj->value[1] / 2);
         break;
 
     case ObjectType::Armor:
-        snprintf(buf, sizeof(buf), "Armor class is %d pierce, %d bash, %d slash, and %d vs. magic.\n\r", obj->value[0],
-                 obj->value[1], obj->value[2], obj->value[3]);
-        ch->send_to(buf);
+        ch->send_line("Armor class is {} pierce, {} bash, {} slash, and {} vs. magic.", obj->value[0], obj->value[1],
+                      obj->value[2], obj->value[3]);
         break;
     default:; // TODO #259 support more types
     }
@@ -3272,19 +3270,14 @@ void spell_teleport(int sn, int level, Char *ch, void *vo) {
 void spell_ventriloquate(int sn, int level, Char *ch, void *vo) {
     (void)sn;
     (void)vo;
-    char buf1[MAX_STRING_LENGTH];
-    char buf2[MAX_STRING_LENGTH];
-    char speaker[MAX_INPUT_LENGTH];
-
-    target_name = one_argument(target_name, speaker);
-
-    snprintf(buf1, sizeof(buf1), "%s says '%s'.\n\r", speaker, target_name);
-    snprintf(buf2, sizeof(buf2), "Someone makes %s say '%s'.\n\r", speaker, target_name);
-    buf1[0] = toupper(buf1[0]);
-
+    char buf[MAX_INPUT_LENGTH];
+    target_name = one_argument(target_name, buf);
+    const auto speaker_name = upper_first_character(buf);
+    const auto successful_speech = fmt::format("{} says '{}'.", speaker_name, target_name);
+    const auto suspicious_speech = fmt::format("Someone makes {} say '{}'.", speaker_name, target_name);
     for (auto *vch : ch->in_room->people) {
-        if (!is_name(speaker, vch->name))
-            vch->send_to(saves_spell(level, vch) ? buf2 : buf1);
+        if (!is_name(speaker_name, vch->name))
+            vch->send_line(saves_spell(level, vch) ? suspicious_speech : successful_speech);
     }
 }
 
@@ -3588,7 +3581,6 @@ void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
     Object *object;
     char arg1[MAX_STRING_LENGTH];
     char arg2[MAX_STRING_LENGTH];
-    char buf[MAX_STRING_LENGTH];
     Room *old_room;
 
     target_name = one_argument(target_name, arg1);
@@ -3640,19 +3632,18 @@ void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
 
     /* Check to see if the victim is actually already in the same room */
     // TODO: we can break do_give() into pieces and call it directly instead of this nonsense.
+    const auto give_args = fmt::format("'{}' {}", object->name, victim->name);
     if (ch->in_room != victim->in_room) {
         act("You feel a brief presence in the room.", victim, nullptr, nullptr, To::Char);
         act("You feel a brief presence in the room.", victim);
-        snprintf(buf, sizeof(buf), "'%s' %s", object->name.c_str(), victim->name.c_str());
         old_room = ch->in_room;
         char_from_room(ch);
         char_to_room(ch, victim->in_room);
-        do_give(ch, buf);
+        do_give(ch, give_args.c_str());
         char_from_room(ch);
         char_to_room(ch, old_room);
     } else {
-        snprintf(buf, sizeof(buf), "'%s' %s", object->name.c_str(), victim->name.c_str());
-        do_give(ch, buf);
+        do_give(ch, give_args.c_str());
     } /* ..else... if not in same room */
 }
 
