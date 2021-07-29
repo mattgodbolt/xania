@@ -31,18 +31,21 @@ struct Flag {
 
 template <std::size_t SIZE>
 std::string format_set_flags(const std::array<Flag, SIZE> &flags, const Char *ch, const unsigned long current_val) {
-    return fmt::format("|C{}|w", fmt::join(flags | ranges::views::filter([&ch, &current_val](const auto &flag) {
-                                               return ch->level >= flag.min_level && check_bit(current_val, flag.bit);
-                                           }) | ranges::views::transform(&Flag::name),
-                                           " "));
+    const auto flag_list =
+        fmt::format("{}", fmt::join(flags | ranges::views::filter([&ch, &current_val](const auto &flag) {
+                                        return ch->level >= flag.min_level && check_bit(current_val, flag.bit);
+                                    }) | ranges::views::transform(&Flag::name),
+                                    " "));
+    return flag_list.empty() ? "none" : "|C" + flag_list + "|w";
 }
 
 template <std::size_t SIZE>
 std::string format_available_flags(const std::array<Flag, SIZE> &flags, const Char *ch) {
-    return fmt::format("|C{}|w", fmt::join(flags | ranges::views::filter([&ch](const auto &flag) {
-                                               return ch->level >= flag.min_level;
-                                           }) | ranges::views::transform(&Flag::name),
-                                           " "));
+    const auto flag_list = fmt::format("{}", fmt::join(flags | ranges::views::filter([&ch](const auto &flag) {
+                                                           return ch->level >= flag.min_level;
+                                                       }) | ranges::views::transform(&Flag::name),
+                                                       " "));
+    return flag_list.empty() ? "none" : "|C" + flag_list + "|w";
 }
 
 template <std::size_t SIZE>

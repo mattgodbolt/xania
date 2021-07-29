@@ -77,7 +77,7 @@ TEST_CASE("flag set") {
         auto result = flag_set(flags, args, current_val, &admin);
 
         CHECK(!check_bit(result, A));
-        CHECK(admin_desc.buffered_output() == "\n\r\n\r");
+        CHECK(admin_desc.buffered_output() == "\n\rnone\n\r");
     }
     SECTION("first set on") {
         auto args = ArgParser("+first");
@@ -92,20 +92,20 @@ TEST_CASE("flag set") {
         auto result = flag_set(flags, args, current_val, &admin);
 
         CHECK(!check_bit(result, A));
-        CHECK(admin_desc.buffered_output() == "\n\r\n\r");
+        CHECK(admin_desc.buffered_output() == "\n\rnone\n\r");
     }
     SECTION("unrecognized flag name") {
         auto args = ArgParser("zero");
         auto result = flag_set(flags, args, current_val, &admin);
 
         CHECK(result == 0);
-        CHECK(admin_desc.buffered_output() == "\n\r\n\rAvailable flags:\n\rfirst second\n\r");
+        CHECK(admin_desc.buffered_output() == "\n\rnone\n\rAvailable flags:\n\rfirst second\n\r");
     }
     SECTION("insufficient trust for flag") {
         auto args = ArgParser("third");
         auto result = flag_set(flags, args, current_val, &admin);
 
         CHECK(result == 0);
-        CHECK(admin_desc.buffered_output() == "\n\r\n\rAvailable flags:\n\rfirst second\n\r");
+        CHECK(admin_desc.buffered_output() == "\n\rnone\n\rAvailable flags:\n\rfirst second\n\r");
     }
 }
