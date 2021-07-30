@@ -994,12 +994,10 @@ void do_mpracs(Char *ch, const char *argument) {
     PracticeTabulator::tabulate(ch, victim);
 }
 
-/* Correct on 28/8/96 by Oshea to give correct cp's */
+// Show a victim's skill groups and creation points. 
 void do_minfo(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
-    int gn, col;
 
     one_argument(argument, arg);
 
@@ -1018,25 +1016,15 @@ void do_minfo(Char *ch, const char *argument) {
 
     ch->send_line("Info list for {}:", victim->name);
 
-    col = 0;
-
-    /* show all groups */
-
-    for (gn = 0; gn < MAX_GROUP; gn++) {
+    Columner col3(*ch, 3);
+    for (auto gn = 0; gn < MAX_GROUP; gn++) {
         if (group_table[gn].name == nullptr)
             break;
         if (victim->pcdata->group_known[gn]) {
-            bug_snprintf(buf, sizeof(buf), "%-20s ", group_table[gn].name);
-            ch->send_to(buf);
-            if (++col % 3 == 0)
-                ch->send_line("");
+            col3.add(group_table[gn].name);
         }
     }
-    if (col % 3 != 0)
-        ch->send_line("");
-    bug_snprintf(buf, sizeof(buf), "Creation points: %d\n\r", victim->pcdata->points);
-
-    ch->send_to(buf);
+    ch->send_line("Creation points: {}", victim->pcdata->points);
 }
 
 void do_mstat(Char *ch, const char *argument) {
