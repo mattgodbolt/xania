@@ -17,8 +17,6 @@
 #include "string_utils.hpp"
 #include "version.h"
 
-#include <cstdlib>
-#include <cstring>
 #include <fmt/format.h>
 #include <sys/time.h>
 #include <unistd.h>

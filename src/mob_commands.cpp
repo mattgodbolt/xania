@@ -39,9 +39,6 @@
 
 #include <fmt/format.h>
 
-#include <cstdio>
-#include <cstdlib>
-
 /*
  * Local functions.
  */

@@ -4,8 +4,6 @@
 
 #include <fmt/format.h>
 
-#include <cstdio>
-
 class Dice {
     int number_{};
     int type_{};

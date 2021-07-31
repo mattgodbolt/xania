@@ -60,11 +60,6 @@
 #include <range/v3/view/concat.hpp>
 #include <range/v3/view/transform.hpp>
 
-#include <cctype>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-
 // Mutable global: imms can change it using the sacname command.
 std::string deity_name = "Etaine";
 

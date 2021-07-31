@@ -18,8 +18,6 @@
 
 #include <fmt/format.h>
 
-#include <cstdio>
-
 extern void print_status(const Char *ch, std::string_view name, const bool master_state, std::string_view master_name,
                          const bool state);
 

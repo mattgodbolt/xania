@@ -4,7 +4,6 @@
 
 #include <fmt/core.h>
 
-#include <cstdio>
 #include <optional>
 #include <string>
 #include <string_view>

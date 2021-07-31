@@ -6,8 +6,6 @@
 /*  reimplementation of that work.                                       */
 /*************************************************************************/
 #include <cstdio>
-#include <cstdlib>
-#include <cstring>
 
 #include "KeywordResponses.hpp"
 

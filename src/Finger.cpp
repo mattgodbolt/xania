@@ -20,8 +20,6 @@
 
 #include <fmt/format.h>
 
-#include <cstdio>
-#include <cstring>
 #include <sys/stat.h>
 #include <unordered_map>
 

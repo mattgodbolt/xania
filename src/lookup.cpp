@@ -27,13 +27,6 @@
 
 #include <magic_enum.hpp>
 
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <time.h>
-
 // Support function: checks if a string is numeric and in 0<=x<max
 // Returns number or -1 if not
 int numeric_lookup_check(std::string_view name, const int max) {

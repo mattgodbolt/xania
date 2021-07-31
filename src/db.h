@@ -15,7 +15,6 @@
 
 #include <range/v3/view/transform.hpp>
 
-#include <cstdio>
 #include <map>
 #include <string>
 

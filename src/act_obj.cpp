@@ -53,7 +53,6 @@
 #include <fmt/format.h>
 #include <range/v3/algorithm/find.hpp>
 
-#include <cstdlib>
 #include <set>
 
 extern const char *target_name; /* Included from magic.c */

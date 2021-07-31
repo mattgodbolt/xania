@@ -13,7 +13,6 @@
 #include "CommandSet.hpp"
 #include "common/Time.hpp"
 
-#include <cstdio>
 #include <functional>
 #include <list>
 #include <string>

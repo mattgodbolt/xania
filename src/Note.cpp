@@ -23,8 +23,6 @@
 #include <range/v3/algorithm/find_if.hpp>
 #include <range/v3/view/filter.hpp>
 
-#include <cctype>
-#include <cstdio>
 #include <functional>
 
 bool Note::is_to(const Char &ch) const {

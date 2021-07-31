@@ -7,12 +7,6 @@
 #include <string_view>
 #include <vector>
 
-#include <cerrno>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <netinet/in.h>
-
 using namespace std::literals;
 
 Doorman::Doorman(int port) : log_(logger_for("Doorman")), port_(port), mud_(*this) {

@@ -9,7 +9,6 @@
 #include "../string_utils.hpp"
 #include "chat_utils.hpp"
 #include "chatconstants.hpp"
-#include <cstring>
 
 using namespace chat;
 

@@ -44,9 +44,6 @@
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>
 
-#include <cstdio>
-#include <cstring>
-
 using namespace std::literals;
 
 constexpr PerSectorType<int> movement_loss{1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};

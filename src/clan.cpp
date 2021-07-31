@@ -22,7 +22,6 @@
 #include <range/v3/algorithm/find_if.hpp>
 
 #include <algorithm>
-#include <cstdio>
 
 /* User serviceable bits... you will also need to change the NUM_CLANS in clan.h */
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdio>
 #include <string>
 
 // tip wizard type - OG Faramir Sep 21 1998

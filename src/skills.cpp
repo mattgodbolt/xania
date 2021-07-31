@@ -27,8 +27,6 @@
 #include "string_utils.hpp"
 #include "update.hpp"
 
-#include <cstdio>
-#include <cstring>
 #include <map>
 
 namespace {

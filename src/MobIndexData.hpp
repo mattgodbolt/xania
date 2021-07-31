@@ -8,7 +8,7 @@
 #include "Types.hpp"
 
 #include <array>
-#include <cstdio>
+
 #include <magic_enum.hpp>
 #include <optional>
 #include <string>
