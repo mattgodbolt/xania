@@ -23,6 +23,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Help.hpp"
+#include "Logging.hpp"
 #include "MobIndexData.hpp"
 #include "Note.hpp"
 #include "Object.hpp"

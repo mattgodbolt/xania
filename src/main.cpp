@@ -5,6 +5,7 @@
 /*************************************************************************/
 #include "Ban.hpp"
 #include "Char.hpp"
+#include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "Tip.hpp"
 #include "chat/chatlink.h"

@@ -21,6 +21,7 @@
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
 #include "Format.hpp"
+#include "Logging.hpp"
 #include "Materials.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
@@ -52,6 +53,7 @@
 #include <cstdio>
 #include <cstring>
 #include <fmt/format.h>
+#include <fmt/printf.h>
 #include <functional>
 #include <range/v3/algorithm/find_if.hpp>
 

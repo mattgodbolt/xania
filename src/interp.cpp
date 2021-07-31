@@ -13,6 +13,7 @@
 #include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "CommandSet.hpp"
+#include "Logging.hpp"
 #include "Note.hpp"
 #include "Socials.hpp"
 #include "act_comm.hpp"

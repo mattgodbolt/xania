@@ -2,6 +2,7 @@
 #include "ArmourClass.hpp"
 #include "BitsCharAct.hpp"
 #include "BodySize.hpp"
+#include "Logging.hpp"
 #include "Races.hpp"
 #include "common/BitOps.hpp"
 

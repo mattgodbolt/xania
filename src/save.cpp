@@ -12,6 +12,7 @@
 #include "BitsCommChannel.hpp"
 #include "BitsPlayerAct.hpp"
 #include "CharFileMeta.hpp"
+#include "Logging.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"

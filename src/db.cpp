@@ -22,6 +22,7 @@
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
 #include "Help.hpp"
+#include "Logging.hpp"
 #include "Materials.hpp"
 #include "MobIndexData.hpp"
 #include "Note.hpp"

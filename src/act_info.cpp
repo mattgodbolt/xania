@@ -27,6 +27,7 @@
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
 #include "Help.hpp"
+#include "Logging.hpp"
 #include "Materials.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"

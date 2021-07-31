@@ -13,6 +13,7 @@
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
 #include "Exit.hpp"
+#include "Logging.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"

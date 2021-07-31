@@ -14,6 +14,7 @@
 #include "BitsRoomState.hpp"
 #include "Classes.hpp"
 #include "DescriptorList.hpp"
+#include "Logging.hpp"
 #include "Note.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"

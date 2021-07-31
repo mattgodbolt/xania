@@ -2,11 +2,11 @@
 #include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "Constants.hpp"
-#include "common/BitOps.hpp"
-
+#include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
+#include "common/BitOps.hpp"
 #include "common/mask_hostname.hpp"
 #include "string_utils.hpp"
 

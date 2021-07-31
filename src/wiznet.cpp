@@ -70,17 +70,14 @@ void wiznet_off(Char *ch) {
 }
 
 static void toggle_wizchan(Char *ch, int flag, const char *name) {
-    char buf[MAX_STRING_LENGTH];
-
     if (ch->is_set_extra(flag)) {
-        snprintf(buf, sizeof(buf), "|GWIZNET %s is now |rOFF|G.|w\n\r", name);
+        ch->send_line("|GWIZNET {} is now |rOFF|G.|w", name);
         ch->remove_extra(flag);
     } else {
-        snprintf(buf, sizeof(buf), "|GWIZNET %s is now %s|G.|w\n\r", name,
-                 ch->is_set_extra(EXTRA_WIZNET_ON) ? "|gON" : "|rON (WIZNET OFF)");
+        ch->send_line("|GWIZNET {} is now {}|G.|w", name,
+                      ch->is_set_extra(EXTRA_WIZNET_ON) ? "|gON" : "|rON (WIZNET OFF)");
         ch->set_extra(flag);
     }
-    ch->send_to(buf);
 }
 
 void wiznet_bug(Char *ch) { toggle_wizchan(ch, EXTRA_WIZNET_BUG, "bug"); }
