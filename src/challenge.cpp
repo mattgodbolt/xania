@@ -270,8 +270,6 @@ void do_ready(Char *ch) {
 }
 
 void do_chal_tick() {
-    char buf[MAX_STRING_LENGTH];
-
     check_duel_status(0);
 
     if (challenge_ticker == 0)
@@ -282,11 +280,10 @@ void do_chal_tick() {
             if (imm != nullptr && challenger != nullptr && challengee != nullptr) {
                 /* Update this at some point to make it more friendly. End
                    duel silently less often. */
-                snprintf(buf, sizeof(buf), "|cThe challenge has been cancelled.|w\n\r");
-
-                imm->send_to(buf);
-                challenger->send_to(buf);
-                challengee->send_to(buf);
+                const auto buf = "|cThe challenge has been cancelled.|w";
+                imm->send_line(buf);
+                challenger->send_line(buf);
+                challengee->send_line(buf);
                 stop_fighting(challenger, true);
                 stop_fighting(challengee, true);
                 challenger = nullptr;
@@ -309,23 +306,21 @@ void do_chal_tick() {
             challenge_fighting = false;
             return;
         }
-        snprintf(buf, sizeof(buf), "|CThere are %d ticks left before the challenge is cancelled.|w\n\r",
-                 challenge_ticker);
+        const auto buf =
+            fmt::format("|CThere are {} ticks left before the challenge is cancelled.|w", challenge_ticker);
         if (imm != nullptr)
-            imm->send_to(buf);
+            imm->send_line(buf);
         if (imm != nullptr && imm_ready != 0)
-            challengee->send_to(buf);
+            challengee->send_line(buf);
         /* Don't want to only tell chellenger when control has been
            accepted.  Warn him if he is on. Need to change this to check
            that challenger is still here. */
         if (imm_ready != 0)
-            challenger->send_to(buf);
+            challenger->send_line(buf);
     }
 }
 
 void do_chal_canc(Char *ch) {
-    char buf[MAX_STRING_LENGTH];
-
     /* We don't check status here since we are going to quit the duel
        anyway! */
 
@@ -333,13 +328,13 @@ void do_chal_canc(Char *ch) {
     if (ch != imm && ch != challenger && ch != challengee)
         return;
 
-    auto msg = fmt::format("|c{} has either quit or lost their link.|w\n\r", ch->name);
+    auto msg = fmt::format("|c{} has either quit or lost their link.|w", ch->name);
     if (imm != nullptr && get_char_world(ch, imm_name))
-        imm->send_to(buf);
+        imm->send_line(msg);
     if (get_char_world(ch, challenger_name))
-        challenger->send_to(buf);
+        challenger->send_to(msg);
     if (get_char_world(ch, challengee_name))
-        challengee->send_to(buf);
+        challengee->send_to(msg);
     challenge_ticker = 1;
     do_chal_tick();
 }

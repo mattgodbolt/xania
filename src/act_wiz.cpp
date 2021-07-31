@@ -2390,8 +2390,7 @@ void do_mset(Char *ch, const char *argument) {
      */
     if (!str_cmp(arg2, "str")) {
         if (value < 3 || value > get_max_train(victim, Stat::Str)) {
-            bug_snprintf(buf, sizeof(buf), "Strength range is 3 to %d\n\r.", get_max_train(victim, Stat::Str));
-            ch->send_to(buf);
+            ch->send_line("Strength range is 3 to {}.", get_max_train(victim, Stat::Str));
             return;
         }
 
@@ -2401,8 +2400,7 @@ void do_mset(Char *ch, const char *argument) {
 
     if (!str_cmp(arg2, "int")) {
         if (value < 3 || value > get_max_train(victim, Stat::Int)) {
-            bug_snprintf(buf, sizeof(buf), "Intelligence range is 3 to %d.\n\r", get_max_train(victim, Stat::Int));
-            ch->send_to(buf);
+            ch->send_line("Intelligence range is 3 to {}.", get_max_train(victim, Stat::Int));
             return;
         }
 
@@ -2412,8 +2410,7 @@ void do_mset(Char *ch, const char *argument) {
 
     if (!str_cmp(arg2, "wis")) {
         if (value < 3 || value > get_max_train(victim, Stat::Wis)) {
-            bug_snprintf(buf, sizeof(buf), "Wisdom range is 3 to %d.\n\r", get_max_train(victim, Stat::Wis));
-            ch->send_to(buf);
+            ch->send_line("Wisdom range is 3 to {}.", get_max_train(victim, Stat::Wis));
             return;
         }
 
@@ -2423,8 +2420,7 @@ void do_mset(Char *ch, const char *argument) {
 
     if (!str_cmp(arg2, "dex")) {
         if (value < 3 || value > get_max_train(victim, Stat::Dex)) {
-            bug_snprintf(buf, sizeof(buf), "Dexterity ranges is 3 to %d.\n\r", get_max_train(victim, Stat::Dex));
-            ch->send_to(buf);
+            ch->send_line("Dexterity ranges is 3 to {}.", get_max_train(victim, Stat::Dex));
             return;
         }
 
@@ -2434,8 +2430,7 @@ void do_mset(Char *ch, const char *argument) {
 
     if (!str_cmp(arg2, "con")) {
         if (value < 3 || value > get_max_train(victim, Stat::Con)) {
-            bug_snprintf(buf, sizeof(buf), "Constitution range is 3 to %d.\n\r", get_max_train(victim, Stat::Con));
-            ch->send_to(buf);
+            ch->send_line("Constitution range is 3 to {}.", get_max_train(victim, Stat::Con));
             return;
         }
 
@@ -2561,8 +2556,7 @@ void do_mset(Char *ch, const char *argument) {
 
     if (!str_cmp(arg2, "dam")) {
         if (value < 1 || value > 100) {
-            bug_snprintf(buf, sizeof(buf), "|RDamroll range is 1 to 100.|w\n\r");
-            ch->send_to(buf);
+            ch->send_line("|RDamroll range is 1 to 100.|w");
             return;
         }
 
@@ -2572,8 +2566,7 @@ void do_mset(Char *ch, const char *argument) {
 
     if (!str_cmp(arg2, "hit")) {
         if (value < 1 || value > 100) {
-            bug_snprintf(buf, sizeof(buf), "|RHitroll range is 1 to 100.|w\n\r");
-            ch->send_to(buf);
+            ch->send_line("|RHitroll range is 1 to 100.|w");
             return;
         }
 
@@ -2629,8 +2622,7 @@ void do_mset(Char *ch, const char *argument) {
 
     if (!str_cmp(arg2, "hours")) {
         if (value < 1 || value > 999) {
-            bug_snprintf(buf, sizeof(buf), "|RHours range is 1 to 999.|w\n\r");
-            ch->send_to(buf);
+            ch->send_line("|RHours range is 1 to 999.|w");
             return;
         }
 
@@ -2995,7 +2987,6 @@ void do_sockets(Char *ch, const char *argument) {
  * Thanks to Grodyn for pointing out bugs in this function.
  */
 void do_force(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     char arg2[MAX_INPUT_LENGTH];
 
@@ -3018,7 +3009,7 @@ void do_force(Char *ch, const char *argument) {
         return;
     }
 
-    bug_snprintf(buf, sizeof(buf), "$n forces you to '%s'.", argument);
+    const auto buf = fmt::format("$n forces you to '{}'.", argument);
 
     if (!str_cmp(arg, "all")) {
         if (ch->get_trust() < DEITY) {
