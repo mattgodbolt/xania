@@ -460,10 +460,10 @@ void interpret(Char *ch, const char *argument) {
     /* Log and snoop. */
     if (cmd_info->log != CommandLogLevel::Never) {
         if ((ch->is_pc() && check_bit(ch->act, PLR_LOG)) || fLogAll || cmd_info->log == CommandLogLevel::Always) {
-            int level = (cmd_info->level >= 91) ? (cmd_info->level) : 0;
+            int level = (cmd_info->level >= LEVEL_IMMORTAL) ? (cmd_info->level) : 0;
             if (ch->is_pc() && (check_bit(ch->act, PLR_WIZINVIS) || check_bit(ch->act, PLR_PROWL)))
                 level = std::max(level, ch->get_trust());
-            auto log_level = (cmd_info->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
+            auto log_level = (cmd_info->level >= LEVEL_IMMORTAL) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
             if (ch->is_npc() && ch->desc && ch->desc->original()) {
                 log_new(fmt::format("Log {} (as '{}'): {}", ch->desc->original()->name, ch->name, command_line),
                         log_level, level);
