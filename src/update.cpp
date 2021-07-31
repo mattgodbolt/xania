@@ -101,7 +101,6 @@ bool is_safe_sentient(Char *ch, const Char *victim) {
 
 /* Advancement stuff. */
 void advance_level(Char *ch) {
-    char buf[MAX_STRING_LENGTH];
     int add_hp;
     int add_mana;
     int add_move;
@@ -154,15 +153,13 @@ void advance_level(Char *ch) {
     if (ch->is_pc())
         clear_bit(ch->act, PLR_BOUGHT_PET);
 
-    snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
-             add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
-    ch->send_to(buf);
+    ch->send_line("Your gain is: {}/{} hp, {}/{} m, {}/{} mv {}/{} prac.", add_hp, ch->max_hit, add_mana, ch->max_mana,
+                  add_move, ch->max_move, add_prac, ch->practice);
     log_string("### {} has made a level in room {}", ch->name, ch->in_room->vnum);
     announce(fmt::format("|W### |P{}|W has made a level!!!|w", ch->name), ch);
 }
 
 void lose_level(Char *ch) {
-    char buf[MAX_STRING_LENGTH];
     int add_hp;
     int add_mana;
     int add_move;
@@ -204,9 +201,8 @@ void lose_level(Char *ch) {
     if (ch->is_pc())
         clear_bit(ch->act, PLR_BOUGHT_PET);
 
-    snprintf(buf, sizeof(buf), "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r", add_hp, ch->max_hit,
-             add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice);
-    ch->send_to(buf);
+    ch->send_line("Your gain is: {}/{} hp, {}/{} m, {}/{} mv {}/{} prac.", add_hp, ch->max_hit, add_mana, ch->max_mana,
+                  add_move, ch->max_move, add_prac, ch->practice);
     announce(fmt::format("|W### |P{}|W has lost a level!!!|w", ch->name), ch);
 }
 

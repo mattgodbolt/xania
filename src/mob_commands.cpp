@@ -76,7 +76,6 @@ const char *mprog_type_to_name(int type) {
  */
 
 void do_mpstat(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     MPROG_DATA *mprg;
     Char *victim;
@@ -105,20 +104,17 @@ void do_mpstat(Char *ch, const char *argument) {
 
     ch->send_line("Name: {}.  Vnum: {}.", victim->name, victim->mobIndex->vnum);
 
-    ch->send_to(fmt::format("Short description:{}.\n\rLong  description: {}", victim->short_descr,
-                            victim->long_descr.empty() ? "(none).\n\r" : victim->long_descr));
+    ch->send_line(fmt::format("Short description:{}.\n\rLong  description: {}", victim->short_descr,
+                              victim->long_descr.empty() ? "(none)." : victim->long_descr));
 
-    snprintf(buf, sizeof(buf), "Hp: %d/%d.  Mana: %d/%d.  Move: %d/%d. \n\r", victim->hit, victim->max_hit,
-             victim->mana, victim->max_mana, victim->move, victim->max_move);
-    ch->send_to(buf);
+    ch->send_line("Hp: {}/{}.  Mana: {}/{}.  Move: {}/{}.", victim->hit, victim->max_hit, victim->mana,
+                  victim->max_mana, victim->move, victim->max_move);
 
-    snprintf(buf, sizeof(buf), "Lv: %d.  Class: %d.  Align: %d.   Gold: %ld.  Exp: %ld.\n\r", victim->level,
-             victim->class_num, victim->alignment, victim->gold, victim->exp);
-    ch->send_to(buf);
+    ch->send_line("Lv: {}.  Class: {}.  Align: {}.   Gold: {}.  Exp: {}.", victim->level, victim->class_num,
+                  victim->alignment, victim->gold, victim->exp);
 
     for (mprg = victim->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next) {
-        snprintf(buf, sizeof(buf), ">%s %s\n\r%s\n\r", mprog_type_to_name(mprg->type), mprg->arglist, mprg->comlist);
-        ch->send_to(buf);
+        ch->send_line(">{} {}\n\r{}", mprog_type_to_name(mprg->type), mprg->arglist, mprg->comlist);
     }
 }
 

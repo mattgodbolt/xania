@@ -15,39 +15,33 @@
 
 #include <fmt/format.h>
 
-#include <cctype>
-#include <cstdarg>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-#include <sys/types.h>
-
 #include "DescriptorList.hpp"
 #include "comm.hpp"
 
-void print_status(const Char *ch, const char *name, const char *master_name, int state, int master_state) {
-    char buff[MAX_STRING_LENGTH];
-    const size_t prefix_len = 16;
+namespace {
 
-    memset(buff, ' ', prefix_len);
-    memcpy(buff, name, strlen(name));
-
+std::string channel_state_label(std::string_view master_name, const bool master_state, const bool state) {
     /* Check if the channel argument is the Quiet mode one */
     if (state) {
         if (master_state) {
-            strcpy(buff + prefix_len, "|gON|w\n\r");
+            return "|gON|w";
         } else {
-            snprintf(buff + prefix_len, sizeof(buff) - prefix_len, "|rON (%s)|w\n\r", master_name);
+            return fmt::format("|rON ({})|w", master_name);
         }
     } else {
-        strcpy(buff + prefix_len, "|rOFF|w\n\r");
+        return "|rOFF|w";
     }
-    ch->send_to(buff);
 }
 
-static void print_wiznet_statusline(Char *ch, const char *name, int state) {
-    print_status(ch, name, "wiznet is off", state, ch->is_set_extra(EXTRA_WIZNET_ON));
+}
+
+void print_status(const Char *ch, std::string_view name, const bool master_state, std::string_view master_name,
+                  const bool state) {
+    ch->send_line("{:<16}{}", name, channel_state_label(master_name, master_state, state));
+}
+
+static void print_wiznet_statusline(Char *ch, std::string_view name, const bool state) {
+    print_status(ch, name, ch->is_set_extra(EXTRA_WIZNET_ON), "wiznet is off", state);
 }
 
 static void print_wiznet_status(Char *ch) {
@@ -59,7 +53,7 @@ static void print_wiznet_status(Char *ch) {
     print_wiznet_statusline(ch, "immortal", ch->is_set_extra(EXTRA_WIZNET_IMM));
     print_wiznet_statusline(ch, "mortal", ch->is_set_extra(EXTRA_WIZNET_MORT));
     print_wiznet_statusline(ch, "tick", ch->is_set_extra(EXTRA_WIZNET_TICK));
-    print_status(ch, "wiznet", "", ch->is_set_extra(EXTRA_WIZNET_ON), 1);
+    print_status(ch, "wiznet", ch->is_set_extra(EXTRA_WIZNET_ON), "", true);
 }
 
 using wiznet_fn = std::function<void(Char *ch)>;

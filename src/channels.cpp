@@ -20,10 +20,11 @@
 
 #include <cstdio>
 
-extern void print_status(const Char *ch, const char *name, const char *master_name, int state, int master_state);
+extern void print_status(const Char *ch, std::string_view name, const bool master_state, std::string_view master_name,
+                         const bool state);
 
-static void print_channel_status(const Char *ch, const char *chan, unsigned long reference, unsigned long flag) {
-    print_status(ch, chan, "OFF due to quiet mode", !check_bit(reference, flag), !check_bit(ch->comm, COMM_QUIET));
+static void print_channel_status(const Char *ch, std::string_view chan, unsigned long reference, unsigned long flag) {
+    print_status(ch, chan, !check_bit(ch->comm, COMM_QUIET), "OFF due to quiet mode", !check_bit(reference, flag));
 }
 
 void do_channels(const Char *ch) {
@@ -50,7 +51,7 @@ void do_channels(const Char *ch) {
     if (ch->is_immortal())
         print_channel_status(ch, "god channel", ch->comm, COMM_NOWIZ);
 
-    print_status(ch, "quiet mode", "", check_bit(ch->comm, COMM_QUIET), 1);
+    print_status(ch, "quiet mode", true, "", check_bit(ch->comm, COMM_QUIET));
 
     if (ch->lines != PAGELEN) {
         if (ch->lines) {
