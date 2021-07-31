@@ -1027,21 +1027,12 @@ void do_minfo(Char *ch, const char *argument) {
     ch->send_line("Creation points: {}", victim->pcdata->points);
 }
 
-void do_mstat(Char *ch, const char *argument) {
+void do_mstat(Char *ch, std::string_view argument) {
     char buf[MAX_STRING_LENGTH];
-    char arg[MAX_INPUT_LENGTH];
     Char *victim;
 
-    /* this will help prevent major memory allocations */
-    if (strlen(argument) < 2) {
+    if (argument.length() < 2) {
         ch->send_line("Please be more specific.");
-        return;
-    }
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        ch->send_line("Stat whom?");
         return;
     }
 
@@ -1050,27 +1041,24 @@ void do_mstat(Char *ch, const char *argument) {
         return;
     }
 
-    ch->send_to(fmt::format("Name: {}     Clan: {}     Rank: {}.\n\r", victim->name,
+    ch->send_line("Name: {}     Clan: {}     Rank: {}.", victim->name,
                             victim->clan() ? victim->clan()->name : "(none)",
-                            victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)"));
+                            victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)");
 
-    bug_snprintf(buf, sizeof(buf), "Vnum: %d  Format: %s  Race: %s  Sex: %s  Room: %d\n\r",
+    ch->send_line("Vnum: {}  Format: {}  Race: {}  Sex: {}  Room: {}",
                  victim->is_npc() ? victim->mobIndex->vnum : 0, victim->is_npc() ? ".are" : "pc",
                  race_table[victim->race].name, std::string(victim->sex.name()).c_str(),
                  victim->in_room == nullptr ? 0 : victim->in_room->vnum);
-    ch->send_to(buf);
 
     if (victim->is_npc()) {
-        bug_snprintf(buf, sizeof(buf), "Count: %d  Killed: %d\n\r", victim->mobIndex->count, victim->mobIndex->killed);
-        ch->send_to(buf);
+        ch->send_line("Count: {}  Killed: {}", victim->mobIndex->count, victim->mobIndex->killed);
     }
 
-    bug_snprintf(buf, sizeof(buf), "Str: %d(%d)  Int: %d(%d)  Wis: %d(%d)  Dex: %d(%d)  Con: %d(%d)\n\r",
+    ch->send_line("Str: {}({})  Int: {}({})  Wis: {}({})  Dex: {}({})  Con: {}({})",
                  victim->perm_stat[Stat::Str], get_curr_stat(victim, Stat::Str), victim->perm_stat[Stat::Int],
                  get_curr_stat(victim, Stat::Int), victim->perm_stat[Stat::Wis], get_curr_stat(victim, Stat::Wis),
                  victim->perm_stat[Stat::Dex], get_curr_stat(victim, Stat::Dex), victim->perm_stat[Stat::Con],
                  get_curr_stat(victim, Stat::Con));
-    ch->send_to(buf);
 
     ch->send_line("Hp: {}/{}  Mana: {}/{}  Move: {}/{}  Practices: {}", victim->hit, victim->max_hit, victim->mana,
                   victim->max_mana, victim->move, victim->max_move, ch->is_npc() ? 0 : victim->practice);
@@ -1079,10 +1067,9 @@ void do_mstat(Char *ch, const char *argument) {
                   victim->is_npc() ? "mobile" : class_table[victim->class_num].name, victim->alignment, victim->gold,
                   victim->exp);
 
-    bug_snprintf(buf, sizeof(buf), "Armor: pierce: %d  bash: %d  slash: %d  magic: %d\n\r",
+    ch->send_line("Armor: pierce: {}  bash: {}  slash: {}  magic: {}",
                  victim->get_armour_class(ArmourClass::Pierce), victim->get_armour_class(ArmourClass::Bash),
                  victim->get_armour_class(ArmourClass::Slash), victim->get_armour_class(ArmourClass::Exotic));
-    ch->send_to(buf);
 
     ch->send_line("Hit: {}  Dam: {}  Saves: {}  Position: {}  Wimpy: {}", victim->get_hitroll(), victim->get_damroll(),
                   victim->saving_throw, victim->position.name(), victim->wimpy);
@@ -1099,30 +1086,19 @@ void do_mstat(Char *ch, const char *argument) {
         ch->send_line(*opt_nutrition);
     }
 
-    bug_snprintf(buf, sizeof(buf), "Carry number: %d  Carry weight: %d\n\r", victim->carry_number,
+    ch->send_line("Carry number: {}  Carry weight: {}", victim->carry_number,
                  victim->carry_weight);
-    ch->send_to(buf);
 
     if (victim->is_pc()) {
         using namespace std::chrono;
-        bug_snprintf(buf, sizeof(buf), "Age: %d  Played: %ld  Last Level: %d  Timer: %d\n\r", get_age(victim),
+        ch->send_line("Age: {}  Played: {}  Last Level: {}  Timer: {}", get_age(victim),
                      duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level, victim->timer);
-        ch->send_to(buf);
     }
 
-    bug_snprintf(buf, sizeof(buf), "Act: %s\n\r", (char *)act_bit_name(victim->act));
-    ch->send_to(buf);
+    ch->send_line("Act: {}", (char *)act_bit_name(victim->act));
 
     if (victim->is_pc()) {
-        int n;
-        bug_snprintf(buf, sizeof(buf), "Extra: ");
-        for (n = 0; n < MAX_EXTRA_FLAGS; n++) {
-            if (ch->is_set_extra(n)) {
-                strcat(buf, flagname_extra[n]);
-            }
-        }
-        strcat(buf, "\n\r");
-        ch->send_to(buf);
+        ch->send_line("Extra: {}", format_set_extra_flags(ch));
     }
 
     if (victim->comm) {

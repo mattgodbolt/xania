@@ -155,7 +155,7 @@ extern void do_mpstat(Char *ch, const char *arg);
 extern void do_mptransfer(Char *ch, const char *arg);
 
 extern void do_mset(Char *ch, const char *argument);
-extern void do_mstat(Char *ch, const char *arg);
+extern void do_mstat(Char *ch, std::string_view arg);
 extern void do_mwhere(Char *ch, const char *arg);
 extern void do_motd(Char *ch);
 extern void do_murde(Char *ch);

@@ -4,6 +4,9 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #pragma once
+#include <string>
+
+struct Char;
 
 /*
  * Extra flags
@@ -32,4 +35,5 @@
 #define EXTRA_TIP_UNUSED_4 15
 #define EXTRA_TIP_ADVANCED 16
 
-extern const char *flagname_extra[];
+// Returns a string containing the list of all of the extra flag names that are set on Char.
+std::string format_set_extra_flags(const Char *ch);

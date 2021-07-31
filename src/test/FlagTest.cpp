@@ -26,10 +26,7 @@ TEST_CASE("serialize flags") {
         CHECK(result == "Zaf");
     }
     SECTION("all flags") {
-        auto all_bits = 0;
-        for (auto i = 0; i < 32; i++) {
-            set_bit(all_bits, 1 << i);
-        }
+        auto all_bits = ~(0u);
         const auto result = serialize_flags(all_bits);
 
         CHECK(result == "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef");
