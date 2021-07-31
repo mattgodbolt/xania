@@ -1653,10 +1653,7 @@ void do_advance(Char *ch, const char *argument) {
     }
 
     if ((level = atoi(arg2)) < 1 || level > MAX_LEVEL) {
-        char buf[32];
-        bug_snprintf(buf, sizeof(buf), "Level must be 1 to %d.\n\r", MAX_LEVEL);
-
-        ch->send_to(buf);
+        ch->send_line("Level must be 1 to {}.", MAX_LEVEL);
         return;
     }
 
@@ -2229,10 +2226,7 @@ void do_osearch(Char *ch, const char *argument) {
 }
 
 void do_slookup(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
-    int sn;
-
     one_argument(argument, arg);
     if (arg[0] == '\0') {
         ch->send_line("Lookup which skill or spell?");
@@ -2240,22 +2234,17 @@ void do_slookup(Char *ch, const char *argument) {
     }
 
     if (!str_cmp(arg, "all")) {
-        for (sn = 0; sn < MAX_SKILL; sn++) {
+        for (auto sn = 0; sn < MAX_SKILL; sn++) {
             if (skill_table[sn].name == nullptr)
                 break;
-            bug_snprintf(buf, sizeof(buf), "Sn: %3d  Slot: %3d  Skill/spell: '%s'\n\r", sn, skill_table[sn].slot,
-                         skill_table[sn].name);
-            ch->send_to(buf);
+            ch->send_line("Sn: {}  Slot: {}  Skill/spell: '{}'", sn, skill_table[sn].slot, skill_table[sn].name);
         }
     } else {
-        if ((sn = skill_lookup(arg)) < 0) {
+        if (auto sn = skill_lookup(arg); sn >= 0) {
+            ch->send_line("Sn: {}  Slot: {}  Skill/spell: '{}'", sn, skill_table[sn].slot, skill_table[sn].name);
+        } else {
             ch->send_line("No such skill or spell.");
-            return;
         }
-
-        bug_snprintf(buf, sizeof(buf), "Sn: %3d  Slot: %3d  Skill/spell: '%s'\n\r", sn, skill_table[sn].slot,
-                     skill_table[sn].name);
-        ch->send_to(buf);
     }
 }
 
