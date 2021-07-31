@@ -1388,12 +1388,6 @@ void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
 }
 
 void group_gain(Char *ch, Char *victim) {
-    char buf[MAX_STRING_LENGTH];
-    Char *lch;
-    int xp;
-    int members;
-    int group_levels;
-
     /*
      * Monsters don't get kill xp's or alignment changes.
      * P-killing doesn't help either.
@@ -1402,8 +1396,8 @@ void group_gain(Char *ch, Char *victim) {
     if (victim->is_pc() || victim == ch)
         return;
 
-    members = 0;
-    group_levels = 0;
+    auto members = 0;
+    auto group_levels = 0;
     for (auto *gch : ch->in_room->people) {
         if (is_same_group(gch, ch)) {
             members++;
@@ -1416,36 +1410,15 @@ void group_gain(Char *ch, Char *victim) {
         members = 1;
         group_levels = ch->level;
     }
-
-    lch = (ch->leader != nullptr) ? ch->leader : ch;
-
     for (auto *gch : ch->in_room->people) {
         if (!is_same_group(gch, ch) || gch->is_npc())
             continue;
-
-        (void)lch;
-        /*
-          if ( gch->level - lch->level >= 9 )
-          {
-              gch ->send_to( "You are too high for this group.\n\r");
-              continue;
-          }
-
-          if ( gch->level - lch->level <= -9 )
-          {
-              gch ->send_to( "You are too low for this group.\n\r");
-              continue;
-          }
-
-        */
         /*
            Basic exp should be based on the highest level PC in the Group
         */
-        xp = xp_compute(gch, victim, group_levels);
-        snprintf(buf, sizeof(buf), "You receive %d experience points.\n\r", xp);
-        gch->send_to(buf);
+        const auto xp = xp_compute(gch, victim, group_levels);
+        gch->send_line(fmt::format("You receive {} experience points.", xp));
         gain_exp(gch, xp);
-
         for (auto *obj : ch->carrying) {
             if (obj->wear_loc == WEAR_NONE)
                 continue;

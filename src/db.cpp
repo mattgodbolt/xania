@@ -2071,8 +2071,7 @@ void do_memory(Char *ch) {
     ch->send_line("Resets  {:5}", top_reset);
     ch->send_line("Rooms   {:5}", top_room);
     ch->send_line("Shops   {:5}", top_shop);
-    ch->send_line("Strings {:5} strings of {:7} bytes (max {:7}).", nAllocString, sAllocString,
-             MAX_STRING);
+    ch->send_line("Strings {:5} strings of {:7} bytes (max {:7}).", nAllocString, sAllocString, MAX_STRING);
     ch->send_line("Perms   {:5} blocks  of {:7} bytes.", nAllocPerm, sAllocPerm);
 }
 
