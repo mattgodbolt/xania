@@ -2060,35 +2060,20 @@ void do_areas(Char *ch, ArgParser args) {
 }
 
 void do_memory(Char *ch) {
-    char buf[MAX_STRING_LENGTH];
-
-    snprintf(buf, sizeof(buf), "Affects %5d\n\r", top_obj_affect);
-    ch->send_to(buf);
+    ch->send_line("Affects {:5}", top_obj_affect);
     ch->send_line("Areas   {:5}", AreaList::singleton().count());
-    snprintf(buf, sizeof(buf), "Exits   %5d\n\r", top_exit);
-    ch->send_to(buf);
+    ch->send_line("Exits   {:5}", top_exit);
     ch->send_line("Helps   {:5}", HelpList::singleton().count());
-    snprintf(buf, sizeof(buf), "Socials %5d\n\r", social_count);
-    ch->send_to(buf);
-    snprintf(buf, sizeof(buf), "Mobs    %5lu\n\r", mob_indexes.size());
-    ch->send_to(buf);
-    snprintf(buf, sizeof(buf), "(in use)%5d\n\r", Char::num_active());
-    ch->send_to(buf);
-    snprintf(buf, sizeof(buf), "Objs    %5d(%d new format)\n\r", top_obj_index, newobjs);
-    ch->send_to(buf);
-    snprintf(buf, sizeof(buf), "Resets  %5d\n\r", top_reset);
-    ch->send_to(buf);
-    snprintf(buf, sizeof(buf), "Rooms   %5d\n\r", top_room);
-    ch->send_to(buf);
-    snprintf(buf, sizeof(buf), "Shops   %5d\n\r", top_shop);
-    ch->send_to(buf);
-
-    snprintf(buf, sizeof(buf), "Strings %5d strings of %7d bytes (max %d).\n\r", nAllocString, sAllocString,
+    ch->send_line("Socials {:5}", social_count);
+    ch->send_line("Mobs    {:5}", mob_indexes.size());
+    ch->send_line("Chars   {:5}", Char::num_active());
+    ch->send_line("Objs    {:5} ({} new format)", top_obj_index, newobjs);
+    ch->send_line("Resets  {:5}", top_reset);
+    ch->send_line("Rooms   {:5}", top_room);
+    ch->send_line("Shops   {:5}", top_shop);
+    ch->send_line("Strings {:5} strings of {:7} bytes (max {:7}).", nAllocString, sAllocString,
              MAX_STRING);
-    ch->send_to(buf);
-
-    snprintf(buf, sizeof(buf), "Perms   %5d blocks  of %7d bytes.\n\r", nAllocPerm, sAllocPerm);
-    ch->send_to(buf);
+    ch->send_line("Perms   {:5} blocks  of {:7} bytes.", nAllocPerm, sAllocPerm);
 }
 
 void do_dump(Char *ch) {
