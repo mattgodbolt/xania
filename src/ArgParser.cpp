@@ -32,7 +32,7 @@ std::string_view ArgParser::commandline_shift() noexcept {
     ltrim();
     if (empty())
         return {};
-    if (!std::isalnum(remaining_.front())) {
+    if (std::ispunct(remaining_.front())) {
         auto res = remaining_.substr(0, 1);
         remaining_.remove_prefix(1);
         ltrim();
