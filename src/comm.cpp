@@ -515,7 +515,6 @@ bool process_output(Descriptor *d, bool fPrompt) {
  * Deal with sockets that haven't logged in yet.
  */
 void nanny(Descriptor *d, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
     char arg[MAX_INPUT_LENGTH];
     Char *ch;
     char *pwdnew;
@@ -608,9 +607,7 @@ void nanny(Descriptor *d, const char *argument) {
                 d->close();
                 return;
             }
-
-            snprintf(buf, sizeof(buf), "Did I hear that right -  '%s' (Y/N)? ", char_name.c_str());
-            d->write(buf);
+            d->write(fmt::format("Did I hear that right - '{}' (Y/N)? ", char_name));
             d->state(DescriptorState::ConfirmNewName);
             return;
         }
@@ -858,7 +855,7 @@ void nanny(Descriptor *d, const char *argument) {
         d->state(DescriptorState::GetNewSex);
         break;
 
-    case DescriptorState::GetNewSex:
+    case DescriptorState::GetNewSex: {
         if (auto sex = Sex::try_from_char(argument[0])) {
             ch->sex = *sex;
             ch->pcdata->true_sex = *sex;
@@ -867,18 +864,18 @@ void nanny(Descriptor *d, const char *argument) {
             return;
         }
         d->write("Thanks. Personal pronouns can be set using the 'pronouns' command later on.\n");
-        strcpy(buf, "The following classes are available: ");
+        std::string buf = "The following classes are available: ";
         for (iClass = 0; iClass < MAX_CLASS; iClass++) {
             if (iClass > 0)
-                strcat(buf, " ");
-            strcat(buf, class_table[iClass].name);
+                buf += ' ';
+            buf += class_table[iClass].name;
         }
-        strcat(buf, "\n\r");
+        buf += "\n\r";
         d->write(buf);
         d->write("What is your class (help for more information)? ");
         d->state(DescriptorState::GetNewClass);
         break;
-
+    }
     case DescriptorState::GetNewClass:
         one_argument(argument, arg);
         if (!strcmp(arg, "help")) {
@@ -958,14 +955,10 @@ void nanny(Descriptor *d, const char *argument) {
     case DescriptorState::GenGroups:
         ch->send_line("");
         if (!str_cmp(argument, "done")) {
-            snprintf(buf, sizeof(buf), "Creation points: %d\n\r", ch->pcdata->points);
-            ch->send_to(buf);
-            snprintf(buf, sizeof(buf), "Experience per level: %d\n\r",
-                     exp_per_level(ch, ch->generation->points_chosen));
+            ch->send_line("Creation points: {}", ch->pcdata->points);
+            ch->send_line("Experience per level: {}", exp_per_level(ch, ch->generation->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
-            ch->send_to(buf);
-            d->write("\n\r");
             d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
             d->state(DescriptorState::GetAnsi);
 
@@ -1043,9 +1036,7 @@ void nanny(Descriptor *d, const char *argument) {
         max_on = std::max(static_cast<size_t>(ranges::distance(descriptors().all())), max_on);
 
         if (ch->gold > 250000 && ch->is_mortal()) {
-            snprintf(buf, sizeof(buf), "You are taxed %ld gold to pay for the Mayor's bar.\n\r",
-                     (ch->gold - 250000) / 2);
-            ch->send_to(buf);
+            ch->send_line("You are taxed {} gold to pay for the Mayor's bar.", (ch->gold - 250000) / 2);
             ch->gold -= (ch->gold - 250000) / 2;
         }
 
@@ -1058,8 +1049,7 @@ void nanny(Descriptor *d, const char *argument) {
         notes = NoteHandler::singleton().num_unread(*ch);
 
         if (notes > 0) {
-            snprintf(buf, sizeof(buf), "\n\rYou have %d new note%s waiting.\n\r", notes, (notes == 1) ? "" : "s");
-            ch->send_to(buf);
+            ch->send_line("\n\rYou have {} new note{} waiting.", notes, (notes == 1) ? "" : "s");
         }
         break;
     }
