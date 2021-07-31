@@ -28,6 +28,20 @@ std::string_view ArgParser::shift() noexcept {
     return res;
 }
 
+std::string_view ArgParser::commandline_shift() noexcept {
+    ltrim();
+    if (empty())
+        return {};
+    if (!std::isalnum(remaining_.front())) {
+        auto res = remaining_.substr(0, 1);
+        remaining_.remove_prefix(1);
+        ltrim();
+        return res;
+    } else {
+        return shift();
+    }
+}
+
 void ArgParser::ltrim() {
     // would be nice to use the one in string_utils, but that makes a string currently.
     while (!remaining_.empty() && isspace(remaining_.front()))

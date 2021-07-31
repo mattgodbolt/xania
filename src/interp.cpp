@@ -404,7 +404,7 @@ void interp_initialise() {
     add_command("mpforce", do_mpforce, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
 }
 
-static const char *apply_prefix(char *buf, Char *ch, const char *command) {
+std::string apply_prefix(Char *ch, const char *command) {
     // Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix.
     auto player = ch->player();
     if (!player)
@@ -423,8 +423,7 @@ static const char *apply_prefix(char *buf, Char *ch, const char *command) {
             command++; /* skip the \ */
             return command;
         } else {
-            snprintf(buf, MAX_INPUT_LENGTH, "%s%s", pc_data->prefix.c_str(), command);
-            return buf;
+            return fmt::format("{}{}", pc_data->prefix.c_str(), command);
         }
     }
 }
@@ -434,16 +433,10 @@ static const char *apply_prefix(char *buf, Char *ch, const char *command) {
  * Can be recursively called from 'at', 'order', 'force'.
  */
 void interpret(Char *ch, const char *argument) {
-    char cmd_buf[MAX_INPUT_LENGTH];
-    char command[MAX_INPUT_LENGTH];
-    argument = apply_prefix(cmd_buf, ch, argument);
-
-    /* Strip leading spaces. */
-    while (isspace(*argument))
-        argument++;
-    if (argument[0] == '\0')
+    const auto command_line = ltrim(apply_prefix(ch, argument));
+    if (command_line.empty()) {
         return;
-
+    }
     /* No hiding. */
     clear_bit(ch->affected_by, AFF_HIDE);
 
@@ -453,65 +446,50 @@ void interpret(Char *ch, const char *argument) {
         return;
     }
 
-    /* Grab the command word.
-     * Special parsing so ' can be a command,
-     *   also no spaces needed after punctuation.
-     */
-    std::string logline = argument;
-    if (!isalpha(argument[0]) && !isdigit(argument[0])) {
-        command[0] = argument[0];
-        command[1] = '\0';
-        argument++;
-        while (isspace(*argument))
-            argument++;
-    } else {
-        argument = one_argument(argument, command);
-    }
-
-    /* Look for command in command table. */
-    auto cmd = commands.get(command, ch->get_trust());
-
+    auto arg_parser = ArgParser(command_line);
+    // Grab the command word.
+    // Special parsing so ' can be a command,
+    const auto command = arg_parser.commandline_shift();
+    const std::string remainder(arg_parser.remaining());
+    auto cmd_info = commands.get(command, ch->get_trust());
     /* Look for command in socials table. */
-    if (!cmd.has_value()) {
-        if (!check_social(ch, command, argument))
+    if (!cmd_info.has_value()) {
+        if (!check_social(ch, command, remainder))
             ch->send_line("Huh?");
         // Return before logging. This is to prevent accidentally logging a typo'd "never log" command.
         return;
     }
-
     /* Log and snoop. */
-    if (cmd->log == CommandLogLevel::Never)
-        logline.clear();
-
-    if ((ch->is_pc() && check_bit(ch->act, PLR_LOG)) || fLogAll || cmd->log == CommandLogLevel::Always) {
-        int level = (cmd->level >= 91) ? (cmd->level) : 0;
-        if (ch->is_pc() && (check_bit(ch->act, PLR_WIZINVIS) || check_bit(ch->act, PLR_PROWL)))
-            level = std::max(level, ch->get_trust());
-        auto log_level = (cmd->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
-        if (ch->is_npc() && ch->desc && ch->desc->original()) {
-            log_new(fmt::format("Log {} (as '{}'): {}", ch->desc->original()->name, ch->name, logline), log_level,
-                    level);
-        } else {
-            log_new(fmt::format("Log {}: {}", ch->name, logline), log_level, level);
+    if (cmd_info->log != CommandLogLevel::Never) {
+        if ((ch->is_pc() && check_bit(ch->act, PLR_LOG)) || fLogAll || cmd_info->log == CommandLogLevel::Always) {
+            int level = (cmd_info->level >= 91) ? (cmd_info->level) : 0;
+            if (ch->is_pc() && (check_bit(ch->act, PLR_WIZINVIS) || check_bit(ch->act, PLR_PROWL)))
+                level = std::max(level, ch->get_trust());
+            auto log_level = (cmd_info->level >= 91) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
+            if (ch->is_npc() && ch->desc && ch->desc->original()) {
+                log_new(fmt::format("Log {} (as '{}'): {}", ch->desc->original()->name, ch->name, command_line),
+                        log_level, level);
+            } else {
+                log_new(fmt::format("Log {}: {}", ch->name, command_line), log_level, level);
+            }
         }
+        if (ch->desc)
+            ch->desc->note_input(ch->name, command_line);
     }
 
-    if (ch->desc)
-        ch->desc->note_input(ch->name, logline);
-
     /* Character not in position for command? */
-    if (ch->position < cmd->position) {
+    if (ch->position < cmd_info->position) {
         ch->send_line(ch->position.bad_position_msg());
         return;
     }
 
     /* Dispatch the command. */
     {
-        // TODO: because do_fun expects a mutable char* (at least right now), make argument mutable in this dreadful
-        // way. Eventually we'll pass a std::string or similar through and this will all go away.
+        // TODO #263: because do_fun expects a mutable char* (at least right now), make argument mutable in this
+        // dreadful way. Eventually we'll pass a std::string or similar through and this will all go away.
         char mutable_argument[MAX_INPUT_LENGTH];
-        strcpy(mutable_argument, argument);
-        cmd->do_fun(ch, mutable_argument);
+        strcpy(mutable_argument, remainder.c_str());
+        cmd_info->do_fun(ch, mutable_argument);
     }
 }
 

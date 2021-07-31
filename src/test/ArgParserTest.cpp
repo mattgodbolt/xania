@@ -58,6 +58,14 @@ TEST_CASE("Argument parsing") {
         CHECK(ap.shift() == "oh no");
         CHECK(ap.empty());
     }
+    SECTION("commandline shift") {
+        ArgParser ap(".simulate gossip shorthand"sv);
+        CHECK(ap.commandline_shift() == ".");
+        CHECK(ap.shift() == "simulate");
+        CHECK(ap.shift() == "gossip");
+        CHECK(ap.shift() == "shorthand");
+        CHECK(ap.empty());
+    }
     SECTION("should be iterable") {
         ArgParser ap(R"(this is a "test of" iteration)"sv);
         std::vector<std::string_view> parts;

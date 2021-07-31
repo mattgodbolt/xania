@@ -27,7 +27,13 @@ public:
     [[nodiscard]] std::string_view remaining() const noexcept { return remaining_; }
 
     // Shift a single argument from the argument list. Returns an empty string if the parser is empty.
+    // Arguments starting with ' or " are parsed as a single argument including any spaces, which is frequently
+    // needed for things like spell names that consist of two words.
     [[nodiscard]] std::string_view shift() noexcept;
+
+    // This is a special case of shift() where the initial character can be a non-alphanumeric character
+    // for scenarios where it is valid for a non-alphanumeric to be something to be interpreted.
+    [[nodiscard]] std::string_view commandline_shift() noexcept;
 
     struct NumberArg {
         int number{};
