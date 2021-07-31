@@ -994,7 +994,7 @@ void do_mpracs(Char *ch, const char *argument) {
     PracticeTabulator::tabulate(ch, victim);
 }
 
-// Show a victim's skill groups and creation points. 
+// Show a victim's skill groups and creation points.
 void do_minfo(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Char *victim;
@@ -1028,7 +1028,6 @@ void do_minfo(Char *ch, const char *argument) {
 }
 
 void do_mstat(Char *ch, std::string_view argument) {
-    char buf[MAX_STRING_LENGTH];
     Char *victim;
 
     if (argument.length() < 2) {
@@ -1041,24 +1040,21 @@ void do_mstat(Char *ch, std::string_view argument) {
         return;
     }
 
-    ch->send_line("Name: {}     Clan: {}     Rank: {}.", victim->name,
-                            victim->clan() ? victim->clan()->name : "(none)",
-                            victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)");
+    ch->send_line("Name: {}     Clan: {}     Rank: {}.", victim->name, victim->clan() ? victim->clan()->name : "(none)",
+                  victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)");
 
-    ch->send_line("Vnum: {}  Format: {}  Race: {}  Sex: {}  Room: {}",
-                 victim->is_npc() ? victim->mobIndex->vnum : 0, victim->is_npc() ? ".are" : "pc",
-                 race_table[victim->race].name, std::string(victim->sex.name()).c_str(),
-                 victim->in_room == nullptr ? 0 : victim->in_room->vnum);
+    ch->send_line("Vnum: {}  Format: {}  Race: {}  Sex: {}  Room: {}", victim->is_npc() ? victim->mobIndex->vnum : 0,
+                  victim->is_npc() ? "npc" : "pc", race_table[victim->race].name,
+                  std::string(victim->sex.name()).c_str(), victim->in_room == nullptr ? 0 : victim->in_room->vnum);
 
     if (victim->is_npc()) {
         ch->send_line("Count: {}  Killed: {}", victim->mobIndex->count, victim->mobIndex->killed);
     }
 
-    ch->send_line("Str: {}({})  Int: {}({})  Wis: {}({})  Dex: {}({})  Con: {}({})",
-                 victim->perm_stat[Stat::Str], get_curr_stat(victim, Stat::Str), victim->perm_stat[Stat::Int],
-                 get_curr_stat(victim, Stat::Int), victim->perm_stat[Stat::Wis], get_curr_stat(victim, Stat::Wis),
-                 victim->perm_stat[Stat::Dex], get_curr_stat(victim, Stat::Dex), victim->perm_stat[Stat::Con],
-                 get_curr_stat(victim, Stat::Con));
+    ch->send_line("Str: {}({})  Int: {}({})  Wis: {}({})  Dex: {}({})  Con: {}({})", victim->perm_stat[Stat::Str],
+                  get_curr_stat(victim, Stat::Str), victim->perm_stat[Stat::Int], get_curr_stat(victim, Stat::Int),
+                  victim->perm_stat[Stat::Wis], get_curr_stat(victim, Stat::Wis), victim->perm_stat[Stat::Dex],
+                  get_curr_stat(victim, Stat::Dex), victim->perm_stat[Stat::Con], get_curr_stat(victim, Stat::Con));
 
     ch->send_line("Hp: {}/{}  Mana: {}/{}  Move: {}/{}  Practices: {}", victim->hit, victim->max_hit, victim->mana,
                   victim->max_mana, victim->move, victim->max_move, ch->is_npc() ? 0 : victim->practice);
@@ -1067,9 +1063,9 @@ void do_mstat(Char *ch, std::string_view argument) {
                   victim->is_npc() ? "mobile" : class_table[victim->class_num].name, victim->alignment, victim->gold,
                   victim->exp);
 
-    ch->send_line("Armor: pierce: {}  bash: {}  slash: {}  magic: {}",
-                 victim->get_armour_class(ArmourClass::Pierce), victim->get_armour_class(ArmourClass::Bash),
-                 victim->get_armour_class(ArmourClass::Slash), victim->get_armour_class(ArmourClass::Exotic));
+    ch->send_line("Armor: pierce: {}  bash: {}  slash: {}  magic: {}", victim->get_armour_class(ArmourClass::Pierce),
+                  victim->get_armour_class(ArmourClass::Bash), victim->get_armour_class(ArmourClass::Slash),
+                  victim->get_armour_class(ArmourClass::Exotic));
 
     ch->send_line("Hit: {}  Dam: {}  Saves: {}  Position: {}  Wimpy: {}", victim->get_hitroll(), victim->get_damroll(),
                   victim->saving_throw, victim->position.name(), victim->wimpy);
@@ -1086,13 +1082,12 @@ void do_mstat(Char *ch, std::string_view argument) {
         ch->send_line(*opt_nutrition);
     }
 
-    ch->send_line("Carry number: {}  Carry weight: {}", victim->carry_number,
-                 victim->carry_weight);
+    ch->send_line("Carry number: {}  Carry weight: {}", victim->carry_number, victim->carry_weight);
 
     if (victim->is_pc()) {
         using namespace std::chrono;
         ch->send_line("Age: {}  Played: {}  Last Level: {}  Timer: {}", get_age(victim),
-                     duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level, victim->timer);
+                      duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level, victim->timer);
     }
 
     ch->send_line("Act: {}", (char *)act_bit_name(victim->act));
@@ -1102,47 +1097,40 @@ void do_mstat(Char *ch, std::string_view argument) {
     }
 
     if (victim->comm) {
-        bug_snprintf(buf, sizeof(buf), "Comm: %s\n\r", (char *)comm_bit_name(victim->comm));
-        ch->send_to(buf);
+        ch->send_line("Comm: {}", (char *)comm_bit_name(victim->comm));
     }
 
     if (victim->is_npc() && victim->off_flags) {
-        bug_snprintf(buf, sizeof(buf), "Offense: %s\n\r", (char *)off_bit_name(victim->off_flags));
-        ch->send_to(buf);
+        ch->send_line("Offense: {}", (char *)off_bit_name(victim->off_flags));
     }
 
     if (victim->imm_flags) {
-        bug_snprintf(buf, sizeof(buf), "Immune: %s\n\r", (char *)imm_bit_name(victim->imm_flags));
-        ch->send_to(buf);
+        ch->send_line("Immune: {}", (char *)imm_bit_name(victim->imm_flags));
     }
 
     if (victim->res_flags) {
-        bug_snprintf(buf, sizeof(buf), "Resist: %s\n\r", (char *)imm_bit_name(victim->res_flags));
-        ch->send_to(buf);
+        ch->send_line("Resist: {}", (char *)imm_bit_name(victim->res_flags));
     }
 
     if (victim->vuln_flags) {
-        bug_snprintf(buf, sizeof(buf), "Vulnerable: %s\n\r", (char *)imm_bit_name(victim->vuln_flags));
-        ch->send_to(buf);
+        ch->send_line("Vulnerable: {}", (char *)imm_bit_name(victim->vuln_flags));
     }
 
-    bug_snprintf(buf, sizeof(buf), "Form: %s\n\rParts: %s\n\r", form_bit_name(victim->form),
-                 (char *)part_bit_name(victim->parts));
-    ch->send_to(buf);
+    ch->send_line("Form: {}\n\rParts: {}", form_bit_name(victim->form), (char *)part_bit_name(victim->parts));
 
     if (victim->affected_by) {
         ch->send_line("Affected by {}", affect_bit_name(victim->affected_by));
     }
 
-    ch->send_to(fmt::format("Master: {}  Leader: {}  Pet: {}\n\r", victim->master ? victim->master->name : "(none)",
-                            victim->leader ? victim->leader->name : "(none)",
-                            victim->pet ? victim->pet->name : "(none)"));
+    ch->send_line(fmt::format("Master: {}  Leader: {}  Pet: {}", victim->master ? victim->master->name : "(none)",
+                              victim->leader ? victim->leader->name : "(none)",
+                              victim->pet ? victim->pet->name : "(none)"));
 
-    ch->send_to(fmt::format("Riding: {}  Ridden by: {}\n\r", victim->riding ? victim->riding->name : "(none)",
-                            victim->ridden_by ? victim->ridden_by->name : "(none)"));
+    ch->send_line(fmt::format("Riding: {}  Ridden by: {}", victim->riding ? victim->riding->name : "(none)",
+                              victim->ridden_by ? victim->ridden_by->name : "(none)"));
 
-    ch->send_to(fmt::format("Short description: {}\n\rLong  description: {}", victim->short_descr,
-                            victim->long_descr.empty() ? "(none)\n\r" : victim->long_descr));
+    ch->send_line(fmt::format("Short description: {}\n\rLong  description: {}", victim->short_descr,
+                              victim->long_descr.empty() ? "(none)" : victim->long_descr));
 
     if (victim->is_npc() && victim->spec_fun)
         ch->send_line("Mobile has special procedure.");
@@ -1152,8 +1140,8 @@ void do_mstat(Char *ch, std::string_view argument) {
     }
 
     for (const auto &af : victim->affected)
-        ch->send_to(fmt::format("{}: '{}'{}.\n\r", af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
-                                af.describe_char_effect(true)));
+        ch->send_line(fmt::format("{}: '{}'{}.", af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
+                                  af.describe_char_effect(true)));
     ch->send_line("");
 }
 

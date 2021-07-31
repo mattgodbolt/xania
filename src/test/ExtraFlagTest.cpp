@@ -4,8 +4,8 @@
 /*  See the header to file: merc.h for original code copyrights          */
 /*************************************************************************/
 
-#include "ExtraFlags.hpp"
 #include "Char.hpp"
+#include "ExtraFlags.hpp"
 
 #include <catch2/catch.hpp>
 
@@ -25,6 +25,8 @@ TEST_CASE("format set extra flags") {
             ch.extra_flags[i] = ~(0ul);
         const auto result = format_set_extra_flags(&ch);
 
-        CHECK(result == "wnet wn_debug wn_mort wn_imm wn_bug permit wn_tick info_name info_email info_mes info_url tip_std tip_olc tip_adv");
+        CHECK(result
+              == "wnet wn_debug wn_mort wn_imm wn_bug permit wn_tick info_name info_email info_mes info_url tip_std "
+                 "tip_olc tip_adv");
     }
 }
