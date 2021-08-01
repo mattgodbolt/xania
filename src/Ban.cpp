@@ -21,7 +21,7 @@
 #include "Ban.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
-#include "Flag.hpp"
+#include "FlagFormat.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"

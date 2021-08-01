@@ -3,10 +3,12 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectList.hpp"
 #include "ArmourClass.hpp"
+#include "BitsAffect.hpp"
 #include "CharVersion.hpp"
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "ExtraFlags.hpp"
+#include "Flag.hpp"
 #include "Materials.hpp"
 #include "MobIndexData.hpp"
 #include "PcData.hpp"
@@ -15,6 +17,7 @@
 #include "Stats.hpp"
 #include "Types.hpp"
 
+#include <array>
 #include <fmt/core.h>
 #include <magic_enum.hpp>
 #include <memory>
@@ -337,6 +340,41 @@ struct Char {
     [[nodiscard]] bool is_thirsty() const noexcept;
     // Parched is worse than thirsty - a parched Char regenerates slower.
     [[nodiscard]] bool is_parched() const noexcept;
+
+    inline static constexpr std::array<Flag, 30> AllAffectFlags = {{
+        // clang-format off
+        {AFF_BLIND, 0, "blind"},
+        {AFF_INVISIBLE, 0, "invisible"},
+        {AFF_DETECT_EVIL, 0, "detect_evil"},
+        {AFF_DETECT_INVIS, 0, "detect_invis"},
+        {AFF_DETECT_MAGIC, 0, "detect_magic"},
+        {AFF_DETECT_HIDDEN, 0, "detect_hidden"},
+        {AFF_TALON, 0, "talon"},
+        {AFF_SANCTUARY, 0, "sanctuary"},
+        {AFF_FAERIE_FIRE, 0, "faerie_fire"},
+        {AFF_INFRARED, 0, "infrared"},
+        {AFF_CURSE, 0, "curse"},
+        {AFF_PROTECTION_EVIL, 0, "protection_evil"},
+        {AFF_POISON, 0, "poison"},
+        {AFF_PROTECTION_GOOD, 0, "protection_good"},
+        {AFF_SNEAK, 0, "sneak"},
+        {AFF_HIDE, 0, "hide"},
+        {AFF_SLEEP, 0, "sleep"},
+        {AFF_CHARM, 0, "charm"},
+        {AFF_FLYING, 0, "flying"},
+        {AFF_PASS_DOOR, 0, "pass_door"},
+        {AFF_HASTE, 0, "haste"},
+        {AFF_CALM, 0, "calm"},
+        {AFF_PLAGUE, 0, "plague"},
+        {AFF_WEAKEN, 0, "weaken"},
+        {AFF_DARK_VISION, 0, "dark_vision"},
+        {AFF_BERSERK, 0, "berserk"},
+        {AFF_SWIM, 0, "swim"},
+        {AFF_REGENERATION, 0, "regeneration"},
+        {AFF_OCTARINE_FIRE, 0, "octarine_fire"},
+        {AFF_LETHARGY, 0, "lethargy"}
+        // clang-format on
+    }};
 
 private:
     template <typename Func>

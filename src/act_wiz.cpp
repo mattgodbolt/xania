@@ -21,7 +21,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
-#include "Flag.hpp"
+#include "FlagFormat.hpp"
 #include "Logging.hpp"
 #include "MobIndexData.hpp"
 #include "Object.hpp"
@@ -1115,7 +1115,7 @@ void do_mstat(Char *ch, std::string_view argument) {
     ch->send_line("Form: {}\n\rParts: {}", form_bit_name(victim->form), (char *)part_bit_name(victim->parts));
 
     if (victim->affected_by) {
-        ch->send_line("Affected by {}", affect_bit_name(victim->affected_by));
+        ch->send_line("Affected by {}", format_set_flags(Char::AllAffectFlags, victim->affected_by));
     }
 
     ch->send_line(fmt::format("Master: {}  Leader: {}  Pet: {}", victim->master ? victim->master->name : "(none)",

@@ -5,6 +5,7 @@
 /*************************************************************************/
 
 #include "Flag.hpp"
+#include "FlagFormat.hpp"
 #include "common/StandardBits.hpp"
 
 #include <catch2/catch.hpp>

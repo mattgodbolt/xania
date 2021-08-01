@@ -1,6 +1,7 @@
 #include "AFFECT_DATA.hpp"
 
 #include "Char.hpp"
+#include "FlagFormat.hpp"
 #include "Logging.hpp"
 #include "SkillNumbers.hpp"
 #include "common/BitOps.hpp"
@@ -140,8 +141,8 @@ std::string_view name(AffectLocation location) {
 
 std::string AFFECT_DATA::describe_item_effect(bool for_imm) const {
     if (for_imm) {
-        return fmt::format("{} by {} with bits {}, level {}", name(location), modifier, affect_bit_name(bitvector),
-                           level);
+        return fmt::format("{} by {} with bits {}, level {}", name(location), modifier,
+                           format_set_flags(Char::AllAffectFlags, bitvector), level);
     } else {
         return fmt::format("{} by {}", name(location), modifier);
     }
@@ -150,10 +151,10 @@ std::string AFFECT_DATA::describe_char_effect(bool for_imm) const {
     if (for_imm) { // for imm commands like 'stat mob' and 'stat affects', display all the details.
         if (is_skill())
             return fmt::format(" modifies {} by {} with bits {}, level {}", name(location), modifier,
-                               affect_bit_name(bitvector), level);
+                               format_set_flags(Char::AllAffectFlags, bitvector), level);
         else
             return fmt::format(" modifies {} by {} for {} hours with bits {}, level {}", name(location), modifier,
-                               duration, affect_bit_name(bitvector), level);
+                               duration, format_set_flags(Char::AllAffectFlags, bitvector), level);
     } else {
         if (is_skill())
             return "";

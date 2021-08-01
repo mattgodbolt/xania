@@ -92,7 +92,6 @@ std::string_view pers(const Char *ch, const Char *looker);
 bool can_see_obj(const Char *ch, const Object *obj);
 bool can_see_room(const Char *ch, const Room *room);
 bool can_drop_obj(Char *ch, Object *obj);
-std::string affect_bit_name(unsigned int vector);
 const char *wear_bit_name(int wear_flags);
 const char *act_bit_name(int act_flags);
 const char *off_bit_name(int off_flags);

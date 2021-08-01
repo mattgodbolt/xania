@@ -99,25 +99,25 @@ TEST_CASE("AFFECT_DATA") {
         auto spell_with_location = AFFECT_DATA{-1, 33, 22, AffectLocation::Wis, 1, AFF_HASTE};
         SECTION("for items") {
             CHECK(spell_with_location.describe_item_effect(false) == "wisdom by 1");
-            CHECK(spell_with_location.describe_item_effect(true) == "wisdom by 1 with bits haste, level 33");
+            CHECK(spell_with_location.describe_item_effect(true) == "wisdom by 1 with bits |Chaste|w, level 33");
         }
         SECTION("for characters") {
             auto spell_no_location = AFFECT_DATA{-1, 33, 22, AffectLocation::None, 1, AFF_HASTE};
             SECTION("spells") {
                 CHECK(spell_with_location.describe_char_effect(false) == " modifies wisdom by 1 for 22 hours");
                 CHECK(spell_with_location.describe_char_effect(true)
-                      == " modifies wisdom by 1 for 22 hours with bits haste, level 33");
+                      == " modifies wisdom by 1 for 22 hours with bits |Chaste|w, level 33");
                 // The case where a spell effect does not affect a specific attribute, in which
                 // case the 'affects' command shows a concise message rather than "modifies none by 0".
                 CHECK(spell_no_location.describe_char_effect(false) == " for 22 hours");
                 CHECK(spell_no_location.describe_char_effect(true)
-                      == " modifies none by 1 for 22 hours with bits haste, level 33");
+                      == " modifies none by 1 for 22 hours with bits |Chaste|w, level 33");
             }
             SECTION("skills") {
                 auto skill = AFFECT_DATA{gsn_sneak, 80, 0, AffectLocation::None, 0, AFF_SNEAK};
                 // Similar to above, concise message for effects like sneak and ride.
                 CHECK(skill.describe_char_effect(false) == "");
-                CHECK(skill.describe_char_effect(true) == " modifies none by 0 with bits sneak, level 80");
+                CHECK(skill.describe_char_effect(true) == " modifies none by 0 with bits |Csneak|w, level 80");
             }
         }
     }

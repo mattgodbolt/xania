@@ -20,6 +20,7 @@
 #include "Char.hpp"
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
+#include "FlagFormat.hpp"
 #include "Format.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
