@@ -3,7 +3,7 @@ catch2/2.13.6
 fmt/8.0.1
 ms-gsl/3.1.0
 trompeloeil/41
-spdlog/1.9.0
+spdlog/1.9.1
 date/3.0.1
 range-v3/0.11.0
 lyra/1.5.1
