@@ -22,6 +22,8 @@ CONAN_VERSION=1.38.0
 PIP:=$(CONDA_ROOT)/bin/pip
 CONAN:=$(CONDA_ROOT)/bin/conan
 SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name *.hpp)
+export CC:=gcc-10
+export CXX:=g++-10
 
 ifeq ($(shell which ninja),)
 CMAKE_GENERATOR_FLAGS?=

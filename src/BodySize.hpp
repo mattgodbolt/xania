@@ -7,6 +7,7 @@
 #include "Types.hpp"
 
 #include <optional>
+#include <string_view>
 
 // Char body sizes.
 enum class BodySize { Tiny = 0, Small = 1, Medium = 2, Large = 3, Huge = 4, Giant = 5 };

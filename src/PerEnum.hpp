@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <unistd.h>
 
 template <typename Enum, typename T, size_t MaxOrdinal>
 class PerEnum {
