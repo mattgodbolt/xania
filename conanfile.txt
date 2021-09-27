@@ -1,9 +1,9 @@
 [requires]
-catch2/2.13.6
+catch2/2.13.7
 fmt/8.0.1
 ms-gsl/3.1.0
 trompeloeil/41
-spdlog/1.9.1
+spdlog/1.9.2
 date/3.0.1
 range-v3/0.11.0
 lyra/1.5.1
