@@ -1,6 +1,7 @@
 #pragma once
 #include "Types.hpp"
 #include <optional>
+#include <string>
 
 using namespace std::literals;
 

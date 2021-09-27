@@ -8,7 +8,7 @@
 #include "common/StandardBits.hpp"
 
 #include <memory>
-#include <string_view>
+#include <string>
 #include <vector>
 
 class Char;

@@ -1,5 +1,7 @@
 #include "Rng.hpp"
 
+#include <stdexcept>
+
 int Rng::dice(int number, int size) noexcept {
     if (size == 0)
         return 0;
