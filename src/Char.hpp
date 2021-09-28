@@ -21,6 +21,7 @@
 #include <fmt/core.h>
 #include <magic_enum.hpp>
 #include <memory>
+#include <string_view>
 
 enum class ArmourClass;
 enum class BodySize;

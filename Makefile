@@ -18,10 +18,12 @@ CONDA_VERSION?=4.10.3
 CONDA_ROOT:=$(TOOLS_DIR)/conda-$(CONDA_VERSION)
 CONDA_INSTALLER=$(TOOLS_DIR)/conda-$(CONDA_VERSION)/installer.sh
 CONDA:=$(CONDA_ROOT)/bin/conda
-CONAN_VERSION=1.38.0
+CONAN_VERSION=1.40.2
 PIP:=$(CONDA_ROOT)/bin/pip
 CONAN:=$(CONDA_ROOT)/bin/conan
 SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name *.hpp)
+export CC:=gcc-10
+export CXX:=g++-10
 
 ifeq ($(shell which ninja),)
 CMAKE_GENERATOR_FLAGS?=
