@@ -2,18 +2,14 @@
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
 /*  (C) 1995-2000 Xania Development Team                                 */
 /*  See the header to file: merc.h for original code copyrights          */
-/*                                                                       */
-/*                                                                       */
 /*************************************************************************/
 
-/*
- * Sits on a port, and relays connections through a named pipe to the MUD itself, thus acting as a link between the MUD
- * and the player independent of the MUD state. If the MUD crashes, or is rebooted, it should be able to maintain
- * connections, and reconnect automatically
- *
- * Terminal issues are resolved here now, which means ANSI-compliant terminals should automatically enable colour, and
- * word-wrapping is done by doorman instead of the MUD, so if you have a wide display you can take advantage of it.
- */
+// Sits on a port, and relays connections through a named pipe to the MUD itself, thus acting as a link between the MUD
+// and the player independent of the MUD state. If the MUD crashes, or is rebooted, it should be able to maintain
+// connections, and reconnect automatically.
+//
+// Terminal issues are resolved here now, which means ANSI-compliant terminals should automatically enable colour, and
+// word-wrapping is done by doorman instead of the MUD, so if you have a wide display you can take advantage of it.
 
 #include "Doorman.hpp"
 #include "Logger.hpp"
@@ -21,38 +17,24 @@
 #include "version.h"
 
 #include <fmt/format.h>
+#include <fmt/ostream.h>
+#include <lyra/lyra.hpp>
 
 #include <csignal>
-#include <getopt.h>
-
-void usage() { fmt::print(stderr, "Usage: doorman [-h | --help] [-d | --debug]\n"); }
 
 int Main(Logger &log, int argc, char *argv[]) {
-    int debug = 0;
-    option options[] = {{"debug", 0, &debug, 1}, {"help", 0, nullptr, 'h'}, {nullptr, 0, nullptr, 0}};
+    bool help = false;
+    bool debug = false;
+    auto cli = lyra::cli() | lyra::help(help).description("Connection \"bouncer\" for the mud.")("show this help")
+               | lyra::opt(debug)["-d"]["--debug"]("enable debugging");
 
-    /*
-     * Parse any arguments
-     */
-    for (;;) {
-        int optType;
-        int index = 0;
-
-        optType = getopt_long(argc, argv, "dh", options, &index);
-        if (optType == -1)
-            break;
-        switch (optType) {
-        case 'd': debug = 1; break;
-        case 'h':
-            usage();
-            exit(0);
-            break;
-        }
-    }
-
-    if (optind < (argc - 1)) {
-        usage();
-        exit(1);
+    auto result = cli.parse({argc, argv});
+    if (!result) {
+        fmt::print("Error in command line: {}\n", result.errorMessage());
+        return 1;
+    } else if (help) {
+        fmt::print("{}", cli);
+        return 0;
     }
 
     if (debug) {
@@ -62,17 +44,12 @@ int Main(Logger &log, int argc, char *argv[]) {
 
     log.info("Doorman version {} starting up", BUILD_VERSION);
 
-    /*
-     * Prevent crashing on SIGPIPE if the MUD goes down, or if a connection
-     * goes funny
-     */
+    // Prevent crashing on SIGPIPE if the MUD goes down, or if a connection goes funny.
     signal(SIGPIPE, SIG_IGN);
 
     Doorman doorman(Configuration::singleton().port());
 
-    /*
-     * Loop forever!
-     */
+    // Loop forever.
     for (;;) {
         doorman.poll();
     }
