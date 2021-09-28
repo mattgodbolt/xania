@@ -56,7 +56,6 @@
 #include <set>
 
 extern const char *target_name; /* Included from magic.c */
-extern void handle_corpse_summoner(Char *ch, Char *victim, Object *obj);
 
 /* RT part of the corpse looting code */
 
@@ -955,122 +954,82 @@ void do_drop(Char *ch, const char *argument) {
     }
 }
 
-// TODO #262 upgrade to ArgParser
-void do_give(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    Char *victim;
-    Object *obj;
+namespace {
+void do_give_coins(Char *ch, std::string_view num_coins, ArgParser args) {
+    /* 'give NNNN coins victim' */
+    const auto amount = parse_number(num_coins);
+    const auto noun = args.shift();
+    if (amount <= 0 || !(matches(noun, "coins") || matches(noun, "coin") || matches(noun, "gold"))) {
+        ch->send_line("Sorry, you can't do that.");
+        return;
+    }
 
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if (arg1[0] == '\0' || arg2[0] == '\0') {
+    const auto victim_name = args.shift();
+    if (victim_name.empty()) {
         ch->send_line("Give what to whom?");
         return;
     }
 
-    if (is_number(arg1)) {
-        /* 'give NNNN coins victim' */
-        int amount;
-
-        amount = atoi(arg1);
-        if (amount <= 0 || (str_cmp(arg2, "coins") && str_cmp(arg2, "coin") && str_cmp(arg2, "gold"))) {
-            ch->send_line("Sorry, you can't do that.");
-            return;
-        }
-
-        argument = one_argument(argument, arg2);
-        if (arg2[0] == '\0') {
-            ch->send_line("Give what to whom?");
-            return;
-        }
-
-        if ((victim = get_char_room(ch, arg2)) == nullptr) {
-            ch->send_line("They aren't here.");
-            return;
-        }
-
-        if (ch->gold < amount) {
-            ch->send_line("You haven't got that much gold.");
-            return;
-        }
-        /* added because people were using charmed mobs to do some
-           cunning things - fara
-           */
-        if (victim->carry_weight + 1 > can_carry_w(ch)) {
-            ch->send_line("They can't carry any more weight.");
-            return;
-        }
-        if (victim->carry_number + 1 > can_carry_n(ch)) {
-            ch->send_line("Their hands are full.");
-            return;
-        }
-
-        ch->gold -= amount;
-        victim->gold += amount;
-        act(fmt::format("$n gives you {} gold.", amount), ch, nullptr, victim, To::Vict);
-        act("$n gives $N some gold.", ch, nullptr, victim, To::NotVict);
-        act(fmt::format("You give $N {} gold.", amount), ch, nullptr, victim, To::Char);
-        mprog_bribe_trigger(victim, ch, amount);
+    auto *victim = get_char_room(ch, victim_name);
+    if (!victim) {
+        ch->send_line("They aren't here.");
         return;
     }
 
-    if ((obj = get_obj_carry(ch, arg1)) == nullptr) {
+    if (ch->gold < amount) {
+        ch->send_line("You haven't got that much gold.");
+        return;
+    }
+    // added because people were using charmed mobs to do some cunning things - fara
+    if (victim->carry_weight + 1 > can_carry_w(ch)) {
+        ch->send_line("They can't carry any more weight.");
+        return;
+    }
+    if (victim->carry_number + 1 > can_carry_n(ch)) {
+        ch->send_line("Their hands are full.");
+        return;
+    }
+
+    ch->gold -= amount;
+    victim->gold += amount;
+    act(fmt::format("$n gives you {} gold.", amount), ch, nullptr, victim, To::Vict);
+    act("$n gives $N some gold.", ch, nullptr, victim, To::NotVict);
+    act(fmt::format("You give $N {} gold.", amount), ch, nullptr, victim, To::Char);
+    mprog_bribe_trigger(victim, ch, amount);
+}
+}
+
+void do_give(Char *ch, ArgParser args) {
+    const auto item_name = args.shift();
+    if (is_number(item_name)) {
+        do_give_coins(ch, item_name, args);
+        return;
+    }
+
+    const auto victim_name = args.shift();
+    if (item_name.empty() || victim_name.empty()) {
+        ch->send_line("Give what to whom?");
+        return;
+    }
+
+    auto *obj = ch->find_in_inventory(item_name);
+    if (!obj) {
         ch->send_line("You do not have that item.");
         return;
     }
 
-    if (obj->wear_loc != WEAR_NONE) {
-        ch->send_line("You must remove it first.");
-        return;
-    }
-
-    if ((victim = get_char_room(ch, arg2)) == nullptr) {
+    auto *victim = get_char_room(ch, victim_name);
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-    /* prevent giving to yourself! */
+    // prevent giving to yourself!
     if (victim == ch) {
         ch->send_line("Give something to yourself? What, are you insane?!");
         return;
     }
 
-    if (!can_drop_obj(ch, obj)) {
-        ch->send_line("You can't let go of it.");
-        return;
-    }
-
-    if (obj_move_violates_uniqueness(ch, victim, obj, victim->carrying)) {
-        act(deity_name + " has forbidden $N from possessing more than one $p.", ch, obj, victim, To::Char);
-        return;
-    }
-
-    if (victim->carry_number + get_obj_number(obj) > can_carry_n(victim)) {
-        act("$N has $S hands full.", ch, nullptr, victim, To::Char);
-        return;
-    }
-
-    if (victim->carry_weight + get_obj_weight(obj) > can_carry_w(victim)) {
-        act("$N can't carry that much weight.", ch, nullptr, victim, To::Char);
-        return;
-    }
-
-    if (!can_see_obj(victim, obj)) {
-        act("$N can't see it.", ch, nullptr, victim, To::Char);
-        return;
-    }
-
-    obj_from_char(obj);
-    obj_to_char(obj, victim);
-    MOBtrigger = false;
-
-    act("$n gives $p to $N.", ch, obj, victim, To::NotVict);
-    act("$n gives you $p.", ch, obj, victim, To::Vict);
-    act("You give $p to $N.", ch, obj, victim, To::Char);
-
-    handle_corpse_summoner(ch, victim, obj);
-    mprog_give_trigger(victim, ch, obj);
+    ch->try_give_item_to(obj, victim);
 }
 
 namespace {

@@ -322,6 +322,8 @@ struct Char {
 
     [[nodiscard]] size_t num_group_members_in_room() const noexcept;
 
+    void try_give_item_to(Object *object, Char *to_char);
+
     // Apply a delta to the Char's inebriation/hunger/thirst and return an optional
     // message to send to the player. Has no effect on NPCs.
     std::optional<std::string_view> delta_inebriation(const sh_int delta) noexcept;

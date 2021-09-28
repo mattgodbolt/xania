@@ -108,7 +108,7 @@ extern void do_force(Char *ch, const char *argument);
 extern void do_freeze(Char *ch, const char *arg);
 extern void do_gain(Char *ch, const char *arg);
 extern void do_get(Char *ch, const char *arg);
-extern void do_give(Char *ch, const char *arg);
+extern void do_give(Char *ch, ArgParser args);
 extern void do_gossip(Char *ch, const char *arg);
 extern void do_goto(Char *ch, const char *arg);
 extern void do_gratz(Char *ch, const char *arg);
