@@ -9,7 +9,7 @@
 
 using namespace std::literals;
 
-Doorman::Doorman(int port) : log_(logger_for("Doorman")), port_(port), mud_(*this) {
+Doorman::Doorman(unsigned int port) : log_(logger_for("Doorman")), port_(port), mud_(*this) {
     log_.info("Attempting to bind to port {}", port);
     listenSock_ = Fd::socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 

@@ -12,7 +12,7 @@
 
 class Doorman {
     Logger log_;
-    int port_;
+    unsigned int port_;
     Xania mud_;
     Fd listenSock_;
     static constexpr auto MaxChannels = 64;
@@ -25,7 +25,7 @@ class Doorman {
     void remove_dead_channels();
 
 public:
-    explicit Doorman(int port);
+    explicit Doorman(unsigned int port);
     void poll();
 
     [[nodiscard]] Channel *find_channel_by_id(int32_t channel_id);
