@@ -25,6 +25,8 @@
 #include "TimeInfoData.hpp"
 #include "WearLocation.hpp"
 #include "act_comm.hpp"
+#include "act_obj.hpp"
+#include "act_wiz.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
@@ -513,3 +515,46 @@ bool Char::is_starving() const noexcept { return is_pc() && pcdata->hunger.is_un
 bool Char::is_thirsty() const noexcept { return is_pc() && !pcdata->thirst.is_satisfied(); }
 
 bool Char::is_parched() const noexcept { return is_pc() && pcdata->thirst.is_unhealthy(); }
+
+void Char::try_give_item_to(Object *object, Char *victim) {
+    if (object->wear_loc != WEAR_NONE) {
+        send_line("You must remove it first.");
+        return;
+    }
+
+    if (!can_drop_obj(this, object)) {
+        send_line("You can't let go of it.");
+        return;
+    }
+
+    if (obj_move_violates_uniqueness(this, victim, object, victim->carrying)) {
+        ::act(deity_name + " has forbidden $N from possessing more than one $p.", this, object, victim, To::Char);
+        return;
+    }
+
+    if (victim->carry_number + get_obj_number(object) > can_carry_n(victim)) {
+        ::act("$N has $S hands full.", this, nullptr, victim, To::Char);
+        return;
+    }
+
+    if (victim->carry_weight + get_obj_weight(object) > can_carry_w(victim)) {
+        ::act("$N can't carry that much weight.", this, nullptr, victim, To::Char);
+        return;
+    }
+
+    if (!can_see_obj(victim, object)) {
+        ::act("$N can't see it.", this, nullptr, victim, To::Char);
+        return;
+    }
+
+    obj_from_char(object);
+    obj_to_char(object, victim);
+    MOBtrigger = false;
+
+    ::act("$n gives $p to $N.", this, object, victim, To::NotVict);
+    ::act("$n gives you $p.", this, object, victim, To::Vict);
+    ::act("You give $p to $N.", this, object, victim, To::Char);
+
+    handle_corpse_summoner(this, victim, object);
+    mprog_give_trigger(victim, this, object);
+}

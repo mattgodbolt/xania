@@ -16,3 +16,4 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *mo
 bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj,
                                   GenericList<Object *> &objs_to);
 bool check_material_vulnerability(Char *ch, Object *object);
+void handle_corpse_summoner(Char *ch, Char *victim, Object *obj);

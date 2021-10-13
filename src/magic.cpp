@@ -3632,20 +3632,18 @@ void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
     }
 
     /* Check to see if the victim is actually already in the same room */
-    // TODO: we can break do_give() into pieces and call it directly instead of this nonsense.
-    const auto give_args = fmt::format("'{}' {}", object->name, victim->name);
     if (ch->in_room != victim->in_room) {
         act("You feel a brief presence in the room.", victim, nullptr, nullptr, To::Char);
         act("You feel a brief presence in the room.", victim);
         old_room = ch->in_room;
         char_from_room(ch);
         char_to_room(ch, victim->in_room);
-        do_give(ch, give_args.c_str());
+        ch->try_give_item_to(object, victim);
         char_from_room(ch);
         char_to_room(ch, old_room);
     } else {
-        do_give(ch, give_args.c_str());
-    } /* ..else... if not in same room */
+        ch->try_give_item_to(object, victim);
+    }
 }
 
 void spell_undo_spell(int sn, int level, Char *ch, void *vo) {
