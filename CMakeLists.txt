@@ -31,7 +31,7 @@ include(scripts/conan.cmake)
 
 # See Makefile - CONAN_VERSION 
 message("If the following conan check fails; please remove your .tools directory")
-conan_check(VERSION 1.40.2 REQUIRED)
+conan_check(VERSION 1.41.0 REQUIRED)
 
 conan_add_remote(NAME conancenter
         INDEX 0
