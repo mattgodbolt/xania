@@ -33,7 +33,7 @@ constexpr std::array<struct Liquid, magic_enum::enum_count<Liquid::Type>()> Liqu
 
 const Liquid *Liquid::try_lookup(std::string_view name) {
     for (const auto &liquid : Liquids) {
-        if (is_name(name, liquid.short_name))
+        if (is_name(name, liquid.name))
             return &liquid;
     }
     return nullptr;

@@ -16,9 +16,9 @@ static constexpr PerDirection<std::string_view> compass_pt = {"n", "e", "s", "w"
 static constexpr PerDirection<std::string_view> bidir_name = {"n/s", "e/w", "n/s", "e/w", "u/d", "u/d"};
 
 void render_area(FILE *out_file, AreaData *area) {
-    fmt::print(out_file, "  subgraph cluster_{} {{\n", area->num);
+    fmt::print(out_file, "  subgraph cluster_{} {{\n", area->num());
     fmt::print(out_file, "    clusterrank=local;\n");
-    fmt::print(out_file, "    label=\"{}\";\n", area->areaname);
+    fmt::print(out_file, "    label=\"{}\";\n", area->description());
     fmt::print(out_file, "    style=filled;\n");
     fmt::print(out_file, "    node [shape=box];\n");
     for (auto *first_room_with_hash : room_hash) {
@@ -76,7 +76,7 @@ int main(int argc, const char **argv) {
     fmt::print(out_file, "digraph {{\n");
 
     for (auto &a : AreaList::singleton()) {
-        if (filter_area && a->num != filter_area)
+        if (filter_area && a->num() != filter_area)
             continue;
         render_area(out_file, a.get());
     }

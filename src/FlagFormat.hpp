@@ -60,7 +60,7 @@ std::optional<unsigned long> get_flag_bit_by_name(const std::array<Flag, SIZE> &
                                                   const sh_int trust_level) {
     if (auto it = ranges::find_if(flags,
                                   [&requested_name, &trust_level](const auto &flag) {
-                                      return flag.short_name == requested_name && trust_level >= flag.min_level;
+                                      return flag.name == requested_name && trust_level >= flag.min_level;
                                   });
         it != flags.end()) {
         return it->bit;

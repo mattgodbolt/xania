@@ -302,7 +302,7 @@ void do_clanwho(Char *ch) {
     for (auto &d : descriptors().all_visible_to(*ch)) {
         auto *wch = d.person();
         if (wch->clan() && wch->clan()->clanchar == ch->clan()->clanchar) {
-            ch->send_line("{:19}|c|||w {}", wch->short_name, wch->pc_clan()->level_name());
+            ch->send_line("{:19}|c|||w {}", wch->name, wch->pc_clan()->level_name());
         }
     }
 }
