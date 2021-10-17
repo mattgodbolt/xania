@@ -13,13 +13,13 @@
 #include "handler.hpp"
 #include "save.hpp"
 
+#include <date/date.h>
+
 #include <filesystem>
-#include <iostream>
-#include <magic_enum.hpp>
 #include <optional>
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/view/filter.hpp>
-#include <spdlog/spdlog.h>
+#include <sstream>
 
 namespace pfu {
 
@@ -67,17 +67,15 @@ void upgrade_players(const std::vector<std::string> &players, Logger &logger) {
     logger.info("Processed characters: {} succeeded, {} failed.", succeeded, failed);
 }
 
-std::optional<Time> try_parse_login_at(std::string &login_at) {
+std::optional<Time> try_parse_login_at(const std::string &login_at) {
     if (login_at.empty()) {
         return std::nullopt;
     }
-    std::tm tm_login;
     // Includes older formats used for login time.
     for (const auto format : {"%Y-%m-%d %H:%M:%SZ", "%Y-%m-%d %H:%M:%S", "%a %b %d %H:%M:%S %Y"}) {
-        memset(&tm_login, 0, sizeof(std::tm));
-        if (strptime(login_at.c_str(), format, &tm_login)) {
-            return Clock::from_time_t(mktime(&tm_login));
-        }
+        std::stringstream ss{login_at};
+        if (Time t; ss >> date::parse(format, t))
+            return t;
     }
     return std::nullopt;
 }
