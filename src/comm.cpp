@@ -1053,7 +1053,7 @@ bool check_parse_name(const char *name) {
     if (matches(name, "DEATH"))
         return true;
 
-    /*    if (str_cmp(capitalize(name),"DEATH") && (!str_prefix("death",name)
+    /*    if (str_cmp(lower_case(name),"death") && (!str_prefix("death",name)
         || !str_suffix("Death",name)))
        return false;*/
 

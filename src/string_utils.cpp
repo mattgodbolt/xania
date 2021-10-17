@@ -3,18 +3,22 @@
 #include "ArgParser.hpp"
 
 #include <fmt/format.h>
+#include <gsl/gsl_util>
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/algorithm/search.hpp>
 #include <range/v3/range/conversion.hpp>
+#include <range/v3/view/drop.hpp>
+#include <range/v3/view/take.hpp>
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/zip.hpp>
 
 #include <algorithm>
 #include <array>
+#include <range/v3/view/concat.hpp>
 
 using namespace std::literals;
 
-constexpr std::array<char, 10> Vowels{'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'};
+constexpr std::array Vowels{'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'};
 
 int parse_number(std::string_view sv) {
     if (sv.empty())
@@ -52,10 +56,7 @@ std::pair<int, std::string_view> number_argument(std::string_view argument) {
 bool is_vowel(const char c) { return std::find(Vowels.begin(), Vowels.end(), c) != Vowels.end(); }
 
 std::string smash_tilde(std::string_view str) {
-    std::string result;
-    result.reserve(str.size());
-    std::transform(begin(str), end(str), std::back_inserter(result), [](char c) { return c == '~' ? '-' : c; });
-    return result;
+    return str | ranges::view::transform([](char c) { return c == '~' ? '-' : c; }) | ranges::to<std::string>;
 }
 
 std::string replace_strings(std::string message, std::string_view from_str, std::string_view to_str) {
@@ -70,18 +71,19 @@ std::string replace_strings(std::string message, std::string_view from_str, std:
     return message;
 }
 
-std::string ltrim(std::string_view str) {
-    return std::string(std::find_if(str.begin(), str.end(), [](auto ch) { return !std::isspace(ch); }), str.end());
+namespace {
+const auto not_space = [](char ch) { return !std::isspace(ch); };
 }
 
-std::string trim(std::string_view str) {
-    std::string t = ltrim(str);
-    auto rit = std::find_if(t.rbegin(), t.rend(), [](auto ch) { return !std::isspace(ch); });
-    if (rit != t.rend()) {
-        return std::string(t.begin(), rit.base());
-    } else {
-        return t;
-    }
+std::string_view ltrim(std::string_view str) {
+    const auto begin = std::find_if(str.begin(), str.end(), not_space);
+    return {begin, static_cast<size_t>(str.end() - begin)};
+}
+
+std::string_view trim(std::string_view str) {
+    const auto begin = std::find_if(str.begin(), str.end(), not_space);
+    const auto rit = std::find_if(str.rbegin(), std::make_reverse_iterator(begin), not_space);
+    return {begin, static_cast<size_t>(rit.base() - begin)};
 }
 
 std::string reduce_spaces(std::string_view str) {
@@ -159,23 +161,7 @@ impl::LineSplitter::Iter impl::LineSplitter::Iter::operator++() noexcept {
 }
 
 std::string lower_case(std::string_view str) {
-    std::string result;
-    result.reserve(str.size());
-    for (auto c : str) {
-        result.push_back(tolower(c));
-    }
-    return result;
-}
-
-std::string capitalize(std::string_view str) {
-    std::string result;
-    for (auto c : str) {
-        if (result.empty())
-            result.push_back(toupper(c));
-        else
-            result.push_back(tolower(c));
-    }
-    return result;
+    return str | ranges::view::transform(tolower) | ranges::to<std::string>;
 }
 
 bool has_prefix(std::string_view haystack, std::string_view needle) {
@@ -185,29 +171,29 @@ bool has_prefix(std::string_view haystack, std::string_view needle) {
 }
 
 std::string decode_colour(bool ansi_enabled, char char_code) {
-    char sendcolour;
+    char send_colour;
     switch (char_code) {
     case 'r':
-    case 'R': sendcolour = '1'; break;
+    case 'R': send_colour = '1'; break;
     case 'g':
-    case 'G': sendcolour = '2'; break;
+    case 'G': send_colour = '2'; break;
     case 'y':
-    case 'Y': sendcolour = '3'; break;
+    case 'Y': send_colour = '3'; break;
     case 'b':
-    case 'B': sendcolour = '4'; break;
+    case 'B': send_colour = '4'; break;
     case 'm':
     case 'p':
     case 'M':
-    case 'P': sendcolour = '5'; break;
+    case 'P': send_colour = '5'; break;
     case 'c':
-    case 'C': sendcolour = '6'; break;
+    case 'C': send_colour = '6'; break;
     case 'w':
-    case 'W': sendcolour = '7'; break;
+    case 'W': send_colour = '7'; break;
     case '|': return "|";
-    default: return std::string(1, char_code);
+    default: return std::string(1, char_code); // NOLINT(modernize-return-braced-init-list)
     }
     if (ansi_enabled)
-        return fmt::format("\033[{};3{}m", char_code >= 'a' ? '0' : '1', sendcolour);
+        return fmt::format("\033[{};3{}m", char_code >= 'a' ? '0' : '1', send_colour);
     return "";
 }
 
@@ -249,7 +235,7 @@ std::string upper_first_character(std::string_view sv) {
         if (c == '|')
             skip_next = true;
         else {
-            c = toupper(c);
+            c = gsl::narrow_cast<char>(toupper(c));
             break;
         }
     }
@@ -257,9 +243,8 @@ std::string upper_first_character(std::string_view sv) {
 }
 
 std::string initial_caps_only(std::string_view text) {
-    return text | ranges::view::transform([first = true](auto ch) mutable {
-               return std::exchange(first, false) ? toupper(ch) : tolower(ch);
-           })
+    return ranges::view::concat(text | ranges::view::take(1) | ranges::view::transform(toupper),
+                                text | ranges::view::drop(1) | ranges::view::transform(tolower))
            | ranges::to<std::string>;
 }
 
@@ -321,7 +306,7 @@ bool is_name(std::string_view str, std::string_view namelist) {
 std::string lower_case_articles(std::string_view text) {
     auto result = std::string(text);
     if (has_prefix(text, "The ") || has_prefix(text, "A ") || has_prefix(text, "An ")) {
-        result[0] = tolower(result[0]);
+        result[0] = gsl::narrow_cast<char>(tolower(result[0]));
     }
     return result;
 }

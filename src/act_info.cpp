@@ -981,7 +981,7 @@ void do_exits(const Char *ch, const char *argument) {
             if (fAuto) {
                 buf += fmt::format(" {}", to_string(door));
             } else {
-                buf += fmt::format("{:<5} - {}\n\r", capitalize(to_string(door)),
+                buf += fmt::format("{:<5} - {}\n\r", initial_caps_only(to_string(door)),
                                    !ch->has_holylight() && room_is_dark(pexit->u1.to_room) ? "Too dark to tell"
                                                                                            : pexit->u1.to_room->name);
             }
@@ -1563,7 +1563,7 @@ void do_title(Char *ch, const char *argument) {
 void do_description(Char *ch, const char *argument) {
     if (auto desc_line = smash_tilde(argument); !desc_line.empty()) {
         if (desc_line.front() == '+') {
-            ch->description += ltrim(desc_line.substr(1)) + "\n\r";
+            ch->description += fmt::format("{}\n\r", ltrim(desc_line.substr(1)));
         } else if (desc_line == "-") {
             if (ch->description.empty()) {
                 ch->send_line("You have no description.");
@@ -1797,7 +1797,7 @@ void do_scan(Char *ch) {
             for (auto *current_person : current_place->people) {
                 if (ch->can_see(*current_person)) {
                     ch->send_to(fmt::format("{} {:<5}: |W{}|w\n\r", count_num_rooms + 1,
-                                            capitalize(to_string(direction)), current_person->short_name()));
+                                            initial_caps_only(to_string(direction)), current_person->short_name()));
                     found_anything = true;
                 }
             } /* Closes the for_each_char_loop */
