@@ -121,7 +121,7 @@ void doRandomSocial(Char *ch, Room *home) {
     if (charSelected >= charsInRoom)
         charSelected = charsInRoom - 1;
     auto *countChar = *std::next(ch->in_room->people.begin(), charSelected);
-    check_social(ch, randomSocial(), countChar->name);
+    check_social(ch, randomSocial(), countChar->short_name);
 }
 
 /* Find the amount of interest Phil will show in the given character, by looking up the */

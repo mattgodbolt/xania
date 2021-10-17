@@ -2,7 +2,7 @@
 #include "Room.hpp"
 #include "db.h"
 
-#include "AREA_DATA.hpp"
+#include "AreaData.hpp"
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
@@ -38,7 +38,7 @@ int main(int argc, const char **argv) {
     };
     std::unordered_map<std::string, AreaInfo> areas;
     for (auto &a : AreaList::singleton())
-        areas[a->areaname].name = a->areaname;
+        areas[a->areaname].short_name = a->areaname;
 
     extern Room *room_hash[MAX_KEY_HASH];
 

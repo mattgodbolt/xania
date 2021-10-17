@@ -9,7 +9,7 @@
 
 #include "handler.hpp"
 #include "AFFECT_DATA.hpp"
-#include "AREA_DATA.hpp"
+#include "AreaData.hpp"
 #include "BitsAffect.hpp"
 #include "BitsBodyForm.hpp"
 #include "BitsBodyPart.hpp"
@@ -291,7 +291,7 @@ void char_from_room(Char *ch) {
     }
 
     if (ch->is_pc())
-        --ch->in_room->area->nplayer;
+        ch->in_room->area->dec_player_count();
 
     if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->type == ObjectType::Light && obj->value[2] != 0
         && ch->in_room->light > 0)
@@ -317,13 +317,8 @@ void char_to_room(Char *ch, Room *room) {
     ch->in_room = room;
     room->people.add_front(ch);
 
-    if (ch->is_pc()) {
-        if (ch->in_room->area->empty) {
-            ch->in_room->area->empty = false;
-            ch->in_room->area->age = 0;
-        }
-        ++ch->in_room->area->nplayer;
-    }
+    if (ch->is_pc())
+        ch->in_room->area->inc_player_count();
 
     if (auto *obj = get_eq_char(ch, WEAR_LIGHT); obj && obj->type == ObjectType::Light && obj->value[2] != 0)
         ++ch->in_room->light;

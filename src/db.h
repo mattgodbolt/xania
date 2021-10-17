@@ -68,6 +68,7 @@ std::string fread_stdstring(FILE *fp);
 char *fread_string_eol(FILE *fp);
 void fread_to_eol(FILE *fp);
 std::string fread_stdstring_eol(FILE *fp);
+void reset_room(Room *room);
 
 MobIndexData *get_mob_index(int vnum);
 void add_mob_index(MobIndexData mob_index_data);

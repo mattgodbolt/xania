@@ -14,7 +14,7 @@
 #include <vector>
 
 enum class ObjectType;
-struct AREA_DATA;
+struct AreaData;
 
 /*
  * Prototype for an object.
@@ -39,7 +39,7 @@ struct ObjectIndex {
     sh_int weight{};
     int cost{};
     std::array<int, 5> value{};
-    AREA_DATA *area{};
+    AreaData *area{};
 
     [[nodiscard]] std::string type_name() const;
 

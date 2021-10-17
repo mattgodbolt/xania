@@ -4,7 +4,7 @@
 /*  See the header to file: merc.h for original code copyrights         */
 /************************************************************************/
 
-#include "AREA_DATA.hpp"
+#include "AreaData.hpp"
 #include "Char.hpp"
 #include "Room.hpp"
 #include "SkillTables.hpp"
@@ -136,7 +136,7 @@ void concordius_patrols(Char *ch) {
         break;
     }
     // After socialising in the room, continue with patrol route.
-    if (matches(ch->in_room->area->areaname, "Midgaard") && patrol_pause++ % 3 == 2) {
+    if (matches(ch->in_room->area->description(), "Midgaard") && patrol_pause++ % 3 == 2) {
         interpret(ch, patrol_directions[patrol_index++ % patrol_directions.size()]);
     }
 }

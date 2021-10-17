@@ -6,7 +6,7 @@
 
 #include "act_wiz.hpp"
 #include "AFFECT_DATA.hpp"
-#include "AREA_DATA.hpp"
+#include "AreaData.hpp"
 #include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
@@ -674,7 +674,7 @@ void do_rstat(Char *ch, std::string_view argument) {
     }
 
     ch->send_line("Name: '{}'.", location->name);
-    ch->send_line("Area: '{}'.'", location->area->name);
+    ch->send_line("Area: '{}'.'", location->area->short_name());
 
     ch->send_line("Vnum: {}.  Sector: {} ({}).  Light: {}.", location->vnum, to_string(location->sector_type),
                   static_cast<int>(location->sector_type), location->light);
@@ -698,7 +698,7 @@ void do_rstat(Char *ch, std::string_view argument) {
     ch->send_line(".");
 
     ch->send_line("Objects:    {}.", fmt::join(location->contents | ranges::views::transform([](auto *obj) {
-                                                   return std::string(ArgParser(obj->name).shift());
+                                                   return std::string(ArgParser(obj->short_name).shift());
                                                }),
                                                " "));
 
@@ -2174,7 +2174,7 @@ std::string osearch_find_items(const int min_level, const int max_level, const O
                 continue;
             }
             buffer += fmt::format("{:5} {:<27}|w ({:3}) {}\n\r", objIndex->vnum, objIndex->short_descr, objIndex->level,
-                                  objIndex->area->filename);
+                                  objIndex->area->filename());
         }
     }
     return buffer;

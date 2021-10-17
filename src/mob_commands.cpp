@@ -500,7 +500,7 @@ void do_mptransfer(Char *ch, const char *argument) {
         for (auto &victim :
              descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
             if (victim.in_room != nullptr) {
-                do_transfer(ch, ArgParser(fmt::format("{} {}", victim.name, arg2)));
+                do_transfer(ch, ArgParser(fmt::format("{} {}", victim.short_name, arg2)));
             }
         }
         return;

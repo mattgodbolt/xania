@@ -18,7 +18,7 @@
 #include <vector>
 
 struct Object;
-struct AREA_DATA;
+struct AreaData;
 struct Exit;
 struct Flag;
 struct ResetData;
@@ -31,7 +31,7 @@ struct Room {
     GenericList<Char *> people;
     GenericList<Object *> contents;
     std::vector<ExtraDescription> extra_descr{};
-    AREA_DATA *area{};
+    AreaData *area{};
     PerDirection<Exit *> exit{};
     char *name{};
     char *description{};
