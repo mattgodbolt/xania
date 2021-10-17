@@ -16,10 +16,10 @@
 #include <date/date.h>
 
 #include <filesystem>
-#include <sstream>
 #include <optional>
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/view/filter.hpp>
+#include <sstream>
 
 namespace pfu {
 
@@ -73,7 +73,7 @@ std::optional<Time> try_parse_login_at(const std::string &login_at) {
     }
     // Includes older formats used for login time.
     for (const auto format : {"%Y-%m-%d %H:%M:%SZ", "%Y-%m-%d %H:%M:%S", "%a %b %d %H:%M:%S %Y"}) {
-        std::stringstream ss { login_at };
+        std::stringstream ss{login_at};
         if (Time t; ss >> date::parse(format, t))
             return t;
     }
