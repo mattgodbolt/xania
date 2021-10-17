@@ -97,6 +97,6 @@ bool upgrade_player(std::string_view player, const Tasks &all_tasks, Logger &log
     return result;
 }
 
-std::optional<Time> try_parse_login_at(std::string &login_at);
+std::optional<Time> try_parse_login_at(const std::string &login_at);
 
 }

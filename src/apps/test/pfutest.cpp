@@ -1,9 +1,10 @@
 #include "pfu.hpp"
 #include "common/Configuration.hpp"
 #include "save.hpp"
-#include "string_utils.hpp"
 #include "test/MemFile.hpp"
 #include "test/fileutils.hpp"
+
+#include <date/date.h>
 
 #include <catch2/catch.hpp>
 #include <fmt/format.h>
@@ -73,26 +74,11 @@ TEST_CASE("upgrade player") {
     }
 }
 
-namespace {
-Time make_expected_time() {
-    struct tm tm_login;
-    tm_login.tm_sec = 21;
-    tm_login.tm_min = 33;
-    tm_login.tm_hour = 10;
-    tm_login.tm_mday = 22;
-    tm_login.tm_mon = 1;
-    tm_login.tm_year = 100;
-    tm_login.tm_wday = 2;
-    tm_login.tm_yday = 52;
-    tm_login.tm_isdst = 0;
-    tm_login.tm_gmtoff = 0;
-    return Clock::from_time_t(mktime(&tm_login));
-}
-}
-
 TEST_CASE("login time format parsing") {
     SECTION("valid timestamps") {
-        auto expected = make_expected_time();
+        using namespace date::literals;
+        using namespace std::literals;
+        const auto expected = date::sys_days(2000_y / date::February / 22_d) + 10h + 33min + 21s;
         std::string last_login = GENERATE("Tue Feb 22 10:33:21 2000", "2000-02-22 10:33:21", "2000-02-22 10:33:21Z");
 
         SECTION("are parsed and converted") {
