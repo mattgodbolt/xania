@@ -9,10 +9,12 @@
 [[nodiscard]] std::string smash_tilde(std::string_view str);
 // Replaces all instances of from with to. Returns a copy of message.
 [[nodiscard]] std::string replace_strings(std::string message, std::string_view from_str, std::string_view to_str);
-// Trims leading whitespace, returning a new string.
-[[nodiscard]] std::string ltrim(std::string_view str);
-// Trims leading and trailing whitespace, returning a new string
-[[nodiscard]] std::string trim(std::string_view str);
+// Trims leading whitespace, referencing the original string.
+[[nodiscard]] std::string_view ltrim(std::string_view str);
+// Trims leading whitespace, returning a new copy of the trimmed string.
+[[nodiscard]] inline std::string ltrim_copy(std::string_view str) { return std::string(ltrim(str)); }
+// Trims leading and trailing whitespace, referencing the original string.
+[[nodiscard]] std::string_view trim(std::string_view str);
 // Skips leading and trailing whitespace, and compacts intermediate spaces down to a single space.
 [[nodiscard]] std::string reduce_spaces(std::string_view str);
 // Trims off the last line of a string (terminated with \n\r).
@@ -46,9 +48,6 @@ Container split_lines(std::string_view input) {
 
 // Returns the string, lower-cased.
 [[nodiscard]] std::string lower_case(std::string_view str);
-
-// Returns an initial-capped string.
-[[nodiscard]] std::string capitalize(std::string_view text);
 
 // Kill off the errant capital letters that have been creeping into the definite article of short descriptions of
 // objects and rooms of late.  This routine de-capitalises anything beginning with 'The ' or 'A ' or 'An '.

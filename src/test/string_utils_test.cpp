@@ -136,6 +136,7 @@ TEST_CASE("string_util tests") {
     }
 
     SECTION("smashes tildes") {
+        CHECK(smash_tilde("") == "");
         CHECK(smash_tilde("moose") == "moose");
         CHECK(smash_tilde("m~~se") == "m--se");
     }

@@ -21,7 +21,7 @@ std::string Database::find_response(std::string_view player_name, const std::str
         if (match(keywords, msgbuf, it, remaining_input_pos)) {
             // At this point we've found a match so we're free to copy & modify the original message.
             auto &response = keyword_response.get_random_response();
-            std::string remaining_input = ltrim(msgbuf.substr(remaining_input_pos));
+            std::string remaining_input = ltrim_copy(msgbuf.substr(remaining_input_pos));
             std::string rewritten_input = swap_pronouns_and_possessives(remaining_input);
             return expand_variables(npc_name, response, player_name, rewritten_input);
         }
