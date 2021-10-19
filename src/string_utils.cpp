@@ -278,7 +278,7 @@ bool matches_start(std::string_view lhs, std::string_view rhs) {
 bool matches_inside(std::string_view needle, std::string_view haystack) {
     auto needle_low = needle | ranges::views::transform(tolower);
     auto haystack_low = haystack | ranges::views::transform(tolower);
-    return !ranges::search(haystack_low, needle_low).empty();
+    return !ranges::search(haystack_low, needle_low).empty_since_last_reset();
 }
 
 namespace {

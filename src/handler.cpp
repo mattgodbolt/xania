@@ -291,7 +291,7 @@ void char_from_room(Char *ch) {
     }
 
     if (ch->is_pc())
-        ch->in_room->area->dec_player_count();
+        ch->in_room->area->player_left();
 
     if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->type == ObjectType::Light && obj->value[2] != 0
         && ch->in_room->light > 0)
@@ -318,7 +318,7 @@ void char_to_room(Char *ch, Room *room) {
     room->people.add_front(ch);
 
     if (ch->is_pc())
-        ch->in_room->area->inc_player_count();
+        ch->in_room->area->player_entered();
 
     if (auto *obj = get_eq_char(ch, WEAR_LIGHT); obj && obj->type == ObjectType::Light && obj->value[2] != 0)
         ++ch->in_room->light;

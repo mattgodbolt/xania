@@ -373,7 +373,7 @@ void mobile_update() {
         if (ch->is_pc() || ch->in_room == nullptr || ch->is_aff_charm())
             continue;
 
-        if (ch->in_room->area->empty() && !check_bit(ch->act, ACT_UPDATE_ALWAYS))
+        if (ch->in_room->area->empty_since_last_reset() && !check_bit(ch->act, ACT_UPDATE_ALWAYS))
             continue;
 
         /* Examine call for special procedure */
@@ -765,7 +765,8 @@ void aggr_update() {
             wch->mpact = nullptr;
         }
 
-        if (wch->is_npc() || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr || wch->in_room->area->empty())
+        if (wch->is_npc() || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr
+            || wch->in_room->area->empty_since_last_reset())
             continue;
 
         for (auto *ch : wch->in_room->people) {

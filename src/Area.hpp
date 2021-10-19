@@ -11,8 +11,8 @@ class Area {
     std::string short_name_;
 
     sh_int age_{};
-    sh_int nplayer_{};
-    bool empty_{};
+    sh_int num_players_{};
+    bool empty_since_last_reset_{};
     bool all_levels_{};
     int min_level_{0};
     int max_level_{MAX_LEVEL};
@@ -31,8 +31,8 @@ public:
 
     void define_vnum(int vnum);
 
-    void inc_player_count();
-    void dec_player_count() { --nplayer_; }
+    void player_entered();
+    void player_left() { --num_players_; }
 
     void update();
 
@@ -49,7 +49,7 @@ public:
     [[nodiscard]] constexpr auto highest_vnum() const { return highest_vnum_; }
     [[nodiscard]] constexpr auto &filename() const { return filename_; }
 
-    // NB empty is not the same as !occupied - empty is only cleared once a reset has happened with no players inside.
-    [[nodiscard]] constexpr auto empty() const { return empty_; }
-    [[nodiscard]] constexpr auto occupied() const { return nplayer_ > 0; }
+    // NB this is not the same as !occupied - empty is only cleared once a reset has happened with no players inside.
+    [[nodiscard]] constexpr auto empty_since_last_reset() const { return empty_since_last_reset_; }
+    [[nodiscard]] constexpr auto occupied() const { return num_players_ > 0; }
 };

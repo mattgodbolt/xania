@@ -25,12 +25,12 @@ Area Area::parse(int area_num, FILE *fp, std::string filename) {
     return result;
 }
 
-void Area::inc_player_count() {
-    if (empty_) {
-        empty_ = false;
+void Area::player_entered() {
+    if (empty_since_last_reset_) {
+        empty_since_last_reset_ = false;
         age_ = 0;
     }
-    ++nplayer_;
+    ++num_players_;
 }
 
 // Sets vnum range for area when loading its constituent mobs/objects/rooms.
@@ -65,7 +65,7 @@ static inline constexpr auto RoomResetAgeOccupiedArea = 15;
 static inline constexpr auto RoomResetAgeUnoccupiedArea = 10;
 void Area::update() {
     ++age_;
-    const auto reset_age = empty_ ? RoomResetAgeUnoccupiedArea : RoomResetAgeOccupiedArea;
+    const auto reset_age = empty_since_last_reset_ ? RoomResetAgeUnoccupiedArea : RoomResetAgeOccupiedArea;
     if (age_ >= reset_age)
         reset();
 }
@@ -79,6 +79,6 @@ void Area::reset() {
 
     if (auto room = get_room(rooms::MudschoolEntrance); room != nullptr && room->area == this)
         age_ = RoomResetAgeUnoccupiedArea;
-    else if (nplayer_ == 0)
-        empty_ = true;
+    else if (num_players_ == 0)
+        empty_since_last_reset_ = true;
 }
