@@ -4,7 +4,7 @@
 /*  See the header to file: merc.h for original code copyrights         */
 /************************************************************************/
 
-#include "AreaData.hpp"
+#include "Area.hpp"
 #include "Char.hpp"
 #include "Room.hpp"
 #include "SkillTables.hpp"

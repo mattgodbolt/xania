@@ -9,7 +9,7 @@
 
 #include "update.hpp"
 #include "AFFECT_DATA.hpp"
-#include "AreaData.hpp"
+#include "Area.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsExitState.hpp"

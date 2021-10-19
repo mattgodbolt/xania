@@ -7,8 +7,7 @@
 #include <string>
 #include <vector>
 
-// Area definition.
-class AreaData {
+class Area {
     std::string short_name_;
 
     sh_int age_{};
@@ -23,12 +22,12 @@ class AreaData {
     int highest_vnum_{};
     int num_{};
 
-    AreaData() = default;
+    Area() = default;
 
     void reset();
 
 public:
-    static AreaData parse(int area_num, FILE *fp, std::string filename);
+    static Area parse(int area_num, FILE *fp, std::string filename);
 
     void define_vnum(int vnum);
 

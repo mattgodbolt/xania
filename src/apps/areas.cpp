@@ -2,7 +2,7 @@
 #include "Room.hpp"
 #include "db.h"
 
-#include "AreaData.hpp"
+#include "Area.hpp"
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>

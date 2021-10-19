@@ -1,6 +1,6 @@
 #include "AreaList.hpp"
 
-#include "AreaData.hpp"
+#include "Area.hpp"
 
 #include <algorithm>
 #include <range/v3/algorithm/sort.hpp>

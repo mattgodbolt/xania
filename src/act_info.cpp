@@ -8,7 +8,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
-#include "AreaData.hpp"
+#include "Area.hpp"
 #include "AreaList.hpp"
 #include "ArmourClass.hpp"
 #include "BitsAffect.hpp"

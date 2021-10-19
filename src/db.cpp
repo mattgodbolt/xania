@@ -9,7 +9,7 @@
 
 #include "db.h"
 #include "AFFECT_DATA.hpp"
-#include "AreaData.hpp"
+#include "Area.hpp"
 #include "AreaList.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
@@ -346,9 +346,9 @@ void boot_db() {
 /* Snarf an 'area' header line. */
 void load_area(FILE *fp, const std::string &area_name) {
     auto &area_list = AreaList::singleton();
-    auto area_obj = AreaData::parse(gsl::narrow<int>(area_list.count()), fp, area_name);
+    auto area_obj = Area::parse(gsl::narrow<int>(area_list.count()), fp, area_name);
 
-    AreaList::singleton().add(std::make_unique<AreaData>(std::move(area_obj)));
+    AreaList::singleton().add(std::make_unique<Area>(std::move(area_obj)));
 
     area_header_found = true;
 }
@@ -1942,9 +1942,9 @@ void do_areas(Char *ch, ArgParser args) {
     }
 
     const int charLevel = ch->level;
-    const AreaData *area_column1{};
+    const Area *area_column1{};
     std::string_view colour_column1;
-    const AreaData *area_column2{};
+    const Area *area_column2{};
     std::string_view colour_column2;
     int num_found = 0;
     for (auto &area : AreaList::singleton()) {

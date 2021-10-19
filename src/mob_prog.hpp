@@ -9,7 +9,7 @@
 
 struct Char;
 struct Object;
-struct AreaData;
+struct Area;
 
 void do_mpstat(Char *ch, char *argument);
 
@@ -36,7 +36,7 @@ struct MPROG_ACT_LIST {
 
 struct MPROG_DATA {
     MPROG_DATA *next;
-    AreaData *area;
+    Area *area;
     int type;
     char *arglist;
     char *comlist;

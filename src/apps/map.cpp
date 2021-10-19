@@ -1,4 +1,4 @@
-#include "AreaData.hpp"
+#include "Area.hpp"
 #include "AreaList.hpp"
 #include "Exit.hpp"
 #include "Room.hpp"
@@ -15,7 +15,7 @@ extern Room *room_hash[MAX_KEY_HASH];
 static constexpr PerDirection<std::string_view> compass_pt = {"n", "e", "s", "w", "ne", "sw"};
 static constexpr PerDirection<std::string_view> bidir_name = {"n/s", "e/w", "n/s", "e/w", "u/d", "u/d"};
 
-void render_area(FILE *out_file, AreaData *area) {
+void render_area(FILE *out_file, Area *area) {
     fmt::print(out_file, "  subgraph cluster_{} {{\n", area->num());
     fmt::print(out_file, "    clusterrank=local;\n");
     fmt::print(out_file, "    label=\"{}\";\n", area->description());

@@ -1,6 +1,6 @@
 #include "Help.hpp"
 
-#include "AreaData.hpp"
+#include "Area.hpp"
 #include "db.h"
 #include "string_utils.hpp"
 
@@ -10,7 +10,7 @@
 
 using namespace std::literals;
 
-std::optional<Help> Help::load(FILE *fp, const AreaData *area) {
+std::optional<Help> Help::load(FILE *fp, const Area *area) {
     auto level = fread_number(fp);
     auto keyword = fread_stdstring(fp);
     if (matches_start("$", keyword))

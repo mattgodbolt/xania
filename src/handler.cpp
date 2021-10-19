@@ -9,7 +9,7 @@
 
 #include "handler.hpp"
 #include "AFFECT_DATA.hpp"
-#include "AreaData.hpp"
+#include "Area.hpp"
 #include "BitsAffect.hpp"
 #include "BitsBodyForm.hpp"
 #include "BitsBodyPart.hpp"

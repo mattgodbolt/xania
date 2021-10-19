@@ -3,21 +3,21 @@
 #include <memory>
 #include <vector>
 
-class AreaData;
+class Area;
 
 class AreaList {
-    std::vector<std::unique_ptr<AreaData>> areas_;
+    std::vector<std::unique_ptr<Area>> areas_;
 
 public:
     AreaList();
     ~AreaList();
 
-    void add(std::unique_ptr<AreaData> area) { areas_.emplace_back(std::move(area)); }
+    void add(std::unique_ptr<Area> area) { areas_.emplace_back(std::move(area)); }
     void sort();
     [[nodiscard]] auto begin() const { return areas_.begin(); }
     [[nodiscard]] auto end() const { return areas_.end(); }
 
-    [[nodiscard]] AreaData *back() const {
+    [[nodiscard]] Area *back() const {
         if (areas_.empty())
             return nullptr;
         return areas_.back().get();

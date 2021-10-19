@@ -13,7 +13,7 @@
  */
 
 #include "comm.hpp"
-#include "AreaData.hpp"
+#include "Area.hpp"
 #include "Ban.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsPlayerAct.hpp"

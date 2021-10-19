@@ -6,7 +6,7 @@
 
 #include "act_wiz.hpp"
 #include "AFFECT_DATA.hpp"
-#include "AreaData.hpp"
+#include "Area.hpp"
 #include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"

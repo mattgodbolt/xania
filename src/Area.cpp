@@ -1,14 +1,14 @@
-#include "AreaData.hpp"
+#include "Area.hpp"
 #include "Room.hpp"
 #include "VnumRooms.hpp"
 #include "db.h"
 
 #include <gsl/gsl_util>
 
-AreaData AreaData::parse(int area_num, FILE *fp, std::string filename) {
+Area Area::parse(int area_num, FILE *fp, std::string filename) {
     fread_string(fp); /* filename */
 
-    AreaData result;
+    Area result;
     result.description_ = fread_stdstring(fp);
     result.short_name_ = fread_stdstring(fp);
     int scanRet = sscanf(result.short_name_.c_str(), "{%d %d}", &result.min_level_, &result.max_level_);
@@ -25,7 +25,7 @@ AreaData AreaData::parse(int area_num, FILE *fp, std::string filename) {
     return result;
 }
 
-void AreaData::inc_player_count() {
+void Area::inc_player_count() {
     if (empty_) {
         empty_ = false;
         age_ = 0;
@@ -34,7 +34,7 @@ void AreaData::inc_player_count() {
 }
 
 // Sets vnum range for area when loading its constituent mobs/objects/rooms.
-void AreaData::define_vnum(int vnum) {
+void Area::define_vnum(int vnum) {
     if (lowest_vnum_ == 0 || highest_vnum_ == 0)
         lowest_vnum_ = highest_vnum_ = vnum;
     if (vnum != std::clamp(vnum, lowest_vnum_, highest_vnum_)) {
@@ -63,14 +63,14 @@ void AreaData::define_vnum(int vnum) {
  */
 static inline constexpr auto RoomResetAgeOccupiedArea = 15;
 static inline constexpr auto RoomResetAgeUnoccupiedArea = 10;
-void AreaData::update() {
+void Area::update() {
     ++age_;
     const auto reset_age = empty_ ? RoomResetAgeUnoccupiedArea : RoomResetAgeOccupiedArea;
     if (age_ >= reset_age)
         reset();
 }
 
-void AreaData::reset() {
+void Area::reset() {
     for (auto vnum = lowest_vnum_; vnum <= highest_vnum_; vnum++) {
         if (auto *room = get_room(vnum))
             reset_room(room);
