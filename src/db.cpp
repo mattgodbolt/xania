@@ -10,6 +10,7 @@
 #include "db.h"
 #include "AFFECT_DATA.hpp"
 #include "AreaData.hpp"
+#include "AreaList.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsCommChannel.hpp"

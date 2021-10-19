@@ -1,8 +1,8 @@
+#include "AreaData.hpp"
+#include "AreaList.hpp"
 #include "Exit.hpp"
 #include "Room.hpp"
 #include "db.h"
-
-#include "AreaData.hpp"
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>

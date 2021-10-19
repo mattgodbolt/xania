@@ -3,7 +3,6 @@
 #include "VnumRooms.hpp"
 #include "db.h"
 
-#include <algorithm>
 #include <gsl/gsl_util>
 
 AreaData AreaData::parse(int area_num, FILE *fp, std::string filename) {
@@ -82,21 +81,4 @@ void AreaData::reset() {
         age_ = RoomResetAgeUnoccupiedArea;
     else if (nplayer_ == 0)
         empty_ = true;
-}
-
-AreaList &AreaList::singleton() {
-    static AreaList singleton;
-    return singleton;
-}
-
-// Sort the areas so that:
-// - the lowest level ones come first
-// - those with same minimum level,  those with narrowest level range come first
-// Note: areas applicable to ALL levels always have a
-// min_level of 0, so are always at the front.
-void AreaList::sort() {
-    std::sort(areas_.begin(), areas_.end(), [](const auto &a, const auto &b) {
-        return a->min_level() < b->min_level()
-               || (a->min_level() == b->min_level() && a->level_difference() < b->level_difference());
-    });
 }
