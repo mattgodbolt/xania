@@ -431,7 +431,7 @@ std::string apply_prefix(Char *ch, const char *command) {
  * Can be recursively called from 'at', 'order', 'force'.
  */
 void interpret(Char *ch, const char *argument) {
-    const auto command_line = ltrim(apply_prefix(ch, argument));
+    const auto command_line = ltrim_copy(apply_prefix(ch, argument));
     if (command_line.empty()) {
         return;
     }
