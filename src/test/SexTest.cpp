@@ -17,9 +17,9 @@ TEST_CASE("Sex types") {
     SECTION("neutral name") { CHECK(neutral.name() == "neutral"); }
     SECTION("male name") { CHECK(male.name() == "male"); }
     SECTION("female name") { CHECK(female.name() == "female"); }
-    SECTION("neutral ordinal") { CHECK(neutral.ordinal() == 0); }
-    SECTION("male ordinal") { CHECK(male.ordinal() == 1); }
-    SECTION("female ordinal") { CHECK(female.ordinal() == 2); }
+    SECTION("neutral int") { CHECK(neutral.integer() == 0); }
+    SECTION("male int") { CHECK(male.integer() == 1); }
+    SECTION("female int") { CHECK(female.integer() == 2); }
     SECTION("equals") { CHECK(default_sex == neutral); }
     SECTION("not equals") { CHECK(male != neutral); }
     // Some of these may look a bit weird, but AFFECT_DATA::modify() accepts signed ints,
@@ -79,21 +79,21 @@ TEST_CASE("Sex statics") {
             CHECK(!sex);
         }
     }
-    SECTION("try from ordinal") {
+    SECTION("try from integer") {
         SECTION("neutral") {
-            auto sex = Sex::try_from_ordinal(0);
+            auto sex = Sex::try_from_integer(0);
             CHECK(sex->is_neutral());
         }
         SECTION("male") {
-            auto sex = Sex::try_from_ordinal(1);
+            auto sex = Sex::try_from_integer(1);
             CHECK(sex->is_male());
         }
         SECTION("female") {
-            auto sex = Sex::try_from_ordinal(2);
+            auto sex = Sex::try_from_integer(2);
             CHECK(sex->is_female());
         }
         SECTION("invalid") {
-            auto sex = Sex::try_from_ordinal(3);
+            auto sex = Sex::try_from_integer(3);
             CHECK(!sex);
         }
     }

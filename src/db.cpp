@@ -631,7 +631,7 @@ void load_shops(FILE *fp) {
         shop->keeper = shopkeeper_vnum;
         for (iTrade = 0; iTrade < MaxTrade; iTrade++) {
             const auto raw_obj_type = fread_number(fp);
-            if (const auto opt_obj_type = ObjectTypes::try_from_ordinal(raw_obj_type)) {
+            if (const auto opt_obj_type = ObjectTypes::try_from_integer(raw_obj_type)) {
                 shop->buy_type[iTrade] = *opt_obj_type;
             }
             // If the raw object type number is zero or unrecognized we silently ignore it.

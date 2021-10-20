@@ -12,7 +12,7 @@
 
 namespace ObjectTypes {
 
-std::optional<ObjectType> try_from_ordinal(const int num) { return magic_enum::enum_cast<ObjectType>(num); }
+std::optional<ObjectType> try_from_integer(const int num) { return magic_enum::enum_cast<ObjectType>(num); }
 
 std::optional<ObjectType> lookup_impl(std::string_view name) {
     for (const auto &enum_name : magic_enum::enum_names<ObjectType>()) {

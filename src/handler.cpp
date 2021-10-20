@@ -92,7 +92,7 @@ int get_weapon_sn(Char *ch) {
     if (wield == nullptr || wield->type != ObjectType::Weapon)
         return gsn_hand_to_hand;
     else {
-        const auto opt_weapon_type = Weapons::try_from_ordinal(wield->value[0]);
+        const auto opt_weapon_type = Weapons::try_from_integer(wield->value[0]);
         if (opt_weapon_type) {
             switch (*opt_weapon_type) {
             case (Weapon::Sword): return gsn_sword;

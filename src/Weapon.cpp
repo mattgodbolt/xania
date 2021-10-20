@@ -25,7 +25,7 @@ std::optional<Weapon> try_from_name(std::string_view name) {
     return std::nullopt;
 }
 
-std::optional<Weapon> try_from_ordinal(const int num) {
+std::optional<Weapon> try_from_integer(const int num) {
     if (const auto enum_val = magic_enum::enum_cast<Weapon>(num)) {
         return enum_val;
     } else {
@@ -33,8 +33,8 @@ std::optional<Weapon> try_from_ordinal(const int num) {
     }
 }
 
-std::string name_from_ordinal(const int num) {
-    if (const auto opt_enum = try_from_ordinal(num)) {
+std::string name_from_integer(const int num) {
+    if (const auto opt_enum = try_from_integer(num)) {
         std::string name = lower_case(magic_enum::enum_name<Weapon>(*opt_enum));
         return name;
     } else {

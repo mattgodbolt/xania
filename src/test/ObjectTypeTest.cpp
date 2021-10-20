@@ -20,14 +20,14 @@ TEST_CASE("object index type name") {
     obj_index.type = ObjectType::Armor;
     SECTION("armor") { CHECK(obj_index.type_name() == "armor"); }
 }
-TEST_CASE("object type try from ordinal") {
+TEST_CASE("object type try from integer") {
     SECTION("valid") {
-        const auto result = ObjectTypes::try_from_ordinal(30);
+        const auto result = ObjectTypes::try_from_integer(30);
 
         CHECK(result == ObjectType::Portal);
     }
     SECTION("invalid") {
-        const auto result = ObjectTypes::try_from_ordinal(31);
+        const auto result = ObjectTypes::try_from_integer(31);
 
         CHECK(!result);
     }

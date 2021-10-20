@@ -19,28 +19,28 @@ TEST_CASE("weapon type try from name") {
         CHECK(!result);
     }
 }
-TEST_CASE("weapon type try from ordinal") {
+TEST_CASE("weapon type try from integer") {
     SECTION("valid") {
-        const auto result = Weapons::try_from_ordinal(1);
+        const auto result = Weapons::try_from_integer(1);
 
         CHECK(result == Weapon::Sword);
     }
     SECTION("invalid") {
-        const auto result = Weapons::try_from_ordinal(9);
+        const auto result = Weapons::try_from_integer(9);
 
         CHECK(!result);
     }
 }
-TEST_CASE("weapon type name from ordinal") {
+TEST_CASE("weapon type name from integer") {
     SECTION("all names") {
-        CHECK(Weapons::name_from_ordinal(0) == "exotic");
-        CHECK(Weapons::name_from_ordinal(1) == "sword");
-        CHECK(Weapons::name_from_ordinal(2) == "dagger");
-        CHECK(Weapons::name_from_ordinal(3) == "spear");
-        CHECK(Weapons::name_from_ordinal(4) == "mace");
-        CHECK(Weapons::name_from_ordinal(5) == "axe");
-        CHECK(Weapons::name_from_ordinal(6) == "flail");
-        CHECK(Weapons::name_from_ordinal(7) == "whip");
-        CHECK(Weapons::name_from_ordinal(8) == "polearm");
+        CHECK(Weapons::name_from_integer(0) == "exotic");
+        CHECK(Weapons::name_from_integer(1) == "sword");
+        CHECK(Weapons::name_from_integer(2) == "dagger");
+        CHECK(Weapons::name_from_integer(3) == "spear");
+        CHECK(Weapons::name_from_integer(4) == "mace");
+        CHECK(Weapons::name_from_integer(5) == "axe");
+        CHECK(Weapons::name_from_integer(6) == "flail");
+        CHECK(Weapons::name_from_integer(7) == "whip");
+        CHECK(Weapons::name_from_integer(8) == "polearm");
     }
 }

@@ -487,26 +487,26 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (arg[1]) /* arg should be "$*" so just get the letter */
         {
         case 'i':
-            lhsvl = mob->sex.ordinal();
+            lhsvl = mob->sex.integer();
             rhsvl = atoi(val);
             return mprog_veval(lhsvl, opr, rhsvl);
         case 'n':
             if (actor) {
-                lhsvl = actor->sex.ordinal();
+                lhsvl = actor->sex.integer();
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
         case 't':
             if (vict) {
-                lhsvl = vict->sex.ordinal();
+                lhsvl = vict->sex.integer();
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
         case 'r':
             if (rndm) {
-                lhsvl = rndm->sex.ordinal();
+                lhsvl = rndm->sex.integer();
                 rhsvl = atoi(val);
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
@@ -1098,54 +1098,54 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
 
     case 'e':
         if (actor)
-            can_see(mob, actor) ? strcpy(t, he_she[actor->sex.ordinal()])
+            can_see(mob, actor) ? strcpy(t, he_she[actor->sex.integer()])
                                 : strcpy(t, "someone"); // TODO use Sex::Type and Pronouns stuff...
         break;
 
     case 'm':
         if (actor)
-            can_see(mob, actor) ? strcpy(t, him_her[actor->sex.ordinal()]) : strcpy(t, "someone");
+            can_see(mob, actor) ? strcpy(t, him_her[actor->sex.integer()]) : strcpy(t, "someone");
         break;
 
     case 's':
         if (actor)
-            can_see(mob, actor) ? strcpy(t, his_her[actor->sex.ordinal()]) : strcpy(t, "someone's");
+            can_see(mob, actor) ? strcpy(t, his_her[actor->sex.integer()]) : strcpy(t, "someone's");
         break;
 
     case 'E':
         if (vict)
-            can_see(mob, vict) ? strcpy(t, he_she[vict->sex.ordinal()]) : strcpy(t, "someone");
+            can_see(mob, vict) ? strcpy(t, he_she[vict->sex.integer()]) : strcpy(t, "someone");
         break;
 
     case 'M':
         if (vict)
-            can_see(mob, vict) ? strcpy(t, him_her[vict->sex.ordinal()]) : strcpy(t, "someone");
+            can_see(mob, vict) ? strcpy(t, him_her[vict->sex.integer()]) : strcpy(t, "someone");
         break;
 
     case 'S':
         if (vict)
-            can_see(mob, vict) ? strcpy(t, his_her[vict->sex.ordinal()]) : strcpy(t, "someone's");
+            can_see(mob, vict) ? strcpy(t, his_her[vict->sex.integer()]) : strcpy(t, "someone's");
         break;
 
-    case 'j': strcpy(t, he_she[mob->sex.ordinal()]); break;
+    case 'j': strcpy(t, he_she[mob->sex.integer()]); break;
 
-    case 'k': strcpy(t, him_her[mob->sex.ordinal()]); break;
+    case 'k': strcpy(t, him_her[mob->sex.integer()]); break;
 
-    case 'l': strcpy(t, his_her[mob->sex.ordinal()]); break;
+    case 'l': strcpy(t, his_her[mob->sex.integer()]); break;
 
     case 'J':
         if (rndm)
-            can_see(mob, rndm) ? strcpy(t, he_she[rndm->sex.ordinal()]) : strcpy(t, "someone");
+            can_see(mob, rndm) ? strcpy(t, he_she[rndm->sex.integer()]) : strcpy(t, "someone");
         break;
 
     case 'K':
         if (rndm)
-            can_see(mob, rndm) ? strcpy(t, him_her[rndm->sex.ordinal()]) : strcpy(t, "someone");
+            can_see(mob, rndm) ? strcpy(t, him_her[rndm->sex.integer()]) : strcpy(t, "someone");
         break;
 
     case 'L':
         if (rndm)
-            can_see(mob, rndm) ? strcpy(t, his_her[rndm->sex.ordinal()]) : strcpy(t, "someone's");
+            can_see(mob, rndm) ? strcpy(t, his_her[rndm->sex.integer()]) : strcpy(t, "someone's");
         break;
 
     case 'o':

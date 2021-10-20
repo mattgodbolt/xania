@@ -1106,7 +1106,7 @@ void check_killer(Char *ch, Char *victim) {
 namespace {
 bool is_wielding_whip(Char *attacker) {
     if (const auto *weapon = get_eq_char(attacker, WEAR_WIELD)) {
-        return Weapons::try_from_ordinal(weapon->value[0]) == Weapon::Whip;
+        return Weapons::try_from_integer(weapon->value[0]) == Weapon::Whip;
     } else {
         return false;
     }

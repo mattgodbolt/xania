@@ -40,7 +40,7 @@ enum class ObjectType {
 
 namespace ObjectTypes {
 
-[[nodiscard]] std::optional<ObjectType> try_from_ordinal(const int num);
+[[nodiscard]] std::optional<ObjectType> try_from_integer(const int num);
 // Lookup an item type by its type name or type number.
 // Returns a default type if no match is found, which is a bug.
 [[nodiscard]] ObjectType lookup_with_default(std::string_view name);

@@ -824,7 +824,7 @@ void do_ostat(Char *ch, const char *argument) {
         break;
 
     case ObjectType::Weapon:
-        ch->send_line("Weapon type is {}", Weapons::name_from_ordinal(obj->value[0]));
+        ch->send_line("Weapon type is {}", Weapons::name_from_integer(obj->value[0]));
         ch->send_line("Damage is {}d{} (average {})", obj->value[1], obj->value[2],
                       (1 + obj->value[2]) * obj->value[1] / 2);
 

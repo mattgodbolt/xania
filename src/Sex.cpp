@@ -56,7 +56,7 @@ std::string_view Sex::name(const Type sex) { return magic_enum::enum_name<Type>(
 
 std::string_view Sex::name() const { return name(sex_); }
 
-ush_int Sex::ordinal() const { return magic_enum::enum_integer<Sex::Type>(sex_); }
+ush_int Sex::integer() const { return magic_enum::enum_integer<Sex::Type>(sex_); }
 
 Sex::Type Sex::type() const { return sex_; }
 
@@ -78,7 +78,7 @@ std::optional<Sex> Sex::try_from_name(std::string_view name) {
     }
 }
 
-std::optional<Sex> Sex::try_from_ordinal(const int sex) {
+std::optional<Sex> Sex::try_from_integer(const int sex) {
     if (auto enum_val = magic_enum::enum_cast<Type>(sex)) {
         return Sex(*enum_val);
     } else {

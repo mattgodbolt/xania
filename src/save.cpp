@@ -155,7 +155,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
     if (!ch->description.empty())
         fmt::print(fp, "{} {}~\n", cf::Description, ch->description);
     fmt::print(fp, "{} {}~\n", cf::Race, pc_race_table[ch->race].name);
-    fmt::print(fp, "{}  {}\n", cf::Sex, ch->sex.ordinal());
+    fmt::print(fp, "{}  {}\n", cf::Sex, ch->sex.integer());
     fmt::print(fp, "{}  {}\n", cf::Class, ch->class_num);
     fmt::print(fp, "{} {}\n", cf::Level, ch->level);
     if (auto *pc_clan = ch->pc_clan()) {
@@ -221,7 +221,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
         fmt::print(fp, "{} {}\n", cf::Colour, (int)ch->pcdata->colour);
         fmt::print(fp, "{} {}~\n", cf::Prompt, ch->pcdata->prompt);
         fmt::print(fp, "{} {}\n", cf::CreationPoints, ch->pcdata->points);
-        fmt::print(fp, "{} {}\n", cf::TrueSex, ch->pcdata->true_sex.ordinal());
+        fmt::print(fp, "{} {}\n", cf::TrueSex, ch->pcdata->true_sex.integer());
         fmt::print(fp, "{} {}\n", cf::LastLevelTime, ch->pcdata->last_level);
         fmt::print(fp, "{} {} {} {}\n", cf::HitManaMovePerm, ch->pcdata->perm_hit, ch->pcdata->perm_mana,
                    ch->pcdata->perm_move);
@@ -287,7 +287,7 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
         fmt::print(fp, "{} {}~\n", cf::Description, pet->description);
     if (pet->race != pet->mobIndex->race)
         fmt::print(fp, "{} {}~\n", cf::Race, race_table[pet->race].name);
-    fmt::print(fp, "{}  {}\n", cf::Sex, pet->sex.ordinal());
+    fmt::print(fp, "{}  {}\n", cf::Sex, pet->sex.integer());
     if (pet->level != pet->mobIndex->level)
         fmt::print(fp, "{} {}\n", cf::Level, pet->level);
     fmt::print(fp, "{}  {} {} {} {} {} {}\n", cf::HitManaMove, pet->hit, pet->max_hit, pet->mana, pet->max_mana,
@@ -696,7 +696,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
             if (ch->lines == 0 || ch->lines > 52)
                 ch->lines = 52;
         } else if (word == cf::Sex) {
-            if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
+            if (auto sex = Sex::try_from_integer(fread_number(fp))) {
                 ch->sex = *sex;
             } else {
                 bug("fread_char: unknown sex.");
@@ -712,7 +712,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
             } else
                 ch->pcdata->learned[sn] = value;
         } else if (word == cf::TrueSex) {
-            if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
+            if (auto sex = Sex::try_from_integer(fread_number(fp))) {
                 ch->pcdata->true_sex = *sex;
             } else {
                 bug("fread_char: unknown truesex.");
@@ -838,7 +838,7 @@ void fread_pet(Char *ch, FILE *fp) {
         } else if (word == cf::SavingThrow) {
             pet->saving_throw = fread_number(fp);
         } else if (word == cf::Sex) {
-            if (auto sex = Sex::try_from_ordinal(fread_number(fp))) {
+            if (auto sex = Sex::try_from_integer(fread_number(fp))) {
                 pet->sex = *sex;
             } else {
                 bug("fread_pet: unknown sex.");
@@ -949,7 +949,7 @@ void fread_obj(Char *ch, FILE *fp) {
             }
         } else if (word == cf::ItemType) {
             const auto raw_obj_type = fread_number(fp);
-            if (const auto opt_obj_type = ObjectTypes::try_from_ordinal(raw_obj_type)) {
+            if (const auto opt_obj_type = ObjectTypes::try_from_integer(raw_obj_type)) {
                 obj->type = *opt_obj_type;
             } else {
                 bug("fread_obj: bad object type: {}", raw_obj_type);

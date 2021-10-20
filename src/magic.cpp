@@ -1042,7 +1042,7 @@ void spell_change_sex(int sn, int level, Char *ch, void *vo) {
     af.duration = 2 * level;
     af.location = AffectLocation::Sex;
     do {
-        af.modifier = number_range(0, 2) - victim->sex.ordinal();
+        af.modifier = number_range(0, 2) - victim->sex.integer();
     } while (af.modifier == 0);
     af.bitvector = 0;
     affect_to_char(victim, af);
@@ -2613,7 +2613,7 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
     case ObjectType::Drink: ch->send_line("Liquid capacity: {}.", obj->value[0]); break;
 
     case ObjectType::Weapon:
-        ch->send_line("Weapon type is {}.", Weapons::name_from_ordinal(obj->value[0]));
+        ch->send_line("Weapon type is {}.", Weapons::name_from_integer(obj->value[0]));
         if ((obj->value[4] != 0) && (obj->type == ObjectType::Weapon)) {
             ch->send_to("Weapon flags:");
             if (check_bit(obj->value[4], WEAPON_FLAMING))
