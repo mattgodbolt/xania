@@ -55,4 +55,4 @@ bool Object::is_summon_corpse() const { return check_bit(extra_flags, ITEM_SUMMO
 bool Object::is_unique() const { return check_bit(extra_flags, ITEM_UNIQUE); }
 bool Object::is_vis_death() const { return check_bit(extra_flags, ITEM_VIS_DEATH); }
 
-bool Object::is_weapon_two_handed() const { return check_bit(value[4], WEAPON_TWO_HANDS); }
+bool Object::is_weapon_two_handed() const { return check_enum_bit(value[4], WeaponFlag::TwoHands); }

@@ -536,7 +536,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
             /* Sharp weapon flag implemented by Wandera */
             if ((wield != nullptr) && (wield->type == ObjectType::Weapon) && !self_hitting)
-                if (check_bit(wield->value[4], WEAPON_SHARP) && number_percent() > 98) {
+                if (check_enum_bit(wield->value[4], WeaponFlag::Sharp) && number_percent() > 98) {
                     dam *= 2;
                     act("Sunlight glints off your sharpened blade!", ch, nullptr, victim, To::Char);
                     act("Sunlight glints off $n's sharpened blade!", ch, nullptr, victim, To::NotVict);
@@ -546,7 +546,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
             /* Vorpal weapon flag implemented by Wandera and Death*/
             /* Previously this quadrupled damage if you landed a lucky hit. The bonus is now a bit less overpowered. */
             if ((wield != nullptr) && (wield->type == ObjectType::Weapon)) {
-                if (check_bit(wield->value[4], WEAPON_VORPAL)) {
+                if (check_enum_bit(wield->value[4], WeaponFlag::Vorpal)) {
                     if (dam == (1 + wield->value[2]) * wield->value[1] / 2) {
                         dam *= 1.3;
                         act("With a blood curdling scream you leap forward swinging\n\ryour weapon in a great arc.", ch,
@@ -600,14 +600,14 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     if (wield == nullptr || wield->type != ObjectType::Weapon)
         return;
 
-    if ((check_bit(wield->value[4], WEAPON_POISONED)) && !victim->is_aff_poison()) {
+    if ((check_enum_bit(wield->value[4], WeaponFlag::Poisoned)) && !victim->is_aff_poison()) {
         if (number_percent() > 75) {
             int p_sn = skill_lookup("poison");
             spell_poison(p_sn, wield->level, ch, victim);
         }
     }
 
-    if ((check_bit(wield->value[4], WEAPON_PLAGUED)) && !victim->is_aff_plague()) {
+    if ((check_enum_bit(wield->value[4], WeaponFlag::Plagued)) && !victim->is_aff_plague()) {
         if (number_percent() > 75) {
             int p_sn = skill_lookup("plague");
             spell_plague(p_sn, wield->level, ch, victim);
@@ -779,7 +779,8 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
 
     wield = get_eq_char(ch, WEAR_WIELD);
 
-    if ((wield != nullptr) && (wield->type == ObjectType::Weapon) && (check_bit(wield->value[4], WEAPON_VAMPIRIC))) {
+    if ((wield != nullptr) && (wield->type == ObjectType::Weapon)
+        && (check_enum_bit(wield->value[4], WeaponFlag::Vampiric))) {
         ch->hit += (adjusted_damage / 100) * 10;
         victim->hit -= (adjusted_damage / 100) * 10;
     }
@@ -1734,7 +1735,7 @@ void do_berserk(Char *ch) {
         affect_to_char(ch, af);
 
         /* if ( (wield !=nullptr) && (wield->type == ObjectType::Weapon) &&
-              (check_bit(wield->value[4], WEAPON_FLAMING)))
+              (check_enum_bit(wield->value[4], WeaponFlag::Flaming)))
             {
               ch->send_line("Your great energy causes your weapon to burst into
   flame.");
@@ -2481,15 +2482,14 @@ void do_sharpen(Char *ch) {
         ch->send_line("You can't do that or you may cut yourself.");
         return;
     }
-
-    if (check_bit(weapon->value[4], WEAPON_SHARP)) {
+    if (check_enum_bit(weapon->value[4], WeaponFlag::Sharp)) {
         ch->send_line("It can't get any sharper.");
         return;
     }
 
     chance = get_skill(ch, gsn_sharpen);
     if (number_percent() <= chance) {
-        set_bit(weapon->value[4], WEAPON_SHARP);
+        set_enum_bit(weapon->value[4], WeaponFlag::Sharp);
         ch->send_line("You sharpen the weapon to a fine, deadly point.");
     } else {
         ch->send_line("Your lack of skill removes all bonuses on this weapon.");
