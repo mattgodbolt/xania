@@ -1,5 +1,12 @@
-#include "AREA_DATA.hpp"
+#include "AreaList.hpp"
+
+#include "Area.hpp"
+
 #include <algorithm>
+#include <range/v3/algorithm/sort.hpp>
+
+AreaList::AreaList() = default;
+AreaList::~AreaList() = default;
 
 AreaList &AreaList::singleton() {
     static AreaList singleton;
@@ -12,8 +19,8 @@ AreaList &AreaList::singleton() {
 // Note: areas applicable to ALL levels always have a
 // min_level of 0, so are always at the front.
 void AreaList::sort() {
-    std::sort(areas_.begin(), areas_.end(), [](auto &a, auto &b) {
-        return a->min_level < b->min_level
-               || (a->min_level == b->min_level && a->level_difference < b->level_difference);
+    ranges::sort(areas_, [](const auto &a, const auto &b) {
+        return a->min_level() < b->min_level()
+               || (a->min_level() == b->min_level() && a->level_difference() < b->level_difference());
     });
 }

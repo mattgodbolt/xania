@@ -2,7 +2,7 @@
 #include "Room.hpp"
 #include "db.h"
 
-#include "AREA_DATA.hpp"
+#include "Area.hpp"
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
@@ -37,20 +37,18 @@ int main(int argc, const char **argv) {
         std::unordered_set<AreaInfo *> adjacent;
     };
     std::unordered_map<std::string, AreaInfo> areas;
-    for (auto &a : AreaList::singleton())
-        areas[a->areaname].name = a->areaname;
 
     extern Room *room_hash[MAX_KEY_HASH];
 
     for (auto *first_room_with_hash : room_hash)
         for (auto *room = first_room_with_hash; room; room = room->next) {
             auto *this_area = room->area;
-            auto &area_info = areas[this_area->areaname];
+            auto &area_info = areas[this_area->short_name()];
             for (auto door : all_directions) {
                 if (auto pexit = room->exit[door]) {
                     auto *to = pexit->u1.to_room;
                     if (to && to->area != this_area) {
-                        area_info.adjacent.emplace(&areas[to->area->areaname]);
+                        area_info.adjacent.emplace(&areas[to->area->short_name()]);
                     }
                 }
             }

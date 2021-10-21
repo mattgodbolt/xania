@@ -13,7 +13,7 @@
  */
 
 #include "comm.hpp"
-#include "AREA_DATA.hpp"
+#include "Area.hpp"
 #include "Ban.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsPlayerAct.hpp"
@@ -1407,7 +1407,7 @@ std::string format_one_prompt_part(char c, const Char &ch) {
         break;
     case 'z':
         if (ch.is_immortal())
-            return ch.in_room->area->areaname;
+            return ch.in_room->area->description();
         break;
     case 'n': return "\n\r";
     case 't': {

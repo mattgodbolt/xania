@@ -1,6 +1,6 @@
 #include "Help.hpp"
 
-#include "AREA_DATA.hpp"
+#include "Area.hpp"
 #include "db.h"
 #include "string_utils.hpp"
 
@@ -10,7 +10,7 @@
 
 using namespace std::literals;
 
-std::optional<Help> Help::load(FILE *fp, const AREA_DATA *area) {
+std::optional<Help> Help::load(FILE *fp, const Area *area) {
     auto level = fread_number(fp);
     auto keyword = fread_stdstring(fp);
     if (matches_start("$", keyword))
@@ -29,7 +29,8 @@ bool Help::operator==(const Help &rhs) const {
     return std::tie(area_, level_, keyword_, text_) == std::tie(rhs.area_, rhs.level_, rhs.keyword_, rhs.text_);
 }
 bool Help::operator!=(const Help &rhs) const { return !(rhs == *this); }
-std::string_view Help::area_name() const noexcept { return area_ ? area_->name : "(no area)"sv; }
+
+std::string_view Help::area_name() const noexcept { return area_ ? area_->short_name() : "(no area)"sv; }
 
 HelpList &HelpList::singleton() {
     static HelpList singleton;

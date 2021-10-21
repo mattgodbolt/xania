@@ -9,24 +9,24 @@
 #include <string_view>
 #include <vector>
 
-struct AREA_DATA;
+struct Area;
 
 class HelpList;
 
 class Help {
-    const AREA_DATA *area_;
+    const Area *area_;
     sh_int level_;
     std::string keyword_;
     std::string text_;
 
 public:
-    Help(const AREA_DATA *area, sh_int level, std::string keyword, std::string text)
+    Help(const Area *area, sh_int level, std::string keyword, std::string text)
         : area_(area), level_(level), keyword_(std::move(keyword)), text_(std::move(text)) {}
 
     [[nodiscard]] sh_int level() const noexcept { return level_; }
     [[nodiscard]] const std::string &keyword() const noexcept { return keyword_; }
     [[nodiscard]] const std::string &text() const noexcept { return text_; }
-    [[nodiscard]] const AREA_DATA *area() const noexcept { return area_; }
+    [[nodiscard]] const Area *area() const noexcept { return area_; }
     // Returns "(no area)" if...no area
     [[nodiscard]] std::string_view area_name() const noexcept;
     [[nodiscard]] bool matches(sh_int level, std::string_view keyword) const noexcept;
@@ -34,7 +34,7 @@ public:
     bool operator==(const Help &rhs) const;
     bool operator!=(const Help &rhs) const;
 
-    static std::optional<Help> load(FILE *fp, const AREA_DATA *area);
+    static std::optional<Help> load(FILE *fp, const Area *area);
 };
 
 class HelpList {

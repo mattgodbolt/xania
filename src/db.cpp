@@ -9,7 +9,8 @@
 
 #include "db.h"
 #include "AFFECT_DATA.hpp"
-#include "AREA_DATA.hpp"
+#include "Area.hpp"
+#include "AreaList.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsCommChannel.hpp"
@@ -50,13 +51,11 @@
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/iterator/operations.hpp>
 
+#include <gsl/gsl_util>
 #include <range/v3/algorithm/find_if.hpp>
 #include <sys/resource.h>
 
 namespace {
-
-static inline constexpr auto RoomResetAgeOccupiedArea = 15;
-static inline constexpr auto RoomResetAgeUnoccupiedArea = 10;
 
 Shop *shop_first;
 Shop *shop_last;
@@ -220,8 +219,6 @@ void load_specials(FILE *fp);
 
 void fix_exits();
 
-void reset_area(AREA_DATA *pArea);
-
 /* RT max open files fix */
 
 void maxfilelimit() {
@@ -348,26 +345,10 @@ void boot_db() {
 
 /* Snarf an 'area' header line. */
 void load_area(FILE *fp, const std::string &area_name) {
-    auto pArea = std::make_unique<AREA_DATA>();
     auto &area_list = AreaList::singleton();
-    fread_string(fp); /* filename */
-    pArea->areaname = fread_stdstring(fp);
-    pArea->name = fread_stdstring(fp);
-    int scanRet = sscanf(pArea->name.c_str(), "{%d %d}", &pArea->min_level, &pArea->max_level);
-    if (scanRet != 2) {
-        pArea->all_levels = true;
-    }
-    pArea->level_difference = pArea->max_level - pArea->min_level;
-    pArea->lvnum = fread_number(fp);
-    pArea->uvnum = fread_number(fp);
-    pArea->area_num = area_list.count();
-    pArea->filename = area_name;
+    auto area_obj = Area::parse(gsl::narrow<int>(area_list.count()), fp, area_name);
 
-    pArea->age = RoomResetAgeOccupiedArea; // trigger an area reset when main game loop starts
-    pArea->nplayer = 0;
-    pArea->empty = false;
-
-    AreaList::singleton().add(std::move(pArea));
+    AreaList::singleton().add(std::make_unique<Area>(std::move(area_obj)));
 
     area_header_found = true;
 }
@@ -686,18 +667,7 @@ void load_specials(FILE *fp) {
 
 namespace {
 
-/* Sets vnum range for area when loading its constituent mobs/objects/rooms */
-void assign_area_vnum(int vnum) {
-    auto area_last = AreaList::singleton().back();
-    if (area_last->lvnum == 0 || area_last->uvnum == 0)
-        area_last->lvnum = area_last->uvnum = vnum;
-    if (vnum != std::clamp(vnum, area_last->lvnum, area_last->uvnum)) {
-        if (vnum < area_last->lvnum)
-            area_last->lvnum = vnum;
-        else
-            area_last->uvnum = vnum;
-    }
-}
+void assign_area_vnum(int vnum) { AreaList::singleton().back()->define_vnum(vnum); }
 
 }
 
@@ -976,41 +946,13 @@ void fix_exits() {
     }
 }
 
-/* Repopulate areas periodically. An area ticks every minute (Constants.hpp PULSE_AREA).
- * Regular areas reset every:
- * - ~15 minutes if occupied by players.
- * - ~10 minutes if unoccupied by players.
- * Mud School runs an accelerated schedule so that newbies don't get bored and confused:
- * - Every 2 minutes if occupied by players.
- * - Every minute if unoccupied by players.
- *
- * "pArea->empty" has subtley different meaning to "pArea->nplayer == 0". "empty" is set false
- * whenever a player enters any room in the area (see char_to_room()).
- * nplayer is decremented whenever a player leaves a room within the area, but the empty flag is only set true
- * if the area has aged sufficiently to be reset _and_ if there are still no players in the area.
- * This means that players can't force an area to reset more quickly simply by stepping out of it!
- *
- * Due to the special case code below, Mud School _never_ gets flagged as empty.
- */
 void area_update() {
-    for (auto &pArea : AreaList::singleton()) {
-        ++pArea->age;
-        if ((!pArea->empty && pArea->age >= RoomResetAgeOccupiedArea)
-            || (pArea->empty && pArea->age >= RoomResetAgeUnoccupiedArea)) {
-            Room *room;
-            reset_area(pArea.get());
-            pArea->age = number_range(0, 3);
-            room = get_room(rooms::MudschoolEntrance);
-            if (room != nullptr && pArea.get() == room->area)
-                pArea->age = RoomResetAgeUnoccupiedArea;
-            else if (pArea->nplayer == 0)
-                pArea->empty = true;
-        }
-    }
+    for (auto &pArea : AreaList::singleton())
+        pArea->update();
 }
 
 /*
- * Reset one room.  Called by reset_area.
+ * Reset one room.
  */
 void reset_room(Room *room) {
     ResetData *reset;
@@ -1085,7 +1027,7 @@ void reset_room(Room *room) {
                 continue;
             }
 
-            if (room->area->nplayer > 0 || count_obj_list(objIndex, room->contents) > 0) {
+            if (room->area->occupied() || count_obj_list(objIndex, room->contents) > 0) {
                 continue;
             }
 
@@ -1121,7 +1063,7 @@ void reset_room(Room *room) {
             // The area has players right now, or if the containing object doesn't exist in the world,
             // or if already too many instances of contained object (and without 80% chance of "over spawning"),
             // or if count of contained object within the container's current room exceeds the item-in-room limit.
-            if (room->area->nplayer > 0 || (containerObj = get_obj_type(containerObjIndex)) == nullptr
+            if (room->area->occupied() || (containerObj = get_obj_type(containerObjIndex)) == nullptr
                 || (containedObjIndex->count >= limit && number_range(0, 4) != 0)
                 || (count = count_obj_list(containedObjIndex, containerObj->contains)) > reset->arg4) {
                 continue;
@@ -1199,18 +1141,6 @@ void reset_room(Room *room) {
             break;
         }
         }
-    }
-}
-
-/*
- * Reset one area.
- */
-void reset_area(AREA_DATA *pArea) {
-    Room *room;
-    int vnum;
-    for (vnum = pArea->lvnum; vnum <= pArea->uvnum; vnum++) {
-        if ((room = get_room(vnum)))
-            reset_room(room);
     }
 }
 
@@ -2012,21 +1942,21 @@ void do_areas(Char *ch, ArgParser args) {
     }
 
     const int charLevel = ch->level;
-    const AREA_DATA *area_column1{};
+    const Area *area_column1{};
     std::string_view colour_column1;
-    const AREA_DATA *area_column2{};
+    const Area *area_column2{};
     std::string_view colour_column2;
     int num_found = 0;
     for (auto &area : AreaList::singleton()) {
         std::string_view colour = "|w";
         // Is it outside the requested range?
-        if (area->min_level > maxLevel || area->max_level < minLevel)
+        if (area->min_level() > maxLevel || area->max_level() < minLevel)
             continue;
 
         // Work out colour code
-        if (area->all_levels) {
+        if (area->all_levels()) {
             colour = "|C";
-        } else if (area->min_level > (charLevel + 3) || area->max_level < (charLevel - 3)) {
+        } else if (area->min_level() > (charLevel + 3) || area->max_level() < (charLevel - 3)) {
             colour = "|w";
         } else {
             colour = "|W";
@@ -2041,13 +1971,14 @@ void do_areas(Char *ch, ArgParser args) {
             colour_column2 = colour;
             num_found++;
             // And shift out
-            ch->send_line("{}{:<39}{}{:<39}", colour_column1, area_column1->name, colour_column2, area_column2->name);
+            ch->send_line("{}{:<39}{}{:<39}", colour_column1, area_column1->short_name(), colour_column2,
+                          area_column2->short_name());
             area_column1 = area_column2 = nullptr;
         }
     }
     // Check for any straggling lines
     if (area_column1)
-        ch->send_line("{}{:<39}", colour_column1, area_column1->name);
+        ch->send_line("{}{:<39}", colour_column1, area_column1->short_name());
     if (num_found) {
         ch->send_line("");
         ch->send_line("Areas found: {}", num_found);

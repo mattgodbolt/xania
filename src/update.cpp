@@ -9,7 +9,7 @@
 
 #include "update.hpp"
 #include "AFFECT_DATA.hpp"
-#include "AREA_DATA.hpp"
+#include "Area.hpp"
 #include "BitsAffect.hpp"
 #include "BitsCharAct.hpp"
 #include "BitsExitState.hpp"
@@ -373,7 +373,7 @@ void mobile_update() {
         if (ch->is_pc() || ch->in_room == nullptr || ch->is_aff_charm())
             continue;
 
-        if (ch->in_room->area->empty && !check_bit(ch->act, ACT_UPDATE_ALWAYS))
+        if (ch->in_room->area->empty_since_last_reset() && !check_bit(ch->act, ACT_UPDATE_ALWAYS))
             continue;
 
         /* Examine call for special procedure */
@@ -386,7 +386,7 @@ void mobile_update() {
         if (ch->is_pos_preoccupied())
             continue;
 
-        if (ch->in_room->area->nplayer > 0) {
+        if (ch->in_room->area->occupied()) {
             mprog_random_trigger(ch);
             /* If ch dies or changes
                position due to it's random
@@ -751,7 +751,7 @@ void do_aggressive_sentient(Char *, Char *);
 void aggr_update() {
     for (auto *wch : char_list) {
         /* MOBProgram ACT_PROG trigger */
-        if (wch->is_npc() && wch->mpactnum > 0 && wch->in_room->area->nplayer > 0) {
+        if (wch->is_npc() && wch->mpactnum > 0 && wch->in_room->area->occupied()) {
             MPROG_ACT_LIST *tmp_act, *tmp2_act;
             for (tmp_act = wch->mpact; tmp_act != nullptr; tmp_act = tmp_act->next) {
                 mprog_wordlist_check(tmp_act->buf, wch, tmp_act->ch, tmp_act->obj, tmp_act->vo, ACT_PROG);
@@ -765,7 +765,8 @@ void aggr_update() {
             wch->mpact = nullptr;
         }
 
-        if (wch->is_npc() || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr || wch->in_room->area->empty)
+        if (wch->is_npc() || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr
+            || wch->in_room->area->empty_since_last_reset())
             continue;
 
         for (auto *ch : wch->in_room->people) {
