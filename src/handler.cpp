@@ -1296,27 +1296,26 @@ const char *part_bit_name(int part_flags) {
 
 const char *weapon_bit_name(int weapon_flags) {
     static char buf[512];
-
     buf[0] = '\0';
-    if (weapon_flags & WEAPON_FLAMING)
+    if (check_enum_bit(weapon_flags, WeaponFlag::Flaming))
         strcat(buf, " flaming");
-    if (weapon_flags & WEAPON_FROST)
+    if (check_enum_bit(weapon_flags, WeaponFlag::Frost))
         strcat(buf, " frost");
-    if (weapon_flags & WEAPON_VAMPIRIC)
+    if (check_enum_bit(weapon_flags, WeaponFlag::Vampiric))
         strcat(buf, " vampiric");
-    if (weapon_flags & WEAPON_SHARP)
+    if (check_enum_bit(weapon_flags, WeaponFlag::Sharp))
         strcat(buf, " sharp");
-    if (weapon_flags & WEAPON_VORPAL)
+    if (check_enum_bit(weapon_flags, WeaponFlag::Vorpal))
         strcat(buf, " vorpal");
-    if (weapon_flags & WEAPON_TWO_HANDS)
+    if (check_enum_bit(weapon_flags, WeaponFlag::TwoHands))
         strcat(buf, " two-handed");
-    if (weapon_flags & WEAPON_POISONED)
+    if (check_enum_bit(weapon_flags, WeaponFlag::Poisoned))
         strcat(buf, " poisoned");
-    if (weapon_flags & WEAPON_PLAGUED)
+    if (check_enum_bit(weapon_flags, WeaponFlag::Plagued))
         strcat(buf, " death");
-    if (weapon_flags & WEAPON_ACID)
+    if (check_enum_bit(weapon_flags, WeaponFlag::Acid))
         strcat(buf, " acid");
-    if (weapon_flags & WEAPON_LIGHTNING)
+    if (check_enum_bit(weapon_flags, WeaponFlag::Lightning))
         strcat(buf, " lightning");
 
     return (buf[0] != '\0') ? buf + 1 : "none";

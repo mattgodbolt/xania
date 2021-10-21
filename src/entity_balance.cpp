@@ -39,7 +39,6 @@ void mobbug(std::string_view str, MobIndexData *mob) {
 int report_object(Object *object, int boot) {
     int averagedam, allowedaverage;
     ObjectIndex *obj = object->objIndex;
-
     auto value =
         ranges::accumulate(obj->affected | ranges::views::transform(&AFFECT_DATA::worth), AFFECT_DATA::Value{});
 
@@ -49,28 +48,27 @@ int report_object(Object *object, int boot) {
         value.worth + (obj->type == ObjectType::Weapon ? (value.hit + value.damage) / 2 : value.hit + value.damage);
 
     /* Object specific routines */
-
     switch (obj->type) {
 
     case ObjectType::Weapon:
         /* Calculate the damage allowed and actual */
         allowedaverage = (object->level / 2) + 4;
-        if (check_bit(obj->value[4], WEAPON_TWO_HANDS) && check_bit(obj->wear_flags, ITEM_TWO_HANDS))
+        if (check_enum_bit(obj->value[4], WeaponFlag::TwoHands) && check_bit(obj->wear_flags, ITEM_TWO_HANDS))
             allowedaverage += std::max(1, (allowedaverage) / 20);
         averagedam = (obj->value[1] * obj->value[2] + obj->value[1]) / 2;
         if ((averagedam > allowedaverage) && boot) {
             objectbug("average damage too high", obj);
         }
         /* Add to worth for each weapon type */
-        if (check_bit(obj->value[4], WEAPON_FLAMING))
+        if (check_enum_bit(obj->value[4], WeaponFlag::Flaming))
             worth++;
-        if (check_bit(obj->value[4], WEAPON_FROST))
+        if (check_enum_bit(obj->value[4], WeaponFlag::Frost))
             worth++;
-        if (check_bit(obj->value[4], WEAPON_VAMPIRIC))
+        if (check_enum_bit(obj->value[4], WeaponFlag::Vampiric))
             worth++;
-        if (check_bit(obj->value[4], WEAPON_SHARP))
+        if (check_enum_bit(obj->value[4], WeaponFlag::Sharp))
             worth++;
-        if (check_bit(obj->value[4], WEAPON_VORPAL))
+        if (check_enum_bit(obj->value[4], WeaponFlag::Vorpal))
             worth++;
         break;
 

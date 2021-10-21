@@ -696,12 +696,12 @@ void spell_acid_wash(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (check_bit(obj->value[4], WEAPON_LIGHTNING)) {
+    if (check_enum_bit(obj->value[4], WeaponFlag::Lightning)) {
         ch->send_line("Acid and lightning don't mix.");
         return;
     }
     obj->value[3] = AttackTableIndexAcidWash;
-    set_bit(obj->value[4], WEAPON_ACID);
+    set_enum_bit(obj->value[4], WeaponFlag::Acid);
     ch->send_to("With a mighty scream you draw acid from the earth.\n\rYou wash your weapon in the acid pool.\n\r");
 }
 
@@ -2005,7 +2005,7 @@ void spell_vorpal(int sn, int level, Char *ch, void *vo) {
     }
 
     ch->gold -= (mana * 100);
-    set_bit(obj->value[4], WEAPON_VORPAL);
+    set_enum_bit(obj->value[4], WeaponFlag::Vorpal);
     ch->send_line("You create a flaw in the universe and place it on your blade!");
 }
 
@@ -2028,9 +2028,8 @@ void spell_venom(int sn, int level, Char *ch, void *vo) {
         ch->send_line("You can't afford to!");
         return;
     }
-
     ch->gold -= (mana * 100);
-    set_bit(obj->value[4], WEAPON_POISONED);
+    set_enum_bit(obj->value[4], WeaponFlag::Poisoned);
     ch->send_line("You coat the blade in poison!");
 }
 
@@ -2053,9 +2052,8 @@ void spell_black_death(int sn, int level, Char *ch, void *vo) {
         ch->send_line("You can't afford to!");
         return;
     }
-
     ch->gold -= (mana * 100);
-    set_bit(obj->value[4], WEAPON_PLAGUED);
+    set_enum_bit(obj->value[4], WeaponFlag::Plagued);
     ch->send_line("Your use your cunning and skill to plague the weapon!");
 }
 
@@ -2100,7 +2098,7 @@ void spell_vampire(int sn, int level, Char *ch, void *vo) {
     }
 
     if (ch->is_immortal()) {
-        set_bit(obj->value[4], WEAPON_VAMPIRIC);
+        set_enum_bit(obj->value[4], WeaponFlag::Vampiric);
         ch->send_line("You suck the life force from the weapon leaving it hungry for blood.");
     }
 }
@@ -2119,7 +2117,7 @@ void spell_tame_lightning(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (check_bit(obj->value[4], WEAPON_ACID)) {
+    if (check_enum_bit(obj->value[4], WeaponFlag::Acid)) {
         ch->send_line("Acid and lightning do not mix.");
         return;
     }
@@ -2132,7 +2130,7 @@ void spell_tame_lightning(int sn, int level, Char *ch, void *vo) {
 
     ch->gold -= (mana * 100);
     obj->value[3] = AttackTableIndexTameLightning;
-    set_bit(obj->value[4], WEAPON_LIGHTNING);
+    set_enum_bit(obj->value[4], WeaponFlag::Lightning);
     ch->send_to("You summon a MASSIVE storm.\n\rHolding your weapon aloft you call lightning down from the sky. "
                 "\n\rThe lightning swirls around it - you have |YTAMED|w the |YLIGHTNING|w.\n\r");
 }
@@ -2298,7 +2296,7 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
     act("$n gets a wild look in $s eyes!", victim);
 
     /*  if ( (wield !=nullptr) && (wield->type == ObjectType::Weapon) &&
-          (check_bit(wield->value[4], WEAPON_FLAMING)))
+          (check_bit(wield->value[4], WeaponFlaming)))
         ch->send_line("Your great energy causes your weapon to burst into flame.");
       wield->value[3] = 29;*/
 }
@@ -2616,25 +2614,25 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Weapon type is {}.", Weapons::name_from_integer(obj->value[0]));
         if ((obj->value[4] != 0) && (obj->type == ObjectType::Weapon)) {
             ch->send_to("Weapon flags:");
-            if (check_bit(obj->value[4], WEAPON_FLAMING))
+            if (check_enum_bit(obj->value[4], WeaponFlag::Flaming))
                 ch->send_to(" flaming");
-            if (check_bit(obj->value[4], WEAPON_FROST))
+            if (check_enum_bit(obj->value[4], WeaponFlag::Frost))
                 ch->send_to(" frost");
-            if (check_bit(obj->value[4], WEAPON_VAMPIRIC))
+            if (check_enum_bit(obj->value[4], WeaponFlag::Vampiric))
                 ch->send_to(" vampiric");
-            if (check_bit(obj->value[4], WEAPON_SHARP))
+            if (check_enum_bit(obj->value[4], WeaponFlag::Sharp))
                 ch->send_to(" sharp");
-            if (check_bit(obj->value[4], WEAPON_VORPAL))
+            if (check_enum_bit(obj->value[4], WeaponFlag::Vorpal))
                 ch->send_to(" vorpal");
-            if (check_bit(obj->value[4], WEAPON_TWO_HANDS))
+            if (check_enum_bit(obj->value[4], WeaponFlag::TwoHands))
                 ch->send_to(" two-handed");
-            if (check_bit(obj->value[4], WEAPON_POISONED))
+            if (check_enum_bit(obj->value[4], WeaponFlag::Poisoned))
                 ch->send_to(" poisoned");
-            if (check_bit(obj->value[4], WEAPON_PLAGUED))
+            if (check_enum_bit(obj->value[4], WeaponFlag::Plagued))
                 ch->send_to(" death");
-            if (check_bit(obj->value[4], WEAPON_ACID))
+            if (check_enum_bit(obj->value[4], WeaponFlag::Acid))
                 ch->send_to(" acid");
-            if (check_bit(obj->value[4], WEAPON_LIGHTNING))
+            if (check_enum_bit(obj->value[4], WeaponFlag::Lightning))
                 ch->send_to(" lightning");
             ch->send_line(".");
         }

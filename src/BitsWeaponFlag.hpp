@@ -8,14 +8,15 @@
 
 #include "common/StandardBits.hpp"
 
-// Weapon flags for custom behaviour.
-#define WEAPON_FLAMING (A)
-#define WEAPON_FROST (B)
-#define WEAPON_VAMPIRIC (C)
-#define WEAPON_SHARP (D)
-#define WEAPON_VORPAL (E)
-#define WEAPON_TWO_HANDS (F)
-#define WEAPON_POISONED (G)
-#define WEAPON_PLAGUED (I)
-#define WEAPON_LIGHTNING (J)
-#define WEAPON_ACID (K)
+enum class WeaponFlag : unsigned int {
+    Flaming = A,
+    Frost = B,
+    Vampiric = C,
+    Sharp = D,
+    Vorpal = E,
+    TwoHands = F,
+    Poisoned = G,
+    Plagued = I,
+    Lightning = J,
+    Acid = K
+};
