@@ -11,12 +11,12 @@
 #include "AFFECT_DATA.hpp"
 #include "Area.hpp"
 #include "BitsAffect.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectWear.hpp"
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
@@ -373,7 +373,7 @@ void mobile_update() {
         if (ch->is_pc() || ch->in_room == nullptr || ch->is_aff_charm())
             continue;
 
-        if (ch->in_room->area->empty_since_last_reset() && !check_bit(ch->act, ACT_UPDATE_ALWAYS))
+        if (ch->in_room->area->empty_since_last_reset() && !check_enum_bit(ch->act, CharActFlag::UpdateAlways))
             continue;
 
         /* Examine call for special procedure */
@@ -395,7 +395,7 @@ void mobile_update() {
                 continue;
         }
         /* Scavenge */
-        if (check_bit(ch->act, ACT_SCAVENGER) && !ch->in_room->contents.empty() && number_bits(6) == 0) {
+        if (check_enum_bit(ch->act, CharActFlag::Scavenger) && !ch->in_room->contents.empty() && number_bits(6) == 0) {
             int max = 1;
             Object *obj_best{};
             for (auto *obj : ch->in_room->contents) {
@@ -415,10 +415,10 @@ void mobile_update() {
 
         /* Wander */
         auto opt_door = try_cast_direction(number_bits(5));
-        if (!check_bit(ch->act, ACT_SENTINEL) && number_bits(4) == 0 && opt_door
+        if (!check_enum_bit(ch->act, CharActFlag::Sentinel) && number_bits(4) == 0 && opt_door
             && (pexit = ch->in_room->exit[*opt_door]) != nullptr && pexit->u1.to_room != nullptr
             && !check_bit(pexit->exit_info, EX_CLOSED) && !check_bit(pexit->u1.to_room->room_flags, ROOM_NO_MOB)
-            && (!check_bit(ch->act, ACT_STAY_AREA) || pexit->u1.to_room->area == ch->in_room->area)) {
+            && (!check_enum_bit(ch->act, CharActFlag::StayArea) || pexit->u1.to_room->area == ch->in_room->area)) {
             move_char(ch, *opt_door);
         }
     }
@@ -777,8 +777,8 @@ void aggr_update() {
 }
 
 void do_aggressive_sentient(Char *wch, Char *ch) {
-    if (check_bit(ch->act, ACT_SENTIENT) && ch->fighting == nullptr && !ch->is_aff_calm() && ch->is_pos_awake()
-        && !ch->is_aff_charm() && can_see(ch, wch)) {
+    if (check_enum_bit(ch->act, CharActFlag::Sentient) && ch->fighting == nullptr && !ch->is_aff_calm()
+        && ch->is_pos_awake() && !ch->is_aff_charm() && can_see(ch, wch)) {
         if (ch->hit == ch->max_hit && ch->mana == ch->max_mana)
             ch->sentient_victim.clear();
         if (matches(wch->name, ch->sentient_victim)) {
@@ -788,10 +788,11 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
             multi_hit(ch, wch);
         }
     }
-    if (check_bit(ch->act, ACT_AGGRESSIVE) && !check_bit(ch->in_room->room_flags, ROOM_SAFE) && !ch->is_aff_calm()
-        && (ch->fighting == nullptr) // Changed by Moog
-        && !ch->is_aff_charm() && ch->is_pos_awake() && !(check_bit(ch->act, ACT_WIMPY) && wch->is_pos_awake())
-        && can_see(ch, wch) && !number_bits(1) == 0) {
+    if (check_enum_bit(ch->act, CharActFlag::Aggressive) && !check_bit(ch->in_room->room_flags, ROOM_SAFE)
+        && !ch->is_aff_calm() && (ch->fighting == nullptr) // Changed by Moog
+        && !ch->is_aff_charm() && ch->is_pos_awake()
+        && !(check_enum_bit(ch->act, CharActFlag::Wimpy) && wch->is_pos_awake()) && can_see(ch, wch)
+        && !number_bits(1) == 0) {
 
         /*
          * Ok we have a 'wch' player character and a 'ch' npc aggressor.
@@ -803,7 +804,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
         Char *victim = nullptr;
         for (auto *vch : wch->in_room->people) {
             if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
-                && (!check_bit(ch->act, ACT_WIMPY) || !vch->is_pos_awake()) && can_see(ch, vch)) {
+                && (!check_enum_bit(ch->act, CharActFlag::Wimpy) || !vch->is_pos_awake()) && can_see(ch, vch)) {
                 if (number_range(0, count) == 0)
                     victim = vch;
                 count++;

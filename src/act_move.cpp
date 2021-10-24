@@ -10,12 +10,12 @@
 #include "act_move.hpp"
 #include "AFFECT_DATA.hpp"
 #include "BitsAffect.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsExitState.hpp"
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "Exit.hpp"
 #include "Object.hpp"
@@ -192,7 +192,7 @@ void move_char(Char *ch, Direction door) {
         if (fch->master == ch && fch->is_pos_standing()) {
 
             if (check_bit(ch->in_room->room_flags, ROOM_LAW)
-                && (fch->is_npc() && check_bit(fch->act, ACT_AGGRESSIVE))) {
+                && (fch->is_npc() && check_enum_bit(fch->act, CharActFlag::Aggressive))) {
                 act("$N may not enter here.", ch, nullptr, fch, To::Char);
                 act("You aren't allowed to go there.", fch, nullptr, nullptr, To::Char);
                 return;
@@ -229,7 +229,7 @@ void do_enter(Char *ch, std::string_view argument) {
                         return;
                     }
 
-                    if (ch->is_npc() && check_bit(ch->act, ACT_AGGRESSIVE)
+                    if (ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Aggressive)
                         && check_bit(to_room->room_flags, ROOM_LAW)) {
                         ch->send_line("Something prevents you from leaving...");
                         return;
@@ -293,7 +293,7 @@ void do_enter(Char *ch, std::string_view argument) {
                         if (fch->master == ch && fch->is_pos_standing()) {
 
                             if (check_bit(ch->in_room->room_flags, ROOM_LAW)
-                                && (fch->is_npc() && check_bit(fch->act, ACT_AGGRESSIVE))) {
+                                && (fch->is_npc() && check_enum_bit(fch->act, CharActFlag::Aggressive))) {
                                 act("You can't bring $N into the city.", ch, nullptr, fch, To::Char);
                                 act("You aren't allowed in the city.", fch, nullptr, nullptr, To::Char);
                                 continue;
@@ -941,7 +941,7 @@ void do_visible(Char *ch) {
 }
 
 void do_recall(Char *ch, ArgParser args) {
-    if (ch->is_npc() && !check_bit(ch->act, ACT_PET)) {
+    if (ch->is_npc() && !check_enum_bit(ch->act, CharActFlag::Pet)) {
         ch->send_line("Only players can recall.");
         return;
     }
@@ -952,7 +952,7 @@ void do_recall(Char *ch, ArgParser args) {
     auto vnum = rooms::MidgaardTemple;
     auto destination = args.shift();
     if (matches(destination, "clan")) {
-        if (check_bit(ch->act, ACT_PET)) {
+        if (check_enum_bit(ch->act, CharActFlag::Pet)) {
             if (ch->master != nullptr) {
                 if (ch->master->clan())
                     vnum = ch->master->clan()->recall_vnum;
@@ -1027,7 +1027,7 @@ void do_recall(Char *ch, ArgParser args) {
 namespace {
 Char *find_trainer(Room *room) {
     for (auto *mob : room->people) {
-        if (mob->is_npc() && check_bit(mob->act, ACT_TRAIN))
+        if (mob->is_npc() && check_enum_bit(mob->act, CharActFlag::Train))
             return mob;
     }
     return nullptr;

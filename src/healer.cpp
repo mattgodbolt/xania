@@ -11,8 +11,8 @@
    direct questions or comments to rtaylor@cie-2.uoregon.edu
    any use of this code must include this header */
 
-#include "BitsCharAct.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "Room.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
@@ -25,7 +25,7 @@
 namespace {
 Char *find_healer(Room *room) {
     for (auto *mob : room->people) {
-        if (mob->is_npc() && check_bit(mob->act, ACT_IS_HEALER))
+        if (mob->is_npc() && check_enum_bit(mob->act, CharActFlag::Healer))
             return mob;
     }
     return nullptr;

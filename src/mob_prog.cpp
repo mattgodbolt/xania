@@ -17,8 +17,8 @@
 
 #include "mob_prog.hpp"
 #include "BitsAffect.hpp"
-#include "BitsCharAct.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "Logging.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"

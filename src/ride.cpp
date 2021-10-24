@@ -4,8 +4,8 @@
 /*  See the header to file: merc.h for original code copyrights          */
 /*************************************************************************/
 #include "ride.hpp"
-#include "BitsCharAct.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "DamageClass.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -105,7 +105,7 @@ void do_ride(Char *ch, const char *argument) {
         return;
     }
 
-    if ((!check_bit(ridee->act, ACT_CAN_BE_RIDDEN)) || (ridee->master != ch)) {
+    if ((!check_enum_bit(ridee->act, CharActFlag::CanBeRidden)) || (ridee->master != ch)) {
         act("You can't ride $N!", ch, nullptr, ridee, To::Char);
         return;
     }

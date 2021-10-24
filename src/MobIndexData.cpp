@@ -1,7 +1,7 @@
 #include "MobIndexData.hpp"
 #include "ArmourClass.hpp"
-#include "BitsCharAct.hpp"
 #include "BodySize.hpp"
+#include "CharActFlag.hpp"
 #include "Logging.hpp"
 #include "Races.hpp"
 #include "common/BitOps.hpp"
@@ -33,7 +33,8 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
     description = upper_first_character(fread_stdstring(fp));
     race = race_lookup(fread_stdstring(fp));
 
-    act = fread_flag(fp) | ACT_IS_NPC | race_table[race].act;
+    act = fread_flag(fp) | race_table[race].act;
+    set_enum_bit(act, CharActFlag::Npc);
     affected_by = fread_flag(fp) | race_table[race].aff;
     alignment = fread_number(fp);
 

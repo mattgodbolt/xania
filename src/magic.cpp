@@ -10,13 +10,13 @@
 #include "magic.h"
 #include "AFFECT_DATA.hpp"
 #include "BitsAffect.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
 #include "FlagFormat.hpp"
@@ -856,7 +856,8 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
     if (number_range(0, chance) >= mlevel) /* hard to stop large fights */
     {
         for (auto *vch : ch->in_room->people) {
-            if (vch->is_npc() && (check_bit(vch->imm_flags, DMG_TOL_MAGIC) || check_bit(vch->act, ACT_UNDEAD)))
+            if (vch->is_npc()
+                && (check_bit(vch->imm_flags, DMG_TOL_MAGIC) || check_enum_bit(vch->act, CharActFlag::Undead)))
                 return;
 
             if (vch->is_aff_calm() || vch->is_aff_berserk() || vch->is_affected_by(skill_lookup("frenzy")))
@@ -2869,7 +2870,7 @@ void spell_plague(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (saves_spell(level, victim) || (victim->is_npc() && check_bit(victim->act, ACT_UNDEAD))) {
+    if (saves_spell(level, victim) || (victim->is_npc() && check_enum_bit(victim->act, CharActFlag::Undead))) {
         if (ch == victim)
             ch->send_line("You feel momentarily ill, but it passes.");
         else
@@ -3141,8 +3142,8 @@ void spell_sleep(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (victim->is_aff_sleep() || (victim->is_npc() && check_bit(victim->act, ACT_UNDEAD)) || level < victim->level
-        || saves_spell(level, victim))
+    if (victim->is_aff_sleep() || (victim->is_npc() && check_enum_bit(victim->act, CharActFlag::Undead))
+        || level < victim->level || saves_spell(level, victim))
         return;
 
     af.type = sn;
@@ -3197,7 +3198,7 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
         || ch->in_room == nullptr || check_bit(victim->in_room->room_flags, ROOM_SAFE)
         || check_bit(victim->in_room->room_flags, ROOM_PRIVATE) || check_bit(victim->in_room->room_flags, ROOM_SOLITARY)
         || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL)
-        || (victim->is_npc() && check_bit(victim->act, ACT_AGGRESSIVE)) || victim->level >= level + 3
+        || (victim->is_npc() && check_enum_bit(victim->act, CharActFlag::Aggressive)) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) || victim->fighting != nullptr
         || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
         || (victim->is_pc() && check_bit(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))
@@ -3210,8 +3211,8 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
         return;
     }
     if (victim->is_npc()) {
-        if (victim->mobIndex->shop != nullptr || check_bit(victim->act, ACT_IS_HEALER)
-            || check_bit(victim->act, ACT_GAIN) || check_bit(victim->act, ACT_PRACTICE)) {
+        if (victim->mobIndex->shop != nullptr || check_enum_bit(victim->act, CharActFlag::Healer)
+            || check_enum_bit(victim->act, CharActFlag::Gain) || check_enum_bit(victim->act, CharActFlag::Practice)) {
             act("The guildspersons' convention prevents your summons.", ch, nullptr, nullptr, To::Char);
             act("The guildspersons' convention protects $n from summons.", victim);
             act("$n attempted to summon you!", ch, nullptr, victim, To::Vict);

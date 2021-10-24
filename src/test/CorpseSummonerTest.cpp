@@ -1,6 +1,6 @@
 #include "CorpseSummoner.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsObjectExtra.hpp"
+#include "CharActFlag.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
@@ -71,7 +71,7 @@ TEST_CASE("summoner preconditions") {
 
     SECTION("player is npc") {
         FORBID_CALL(mock, spec_fun_summoner());
-        set_bit(player.act, ACT_IS_NPC);
+        set_enum_bit(player.act, CharActFlag::Npc);
 
         CHECK(!summoner.check_summoner_preconditions(&player, &mob));
     }
@@ -83,7 +83,7 @@ TEST_CASE("summoner preconditions") {
     }
 
     SECTION("mob does not have spec_summoner") {
-        set_bit(mob.act, ACT_IS_NPC);
+        set_enum_bit(mob.act, CharActFlag::Npc);
         REQUIRE_CALL(mock, spec_fun_summoner()).RETURN(spec_fun_stub);
 
         CHECK(!summoner.check_summoner_preconditions(&player, &mob));
@@ -91,7 +91,7 @@ TEST_CASE("summoner preconditions") {
 
     SECTION("mob has spec_summoner") {
         mob.spec_fun = spec_fun_stub;
-        set_bit(mob.act, ACT_IS_NPC);
+        set_enum_bit(mob.act, CharActFlag::Npc);
         REQUIRE_CALL(mock, spec_fun_summoner()).RETURN(spec_fun_stub);
 
         CHECK(summoner.check_summoner_preconditions(&player, &mob));

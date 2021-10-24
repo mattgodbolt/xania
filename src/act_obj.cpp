@@ -10,7 +10,6 @@
 #include "act_obj.hpp"
 #include "AFFECT_DATA.hpp"
 #include "BitsAffect.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsDamageTolerance.hpp"
@@ -19,6 +18,7 @@
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "BodySize.hpp"
+#include "CharActFlag.hpp"
 #include "Exit.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
@@ -441,7 +441,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
     }
 
     if (obj->is_holdable())
-        if (!(ch->is_npc() && check_bit(ch->act, ACT_PET))) {
+        if (!(ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Pet))) {
             if (!remove_obj(ch, WEAR_HOLD, fReplace))
                 return;
             if (use_default_message) {
@@ -1885,7 +1885,7 @@ void do_buy(Char *ch, const char *argument) {
         pet = get_char_room(ch, arg);
         ch->in_room = in_room;
 
-        if (pet == nullptr || !check_bit(pet->act, ACT_PET)) {
+        if (pet == nullptr || !check_enum_bit(pet->act, CharActFlag::Pet)) {
             ch->send_line("Sorry, you can't buy that here.");
             return;
         }
@@ -1918,7 +1918,7 @@ void do_buy(Char *ch, const char *argument) {
         ch->gold -= cost;
         pet = create_mobile(pet->mobIndex);
         set_bit(ch->act, PLR_BOUGHT_PET);
-        set_bit(pet->act, ACT_PET);
+        set_enum_bit(pet->act, CharActFlag::Pet);
         set_bit(pet->affected_by, AFF_CHARM);
         pet->comm = COMM_NOTELL | COMM_NOSHOUT | COMM_NOCHANNELS;
 
@@ -2019,7 +2019,7 @@ void do_list(Char *ch, const char *argument) {
 
         found = false;
         for (auto *pet : roomNext->people) {
-            if (check_bit(pet->act, ACT_PET)) {
+            if (check_enum_bit(pet->act, CharActFlag::Pet)) {
                 if (!found) {
                     found = true;
                     ch->send_line("Pets for sale:");

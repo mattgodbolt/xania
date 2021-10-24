@@ -13,7 +13,6 @@
 #include "BitsAffect.hpp"
 #include "BitsBodyForm.hpp"
 #include "BitsBodyPart.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsDamageTolerance.hpp"
@@ -22,6 +21,7 @@
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
@@ -168,7 +168,7 @@ int can_carry_n(Char *ch) {
     if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)
         return 1000;
 
-    if (ch->is_npc() && check_bit(ch->act, ACT_PET))
+    if (ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Pet))
         return 4;
 
     return MAX_WEAR + 2 * get_curr_stat(ch, Stat::Dex) + ch->level;
@@ -181,7 +181,7 @@ int can_carry_w(Char *ch) {
     if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)
         return 1000000;
 
-    if (ch->is_npc() && check_bit(ch->act, ACT_PET))
+    if (ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Pet))
         return 1000;
 
     return str_app[get_curr_stat(ch, Stat::Str)].carry + ch->level * 5 / 2;
@@ -951,47 +951,47 @@ const char *act_bit_name(int act_flags) {
 
     buf[0] = '\0';
 
-    if (check_bit(act_flags, ACT_IS_NPC)) {
+    if (check_enum_bit(act_flags, CharActFlag::Npc)) {
         strcat(buf, " npc");
-        if (act_flags & ACT_SENTINEL)
+        if (check_enum_bit(act_flags, CharActFlag::Sentinel))
             strcat(buf, " sentinel");
-        if (act_flags & ACT_SCAVENGER)
+        if (check_enum_bit(act_flags, CharActFlag::Scavenger))
             strcat(buf, " scavenger");
-        if (act_flags & ACT_AGGRESSIVE)
+        if (check_enum_bit(act_flags, CharActFlag::Aggressive))
             strcat(buf, " aggressive");
-        if (act_flags & ACT_SENTIENT)
+        if (check_enum_bit(act_flags, CharActFlag::Sentient))
             strcat(buf, " sentient");
-        if (act_flags & ACT_STAY_AREA)
+        if (check_enum_bit(act_flags, CharActFlag::StayArea))
             strcat(buf, " stay_area");
-        if (act_flags & ACT_WIMPY)
+        if (check_enum_bit(act_flags, CharActFlag::Wimpy))
             strcat(buf, " wimpy");
-        if (act_flags & ACT_PET)
+        if (check_enum_bit(act_flags, CharActFlag::Pet))
             strcat(buf, " pet");
-        if (act_flags & ACT_TRAIN)
+        if (check_enum_bit(act_flags, CharActFlag::Train))
             strcat(buf, " train");
-        if (act_flags & ACT_PRACTICE)
+        if (check_enum_bit(act_flags, CharActFlag::Practice))
             strcat(buf, " practice");
-        if (act_flags & ACT_UNDEAD)
+        if (check_enum_bit(act_flags, CharActFlag::Undead))
             strcat(buf, " undead");
-        if (act_flags & ACT_CLERIC)
+        if (check_enum_bit(act_flags, CharActFlag::Cleric))
             strcat(buf, " cleric");
-        if (act_flags & ACT_MAGE)
+        if (check_enum_bit(act_flags, CharActFlag::Mage))
             strcat(buf, " mage");
-        if (act_flags & ACT_THIEF)
+        if (check_enum_bit(act_flags, CharActFlag::Thief))
             strcat(buf, " thief");
-        if (act_flags & ACT_TALKATIVE)
+        if (check_enum_bit(act_flags, CharActFlag::Talkative))
             strcat(buf, " talkative");
-        if (act_flags & ACT_WARRIOR)
+        if (check_enum_bit(act_flags, CharActFlag::Warrior))
             strcat(buf, " warrior");
-        if (act_flags & ACT_NOALIGN)
+        if (check_enum_bit(act_flags, CharActFlag::NoAlign))
             strcat(buf, " no_align");
-        if (act_flags & ACT_NOPURGE)
+        if (check_enum_bit(act_flags, CharActFlag::NoPurge))
             strcat(buf, " no_purge");
-        if (act_flags & ACT_IS_HEALER)
+        if (check_enum_bit(act_flags, CharActFlag::Healer))
             strcat(buf, " healer");
-        if (act_flags & ACT_GAIN)
+        if (check_enum_bit(act_flags, CharActFlag::Gain))
             strcat(buf, " skill_train");
-        if (act_flags & ACT_UPDATE_ALWAYS)
+        if (check_enum_bit(act_flags, CharActFlag::UpdateAlways))
             strcat(buf, " update_always");
     } else {
         strcat(buf, " player");

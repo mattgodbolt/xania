@@ -5,11 +5,14 @@
 /*************************************************************************/
 #include "Races.hpp"
 #include "BitsAffect.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BodySize.hpp"
+#include "CharActFlag.hpp"
 
+#include <magic_enum.hpp>
+
+static const auto act_int = magic_enum::enum_integer<CharActFlag>;
 /* race table */
 /* when adding a new PC race ensure that it appears towards the top
    of this list! */
@@ -104,8 +107,8 @@ const struct race_type race_table[] = {
 
     {"rabbit", false, 0, 0, OFF_DODGE | OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K},
 
-    {"school monster", false, ACT_NOALIGN, 0, 0, DMG_TOL_CHARM | DMG_TOL_SUMMON, 0, DMG_TOL_MAGIC, A | M | V,
-     A | B | C | D | E | F | H | J | K | Q | U},
+    {"school monster", false, act_int(CharActFlag::NoAlign), 0, 0, DMG_TOL_CHARM | DMG_TOL_SUMMON, 0, DMG_TOL_MAGIC,
+     A | M | V, A | B | C | D | E | F | H | J | K | Q | U},
 
     {"snake", false, 0, 0, 0, 0, DMG_TOL_POISON, DMG_TOL_COLD, A | G | R | X | Y | cc,
      A | D | E | F | K | L | Q | V | X},

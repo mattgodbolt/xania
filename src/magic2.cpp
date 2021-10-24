@@ -6,10 +6,10 @@
 
 #include "AFFECT_DATA.hpp"
 #include "BitsAffect.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
 #include "Exit.hpp"
@@ -153,7 +153,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Your mighty blast spirals out of control, forming a towering tornado of psychic energy!");
         act("$n's psychic blast spirals into a |Rhuge|w tornado of energy!", ch, nullptr, victim, To::Room);
 
-        if (!check_bit(victim->act, ACT_AGGRESSIVE)) {
+        if (!check_enum_bit(victim->act, CharActFlag::Aggressive)) {
             if (number_percent() > 75)
                 tornado_teleport(ch, victim);
         }

@@ -9,12 +9,12 @@
 #include "Area.hpp"
 #include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
 #include "BitsPlayerAct.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "Columner.hpp"
 #include "DamageClass.hpp"
@@ -1574,7 +1574,8 @@ void do_purge(Char *ch, const char *argument) {
         /* 'purge' */
 
         for (auto *victim : ch->in_room->people) {
-            if (victim->is_npc() && !check_bit(victim->act, ACT_NOPURGE) && victim != ch /* safety precaution */)
+            if (victim->is_npc() && !check_enum_bit(victim->act, CharActFlag::NoPurge)
+                && victim != ch /* safety precaution */)
                 extract_char(victim, true);
         }
 
@@ -1999,8 +2000,8 @@ void do_peace(Char *ch) {
     for (auto *rch : ch->in_room->people) {
         if (rch->fighting)
             stop_fighting(rch, true);
-        if (rch->is_npc() && check_bit(rch->act, ACT_AGGRESSIVE))
-            clear_bit(rch->act, ACT_AGGRESSIVE);
+        if (rch->is_npc() && check_enum_bit(rch->act, CharActFlag::Aggressive))
+            clear_enum_bit(rch->act, CharActFlag::Aggressive);
         if (rch->is_npc())
             rch->sentient_victim.clear();
     }

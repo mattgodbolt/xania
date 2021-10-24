@@ -11,7 +11,6 @@
 #include "AFFECT_DATA.hpp"
 #include "Area.hpp"
 #include "AreaList.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsExitState.hpp"
@@ -19,6 +18,7 @@
 #include "BitsRoomState.hpp"
 #include "BodySize.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
@@ -1002,11 +1002,11 @@ void reset_room(Room *room) {
 
             auto *mob = create_mobile(mobIndex);
 
-            // Pet shop mobiles get ACT_PET set.
+            // Pet shop mobiles get CharActFlag::Pet set.
             Room *previousRoom;
             previousRoom = get_room(room->vnum - 1);
             if (previousRoom && check_bit(previousRoom->room_flags, ROOM_PET_SHOP))
-                set_bit(mob->act, ACT_PET);
+                set_enum_bit(mob->act, CharActFlag::Pet);
 
             char_to_room(mob, room);
             lastMob = mob;
@@ -1200,25 +1200,25 @@ Char *create_mobile(MobIndexData *mobIndex) {
 
     ranges::fill(mob->perm_stat, std::min(25, 11 + mob->level / 4));
 
-    if (check_bit(mob->act, ACT_WARRIOR)) {
+    if (check_enum_bit(mob->act, CharActFlag::Warrior)) {
         mob->perm_stat[Stat::Str] += 3;
         mob->perm_stat[Stat::Int] -= 1;
         mob->perm_stat[Stat::Con] += 2;
     }
 
-    if (check_bit(mob->act, ACT_THIEF)) {
+    if (check_enum_bit(mob->act, CharActFlag::Thief)) {
         mob->perm_stat[Stat::Dex] += 3;
         mob->perm_stat[Stat::Int] += 1;
         mob->perm_stat[Stat::Wis] -= 1;
     }
 
-    if (check_bit(mob->act, ACT_CLERIC)) {
+    if (check_enum_bit(mob->act, CharActFlag::Cleric)) {
         mob->perm_stat[Stat::Wis] += 3;
         mob->perm_stat[Stat::Dex] -= 1;
         mob->perm_stat[Stat::Str] += 1;
     }
 
-    if (check_bit(mob->act, ACT_MAGE)) {
+    if (check_enum_bit(mob->act, CharActFlag::Mage)) {
         mob->perm_stat[Stat::Int] += 3;
         mob->perm_stat[Stat::Str] -= 1;
         mob->perm_stat[Stat::Dex] += 1;

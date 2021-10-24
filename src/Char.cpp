@@ -6,12 +6,12 @@
 #include "Char.hpp"
 #include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
+#include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "DescriptorList.hpp"
 #include "Logging.hpp"
@@ -45,9 +45,9 @@
 
 Seconds Char::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }
 
-bool Char::is_npc() const { return check_bit(act, ACT_IS_NPC); }
-bool Char::is_warrior() const { return check_bit(act, ACT_WARRIOR); }
-bool Char::is_thief() const { return check_bit(act, ACT_THIEF); }
+bool Char::is_npc() const { return check_enum_bit(act, CharActFlag::Npc); }
+bool Char::is_warrior() const { return check_enum_bit(act, CharActFlag::Warrior); }
+bool Char::is_thief() const { return check_enum_bit(act, CharActFlag::Thief); }
 bool Char::is_shopkeeper() const { return is_npc() && mobIndex->shop; }
 
 // Affected by spell bit checks.

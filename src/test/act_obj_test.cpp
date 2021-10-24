@@ -1,6 +1,6 @@
-#include "BitsCharAct.hpp"
 #include "BitsObjectExtra.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "MemFile.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
@@ -81,7 +81,7 @@ TEST_CASE("unique object enforcement") {
             Shop shop{};
             char_to.mobIndex = &opt_char_to_idx.value();
             char_to.mobIndex->shop = &shop;
-            set_bit(char_to.act, ACT_IS_NPC);
+            set_enum_bit(char_to.act, CharActFlag::Npc);
             char_to.carrying.add_back(&existing_obj);
 
             auto result = obj_move_violates_uniqueness(&char_from, &char_to, &moving_obj, char_to.carrying);

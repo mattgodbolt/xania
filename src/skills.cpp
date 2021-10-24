@@ -8,8 +8,8 @@
 /*************************************************************************/
 
 #include "skills.hpp"
-#include "BitsCharAct.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "CharGeneration.hpp"
 #include "Columner.hpp"
 #include "Logging.hpp"
@@ -32,7 +32,7 @@
 namespace {
 Char *find_trainer(Room *room) {
     for (auto *trainer : room->people)
-        if (trainer->is_npc() && check_bit(trainer->act, ACT_GAIN))
+        if (trainer->is_npc() && check_enum_bit(trainer->act, CharActFlag::Gain))
             return trainer;
     return nullptr;
 }

@@ -12,7 +12,6 @@
 #include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
 #include "BitsBodyForm.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsExitState.hpp"
@@ -20,6 +19,7 @@
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "BodySize.hpp"
+#include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "DamageClass.hpp"
 #include "DamageMessages.hpp"
@@ -242,7 +242,7 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         return;
 
     /* if mob has sentient bit set, set victim name in memory */
-    if (check_bit(victim->act, ACT_SENTIENT) && ch->is_pc()) {
+    if (check_enum_bit(victim->act, CharActFlag::Sentient) && ch->is_pc()) {
         victim->sentient_victim = ch->name;
     };
 
@@ -347,10 +347,10 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     number = number_range(0, 2);
 
-    //   if (number == 1 && check_bit(ch->act,ACT_MAGE))
+    //   if (number == 1 && check_enum_bit(ch->act,CharActFlag::Mage))
     //      /*  { mob_cast_mage(ch,victim); return; } */ ;
     //
-    //   if (number == 2 && check_bit(ch->act,ACT_CLERIC))
+    //   if (number == 2 && check_enum_bit(ch->act,CharActFlag::Cleric))
     //      /* { mob_cast_cleric(ch,victim); return; } */ ;
 
     /* now for the skills */
@@ -371,7 +371,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     case (2):
         if (check_bit(ch->off_flags, OFF_DISARM)
             || (get_weapon_sn(ch) != gsn_hand_to_hand
-                && (check_bit(ch->act, ACT_WARRIOR) || check_bit(ch->act, ACT_THIEF)))) {
+                && (check_enum_bit(ch->act, CharActFlag::Warrior) || check_enum_bit(ch->act, CharActFlag::Thief)))) {
             if (victim->is_aff_talon()) {
                 act("$n tries to disarm you, but your talon like grip stops them!", ch, nullptr, victim, To::Vict);
                 act("$n tries to disarm $N, but fails.", ch, nullptr, victim, To::NotVict);
@@ -465,13 +465,13 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         thac0_00 = -4;
         thac0_32 = -70; /* as good as a thief */
 
-        if (check_bit(ch->act, ACT_WARRIOR))
+        if (check_enum_bit(ch->act, CharActFlag::Warrior))
             thac0_32 = -76;
-        else if (check_bit(ch->act, ACT_THIEF))
+        else if (check_enum_bit(ch->act, CharActFlag::Thief))
             thac0_32 = -70;
-        else if (check_bit(ch->act, ACT_CLERIC))
+        else if (check_enum_bit(ch->act, CharActFlag::Cleric))
             thac0_32 = -66;
-        else if (check_bit(ch->act, ACT_MAGE))
+        else if (check_enum_bit(ch->act, CharActFlag::Mage))
             thac0_32 = -63;
     } else {
         thac0_00 = class_table[ch->class_num].thac0_00;
@@ -866,7 +866,8 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         raw_kill(victim, injured_part);
 
         for (auto *mob : char_list)
-            if (mob->is_npc() && check_bit(mob->act, ACT_SENTIENT) && matches(mob->sentient_victim, victim->name))
+            if (mob->is_npc() && check_enum_bit(mob->act, CharActFlag::Sentient)
+                && matches(mob->sentient_victim, victim->name))
                 mob->sentient_victim.clear();
         /**
          * If the final blow was a pet or charmed mob, its greedy master gets to autoloot.
@@ -893,7 +894,8 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
      * Wimp out?
      */
     if (victim->is_npc() && adjusted_damage > 0 && victim->wait < PULSE_VIOLENCE / 2) {
-        if ((check_bit(victim->act, ACT_WIMPY) && number_bits(2) == 0 && victim->hit < victim->max_hit / 5)
+        if ((check_enum_bit(victim->act, CharActFlag::Wimpy) && number_bits(2) == 0
+             && victim->hit < victim->max_hit / 5)
             || (victim->is_aff_charm() && victim->master != nullptr && victim->master->in_room != victim->in_room))
             do_flee(victim);
     }
@@ -941,8 +943,8 @@ bool is_safe(Char *ch, Char *victim) {
     }
     /* no killing healers, adepts, etc */
     if (victim->is_npc()
-        && (check_bit(victim->act, ACT_TRAIN) || check_bit(victim->act, ACT_PRACTICE)
-            || check_bit(victim->act, ACT_IS_HEALER))) {
+        && (check_enum_bit(victim->act, CharActFlag::Train) || check_enum_bit(victim->act, CharActFlag::Practice)
+            || check_enum_bit(victim->act, CharActFlag::Healer))) {
         ch->send_line("I don't think {} would approve!", deity_name);
         return true;
     }
@@ -958,7 +960,7 @@ bool is_safe(Char *ch, Char *victim) {
 
     if (ch->is_npc()) {
         /* charmed mobs and pets cannot attack players */
-        if (victim->is_pc() && (ch->is_aff_charm() || check_bit(ch->act, ACT_PET)))
+        if (victim->is_pc() && (ch->is_aff_charm() || check_enum_bit(ch->act, CharActFlag::Pet)))
             return true;
 
         return false;
@@ -970,7 +972,7 @@ bool is_safe(Char *ch, Char *victim) {
             return false;
 
         /* no pets */
-        if (victim->is_npc() && check_bit(victim->act, ACT_PET)) {
+        if (victim->is_npc() && check_enum_bit(victim->act, CharActFlag::Pet)) {
             act("But $N looks so cute and cuddly...", ch, nullptr, victim, To::Char);
             return true;
         }
@@ -1005,8 +1007,8 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
 
     /* no killing healers, adepts, etc */
     if (victim->is_npc()
-        && (check_bit(victim->act, ACT_TRAIN) || check_bit(victim->act, ACT_PRACTICE)
-            || check_bit(victim->act, ACT_IS_HEALER)))
+        && (check_enum_bit(victim->act, CharActFlag::Train) || check_enum_bit(victim->act, CharActFlag::Practice)
+            || check_enum_bit(victim->act, CharActFlag::Healer)))
         return true;
 
     /* no fighting in safe rooms */
@@ -1018,7 +1020,7 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
 
     if (ch->is_npc()) {
         /* charmed mobs and pets cannot attack players */
-        if (victim->is_pc() && (ch->is_aff_charm() || check_bit(ch->act, ACT_PET)))
+        if (victim->is_pc() && (ch->is_aff_charm() || check_enum_bit(ch->act, CharActFlag::Pet)))
             return true;
 
         /* area affects don't hit other mobiles */
@@ -1034,7 +1036,7 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
             return false;
 
         /* no pets */
-        if (victim->is_npc() && check_bit(victim->act, ACT_PET))
+        if (victim->is_npc() && check_enum_bit(victim->act, CharActFlag::Pet))
             return true;
 
         /* no charmed mobs unless char is the the owner */
@@ -1484,7 +1486,7 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
 
     align = victim->alignment - gch->alignment;
 
-    if (check_bit(victim->act, ACT_NOALIGN)) {
+    if (check_enum_bit(victim->act, CharActFlag::NoAlign)) {
         /* no change */
     }
 
@@ -1512,7 +1514,7 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
        when slaying enemies that are of the opposite alignment, and are slightly
        penalised when slaying enemies of similar alignment.
     */
-    if (check_bit(victim->act, ACT_NOALIGN))
+    if (check_enum_bit(victim->act, CharActFlag::NoAlign))
         xp = base_exp;
 
     else if (gch->alignment > 500) /* for goodie two shoes */
@@ -2152,7 +2154,7 @@ void do_murder(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->is_aff_charm() || (ch->is_npc() && check_bit(ch->act, ACT_PET)))
+    if (ch->is_aff_charm() || (ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Pet)))
         return;
 
     if ((victim = get_char_room(ch, arg)) == nullptr) {

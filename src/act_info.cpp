@@ -12,7 +12,6 @@
 #include "AreaList.hpp"
 #include "ArmourClass.hpp"
 #include "BitsAffect.hpp"
-#include "BitsCharAct.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsDamageTolerance.hpp"
@@ -22,6 +21,7 @@
 #include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "Columner.hpp"
 #include "Descriptor.hpp"
@@ -199,7 +199,7 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
         buf += "(|RTHIEF|w) ";
 
     if (ch->is_affected_by(gsn_bless)) {
-        if (check_bit(victim->act, ACT_UNDEAD)) {
+        if (check_enum_bit(victim->act, CharActFlag::Undead)) {
             buf += "(|bUndead|w) ";
         }
     }
@@ -1594,7 +1594,7 @@ void do_report(Char *ch) {
 namespace {
 Char *find_prac_mob(Room *room) {
     for (auto *mob : room->people) {
-        if (mob->is_npc() && check_bit(mob->act, ACT_PRACTICE))
+        if (mob->is_npc() && check_enum_bit(mob->act, CharActFlag::Practice))
             return mob;
     }
     return nullptr;

@@ -1,6 +1,6 @@
 #include "PcNutrition.hpp"
-#include "BitsCharAct.hpp"
 #include "Char.hpp"
+#include "CharActFlag.hpp"
 #include "Constants.hpp"
 #include "common/BitOps.hpp"
 
@@ -96,7 +96,7 @@ TEST_CASE("Char nutrition") {
             CHECK(*message == "|wYou are |Wdrunk|w, |Whungry|w and |Wthirsty|w.");
         }
         SECTION("npc undescribable") {
-            set_bit(ch.act, ACT_IS_NPC);
+            set_enum_bit(ch.act, CharActFlag::Npc);
 
             const auto message = ch.describe_nutrition();
 
@@ -114,7 +114,7 @@ TEST_CASE("Char nutrition") {
             CHECK(*message == "Thirst: 13  Hunger: 12  Inebriation: 11");
         }
         SECTION("npc unreportable") {
-            set_bit(ch.act, ACT_IS_NPC);
+            set_enum_bit(ch.act, CharActFlag::Npc);
 
             const auto message = ch.report_nutrition();
 
@@ -134,7 +134,7 @@ TEST_CASE("Char nutrition") {
         }
         SECTION("inebriated but npc unreportable") {
             ch.pcdata->inebriation.set(11);
-            set_bit(ch.act, ACT_IS_NPC);
+            set_enum_bit(ch.act, CharActFlag::Npc);
 
             CHECK(!ch.is_inebriated());
         }
@@ -204,7 +204,7 @@ TEST_CASE("Char nutrition") {
         }
         SECTION("inebriation unchanged because npc") {
             ch.pcdata->inebriation.set(1);
-            set_bit(ch.act, ACT_IS_NPC);
+            set_enum_bit(ch.act, CharActFlag::Npc);
 
             const auto msg = ch.delta_inebriation(-1);
             CHECK(!msg);
