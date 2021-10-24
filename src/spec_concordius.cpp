@@ -136,7 +136,7 @@ void concordius_patrols(Char *ch) {
         break;
     }
     // After socialising in the room, continue with patrol route.
-    if (matches(ch->in_room->area->description(), "Midgaard") && patrol_pause++ % 3 == 2) {
+    if (matches(ch->in_room->area->short_name(), "Midgaard") && patrol_pause++ % 3 == 2) {
         interpret(ch, patrol_directions[patrol_index++ % patrol_directions.size()]);
     }
 }

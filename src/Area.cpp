@@ -6,12 +6,12 @@
 #include <gsl/gsl_util>
 
 Area Area::parse(int area_num, FILE *fp, std::string filename) {
-    fread_string(fp); /* filename */
+    fread_stdstring(fp); /* filename */
 
     Area result;
-    result.description_ = fread_stdstring(fp);
     result.short_name_ = fread_stdstring(fp);
-    int scanRet = sscanf(result.short_name_.c_str(), "{%d %d}", &result.min_level_, &result.max_level_);
+    result.description_ = fread_stdstring(fp);
+    int scanRet = sscanf(result.description_.c_str(), "{%d %d}", &result.min_level_, &result.max_level_);
     if (scanRet != 2) {
         result.all_levels_ = true;
     }

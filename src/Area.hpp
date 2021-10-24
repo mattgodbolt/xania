@@ -8,7 +8,7 @@
 #include <vector>
 
 class Area {
-    std::string short_name_;
+    std::string description_;
 
     ush_int age_{};
     ush_int num_players_{};
@@ -16,7 +16,7 @@ class Area {
     bool all_levels_{};
     int min_level_{0};
     int max_level_{MAX_LEVEL};
-    std::string description_;
+    std::string short_name_;
     std::string filename_;
     int lowest_vnum_{};
     int highest_vnum_{};

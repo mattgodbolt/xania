@@ -1971,14 +1971,14 @@ void do_areas(Char *ch, ArgParser args) {
             colour_column2 = colour;
             num_found++;
             // And shift out
-            ch->send_line("{}{:<39}{}{:<39}", colour_column1, area_column1->short_name(), colour_column2,
-                          area_column2->short_name());
+            ch->send_line("{}{:<39}{}{:<39}", colour_column1, area_column1->description(), colour_column2,
+                          area_column2->description());
             area_column1 = area_column2 = nullptr;
         }
     }
     // Check for any straggling lines
     if (area_column1)
-        ch->send_line("{}{:<39}", colour_column1, area_column1->short_name());
+        ch->send_line("{}{:<39}", colour_column1, area_column1->description());
     if (num_found) {
         ch->send_line("");
         ch->send_line("Areas found: {}", num_found);
