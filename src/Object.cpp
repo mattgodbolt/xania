@@ -6,8 +6,8 @@
 #include "Object.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
-#include "BitsWeaponFlag.hpp"
 #include "ObjectType.hpp"
+#include "WeaponFlag.hpp"
 #include "common/BitOps.hpp"
 #include "string_utils.hpp"
 
