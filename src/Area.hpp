@@ -10,8 +10,8 @@
 class Area {
     std::string short_name_;
 
-    sh_int age_{};
-    sh_int num_players_{};
+    ush_int age_{};
+    ush_int num_players_{};
     bool empty_since_last_reset_{};
     bool all_levels_{};
     int min_level_{0};

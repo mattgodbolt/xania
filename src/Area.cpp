@@ -20,7 +20,8 @@ Area Area::parse(int area_num, FILE *fp, std::string filename) {
     result.num_ = area_num;
     result.filename_ = std::move(filename);
 
-    result.age_ = std::numeric_limits<decltype(result.age_)>::max(); // trigger an area reset when main game loop starts
+    result.age_ =
+        std::numeric_limits<decltype(result.age_)>::max() - 1; // trigger an area reset when main game loop starts
 
     return result;
 }
@@ -75,7 +76,7 @@ void Area::reset() {
         if (auto *room = get_room(vnum))
             reset_room(room);
     }
-    age_ = gsl::narrow_cast<sh_int>(number_range(0, 3));
+    age_ = gsl::narrow_cast<ush_int>(number_range(0, 3));
 
     if (auto room = get_room(rooms::MudschoolEntrance); room != nullptr && room->area == this)
         age_ = RoomResetAgeUnoccupiedArea;
