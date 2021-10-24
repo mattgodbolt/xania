@@ -9,8 +9,8 @@
 
 #include "update.hpp"
 #include "AFFECT_DATA.hpp"
+#include "AffectFlag.hpp"
 #include "Area.hpp"
-#include "BitsAffect.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectWear.hpp"
 #include "BitsPlayerAct.hpp"
@@ -597,7 +597,7 @@ void char_update() {
             ch->send_line("You writhe in agony from the plague.");
             auto *existing_plague = ch->affected.find_by_skill(gsn_plague);
             if (existing_plague == nullptr) {
-                clear_bit(ch->affected_by, AFF_PLAGUE);
+                clear_enum_bit(ch->affected_by, AffectFlag::Plague);
                 return;
             }
 
@@ -610,7 +610,7 @@ void char_update() {
             plague.duration = number_range(1, 2 * plague.level);
             plague.location = AffectLocation::Str;
             plague.modifier = -5;
-            plague.bitvector = AFF_PLAGUE;
+            plague.bitvector = to_int(AffectFlag::Plague);
 
             for (auto *vch : ch->in_room->people) {
                 switch (check_damage_tolerance(vch, DAM_DISEASE)) {

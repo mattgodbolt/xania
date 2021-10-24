@@ -8,10 +8,10 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "AffectFlag.hpp"
 #include "Area.hpp"
 #include "AreaList.hpp"
 #include "ArmourClass.hpp"
-#include "BitsAffect.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsDamageTolerance.hpp"

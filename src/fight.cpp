@@ -9,8 +9,8 @@
 
 #include "fight.hpp"
 #include "AFFECT_DATA.hpp"
+#include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
-#include "BitsAffect.hpp"
 #include "BitsBodyForm.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsCommChannel.hpp"
@@ -720,7 +720,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
     if (ch->is_aff_invisible()) {
         affect_strip(ch, gsn_invis);
         affect_strip(ch, gsn_mass_invis);
-        clear_bit(ch->affected_by, AFF_INVISIBLE);
+        clear_enum_bit(ch->affected_by, AffectFlag::Invisible);
         act("$n fades into existence.", ch);
     }
 
@@ -1076,11 +1076,11 @@ void check_killer(Char *ch, Char *victim) {
     /*
      * Charm-o-rama.
      */
-    if (check_bit(ch->affected_by, AFF_CHARM)) {
+    if (check_enum_bit(ch->affected_by, AffectFlag::Charm)) {
         if (ch->master == nullptr) {
-            bug("Check_killer: {} bad AFF_CHARM", ch->short_name());
+            bug("Check_killer: {} bad AffectFlag::Charm", ch->short_name());
             affect_strip(ch, gsn_charm_person);
-            clear_bit(ch->affected_by, AFF_CHARM);
+            clear_enum_bit(ch->affected_by, AffectFlag::Charm);
             return;
         }
         /*
@@ -1724,7 +1724,7 @@ void do_berserk(Char *ch) {
         af.level = ch->level;
         af.duration = number_fuzzy(ch->level / 8);
         af.modifier = std::max(1, ch->level / 5);
-        af.bitvector = AFF_BERSERK;
+        af.bitvector = to_int(AffectFlag::Berserk);
 
         af.location = AffectLocation::Hitroll;
         affect_to_char(ch, af);
@@ -1978,7 +1978,7 @@ void do_dirt(Char *ch, const char *argument) {
         af.duration = 0;
         af.location = AffectLocation::Hitroll;
         af.modifier = -4;
-        af.bitvector = AFF_BLIND;
+        af.bitvector = to_int(AffectFlag::Blind);
 
         affect_to_char(victim, af);
     } else {
@@ -2452,7 +2452,7 @@ void do_headbutt(Char *ch, const char *argument) {
             af.duration = 0;
             af.location = AffectLocation::Hitroll;
             af.modifier = -5;
-            af.bitvector = AFF_BLIND;
+            af.bitvector = to_int(AffectFlag::Blind);
 
             affect_to_char(victim, af);
         }

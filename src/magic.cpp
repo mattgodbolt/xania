@@ -9,7 +9,7 @@
 
 #include "magic.h"
 #include "AFFECT_DATA.hpp"
-#include "BitsAffect.hpp"
+#include "AffectFlag.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
@@ -782,7 +782,7 @@ void spell_blindness(int sn, int level, Char *ch, void *vo) {
     af.location = AffectLocation::Hitroll;
     af.modifier = -4;
     af.duration = 1;
-    af.bitvector = AFF_BLIND;
+    af.bitvector = to_int(AffectFlag::Blind);
     affect_to_char(victim, af);
     victim->send_line("You are blinded!");
     act("$n appears to be blinded.", victim);
@@ -880,7 +880,7 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
                 af.modifier = -5;
             else
                 af.modifier = -2;
-            af.bitvector = AFF_CALM;
+            af.bitvector = to_int(AffectFlag::Calm);
             affect_to_char(vch, af);
 
             af.location = AffectLocation::Damroll;
@@ -1076,7 +1076,7 @@ void spell_charm_person(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 4);
-    af.bitvector = AFF_CHARM;
+    af.bitvector = to_int(AffectFlag::Charm);
     affect_to_char(victim, af);
     act("Isn't $n just so nice?", ch, nullptr, victim, To::Vict);
     if (ch != victim)
@@ -1298,7 +1298,7 @@ void spell_curse(int sn, int level, Char *ch, void *vo) {
     af.duration = 3 + (level / 6);
     af.location = AffectLocation::Hitroll;
     af.modifier = -1 * (level / 8);
-    af.bitvector = AFF_CURSE;
+    af.bitvector = to_int(AffectFlag::Curse);
     affect_to_char(victim, af);
 
     af.location = AffectLocation::SavingSpell;
@@ -1381,7 +1381,7 @@ void spell_detect_evil(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.bitvector = AFF_DETECT_EVIL;
+    af.bitvector = to_int(AffectFlag::DetectEvil);
     affect_to_char(victim, af);
     victim->send_line("Your eyes tingle.");
     if (ch != victim)
@@ -1405,7 +1405,7 @@ void spell_detect_hidden(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.bitvector = AFF_DETECT_HIDDEN;
+    af.bitvector = to_int(AffectFlag::DetectHidden);
     affect_to_char(victim, af);
     victim->send_line("Your awareness improves.");
     if (ch != victim)
@@ -1429,7 +1429,7 @@ void spell_detect_invis(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.bitvector = AFF_DETECT_INVIS;
+    af.bitvector = to_int(AffectFlag::DetectInvis);
     affect_to_char(victim, af);
     victim->send_line("Your eyes tingle.");
     if (ch != victim)
@@ -1453,7 +1453,7 @@ void spell_detect_magic(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level;
-    af.bitvector = AFF_DETECT_MAGIC;
+    af.bitvector = to_int(AffectFlag::DetectMagic);
     affect_to_char(victim, af);
     victim->send_line("Your eyes tingle.");
     if (ch != victim)
@@ -2202,7 +2202,7 @@ void spell_faerie_fire(int sn, int level, Char *ch, void *vo) {
     af.duration = level;
     af.location = AffectLocation::Ac;
     af.modifier = 2 * level;
-    af.bitvector = AFF_FAERIE_FIRE;
+    af.bitvector = to_int(AffectFlag::FaerieFire);
     affect_to_char(victim, af);
     victim->send_line("You are surrounded by a pink outline.");
     act("$n is surrounded by a pink outline.", victim);
@@ -2227,9 +2227,9 @@ void spell_faerie_fog(int sn, int level, Char *ch, void *vo) {
         affect_strip(ich, gsn_invis);
         affect_strip(ich, gsn_mass_invis);
         affect_strip(ich, gsn_sneak);
-        clear_bit(ich->affected_by, AFF_HIDE);
-        clear_bit(ich->affected_by, AFF_INVISIBLE);
-        clear_bit(ich->affected_by, AFF_SNEAK);
+        clear_enum_bit(ich->affected_by, AffectFlag::Hide);
+        clear_enum_bit(ich->affected_by, AffectFlag::Invisible);
+        clear_enum_bit(ich->affected_by, AffectFlag::Sneak);
         act("$n is revealed!", ich);
         ich->send_line("You are revealed!");
     }
@@ -2243,7 +2243,7 @@ void spell_fly(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = level + 3;
-    af.bitvector = AFF_FLYING;
+    af.bitvector = to_int(AffectFlag::Flying);
     affect_to_char(victim, af);
     victim->send_line("Your feet rise off the ground.");
     act("$n's feet rise off the ground.", victim);
@@ -2400,7 +2400,7 @@ void spell_regeneration(int sn, int level, Char *ch, void *vo) {
         af.duration = level / 2;
     else
         af.duration = level / 4;
-    af.bitvector = AFF_REGENERATION;
+    af.bitvector = to_int(AffectFlag::Regeneration);
     affect_to_char(victim, af);
     victim->send_line("You feel vibrant!");
     act("$n is feeling more vibrant.", victim);
@@ -2422,7 +2422,7 @@ void spell_haste(int sn, int level, Char *ch, void *vo) {
         af.duration = level / 4;
     af.location = AffectLocation::Dex;
     af.modifier = 1 + (level >= 18) + (level >= 25) + (level >= 32);
-    af.bitvector = AFF_HASTE;
+    af.bitvector = to_int(AffectFlag::Haste);
     affect_to_char(victim, af);
     victim->send_line("You feel yourself moving more quickly.");
     act("$n is moving more quickly.", victim);
@@ -2490,7 +2490,7 @@ void spell_lethargy(int sn, int level, Char *ch, void *vo) {
         af.duration = level / 4;
     af.location = AffectLocation::Dex;
     af.modifier = -(1 + (level >= 18) + (level >= 25) + (level >= 32));
-    af.bitvector = AFF_LETHARGY;
+    af.bitvector = to_int(AffectFlag::Lethargy);
     affect_to_char(victim, af);
     victim->send_line("You feel your heart-beat slowing.");
     act("$n slows nearly to a stand-still.", victim);
@@ -2668,7 +2668,7 @@ void spell_infravision(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 2 * level;
-    af.bitvector = AFF_INFRARED;
+    af.bitvector = to_int(AffectFlag::Infrared);
     affect_to_char(victim, af);
     victim->send_line("Your eyes glow red.");
 }
@@ -2685,7 +2685,7 @@ void spell_invis(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 24;
-    af.bitvector = AFF_INVISIBLE;
+    af.bitvector = to_int(AffectFlag::Invisible);
     affect_to_char(victim, af);
     victim->send_line("You fade out of existence.");
 }
@@ -2810,7 +2810,7 @@ void spell_mass_invis(int sn, int level, Char *ch, void *vo) {
         af.type = sn;
         af.level = level / 2;
         af.duration = 24;
-        af.bitvector = AFF_INVISIBLE;
+        af.bitvector = to_int(AffectFlag::Invisible);
         affect_to_char(gch, af);
     }
     ch->send_line("Ok.");
@@ -2835,7 +2835,7 @@ void spell_octarine_fire(int sn, int level, Char *ch, void *vo) {
     af.duration = 2;
     af.location = AffectLocation::Ac;
     af.modifier = 10 * level;
-    af.bitvector = AFF_OCTARINE_FIRE;
+    af.bitvector = to_int(AffectFlag::OctarineFire);
     affect_to_char(victim, af);
     victim->send_line("You are surrounded by an octarine outline.");
     act("$n is surrounded by a octarine outline.", victim);
@@ -2858,7 +2858,7 @@ void spell_pass_door(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 4);
-    af.bitvector = AFF_PASS_DOOR;
+    af.bitvector = to_int(AffectFlag::PassDoor);
     affect_to_char(victim, af);
     act("$n turns translucent.", victim);
     victim->send_line("You turn translucent.");
@@ -2883,7 +2883,7 @@ void spell_plague(int sn, int level, Char *ch, void *vo) {
     af.duration = level;
     af.location = AffectLocation::Str;
     af.modifier = -5;
-    af.bitvector = AFF_PLAGUE;
+    af.bitvector = to_int(AffectFlag::Plague);
     affect_join(victim, af);
 
     victim->send_line("You scream in agony as plague sores erupt from your skin.");
@@ -2945,7 +2945,7 @@ void spell_poison(int sn, int level, Char *ch, void *vo) {
     af.duration = level;
     af.location = AffectLocation::Str;
     af.modifier = -2;
-    af.bitvector = AFF_POISON;
+    af.bitvector = to_int(AffectFlag::Poison);
     affect_join(victim, af);
     victim->send_line("You feel very sick.");
     act("$n looks very ill.", victim);
@@ -2968,7 +2968,7 @@ void spell_protection_evil(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 24;
-    af.bitvector = AFF_PROTECTION_EVIL;
+    af.bitvector = to_int(AffectFlag::ProtectionEvil);
     affect_to_char(victim, af);
     victim->send_line("You feel protected from evil.");
     if (ch != victim)
@@ -2992,7 +2992,7 @@ void spell_protection_good(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 24;
-    af.bitvector = AFF_PROTECTION_GOOD;
+    af.bitvector = to_int(AffectFlag::ProtectionGood);
     affect_to_char(victim, af);
     victim->send_line("You feel protected from good.");
     if (ch != victim)
@@ -3075,7 +3075,7 @@ void spell_sanctuary(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 5);
-    af.bitvector = AFF_SANCTUARY;
+    af.bitvector = to_int(AffectFlag::Sanctuary);
     affect_to_char(victim, af);
     act("$n is surrounded by a white aura.", victim);
     victim->send_line("You are surrounded by a white aura.");
@@ -3098,7 +3098,7 @@ void spell_talon(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 6);
-    af.bitvector = AFF_TALON;
+    af.bitvector = to_int(AffectFlag::Talon);
     affect_to_char(victim, af);
     act("$n's hands become as strong as talons.", victim);
     victim->send_line("You hands become as strong as talons.");
@@ -3149,7 +3149,7 @@ void spell_sleep(int sn, int level, Char *ch, void *vo) {
     af.type = sn;
     af.level = level;
     af.duration = 4 + level;
-    af.bitvector = AFF_SLEEP;
+    af.bitvector = to_int(AffectFlag::Sleep);
     affect_join(victim, af);
 
     if (victim->is_pos_awake()) {
@@ -3296,7 +3296,7 @@ void spell_weaken(int sn, int level, Char *ch, void *vo) {
     af.duration = level / 2;
     af.location = AffectLocation::Str;
     af.modifier = -1 * (level / 5);
-    af.bitvector = AFF_WEAKEN;
+    af.bitvector = to_int(AffectFlag::Weaken);
     affect_to_char(victim, af);
     victim->send_line("You feel weaker.");
     act("$n looks tired and weak.", victim);

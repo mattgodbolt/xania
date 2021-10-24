@@ -8,6 +8,8 @@
 
 #include "common/StandardBits.hpp"
 
+#include <magic_enum.hpp>
+
 enum class WeaponFlag : unsigned int {
     Flaming = A,
     Frost = B,
@@ -20,3 +22,7 @@ enum class WeaponFlag : unsigned int {
     Lightning = J,
     Acid = K
 };
+
+[[nodiscard]] constexpr auto to_int(const WeaponFlag flag) noexcept {
+    return magic_enum::enum_integer<WeaponFlag>(flag);
+}

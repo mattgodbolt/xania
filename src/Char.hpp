@@ -1,9 +1,9 @@
 #pragma once
 
 #include "AFFECT_DATA.hpp"
+#include "AffectFlag.hpp"
 #include "AffectList.hpp"
 #include "ArmourClass.hpp"
-#include "BitsAffect.hpp"
 #include "CharVersion.hpp"
 #include "Constants.hpp"
 #include "Descriptor.hpp"
@@ -346,36 +346,36 @@ struct Char {
 
     inline static constexpr std::array<Flag, 30> AllAffectFlags = {{
         // clang-format off
-        {AFF_BLIND, 0, "blind"},
-        {AFF_INVISIBLE, 0, "invisible"},
-        {AFF_DETECT_EVIL, 0, "detect_evil"},
-        {AFF_DETECT_INVIS, 0, "detect_invis"},
-        {AFF_DETECT_MAGIC, 0, "detect_magic"},
-        {AFF_DETECT_HIDDEN, 0, "detect_hidden"},
-        {AFF_TALON, 0, "talon"},
-        {AFF_SANCTUARY, 0, "sanctuary"},
-        {AFF_FAERIE_FIRE, 0, "faerie_fire"},
-        {AFF_INFRARED, 0, "infrared"},
-        {AFF_CURSE, 0, "curse"},
-        {AFF_PROTECTION_EVIL, 0, "protection_evil"},
-        {AFF_POISON, 0, "poison"},
-        {AFF_PROTECTION_GOOD, 0, "protection_good"},
-        {AFF_SNEAK, 0, "sneak"},
-        {AFF_HIDE, 0, "hide"},
-        {AFF_SLEEP, 0, "sleep"},
-        {AFF_CHARM, 0, "charm"},
-        {AFF_FLYING, 0, "flying"},
-        {AFF_PASS_DOOR, 0, "pass_door"},
-        {AFF_HASTE, 0, "haste"},
-        {AFF_CALM, 0, "calm"},
-        {AFF_PLAGUE, 0, "plague"},
-        {AFF_WEAKEN, 0, "weaken"},
-        {AFF_DARK_VISION, 0, "dark_vision"},
-        {AFF_BERSERK, 0, "berserk"},
-        {AFF_SWIM, 0, "swim"},
-        {AFF_REGENERATION, 0, "regeneration"},
-        {AFF_OCTARINE_FIRE, 0, "octarine_fire"},
-        {AFF_LETHARGY, 0, "lethargy"}
+        {to_int(AffectFlag::Blind), 0, "blind"},
+        {to_int(AffectFlag::Invisible), 0, "invisible"},
+        {to_int(AffectFlag::DetectEvil), 0, "detect_evil"},
+        {to_int(AffectFlag::DetectInvis), 0, "detect_invis"},
+        {to_int(AffectFlag::DetectMagic), 0, "detect_magic"},
+        {to_int(AffectFlag::DetectHidden), 0, "detect_hidden"},
+        {to_int(AffectFlag::Talon), 0, "talon"},
+        {to_int(AffectFlag::Sanctuary), 0, "sanctuary"},
+        {to_int(AffectFlag::FaerieFire), 0, "faerie_fire"},
+        {to_int(AffectFlag::Infrared), 0, "infrared"},
+        {to_int(AffectFlag::Curse), 0, "curse"},
+        {to_int(AffectFlag::ProtectionEvil), 0, "protection_evil"},
+        {to_int(AffectFlag::Poison), 0, "poison"},
+        {to_int(AffectFlag::ProtectionGood), 0, "protection_good"},
+        {to_int(AffectFlag::Sneak), 0, "sneak"},
+        {to_int(AffectFlag::Hide), 0, "hide"},
+        {to_int(AffectFlag::Sleep), 0, "sleep"},
+        {to_int(AffectFlag::Charm), 0, "charm"},
+        {to_int(AffectFlag::Flying), 0, "flying"},
+        {to_int(AffectFlag::PassDoor), 0, "pass_door"},
+        {to_int(AffectFlag::Haste), 0, "haste"},
+        {to_int(AffectFlag::Calm), 0, "calm"},
+        {to_int(AffectFlag::Plague), 0, "plague"},
+        {to_int(AffectFlag::Weaken), 0, "weaken"},
+        {to_int(AffectFlag::DarkVision), 0, "dark_vision"},
+        {to_int(AffectFlag::Berserk), 0, "berserk"},
+        {to_int(AffectFlag::Swim), 0, "swim"},
+        {to_int(AffectFlag::Regeneration), 0, "regeneration"},
+        {to_int(AffectFlag::OctarineFire), 0, "octarine_fire"},
+        {to_int(AffectFlag::Lethargy), 0, "lethargy"}
         // clang-format on
     }};
 

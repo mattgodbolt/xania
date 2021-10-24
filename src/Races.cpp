@@ -4,7 +4,7 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Races.hpp"
-#include "BitsAffect.hpp"
+#include "AffectFlag.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BodySize.hpp"
@@ -12,7 +12,6 @@
 
 #include <magic_enum.hpp>
 
-static const auto act_int = magic_enum::enum_integer<CharActFlag>;
 /* race table */
 /* when adding a new PC race ensure that it appears towards the top
    of this list! */
@@ -33,26 +32,27 @@ const struct race_type race_table[] = {
 
     {"minotaur", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K | W},
 
-    {"elf", true, 0, AFF_INFRARED, 0, 0, DMG_TOL_CHARM, DMG_TOL_IRON, A | H | M | V,
+    {"elf", true, 0, to_int(AffectFlag::Infrared), 0, 0, DMG_TOL_CHARM, DMG_TOL_IRON, A | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K},
 
-    {"half-elf", true, 0, AFF_INFRARED, 0, 0, 0, DMG_TOL_IRON, A | H | M | V,
+    {"half-elf", true, 0, to_int(AffectFlag::Infrared), 0, 0, 0, DMG_TOL_IRON, A | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K},
 
     {"dragon", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | K | P | U | V | X},
 
-    {"eagle", true, 0, AFF_FLYING, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | P | K | U},
+    {"eagle", true, 0, to_int(AffectFlag::Flying), 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | P | K | U},
 
-    {"orc", true, 0, AFF_INFRARED, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
-
-    {"dwarf", true, 0, AFF_INFRARED, 0, 0, DMG_TOL_POISON | DMG_TOL_DISEASE, DMG_TOL_DROWNING, A | H | M | V,
+    {"orc", true, 0, to_int(AffectFlag::Infrared), 0, 0, 0, 0, A | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K},
+
+    {"dwarf", true, 0, to_int(AffectFlag::Infrared), 0, 0, DMG_TOL_POISON | DMG_TOL_DISEASE, DMG_TOL_DROWNING,
+     A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
 
     {"wolf", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | K | Q | U | V},
     /* commented out for the time being --Fara
        {
        "wraith",               true,
-       0,              AFF_INFRARED,              0,
+       0,              to_int(AffectFlag::Infrared),              0,
        DMG_TOL_COLD,              0,              DMG_TOL_FIRE,
        A|H|M|V|cc,        A|C|D|E|F|G|H|I|J|K|L|U
     }
@@ -61,16 +61,16 @@ const struct race_type race_table[] = {
     {"giant", false, 0, 0, 0, 0, DMG_TOL_FIRE | DMG_TOL_COLD, DMG_TOL_MENTAL | DMG_TOL_LIGHTNING, A | H | M | V,
      A | B | C | D | E | F | G | H | J | K},
 
-    {"bat", false, 0, AFF_FLYING | AFF_DARK_VISION, OFF_DODGE | OFF_FAST, 0, 0, DMG_TOL_LIGHT, A | G | W,
-     A | C | D | E | F | H | J | K | P},
+    {"bat", false, 0, to_int(AffectFlag::Flying) | to_int(AffectFlag::DarkVision), OFF_DODGE | OFF_FAST, 0, 0,
+     DMG_TOL_LIGHT, A | G | W, A | C | D | E | F | H | J | K | P},
 
     {"bear", false, 0, 0, OFF_CRUSH | OFF_DISARM | OFF_BERSERK, 0, DMG_TOL_BASH | DMG_TOL_COLD, 0, A | G | V,
      A | B | C | D | E | F | H | J | K | U | V},
 
-    {"cat", false, 0, AFF_DARK_VISION, OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
+    {"cat", false, 0, to_int(AffectFlag::DarkVision), OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
      A | C | D | E | F | H | J | K | Q | U | V},
 
-    {"centipede", false, 0, AFF_DARK_VISION, 0, 0, DMG_TOL_PIERCE | DMG_TOL_COLD, DMG_TOL_BASH,
+    {"centipede", false, 0, to_int(AffectFlag::DarkVision), 0, 0, DMG_TOL_PIERCE | DMG_TOL_COLD, DMG_TOL_BASH,
      O | Y /* insect, snake  */, A | F | Q | X},
 
     {"dog", false, 0, 0, OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K | U | V},
@@ -82,24 +82,24 @@ const struct race_type race_table[] = {
     {"fido", false, 0, 0, OFF_DODGE | ASSIST_RACE, 0, 0, DMG_TOL_MAGIC, B | G | V,
      A | C | D | E | F | H | J | K | Q | V},
 
-    {"fox", false, 0, AFF_DARK_VISION, OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
+    {"fox", false, 0, to_int(AffectFlag::DarkVision), OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
      A | C | D | E | F | H | J | K | Q | U | V},
 
-    {"goblin", false, 0, AFF_INFRARED, 0, 0, DMG_TOL_DISEASE, DMG_TOL_MAGIC, A | H | M | V,
+    {"goblin", false, 0, to_int(AffectFlag::Infrared), 0, 0, DMG_TOL_DISEASE, DMG_TOL_MAGIC, A | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K},
 
     {
-        "hobgoblin", false, 0, AFF_INFRARED, 0, 0, DMG_TOL_DISEASE | DMG_TOL_POISON, 0, A | H | M | V,
+        "hobgoblin", false, 0, to_int(AffectFlag::Infrared), 0, 0, DMG_TOL_DISEASE | DMG_TOL_POISON, 0, A | H | M | V,
         A | B | C | D | E | F | G | H | I | J | K | Q /* includes a tail */
 
     },
 
-    {"kobold", false, 0, AFF_INFRARED, 0, 0, DMG_TOL_POISON, DMG_TOL_MAGIC, A | B | H | M | V,
+    {"kobold", false, 0, to_int(AffectFlag::Infrared), 0, 0, DMG_TOL_POISON, DMG_TOL_MAGIC, A | B | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K | Q},
 
     {"lizard", false, 0, 0, 0, 0, DMG_TOL_POISON, DMG_TOL_COLD, A | G | X | cc, A | C | D | E | F | H | K | Q | V},
 
-    {"modron", false, 0, AFF_INFRARED, ASSIST_RACE | ASSIST_ALIGN,
+    {"modron", false, 0, to_int(AffectFlag::Infrared), ASSIST_RACE | ASSIST_ALIGN,
      DMG_TOL_CHARM | DMG_TOL_DISEASE | DMG_TOL_MENTAL | DMG_TOL_HOLY | DMG_TOL_NEGATIVE,
      DMG_TOL_FIRE | DMG_TOL_COLD | DMG_TOL_ACID, 0, H, A | B | C | G | H | J | K},
 
@@ -107,23 +107,27 @@ const struct race_type race_table[] = {
 
     {"rabbit", false, 0, 0, OFF_DODGE | OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K},
 
-    {"school monster", false, act_int(CharActFlag::NoAlign), 0, 0, DMG_TOL_CHARM | DMG_TOL_SUMMON, 0, DMG_TOL_MAGIC,
+    {"school monster", false, to_int(CharActFlag::NoAlign), 0, 0, DMG_TOL_CHARM | DMG_TOL_SUMMON, 0, DMG_TOL_MAGIC,
      A | M | V, A | B | C | D | E | F | H | J | K | Q | U},
 
     {"snake", false, 0, 0, 0, 0, DMG_TOL_POISON, DMG_TOL_COLD, A | G | R | X | Y | cc,
      A | D | E | F | K | L | Q | V | X},
 
-    {"song bird", false, 0, AFF_FLYING, OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | W, A | C | D | E | F | H | K | P},
+    {"song bird", false, 0, to_int(AffectFlag::Flying), OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | W,
+     A | C | D | E | F | H | K | P},
 
-    {"troll", false, 0, AFF_REGENERATION | AFF_INFRARED | AFF_DETECT_HIDDEN, OFF_BERSERK, 0,
+    {"troll", false, 0,
+     to_int(AffectFlag::Regeneration) | to_int(AffectFlag::Infrared) | to_int(AffectFlag::DetectHidden), OFF_BERSERK, 0,
      DMG_TOL_CHARM | DMG_TOL_BASH, DMG_TOL_FIRE | DMG_TOL_ACID, B | M | V,
      A | B | C | D | E | F | G | H | I | J | K | U | V},
 
-    {"water fowl", false, 0, AFF_SWIM | AFF_FLYING, 0, 0, DMG_TOL_DROWNING, 0, A | G | W,
-     A | C | D | E | F | H | K | P | Q},
+    {"water fowl", false, 0, to_int(AffectFlag::Swim) | to_int(AffectFlag::Flying), 0, 0, DMG_TOL_DROWNING, 0,
+     A | G | W, A | C | D | E | F | H | K | P | Q},
 
-    {"wyvern", false, 0, AFF_FLYING | AFF_DETECT_INVIS | AFF_DETECT_HIDDEN, OFF_BASH | OFF_FAST | OFF_DODGE,
-     DMG_TOL_POISON, 0, DMG_TOL_LIGHT, B | Z | cc, A | C | D | E | F | H | J | K | P | Q | V | X},
+    {"wyvern", false, 0,
+     to_int(AffectFlag::Flying) | to_int(AffectFlag::DetectInvis) | to_int(AffectFlag::DetectHidden),
+     OFF_BASH | OFF_FAST | OFF_DODGE, DMG_TOL_POISON, 0, DMG_TOL_LIGHT, B | Z | cc,
+     A | C | D | E | F | H | J | K | P | Q | V | X},
 
     {nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 

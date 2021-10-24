@@ -1,6 +1,7 @@
 #include "AFFECT_DATA.hpp"
-#include "BitsAffect.hpp"
+#include "AffectFlag.hpp"
 #include "SkillNumbers.hpp"
+#include "common/BitOps.hpp"
 
 #include "Char.hpp"
 
@@ -28,12 +29,13 @@ TEST_CASE("AFFECT_DATA") {
         Char ch;
         AFFECT_DATA af;
         SECTION("affect bits") {
-            ch.affected_by = AFF_DARK_VISION;
-            af.bitvector = AFF_CHARM;
+            ch.affected_by = to_int(AffectFlag::DarkVision);
+            af.bitvector = to_int(AffectFlag::Charm);
             af.apply(ch);
-            CHECK(ch.affected_by == (AFF_CHARM | AFF_DARK_VISION));
+            CHECK(check_enum_bit(ch.affected_by, AffectFlag::Charm));
+            CHECK(check_enum_bit(ch.affected_by, AffectFlag::DarkVision));
             af.unapply(ch);
-            CHECK(ch.affected_by == AFF_DARK_VISION);
+            CHECK(ch.affected_by == to_int(AffectFlag::DarkVision));
         }
         auto test_stat = [&](AffectLocation location, auto get) {
             auto stat_before = get();
@@ -96,13 +98,13 @@ TEST_CASE("AFFECT_DATA") {
     }
 
     SECTION("should describe effects") {
-        auto spell_with_location = AFFECT_DATA{-1, 33, 22, AffectLocation::Wis, 1, AFF_HASTE};
+        auto spell_with_location = AFFECT_DATA{-1, 33, 22, AffectLocation::Wis, 1, to_int(AffectFlag::Haste)};
         SECTION("for items") {
             CHECK(spell_with_location.describe_item_effect(false) == "wisdom by 1");
             CHECK(spell_with_location.describe_item_effect(true) == "wisdom by 1 with bits |Chaste|w, level 33");
         }
         SECTION("for characters") {
-            auto spell_no_location = AFFECT_DATA{-1, 33, 22, AffectLocation::None, 1, AFF_HASTE};
+            auto spell_no_location = AFFECT_DATA{-1, 33, 22, AffectLocation::None, 1, to_int(AffectFlag::Haste)};
             SECTION("spells") {
                 CHECK(spell_with_location.describe_char_effect(false) == " modifies wisdom by 1 for 22 hours");
                 CHECK(spell_with_location.describe_char_effect(true)
@@ -114,7 +116,7 @@ TEST_CASE("AFFECT_DATA") {
                       == " modifies none by 1 for 22 hours with bits |Chaste|w, level 33");
             }
             SECTION("skills") {
-                auto skill = AFFECT_DATA{gsn_sneak, 80, 0, AffectLocation::None, 0, AFF_SNEAK};
+                auto skill = AFFECT_DATA{gsn_sneak, 80, 0, AffectLocation::None, 0, to_int(AffectFlag::Sneak)};
                 // Similar to above, concise message for effects like sneak and ride.
                 CHECK(skill.describe_char_effect(false) == "");
                 CHECK(skill.describe_char_effect(true) == " modifies none by 0 with bits |Csneak|w, level 80");

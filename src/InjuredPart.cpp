@@ -4,8 +4,8 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "InjuredPart.hpp"
+#include "AffectFlag.hpp"
 #include "Attacks.hpp"
-#include "BitsAffect.hpp"
 #include "BitsBodyPart.hpp"
 #include "BodySize.hpp"
 #include "Char.hpp"

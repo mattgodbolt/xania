@@ -8,7 +8,7 @@
 /*************************************************************************/
 
 #include "interp.h"
-#include "BitsAffect.hpp"
+#include "AffectFlag.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsPlayerAct.hpp"
 #include "Char.hpp"
@@ -436,7 +436,7 @@ void interpret(Char *ch, const char *argument) {
         return;
     }
     /* No hiding. */
-    clear_bit(ch->affected_by, AFF_HIDE);
+    clear_enum_bit(ch->affected_by, AffectFlag::Hide);
 
     /* Implement freeze command. */
     if (ch->is_pc() && check_bit(ch->act, PLR_FREEZE)) {

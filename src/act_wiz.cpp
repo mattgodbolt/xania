@@ -6,9 +6,9 @@
 
 #include "act_wiz.hpp"
 #include "AFFECT_DATA.hpp"
+#include "AffectFlag.hpp"
 #include "Area.hpp"
 #include "ArmourClass.hpp"
-#include "BitsAffect.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
@@ -2034,7 +2034,7 @@ void do_awaken(Char *ch, const char *argument) {
         return;
     }
 
-    clear_bit(victim->affected_by, AFF_SLEEP);
+    clear_enum_bit(victim->affected_by, AffectFlag::Sleep);
     victim->position = Position::Type::Standing;
 
     act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, To::Room, Position::Type::Resting);
@@ -2117,7 +2117,7 @@ void do_coma(Char *ch, const char *argument) {
     af.type = 38; /* SLEEP */ // TODO 38? really?
     af.level = ch->trust;
     af.duration = 4 + ch->trust;
-    af.bitvector = AFF_SLEEP;
+    af.bitvector = to_int(AffectFlag::Sleep);
     affect_join(victim, af);
 
     if (victim->is_pos_awake()) {

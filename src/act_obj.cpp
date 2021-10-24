@@ -9,7 +9,7 @@
 
 #include "act_obj.hpp"
 #include "AFFECT_DATA.hpp"
-#include "BitsAffect.hpp"
+#include "AffectFlag.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsDamageTolerance.hpp"
@@ -1287,7 +1287,7 @@ void do_drink(Char *ch, const char *argument) {
             af.type = gsn_poison;
             af.level = number_fuzzy(amount);
             af.duration = 3 * amount;
-            af.bitvector = AFF_POISON;
+            af.bitvector = to_int(AffectFlag::Poison);
             affect_join(ch, af);
         }
 
@@ -1342,7 +1342,7 @@ void do_eat(Char *ch, const char *argument) {
             af.type = gsn_poison;
             af.level = number_fuzzy(obj->value[0]);
             af.duration = std::max(1, obj->value[0]);
-            af.bitvector = AFF_POISON;
+            af.bitvector = to_int(AffectFlag::Poison);
             affect_join(ch, af);
         }
         break;
@@ -1919,7 +1919,7 @@ void do_buy(Char *ch, const char *argument) {
         pet = create_mobile(pet->mobIndex);
         set_bit(ch->act, PLR_BOUGHT_PET);
         set_enum_bit(pet->act, CharActFlag::Pet);
-        set_bit(pet->affected_by, AFF_CHARM);
+        set_enum_bit(pet->affected_by, AffectFlag::Charm);
         pet->comm = COMM_NOTELL | COMM_NOSHOUT | COMM_NOCHANNELS;
 
         argument = one_argument(argument, arg);

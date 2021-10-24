@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "mob_prog.hpp"
-#include "BitsAffect.hpp"
+#include "AffectFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Logging.hpp"

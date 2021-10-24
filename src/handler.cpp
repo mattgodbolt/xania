@@ -9,8 +9,8 @@
 
 #include "handler.hpp"
 #include "AFFECT_DATA.hpp"
+#include "AffectFlag.hpp"
 #include "Area.hpp"
-#include "BitsAffect.hpp"
 #include "BitsBodyForm.hpp"
 #include "BitsBodyPart.hpp"
 #include "BitsCharOffensive.hpp"
@@ -326,7 +326,7 @@ void char_to_room(Char *ch, Room *room) {
     if (ch->is_aff_plague()) {
         auto *existing_plague = ch->affected.find_by_skill(gsn_plague);
         if (!existing_plague) {
-            clear_bit(ch->affected_by, AFF_PLAGUE);
+            clear_enum_bit(ch->affected_by, AffectFlag::Plague);
             return;
         }
 
@@ -339,7 +339,7 @@ void char_to_room(Char *ch, Room *room) {
         plague.duration = number_range(1, 2 * plague.level);
         plague.location = AffectLocation::Str;
         plague.modifier = -5;
-        plague.bitvector = AFF_PLAGUE;
+        plague.bitvector = to_int(AffectFlag::Plague);
 
         for (auto *vch : ch->in_room->people) {
             const int save = [&]() -> int {

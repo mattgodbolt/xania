@@ -6,7 +6,7 @@
 
 #include "CorpseSummoner.hpp"
 #include "AFFECT_DATA.hpp"
-#include "BitsAffect.hpp"
+#include "AffectFlag.hpp"
 #include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "Object.hpp"
@@ -110,7 +110,7 @@ void CorpseSummoner::apply_summoning_fatigue(Char *player) {
     af.duration = 2;
     af.location = AffectLocation::Str;
     af.modifier = -3;
-    af.bitvector = AFF_WEAKEN;
+    af.bitvector = to_int(AffectFlag::Weaken);
     mud_.affect_to_char(player, af);
     player->send_line("You are stunned and fall the ground.");
     mud_.act("$n is knocked off $s feet!", player, nullptr, nullptr, To::Room);

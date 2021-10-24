@@ -9,7 +9,7 @@
 
 #include "act_move.hpp"
 #include "AFFECT_DATA.hpp"
-#include "BitsAffect.hpp"
+#include "AffectFlag.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsExitState.hpp"
 #include "BitsPlayerAct.hpp"
@@ -907,7 +907,7 @@ void do_sneak(Char *ch) {
         af.type = gsn_sneak;
         af.level = ch->level;
         af.duration = ch->level;
-        af.bitvector = AFF_SNEAK;
+        af.bitvector = to_int(AffectFlag::Sneak);
         affect_to_char(ch, af);
     } else
         check_improve(ch, gsn_sneak, false, 3);
@@ -917,10 +917,10 @@ void do_hide(Char *ch) {
     ch->send_line("You attempt to hide.");
 
     if (ch->is_aff_hide())
-        clear_bit(ch->affected_by, AFF_HIDE);
+        clear_enum_bit(ch->affected_by, AffectFlag::Hide);
 
     if (ch->is_npc() || number_percent() < ch->pcdata->learned[gsn_hide]) {
-        set_bit(ch->affected_by, AFF_HIDE);
+        set_enum_bit(ch->affected_by, AffectFlag::Hide);
         check_improve(ch, gsn_hide, true, 3);
     } else
         check_improve(ch, gsn_hide, false, 3);
@@ -933,9 +933,9 @@ void do_visible(Char *ch) {
     affect_strip(ch, gsn_invis);
     affect_strip(ch, gsn_mass_invis);
     affect_strip(ch, gsn_sneak);
-    clear_bit(ch->affected_by, AFF_HIDE);
-    clear_bit(ch->affected_by, AFF_INVISIBLE);
-    clear_bit(ch->affected_by, AFF_SNEAK);
+    clear_enum_bit(ch->affected_by, AffectFlag::Hide);
+    clear_enum_bit(ch->affected_by, AffectFlag::Invisible);
+    clear_enum_bit(ch->affected_by, AffectFlag::Sneak);
     ch->send_line("You slowly fade back into existence.");
     act("$n fades into existence.", ch);
 }

@@ -8,8 +8,8 @@
 /*************************************************************************/
 
 #include "act_comm.hpp"
+#include "AffectFlag.hpp"
 #include "ArgParser.hpp"
-#include "BitsAffect.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsPlayerAct.hpp"
 #include "Char.hpp"
@@ -435,7 +435,7 @@ void stop_follower(Char *ch) {
     }
 
     if (ch->is_aff_charm()) {
-        clear_bit(ch->affected_by, AFF_CHARM);
+        clear_enum_bit(ch->affected_by, AffectFlag::Charm);
         affect_strip(ch, gsn_charm_person);
     }
 

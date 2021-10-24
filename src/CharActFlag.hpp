@@ -7,6 +7,8 @@
 #pragma once
 
 #include "common/StandardBits.hpp"
+
+#include <magic_enum.hpp>
 /*
  * Character act bits.
  * Used in #MOBILES section of area files.
@@ -35,3 +37,7 @@ enum class CharActFlag : unsigned long {
     UpdateAlways = cc,
     CanBeRidden = dd
 };
+
+[[nodiscard]] constexpr auto to_int(const CharActFlag flag) noexcept {
+    return magic_enum::enum_integer<CharActFlag>(flag);
+}

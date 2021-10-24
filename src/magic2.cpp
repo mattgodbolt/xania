@@ -5,7 +5,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
-#include "BitsAffect.hpp"
+#include "AffectFlag.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
@@ -85,7 +85,7 @@ void tornado_mental(Char *ch, Char *victim, int level) {
     af.duration = 2;
     af.location = AffectLocation::Hitroll;
     af.modifier = -4;
-    af.bitvector = AFF_BLIND;
+    af.bitvector = to_int(AffectFlag::Blind);
     affect_to_char(victim, af);
 
     af.location = AffectLocation::Wis;
@@ -345,7 +345,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 /* and now make this zombie a member of the group */
 /* uses code very similar to spell_charm_person() */
 //
-//    zombie->affected_by |= AFF_CHARM;
+//    set_enum_bit(zombie->affected_by, AffectFlag::Charm);
 //    add_follower (zombie, ch);
 //    zombie->leader = ch;
 //    af.type      = sn;
@@ -353,7 +353,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 //    af.duration  = number_fuzzy( level / 4 );
 //    af.location  = 0;
 //    af.modifier  = 0;
-//    af.bitvector = AFF_CHARM;
+//    af.bitvector = to_int(AffectFlag::Charm);
 //    affect_to_char( zombie, af );
 //    act( "Isn't $n just so nice?", ch, nullptr, victim, To::Vict );
 //    act("$N gazes at you through blood-chilling eye sockets.",ch,nullptr,zombie,To::Char);

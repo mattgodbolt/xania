@@ -18,8 +18,8 @@
  *  such installation can be found in INSTALL.  Enjoy........    N'Atas-Ha *
  ***************************************************************************/
 
+#include "AffectFlag.hpp"
 #include "ArgParser.hpp"
-#include "BitsAffect.hpp"
 #include "BitsObjectWear.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"

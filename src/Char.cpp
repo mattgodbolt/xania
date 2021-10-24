@@ -4,8 +4,8 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Char.hpp"
+#include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
-#include "BitsAffect.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
@@ -51,33 +51,33 @@ bool Char::is_thief() const { return check_enum_bit(act, CharActFlag::Thief); }
 bool Char::is_shopkeeper() const { return is_npc() && mobIndex->shop; }
 
 // Affected by spell bit checks.
-bool Char::is_aff_berserk() const { return check_bit(affected_by, AFF_BERSERK); }
-bool Char::is_aff_blind() const { return check_bit(affected_by, AFF_BLIND); }
-bool Char::is_aff_calm() const { return check_bit(affected_by, AFF_CALM); }
-bool Char::is_aff_charm() const { return check_bit(affected_by, AFF_CHARM); }
-bool Char::is_aff_curse() const { return check_bit(affected_by, AFF_CURSE); }
-bool Char::is_aff_detect_evil() const { return check_bit(affected_by, AFF_DETECT_EVIL); }
-bool Char::is_aff_detect_magic() const { return check_bit(affected_by, AFF_DETECT_MAGIC); }
-bool Char::is_aff_detect_hidden() const { return check_bit(affected_by, AFF_DETECT_HIDDEN); }
-bool Char::is_aff_detect_invis() const { return check_bit(affected_by, AFF_DETECT_INVIS); }
-bool Char::is_aff_faerie_fire() const { return check_bit(affected_by, AFF_FAERIE_FIRE); }
-bool Char::is_aff_fly() const { return check_bit(affected_by, AFF_FLYING); }
-bool Char::is_aff_haste() const { return check_bit(affected_by, AFF_HASTE); }
-bool Char::is_aff_hide() const { return check_bit(affected_by, AFF_HIDE); }
-bool Char::is_aff_invisible() const { return check_bit(affected_by, AFF_INVISIBLE); }
-bool Char::is_aff_infrared() const { return check_bit(affected_by, AFF_INFRARED); }
-bool Char::is_aff_lethargy() const { return check_bit(affected_by, AFF_LETHARGY); }
-bool Char::is_aff_octarine_fire() const { return check_bit(affected_by, AFF_OCTARINE_FIRE); }
-bool Char::is_aff_pass_door() const { return check_bit(affected_by, AFF_PASS_DOOR); }
-bool Char::is_aff_plague() const { return check_bit(affected_by, AFF_PLAGUE); }
-bool Char::is_aff_poison() const { return check_bit(affected_by, AFF_POISON); }
-bool Char::is_aff_protection_evil() const { return check_bit(affected_by, AFF_PROTECTION_EVIL); }
-bool Char::is_aff_protection_good() const { return check_bit(affected_by, AFF_PROTECTION_GOOD); }
-bool Char::is_aff_regeneration() const { return check_bit(affected_by, AFF_REGENERATION); }
-bool Char::is_aff_sanctuary() const { return check_bit(affected_by, AFF_SANCTUARY); }
-bool Char::is_aff_sneak() const { return check_bit(affected_by, AFF_SNEAK); }
-bool Char::is_aff_sleep() const { return check_bit(affected_by, AFF_SLEEP); }
-bool Char::is_aff_talon() const { return check_bit(affected_by, AFF_TALON); }
+bool Char::is_aff_berserk() const { return check_enum_bit(affected_by, AffectFlag::Berserk); }
+bool Char::is_aff_blind() const { return check_enum_bit(affected_by, AffectFlag::Blind); }
+bool Char::is_aff_calm() const { return check_enum_bit(affected_by, AffectFlag::Calm); }
+bool Char::is_aff_charm() const { return check_enum_bit(affected_by, AffectFlag::Charm); }
+bool Char::is_aff_curse() const { return check_enum_bit(affected_by, AffectFlag::Curse); }
+bool Char::is_aff_detect_evil() const { return check_enum_bit(affected_by, AffectFlag::DetectEvil); }
+bool Char::is_aff_detect_magic() const { return check_enum_bit(affected_by, AffectFlag::DetectMagic); }
+bool Char::is_aff_detect_hidden() const { return check_enum_bit(affected_by, AffectFlag::DetectHidden); }
+bool Char::is_aff_detect_invis() const { return check_enum_bit(affected_by, AffectFlag::DetectInvis); }
+bool Char::is_aff_faerie_fire() const { return check_enum_bit(affected_by, AffectFlag::FaerieFire); }
+bool Char::is_aff_fly() const { return check_enum_bit(affected_by, AffectFlag::Flying); }
+bool Char::is_aff_haste() const { return check_enum_bit(affected_by, AffectFlag::Haste); }
+bool Char::is_aff_hide() const { return check_enum_bit(affected_by, AffectFlag::Hide); }
+bool Char::is_aff_invisible() const { return check_enum_bit(affected_by, AffectFlag::Invisible); }
+bool Char::is_aff_infrared() const { return check_enum_bit(affected_by, AffectFlag::Infrared); }
+bool Char::is_aff_lethargy() const { return check_enum_bit(affected_by, AffectFlag::Lethargy); }
+bool Char::is_aff_octarine_fire() const { return check_enum_bit(affected_by, AffectFlag::OctarineFire); }
+bool Char::is_aff_pass_door() const { return check_enum_bit(affected_by, AffectFlag::PassDoor); }
+bool Char::is_aff_plague() const { return check_enum_bit(affected_by, AffectFlag::Plague); }
+bool Char::is_aff_poison() const { return check_enum_bit(affected_by, AffectFlag::Poison); }
+bool Char::is_aff_protection_evil() const { return check_enum_bit(affected_by, AffectFlag::ProtectionEvil); }
+bool Char::is_aff_protection_good() const { return check_enum_bit(affected_by, AffectFlag::ProtectionGood); }
+bool Char::is_aff_regeneration() const { return check_enum_bit(affected_by, AffectFlag::Regeneration); }
+bool Char::is_aff_sanctuary() const { return check_enum_bit(affected_by, AffectFlag::Sanctuary); }
+bool Char::is_aff_sneak() const { return check_enum_bit(affected_by, AffectFlag::Sneak); }
+bool Char::is_aff_sleep() const { return check_enum_bit(affected_by, AffectFlag::Sleep); }
+bool Char::is_aff_talon() const { return check_enum_bit(affected_by, AffectFlag::Talon); }
 
 bool Char::is_pos_dead() const { return position == Position::Type::Dead; }
 bool Char::is_pos_dying() const { return position < Position::Type::Stunned; }
