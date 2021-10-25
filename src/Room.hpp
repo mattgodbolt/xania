@@ -5,12 +5,12 @@
 /*************************************************************************/
 #pragma once
 
-#include "BitsRoomState.hpp"
 #include "Constants.hpp"
 #include "Direction.hpp"
 #include "ExtraDescription.hpp"
 #include "Flag.hpp"
 #include "GenericList.hpp"
+#include "RoomFlag.hpp"
 #include "SectorType.hpp"
 #include "Types.hpp"
 
@@ -46,21 +46,21 @@ struct Room {
     [[nodiscard]] bool is_outside() const;
     [[nodiscard]] bool is_inside() const;
 
-    inline static constexpr std::array<Flag, 13> AllStateFlags = {{
+    inline static constexpr std::array<Flag, 13> AllFlags = {{
         // clang-format off
-        {ROOM_DARK, 0, "dark"},
-        {ROOM_NO_MOB, 0, "nomob"},
-        {ROOM_INDOORS, 0, "indoors"},
-        {ROOM_PRIVATE, 0, "private"},
-        {ROOM_SAFE, 0, "safe"},
-        {ROOM_SOLITARY, 0, "solitary"},
-        {ROOM_PET_SHOP, 0, "petshop"},
-        {ROOM_NO_RECALL, 0, "recall"},
-        {ROOM_IMP_ONLY, MAX_LEVEL, "imponly"},
-        {ROOM_GODS_ONLY, LEVEL_IMMORTAL, "godonly"},
-        {ROOM_HEROES_ONLY, 0, "heronly"},
-        {ROOM_NEWBIES_ONLY, 0, "newbieonly"},
-        {ROOM_LAW, 0, "law"},
+        {to_int(RoomFlag::Dark), 0, "dark"},
+        {to_int(RoomFlag::NoMob), 0, "nomob"},
+        {to_int(RoomFlag::Indoors), 0, "indoors"},
+        {to_int(RoomFlag::Private), 0, "private"},
+        {to_int(RoomFlag::Safe), 0, "safe"},
+        {to_int(RoomFlag::Solitary), 0, "solitary"},
+        {to_int(RoomFlag::PetShop), 0, "petshop"},
+        {to_int(RoomFlag::NoRecall), 0, "recall"},
+        {to_int(RoomFlag::ImpOnly), MAX_LEVEL, "imponly"},
+        {to_int(RoomFlag::GodsOnly), LEVEL_IMMORTAL, "godonly"},
+        {to_int(RoomFlag::HeroesOnly), 0, "heronly"},
+        {to_int(RoomFlag::NewbiesOnly), 0, "newbieonly"},
+        {to_int(RoomFlag::Law), 0, "law"},
         // clang-format on
     }};
 };

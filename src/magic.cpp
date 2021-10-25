@@ -13,7 +13,6 @@
 #include "BitsCharOffensive.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "DamageClass.hpp"
@@ -27,6 +26,7 @@
 #include "ObjectType.hpp"
 #include "PlayerActFlag.hpp"
 #include "Room.hpp"
+#include "RoomFlag.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "Target.hpp"
@@ -1064,7 +1064,7 @@ void spell_charm_person(int sn, int level, Char *ch, void *vo) {
         || check_bit(victim->imm_flags, DMG_TOL_CHARM) || saves_spell(level, victim))
         return;
 
-    if (check_bit(victim->in_room->room_flags, ROOM_LAW)) {
+    if (check_enum_bit(victim->in_room->room_flags, RoomFlag::Law)) {
         ch->send_line("Charming is not permitted here.");
         return;
     }
@@ -2311,10 +2311,12 @@ void spell_gate(int sn, int level, Char *ch, void *vo) {
     bool gate_pet;
 
     if ((victim = get_char_world(ch, target_name)) == nullptr || victim == ch || victim->in_room == nullptr
-        || !can_see_room(ch, victim->in_room) || check_bit(victim->in_room->room_flags, ROOM_SAFE)
-        || check_bit(victim->in_room->room_flags, ROOM_PRIVATE) || check_bit(victim->in_room->room_flags, ROOM_SOLITARY)
-        || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)
-        || victim->level >= level + 3 || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
+        || !can_see_room(ch, victim->in_room) || check_enum_bit(victim->in_room->room_flags, RoomFlag::Safe)
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::Private)
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::Solitary)
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall)
+        || check_enum_bit(ch->in_room->room_flags, RoomFlag::NoRecall) || victim->level >= level + 3
+        || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
         || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
         || (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrNoSummon))
         || (victim->is_npc() && saves_spell(level, victim))) {
@@ -2895,10 +2897,12 @@ void spell_portal(int sn, int level, Char *ch, void *vo) {
     (void)vo;
     const auto *victim = get_char_world(ch, target_name);
     if (!victim || victim == ch || victim->in_room == nullptr || !can_see_room(ch, victim->in_room)
-        || check_bit(victim->in_room->room_flags, ROOM_SAFE) || check_bit(victim->in_room->room_flags, ROOM_PRIVATE)
-        || check_bit(victim->in_room->room_flags, ROOM_SOLITARY)
-        || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)
-        || check_bit(victim->in_room->room_flags, ROOM_LAW) || victim->level >= level + 3
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::Safe)
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::Private)
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::Solitary)
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall)
+        || check_enum_bit(ch->in_room->room_flags, RoomFlag::NoRecall)
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::Law) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
         || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
         || (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrNoSummon))
@@ -2906,7 +2910,7 @@ void spell_portal(int sn, int level, Char *ch, void *vo) {
         ch->send_line("You failed.");
         return;
     }
-    if (check_bit(ch->in_room->room_flags, ROOM_LAW)) {
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Law)) {
         ch->send_line("You cannot portal from this room.");
         return;
     }
@@ -3195,18 +3199,20 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
     Char *victim;
 
     if ((victim = get_char_world(ch, target_name)) == nullptr || victim == ch || victim->in_room == nullptr
-        || ch->in_room == nullptr || check_bit(victim->in_room->room_flags, ROOM_SAFE)
-        || check_bit(victim->in_room->room_flags, ROOM_PRIVATE) || check_bit(victim->in_room->room_flags, ROOM_SOLITARY)
-        || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL)
+        || ch->in_room == nullptr || check_enum_bit(victim->in_room->room_flags, RoomFlag::Safe)
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::Private)
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::Solitary)
+        || check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall)
         || (victim->is_npc() && check_enum_bit(victim->act, CharActFlag::Aggressive)) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) || victim->fighting != nullptr
         || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
         || (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrNoSummon))
-        || (victim->is_npc() && saves_spell(level, victim)) || (check_bit(ch->in_room->room_flags, ROOM_SAFE))) {
+        || (victim->is_npc() && saves_spell(level, victim))
+        || (check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe))) {
         ch->send_line("You failed.");
         return;
     }
-    if (check_bit(ch->in_room->room_flags, ROOM_LAW)) {
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Law)) {
         ch->send_line("You'd probably get locked behind bars for that!");
         return;
     }
@@ -3235,7 +3241,7 @@ void spell_teleport(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     Room *room;
 
-    if (victim->in_room == nullptr || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL)
+    if (victim->in_room == nullptr || check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall)
         || (ch->is_pc() && victim->fighting != nullptr)
         || (victim != ch && (saves_spell(level, victim) || saves_spell(level, victim)))) {
         ch->send_line("You failed.");
@@ -3245,8 +3251,8 @@ void spell_teleport(int sn, int level, Char *ch, void *vo) {
     for (;;) {
         room = get_room(number_range(0, 65535));
         if (room != nullptr)
-            if (can_see_room(ch, room) && !check_bit(room->room_flags, ROOM_PRIVATE)
-                && !check_bit(room->room_flags, ROOM_SOLITARY))
+            if (can_see_room(ch, room) && !check_enum_bit(room->room_flags, RoomFlag::Private)
+                && !check_enum_bit(room->room_flags, RoomFlag::Solitary))
                 break;
     }
 
@@ -3318,7 +3324,7 @@ void spell_word_of_recall(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || victim->is_aff_curse()) {
+    if (check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall) || victim->is_aff_curse()) {
         victim->send_line("Spell failed.");
         return;
     }
@@ -3620,12 +3626,12 @@ void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)) {
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::NoRecall)) {
         ch->send_line("You failed.");
         return;
     }
 
-    if (check_bit(victim->in_room->room_flags, ROOM_NO_RECALL)) {
+    if (check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall)) {
         ch->send_line("You failed.");
         return;
     }

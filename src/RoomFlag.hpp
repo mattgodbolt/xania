@@ -7,18 +7,22 @@
 
 #include "common/StandardBits.hpp"
 
-// Bits for Room state.
-#define ROOM_DARK (A)
-#define ROOM_NO_MOB (C)
-#define ROOM_INDOORS (D)
+#include <magic_enum.hpp>
 
-#define ROOM_PRIVATE (J)
-#define ROOM_SAFE (K)
-#define ROOM_SOLITARY (L)
-#define ROOM_PET_SHOP (M)
-#define ROOM_NO_RECALL (N)
-#define ROOM_IMP_ONLY (O)
-#define ROOM_GODS_ONLY (P)
-#define ROOM_HEROES_ONLY (Q)
-#define ROOM_NEWBIES_ONLY (R)
-#define ROOM_LAW (S)
+enum class RoomFlag : unsigned int {
+    Dark = A,
+    NoMob = C,
+    Indoors = D,
+    Private = J,
+    Safe = K,
+    Solitary = L,
+    PetShop = M,
+    NoRecall = N,
+    ImpOnly = O,
+    GodsOnly = P,
+    HeroesOnly = Q,
+    NewbiesOnly = R,
+    Law = S
+};
+
+[[nodiscard]] constexpr auto to_int(const RoomFlag flag) noexcept { return magic_enum::enum_integer<RoomFlag>(flag); }

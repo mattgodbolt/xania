@@ -12,7 +12,6 @@
 #include "AffectFlag.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsExitState.hpp"
-#include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -21,6 +20,7 @@
 #include "ObjectType.hpp"
 #include "PlayerActFlag.hpp"
 #include "Room.hpp"
+#include "RoomFlag.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "VnumRooms.hpp"
@@ -191,7 +191,7 @@ void move_char(Char *ch, Direction door) {
 
         if (fch->master == ch && fch->is_pos_standing()) {
 
-            if (check_bit(ch->in_room->room_flags, ROOM_LAW)
+            if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Law)
                 && (fch->is_npc() && check_enum_bit(fch->act, CharActFlag::Aggressive))) {
                 act("$N may not enter here.", ch, nullptr, fch, To::Char);
                 act("You aren't allowed to go there.", fch, nullptr, nullptr, To::Char);
@@ -230,7 +230,7 @@ void do_enter(Char *ch, std::string_view argument) {
                     }
 
                     if (ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Aggressive)
-                        && check_bit(to_room->room_flags, ROOM_LAW)) {
+                        && check_enum_bit(to_room->room_flags, RoomFlag::Law)) {
                         ch->send_line("Something prevents you from leaving...");
                         return;
                     }
@@ -292,7 +292,7 @@ void do_enter(Char *ch, std::string_view argument) {
 
                         if (fch->master == ch && fch->is_pos_standing()) {
 
-                            if (check_bit(ch->in_room->room_flags, ROOM_LAW)
+                            if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Law)
                                 && (fch->is_npc() && check_enum_bit(fch->act, CharActFlag::Aggressive))) {
                                 act("You can't bring $N into the city.", ch, nullptr, fch, To::Char);
                                 act("You aren't allowed in the city.", fch, nullptr, nullptr, To::Char);
@@ -981,7 +981,7 @@ void do_recall(Char *ch, ArgParser args) {
         return;
     }
 
-    if (check_bit(ch->in_room->room_flags, ROOM_NO_RECALL) || ch->is_aff_curse()) {
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::NoRecall) || ch->is_aff_curse()) {
         ch->send_line("{} has forsaken you.", deity_name);
         return;
     }

@@ -16,7 +16,6 @@
 #include "BitsCommChannel.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsRoomState.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -34,6 +33,7 @@
 #include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
+#include "RoomFlag.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -952,7 +952,7 @@ bool is_safe(Char *ch, Char *victim) {
     }
 
     /* no fighting in safe rooms */
-    if (check_bit(ch->in_room->room_flags, ROOM_SAFE)) {
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe)) {
         ch->send_line("Not in this room.");
         return true;
     }
@@ -1014,7 +1014,7 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
         return true;
 
     /* no fighting in safe rooms */
-    if (check_bit(ch->in_room->room_flags, ROOM_SAFE))
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe))
         return true;
 
     if (victim->fighting == ch)
@@ -2282,7 +2282,7 @@ void do_flee(Char *ch) {
         auto door = random_direction();
         if ((pexit = was_in->exit[door]) == nullptr || pexit->u1.to_room == nullptr
             || check_bit(pexit->exit_info, EX_CLOSED)
-            || (ch->is_npc() && check_bit(pexit->u1.to_room->room_flags, ROOM_NO_MOB)))
+            || (ch->is_npc() && check_enum_bit(pexit->u1.to_room->room_flags, RoomFlag::NoMob)))
             continue;
 
         move_char(ch, door);

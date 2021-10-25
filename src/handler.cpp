@@ -18,7 +18,6 @@
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
-#include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -33,6 +32,7 @@
 #include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
+#include "RoomFlag.hpp"
 #include "SkillNumbers.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
@@ -871,7 +871,7 @@ bool room_is_dark(Room *room) {
     if (room->light > 0)
         return false;
 
-    if (check_bit(room->room_flags, ROOM_DARK))
+    if (check_enum_bit(room->room_flags, RoomFlag::Dark))
         return true;
 
     if (room->sector_type == SectorType::Inside || room->sector_type == SectorType::City)
@@ -889,13 +889,13 @@ bool room_is_dark(Room *room) {
 bool room_is_private(Room *room) {
     auto count = ranges::distance(room->people);
 
-    if (check_bit(room->room_flags, ROOM_PRIVATE) && count >= 2)
+    if (check_enum_bit(room->room_flags, RoomFlag::Private) && count >= 2)
         return true;
 
-    if (check_bit(room->room_flags, ROOM_SOLITARY) && count >= 1)
+    if (check_enum_bit(room->room_flags, RoomFlag::Solitary) && count >= 1)
         return true;
 
-    if (check_bit(room->room_flags, ROOM_IMP_ONLY))
+    if (check_enum_bit(room->room_flags, RoomFlag::ImpOnly))
         return true;
 
     return false;

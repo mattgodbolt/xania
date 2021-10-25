@@ -13,7 +13,6 @@
 #include "Area.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectWear.hpp"
-#include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -27,6 +26,7 @@
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "PlayerActFlag.hpp"
+#include "RoomFlag.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -87,7 +87,7 @@ uint32_t save_number = 0;
 bool is_safe_sentient(Char *ch, const Char *victim) {
     if (ch->in_room == nullptr)
         return false;
-    if (check_bit(ch->in_room->room_flags, ROOM_SAFE)) {
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe)) {
         ch->yell(fmt::format("|WIf it weren't for the law, you'd be dead meat {}!!!|w", victim->name));
         ch->sentient_victim.clear();
         return true;
@@ -417,7 +417,8 @@ void mobile_update() {
         auto opt_door = try_cast_direction(number_bits(5));
         if (!check_enum_bit(ch->act, CharActFlag::Sentinel) && number_bits(4) == 0 && opt_door
             && (pexit = ch->in_room->exit[*opt_door]) != nullptr && pexit->u1.to_room != nullptr
-            && !check_bit(pexit->exit_info, EX_CLOSED) && !check_bit(pexit->u1.to_room->room_flags, ROOM_NO_MOB)
+            && !check_bit(pexit->exit_info, EX_CLOSED)
+            && !check_enum_bit(pexit->u1.to_room->room_flags, RoomFlag::NoMob)
             && (!check_enum_bit(ch->act, CharActFlag::StayArea) || pexit->u1.to_room->area == ch->in_room->area)) {
             move_char(ch, *opt_door);
         }
@@ -788,7 +789,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
             multi_hit(ch, wch);
         }
     }
-    if (check_enum_bit(ch->act, CharActFlag::Aggressive) && !check_bit(ch->in_room->room_flags, ROOM_SAFE)
+    if (check_enum_bit(ch->act, CharActFlag::Aggressive) && !check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe)
         && !ch->is_aff_calm() && (ch->fighting == nullptr) // Changed by Moog
         && !ch->is_aff_charm() && ch->is_pos_awake()
         && !(check_enum_bit(ch->act, CharActFlag::Wimpy) && wch->is_pos_awake()) && can_see(ch, wch)

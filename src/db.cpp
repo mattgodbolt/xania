@@ -15,7 +15,6 @@
 #include "BitsCommChannel.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsRoomState.hpp"
 #include "BodySize.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -31,6 +30,7 @@
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "ResetData.hpp"
+#include "RoomFlag.hpp"
 #include "Shop.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -526,7 +526,7 @@ void load_rooms(FILE *fp) {
         room->room_flags = fread_flag(fp);
         /* horrible hack */
         if (3000 <= vnum && vnum < 3400)
-            set_bit(room->room_flags, ROOM_LAW);
+            set_enum_bit(room->room_flags, RoomFlag::Law);
         int sector_value = fread_number(fp);
         if (auto sector_type = try_get_sector_type(sector_value)) {
             room->sector_type = *sector_type;
@@ -927,7 +927,7 @@ void fix_exits() {
                 }
             }
             if (!fexit)
-                set_bit(room->room_flags, ROOM_NO_MOB);
+                set_enum_bit(room->room_flags, RoomFlag::NoMob);
         }
     }
 
@@ -1005,7 +1005,7 @@ void reset_room(Room *room) {
             // Pet shop mobiles get CharActFlag::Pet set.
             Room *previousRoom;
             previousRoom = get_room(room->vnum - 1);
-            if (previousRoom && check_bit(previousRoom->room_flags, ROOM_PET_SHOP))
+            if (previousRoom && check_enum_bit(previousRoom->room_flags, RoomFlag::PetShop))
                 set_enum_bit(mob->act, CharActFlag::Pet);
 
             char_to_room(mob, room);

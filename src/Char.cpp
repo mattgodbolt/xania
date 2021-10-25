@@ -9,7 +9,6 @@
 #include "BitsCharOffensive.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsRoomState.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "DescriptorList.hpp"
@@ -20,6 +19,7 @@
 #include "ObjectType.hpp"
 #include "PlayerActFlag.hpp"
 #include "Races.hpp"
+#include "RoomFlag.hpp"
 #include "Sex.hpp"
 #include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
@@ -352,16 +352,16 @@ bool Char::can_see(const Object &object) const {
 }
 
 bool Char::can_see(const Room &room) const {
-    if (check_bit(room.room_flags, ROOM_IMP_ONLY) && get_trust() < MAX_LEVEL)
+    if (check_enum_bit(room.room_flags, RoomFlag::ImpOnly) && get_trust() < MAX_LEVEL)
         return false;
 
-    if (check_bit(room.room_flags, ROOM_GODS_ONLY) && !is_immortal())
+    if (check_enum_bit(room.room_flags, RoomFlag::GodsOnly) && !is_immortal())
         return false;
 
-    if (check_bit(room.room_flags, ROOM_HEROES_ONLY) && !is_hero())
+    if (check_enum_bit(room.room_flags, RoomFlag::HeroesOnly) && !is_hero())
         return false;
 
-    if (check_bit(room.room_flags, ROOM_NEWBIES_ONLY) && level > 5 && !is_immortal())
+    if (check_enum_bit(room.room_flags, RoomFlag::NewbiesOnly) && level > 5 && !is_immortal())
         return false;
 
     return true;

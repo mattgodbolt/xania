@@ -7,7 +7,6 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "BitsDamageTolerance.hpp"
-#include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "DamageClass.hpp"
@@ -18,6 +17,7 @@
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
+#include "RoomFlag.hpp"
 #include "SkillTables.hpp"
 #include "VnumMobiles.hpp"
 #include "VnumRooms.hpp"
@@ -43,8 +43,8 @@ void tornado_teleport(Char *ch, Char *victim) {
     for (;;) {
         room = get_room(number_range(0, 65535));
         if (room != nullptr)
-            if (can_see_room(ch, room) && !check_bit(room->room_flags, ROOM_PRIVATE)
-                && !check_bit(room->room_flags, ROOM_SOLITARY))
+            if (can_see_room(ch, room) && !check_enum_bit(room->room_flags, RoomFlag::Private)
+                && !check_enum_bit(room->room_flags, RoomFlag::Solitary))
                 break;
     }
 
@@ -282,7 +282,7 @@ void spell_reincarnate(int sn, int level, Char *ch, void *vo) {
 //
 /* no corpse raising in a lawful place please */
 //
-//  if (check_bit(ch->in_room->room_flags , ROOM_LAW)) {
+//  if (check_enum_bit(ch->in_room->room_flags , RoomFlag::Law)) {
 //  ch->send_line( "Raising the dead is not permitted here.");
 //  return;
 //}

@@ -679,7 +679,7 @@ void do_rstat(Char *ch, std::string_view argument) {
     ch->send_line("Vnum: {}.  Sector: {} ({}).  Light: {}.", location->vnum, to_string(location->sector_type),
                   static_cast<int>(location->sector_type), location->light);
     ch->send_to("Flags: ");
-    ch->send_line(format_set_flags(Room::AllStateFlags, ch, location->room_flags));
+    ch->send_line(format_set_flags(Room::AllFlags, ch, location->room_flags));
     ch->send_line("Description:");
     ch->send_to(location->description);
 
@@ -2912,8 +2912,7 @@ void do_rset(Char *ch, const char *argument) {
     if (!str_prefix(arg2, "flags")) {
         ch->send_line("The current room flags are:");
         auto flag_args = ArgParser(arg3);
-        location->room_flags =
-            static_cast<unsigned int>(flag_set(Room::AllStateFlags, flag_args, location->room_flags, ch));
+        location->room_flags = static_cast<unsigned int>(flag_set(Room::AllFlags, flag_args, location->room_flags, ch));
         return;
     }
 

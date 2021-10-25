@@ -15,7 +15,6 @@
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
-#include "BitsRoomState.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
 #include "Exit.hpp"
@@ -27,6 +26,7 @@
 #include "PlayerActFlag.hpp"
 #include "Pronouns.hpp"
 #include "Room.hpp"
+#include "RoomFlag.hpp"
 #include "Shop.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -806,7 +806,7 @@ void do_donate(Char *ch, const char *argument) {
     }
 
     /* check to see if the ch is in a non-recall room */
-    if (check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)) {
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::NoRecall)) {
         ch->send_line("The psychic flux is not strong enough here.");
         return;
     }
@@ -1862,7 +1862,7 @@ void do_buy(Char *ch, const char *argument) {
         return;
     }
 
-    if (check_bit(ch->in_room->room_flags, ROOM_PET_SHOP)) {
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::PetShop)) {
         char arg[MAX_INPUT_LENGTH];
         Char *pet;
         Room *roomNext;
@@ -2006,7 +2006,7 @@ void do_buy(Char *ch, const char *argument) {
 }
 
 void do_list(Char *ch, const char *argument) {
-    if (check_bit(ch->in_room->room_flags, ROOM_PET_SHOP)) {
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::PetShop)) {
         Room *roomNext;
         bool found;
 
