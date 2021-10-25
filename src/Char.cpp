@@ -9,7 +9,6 @@
 #include "BitsCharOffensive.hpp"
 #include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -19,6 +18,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "Sex.hpp"
 #include "SkillNumbers.hpp"
@@ -92,11 +92,11 @@ bool Char::is_pos_fighting() const { return position == Position::Type::Fighting
 bool Char::is_pos_preoccupied() const { return position < Position::Type::Standing; }
 bool Char::is_pos_standing() const { return position == Position::Type::Standing; }
 
-bool Char::has_holylight() const { return is_pc() && check_bit(act, PLR_HOLYLIGHT); }
-bool Char::is_wizinvis() const { return is_pc() && check_bit(act, PLR_WIZINVIS); }
+bool Char::has_holylight() const { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrHolyLight); }
+bool Char::is_wizinvis() const { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrWizInvis); }
 bool Char::is_wizinvis_to(const Char &victim) const { return is_wizinvis() && victim.get_trust() < invis_level; }
 
-bool Char::is_prowlinvis() const { return is_pc() && check_bit(act, PLR_PROWL); }
+bool Char::is_prowlinvis() const { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrProwl); }
 bool Char::is_prowlinvis_to(const Char &victim) const {
     return is_prowlinvis() && in_room != victim.in_room && victim.get_trust() < invis_level;
 }
@@ -302,7 +302,7 @@ const PcClan *Char::pc_clan() const { return is_pc() && pcdata->pcclan ? &pcdata
 const Clan *Char::clan() const { return pc_clan() ? &pc_clan()->clan : nullptr; }
 
 bool Char::is_comm_brief() const { return is_pc() && check_bit(comm, COMM_BRIEF); }
-bool Char::should_autoexit() const { return is_pc() && check_bit(act, PLR_AUTOEXIT); }
+bool Char::should_autoexit() const { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrAutoExit); }
 
 template <typename Func>
 Object *Char::find_filtered_obj(std::string_view argument, Func filter) const {
@@ -407,8 +407,8 @@ void Char::say(std::string_view message) {
     mprog_speech_trigger(as_std.c_str(), this);
 }
 
-bool Char::is_player_killer() const noexcept { return is_pc() && check_bit(act, PLR_KILLER); }
-bool Char::is_player_thief() const noexcept { return is_pc() && check_bit(act, PLR_THIEF); }
+bool Char::is_player_killer() const noexcept { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrKiller); }
+bool Char::is_player_thief() const noexcept { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrThief); }
 
 void Char::set_extra(unsigned int flag) noexcept {
     if (is_npc())
@@ -425,19 +425,19 @@ int Char::get_hitroll() const noexcept { return hitroll + str_app[curr_stat(Stat
 int Char::get_damroll() const noexcept { return damroll + str_app[curr_stat(Stat::Str)].todam; }
 
 void Char::set_not_afk() {
-    if (!check_bit(act, PLR_AFK))
+    if (!check_enum_bit(act, PlayerActFlag::PlrAfk))
         return;
     send_line("|cYour keyboard welcomes you back!|w");
     send_line("|cYou are no longer marked as being afk.|w");
     ::act("|W$n's|w keyboard has welcomed $m back!", this, nullptr, nullptr, To::Room, Position::Type::Dead);
     ::act("|W$n|w is no longer afk.", this, nullptr, nullptr, To::Room, Position::Type::Dead);
     announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", this);
-    clear_bit(act, PLR_AFK);
+    clear_enum_bit(act, PlayerActFlag::PlrAfk);
 }
 
 void Char::set_afk(std::string_view afk_message) {
     pcdata->afk = afk_message;
-    set_bit(act, PLR_AFK);
+    set_enum_bit(act, PlayerActFlag::PlrAfk);
     ::act(fmt::format("|cYou notify the mud that you are {}|c.|w", afk_message), this, nullptr, nullptr, To::Char,
           Position::Type::Dead);
     ::act(fmt::format("|W$n|w is {}|w.", afk_message), this, nullptr, nullptr, To::Room, Position::Type::Dead);

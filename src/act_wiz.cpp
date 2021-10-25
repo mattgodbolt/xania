@@ -12,7 +12,6 @@
 #include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
-#include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -27,6 +26,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PlayerActFlag.hpp"
 #include "PracticeTabulator.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
@@ -237,7 +237,7 @@ void do_deny(Char *ch, const char *argument) {
         return;
     }
 
-    set_bit(victim->act, PLR_DENY);
+    set_enum_bit(victim->act, PlayerActFlag::PlrDeny);
     victim->send_line("You are denied access!");
     ch->send_line("OK.");
     save_char_obj(victim);
@@ -302,8 +302,8 @@ void do_pardon(Char *ch, const char *argument) {
     }
 
     if (!str_cmp(arg2, "killer")) {
-        if (check_bit(victim->act, PLR_KILLER)) {
-            clear_bit(victim->act, PLR_KILLER);
+        if (check_enum_bit(victim->act, PlayerActFlag::PlrKiller)) {
+            clear_enum_bit(victim->act, PlayerActFlag::PlrKiller);
             ch->send_line("Killer flag removed.");
             victim->send_line("You are no longer a KILLER.");
         }
@@ -311,8 +311,8 @@ void do_pardon(Char *ch, const char *argument) {
     }
 
     if (!str_cmp(arg2, "thief")) {
-        if (check_bit(victim->act, PLR_THIEF)) {
-            clear_bit(victim->act, PLR_THIEF);
+        if (check_enum_bit(victim->act, PlayerActFlag::PlrThief)) {
+            clear_enum_bit(victim->act, PlayerActFlag::PlrThief);
             ch->send_line("Thief flag removed.");
             victim->send_line("You are no longer a THIEF.");
         }
@@ -1261,7 +1261,7 @@ void do_reboo(Char *ch) { ch->send_line("If you want to REBOOT, spell it out.");
 void do_reboot(Char *ch) {
     extern bool merc_down;
 
-    if (!check_bit(ch->act, PLR_WIZINVIS)) {
+    if (!check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis)) {
         do_echo(ch, fmt::format("Reboot by {}.", ch->name));
     }
     do_force(ch, "all save");
@@ -1838,12 +1838,12 @@ void do_freeze(Char *ch, const char *argument) {
         return;
     }
 
-    if (check_bit(victim->act, PLR_FREEZE)) {
-        clear_bit(victim->act, PLR_FREEZE);
+    if (check_enum_bit(victim->act, PlayerActFlag::PlrFreeze)) {
+        clear_enum_bit(victim->act, PlayerActFlag::PlrFreeze);
         victim->send_line("You can play again.");
         ch->send_line("FREEZE removed.");
     } else {
-        set_bit(victim->act, PLR_FREEZE);
+        set_enum_bit(victim->act, PlayerActFlag::PlrFreeze);
         victim->send_line("You can't do ANYthing!");
         ch->send_line("FREEZE set.");
     }
@@ -1886,11 +1886,11 @@ void do_log(Char *ch, const char *argument) {
     /*
      * No level check, gods can log anyone.
      */
-    if (check_bit(victim->act, PLR_LOG)) {
-        clear_bit(victim->act, PLR_LOG);
+    if (check_enum_bit(victim->act, PlayerActFlag::PlrLog)) {
+        clear_enum_bit(victim->act, PlayerActFlag::PlrLog);
         ch->send_line("LOG removed.");
     } else {
-        set_bit(victim->act, PLR_LOG);
+        set_enum_bit(victim->act, PlayerActFlag::PlrLog);
         ch->send_line("LOG set.");
     }
 }
@@ -3092,22 +3092,22 @@ void do_invis(Char *ch, const char *argument) {
     if (arg[0] == '\0')
         /* take the default path */
 
-        if (check_bit(ch->act, PLR_WIZINVIS)) {
-            clear_bit(ch->act, PLR_WIZINVIS);
+        if (check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis)) {
+            clear_enum_bit(ch->act, PlayerActFlag::PlrWizInvis);
             ch->invis_level = 0;
             act("$n slowly fades into existence.", ch);
             ch->send_line("You slowly fade back into existence.");
         } else {
-            set_bit(ch->act, PLR_WIZINVIS);
-            if (check_bit(ch->act, PLR_PROWL))
-                clear_bit(ch->act, PLR_PROWL);
+            set_enum_bit(ch->act, PlayerActFlag::PlrWizInvis);
+            if (check_enum_bit(ch->act, PlayerActFlag::PlrProwl))
+                clear_enum_bit(ch->act, PlayerActFlag::PlrProwl);
             ch->invis_level = ch->get_trust();
             act("$n slowly fades into thin air.", ch);
             ch->send_line("You slowly vanish into thin air.");
             if (ch->pet != nullptr) {
-                set_bit(ch->pet->act, PLR_WIZINVIS);
-                if (check_bit(ch->pet->act, PLR_PROWL))
-                    clear_bit(ch->pet->act, PLR_PROWL);
+                set_enum_bit(ch->pet->act, PlayerActFlag::PlrWizInvis);
+                if (check_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl))
+                    clear_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl);
                 ch->pet->invis_level = ch->get_trust();
             }
         }
@@ -3120,7 +3120,7 @@ void do_invis(Char *ch, const char *argument) {
             return;
         } else {
             ch->reply = nullptr;
-            set_bit(ch->act, PLR_WIZINVIS);
+            set_enum_bit(ch->act, PlayerActFlag::PlrWizInvis);
             ch->invis_level = level;
             act("$n slowly fades into thin air.", ch);
             ch->send_line("You slowly vanish into thin air.");
@@ -3142,11 +3142,11 @@ void do_prowl(Char *ch, const char *argument) {
 
     argument = one_argument(argument, arg);
     if (arg[0] == '\0') {
-        if (check_bit(ch->act, PLR_PROWL)) {
-            clear_bit(ch->act, PLR_PROWL);
+        if (check_enum_bit(ch->act, PlayerActFlag::PlrProwl)) {
+            clear_enum_bit(ch->act, PlayerActFlag::PlrProwl);
             ch->invis_level = 0;
             if (ch->pet != nullptr) {
-                clear_bit(ch->pet->act, PLR_PROWL);
+                clear_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl);
                 ch->pet->invis_level = 0;
             }
             act("$n slowly fades into existence.", ch);
@@ -3154,16 +3154,16 @@ void do_prowl(Char *ch, const char *argument) {
             return;
         } else {
             ch->invis_level = ch->get_trust();
-            set_bit(ch->act, PLR_PROWL);
+            set_enum_bit(ch->act, PlayerActFlag::PlrProwl);
             if (ch->pet != nullptr) {
                 ch->pet->invis_level = ch->get_trust();
-                set_bit(ch->pet->act, PLR_PROWL);
+                set_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl);
             }
             act("$n slowly fades into thin air.", ch);
             ch->send_line("You slowly vanish into thin air.");
-            clear_bit(ch->act, PLR_WIZINVIS);
+            clear_enum_bit(ch->act, PlayerActFlag::PlrWizInvis);
             if (ch->pet != nullptr)
-                clear_bit(ch->pet->act, PLR_WIZINVIS);
+                clear_enum_bit(ch->pet->act, PlayerActFlag::PlrWizInvis);
             return;
         }
     }
@@ -3175,11 +3175,11 @@ void do_prowl(Char *ch, const char *argument) {
         return;
     }
 
-    if (check_bit(ch->act, PLR_PROWL)) {
-        clear_bit(ch->act, PLR_PROWL);
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrProwl)) {
+        clear_enum_bit(ch->act, PlayerActFlag::PlrProwl);
         ch->invis_level = 0;
         if (ch->pet != nullptr) {
-            clear_bit(ch->pet->act, PLR_PROWL);
+            clear_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl);
             ch->pet->invis_level = 0;
         }
         act("$n slowly fades into existence.", ch);
@@ -3187,16 +3187,16 @@ void do_prowl(Char *ch, const char *argument) {
         return;
     } else {
         ch->invis_level = level;
-        set_bit(ch->act, PLR_PROWL);
+        set_enum_bit(ch->act, PlayerActFlag::PlrProwl);
         if (ch->pet != nullptr) {
-            set_bit(ch->pet->act, PLR_PROWL);
+            set_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl);
             ch->pet->invis_level = level;
         }
         act("$n slowly fades into thin air.", ch);
         ch->send_line("You slowly vanish into thin air.");
-        clear_bit(ch->act, PLR_WIZINVIS);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrWizInvis);
         if (ch->pet != nullptr)
-            clear_bit(ch->pet->act, PLR_WIZINVIS);
+            clear_enum_bit(ch->pet->act, PlayerActFlag::PlrWizInvis);
         return;
     }
 }
@@ -3205,11 +3205,11 @@ void do_holylight(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->act, PLR_HOLYLIGHT)) {
-        clear_bit(ch->act, PLR_HOLYLIGHT);
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrHolyLight)) {
+        clear_enum_bit(ch->act, PlayerActFlag::PlrHolyLight);
         ch->send_line("Holy light mode off.");
     } else {
-        set_bit(ch->act, PLR_HOLYLIGHT);
+        set_enum_bit(ch->act, PlayerActFlag::PlrHolyLight);
         ch->send_line("Holy light mode on.");
     }
 }

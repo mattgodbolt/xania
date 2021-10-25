@@ -15,7 +15,6 @@
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
-#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
@@ -25,6 +24,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PlayerActFlag.hpp"
 #include "Pronouns.hpp"
 #include "Room.hpp"
 #include "Shop.hpp"
@@ -77,7 +77,7 @@ bool can_loot(const Char *ch, const Object *obj) {
     if (matches(ch->name, owner->name))
         return true;
 
-    if (owner->is_pc() && check_bit(owner->act, PLR_CANLOOT))
+    if (owner->is_pc() && check_enum_bit(owner->act, PlayerActFlag::PlrCanLoot))
         return true;
 
     if (is_same_group(ch, owner))
@@ -131,7 +131,7 @@ void get_obj(Char *ch, Object *obj, Object *container) {
 
     if (obj->type == ObjectType::Money) {
         ch->gold += obj->value[0];
-        if (check_bit(ch->act, PLR_AUTOSPLIT)) { /* AUTOSPLIT code */
+        if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoSplit)) {
             if (ch->num_group_members_in_room() > 1 && obj->value[0] > 1) {
                 split_coins(ch, obj->value[0]);
             }
@@ -1446,7 +1446,7 @@ void do_sacrifice(Char *ch, const char *argument) {
 
     ch->gold += gold;
 
-    if (check_bit(ch->act, PLR_AUTOSPLIT)) { /* AUTOSPLIT code */
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoSplit)) {
         if (ch->num_group_members_in_room() > 1 && gold > 1) {
             split_coins(ch, gold);
         }
@@ -1802,8 +1802,8 @@ void do_steal(Char *ch, const char *argument) {
                 multi_hit(victim, ch);
             } else {
                 log_string(buf);
-                if (!check_bit(ch->act, PLR_THIEF)) {
-                    set_bit(ch->act, PLR_THIEF);
+                if (!check_enum_bit(ch->act, PlayerActFlag::PlrThief)) {
+                    set_enum_bit(ch->act, PlayerActFlag::PlrThief);
                     ch->send_line("|R*** You are now a THIEF!! ***|r");
                     save_char_obj(ch);
                 }
@@ -1917,7 +1917,7 @@ void do_buy(Char *ch, const char *argument) {
 
         ch->gold -= cost;
         pet = create_mobile(pet->mobIndex);
-        set_bit(ch->act, PLR_BOUGHT_PET);
+        set_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
         set_enum_bit(pet->act, CharActFlag::Pet);
         set_enum_bit(pet->affected_by, AffectFlag::Charm);
         pet->comm = COMM_NOTELL | COMM_NOSHOUT | COMM_NOCHANNELS;

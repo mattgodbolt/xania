@@ -13,7 +13,6 @@
 #include "BitsCharOffensive.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -26,6 +25,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PlayerActFlag.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -2216,9 +2216,9 @@ void spell_faerie_fog(int sn, int level, Char *ch, void *vo) {
     ch->send_line("You conjure a cloud of purple smoke.");
 
     for (auto *ich : ch->in_room->people) {
-        if (ich->is_pc() && check_bit(ich->act, PLR_WIZINVIS))
+        if (ich->is_pc() && check_enum_bit(ich->act, PlayerActFlag::PlrWizInvis))
             continue;
-        if (ich->is_pc() && check_bit(ich->act, PLR_PROWL))
+        if (ich->is_pc() && check_enum_bit(ich->act, PlayerActFlag::PlrProwl))
             continue;
 
         if (ich == ch || saves_spell(level, ich))
@@ -2316,7 +2316,7 @@ void spell_gate(int sn, int level, Char *ch, void *vo) {
         || check_bit(victim->in_room->room_flags, ROOM_NO_RECALL) || check_bit(ch->in_room->room_flags, ROOM_NO_RECALL)
         || victim->level >= level + 3 || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
         || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
-        || (victim->is_pc() && check_bit(victim->act, PLR_NOSUMMON))
+        || (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrNoSummon))
         || (victim->is_npc() && saves_spell(level, victim))) {
         ch->send_line("You failed.");
         return;
@@ -2901,7 +2901,7 @@ void spell_portal(int sn, int level, Char *ch, void *vo) {
         || check_bit(victim->in_room->room_flags, ROOM_LAW) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
         || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
-        || (victim->is_pc() && check_bit(victim->act, PLR_NOSUMMON))
+        || (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrNoSummon))
         || (victim->is_npc() && saves_spell(level, victim))) {
         ch->send_line("You failed.");
         return;
@@ -3201,8 +3201,8 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
         || (victim->is_npc() && check_enum_bit(victim->act, CharActFlag::Aggressive)) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) || victim->fighting != nullptr
         || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
-        || (victim->is_pc() && check_bit(victim->act, PLR_NOSUMMON)) || (victim->is_npc() && saves_spell(level, victim))
-        || (check_bit(ch->in_room->room_flags, ROOM_SAFE))) {
+        || (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrNoSummon))
+        || (victim->is_npc() && saves_spell(level, victim)) || (check_bit(ch->in_room->room_flags, ROOM_SAFE))) {
         ch->send_line("You failed.");
         return;
     }

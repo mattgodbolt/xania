@@ -18,7 +18,6 @@
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
-#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -31,6 +30,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -995,41 +995,41 @@ const char *act_bit_name(int act_flags) {
             strcat(buf, " update_always");
     } else {
         strcat(buf, " player");
-        if (act_flags & PLR_BOUGHT_PET)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrBoughtPet))
             strcat(buf, " owner");
-        if (act_flags & PLR_AUTOASSIST)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrAutoAssist))
             strcat(buf, " autoassist");
-        if (act_flags & PLR_AUTOEXIT)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrAutoExit))
             strcat(buf, " autoexit");
-        if (act_flags & PLR_AUTOLOOT)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrAutoLoot))
             strcat(buf, " autoloot");
-        if (act_flags & PLR_AUTOSAC)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrAutoSac))
             strcat(buf, " autosac");
-        if (act_flags & PLR_AUTOGOLD)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrAutoGold))
             strcat(buf, " autogold");
-        if (act_flags & PLR_AUTOSPLIT)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrAutoSplit))
             strcat(buf, " autosplit");
-        if (act_flags & PLR_AUTOPEEK)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrAutoPeek))
             strcat(buf, " autopeek");
-        if (act_flags & PLR_AFK)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrAfk))
             strcat(buf, " afk");
-        if (act_flags & PLR_HOLYLIGHT)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrHolyLight))
             strcat(buf, " holy_light");
-        if (act_flags & PLR_WIZINVIS)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrWizInvis))
             strcat(buf, " wizinvis");
-        if (act_flags & PLR_PROWL)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrProwl))
             strcat(buf, " prowling");
-        if (act_flags & PLR_CANLOOT)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrCanLoot))
             strcat(buf, " loot_corpse");
-        if (act_flags & PLR_NOSUMMON)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrNoSummon))
             strcat(buf, " no_summon");
-        if (act_flags & PLR_NOFOLLOW)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrNoFollow))
             strcat(buf, " no_follow");
-        if (act_flags & PLR_FREEZE)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrFreeze))
             strcat(buf, " frozen");
-        if (act_flags & PLR_THIEF)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrThief))
             strcat(buf, " thief");
-        if (act_flags & PLR_KILLER)
+        if (check_enum_bit(act_flags, PlayerActFlag::PlrKiller))
             strcat(buf, " killer");
     }
     return (buf[0] != '\0') ? buf + 1 : "none";

@@ -18,7 +18,6 @@
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BitsObjectWear.hpp"
-#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -33,6 +32,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PlayerActFlag.hpp"
 #include "PracticeTabulator.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
@@ -175,9 +175,9 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
 
     if (victim->is_aff_invisible())
         buf += "(|WInvis|w) ";
-    if (victim->is_pc() && check_bit(victim->act, PLR_WIZINVIS))
+    if (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrWizInvis))
         buf += "(|RWizi|w) ";
-    if (victim->is_pc() && check_bit(victim->act, PLR_PROWL))
+    if (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrProwl))
         buf += "(|RProwl|w) ";
     if (victim->is_aff_hide())
         buf += "(|WHide|w) ";
@@ -193,9 +193,9 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
         buf += "(|rRed Aura|w) ";
     if (victim->is_aff_sanctuary())
         buf += "(|WWhite Aura|w) ";
-    if (victim->is_pc() && check_bit(victim->act, PLR_KILLER))
+    if (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrKiller))
         buf += "(|RKILLER|w) ";
-    if (victim->is_pc() && check_bit(victim->act, PLR_THIEF))
+    if (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrThief))
         buf += "(|RTHIEF|w) ";
 
     if (ch->is_affected_by(gsn_bless)) {
@@ -272,7 +272,8 @@ void show_char_to_char_1(Char *victim, Char *ch) {
         }
     }
 
-    if (victim != ch && ch->is_pc() && number_percent() < ch->get_skill(gsn_peek) && check_bit(ch->act, PLR_AUTOPEEK)) {
+    if (victim != ch && ch->is_pc() && number_percent() < ch->get_skill(gsn_peek)
+        && check_enum_bit(ch->act, PlayerActFlag::PlrAutoPeek)) {
         ch->send_line("\n\rYou peek at the inventory:");
         check_improve(ch, gsn_peek, true, 4);
         show_list_to_char(victim->carrying, ch, true, true);
@@ -299,7 +300,7 @@ void do_peek(Char *ch, const char *argument) {
     if (!check_blind(ch))
         return;
 
-    if (ch->is_pc() && !check_bit(ch->act, PLR_HOLYLIGHT) && room_is_dark(ch->in_room)) {
+    if (ch->is_pc() && !check_enum_bit(ch->act, PlayerActFlag::PlrHolyLight) && room_is_dark(ch->in_room)) {
         ch->send_line("It is pitch black ... ");
         show_char_to_char(ch->in_room->people, ch);
         return;
@@ -322,7 +323,7 @@ void show_char_to_char(const GenericList<Char *> &list, const Char *ch) {
         if (rch == ch)
             continue;
 
-        if (rch->is_pc() && check_bit(rch->act, PLR_WIZINVIS) && ch->get_trust() < rch->invis_level)
+        if (rch->is_pc() && check_enum_bit(rch->act, PlayerActFlag::PlrWizInvis) && ch->get_trust() < rch->invis_level)
             continue;
 
         if (can_see(ch, rch)) {
@@ -430,27 +431,27 @@ void do_autolist(Char *ch) {
 
     ch->send_line("ANSI colour    {}", OnOff{ch->pcdata->colour});
     ch->send_line("autoaffect     {}", OnOff{check_bit(ch->comm, COMM_AFFECT)});
-    ch->send_line("autoassist     {}", OnOff{check_bit(ch->act, PLR_AUTOASSIST)});
-    ch->send_line("autoexit       {}", OnOff{check_bit(ch->act, PLR_AUTOEXIT)});
-    ch->send_line("autogold       {}", OnOff{check_bit(ch->act, PLR_AUTOGOLD)});
-    ch->send_line("autoloot       {}", OnOff{check_bit(ch->act, PLR_AUTOLOOT)});
-    ch->send_line("autopeek       {}", OnOff{check_bit(ch->act, PLR_AUTOPEEK)});
-    ch->send_line("autosac        {}", OnOff{check_bit(ch->act, PLR_AUTOSAC)});
-    ch->send_line("autosplit      {}", OnOff{check_bit(ch->act, PLR_AUTOSPLIT)});
+    ch->send_line("autoassist     {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoAssist)});
+    ch->send_line("autoexit       {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoExit)});
+    ch->send_line("autogold       {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoGold)});
+    ch->send_line("autoloot       {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoLoot)});
+    ch->send_line("autopeek       {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoPeek)});
+    ch->send_line("autosac        {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoSac)});
+    ch->send_line("autosplit      {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoSplit)});
     ch->send_line("prompt         {}", OnOff{check_bit(ch->comm, COMM_PROMPT)});
     ch->send_line("combine items  {}", OnOff{check_bit(ch->comm, COMM_COMBINE)});
 
-    if (!check_bit(ch->act, PLR_CANLOOT))
+    if (!check_enum_bit(ch->act, PlayerActFlag::PlrCanLoot))
         ch->send_line("Your corpse is safe from thieves.");
     else
         ch->send_line("Your corpse may be looted.");
 
-    if (check_bit(ch->act, PLR_NOSUMMON))
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrNoSummon))
         ch->send_line("You cannot be summoned.");
     else
         ch->send_line("You can be summoned.");
 
-    if (check_bit(ch->act, PLR_NOFOLLOW))
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrNoFollow))
         ch->send_line("You do not welcome followers.");
     else
         ch->send_line("You accept followers.");
@@ -492,12 +493,12 @@ void do_autoassist(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->act, PLR_AUTOASSIST)) {
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoAssist)) {
         ch->send_line("Autoassist removed.");
-        clear_bit(ch->act, PLR_AUTOASSIST);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrAutoAssist);
     } else {
         ch->send_line("You will now assist when needed.");
-        set_bit(ch->act, PLR_AUTOASSIST);
+        set_enum_bit(ch->act, PlayerActFlag::PlrAutoAssist);
     }
 }
 
@@ -505,12 +506,12 @@ void do_autoexit(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->act, PLR_AUTOEXIT)) {
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoExit)) {
         ch->send_line("Exits will no longer be displayed.");
-        clear_bit(ch->act, PLR_AUTOEXIT);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrAutoExit);
     } else {
         ch->send_line("Exits will now be displayed.");
-        set_bit(ch->act, PLR_AUTOEXIT);
+        set_enum_bit(ch->act, PlayerActFlag::PlrAutoExit);
     }
 }
 
@@ -518,12 +519,12 @@ void do_autogold(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->act, PLR_AUTOGOLD)) {
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoGold)) {
         ch->send_line("Autogold removed.");
-        clear_bit(ch->act, PLR_AUTOGOLD);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrAutoGold);
     } else {
         ch->send_line("Automatic gold looting set.");
-        set_bit(ch->act, PLR_AUTOGOLD);
+        set_enum_bit(ch->act, PlayerActFlag::PlrAutoGold);
     }
 }
 
@@ -531,12 +532,12 @@ void do_autoloot(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->act, PLR_AUTOLOOT)) {
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoLoot)) {
         ch->send_line("Autolooting removed.");
-        clear_bit(ch->act, PLR_AUTOLOOT);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrAutoLoot);
     } else {
         ch->send_line("Automatic corpse looting set.");
-        set_bit(ch->act, PLR_AUTOLOOT);
+        set_enum_bit(ch->act, PlayerActFlag::PlrAutoLoot);
     }
 }
 
@@ -544,12 +545,12 @@ void do_autopeek(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->act, PLR_AUTOPEEK)) {
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoPeek)) {
         ch->send_line("Autopeeking removed.");
-        clear_bit(ch->act, PLR_AUTOPEEK);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrAutoPeek);
     } else {
         ch->send_line("Automatic peeking set.");
-        set_bit(ch->act, PLR_AUTOPEEK);
+        set_enum_bit(ch->act, PlayerActFlag::PlrAutoPeek);
     }
 }
 
@@ -557,12 +558,12 @@ void do_autosac(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->act, PLR_AUTOSAC)) {
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoSac)) {
         ch->send_line("Autosacrificing removed.");
-        clear_bit(ch->act, PLR_AUTOSAC);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrAutoSac);
     } else {
         ch->send_line("Automatic corpse sacrificing set.");
-        set_bit(ch->act, PLR_AUTOSAC);
+        set_enum_bit(ch->act, PlayerActFlag::PlrAutoSac);
     }
 }
 
@@ -570,12 +571,12 @@ void do_autosplit(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->act, PLR_AUTOSPLIT)) {
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoSplit)) {
         ch->send_line("Autosplitting removed.");
-        clear_bit(ch->act, PLR_AUTOSPLIT);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrAutoSplit);
     } else {
         ch->send_line("Automatic gold splitting set.");
-        set_bit(ch->act, PLR_AUTOSPLIT);
+        set_enum_bit(ch->act, PlayerActFlag::PlrAutoSplit);
     }
 }
 
@@ -670,12 +671,12 @@ void do_noloot(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->act, PLR_CANLOOT)) {
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrCanLoot)) {
         ch->send_line("Your corpse is now safe from thieves.");
-        clear_bit(ch->act, PLR_CANLOOT);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrCanLoot);
     } else {
         ch->send_line("Your corpse may now be looted.");
-        set_bit(ch->act, PLR_CANLOOT);
+        set_enum_bit(ch->act, PlayerActFlag::PlrCanLoot);
     }
 }
 
@@ -683,12 +684,12 @@ void do_nofollow(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->act, PLR_NOFOLLOW)) {
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrNoFollow)) {
         ch->send_line("You now accept followers.");
-        clear_bit(ch->act, PLR_NOFOLLOW);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrNoFollow);
     } else {
         ch->send_line("You no longer accept followers.");
-        set_bit(ch->act, PLR_NOFOLLOW);
+        set_enum_bit(ch->act, PlayerActFlag::PlrNoFollow);
         die_follower(ch);
     }
 }
@@ -703,12 +704,12 @@ void do_nosummon(Char *ch) {
             set_bit(ch->imm_flags, DMG_TOL_SUMMON);
         }
     } else {
-        if (check_bit(ch->act, PLR_NOSUMMON)) {
+        if (check_enum_bit(ch->act, PlayerActFlag::PlrNoSummon)) {
             ch->send_line("You are no longer immune to summon.");
-            clear_bit(ch->act, PLR_NOSUMMON);
+            clear_enum_bit(ch->act, PlayerActFlag::PlrNoSummon);
         } else {
             ch->send_line("You are now immune to summoning.");
-            set_bit(ch->act, PLR_NOSUMMON);
+            set_enum_bit(ch->act, PlayerActFlag::PlrNoSummon);
         }
     }
 }
@@ -1099,10 +1100,10 @@ void do_score(Char *ch) {
 
     if (ch->is_immortal()) {
         ch->send_line("");
-        col3.stat("Holy light", check_bit(ch->act, PLR_HOLYLIGHT) ? "on" : "off");
-        if (check_bit(ch->act, PLR_WIZINVIS))
+        col3.stat("Holy light", check_enum_bit(ch->act, PlayerActFlag::PlrHolyLight) ? "on" : "off");
+        if (check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis))
             col3.stat("Invisible", ch->invis_level);
-        if (check_bit(ch->act, PLR_PROWL))
+        if (check_enum_bit(ch->act, PlayerActFlag::PlrProwl))
             col3.stat("Prowl", ch->invis_level);
         col3.flush();
     }
@@ -1194,8 +1195,9 @@ std::string_view who_clan_name_of(const Char &wch) { return wch.clan() ? wch.cla
 std::string who_line_for(const Char &to, const Char &wch) {
     return fmt::format(
         "[{:3} {} {}] {}{}{}{}{}{}|w{}{}\n\r", wch.level, who_race_name_of(wch), who_class_name_of(wch),
-        who_clan_name_of(wch), check_bit(wch.act, PLR_KILLER) ? "(|RKILLER|w) " : "",
-        check_bit(wch.act, PLR_THIEF) ? "(|RTHIEF|w) " : "", check_bit(wch.act, PLR_AFK) ? "(|cAFK|w) " : "", wch.name,
+        who_clan_name_of(wch), check_enum_bit(wch.act, PlayerActFlag::PlrKiller) ? "(|RKILLER|w) " : "",
+        check_enum_bit(wch.act, PlayerActFlag::PlrThief) ? "(|RTHIEF|w) " : "",
+        check_enum_bit(wch.act, PlayerActFlag::PlrAfk) ? "(|cAFK|w) " : "", wch.name,
         wch.is_pc() ? wch.pcdata->title : "",
         wch.is_wizinvis() && to.is_immortal() ? fmt::format(" |g(Wizi at level {})|w", wch.invis_level) : "",
         wch.is_prowlinvis() && to.is_immortal() ? fmt::format(" |g(Prowl level {})|w", wch.invis_level) : "");

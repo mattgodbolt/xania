@@ -1,8 +1,8 @@
 #include "Descriptor.hpp"
-#include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "Constants.hpp"
 #include "Logging.hpp"
+#include "PlayerActFlag.hpp"
 #include "TimeInfoData.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
@@ -227,7 +227,8 @@ void Descriptor::close() noexcept {
     if (character_) {
         do_chal_canc(character_);
         log_new(fmt::format("Closing link to {}.", character_->name).c_str(), EXTRA_WIZNET_DEBUG,
-                (check_bit(character_->act, PLR_WIZINVIS) || check_bit(character_->act, PLR_PROWL))
+                (check_enum_bit(character_->act, PlayerActFlag::PlrWizInvis)
+                 || check_enum_bit(character_->act, PlayerActFlag::PlrProwl))
                     ? character_->get_trust()
                     : 0);
         if (is_playing() || state_ == DescriptorState::Disconnecting) {

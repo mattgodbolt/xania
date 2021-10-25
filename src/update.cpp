@@ -13,7 +13,6 @@
 #include "Area.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectWear.hpp"
-#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -27,6 +26,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PlayerActFlag.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
@@ -147,7 +147,7 @@ void advance_level(Char *ch) {
     ch->pcdata->perm_move += add_move;
 
     if (ch->is_pc())
-        clear_bit(ch->act, PLR_BOUGHT_PET);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
 
     ch->send_line("Your gain is: {}/{} hp, {}/{} m, {}/{} mv {}/{} prac.", add_hp, ch->max_hit, add_mana, ch->max_mana,
                   add_move, ch->max_move, add_prac, ch->practice);
@@ -195,7 +195,7 @@ void lose_level(Char *ch) {
     ch->pcdata->perm_move += add_move;
 
     if (ch->is_pc())
-        clear_bit(ch->act, PLR_BOUGHT_PET);
+        clear_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
 
     ch->send_line("Your gain is: {}/{} hp, {}/{} m, {}/{} mv {}/{} prac.", add_hp, ch->max_hit, add_mana, ch->max_mana,
                   add_move, ch->max_move, add_prac, ch->practice);

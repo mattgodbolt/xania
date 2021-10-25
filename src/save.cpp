@@ -10,12 +10,12 @@
 #include "save.hpp"
 #include "AFFECT_DATA.hpp"
 #include "BitsCommChannel.hpp"
-#include "BitsPlayerAct.hpp"
 #include "CharFileMeta.hpp"
 #include "Logging.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -479,7 +479,10 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
 
     ch->name = player_name;
     ch->race = race_lookup("human");
-    ch->act = PLR_AUTOPEEK | PLR_AUTOASSIST | PLR_AUTOEXIT | PLR_AUTOGOLD | PLR_AUTOLOOT | PLR_AUTOSAC | PLR_NOSUMMON;
+    ch->act = to_int(PlayerActFlag::PlrAutoPeek) | to_int(PlayerActFlag::PlrAutoAssist)
+              | to_int(PlayerActFlag::PlrAutoExit) | to_int(PlayerActFlag::PlrAutoGold)
+              | to_int(PlayerActFlag::PlrAutoLoot) | to_int(PlayerActFlag::PlrAutoSac)
+              | to_int(PlayerActFlag::PlrNoSummon);
     ch->comm = COMM_COMBINE | COMM_PROMPT | COMM_SHOWAFK | COMM_SHOWDEFENCE;
     ranges::fill(ch->perm_stat, 13);
 

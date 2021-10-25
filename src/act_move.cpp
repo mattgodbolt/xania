@@ -12,7 +12,6 @@
 #include "AffectFlag.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsExitState.hpp"
-#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -20,6 +19,7 @@
 #include "Exit.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
+#include "PlayerActFlag.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -946,7 +946,7 @@ void do_recall(Char *ch, ArgParser args) {
         return;
     }
 
-    if (!check_bit(ch->act, PLR_WIZINVIS))
+    if (!check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis))
         act("$n prays for transportation!", ch);
 
     auto vnum = rooms::MidgaardTemple;
@@ -1003,11 +1003,11 @@ void do_recall(Char *ch, ArgParser args) {
     }
 
     ch->move /= 2;
-    if (!check_bit(ch->act, PLR_WIZINVIS))
+    if (!check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis))
         act("$n disappears.", ch);
     char_from_room(ch);
     char_to_room(ch, location);
-    if (!check_bit(ch->act, PLR_WIZINVIS))
+    if (!check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis))
         act("$n appears in the room.", ch);
 
     look_auto(ch);

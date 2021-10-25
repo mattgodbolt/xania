@@ -8,10 +8,10 @@
 /*************************************************************************/
 
 #include "BitsCommChannel.hpp"
-#include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "PlayerActFlag.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "interp.h"
@@ -124,7 +124,7 @@ void do_immtalk(Char *ch, std::string_view argument) {
 
     clear_bit(ch->comm, COMM_NOWIZ);
 
-    const char *format = check_bit(ch->act, PLR_AFK) ? "|w(|cAFK|w)|W $n: |c$t|w" : "|W$n: |c$t|w";
+    const char *format = check_enum_bit(ch->act, PlayerActFlag::PlrAfk) ? "|w(|cAFK|w)|W $n: |c$t|w" : "|W$n: |c$t|w";
     if (ch->get_trust() >= LEVEL_HERO)
         act(format, ch, argument, nullptr, To::Char, Position::Type::Dead);
     for (auto &d : descriptors().playing()) {

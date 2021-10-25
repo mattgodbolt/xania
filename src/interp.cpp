@@ -10,11 +10,11 @@
 #include "interp.h"
 #include "AffectFlag.hpp"
 #include "BitsCommChannel.hpp"
-#include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "CommandSet.hpp"
 #include "Logging.hpp"
 #include "Note.hpp"
+#include "PlayerActFlag.hpp"
 #include "Socials.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"
@@ -439,7 +439,7 @@ void interpret(Char *ch, const char *argument) {
     clear_enum_bit(ch->affected_by, AffectFlag::Hide);
 
     /* Implement freeze command. */
-    if (ch->is_pc() && check_bit(ch->act, PLR_FREEZE)) {
+    if (ch->is_pc() && check_enum_bit(ch->act, PlayerActFlag::PlrFreeze)) {
         ch->send_line("You're totally frozen!");
         return;
     }
@@ -459,9 +459,12 @@ void interpret(Char *ch, const char *argument) {
     }
     /* Log and snoop. */
     if (cmd_info->log != CommandLogLevel::Never) {
-        if ((ch->is_pc() && check_bit(ch->act, PLR_LOG)) || fLogAll || cmd_info->log == CommandLogLevel::Always) {
+        if ((ch->is_pc() && check_enum_bit(ch->act, PlayerActFlag::PlrLog)) || fLogAll
+            || cmd_info->log == CommandLogLevel::Always) {
             int level = (cmd_info->level >= LEVEL_IMMORTAL) ? (cmd_info->level) : 0;
-            if (ch->is_pc() && (check_bit(ch->act, PLR_WIZINVIS) || check_bit(ch->act, PLR_PROWL)))
+            if (ch->is_pc()
+                && (check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis)
+                    || check_enum_bit(ch->act, PlayerActFlag::PlrProwl)))
                 level = std::max(level, ch->get_trust());
             auto log_level = (cmd_info->level >= LEVEL_IMMORTAL) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
             if (ch->is_npc() && ch->desc && ch->desc->original()) {

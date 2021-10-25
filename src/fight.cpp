@@ -16,7 +16,6 @@
 #include "BitsCommChannel.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsPlayerAct.hpp"
 #include "BitsRoomState.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
@@ -32,6 +31,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
@@ -137,7 +137,7 @@ void check_assist(Char *ch, Char *victim) {
 
             /* PCs next */
             if (ch->is_pc() || ch->is_aff_charm()) {
-                if (((rch->is_pc() && check_bit(rch->act, PLR_AUTOASSIST)) || rch->is_aff_charm())
+                if (((rch->is_pc() && check_enum_bit(rch->act, PlayerActFlag::PlrAutoAssist)) || rch->is_aff_charm())
                     && is_same_group(ch, rch))
                     multi_hit(rch, victim);
 
@@ -622,14 +622,16 @@ void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vn
     Object *corpse;
     if (looter->is_pc() && victim->is_npc() && looter->in_room->vnum == victim_room_vnum) {
         corpse = get_obj_list(looter, "corpse", looter->in_room->contents);
-        if (check_bit(looter->act, PLR_AUTOLOOT) && corpse && !corpse->contains.empty()) { /* exists and not empty */
+        if (check_enum_bit(looter->act, PlayerActFlag::PlrAutoLoot) && corpse
+            && !corpse->contains.empty()) { /* exists and not empty */
             do_get(looter, "all corpse");
         }
-        if (check_bit(looter->act, PLR_AUTOGOLD) && corpse && !corpse->contains.empty() && /* exists and not empty */
-            !check_bit(looter->act, PLR_AUTOLOOT)) {
+        if (check_enum_bit(looter->act, PlayerActFlag::PlrAutoGold) && corpse && !corpse->contains.empty()
+            && /* exists and not empty */
+            !check_enum_bit(looter->act, PlayerActFlag::PlrAutoLoot)) {
             do_get(looter, "gold corpse");
         }
-        if (check_bit(looter->act, PLR_AUTOSAC)) {
+        if (check_enum_bit(looter->act, PlayerActFlag::PlrAutoSac)) {
             if (corpse && !corpse->contains.empty()) {
                 return; /* leave if corpse has treasure */
             } else {
@@ -1070,7 +1072,8 @@ void check_killer(Char *ch, Char *victim) {
      * NPC's are fair game.
      * So are killers and thieves.
      */
-    if (victim->is_npc() || check_bit(victim->act, PLR_KILLER) || check_bit(victim->act, PLR_THIEF))
+    if (victim->is_npc() || check_enum_bit(victim->act, PlayerActFlag::PlrKiller)
+        || check_enum_bit(victim->act, PlayerActFlag::PlrThief))
         return;
 
     /*
@@ -1085,7 +1088,7 @@ void check_killer(Char *ch, Char *victim) {
         }
         /*
           ch->master ->send_to( "*** You are now a KILLER!! ***\n\r");
-                  set_bit(ch->master->act, PLR_KILLER);
+                  set_enum_bit(ch->master->act, PlayerActFlag::PlrKiller);
         */
         stop_follower(ch);
         return;
@@ -1097,12 +1100,12 @@ void check_killer(Char *ch, Char *victim) {
      * So is being immortal (Alander's idea).
      * And current killers stay as they are.
      */
-    if (ch->is_npc() || ch == victim || ch->level >= LEVEL_IMMORTAL || check_bit(ch->act, PLR_KILLER)
+    if (ch->is_npc() || ch == victim || ch->level >= LEVEL_IMMORTAL || check_enum_bit(ch->act, PlayerActFlag::PlrKiller)
         || fighting_duel(ch, victim))
         return;
 
     ch->send_line("*** You are now a KILLER!! ***");
-    set_bit(ch->act, PLR_KILLER);
+    set_enum_bit(ch->act, PlayerActFlag::PlrKiller);
     save_char_obj(ch);
 }
 
@@ -1264,8 +1267,8 @@ void make_corpse(Char *ch) {
         name = ch->name;
         corpse = create_object(get_obj_index(objects::PlayerCorpse));
         corpse->timer = number_range(25, 40);
-        clear_bit(ch->act, PLR_CANLOOT);
-        if (!check_bit(ch->act, PLR_KILLER) && !check_bit(ch->act, PLR_THIEF))
+        clear_enum_bit(ch->act, PlayerActFlag::PlrCanLoot);
+        if (!check_enum_bit(ch->act, PlayerActFlag::PlrKiller) && !check_enum_bit(ch->act, PlayerActFlag::PlrThief))
             corpse->owner = ch->name;
         corpse->cost = 0;
     }
@@ -1380,9 +1383,9 @@ void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
     victim->move = std::max(1_s, victim->move);
     /* RT added to prevent infinite deaths */
     if (!in_duel(victim)) {
-        clear_bit(victim->act, PLR_KILLER);
-        clear_bit(victim->act, PLR_THIEF);
-        clear_bit(victim->act, PLR_BOUGHT_PET);
+        clear_enum_bit(victim->act, PlayerActFlag::PlrKiller);
+        clear_enum_bit(victim->act, PlayerActFlag::PlrThief);
+        clear_enum_bit(victim->act, PlayerActFlag::PlrBoughtPet);
     }
     /*  save_char_obj( victim ); */
 }
@@ -2106,7 +2109,8 @@ void do_kill(Char *ch, const char *argument) {
     }
 
     if (victim->is_pc()) {
-        if (!check_bit(victim->act, PLR_KILLER) && !check_bit(victim->act, PLR_THIEF)) {
+        if (!check_enum_bit(victim->act, PlayerActFlag::PlrKiller)
+            && !check_enum_bit(victim->act, PlayerActFlag::PlrThief)) {
             ch->send_line("You must MURDER a player.");
             return;
         }

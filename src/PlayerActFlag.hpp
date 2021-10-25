@@ -7,38 +7,39 @@
 
 #include "common/StandardBits.hpp"
 
+#include <magic_enum.hpp>
+
 // ACT bits for players.
 // IMPORTANT: These bits are flipped on Char.act just as the
 // ACT_ bits in BitCharAct.hpp are. However, these ones are only intended for player characters.
 // TODO: The two sets of bits should either be consolidated, or perhaps we should store
 // player-only bits in an bitfield in PcData.
+enum class PlayerActFlag : unsigned long {
+    PlrNpc = A, // never set on players
+    PlrBoughtPet = B,
+    PlrAutoAssist = C,
+    PlrAutoExit = D,
+    PlrAutoLoot = E,
+    PlrAutoSac = F,
+    PlrAutoGold = G,
+    PlrAutoSplit = H,
+    /* 5 Bits Reserved, I-M */
+    PlrHolyLight = N,
+    PlrWizInvis = O,
+    PlrCanLoot = P,
+    PlrNoSummon = Q,
+    PlrNoFollow = R,
+    PlrAfk = S,
+    /* 3 Bits Reserved, T-V */
+    PlrLog = W,
+    PlrDeny = X,
+    PlrFreeze = Y,
+    PlrThief = Z,
+    PlrKiller = aa,
+    PlrAutoPeek = bb,
+    PlrProwl = cc
+};
 
-#define PLR_IS_NPC (A) /* Don't EVER set.      */
-#define PLR_BOUGHT_PET (B)
-#define PLR_AUTOASSIST (C)
-#define PLR_AUTOEXIT (D)
-#define PLR_AUTOLOOT (E)
-#define PLR_AUTOSAC (F)
-#define PLR_AUTOGOLD (G)
-#define PLR_AUTOSPLIT (H)
-#define PLR_AUTOPEEK (bb)
-/* 5 bits reserved, I-M */
-
-/* RT personal flags */
-#define PLR_HOLYLIGHT (N)
-#define PLR_WIZINVIS (O)
-#define PLR_CANLOOT (P)
-#define PLR_NOSUMMON (Q)
-#define PLR_NOFOLLOW (R)
-#define PLR_AFK (S)
-/* 3 bits reserved, T-V */
-/* XT personal flags */
-#define PLR_PROWL (cc)
-
-/* penalty flags */
-
-#define PLR_LOG (W)
-#define PLR_DENY (X)
-#define PLR_FREEZE (Y)
-#define PLR_THIEF (Z)
-#define PLR_KILLER (aa)
+[[nodiscard]] constexpr auto to_int(const PlayerActFlag flag) noexcept {
+    return magic_enum::enum_integer<PlayerActFlag>(flag);
+}

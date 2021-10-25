@@ -16,7 +16,6 @@
 #include "Area.hpp"
 #include "Ban.hpp"
 #include "BitsCommChannel.hpp"
-#include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "CharGeneration.hpp"
 #include "Classes.hpp"
@@ -27,6 +26,7 @@
 #include "MobIndexData.hpp"
 #include "Note.hpp"
 #include "Object.hpp"
+#include "PlayerActFlag.hpp"
 #include "Pronouns.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
@@ -557,7 +557,7 @@ void nanny(Descriptor *d, const char *argument) {
         d->character(ch);
         ch->desc = d;
 
-        if (check_bit(ch->act, PLR_DENY)) {
+        if (check_enum_bit(ch->act, PlayerActFlag::PlrDeny)) {
             log_string("Denying access to {}@{}.", char_name.c_str(), d->host().c_str());
             d->write("You are denied access.\n\r");
             d->close();

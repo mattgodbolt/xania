@@ -11,7 +11,6 @@
 #include "AffectFlag.hpp"
 #include "ArgParser.hpp"
 #include "BitsCommChannel.hpp"
-#include "BitsPlayerAct.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -19,6 +18,7 @@
 #include "DescriptorList.hpp"
 #include "Finger.hpp"
 #include "Logging.hpp"
+#include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
@@ -93,7 +93,7 @@ void do_afk(Char *ch, std::string_view argument) {
     if (ch->is_npc() || check_bit(ch->comm, COMM_NOCHANNELS))
         return;
 
-    if (check_bit(ch->act, PLR_AFK) && argument.empty())
+    if (check_enum_bit(ch->act, PlayerActFlag::PlrAfk) && argument.empty())
         ch->set_not_afk();
     else
         ch->set_afk(argument.empty() ? "afk" : argument.substr(0, MaxAfkLength));
@@ -117,7 +117,7 @@ static void tell_to(Char *ch, Char *victim, const char *text) {
     } else if (check_bit(victim->comm, COMM_QUIET) && ch->is_mortal()) {
         act("|W$E|c is not receiving replies.|w", ch, nullptr, victim, To::Char);
 
-    } else if (check_bit(victim->act, PLR_AFK) && victim->is_pc()) {
+    } else if (check_enum_bit(victim->act, PlayerActFlag::PlrAfk) && victim->is_pc()) {
         act(fmt::format("|W$N|c is {}.|w", victim->pcdata->afk), ch, nullptr, victim, To::Char, Position::Type::Dead);
         if (check_bit(victim->comm, COMM_SHOWAFK)) {
             // TODO(#134) use the victim's timezone info.
@@ -400,12 +400,12 @@ void do_follow(Char *ch, ArgParser args) {
         return;
     }
 
-    if (victim->is_pc() && check_bit(victim->act, PLR_NOFOLLOW) && ch->is_mortal()) {
+    if (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrNoFollow) && ch->is_mortal()) {
         act("$N doesn't seem to want any followers.\n\r", ch, nullptr, victim, To::Char);
         return;
     }
 
-    clear_bit(ch->act, PLR_NOFOLLOW);
+    clear_enum_bit(ch->act, PlayerActFlag::PlrNoFollow);
 
     if (ch->master != nullptr)
         stop_follower(ch);
