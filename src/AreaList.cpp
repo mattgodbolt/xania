@@ -2,7 +2,6 @@
 
 #include "Area.hpp"
 
-#include <algorithm>
 #include <range/v3/algorithm/sort.hpp>
 
 AreaList::AreaList() = default;

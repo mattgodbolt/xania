@@ -674,7 +674,7 @@ void do_rstat(Char *ch, std::string_view argument) {
     }
 
     ch->send_line("Name: '{}'.", location->name);
-    ch->send_line("Area: '{}'.'", location->area->short_name());
+    ch->send_line("Area: '{}'.'", location->area->description());
 
     ch->send_line("Vnum: {}.  Sector: {} ({}).  Light: {}.", location->vnum, to_string(location->sector_type),
                   static_cast<int>(location->sector_type), location->light);

@@ -1407,7 +1407,7 @@ std::string format_one_prompt_part(char c, const Char &ch) {
         break;
     case 'z':
         if (ch.is_immortal())
-            return ch.in_room->area->description();
+            return ch.in_room->area->short_name();
         break;
     case 'n': return "\n\r";
     case 't': {

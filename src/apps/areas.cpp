@@ -43,12 +43,12 @@ int main(int argc, const char **argv) {
     for (auto *first_room_with_hash : room_hash)
         for (auto *room = first_room_with_hash; room; room = room->next) {
             auto *this_area = room->area;
-            auto &area_info = areas[this_area->short_name()];
+            auto &area_info = areas[this_area->description()];
             for (auto door : all_directions) {
                 if (auto pexit = room->exit[door]) {
                     auto *to = pexit->u1.to_room;
                     if (to && to->area != this_area) {
-                        area_info.adjacent.emplace(&areas[to->area->short_name()]);
+                        area_info.adjacent.emplace(&areas[to->area->description()]);
                     }
                 }
             }

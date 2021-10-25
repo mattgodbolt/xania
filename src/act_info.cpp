@@ -1462,7 +1462,7 @@ void do_where(Char *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        ch->send_line("|cYou are in {}\n\rPlayers near you:|w", ch->in_room->area->description());
+        ch->send_line("|cYou are in {}\n\rPlayers near you:|w", ch->in_room->area->short_name());
         auto found = false;
         for (auto &victim : descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch)
                                 | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
@@ -1818,7 +1818,7 @@ void do_alist(Char *ch) {
     auto format_str = "{:3} {:29} {:<5}-{:>5} {:12}\n\r"sv;
     auto buffer = fmt::format(format_str, "Num", "Area Name", "Lvnum", "Uvnum", "Filename");
     for (auto &pArea : AreaList::singleton())
-        buffer += fmt::format(format_str, pArea->num(), pArea->description(), pArea->lowest_vnum(),
+        buffer += fmt::format(format_str, pArea->num(), pArea->short_name(), pArea->lowest_vnum(),
                               pArea->highest_vnum(), pArea->filename());
     ch->page_to(buffer);
 }

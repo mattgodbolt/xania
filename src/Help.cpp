@@ -30,7 +30,7 @@ bool Help::operator==(const Help &rhs) const {
 }
 bool Help::operator!=(const Help &rhs) const { return !(rhs == *this); }
 
-std::string_view Help::area_name() const noexcept { return area_ ? area_->short_name() : "(no area)"sv; }
+std::string_view Help::area_name() const noexcept { return area_ ? area_->description() : "(no area)"sv; }
 
 HelpList &HelpList::singleton() {
     static HelpList singleton;
