@@ -10,10 +10,10 @@
 #include "act_comm.hpp"
 #include "AffectFlag.hpp"
 #include "ArgParser.hpp"
-#include "BitsCommChannel.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
+#include "CommFlag.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Finger.hpp"
@@ -74,7 +74,7 @@ void announce(std::string_view buf, const Char *ch) {
         return; /* special case on creation */
 
     for (auto &victim : descriptors().all_who_can_see(*ch) | DescriptorFilter::to_person()) {
-        if (!check_bit(victim.comm, COMM_NOANNOUNCE) && !check_bit(victim.comm, COMM_QUIET))
+        if (!check_enum_bit(victim.comm, CommFlag::NoAnnounce) && !check_enum_bit(victim.comm, CommFlag::Quiet))
             act(buf, &victim, nullptr, ch, To::Char, Position::Type::Dead);
     }
 }
@@ -90,7 +90,7 @@ void do_say(Char *ch, const char *argument) {
 
 void do_afk(Char *ch, std::string_view argument) {
     static constexpr auto MaxAfkLength = 45u;
-    if (ch->is_npc() || check_bit(ch->comm, COMM_NOCHANNELS))
+    if (ch->is_npc() || check_enum_bit(ch->comm, CommFlag::NoChannels))
         return;
 
     if (check_enum_bit(ch->act, PlayerActFlag::PlrAfk) && argument.empty())
@@ -105,21 +105,21 @@ static void tell_to(Char *ch, Char *victim, const char *text) {
     if (victim == nullptr || text == nullptr || text[0] == '\0') {
         ch->send_line("|cTell whom what?|w");
 
-    } else if (check_bit(ch->comm, COMM_NOTELL)) {
+    } else if (check_enum_bit(ch->comm, CommFlag::NoTell)) {
         ch->send_line("|cYour message didn't get through.|w");
 
-    } else if (check_bit(ch->comm, COMM_QUIET)) {
+    } else if (check_enum_bit(ch->comm, CommFlag::Quiet)) {
         ch->send_line("|cYou must turn off quiet mode first.|w");
 
     } else if (victim->desc == nullptr && victim->is_pc()) {
         act("|W$N|c seems to have misplaced $S link...try again later.|w", ch, nullptr, victim, To::Char);
 
-    } else if (check_bit(victim->comm, COMM_QUIET) && ch->is_mortal()) {
+    } else if (check_enum_bit(victim->comm, CommFlag::Quiet) && ch->is_mortal()) {
         act("|W$E|c is not receiving replies.|w", ch, nullptr, victim, To::Char);
 
     } else if (check_enum_bit(victim->act, PlayerActFlag::PlrAfk) && victim->is_pc()) {
         act(fmt::format("|W$N|c is {}.|w", victim->pcdata->afk), ch, nullptr, victim, To::Char, Position::Type::Dead);
-        if (check_bit(victim->comm, COMM_SHOWAFK)) {
+        if (check_enum_bit(victim->comm, CommFlag::ShowAfk)) {
             // TODO(#134) use the victim's timezone info.
             act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", formatted_time(current_time), text).c_str(),
                 ch, nullptr, victim, To::Vict, Position::Type::Dead);
@@ -156,7 +156,7 @@ void do_tell(Char *ch, const char *argument) {
 void do_reply(Char *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
 
 void do_yell(Char *ch, std::string_view argument) {
-    if (check_bit(ch->comm, COMM_NOSHOUT)) {
+    if (check_enum_bit(ch->comm, CommFlag::NoShout)) {
         ch->send_line("|cYou can't yell.|w");
         return;
     }
@@ -171,7 +171,7 @@ void do_yell(Char *ch, std::string_view argument) {
 }
 
 void do_emote(Char *ch, const char *argument) {
-    if (ch->is_pc() && check_bit(ch->comm, COMM_NOEMOTE)) {
+    if (ch->is_pc() && check_enum_bit(ch->comm, CommFlag::NoEmote)) {
         ch->send_line("|cYou can't show your emotions.|w");
 
     } else if (argument[0] == '\0') {
@@ -687,7 +687,7 @@ void do_gtell(Char *ch, std::string_view argument) {
         return;
     }
 
-    if (check_bit(ch->comm, COMM_NOTELL)) {
+    if (check_enum_bit(ch->comm, CommFlag::NoTell)) {
         ch->send_line("|cYour message didn't get through!|w");
         return;
     }

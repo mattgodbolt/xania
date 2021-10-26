@@ -9,12 +9,12 @@
 #include "AffectFlag.hpp"
 #include "Area.hpp"
 #include "ArmourClass.hpp"
-#include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "Columner.hpp"
+#include "CommFlag.hpp"
 #include "DamageClass.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
@@ -163,12 +163,12 @@ void do_nochannels(Char *ch, const char *argument) {
         return;
     }
 
-    if (check_bit(victim->comm, COMM_NOCHANNELS)) {
-        clear_bit(victim->comm, COMM_NOCHANNELS);
+    if (check_enum_bit(victim->comm, CommFlag::NoChannels)) {
+        clear_enum_bit(victim->comm, CommFlag::NoChannels);
         victim->send_line("The gods have restored your channel privileges.");
         ch->send_line("NOCHANNELS removed.");
     } else {
-        set_bit(victim->comm, COMM_NOCHANNELS);
+        set_enum_bit(victim->comm, CommFlag::NoChannels);
         victim->send_line("The gods have revoked your channel privileges.");
         ch->send_line("NOCHANNELS set.");
     }
@@ -1916,12 +1916,12 @@ void do_noemote(Char *ch, const char *argument) {
         return;
     }
 
-    if (check_bit(victim->comm, COMM_NOEMOTE)) {
-        clear_bit(victim->comm, COMM_NOEMOTE);
+    if (check_enum_bit(victim->comm, CommFlag::NoEmote)) {
+        clear_enum_bit(victim->comm, CommFlag::NoEmote);
         victim->send_line("You can emote again.");
         ch->send_line("NOEMOTE removed.");
     } else {
-        set_bit(victim->comm, COMM_NOEMOTE);
+        set_enum_bit(victim->comm, CommFlag::NoEmote);
         victim->send_line("You can't emote!");
         ch->send_line("NOEMOTE set.");
     }
@@ -1953,12 +1953,12 @@ void do_noshout(Char *ch, const char *argument) {
         return;
     }
 
-    if (check_bit(victim->comm, COMM_NOSHOUT)) {
-        clear_bit(victim->comm, COMM_NOSHOUT);
+    if (check_enum_bit(victim->comm, CommFlag::NoShout)) {
+        clear_enum_bit(victim->comm, CommFlag::NoShout);
         victim->send_line("You can shout again.");
         ch->send_line("NOSHOUT removed.");
     } else {
-        set_bit(victim->comm, COMM_NOSHOUT);
+        set_enum_bit(victim->comm, CommFlag::NoShout);
         victim->send_line("You can't shout!");
         ch->send_line("NOSHOUT set.");
     }
@@ -1985,12 +1985,12 @@ void do_notell(Char *ch, const char *argument) {
         return;
     }
 
-    if (check_bit(victim->comm, COMM_NOTELL)) {
-        clear_bit(victim->comm, COMM_NOTELL);
+    if (check_enum_bit(victim->comm, CommFlag::NoTell)) {
+        clear_enum_bit(victim->comm, CommFlag::NoTell);
         victim->send_line("You can tell again.");
         ch->send_line("NOTELL removed.");
     } else {
-        set_bit(victim->comm, COMM_NOTELL);
+        set_enum_bit(victim->comm, CommFlag::NoTell);
         victim->send_line("You can't tell!");
         ch->send_line("NOTELL set.");
     }

@@ -14,12 +14,12 @@
 #include "BitsBodyForm.hpp"
 #include "BitsBodyPart.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsCommChannel.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
+#include "CommFlag.hpp"
 #include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
 #include "Descriptor.hpp"
@@ -1040,47 +1040,47 @@ const char *comm_bit_name(int comm_flags) {
 
     buf[0] = '\0';
 
-    if (comm_flags & COMM_AFFECT)
+    if (check_enum_bit(comm_flags, CommFlag::Affect))
         strcat(buf, " affect");
-    if (comm_flags & COMM_QUIET)
+    if (check_enum_bit(comm_flags, CommFlag::Quiet))
         strcat(buf, " quiet");
-    if (comm_flags & COMM_DEAF)
+    if (check_enum_bit(comm_flags, CommFlag::Deaf))
         strcat(buf, " deaf");
-    if (comm_flags & COMM_NOWIZ)
+    if (check_enum_bit(comm_flags, CommFlag::NoWiz))
         strcat(buf, " no_wiz");
-    if (comm_flags & COMM_NOAUCTION)
+    if (check_enum_bit(comm_flags, CommFlag::NoAuction))
         strcat(buf, " no_auction");
-    if (comm_flags & COMM_NOGOSSIP)
+    if (check_enum_bit(comm_flags, CommFlag::NoGossip))
         strcat(buf, " no_gossip");
-    if (comm_flags & COMM_NOQUESTION)
+    if (check_enum_bit(comm_flags, CommFlag::NoQuestion))
         strcat(buf, " no_question");
-    if (comm_flags & COMM_NOMUSIC)
+    if (check_enum_bit(comm_flags, CommFlag::NoMusic))
         strcat(buf, " no_music");
-    if (comm_flags & COMM_NOPHILOSOPHISE)
+    if (check_enum_bit(comm_flags, CommFlag::NoPhilosophise))
         strcat(buf, " no_philosophise");
-    if (comm_flags & COMM_NOGRATZ)
+    if (check_enum_bit(comm_flags, CommFlag::NoGratz))
         strcat(buf, " no_gratz");
-    if (comm_flags & COMM_NOALLEGE)
+    if (check_enum_bit(comm_flags, CommFlag::NoAllege))
         strcat(buf, " no_allege");
-    if (comm_flags & COMM_NOQWEST)
+    if (check_enum_bit(comm_flags, CommFlag::NoQwest))
         strcat(buf, " no_qwest");
-    if (comm_flags & COMM_NOANNOUNCE)
+    if (check_enum_bit(comm_flags, CommFlag::NoAnnounce))
         strcat(buf, " no_announce");
-    if (comm_flags & COMM_COMPACT)
+    if (check_enum_bit(comm_flags, CommFlag::Compact))
         strcat(buf, " compact");
-    if (comm_flags & COMM_BRIEF)
+    if (check_enum_bit(comm_flags, CommFlag::Brief))
         strcat(buf, " brief");
-    if (comm_flags & COMM_PROMPT)
+    if (check_enum_bit(comm_flags, CommFlag::Prompt))
         strcat(buf, " prompt");
-    if (comm_flags & COMM_COMBINE)
+    if (check_enum_bit(comm_flags, CommFlag::Combine))
         strcat(buf, " combine");
-    if (comm_flags & COMM_NOEMOTE)
+    if (check_enum_bit(comm_flags, CommFlag::NoEmote))
         strcat(buf, " no_emote");
-    if (comm_flags & COMM_NOSHOUT)
+    if (check_enum_bit(comm_flags, CommFlag::NoShout))
         strcat(buf, " no_shout");
-    if (comm_flags & COMM_NOTELL)
+    if (check_enum_bit(comm_flags, CommFlag::NoTell))
         strcat(buf, " no_tell");
-    if (comm_flags & COMM_NOCHANNELS)
+    if (check_enum_bit(comm_flags, CommFlag::NoChannels))
         strcat(buf, " no_channels");
 
     return (buf[0] != '\0') ? buf + 1 : "none";

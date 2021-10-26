@@ -9,14 +9,12 @@
 
 #pragma once
 
+#include "ClanCommFlag.hpp"
+
 #include <array>
 
 // Change this for new clans
 constexpr inline auto NUM_CLANS = 4;
-
-// Bits in the clan channelflags
-constexpr inline auto CLANCHANNEL_ON = 1u;
-constexpr inline auto CLANCHANNEL_NOCHANNED = 2u;
 
 // OK the real guts
 constexpr inline auto CLAN_MAX = 4;
@@ -38,7 +36,7 @@ struct Clan {
 struct PcClan {
     const Clan &clan;
     int clanlevel{CLAN_MEMBER};
-    unsigned int channelflags{CLANCHANNEL_ON};
+    unsigned int channelflags{to_int(ClanCommFlag::ChannelOn)};
 
     [[nodiscard]] const char *level_name() const { return clan.levelname[clanlevel]; }
 };

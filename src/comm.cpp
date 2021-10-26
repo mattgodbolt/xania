@@ -15,10 +15,10 @@
 #include "comm.hpp"
 #include "Area.hpp"
 #include "Ban.hpp"
-#include "BitsCommChannel.hpp"
 #include "Char.hpp"
 #include "CharGeneration.hpp"
 #include "Classes.hpp"
+#include "CommFlag.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Help.hpp"
@@ -486,10 +486,10 @@ bool process_output(Descriptor *d, bool fPrompt) {
         if (auto *fighting = character->fighting)
             d->write(colourise_mud_string(ansi, describe_fight_condition(*fighting)));
 
-        if (!check_bit(person->comm, COMM_COMPACT))
+        if (!check_enum_bit(person->comm, CommFlag::Compact))
             d->write("\n\r");
 
-        if (check_bit(person->comm, COMM_PROMPT))
+        if (check_enum_bit(person->comm, CommFlag::Prompt))
             d->write(colourise_mud_string(ansi, format_prompt(*character, person->pcdata->prompt)));
     }
 

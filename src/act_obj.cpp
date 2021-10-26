@@ -10,12 +10,12 @@
 #include "act_obj.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
-#include "BitsCommChannel.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
+#include "CommFlag.hpp"
 #include "Exit.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
@@ -1920,7 +1920,7 @@ void do_buy(Char *ch, const char *argument) {
         set_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
         set_enum_bit(pet->act, CharActFlag::Pet);
         set_enum_bit(pet->affected_by, AffectFlag::Charm);
-        pet->comm = COMM_NOTELL | COMM_NOSHOUT | COMM_NOCHANNELS;
+        pet->comm = to_int(CommFlag::NoTell) | to_int(CommFlag::NoShout) | to_int(CommFlag::NoChannels);
 
         argument = one_argument(argument, arg);
         if (arg[0] != '\0')

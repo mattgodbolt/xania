@@ -13,12 +13,12 @@
 #include "ArmourClass.hpp"
 #include "BitsBodyForm.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsCommChannel.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
+#include "CommFlag.hpp"
 #include "DamageClass.hpp"
 #include "DamageMessages.hpp"
 #include "DamageTolerance.hpp"
@@ -1135,9 +1135,9 @@ bool check_parry(Char *ch, Char *victim) {
     chance = std::max(5, chance + victim->level - ch->level);
     if (number_percent() >= chance)
         return false;
-    if (check_bit(victim->comm, COMM_SHOWDEFENCE))
+    if (check_enum_bit(victim->comm, CommFlag::ShowDefence))
         act("You parry $n's attack.", ch, nullptr, victim, To::Vict);
-    if (check_bit(ch->comm, COMM_SHOWDEFENCE))
+    if (check_enum_bit(ch->comm, CommFlag::ShowDefence))
         act("$N parries your attack.", ch, nullptr, victim, To::Char);
     check_improve(victim, gsn_parry, true, 6);
     return true;
@@ -1159,9 +1159,9 @@ bool check_shield_block(Char *ch, Char *victim) {
     if (number_percent() >= chance)
         return false;
 
-    if (check_bit(victim->comm, COMM_SHOWDEFENCE))
+    if (check_enum_bit(victim->comm, CommFlag::ShowDefence))
         act("You block $n's attack.", ch, nullptr, victim, To::Vict);
-    if (check_bit(ch->comm, COMM_SHOWDEFENCE))
+    if (check_enum_bit(ch->comm, CommFlag::ShowDefence))
         act("$N blocks your attack.", ch, nullptr, victim, To::Char);
     check_improve(victim, gsn_shield_block, true, 6);
     return true;
@@ -1181,9 +1181,9 @@ bool check_dodge(Char *ch, Char *victim) {
     if (number_percent() >= chance)
         return false;
 
-    if (check_bit(victim->comm, COMM_SHOWDEFENCE))
+    if (check_enum_bit(victim->comm, CommFlag::ShowDefence))
         act("You dodge $n's attack.", ch, nullptr, victim, To::Vict);
-    if (check_bit(ch->comm, COMM_SHOWDEFENCE))
+    if (check_enum_bit(ch->comm, CommFlag::ShowDefence))
         act("$N dodges your attack.", ch, nullptr, victim, To::Char);
     check_improve(victim, gsn_dodge, true, 6);
     return true;

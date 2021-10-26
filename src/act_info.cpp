@@ -12,7 +12,6 @@
 #include "Area.hpp"
 #include "AreaList.hpp"
 #include "ArmourClass.hpp"
-#include "BitsCommChannel.hpp"
 #include "BitsContainerState.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsExitState.hpp"
@@ -21,6 +20,7 @@
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "Columner.hpp"
+#include "CommFlag.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
@@ -129,7 +129,7 @@ void show_list_to_char(const GenericList<Object *> &list, const Char *ch, bool f
     };
     std::vector<DescAndCount> to_show;
 
-    const bool show_counts = ch->is_npc() || check_bit(ch->comm, COMM_COMBINE);
+    const bool show_counts = ch->is_npc() || check_enum_bit(ch->comm, CommFlag::Combine);
 
     // Format the list of objects.
     for (auto *obj : list) {
@@ -211,7 +211,7 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
     }
 
     buf += pers(victim, ch);
-    if (victim->is_pc() && !check_bit(ch->comm, COMM_BRIEF))
+    if (victim->is_pc() && !check_enum_bit(ch->comm, CommFlag::Brief))
         buf += victim->pcdata->title;
 
     buf += " is ";
@@ -430,7 +430,7 @@ void do_autolist(Char *ch) {
     ch->send_line("---------------------");
 
     ch->send_line("ANSI colour    {}", OnOff{ch->pcdata->colour});
-    ch->send_line("autoaffect     {}", OnOff{check_bit(ch->comm, COMM_AFFECT)});
+    ch->send_line("autoaffect     {}", OnOff{check_enum_bit(ch->comm, CommFlag::Affect)});
     ch->send_line("autoassist     {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoAssist)});
     ch->send_line("autoexit       {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoExit)});
     ch->send_line("autogold       {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoGold)});
@@ -438,8 +438,8 @@ void do_autolist(Char *ch) {
     ch->send_line("autopeek       {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoPeek)});
     ch->send_line("autosac        {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoSac)});
     ch->send_line("autosplit      {}", OnOff{check_enum_bit(ch->act, PlayerActFlag::PlrAutoSplit)});
-    ch->send_line("prompt         {}", OnOff{check_bit(ch->comm, COMM_PROMPT)});
-    ch->send_line("combine items  {}", OnOff{check_bit(ch->comm, COMM_COMBINE)});
+    ch->send_line("prompt         {}", OnOff{check_enum_bit(ch->comm, CommFlag::Prompt)});
+    ch->send_line("combine items  {}", OnOff{check_enum_bit(ch->comm, CommFlag::Combine)});
 
     if (!check_enum_bit(ch->act, PlayerActFlag::PlrCanLoot))
         ch->send_line("Your corpse is safe from thieves.");
@@ -456,22 +456,22 @@ void do_autolist(Char *ch) {
     else
         ch->send_line("You accept followers.");
 
-    if (check_bit(ch->comm, COMM_BRIEF))
+    if (check_enum_bit(ch->comm, CommFlag::Brief))
         ch->send_line("Only brief descriptions are being shown.");
     else
         ch->send_line("Full descriptions are being shown.");
 
-    if (check_bit(ch->comm, COMM_COMPACT))
+    if (check_enum_bit(ch->comm, CommFlag::Compact))
         ch->send_line("Compact mode is set.");
     else
         ch->send_line("Compact mode is not set.");
 
-    if (check_bit(ch->comm, COMM_SHOWAFK))
+    if (check_enum_bit(ch->comm, CommFlag::ShowAfk))
         ch->send_line("Messages sent to you will be shown when afk.");
     else
         ch->send_line("Messages sent to you will not be shown when afk.");
 
-    if (check_bit(ch->comm, COMM_SHOWDEFENCE))
+    if (check_enum_bit(ch->comm, CommFlag::ShowDefence))
         ch->send_line("Shield blocks, parries, and dodges are being shown.");
     else
         ch->send_line("Shield blocks, parries, and dodges are not being shown.");
@@ -481,12 +481,12 @@ void do_autoaffect(Char *ch) {
     if (ch->is_npc())
         return;
 
-    if (check_bit(ch->comm, COMM_AFFECT)) {
+    if (check_enum_bit(ch->comm, CommFlag::Affect)) {
         ch->send_line("Autoaffect removed.");
-        clear_bit(ch->comm, COMM_AFFECT);
+        clear_enum_bit(ch->comm, CommFlag::Affect);
     } else {
         ch->send_line("Affects will now be shown in score.");
-        set_bit(ch->comm, COMM_AFFECT);
+        set_enum_bit(ch->comm, CommFlag::Affect);
     }
 }
 void do_autoassist(Char *ch) {
@@ -581,12 +581,12 @@ void do_autosplit(Char *ch) {
 }
 
 void do_brief(Char *ch) {
-    if (check_bit(ch->comm, COMM_BRIEF)) {
+    if (check_enum_bit(ch->comm, CommFlag::Brief)) {
         ch->send_line("Full descriptions activated.");
-        clear_bit(ch->comm, COMM_BRIEF);
+        clear_enum_bit(ch->comm, CommFlag::Brief);
     } else {
         ch->send_line("Short descriptions activated.");
-        set_bit(ch->comm, COMM_BRIEF);
+        set_enum_bit(ch->comm, CommFlag::Brief);
     }
 }
 
@@ -605,32 +605,32 @@ void do_colour(Char *ch) {
 }
 
 void do_showafk(Char *ch) {
-    if (check_bit(ch->comm, COMM_SHOWAFK)) {
+    if (check_enum_bit(ch->comm, CommFlag::ShowAfk)) {
         ch->send_line("Messages sent to you will now not be shown when afk.");
-        clear_bit(ch->comm, COMM_SHOWAFK);
+        clear_enum_bit(ch->comm, CommFlag::ShowAfk);
     } else {
         ch->send_line("Messages sent to you will now be shown when afk.");
-        set_bit(ch->comm, COMM_SHOWAFK);
+        set_enum_bit(ch->comm, CommFlag::ShowAfk);
     }
 }
 
 void do_showdefence(Char *ch) {
-    if (check_bit(ch->comm, COMM_SHOWDEFENCE)) {
+    if (check_enum_bit(ch->comm, CommFlag::ShowDefence)) {
         ch->send_line("Shield blocks, parries and dodges will not be shown during combat.");
-        clear_bit(ch->comm, COMM_SHOWDEFENCE);
+        clear_enum_bit(ch->comm, CommFlag::ShowDefence);
     } else {
         ch->send_line("Shield blocks, parries and dodges will be shown during combat.");
-        set_bit(ch->comm, COMM_SHOWDEFENCE);
+        set_enum_bit(ch->comm, CommFlag::ShowDefence);
     }
 }
 
 void do_compact(Char *ch) {
-    if (check_bit(ch->comm, COMM_COMPACT)) {
+    if (check_enum_bit(ch->comm, CommFlag::Compact)) {
         ch->send_line("Compact mode removed.");
-        clear_bit(ch->comm, COMM_COMPACT);
+        clear_enum_bit(ch->comm, CommFlag::Compact);
     } else {
         ch->send_line("Compact mode set.");
-        set_bit(ch->comm, COMM_COMPACT);
+        set_enum_bit(ch->comm, CommFlag::Compact);
     }
 }
 
@@ -642,28 +642,28 @@ void do_prompt(Char *ch, const char *argument) {
 
     if (str_cmp(argument, "off") == 0) {
         ch->send_line("You will no longer see prompts.");
-        clear_bit(ch->comm, COMM_PROMPT);
+        clear_enum_bit(ch->comm, CommFlag::Prompt);
         return;
     }
     if (str_cmp(argument, "on") == 0) {
         ch->send_line("You will now see prompts.");
-        set_bit(ch->comm, COMM_PROMPT);
+        set_enum_bit(ch->comm, CommFlag::Prompt);
         return;
     }
 
     /* okay that was the old stuff */
     set_prompt(ch, smash_tilde(argument).c_str());
     ch->send_line("Ok - prompt set.");
-    set_bit(ch->comm, COMM_PROMPT);
+    set_enum_bit(ch->comm, CommFlag::Prompt);
 }
 
 void do_combine(Char *ch) {
-    if (check_bit(ch->comm, COMM_COMBINE)) {
+    if (check_enum_bit(ch->comm, CommFlag::Combine)) {
         ch->send_line("Long inventory selected.");
-        clear_bit(ch->comm, COMM_COMBINE);
+        clear_enum_bit(ch->comm, CommFlag::Combine);
     } else {
         ch->send_line("Combined inventory selected.");
-        set_bit(ch->comm, COMM_COMBINE);
+        set_enum_bit(ch->comm, CommFlag::Combine);
     }
 }
 
@@ -1112,7 +1112,7 @@ void do_score(Char *ch) {
         ch->send_line(*opt_nutrition_msg);
     }
 
-    if (check_bit(ch->comm, COMM_AFFECT)) {
+    if (check_enum_bit(ch->comm, CommFlag::Affect)) {
         ch->send_line("");
         do_affected(ch);
     }

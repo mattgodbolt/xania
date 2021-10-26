@@ -9,8 +9,8 @@
 
 #include "save.hpp"
 #include "AFFECT_DATA.hpp"
-#include "BitsCommChannel.hpp"
 #include "CharFileMeta.hpp"
+#include "CommFlag.hpp"
 #include "Logging.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
@@ -483,7 +483,8 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
               | to_int(PlayerActFlag::PlrAutoExit) | to_int(PlayerActFlag::PlrAutoGold)
               | to_int(PlayerActFlag::PlrAutoLoot) | to_int(PlayerActFlag::PlrAutoSac)
               | to_int(PlayerActFlag::PlrNoSummon);
-    ch->comm = COMM_COMBINE | COMM_PROMPT | COMM_SHOWAFK | COMM_SHOWDEFENCE;
+    ch->comm = to_int(CommFlag::Combine) | to_int(CommFlag::Prompt) | to_int(CommFlag::ShowAfk)
+               | to_int(CommFlag::ShowDefence);
     ranges::fill(ch->perm_stat, 13);
 
     auto *fp = fopen(filename_for_player(player_name).c_str(), "r");

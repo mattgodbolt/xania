@@ -12,12 +12,12 @@
 #include "Area.hpp"
 #include "AreaList.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsCommChannel.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BodySize.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
+#include "CommFlag.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
@@ -1164,7 +1164,7 @@ Char *create_mobile(MobIndexData *mobIndex) {
 
     /* read from prototype */
     mob->act = mobIndex->act;
-    mob->comm = COMM_NOCHANNELS | COMM_NOSHOUT | COMM_NOTELL;
+    mob->comm = to_int(CommFlag::NoChannels) | to_int(CommFlag::NoShout) | to_int(CommFlag::NoTell);
     mob->affected_by = mobIndex->affected_by;
     mob->alignment = mobIndex->alignment;
     mob->level = mobIndex->level;

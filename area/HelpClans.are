@@ -80,8 +80,7 @@ Objects:   you must create several clan objects which members will be
 
 To create rooms and objects requires you to know how to code using the Xania
 Area Writing format. If you have e-mail then you can be sent the appropriate
-document for explaining how to do this. This document may also be on the
-Xania web page soon (http://www.pyro.org/). Speak to an implementor soon
+document for explaining how to do this. Speak to an implementor soon
 about your ideas and to learn how to submit your clan application.
 ~
 
@@ -192,9 +191,10 @@ Only those ranked Clan Hero or higher allow the clan channel to be active.
 ~
 
 1 CLANWEB~
-Clans can have their own web pages, courtesy of pyro.org ;) If you are a leader
-or a member of a clan, you may come up with some clan related info which can
-be placed on the page.
+Right now Xania isn't hosting any clan pages, sorry!
+
+If you are a leader or a member of a clan, you may come up with some clan
+related info which can be placed on its own web page. 
 
 Typical stuff would include the fantasy history of your clan, legendary
 members, the clan's objectives and as much roleplaying stuff as possible.

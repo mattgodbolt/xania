@@ -7,8 +7,8 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include "BitsCommChannel.hpp"
 #include "Char.hpp"
+#include "CommFlag.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "comm.hpp"
@@ -71,15 +71,16 @@ void do_clantalk(Char *ch, const char *argument) {
         return; /* Disallow mortal PC's with no clan */
     }
 
-    if (check_bit(ch->comm, COMM_QUIET)) {
+    if (check_enum_bit(ch->comm, CommFlag::Quiet)) {
         ch->send_line("You must remove quiet mode first.");
         return;
     }
 
     if (argument[0] == '\0' || !orig_clan->channelflags) {
         /* They want to turn it on/off */
-        orig_clan->channelflags ^= CLANCHANNEL_ON;
-        ch->send_line(buf, "Clan channel now {}", (orig_clan->channelflags & CLANCHANNEL_ON) ? "on" : "off");
+        toggle_enum_bit(orig_clan->channelflags, ClanCommFlag::ChannelOn);
+        ch->send_line(buf, "Clan channel now {}",
+                      check_enum_bit(orig_clan->channelflags, ClanCommFlag::ChannelOn) ? "on" : "off");
         return;
     }
 
@@ -92,7 +93,7 @@ void do_clantalk(Char *ch, const char *argument) {
                             const auto *pcclan = victim->pc_clan();
 
                             return pcclan && pcclan->clan.clanchar == orig_clan->clan.clanchar
-                                   && pcclan->clanlevel >= CLAN_HERO && !check_bit(victim->comm, COMM_QUIET);
+                                   && pcclan->clanlevel >= CLAN_HERO && !check_enum_bit(victim->comm, CommFlag::Quiet);
                         })
         == playing.end()) {
         ch->send_to("Your clan lacks the necessary broadcast nexus, causing your vain telepathy to\n\r"
@@ -100,7 +101,7 @@ void do_clantalk(Char *ch, const char *argument) {
         return;
     }
 
-    if (orig_clan->channelflags & CLANCHANNEL_NOCHANNED) {
+    if (check_enum_bit(orig_clan->channelflags, ClanCommFlag::ChannelRevoked)) {
         ch->send_line("Your clan channel privileges have been revoked!");
         return;
     }
@@ -108,16 +109,18 @@ void do_clantalk(Char *ch, const char *argument) {
     ch->set_not_afk();
 
     if (!orig_clan->channelflags) {
-        orig_clan->channelflags ^= CLANCHANNEL_ON;
-        ch->send_line("Clan channel now {}.", (orig_clan->channelflags & CLANCHANNEL_ON) ? "on" : "off");
+        toggle_enum_bit(orig_clan->channelflags, ClanCommFlag::ChannelOn);
+        ch->send_line("Clan channel now {}.",
+                      check_enum_bit(orig_clan->channelflags, ClanCommFlag::ChannelOn) ? "on" : "off");
     }
 
     /* Right here we go - tell all members of the clan the message */
     for (auto &d : descriptors().playing()) {
         auto *victim = d.person();
         const auto *pcclan = victim->pc_clan();
-        if (pcclan && pcclan->clan.clanchar == orig_clan->clan.clanchar && pcclan->channelflags & CLANCHANNEL_ON
-            && !check_bit(victim->comm, COMM_QUIET)
+        if (pcclan && pcclan->clan.clanchar == orig_clan->clan.clanchar
+            && check_enum_bit(pcclan->channelflags, ClanCommFlag::ChannelOn)
+            && !check_enum_bit(victim->comm, CommFlag::Quiet)
             /* || they're an IMM snooping the channels */) {
             d.character()->send_line("|G<{}> {}|w", can_see(d.character(), ch) ? ch->name : "Someone", argument);
         } /* If they can see the message */
@@ -162,15 +165,16 @@ void do_noclanchan(Char *ch, const char *argument) {
 
     /* If we get here everything is ok */
 
-    victim_pcclan->channelflags ^= CLANCHANNEL_NOCHANNED; /* Change the victim's flags */
+    toggle_enum_bit(victim_pcclan->channelflags, ClanCommFlag::ChannelRevoked); /* Change the victim's flags */
 
     /* Tell the char how things went */
     ch->send_line("You have {}ed {}'s clan channel privileges.",
-                  victim_pcclan->channelflags & CLANCHANNEL_NOCHANNED ? "revok" : "reinstat", victim->name);
+                  check_enum_bit(victim_pcclan->channelflags, ClanCommFlag::ChannelRevoked) ? "revok" : "reinstat",
+                  victim->name);
 
     /* Inform the hapless victim */
     victim->send_line("{} has {}ed your clan channel privileges.", upper_first_character(ch->name),
-                      victim_pcclan->channelflags & CLANCHANNEL_NOCHANNED ? "revok" : "reinstat");
+                      check_enum_bit(victim_pcclan->channelflags, ClanCommFlag::ChannelRevoked) ? "revok" : "reinstat");
 } /* do_noclanchan */
 
 void do_member(Char *ch, const char *argument) {

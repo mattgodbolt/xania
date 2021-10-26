@@ -8,8 +8,8 @@
 /*************************************************************************/
 
 #include "Note.hpp"
-#include "BitsCommChannel.hpp"
 #include "Char.hpp"
+#include "CommFlag.hpp"
 #include "DescriptorList.hpp"
 #include "TimeInfoData.hpp"
 #include "common/BitOps.hpp"
@@ -266,7 +266,8 @@ void NoteHandler::post(Char &ch, [[maybe_unused]] ArgParser) {
     on_change_func_(*this);
 
     for (auto &chtarg : descriptors().all_but(ch) | DescriptorFilter::to_person()) {
-        if (!check_bit(chtarg.comm, COMM_NOANNOUNCE) && !check_bit(chtarg.comm, COMM_QUIET) && note.is_to(chtarg)) {
+        if (!check_enum_bit(chtarg.comm, CommFlag::NoAnnounce) && !check_enum_bit(chtarg.comm, CommFlag::Quiet)
+            && note.is_to(chtarg)) {
             chtarg.send_line("The Spirit of Hermes announces the arrival of a new note.");
         }
     }

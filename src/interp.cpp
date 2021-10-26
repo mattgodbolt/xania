@@ -9,8 +9,8 @@
 
 #include "interp.h"
 #include "AffectFlag.hpp"
-#include "BitsCommChannel.hpp"
 #include "Char.hpp"
+#include "CommFlag.hpp"
 #include "CommandSet.hpp"
 #include "Logging.hpp"
 #include "Note.hpp"
@@ -507,7 +507,7 @@ bool check_social(Char *ch, std::string_view command, std::string_view argument)
     if (!social)
         return false;
 
-    if (ch->is_pc() && check_bit(ch->comm, COMM_NOEMOTE)) {
+    if (ch->is_pc() && check_enum_bit(ch->comm, CommFlag::NoEmote)) {
         ch->send_line("You are anti-social!");
         return true;
     }

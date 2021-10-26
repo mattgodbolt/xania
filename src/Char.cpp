@@ -7,10 +7,10 @@
 #include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsCommChannel.hpp"
 #include "BitsObjectExtra.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
+#include "CommFlag.hpp"
 #include "DescriptorList.hpp"
 #include "Logging.hpp"
 #include "Note.hpp"
@@ -301,7 +301,7 @@ const PcClan *Char::pc_clan() const { return is_pc() && pcdata->pcclan ? &pcdata
 
 const Clan *Char::clan() const { return pc_clan() ? &pc_clan()->clan : nullptr; }
 
-bool Char::is_comm_brief() const { return is_pc() && check_bit(comm, COMM_BRIEF); }
+bool Char::is_comm_brief() const { return is_pc() && check_enum_bit(comm, CommFlag::Brief); }
 bool Char::should_autoexit() const { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrAutoExit); }
 
 template <typename Func>
@@ -393,7 +393,7 @@ void Char::yell(std::string_view exclamation) const {
     ::act("|WYou yell '$t|W'|w", this, exclamation, nullptr, To::Char);
     for (auto &victim :
          descriptors().all_but(*this) | DescriptorFilter::same_area(*this) | DescriptorFilter::to_character()) {
-        if (!check_bit(victim.comm, COMM_QUIET))
+        if (!check_enum_bit(victim.comm, CommFlag::Quiet))
             ::act("|W$n yells '$t|W'|w", this, exclamation, &victim, To::Vict);
     }
 }
