@@ -5,13 +5,13 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
-#include "BitsObjectWear.hpp"
 #include "Char.hpp"
 #include "Logging.hpp"
 #include "MobIndexData.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "ObjectWearFlag.hpp"
 #include "WeaponFlag.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
@@ -55,7 +55,8 @@ int report_object(Object *object, int boot) {
     case ObjectType::Weapon:
         /* Calculate the damage allowed and actual */
         allowedaverage = (object->level / 2) + 4;
-        if (check_enum_bit(obj->value[4], WeaponFlag::TwoHands) && check_bit(obj->wear_flags, ITEM_TWO_HANDS))
+        if (check_enum_bit(obj->value[4], WeaponFlag::TwoHands)
+            && check_enum_bit(obj->wear_flags, ObjectWearFlag::TwoHands))
             allowedaverage += std::max(1, (allowedaverage) / 20);
         averagedam = (obj->value[1] * obj->value[2] + obj->value[1]) / 2;
         if ((averagedam > allowedaverage) && boot) {

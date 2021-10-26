@@ -20,7 +20,6 @@
 
 #include "AffectFlag.hpp"
 #include "ArgParser.hpp"
-#include "BitsObjectWear.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "DescriptorList.hpp"
@@ -28,6 +27,7 @@
 #include "Logging.hpp"
 #include "MobIndexData.hpp"
 #include "Object.hpp"
+#include "ObjectWearFlag.hpp"
 #include "WearLocation.hpp"
 #include "comm.hpp"
 #include "db.h"

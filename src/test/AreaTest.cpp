@@ -1,3 +1,8 @@
+/*************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
+/*  (C) 2021 Xania Development Team                                      */
+/*  See merc.h and README for original copyrights                        */
+/*************************************************************************/
 #include "Area.hpp"
 #include "MemFile.hpp"
 #include <catch2/catch.hpp>

@@ -7,11 +7,11 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include "BitsObjectWear.hpp"
 #include "Char.hpp"
 #include "Logging.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
+#include "ObjectWearFlag.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -820,7 +820,7 @@ bool spec_janitor(Char *ch) {
         return false;
 
     for (auto *trash : ch->in_room->contents) {
-        if (!check_bit(trash->wear_flags, ITEM_TAKE) || !can_loot(ch, trash))
+        if (!check_enum_bit(trash->wear_flags, ObjectWearFlag::Take) || !can_loot(ch, trash))
             continue;
         if (trash->type == ObjectType::Drink || trash->type == ObjectType::Trash || trash->cost < 10) {
             act("$n picks up some trash.", ch);

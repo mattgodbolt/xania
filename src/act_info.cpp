@@ -17,7 +17,6 @@
 #include "BitsDamageTolerance.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsObjectWear.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -31,6 +30,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "ObjectWearFlag.hpp"
 #include "PlayerActFlag.hpp"
 #include "PracticeTabulator.hpp"
 #include "Races.hpp"
@@ -1385,7 +1385,7 @@ namespace {
 Object *find_comparable(Char *ch, Object *obj_to_compare_to) {
     for (auto *obj : ch->carrying) {
         if (obj->wear_loc != WEAR_NONE && can_see_obj(ch, obj) && obj_to_compare_to->type == obj->type
-            && (obj_to_compare_to->wear_flags & obj->wear_flags & ~ITEM_TAKE) != 0) {
+            && (obj_to_compare_to->wear_flags & obj->wear_flags & (~to_int(ObjectWearFlag::Take))) != 0) {
             return obj;
         }
     }

@@ -6,11 +6,11 @@
 #pragma once
 #include "AffectList.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsObjectWear.hpp"
 #include "ExtraDescription.hpp"
 #include "Flag.hpp"
 #include "GenericList.hpp"
 #include "Materials.hpp"
+#include "ObjectWearFlag.hpp"
 #include "Types.hpp"
 
 #include <array>
@@ -123,23 +123,23 @@ struct Object {
 
     inline static constexpr std::array<Flag, 17> AllWearFlags = {{
         // clang-format off
-        {ITEM_TAKE, 0, "take"},
-        {ITEM_WEAR_FINGER, 0, "finger"},
-        {ITEM_WEAR_NECK, 0, "neck"},
-        {ITEM_WEAR_BODY, 0, "body"},
-        {ITEM_WEAR_HEAD, 0, "head"},
-        {ITEM_WEAR_LEGS, 0, "legs"},
-        {ITEM_WEAR_FEET, 0, "feet"},
-        {ITEM_WEAR_HANDS, 0, "hands"},
-        {ITEM_WEAR_ARMS, 0, "arms"},
-        {ITEM_WEAR_SHIELD, 0, "shield"},
-        {ITEM_WEAR_ABOUT, 0, "about"},
-        {ITEM_WEAR_WAIST, 0, "waist"},
-        {ITEM_WEAR_WRIST, 0, "wrist"},
-        {ITEM_WIELD, 0, "wield"},
-        {ITEM_HOLD, 0, "hold"},
-        {ITEM_TWO_HANDS, 0, "twohands"},
-        {ITEM_WEAR_EARS, 0, "ears"},
+        {to_int(ObjectWearFlag::Take), 0, "take"},
+        {to_int(ObjectWearFlag::Finger), 0, "finger"},
+        {to_int(ObjectWearFlag::Neck), 0, "neck"},
+        {to_int(ObjectWearFlag::Body), 0, "body"},
+        {to_int(ObjectWearFlag::Head), 0, "head"},
+        {to_int(ObjectWearFlag::Legs), 0, "legs"},
+        {to_int(ObjectWearFlag::Feet), 0, "feet"},
+        {to_int(ObjectWearFlag::Hands), 0, "hands"},
+        {to_int(ObjectWearFlag::Arms), 0, "arms"},
+        {to_int(ObjectWearFlag::Shield), 0, "shield"},
+        {to_int(ObjectWearFlag::About), 0, "about"},
+        {to_int(ObjectWearFlag::Waist), 0, "waist"},
+        {to_int(ObjectWearFlag::Wrist), 0, "wrist"},
+        {to_int(ObjectWearFlag::Wield), 0, "wield"},
+        {to_int(ObjectWearFlag::Hold), 0, "hold"},
+        {to_int(ObjectWearFlag::TwoHands), 0, "twohands"},
+        {to_int(ObjectWearFlag::Ears), 0, "ears"},
         // clang-format on
     }};
 };

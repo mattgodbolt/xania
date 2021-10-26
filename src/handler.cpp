@@ -17,7 +17,6 @@
 #include "BitsCommChannel.hpp"
 #include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsObjectWear.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -29,6 +28,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "ObjectWearFlag.hpp"
 #include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
@@ -1143,37 +1143,37 @@ const char *wear_bit_name(int wear_flags) {
     static char buf[512];
 
     buf[0] = '\0';
-    if (wear_flags & ITEM_TAKE)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Take))
         strcat(buf, " take");
-    if (wear_flags & ITEM_WEAR_FINGER)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Finger))
         strcat(buf, " finger");
-    if (wear_flags & ITEM_WEAR_NECK)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Neck))
         strcat(buf, " neck");
-    if (wear_flags & ITEM_WEAR_BODY)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Body))
         strcat(buf, " torso");
-    if (wear_flags & ITEM_WEAR_HEAD)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Head))
         strcat(buf, " head");
-    if (wear_flags & ITEM_WEAR_LEGS)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Legs))
         strcat(buf, " legs");
-    if (wear_flags & ITEM_WEAR_FEET)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Feet))
         strcat(buf, " feet");
-    if (wear_flags & ITEM_WEAR_HANDS)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Hands))
         strcat(buf, " hands");
-    if (wear_flags & ITEM_WEAR_ARMS)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Arms))
         strcat(buf, " arms");
-    if (wear_flags & ITEM_WEAR_SHIELD)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Shield))
         strcat(buf, " shield");
-    if (wear_flags & ITEM_WEAR_ABOUT)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::About))
         strcat(buf, " body");
-    if (wear_flags & ITEM_WEAR_WAIST)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Waist))
         strcat(buf, " waist");
-    if (wear_flags & ITEM_WEAR_WRIST)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Wrist))
         strcat(buf, " wrist");
-    if (wear_flags & ITEM_WIELD)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Wield))
         strcat(buf, " wield");
-    if (wear_flags & ITEM_HOLD)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Hold))
         strcat(buf, " hold");
-    if (wear_flags & ITEM_WEAR_EARS)
+    if (check_enum_bit(wear_flags, ObjectWearFlag::Ears))
         strcat(buf, " ears");
 
     return (buf[0] != '\0') ? buf + 1 : "none";

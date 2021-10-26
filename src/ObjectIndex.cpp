@@ -5,8 +5,8 @@
 /*************************************************************************/
 #include "ObjectIndex.hpp"
 #include "BitsObjectExtra.hpp"
-#include "BitsObjectWear.hpp"
 #include "ObjectType.hpp"
+#include "ObjectWearFlag.hpp"
 #include "common/BitOps.hpp"
 #include "string_utils.hpp"
 
