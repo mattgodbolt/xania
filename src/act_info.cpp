@@ -12,7 +12,6 @@
 #include "Area.hpp"
 #include "AreaList.hpp"
 #include "ArmourClass.hpp"
-#include "BitsContainerState.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
 #include "Char.hpp"
@@ -20,6 +19,7 @@
 #include "Classes.hpp"
 #include "Columner.hpp"
 #include "CommFlag.hpp"
+#include "ContainerFlag.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
@@ -770,7 +770,7 @@ void look_in_object(const Char &ch, const Object &obj) {
     case ObjectType::Container:
     case ObjectType::Npccorpse:
     case ObjectType::Pccorpse:
-        if (check_bit(obj.value[1], CONT_CLOSED)) {
+        if (check_enum_bit(obj.value[1], ContainerFlag::Closed)) {
             ch.send_line("It is closed.");
             break;
         }

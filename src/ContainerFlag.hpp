@@ -7,8 +7,11 @@
 
 #include "common/StandardBits.hpp"
 
+#include <magic_enum.hpp>
+
 // Bits for for container flags (value[1]).
-#define CONT_CLOSEABLE (A)
-#define CONT_PICKPROOF (B)
-#define CONT_CLOSED (C)
-#define CONT_LOCKED (D)
+enum class ContainerFlag : unsigned int { Closeable = A, PickProof = B, Closed = C, Locked = D };
+
+[[nodiscard]] constexpr auto to_int(const ContainerFlag flag) noexcept {
+    return magic_enum::enum_integer<ContainerFlag>(flag);
+}

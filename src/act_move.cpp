@@ -10,11 +10,11 @@
 #include "act_move.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
-#include "BitsContainerState.hpp"
 #include "BitsExitState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
+#include "ContainerFlag.hpp"
 #include "Exit.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
@@ -395,20 +395,20 @@ void do_open(Char *ch, ArgParser args) {
             ch->send_line("That's not a container.");
             return;
         }
-        if (!check_bit(obj->value[1], CONT_CLOSED)) {
+        if (!check_enum_bit(obj->value[1], ContainerFlag::Closed)) {
             ch->send_line("It's already open.");
             return;
         }
-        if (!check_bit(obj->value[1], CONT_CLOSEABLE)) {
+        if (!check_enum_bit(obj->value[1], ContainerFlag::Closeable)) {
             ch->send_line("You can't do that.");
             return;
         }
-        if (check_bit(obj->value[1], CONT_LOCKED)) {
+        if (check_enum_bit(obj->value[1], ContainerFlag::Locked)) {
             ch->send_line("It's locked.");
             return;
         }
 
-        clear_bit(obj->value[1], CONT_CLOSED);
+        clear_enum_bit(obj->value[1], ContainerFlag::Closed);
         ch->send_line("Ok.");
         act("$n opens $p.", ch, obj, nullptr, To::Room);
         return;
@@ -458,16 +458,16 @@ void do_close(Char *ch, ArgParser args) {
             ch->send_line("That's not a container.");
             return;
         }
-        if (check_bit(obj->value[1], CONT_CLOSED)) {
+        if (check_enum_bit(obj->value[1], ContainerFlag::Closed)) {
             ch->send_line("It's already closed.");
             return;
         }
-        if (!check_bit(obj->value[1], CONT_CLOSEABLE)) {
+        if (!check_enum_bit(obj->value[1], ContainerFlag::Closeable)) {
             ch->send_line("You can't do that.");
             return;
         }
 
-        set_bit(obj->value[1], CONT_CLOSED);
+        set_enum_bit(obj->value[1], ContainerFlag::Closed);
         ch->send_line("Ok.");
         act("$n closes $p.", ch, obj, nullptr, To::Room);
         return;
@@ -512,7 +512,7 @@ void do_lock(Char *ch, ArgParser args) {
             ch->send_line("That's not a container.");
             return;
         }
-        if (!check_bit(obj->value[1], CONT_CLOSED)) {
+        if (!check_enum_bit(obj->value[1], ContainerFlag::Closed)) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -524,12 +524,12 @@ void do_lock(Char *ch, ArgParser args) {
             ch->send_line("You lack the key.");
             return;
         }
-        if (check_bit(obj->value[1], CONT_LOCKED)) {
+        if (check_enum_bit(obj->value[1], ContainerFlag::Locked)) {
             ch->send_line("It's already locked.");
             return;
         }
 
-        set_bit(obj->value[1], CONT_LOCKED);
+        set_enum_bit(obj->value[1], ContainerFlag::Locked);
         ch->send_line("*Click*");
         act("$n locks $p.", ch, obj, nullptr, To::Room);
         return;
@@ -585,7 +585,7 @@ void do_unlock(Char *ch, ArgParser args) {
             ch->send_line("That's not a container.");
             return;
         }
-        if (!check_bit(obj->value[1], CONT_CLOSED)) {
+        if (!check_enum_bit(obj->value[1], ContainerFlag::Closed)) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -597,12 +597,12 @@ void do_unlock(Char *ch, ArgParser args) {
             ch->send_line("You lack the key.");
             return;
         }
-        if (!check_bit(obj->value[1], CONT_LOCKED)) {
+        if (!check_enum_bit(obj->value[1], ContainerFlag::Locked)) {
             ch->send_line("It's already unlocked.");
             return;
         }
 
-        clear_bit(obj->value[1], CONT_LOCKED);
+        clear_enum_bit(obj->value[1], ContainerFlag::Locked);
         ch->send_line("*Click*");
         act("$n unlocks $p.", ch, obj, nullptr, To::Room);
         return;
@@ -672,7 +672,7 @@ void do_pick(Char *ch, ArgParser args) {
             ch->send_line("That's not a container.");
             return;
         }
-        if (!check_bit(obj->value[1], CONT_CLOSED)) {
+        if (!check_enum_bit(obj->value[1], ContainerFlag::Closed)) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -680,16 +680,16 @@ void do_pick(Char *ch, ArgParser args) {
             ch->send_line("It can't be unlocked.");
             return;
         }
-        if (!check_bit(obj->value[1], CONT_LOCKED)) {
+        if (!check_enum_bit(obj->value[1], ContainerFlag::Locked)) {
             ch->send_line("It's already unlocked.");
             return;
         }
-        if (check_bit(obj->value[1], CONT_PICKPROOF)) {
+        if (check_enum_bit(obj->value[1], ContainerFlag::PickProof)) {
             ch->send_line("You failed.");
             return;
         }
 
-        clear_bit(obj->value[1], CONT_LOCKED);
+        clear_enum_bit(obj->value[1], ContainerFlag::Locked);
         ch->send_line("*Click*");
         check_improve(ch, gsn_pick_lock, true, 2);
         act("$n picks $p.", ch, obj, nullptr, To::Room);

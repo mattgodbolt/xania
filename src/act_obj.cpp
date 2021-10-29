@@ -10,11 +10,11 @@
 #include "act_obj.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
-#include "BitsContainerState.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
 #include "CommFlag.hpp"
+#include "ContainerFlag.hpp"
 #include "Exit.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
@@ -628,7 +628,7 @@ void do_get(Char *ch, const char *argument) {
         }
         }
 
-        if (check_bit(container->value[1], CONT_CLOSED)) {
+        if (check_enum_bit(container->value[1], ContainerFlag::Closed)) {
             act("The $d is closed.", ch, nullptr, container->name, To::Char);
             return;
         }
@@ -704,7 +704,7 @@ void do_put(Char *ch, const char *argument) {
         return;
     }
 
-    if (check_bit(container->value[1], CONT_CLOSED)) {
+    if (check_enum_bit(container->value[1], ContainerFlag::Closed)) {
         act("The $d is closed.", ch, nullptr, container->name, To::Char);
         return;
     }
