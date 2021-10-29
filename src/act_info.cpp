@@ -13,7 +13,6 @@
 #include "AreaList.hpp"
 #include "ArmourClass.hpp"
 #include "BitsContainerState.hpp"
-#include "BitsDamageTolerance.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
 #include "Char.hpp"
@@ -39,6 +38,7 @@
 #include "SkillTables.hpp"
 #include "Socials.hpp"
 #include "TimeInfoData.hpp"
+#include "ToleranceFlag.hpp"
 #include "WearLocation.hpp"
 #include "WeatherData.hpp"
 #include "act_comm.hpp"
@@ -696,12 +696,12 @@ void do_nofollow(Char *ch) {
 
 void do_nosummon(Char *ch) {
     if (ch->is_npc()) {
-        if (check_bit(ch->imm_flags, DMG_TOL_SUMMON)) {
+        if (check_enum_bit(ch->imm_flags, ToleranceFlag::Summon)) {
             ch->send_line("You are no longer immune to summon.");
-            clear_bit(ch->imm_flags, DMG_TOL_SUMMON);
+            clear_enum_bit(ch->imm_flags, ToleranceFlag::Summon);
         } else {
             ch->send_line("You are now immune to summoning.");
-            set_bit(ch->imm_flags, DMG_TOL_SUMMON);
+            set_enum_bit(ch->imm_flags, ToleranceFlag::Summon);
         }
     } else {
         if (check_enum_bit(ch->act, PlayerActFlag::PlrNoSummon)) {

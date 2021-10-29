@@ -6,7 +6,6 @@
 
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
-#include "BitsDamageTolerance.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "DamageClass.hpp"
@@ -19,6 +18,7 @@
 #include "Room.hpp"
 #include "RoomFlag.hpp"
 #include "SkillTables.hpp"
+#include "ToleranceFlag.hpp"
 #include "VnumMobiles.hpp"
 #include "VnumRooms.hpp"
 #include "challenge.hpp"

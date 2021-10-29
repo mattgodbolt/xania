@@ -6,9 +6,9 @@
 #include "Races.hpp"
 #include "AffectFlag.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsDamageTolerance.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
+#include "ToleranceFlag.hpp"
 
 #include <magic_enum.hpp>
 
@@ -32,10 +32,10 @@ const struct race_type race_table[] = {
 
     {"minotaur", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | B | C | D | E | F | G | H | I | J | K | W},
 
-    {"elf", true, 0, to_int(AffectFlag::Infrared), 0, 0, DMG_TOL_CHARM, DMG_TOL_IRON, A | H | M | V,
-     A | B | C | D | E | F | G | H | I | J | K},
+    {"elf", true, 0, to_int(AffectFlag::Infrared), 0, 0, to_int(ToleranceFlag::Charm), to_int(ToleranceFlag::Iron),
+     A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
 
-    {"half-elf", true, 0, to_int(AffectFlag::Infrared), 0, 0, 0, DMG_TOL_IRON, A | H | M | V,
+    {"half-elf", true, 0, to_int(AffectFlag::Infrared), 0, 0, 0, to_int(ToleranceFlag::Iron), A | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K},
 
     {"dragon", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | K | P | U | V | X},
@@ -45,72 +45,82 @@ const struct race_type race_table[] = {
     {"orc", true, 0, to_int(AffectFlag::Infrared), 0, 0, 0, 0, A | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K},
 
-    {"dwarf", true, 0, to_int(AffectFlag::Infrared), 0, 0, DMG_TOL_POISON | DMG_TOL_DISEASE, DMG_TOL_DROWNING,
-     A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
+    {"dwarf", true, 0, to_int(AffectFlag::Infrared), 0, 0,
+     to_int(ToleranceFlag::Poison) | to_int(ToleranceFlag::Disease), to_int(ToleranceFlag::Drowning), A | H | M | V,
+     A | B | C | D | E | F | G | H | I | J | K},
 
     {"wolf", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | K | Q | U | V},
     /* commented out for the time being --Fara
        {
        "wraith",               true,
        0,              to_int(AffectFlag::Infrared),              0,
-       DMG_TOL_COLD,              0,              DMG_TOL_FIRE,
+       to_int(ToleranceFlag::Cold),              0,              to_int(ToleranceFlag::Fire),
        A|H|M|V|cc,        A|C|D|E|F|G|H|I|J|K|L|U
     }
     ,*/
 
-    {"giant", false, 0, 0, 0, 0, DMG_TOL_FIRE | DMG_TOL_COLD, DMG_TOL_MENTAL | DMG_TOL_LIGHTNING, A | H | M | V,
+    {"giant", false, 0, 0, 0, 0, to_int(ToleranceFlag::Fire) | to_int(ToleranceFlag::Cold),
+     to_int(ToleranceFlag::Mental) | to_int(ToleranceFlag::Lightning), A | H | M | V,
      A | B | C | D | E | F | G | H | J | K},
 
     {"bat", false, 0, to_int(AffectFlag::Flying) | to_int(AffectFlag::DarkVision), OFF_DODGE | OFF_FAST, 0, 0,
-     DMG_TOL_LIGHT, A | G | W, A | C | D | E | F | H | J | K | P},
+     to_int(ToleranceFlag::Light), A | G | W, A | C | D | E | F | H | J | K | P},
 
-    {"bear", false, 0, 0, OFF_CRUSH | OFF_DISARM | OFF_BERSERK, 0, DMG_TOL_BASH | DMG_TOL_COLD, 0, A | G | V,
+    {"bear", false, 0, 0, OFF_CRUSH | OFF_DISARM | OFF_BERSERK, 0,
+     to_int(ToleranceFlag::Bash) | to_int(ToleranceFlag::Cold), 0, A | G | V,
      A | B | C | D | E | F | H | J | K | U | V},
 
     {"cat", false, 0, to_int(AffectFlag::DarkVision), OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
      A | C | D | E | F | H | J | K | Q | U | V},
 
-    {"centipede", false, 0, to_int(AffectFlag::DarkVision), 0, 0, DMG_TOL_PIERCE | DMG_TOL_COLD, DMG_TOL_BASH,
+    {"centipede", false, 0, to_int(AffectFlag::DarkVision), 0, 0,
+     to_int(ToleranceFlag::Pierce) | to_int(ToleranceFlag::Cold), to_int(ToleranceFlag::Bash),
      O | Y /* insect, snake  */, A | F | Q | X},
 
     {"dog", false, 0, 0, OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K | U | V},
 
-    {"doll", false, 0, 0, 0, DMG_TOL_MAGIC, DMG_TOL_BASH | DMG_TOL_LIGHT,
-     DMG_TOL_SLASH | DMG_TOL_FIRE | DMG_TOL_ACID | DMG_TOL_LIGHTNING | DMG_TOL_ENERGY, E | J | M | cc,
-     A | B | C | G | H | K},
+    {"doll", false, 0, 0, 0, to_int(ToleranceFlag::Magic), to_int(ToleranceFlag::Bash) | to_int(ToleranceFlag::Light),
+     to_int(ToleranceFlag::Slash) | to_int(ToleranceFlag::Fire) | to_int(ToleranceFlag::Acid)
+         | to_int(ToleranceFlag::Lightning) | to_int(ToleranceFlag::Energy),
+     E | J | M | cc, A | B | C | G | H | K},
 
-    {"fido", false, 0, 0, OFF_DODGE | ASSIST_RACE, 0, 0, DMG_TOL_MAGIC, B | G | V,
+    {"fido", false, 0, 0, OFF_DODGE | ASSIST_RACE, 0, 0, to_int(ToleranceFlag::Magic), B | G | V,
      A | C | D | E | F | H | J | K | Q | V},
 
     {"fox", false, 0, to_int(AffectFlag::DarkVision), OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
      A | C | D | E | F | H | J | K | Q | U | V},
 
-    {"goblin", false, 0, to_int(AffectFlag::Infrared), 0, 0, DMG_TOL_DISEASE, DMG_TOL_MAGIC, A | H | M | V,
-     A | B | C | D | E | F | G | H | I | J | K},
+    {"goblin", false, 0, to_int(AffectFlag::Infrared), 0, 0, to_int(ToleranceFlag::Disease),
+     to_int(ToleranceFlag::Magic), A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
 
     {
-        "hobgoblin", false, 0, to_int(AffectFlag::Infrared), 0, 0, DMG_TOL_DISEASE | DMG_TOL_POISON, 0, A | H | M | V,
+        "hobgoblin", false, 0, to_int(AffectFlag::Infrared), 0, 0,
+        to_int(ToleranceFlag::Disease) | to_int(ToleranceFlag::Poison), 0, A | H | M | V,
         A | B | C | D | E | F | G | H | I | J | K | Q /* includes a tail */
 
     },
 
-    {"kobold", false, 0, to_int(AffectFlag::Infrared), 0, 0, DMG_TOL_POISON, DMG_TOL_MAGIC, A | B | H | M | V,
-     A | B | C | D | E | F | G | H | I | J | K | Q},
+    {"kobold", false, 0, to_int(AffectFlag::Infrared), 0, 0, to_int(ToleranceFlag::Poison),
+     to_int(ToleranceFlag::Magic), A | B | H | M | V, A | B | C | D | E | F | G | H | I | J | K | Q},
 
-    {"lizard", false, 0, 0, 0, 0, DMG_TOL_POISON, DMG_TOL_COLD, A | G | X | cc, A | C | D | E | F | H | K | Q | V},
+    {"lizard", false, 0, 0, 0, 0, to_int(ToleranceFlag::Poison), to_int(ToleranceFlag::Cold), A | G | X | cc,
+     A | C | D | E | F | H | K | Q | V},
 
     {"modron", false, 0, to_int(AffectFlag::Infrared), ASSIST_RACE | ASSIST_ALIGN,
-     DMG_TOL_CHARM | DMG_TOL_DISEASE | DMG_TOL_MENTAL | DMG_TOL_HOLY | DMG_TOL_NEGATIVE,
-     DMG_TOL_FIRE | DMG_TOL_COLD | DMG_TOL_ACID, 0, H, A | B | C | G | H | J | K},
+     to_int(ToleranceFlag::Charm) | to_int(ToleranceFlag::Disease) | to_int(ToleranceFlag::Mental)
+         | to_int(ToleranceFlag::Holy) | to_int(ToleranceFlag::Negative),
+     to_int(ToleranceFlag::Fire) | to_int(ToleranceFlag::Cold) | to_int(ToleranceFlag::Acid), 0, H,
+     A | B | C | G | H | J | K},
 
     {"pig", false, 0, 0, 0, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K},
 
     {"rabbit", false, 0, 0, OFF_DODGE | OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K},
 
-    {"school monster", false, to_int(CharActFlag::NoAlign), 0, 0, DMG_TOL_CHARM | DMG_TOL_SUMMON, 0, DMG_TOL_MAGIC,
-     A | M | V, A | B | C | D | E | F | H | J | K | Q | U},
+    {"school monster", false, to_int(CharActFlag::NoAlign), 0, 0,
+     to_int(ToleranceFlag::Charm) | to_int(ToleranceFlag::Summon), 0, to_int(ToleranceFlag::Magic), A | M | V,
+     A | B | C | D | E | F | H | J | K | Q | U},
 
-    {"snake", false, 0, 0, 0, 0, DMG_TOL_POISON, DMG_TOL_COLD, A | G | R | X | Y | cc,
+    {"snake", false, 0, 0, 0, 0, to_int(ToleranceFlag::Poison), to_int(ToleranceFlag::Cold), A | G | R | X | Y | cc,
      A | D | E | F | K | L | Q | V | X},
 
     {"song bird", false, 0, to_int(AffectFlag::Flying), OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | W,
@@ -118,15 +128,16 @@ const struct race_type race_table[] = {
 
     {"troll", false, 0,
      to_int(AffectFlag::Regeneration) | to_int(AffectFlag::Infrared) | to_int(AffectFlag::DetectHidden), OFF_BERSERK, 0,
-     DMG_TOL_CHARM | DMG_TOL_BASH, DMG_TOL_FIRE | DMG_TOL_ACID, B | M | V,
+     to_int(ToleranceFlag::Charm) | to_int(ToleranceFlag::Bash),
+     to_int(ToleranceFlag::Fire) | to_int(ToleranceFlag::Acid), B | M | V,
      A | B | C | D | E | F | G | H | I | J | K | U | V},
 
-    {"water fowl", false, 0, to_int(AffectFlag::Swim) | to_int(AffectFlag::Flying), 0, 0, DMG_TOL_DROWNING, 0,
-     A | G | W, A | C | D | E | F | H | K | P | Q},
+    {"water fowl", false, 0, to_int(AffectFlag::Swim) | to_int(AffectFlag::Flying), 0, 0,
+     to_int(ToleranceFlag::Drowning), 0, A | G | W, A | C | D | E | F | H | K | P | Q},
 
     {"wyvern", false, 0,
      to_int(AffectFlag::Flying) | to_int(AffectFlag::DetectInvis) | to_int(AffectFlag::DetectHidden),
-     OFF_BASH | OFF_FAST | OFF_DODGE, DMG_TOL_POISON, 0, DMG_TOL_LIGHT, B | Z | cc,
+     OFF_BASH | OFF_FAST | OFF_DODGE, to_int(ToleranceFlag::Poison), 0, to_int(ToleranceFlag::Light), B | Z | cc,
      A | C | D | E | F | H | J | K | P | Q | V | X},
 
     {nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0}};

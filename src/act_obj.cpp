@@ -11,7 +11,6 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "BitsContainerState.hpp"
-#include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
@@ -32,6 +31,7 @@
 #include "SkillTables.hpp"
 #include "Target.hpp"
 #include "TimeInfoData.hpp"
+#include "ToleranceFlag.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "WeaponFlag.hpp"
@@ -2314,9 +2314,9 @@ bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *mo
 
 bool check_material_vulnerability(Char *ch, Object *object) {
     switch (object->material) {
-    case Material::Type::Wood: return check_bit(ch->vuln_flags, DMG_TOL_WOOD);
-    case Material::Type::Silver: return check_bit(ch->vuln_flags, DMG_TOL_SILVER);
-    case Material::Type::Iron: return check_bit(ch->vuln_flags, DMG_TOL_IRON);
+    case Material::Type::Wood: return check_enum_bit(ch->vuln_flags, ToleranceFlag::Wood);
+    case Material::Type::Silver: return check_enum_bit(ch->vuln_flags, ToleranceFlag::Silver);
+    case Material::Type::Iron: return check_enum_bit(ch->vuln_flags, ToleranceFlag::Iron);
     default: return false;
     }
 }

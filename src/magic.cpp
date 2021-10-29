@@ -11,7 +11,6 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -30,6 +29,7 @@
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "Target.hpp"
+#include "ToleranceFlag.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
@@ -857,7 +857,8 @@ void spell_calm(int sn, int level, Char *ch, void *vo) {
     {
         for (auto *vch : ch->in_room->people) {
             if (vch->is_npc()
-                && (check_bit(vch->imm_flags, DMG_TOL_MAGIC) || check_enum_bit(vch->act, CharActFlag::Undead)))
+                && (check_enum_bit(vch->imm_flags, ToleranceFlag::Magic)
+                    || check_enum_bit(vch->act, CharActFlag::Undead)))
                 return;
 
             if (vch->is_aff_calm() || vch->is_aff_berserk() || vch->is_affected_by(skill_lookup("frenzy")))
@@ -1061,7 +1062,7 @@ void spell_charm_person(int sn, int level, Char *ch, void *vo) {
     }
 
     if (victim->is_aff_charm() || ch->is_aff_charm() || ch->get_trust() < victim->get_trust()
-        || check_bit(victim->imm_flags, DMG_TOL_CHARM) || saves_spell(level, victim))
+        || check_enum_bit(victim->imm_flags, ToleranceFlag::Charm) || saves_spell(level, victim))
         return;
 
     if (check_enum_bit(victim->in_room->room_flags, RoomFlag::Law)) {
@@ -2317,7 +2318,7 @@ void spell_gate(int sn, int level, Char *ch, void *vo) {
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall)
         || check_enum_bit(ch->in_room->room_flags, RoomFlag::NoRecall) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
-        || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
+        || (victim->is_npc() && check_enum_bit(victim->imm_flags, ToleranceFlag::Summon))
         || (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrNoSummon))
         || (victim->is_npc() && saves_spell(level, victim))) {
         ch->send_line("You failed.");
@@ -2904,7 +2905,7 @@ void spell_portal(int sn, int level, Char *ch, void *vo) {
         || check_enum_bit(ch->in_room->room_flags, RoomFlag::NoRecall)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Law) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) /* NOT trust */
-        || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
+        || (victim->is_npc() && check_enum_bit(victim->imm_flags, ToleranceFlag::Summon))
         || (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrNoSummon))
         || (victim->is_npc() && saves_spell(level, victim))) {
         ch->send_line("You failed.");
@@ -3205,7 +3206,7 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall)
         || (victim->is_npc() && check_enum_bit(victim->act, CharActFlag::Aggressive)) || victim->level >= level + 3
         || (victim->is_pc() && victim->level >= LEVEL_HERO) || victim->fighting != nullptr
-        || (victim->is_npc() && check_bit(victim->imm_flags, DMG_TOL_SUMMON))
+        || (victim->is_npc() && check_enum_bit(victim->imm_flags, ToleranceFlag::Summon))
         || (victim->is_pc() && check_enum_bit(victim->act, PlayerActFlag::PlrNoSummon))
         || (victim->is_npc() && saves_spell(level, victim))
         || (check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe))) {

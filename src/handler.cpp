@@ -14,7 +14,6 @@
 #include "BitsBodyForm.hpp"
 #include "BitsBodyPart.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsDamageTolerance.hpp"
 #include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -34,6 +33,7 @@
 #include "Room.hpp"
 #include "RoomFlag.hpp"
 #include "SkillNumbers.hpp"
+#include "ToleranceFlag.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
@@ -1091,49 +1091,49 @@ const char *imm_bit_name(int imm_flags) {
 
     buf[0] = '\0';
 
-    if (imm_flags & DMG_TOL_SUMMON)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Summon))
         strcat(buf, " summon");
-    if (imm_flags & DMG_TOL_CHARM)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Charm))
         strcat(buf, " charm");
-    if (imm_flags & DMG_TOL_MAGIC)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Magic))
         strcat(buf, " magic");
-    if (imm_flags & DMG_TOL_WEAPON)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Weapon))
         strcat(buf, " weapon");
-    if (imm_flags & DMG_TOL_BASH)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Bash))
         strcat(buf, " blunt");
-    if (imm_flags & DMG_TOL_PIERCE)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Pierce))
         strcat(buf, " piercing");
-    if (imm_flags & DMG_TOL_SLASH)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Slash))
         strcat(buf, " slashing");
-    if (imm_flags & DMG_TOL_FIRE)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Fire))
         strcat(buf, " fire");
-    if (imm_flags & DMG_TOL_COLD)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Cold))
         strcat(buf, " cold");
-    if (imm_flags & DMG_TOL_LIGHTNING)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Lightning))
         strcat(buf, " lightning");
-    if (imm_flags & DMG_TOL_ACID)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Acid))
         strcat(buf, " acid");
-    if (imm_flags & DMG_TOL_POISON)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Poison))
         strcat(buf, " poison");
-    if (imm_flags & DMG_TOL_NEGATIVE)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Negative))
         strcat(buf, " negative");
-    if (imm_flags & DMG_TOL_HOLY)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Holy))
         strcat(buf, " holy");
-    if (imm_flags & DMG_TOL_ENERGY)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Energy))
         strcat(buf, " energy");
-    if (imm_flags & DMG_TOL_MENTAL)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Mental))
         strcat(buf, " mental");
-    if (imm_flags & DMG_TOL_DISEASE)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Disease))
         strcat(buf, " disease");
-    if (imm_flags & DMG_TOL_DROWNING)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Drowning))
         strcat(buf, " drowning");
-    if (imm_flags & DMG_TOL_LIGHT)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Light))
         strcat(buf, " light");
-    if (imm_flags & DMG_TOL_IRON)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Iron))
         strcat(buf, " iron");
-    if (imm_flags & DMG_TOL_WOOD)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Wood))
         strcat(buf, " wood");
-    if (imm_flags & DMG_TOL_SILVER)
+    if (check_enum_bit(imm_flags, ToleranceFlag::Silver))
         strcat(buf, " silver");
 
     return (buf[0] != '\0') ? buf + 1 : "none";
