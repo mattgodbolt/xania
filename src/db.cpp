@@ -38,6 +38,7 @@
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
+#include "Wear.hpp"
 #include "WeatherData.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
@@ -1125,8 +1126,13 @@ void reset_room(Room *room) {
             }
 
             obj_to_char(object, lastMob);
-            if (reset->command == ResetEquipObjMob)
-                equip_char(lastMob, object, reset->arg3);
+            if (reset->command == ResetEquipObjMob) {
+                if (const auto opt_wear_loc = magic_enum::enum_cast<Wear>(reset->arg3)) {
+                    equip_char(lastMob, object, *opt_wear_loc);
+                } else {
+                    bug("Invalid wear location: {} for object #{}", reset->arg3, reset->arg1);
+                }
+            }
             lastMobWasReset = true;
             break;
         }
@@ -1326,7 +1332,7 @@ Object *create_object(ObjectIndex *objIndex) {
     obj->in_room = nullptr;
     obj->enchanted = false;
     obj->level = objIndex->level;
-    obj->wear_loc = -1;
+    obj->wear_loc = Wear::None;
 
     obj->name = objIndex->name;
     obj->short_descr = objIndex->short_descr;

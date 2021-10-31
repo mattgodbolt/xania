@@ -36,7 +36,7 @@
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
-#include "WearLocation.hpp"
+#include "Wear.hpp"
 #include "act_obj.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
@@ -111,31 +111,31 @@ void do_outfit(Char *ch) {
         return;
     }
 
-    if (!get_eq_char(ch, WEAR_LIGHT)) {
+    if (!get_eq_char(ch, Wear::Light)) {
         auto *obj = create_object(get_obj_index(objects::SchoolBanner));
         obj->cost = 0;
         obj_to_char(obj, ch);
-        equip_char(ch, obj, WEAR_LIGHT);
+        equip_char(ch, obj, Wear::Light);
     }
 
-    if (!get_eq_char(ch, WEAR_BODY)) {
+    if (!get_eq_char(ch, Wear::Body)) {
         auto *obj = create_object(get_obj_index(objects::SchoolVest));
         obj->cost = 0;
         obj_to_char(obj, ch);
-        equip_char(ch, obj, WEAR_BODY);
+        equip_char(ch, obj, Wear::Body);
     }
 
-    if (!get_eq_char(ch, WEAR_SHIELD)) {
+    if (!get_eq_char(ch, Wear::Shield)) {
         auto *obj = create_object(get_obj_index(objects::SchoolShield));
         obj->cost = 0;
         obj_to_char(obj, ch);
-        equip_char(ch, obj, WEAR_SHIELD);
+        equip_char(ch, obj, Wear::Shield);
     }
 
-    if (!get_eq_char(ch, WEAR_WIELD)) {
+    if (!get_eq_char(ch, Wear::Wield)) {
         auto *obj = create_object(get_obj_index(class_table[ch->class_num].weapon));
         obj_to_char(obj, ch);
-        equip_char(ch, obj, WEAR_WIELD);
+        equip_char(ch, obj, Wear::Wield);
     }
 
     ch->send_line("You have been equipped by {}.", deity_name);
@@ -3286,7 +3286,7 @@ void do_smite(Char *ch, const char *argument) {
     act("|WThe wrath of the Gods has fallen upon you!\n\rYou are blown helplessly from your feet and are stunned!|w",
         ch, nullptr, victim, To::Vict);
 
-    if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {
+    if ((obj = get_eq_char(victim, Wear::Wield)) == nullptr) {
         act("|R$n has been cast down by the power of $N!|w", victim, nullptr, ch, To::NotVict);
     } else {
         act("|R$n has been cast down by the power of $N!\n\rTheir weapon is sent flying!|w", victim, nullptr, ch,
@@ -3303,7 +3303,7 @@ void do_smite(Char *ch, const char *argument) {
     victim->position = Position::Type::Resting;
     /* Knock them into resting and disarm them regardless of whether they have talon or a noremove weapon */
 
-    if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {
+    if ((obj = get_eq_char(victim, Wear::Wield)) == nullptr) {
         return;
     } /* can't be disarmed if no weapon */
     else {

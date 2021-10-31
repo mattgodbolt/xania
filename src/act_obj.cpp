@@ -35,7 +35,7 @@
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "WeaponFlag.hpp"
-#include "WearLocation.hpp"
+#include "Wear.hpp"
 #include "act_comm.hpp"
 #include "act_wiz.hpp"
 #include "comm.hpp"
@@ -148,10 +148,10 @@ namespace {
 /*
  * Remove an object.
  */
-bool remove_obj(Char *ch, int iWear, bool fReplace) {
+bool remove_obj(Char *ch, const Wear wear, bool fReplace) {
     Object *obj;
 
-    if ((obj = get_eq_char(ch, iWear)) == nullptr)
+    if ((obj = get_eq_char(ch, wear)) == nullptr)
         return true;
 
     if (!fReplace)
@@ -188,7 +188,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
     }
 
     if (obj->type == ObjectType::Light) {
-        if (!remove_obj(ch, WEAR_LIGHT, fReplace))
+        if (!remove_obj(ch, Wear::Light, fReplace))
             return;
 
         if (use_default_message) {
@@ -196,30 +196,30 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             act("You light $p and hold it.", ch, obj, nullptr, To::Char);
         }
 
-        equip_char(ch, obj, WEAR_LIGHT);
+        equip_char(ch, obj, Wear::Light);
         return;
     }
 
     if (obj->is_wear_finger()) {
-        if (get_eq_char(ch, WEAR_FINGER_L) != nullptr && get_eq_char(ch, WEAR_FINGER_R) != nullptr
-            && !remove_obj(ch, WEAR_FINGER_L, fReplace) && !remove_obj(ch, WEAR_FINGER_R, fReplace))
+        if (get_eq_char(ch, Wear::FingerL) != nullptr && get_eq_char(ch, Wear::FingerR) != nullptr
+            && !remove_obj(ch, Wear::FingerL, fReplace) && !remove_obj(ch, Wear::FingerR, fReplace))
             return;
 
-        if (get_eq_char(ch, WEAR_FINGER_L) == nullptr) {
+        if (get_eq_char(ch, Wear::FingerL) == nullptr) {
             if (use_default_message) {
                 act("$n wears $p on $s left finger.", ch, obj, nullptr, To::Room);
                 act("You wear $p on your left finger.", ch, obj, nullptr, To::Char);
             }
-            equip_char(ch, obj, WEAR_FINGER_L);
+            equip_char(ch, obj, Wear::FingerL);
             return;
         }
 
-        if (get_eq_char(ch, WEAR_FINGER_R) == nullptr) {
+        if (get_eq_char(ch, Wear::FingerR) == nullptr) {
             if (use_default_message) {
                 act("$n wears $p on $s right finger.", ch, obj, nullptr, To::Room);
                 act("You wear $p on your right finger.", ch, obj, nullptr, To::Char);
             }
-            equip_char(ch, obj, WEAR_FINGER_R);
+            equip_char(ch, obj, Wear::FingerR);
             return;
         }
 
@@ -229,25 +229,25 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
     }
 
     if (obj->is_wear_neck()) {
-        if (get_eq_char(ch, WEAR_NECK_1) != nullptr && get_eq_char(ch, WEAR_NECK_2) != nullptr
-            && !remove_obj(ch, WEAR_NECK_1, fReplace) && !remove_obj(ch, WEAR_NECK_2, fReplace))
+        if (get_eq_char(ch, Wear::Neck1) != nullptr && get_eq_char(ch, Wear::Neck2) != nullptr
+            && !remove_obj(ch, Wear::Neck1, fReplace) && !remove_obj(ch, Wear::Neck2, fReplace))
             return;
 
-        if (get_eq_char(ch, WEAR_NECK_1) == nullptr) {
+        if (get_eq_char(ch, Wear::Neck1) == nullptr) {
             if (use_default_message) {
                 act("$n wears $p around $s neck.", ch, obj, nullptr, To::Room);
                 act("You wear $p around your neck.", ch, obj, nullptr, To::Char);
             }
-            equip_char(ch, obj, WEAR_NECK_1);
+            equip_char(ch, obj, Wear::Neck1);
             return;
         }
 
-        if (get_eq_char(ch, WEAR_NECK_2) == nullptr) {
+        if (get_eq_char(ch, Wear::Neck2) == nullptr) {
             if (use_default_message) {
                 act("$n wears $p around $s neck.", ch, obj, nullptr, To::Room);
                 act("You wear $p around your neck.", ch, obj, nullptr, To::Char);
             }
-            equip_char(ch, obj, WEAR_NECK_2);
+            equip_char(ch, obj, Wear::Neck2);
             return;
         }
 
@@ -257,113 +257,113 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
     }
 
     if (obj->is_wear_body()) {
-        if (!remove_obj(ch, WEAR_BODY, fReplace))
+        if (!remove_obj(ch, Wear::Body, fReplace))
             return;
         if (use_default_message) {
             act("$n wears $p on $s body.", ch, obj, nullptr, To::Room);
             act("You wear $p on your body.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_BODY);
+        equip_char(ch, obj, Wear::Body);
         return;
     }
 
     if (obj->is_wear_head()) {
-        if (!remove_obj(ch, WEAR_HEAD, fReplace))
+        if (!remove_obj(ch, Wear::Head, fReplace))
             return;
         if (use_default_message) {
             act("$n wears $p on $s head.", ch, obj, nullptr, To::Room);
             act("You wear $p on your head.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_HEAD);
+        equip_char(ch, obj, Wear::Head);
         return;
     }
 
     if (obj->is_wear_legs()) {
-        if (!remove_obj(ch, WEAR_LEGS, fReplace))
+        if (!remove_obj(ch, Wear::Legs, fReplace))
             return;
         if (use_default_message) {
             act("$n wears $p on $s legs.", ch, obj, nullptr, To::Room);
             act("You wear $p on your legs.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_LEGS);
+        equip_char(ch, obj, Wear::Legs);
         return;
     }
 
     if (obj->is_wear_feet()) {
-        if (!remove_obj(ch, WEAR_FEET, fReplace))
+        if (!remove_obj(ch, Wear::Feet, fReplace))
             return;
         if (use_default_message) {
             act("$n wears $p on $s feet.", ch, obj, nullptr, To::Room);
             act("You wear $p on your feet.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_FEET);
+        equip_char(ch, obj, Wear::Feet);
         return;
     }
 
     if (obj->is_wear_hands()) {
-        if (!remove_obj(ch, WEAR_HANDS, fReplace))
+        if (!remove_obj(ch, Wear::Hands, fReplace))
             return;
         if (use_default_message) {
             act("$n wears $p on $s hands.", ch, obj, nullptr, To::Room);
             act("You wear $p on your hands.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_HANDS);
+        equip_char(ch, obj, Wear::Hands);
         return;
     }
 
     if (obj->is_wear_arms()) {
-        if (!remove_obj(ch, WEAR_ARMS, fReplace))
+        if (!remove_obj(ch, Wear::Arms, fReplace))
             return;
         if (use_default_message) {
             act("$n wears $p on $s arms.", ch, obj, nullptr, To::Room);
             act("You wear $p on your arms.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_ARMS);
+        equip_char(ch, obj, Wear::Arms);
         return;
     }
 
     if (obj->is_wear_about()) {
-        if (!remove_obj(ch, WEAR_ABOUT, fReplace))
+        if (!remove_obj(ch, Wear::About, fReplace))
             return;
         if (use_default_message) {
             act("$n wears $p about $s body.", ch, obj, nullptr, To::Room);
             act("You wear $p about your body.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_ABOUT);
+        equip_char(ch, obj, Wear::About);
         return;
     }
 
     if (obj->is_wear_waist()) {
-        if (!remove_obj(ch, WEAR_WAIST, fReplace))
+        if (!remove_obj(ch, Wear::Waist, fReplace))
             return;
         if (use_default_message) {
             act("$n wears $p about $s waist.", ch, obj, nullptr, To::Room);
             act("You wear $p about your waist.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_WAIST);
+        equip_char(ch, obj, Wear::Waist);
         return;
     }
 
     if (obj->is_wear_wrist()) {
-        if (get_eq_char(ch, WEAR_WRIST_L) != nullptr && get_eq_char(ch, WEAR_WRIST_R) != nullptr
-            && !remove_obj(ch, WEAR_WRIST_L, fReplace) && !remove_obj(ch, WEAR_WRIST_R, fReplace))
+        if (get_eq_char(ch, Wear::WristL) != nullptr && get_eq_char(ch, Wear::WristR) != nullptr
+            && !remove_obj(ch, Wear::WristL, fReplace) && !remove_obj(ch, Wear::WristR, fReplace))
             return;
 
-        if (get_eq_char(ch, WEAR_WRIST_L) == nullptr) {
+        if (get_eq_char(ch, Wear::WristL) == nullptr) {
             if (use_default_message) {
                 act("$n wears $p around $s left wrist.", ch, obj, nullptr, To::Room);
                 act("You wear $p around your left wrist.", ch, obj, nullptr, To::Char);
             }
-            equip_char(ch, obj, WEAR_WRIST_L);
+            equip_char(ch, obj, Wear::WristL);
             return;
         }
 
-        if (get_eq_char(ch, WEAR_WRIST_R) == nullptr) {
+        if (get_eq_char(ch, Wear::WristR) == nullptr) {
             if (use_default_message) {
                 act("$n wears $p around $s right wrist.", ch, obj, nullptr, To::Room);
                 act("You wear $p around your right wrist.", ch, obj, nullptr, To::Char);
             }
-            equip_char(ch, obj, WEAR_WRIST_R);
+            equip_char(ch, obj, Wear::WristR);
             return;
         }
 
@@ -375,10 +375,10 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
     if (obj->is_wear_shield()) {
         Object *weapon;
 
-        if (!remove_obj(ch, WEAR_SHIELD, fReplace))
+        if (!remove_obj(ch, Wear::Shield, fReplace))
             return;
 
-        weapon = get_eq_char(ch, WEAR_WIELD);
+        weapon = get_eq_char(ch, Wear::Wield);
         if (weapon != nullptr && ch->body_size < BodySize::Large && weapon->is_weapon_two_handed()) {
             ch->send_line("Your hands are tied up with your weapon!");
             return;
@@ -388,14 +388,14 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             act("$n wears $p as a shield.", ch, obj, nullptr, To::Room);
             act("You wear $p as a shield.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_SHIELD);
+        equip_char(ch, obj, Wear::Shield);
         return;
     }
 
     if (obj->is_wieldable()) {
         int sn, skill;
 
-        if (!remove_obj(ch, WEAR_WIELD, fReplace))
+        if (!remove_obj(ch, Wear::Wield, fReplace))
             return;
 
         if (ch->is_pc() && get_obj_weight(obj) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
@@ -404,7 +404,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         }
 
         if (ch->is_pc() && ch->body_size < BodySize::Large && obj->is_weapon_two_handed()
-            && get_eq_char(ch, WEAR_SHIELD) != nullptr) {
+            && get_eq_char(ch, Wear::Shield) != nullptr) {
             ch->send_line("You need two hands free for that weapon.");
             return;
         }
@@ -413,7 +413,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             act("$n wields $p.", ch, obj, nullptr, To::Room);
             act("You wield $p.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_WIELD);
+        equip_char(ch, obj, Wear::Wield);
 
         sn = get_weapon_sn(ch);
 
@@ -442,24 +442,24 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
 
     if (obj->is_holdable())
         if (!(ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Pet))) {
-            if (!remove_obj(ch, WEAR_HOLD, fReplace))
+            if (!remove_obj(ch, Wear::Hold, fReplace))
                 return;
             if (use_default_message) {
                 act("$n holds $p in $s hands.", ch, obj, nullptr, To::Room);
                 act("You hold $p in your hands.", ch, obj, nullptr, To::Char);
             }
-            equip_char(ch, obj, WEAR_HOLD);
+            equip_char(ch, obj, Wear::Hold);
             return;
         }
 
     if (obj->is_wear_ears()) {
-        if (!remove_obj(ch, WEAR_EARS, fReplace))
+        if (!remove_obj(ch, Wear::Ears, fReplace))
             return;
         if (use_default_message) {
             act("$n wears $p on $s ears.", ch, obj, nullptr, To::Room);
             act("You wear $p on your ears.", ch, obj, nullptr, To::Char);
         }
-        equip_char(ch, obj, WEAR_EARS);
+        equip_char(ch, obj, Wear::Ears);
         return;
     }
 
@@ -753,7 +753,7 @@ void do_put(Char *ch, const char *argument) {
     } else {
         /* 'put all container' or 'put all.obj container' */
         for (auto *obj : ch->carrying) {
-            if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == WEAR_NONE
+            if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
                 && obj != container && can_drop_obj(ch, obj)
                 && get_obj_weight(obj) + get_obj_weight(container) <= container->value[0]) {
 
@@ -847,7 +847,7 @@ void do_donate(Char *ch, const char *argument) {
     } else {
         /* 'put all container' or 'put all.obj container' */
         for (auto *obj : ch->carrying) {
-            if ((arg[3] == '\0' || is_name(&arg[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == WEAR_NONE
+            if ((arg[3] == '\0' || is_name(&arg[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
                 && can_drop_obj(ch, obj) && obj->timer == 0) {
                 obj->timer = number_range(100, 200);
                 obj_from_char(obj);
@@ -933,7 +933,7 @@ void do_drop(Char *ch, const char *argument) {
         /* 'drop all' or 'drop all.obj' */
         found = false;
         for (auto *obj : ch->carrying) {
-            if ((arg[3] == '\0' || is_name(&arg[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == WEAR_NONE
+            if ((arg[3] == '\0' || is_name(&arg[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
                 && can_drop_obj(ch, obj)) {
                 found = true;
                 obj_from_char(obj);
@@ -1370,7 +1370,7 @@ void do_wear(Char *ch, const char *argument) {
 
     if (!str_cmp(arg, "all")) {
         for (auto *obj : ch->carrying)
-            if (obj->wear_loc == WEAR_NONE && can_see_obj(ch, obj))
+            if (obj->wear_loc == Wear::None && can_see_obj(ch, obj))
                 wear_obj(ch, obj, false);
     } else {
         auto *obj = get_obj_carry(ch, arg);
@@ -1582,7 +1582,7 @@ void do_brandish(Char *ch) {
     Object *staff;
     int sn;
 
-    if ((staff = get_eq_char(ch, WEAR_HOLD)) == nullptr) {
+    if ((staff = get_eq_char(ch, Wear::Hold)) == nullptr) {
         ch->send_line("You hold nothing in your hand.");
         return;
     }
@@ -1664,7 +1664,7 @@ void do_zap(Char *ch, const char *argument) {
         return;
     }
 
-    if ((wand = get_eq_char(ch, WEAR_HOLD)) == nullptr) {
+    if ((wand = get_eq_char(ch, Wear::Hold)) == nullptr) {
         ch->send_line("You hold nothing in your hand.");
         return;
     }
@@ -2042,7 +2042,7 @@ void do_list(Char *ch, const char *argument) {
 
         std::string buffer;
         for (auto *obj : keeper->carrying) {
-            if (obj->wear_loc == WEAR_NONE && can_see_obj(ch, obj) && (cost = get_cost(keeper, obj, true)) > 0
+            if (obj->wear_loc == Wear::None && can_see_obj(ch, obj) && (cost = get_cost(keeper, obj, true)) > 0
                 && (arg[0] == '\0' || is_name(arg, obj->name))) {
                 if (!found) {
                     found = true;
@@ -2181,7 +2181,7 @@ void do_throw(Char *ch, const char *argument) {
         return;
     }
 
-    if ((bomb = get_eq_char(ch, WEAR_HOLD)) == nullptr) {
+    if ((bomb = get_eq_char(ch, Wear::Hold)) == nullptr) {
         ch->send_line("You hold nothing in your hand.");
         return;
     }

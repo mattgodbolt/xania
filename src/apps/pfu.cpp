@@ -4,7 +4,7 @@
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "VnumRooms.hpp"
-#include "WearLocation.hpp"
+#include "Wear.hpp"
 #include "WrappedFd.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
@@ -102,12 +102,12 @@ void ResetModifiableAttrs::execute(Char &ch) const {
     ch.saving_throw = 0;
     ch.sex = ch.pcdata->true_sex;
     // add back object effects
-    for (auto loc = 0; loc < MAX_WEAR; loc++) {
-        auto *obj = get_eq_char(&ch, loc);
+    for (const auto &wear : WearFilter::wearable()) {
+        auto *obj = get_eq_char(&ch, wear);
         if (!obj)
             continue;
         for (size_t i = 0; i < ch.armor.size(); i++)
-            ch.armor[i] -= apply_ac(obj, loc, i);
+            ch.armor[i] -= apply_ac(obj, wear, i);
 
         if (!obj->enchanted)
             for (const auto &af : obj->objIndex->affected)

@@ -38,7 +38,7 @@
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
 #include "WeaponFlag.hpp"
-#include "WearLocation.hpp"
+#include "Wear.hpp"
 #include "WeatherData.hpp"
 #include "act_comm.hpp"
 #include "act_obj.hpp"
@@ -88,7 +88,7 @@ int get_skill(const Char *ch, int sn) { return ch->get_skill(sn); }
 
 /* for returning weapon information */
 int get_weapon_sn(Char *ch) {
-    const Object *wield = get_eq_char(ch, WEAR_WIELD);
+    const Object *wield = get_eq_char(ch, Wear::Wield);
     if (wield == nullptr || wield->type != ObjectType::Weapon)
         return gsn_hand_to_hand;
     else {
@@ -171,7 +171,7 @@ int can_carry_n(Char *ch) {
     if (ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Pet))
         return 4;
 
-    return MAX_WEAR + 2 * get_curr_stat(ch, Stat::Dex) + ch->level;
+    return magic_enum::enum_count<Wear>() + 2 * get_curr_stat(ch, Stat::Dex) + ch->level;
 }
 
 /*
@@ -202,7 +202,7 @@ void affect_modify(Char *ch, const AFFECT_DATA &af, bool fAdd) {
      * Guard against recursion (for weapons with affects).
      */
     Object *wield;
-    if (ch->is_pc() && (wield = get_eq_char(ch, WEAR_WIELD)) != nullptr
+    if (ch->is_pc() && (wield = get_eq_char(ch, Wear::Wield)) != nullptr
         && get_obj_weight(wield) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
         static int depth;
 
@@ -247,7 +247,7 @@ void affect_remove_obj(Object *obj, const AFFECT_DATA &af) {
         return;
     }
 
-    if (obj->carried_by != nullptr && obj->wear_loc != -1)
+    if (obj->carried_by != nullptr && obj->wear_loc != Wear::None)
         affect_modify(obj->carried_by, af, false);
 
     obj->affected.remove(af);
@@ -293,7 +293,7 @@ void char_from_room(Char *ch) {
     if (ch->is_pc())
         ch->in_room->area->player_left();
 
-    if ((obj = get_eq_char(ch, WEAR_LIGHT)) != nullptr && obj->type == ObjectType::Light && obj->value[2] != 0
+    if ((obj = get_eq_char(ch, Wear::Light)) != nullptr && obj->type == ObjectType::Light && obj->value[2] != 0
         && ch->in_room->light > 0)
         --ch->in_room->light;
 
@@ -320,7 +320,7 @@ void char_to_room(Char *ch, Room *room) {
     if (ch->is_pc())
         ch->in_room->area->player_entered();
 
-    if (auto *obj = get_eq_char(ch, WEAR_LIGHT); obj && obj->type == ObjectType::Light && obj->value[2] != 0)
+    if (auto *obj = get_eq_char(ch, Wear::Light); obj && obj->type == ObjectType::Light && obj->value[2] != 0)
         ++ch->in_room->light;
 
     if (ch->is_aff_plague()) {
@@ -385,7 +385,7 @@ void obj_from_char(Object *obj) {
         return;
     }
 
-    if (obj->wear_loc != WEAR_NONE)
+    if (obj->wear_loc != Wear::None)
         unequip_char(ch, obj);
 
     if (!ch->carrying.remove(obj))
@@ -399,28 +399,28 @@ void obj_from_char(Object *obj) {
 /*
  * Find the ac value of an obj, including position effect.
  */
-int apply_ac(Object *obj, int iWear, int type) {
+int apply_ac(Object *obj, const Wear wear, const int type) {
     if (obj->type != ObjectType::Armor)
         return 0;
 
-    switch (iWear) {
-    case WEAR_BODY:
-    case WEAR_HEAD:
-    case WEAR_LEGS:
-    case WEAR_FEET:
-    case WEAR_HANDS:
-    case WEAR_ARMS:
-    case WEAR_SHIELD:
-    case WEAR_FINGER_L:
-    case WEAR_FINGER_R:
-    case WEAR_NECK_1:
-    case WEAR_NECK_2:
-    case WEAR_ABOUT:
-    case WEAR_WAIST:
-    case WEAR_WRIST_L:
-    case WEAR_WRIST_R:
-    case WEAR_HOLD:
-    case WEAR_EARS: return obj->value[type];
+    switch (wear) {
+    case Wear::Body:
+    case Wear::Head:
+    case Wear::Legs:
+    case Wear::Feet:
+    case Wear::Hands:
+    case Wear::Arms:
+    case Wear::Shield:
+    case Wear::FingerL:
+    case Wear::FingerR:
+    case Wear::Neck1:
+    case Wear::Neck2:
+    case Wear::About:
+    case Wear::Waist:
+    case Wear::WristL:
+    case Wear::WristR:
+    case Wear::Hold:
+    case Wear::Ears: return obj->value[type];
     default: return 0;
     }
 }
@@ -428,12 +428,12 @@ int apply_ac(Object *obj, int iWear, int type) {
 /*
  * Find a piece of eq on a character.
  */
-Object *get_eq_char(Char *ch, int iWear) {
+Object *get_eq_char(Char *ch, const Wear wear) {
     if (ch == nullptr)
         return nullptr;
 
     for (auto *obj : ch->carrying) {
-        if (obj->wear_loc == iWear)
+        if (obj->wear_loc == wear)
             return obj;
     }
 
@@ -459,10 +459,9 @@ void enforce_material_vulnerability(Char *ch, Object *obj) {
 /*
  * Equip a char with an obj.
  */
-void equip_char(Char *ch, Object *obj, int iWear) {
-    if (get_eq_char(ch, iWear) != nullptr) {
-        bug("Equip_char: {} #{} already equipped in slot {}.", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0),
-            iWear);
+void equip_char(Char *ch, Object *obj, const Wear wear) {
+    if (get_eq_char(ch, wear) != nullptr) {
+        bug("Equip_char: {} #{} already equipped in slot {}.", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0), wear);
         return;
     }
 
@@ -481,8 +480,8 @@ void equip_char(Char *ch, Object *obj, int iWear) {
     enforce_material_vulnerability(ch, obj);
 
     for (int i = 0; i < 4; i++)
-        ch->armor[i] -= apply_ac(obj, iWear, i);
-    obj->wear_loc = iWear;
+        ch->armor[i] -= apply_ac(obj, wear, i);
+    obj->wear_loc = wear;
 
     if (!obj->enchanted)
         for (auto &af : obj->objIndex->affected)
@@ -498,14 +497,14 @@ void equip_char(Char *ch, Object *obj, int iWear) {
  * Unequip a char with an obj.
  */
 void unequip_char(Char *ch, Object *obj) {
-    if (obj->wear_loc == WEAR_NONE) {
+    if (obj->wear_loc == Wear::None) {
         bug("Unequip_char: already unequipped.");
         return;
     }
 
     for (int i = 0; i < 4; i++)
         ch->armor[i] += apply_ac(obj, obj->wear_loc, i);
-    obj->wear_loc = -1;
+    obj->wear_loc = Wear::None;
 
     if (!obj->enchanted)
         for (auto &af : obj->objIndex->affected)

@@ -23,6 +23,7 @@
 #include "TimeInfoData.hpp"
 #include "VnumMobiles.hpp"
 #include "VnumRooms.hpp"
+#include "Wear.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
 #include "handler.hpp"
@@ -31,6 +32,7 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <magic_enum.hpp>
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/range/conversion.hpp>
 #include <range/v3/view/reverse.hpp>
@@ -940,7 +942,7 @@ void fread_obj(Char *ch, FILE *fp) {
                     obj->objIndex->count++;
                 }
                 if (make_new) {
-                    int wear = obj->wear_loc;
+                    const auto wear = obj->wear_loc;
                     extract_obj(obj);
                     obj = create_object(obj->objIndex);
                     obj->wear_loc = wear;
@@ -1000,7 +1002,11 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (word == cf::WearFlags) {
             obj->wear_flags = fread_number(fp);
         } else if (word == cf::WearLoc) {
-            obj->wear_loc = fread_number(fp);
+            if (const auto opt_wear_loc = magic_enum::enum_cast<Wear>(fread_number(fp))) {
+                obj->wear_loc = *opt_wear_loc;
+            } else {
+                bug("fread_obj: bad wear location {}.", word);
+            }
         } else if (word == cf::Weight) {
             obj->weight = fread_number(fp);
         } else if (word == cf::WearString) {

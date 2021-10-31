@@ -28,7 +28,7 @@
 #include "MobIndexData.hpp"
 #include "Object.hpp"
 #include "ObjectWearFlag.hpp"
-#include "WearLocation.hpp"
+#include "Wear.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "fight.hpp"
@@ -220,7 +220,7 @@ void do_mpjunk(Char *ch, const char *argument) {
     } else {
         for (auto *obj : ch->carrying) {
             if (arg[3] == '\0' || is_name(&arg[4], obj->name)) {
-                if (obj->wear_loc != WEAR_NONE)
+                if (obj->wear_loc != Wear::None)
                     unequip_char(ch, obj);
                 extract_obj(obj);
             }

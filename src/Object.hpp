@@ -12,6 +12,7 @@
 #include "ObjectExtraFlag.hpp"
 #include "ObjectWearFlag.hpp"
 #include "Types.hpp"
+#include "Wear.hpp"
 
 #include <array>
 #include <string>
@@ -42,7 +43,7 @@ struct Object {
     unsigned int extra_flags{};
     unsigned int wear_flags{};
     std::string wear_string;
-    int wear_loc{};
+    Wear wear_loc{};
     sh_int weight{};
     int cost{};
     sh_int level{};

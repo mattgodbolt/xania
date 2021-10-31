@@ -39,7 +39,7 @@
 #include "Socials.hpp"
 #include "TimeInfoData.hpp"
 #include "ToleranceFlag.hpp"
-#include "WearLocation.hpp"
+#include "Wear.hpp"
 #include "WeatherData.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"
@@ -63,8 +63,8 @@ using namespace std::literals;
 
 namespace {
 
-std::string wear_string_for(const Object *obj, int wear_location) {
-    constexpr std::array<std::string_view, MAX_WEAR> where_name = {
+std::string wear_string_for(const Object *obj, const Wear wear_location) {
+    constexpr std::array<std::string_view, WearFilter::wearable_count()> where_name = {
         "used as light",     "worn on finger",   "worn on finger",
         "worn around neck",  "worn around neck", "worn on body",
         "worn on head",      "worn on legs",     "worn on feet",
@@ -73,7 +73,7 @@ std::string wear_string_for(const Object *obj, int wear_location) {
         "worn around wrist", "wielded",          "held",
         "worn on ears"};
 
-    return fmt::format("<{}>", obj->wear_string.empty() ? where_name[wear_location] : obj->wear_string);
+    return fmt::format("<{}>", obj->wear_string.empty() ? where_name[to_int(wear_location)] : obj->wear_string);
 }
 
 }
@@ -133,7 +133,7 @@ void show_list_to_char(const GenericList<Object *> &list, const Char *ch, bool f
 
     // Format the list of objects.
     for (auto *obj : list) {
-        if (obj->wear_loc == WEAR_NONE && can_see_obj(ch, obj)) {
+        if (obj->wear_loc == Wear::None && can_see_obj(ch, obj)) {
             auto desc = format_obj_to_char(obj, ch, fShort);
             auto combined_same = false;
 
@@ -261,14 +261,14 @@ void show_char_to_char_1(Char *victim, Char *ch) {
     ch->send_to(describe_fight_condition(*victim));
 
     bool found = false;
-    for (int iWear = 0; iWear < MAX_WEAR; iWear++) {
-        if (const auto *obj = get_eq_char(victim, iWear); obj && can_see_obj(ch, obj)) {
+    for (const auto &wear : WearFilter::wearable()) {
+        if (const auto *obj = get_eq_char(victim, wear); obj && can_see_obj(ch, obj)) {
             if (!found) {
                 ch->send_line("");
                 act("$N is using:", ch, nullptr, victim, To::Char);
                 found = true;
             }
-            ch->send_line("{:<20}{}", wear_string_for(obj, iWear), format_obj_to_char(obj, ch, true));
+            ch->send_line("{:<20}{}", wear_string_for(obj, wear), format_obj_to_char(obj, ch, true));
         }
     }
 
@@ -1369,9 +1369,9 @@ void do_inventory(Char *ch) {
 void do_equipment(Char *ch) {
     ch->send_line("You are using:");
     bool found = false;
-    for (int iWear = 0; iWear < MAX_WEAR; iWear++) {
-        if (const auto *obj = get_eq_char(ch, iWear)) {
-            ch->send_line("{:<20}{}", wear_string_for(obj, iWear),
+    for (const auto &wear : WearFilter::wearable()) {
+        if (const auto *obj = get_eq_char(ch, wear)) {
+            ch->send_line("{:<20}{}", wear_string_for(obj, wear),
                           can_see_obj(ch, obj) ? format_obj_to_char(obj, ch, true) : "something.");
             found = true;
         }
@@ -1384,7 +1384,7 @@ void do_equipment(Char *ch) {
 namespace {
 Object *find_comparable(Char *ch, Object *obj_to_compare_to) {
     for (auto *obj : ch->carrying) {
-        if (obj->wear_loc != WEAR_NONE && can_see_obj(ch, obj) && obj_to_compare_to->type == obj->type
+        if (obj->wear_loc != Wear::None && can_see_obj(ch, obj) && obj_to_compare_to->type == obj->type
             && (obj_to_compare_to->wear_flags & obj->wear_flags & (~to_int(ObjectWearFlag::Take))) != 0) {
             return obj;
         }

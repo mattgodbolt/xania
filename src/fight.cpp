@@ -42,7 +42,7 @@
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
 #include "WeaponFlag.hpp"
-#include "WearLocation.hpp"
+#include "Wear.hpp"
 #include "act_comm.hpp"
 #include "act_move.hpp"
 #include "act_obj.hpp"
@@ -446,7 +446,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     if (victim->is_pos_dead() || ch->in_room != victim->in_room)
         return;
 
-    const auto wield = get_eq_char(ch, WEAR_WIELD);
+    const auto wield = get_eq_char(ch, Wear::Wield);
     const auto atk_table_idx = (wield && wield->type == ObjectType::Weapon) ? wield->value[3] : ch->dam_type;
     const auto dam_type = attack_table[atk_table_idx].damage;
     AttackType atk_type;
@@ -560,7 +560,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
                 }
             }
 
-            if (get_eq_char(ch, WEAR_SHIELD) == nullptr) /* no shield = more */
+            if (get_eq_char(ch, Wear::Shield) == nullptr) /* no shield = more */
                 dam = (int)((float)dam * 21.f / 20.f);
         } else
             dam = number_range(1 + 4 * weapon_skill / 100, 2 * ch->level / 3 * weapon_skill / 100);
@@ -760,7 +760,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
     case (DamageTolerance::Vulnerable): adjusted_damage += adjusted_damage / 2; break;
     default:;
     }
-    if (((wield = get_eq_char(ch, WEAR_WIELD)) != nullptr) && check_material_vulnerability(victim, wield))
+    if (((wield = get_eq_char(ch, Wear::Wield)) != nullptr) && check_material_vulnerability(victim, wield))
         adjusted_damage += adjusted_damage / 2;
 
     const auto injured_part = InjuredPart::random_from_victim(ch, victim, atk_type, Rng::global_rng());
@@ -780,7 +780,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         victim->hit = 1;
     update_pos(victim);
 
-    wield = get_eq_char(ch, WEAR_WIELD);
+    wield = get_eq_char(ch, Wear::Wield);
 
     if ((wield != nullptr) && (wield->type == ObjectType::Weapon)
         && (check_enum_bit(wield->value[4], WeaponFlag::Vampiric))) {
@@ -1112,7 +1112,7 @@ void check_killer(Char *ch, Char *victim) {
 
 namespace {
 bool is_wielding_whip(Char *attacker) {
-    if (const auto *weapon = get_eq_char(attacker, WEAR_WIELD)) {
+    if (const auto *weapon = get_eq_char(attacker, Wear::Wield)) {
         return Weapons::try_from_integer(weapon->value[0]) == Weapon::Whip;
     } else {
         return false;
@@ -1127,7 +1127,7 @@ bool is_wielding_whip(Char *attacker) {
 bool check_parry(Char *ch, Char *victim) {
     if (!victim->is_pos_awake())
         return false;
-    if (get_eq_char(victim, WEAR_WIELD) == nullptr)
+    if (get_eq_char(victim, Wear::Wield) == nullptr)
         return false;
     if (is_wielding_whip(ch)) {
         return false;
@@ -1150,7 +1150,7 @@ bool check_parry(Char *ch, Char *victim) {
 bool check_shield_block(Char *ch, Char *victim) {
     if (!victim->is_pos_awake())
         return false;
-    if (get_eq_char(victim, WEAR_SHIELD) == nullptr)
+    if (get_eq_char(victim, Wear::Shield) == nullptr)
         return false;
     if (is_wielding_whip(ch)) {
         return false;
@@ -1424,7 +1424,7 @@ void group_gain(Char *ch, Char *victim) {
         gch->send_line(fmt::format("You receive {} experience points.", xp));
         gain_exp(gch, xp);
         for (auto *obj : ch->carrying) {
-            if (obj->wear_loc == WEAR_NONE)
+            if (obj->wear_loc == Wear::None)
                 continue;
 
             if ((obj->is_anti_evil() && ch->is_evil()) || (obj->is_anti_good() && ch->is_good())
@@ -1651,7 +1651,7 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
 void disarm(Char *ch, Char *victim) {
     Object *obj;
 
-    if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr)
+    if ((obj = get_eq_char(victim, Wear::Wield)) == nullptr)
         return;
 
     if (obj->is_no_remove()) {
@@ -1677,7 +1677,7 @@ void disarm(Char *ch, Char *victim) {
 
 void do_berserk(Char *ch) {
     int chance, hp_percent;
-    /*    Object *wield = get_eq_char( ch, WEAR_WIELD );*/
+    /*    Object *wield = get_eq_char( ch, Wear::Wield );*/
 
     if ((chance = get_skill(ch, gsn_berserk)) == 0
         || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Berserk))
@@ -2234,7 +2234,7 @@ void do_backstab(Char *ch, const char *argument) {
         return;
     }
 
-    if ((obj = get_eq_char(ch, WEAR_WIELD)) == nullptr) {
+    if ((obj = get_eq_char(ch, Wear::Wield)) == nullptr) {
         ch->send_line("You need to wield a weapon to backstab.");
         return;
     }
@@ -2477,7 +2477,7 @@ void do_sharpen(Char *ch) {
     Object *weapon;
     int chance;
 
-    if ((weapon = get_eq_char(ch, WEAR_WIELD)) == nullptr) {
+    if ((weapon = get_eq_char(ch, Wear::Wield)) == nullptr) {
         ch->send_line("You must be wielding a weapon to sharpen it.");
         return;
     }
@@ -2563,7 +2563,7 @@ void do_disarm(Char *ch) {
         return;
     }
 
-    if (get_eq_char(ch, WEAR_WIELD) == nullptr
+    if (get_eq_char(ch, Wear::Wield) == nullptr
         && ((hth = get_skill(ch, gsn_hand_to_hand)) == 0
             || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Disarm)))) {
         ch->send_line("You must wield a weapon to disarm.");
@@ -2575,7 +2575,7 @@ void do_disarm(Char *ch) {
         return;
     }
 
-    if ((obj = get_eq_char(victim, WEAR_WIELD)) == nullptr) {
+    if ((obj = get_eq_char(victim, Wear::Wield)) == nullptr) {
         ch->send_line("Your opponent is not wielding a weapon.");
         return;
     }
@@ -2595,7 +2595,7 @@ void do_disarm(Char *ch) {
     /* modifiers */
 
     /* skill */
-    if (get_eq_char(ch, WEAR_WIELD) == nullptr)
+    if (get_eq_char(ch, Wear::Wield) == nullptr)
         chance = chance * hth / 150;
     else
         chance = chance * ch_weapon / 100;

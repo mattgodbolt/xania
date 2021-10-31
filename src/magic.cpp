@@ -34,7 +34,7 @@
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
 #include "WeaponFlag.hpp"
-#include "WearLocation.hpp"
+#include "Wear.hpp"
 #include "WeatherData.hpp"
 #include "act_comm.hpp"
 #include "act_wiz.hpp"
@@ -312,7 +312,7 @@ void do_cast(Char *ch, const char *argument) {
             ch->mana -= (mana * 2);
             ch->gold -= (mana * 100);
 
-            if (((bomb = get_eq_char(ch, WEAR_HOLD)) != nullptr)) {
+            if (((bomb = get_eq_char(ch, Wear::Hold)) != nullptr)) {
                 if (bomb->type != ObjectType::Bomb) {
                     ch->send_line("You must be holding a bomb to add to it.");
                     ch->send_line("Or, to create a new bomb you must have free hands.");
@@ -359,7 +359,7 @@ void do_cast(Char *ch, const char *argument) {
                 bomb->name = fmt::sprintf(bomb->name, ch->name);
 
                 obj_to_char(bomb, ch);
-                equip_char(ch, bomb, WEAR_HOLD);
+                equip_char(ch, bomb, Wear::Hold);
                 act("$n creates $p.", ch, bomb, nullptr, To::Room);
                 act("You have created $p.", ch, bomb, nullptr, To::Char);
 
@@ -691,7 +691,7 @@ void spell_acid_wash(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("You do not have that item in your inventory.");
         return;
     }
@@ -1562,7 +1562,7 @@ void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("You have to be carrying it to remove invisible on it!");
         return;
     }
@@ -1599,7 +1599,7 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
     (void)level;
     Object *obj = (Object *)vo;
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("You have to be carrying it to remove alignment on it!");
         return;
     }
@@ -1649,7 +1649,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("The item must be carried to be enchanted.");
         return;
     }
@@ -1780,7 +1780,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("The item must be carried to be enchanted.");
         return;
     }
@@ -1996,7 +1996,7 @@ void spell_vorpal(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("The item must be carried to be made vorpal.");
         return;
     }
@@ -2021,7 +2021,7 @@ void spell_venom(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("The item must be carried to be venomed.");
         return;
     }
@@ -2045,7 +2045,7 @@ void spell_black_death(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("The item must be carried to be plagued.");
         return;
     }
@@ -2069,7 +2069,7 @@ void spell_damnation(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("You do not have that item in your inventory.");
         return;
     }
@@ -2095,7 +2095,7 @@ void spell_vampire(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("The item must be carried to be vampiric.");
         return;
     }
@@ -2115,7 +2115,7 @@ void spell_tame_lightning(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (obj->wear_loc != -1) {
+    if (obj->wear_loc != Wear::None) {
         ch->send_line("You do not have that item in your inventory.");
         return;
     }
@@ -2255,7 +2255,7 @@ void spell_fly(int sn, int level, Char *ch, void *vo) {
 
 void spell_frenzy(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
-    /*  Object *wield = get_eq_char( ch, WEAR_WIELD );*/
+    /*  Object *wield = get_eq_char( ch, Wear::Wield );*/
 
     AFFECT_DATA af;
     if (victim->is_affected_by(sn) || victim->is_aff_berserk()) {
@@ -3048,8 +3048,8 @@ void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    for (int iWear = 0; iWear < MAX_WEAR; iWear++) {
-        auto *obj = get_eq_char(victim, iWear);
+    for (const auto &wear : WearFilter::wearable()) {
+        auto *obj = get_eq_char(victim, wear);
         if (obj && obj->is_no_remove()) {
             try_strip_noremove(victim, level, obj);
             return;
@@ -3371,17 +3371,17 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
             switch (obj_lose->type) {
             case ObjectType::Armor:
                 if (obj_lose->value[0] > 0) {
-                    int iWear;
+                    Wear wear;
                     act("$p is pitted and etched!", victim, obj_lose, nullptr, To::Char);
-                    if ((iWear = obj_lose->wear_loc) != WEAR_NONE)
+                    if ((wear = obj_lose->wear_loc) != Wear::None)
                         for (i = 0; i < 4; i++)
-                            victim->armor[i] -= apply_ac(obj_lose, iWear, i);
+                            victim->armor[i] -= apply_ac(obj_lose, wear, i);
                     for (i = 0; i < 4; i++)
                         obj_lose->value[i] -= 1;
                     obj_lose->cost = 0;
-                    if (iWear != WEAR_NONE)
+                    if (wear != Wear::None)
                         for (i = 0; i < 4; i++)
-                            victim->armor[i] += apply_ac(obj_lose, iWear, i);
+                            victim->armor[i] += apply_ac(obj_lose, wear, i);
                 }
                 break;
 
