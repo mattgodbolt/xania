@@ -88,7 +88,6 @@ int get_obj_weight(Object *obj);
 bool room_is_dark(Room *room);
 bool room_is_private(Room *room);
 bool can_see(const Char *ch, const Char *victim);
-std::string_view pers(const Char *ch, const Char *looker);
 bool can_see_obj(const Char *ch, const Object *obj);
 bool can_see_room(const Char *ch, const Room *room);
 bool can_drop_obj(Char *ch, Object *obj);

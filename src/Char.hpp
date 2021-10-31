@@ -321,6 +321,8 @@ struct Char {
     [[nodiscard]] bool has_boat() const noexcept;
     [[nodiscard]] bool carrying_object_vnum(int vnum) const noexcept;
 
+    [[nodiscard]] const Char &group_leader() const noexcept { return leader ? *leader : *this; }
+    [[nodiscard]] Char &group_leader() noexcept { return leader ? *leader : *this; }
     [[nodiscard]] size_t num_group_members_in_room() const noexcept;
 
     void try_give_item_to(Object *object, Char *to_char);
@@ -378,6 +380,10 @@ struct Char {
         {to_int(AffectFlag::Lethargy), 0, "lethargy"}
         // clang-format on
     }};
+
+    // Return a string view describing the given character to this character, taking into account whether we can see the
+    // other character.
+    [[nodiscard]] std::string_view describe(const Char &to_describe) const noexcept;
 
 private:
     template <typename Func>

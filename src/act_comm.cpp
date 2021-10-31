@@ -558,13 +558,13 @@ void do_group(Char *ch, const char *argument) {
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
-        ch->send_line("{}'s group:", pers(ch->leader ? ch->leader : ch, ch));
+        ch->send_line("{}'s group:", ch->describe(ch->group_leader()));
 
         for (auto *gch : char_list) {
             if (is_same_group(gch, ch)) {
                 ch->send_line("[{:3} {}] {:<16} {:4}/{:4} hp {:4}/{:4} mana {:4}/{:4} mv {:5} xp", gch->level,
-                              gch->is_npc() ? "Mob" : class_table[gch->class_num].who_name, pers(gch, ch), gch->hit,
-                              gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
+                              gch->is_npc() ? "Mob" : class_table[gch->class_num].who_name, ch->describe(*gch),
+                              gch->hit, gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
             }
         }
         return;
