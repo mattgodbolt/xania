@@ -12,7 +12,6 @@
 #include "Area.hpp"
 #include "AreaList.hpp"
 #include "ArmourClass.hpp"
-#include "BitsExitState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -22,6 +21,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
+#include "ExitFlag.hpp"
 #include "Help.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
@@ -848,9 +848,9 @@ void look_direction(const Char &ch, Direction door) {
         ch.send_line("Nothing special there.");
 
     if (pexit->keyword && pexit->keyword[0] != '\0' && pexit->keyword[0] != ' ') {
-        if (check_bit(pexit->exit_info, EX_CLOSED)) {
+        if (check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
             act("The $d is closed.", &ch, nullptr, pexit->keyword, To::Char);
-        } else if (check_bit(pexit->exit_info, EX_ISDOOR)) {
+        } else if (check_enum_bit(pexit->exit_info, ExitFlag::IsDoor)) {
             act("The $d is open.", &ch, nullptr, pexit->keyword, To::Char);
         }
     }
@@ -978,7 +978,7 @@ void do_exits(const Char *ch, const char *argument) {
     auto found = false;
     for (auto door : all_directions) {
         if (auto *pexit = ch->in_room->exit[door]; pexit && pexit->u1.to_room && can_see_room(ch, pexit->u1.to_room)
-                                                   && !check_bit(pexit->exit_info, EX_CLOSED)) {
+                                                   && !check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
             found = true;
             if (fAuto) {
                 buf += fmt::format(" {}", to_string(door));
@@ -1786,7 +1786,7 @@ void do_scan(Char *ch) {
         for (count_num_rooms = 0; count_num_rooms < num_rooms_scan; count_num_rooms++) {
 
             if ((pexit = current_place->exit[direction]) == nullptr || (current_place = pexit->u1.to_room) == nullptr
-                || !can_see_room(ch, pexit->u1.to_room) || check_bit(pexit->exit_info, EX_CLOSED))
+                || !can_see_room(ch, pexit->u1.to_room) || check_enum_bit(pexit->exit_info, ExitFlag::Closed))
                 break;
             // Eliminate cycles in labyrinthine areas.
             if (std::find(found_rooms.begin(), found_rooms.end(), pexit->u1.to_room->vnum) != found_rooms.end()) {

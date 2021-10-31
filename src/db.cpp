@@ -12,7 +12,6 @@
 #include "Area.hpp"
 #include "AreaList.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsExitState.hpp"
 #include "BodySize.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -20,6 +19,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
+#include "ExitFlag.hpp"
 #include "Help.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
@@ -457,7 +457,7 @@ void load_resets(FILE *fp) {
             auto opt_door = try_cast_direction(pReset->arg2);
 
             if (!opt_door || !room || (pexit = room->exit[*opt_door]) == nullptr
-                || !check_bit(pexit->rs_flags, EX_ISDOOR)) {
+                || !check_enum_bit(pexit->rs_flags, ExitFlag::IsDoor)) {
                 bug("Load_resets: 'D': exit {} not door.", pReset->arg2);
                 exit(1);
             }
@@ -465,8 +465,12 @@ void load_resets(FILE *fp) {
             switch (pReset->arg3) {
             default: bug("Load_resets: 'D': bad 'locks': {}.", pReset->arg3);
             case 0: break;
-            case 1: set_bit(pexit->rs_flags, EX_CLOSED); break;
-            case 2: set_bit(pexit->rs_flags, EX_CLOSED | EX_LOCKED); break;
+            case 1: set_enum_bit(pexit->rs_flags, ExitFlag::Closed); break;
+            case 2: {
+                set_enum_bit(pexit->rs_flags, ExitFlag::Closed);
+                set_enum_bit(pexit->rs_flags, ExitFlag::Locked);
+                break;
+            }
             }
             break;
         }
@@ -573,10 +577,13 @@ void load_rooms(FILE *fp) {
 
                     /* the following statements assign rs_flags, replacing
                             exit_info which is what used to get set. */
-                case 1: pexit->rs_flags = EX_ISDOOR; break;
-                case 2: pexit->rs_flags = EX_ISDOOR | EX_PICKPROOF; break;
-                case 3: pexit->rs_flags = EX_ISDOOR | EX_PASSPROOF; break;
-                case 4: pexit->rs_flags = EX_ISDOOR | EX_PASSPROOF | EX_PICKPROOF; break;
+                case 1: pexit->rs_flags = to_int(ExitFlag::IsDoor); break;
+                case 2: pexit->rs_flags = to_int(ExitFlag::IsDoor) | to_int(ExitFlag::PickProof); break;
+                case 3: pexit->rs_flags = to_int(ExitFlag::IsDoor) | to_int(ExitFlag::PassProof); break;
+                case 4:
+                    pexit->rs_flags =
+                        to_int(ExitFlag::IsDoor) | to_int(ExitFlag::PassProof) | to_int(ExitFlag::PickProof);
+                    break;
                 }
 
                 room->exit[*opt_door] = pexit;
@@ -616,8 +623,8 @@ void load_shops(FILE *fp) {
                 shop->buy_type[iTrade] = *opt_obj_type;
             }
             // If the raw object type number is zero or unrecognized we silently ignore it.
-            // The typical case is that the shopkeeper is configured to not buy anything and you can use zero to state
-            // that.
+            // The typical case is that the shopkeeper is configured to not buy anything and you can use zero to
+            // state that.
         }
         shop->profit_buy = fread_number(fp);
         shop->profit_sell = fread_number(fp);

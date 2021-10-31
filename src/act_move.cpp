@@ -10,12 +10,12 @@
 #include "act_move.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
-#include "BitsExitState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "ContainerFlag.hpp"
 #include "Exit.hpp"
+#include "ExitFlag.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
 #include "PlayerActFlag.hpp"
@@ -57,8 +57,8 @@ void move_char(Char *ch, Direction door) {
         return;
     }
 
-    if (check_bit(pexit->exit_info, EX_CLOSED) && ch->is_mortal()) {
-        if (check_bit(pexit->exit_info, EX_PASSPROOF) && ch->is_aff_pass_door()) {
+    if (check_enum_bit(pexit->exit_info, ExitFlag::Closed) && ch->is_mortal()) {
+        if (check_enum_bit(pexit->exit_info, ExitFlag::PassProof) && ch->is_aff_pass_door()) {
             act("The $d is protected from trespass by a magical barrier.", ch, nullptr, pexit->keyword, To::Char);
             return;
         } else {
@@ -69,8 +69,9 @@ void move_char(Char *ch, Direction door) {
         }
     }
 
-    if (check_bit(pexit->exit_info, EX_CLOSED) && ch->is_aff_pass_door() && !(check_bit(pexit->exit_info, EX_PASSPROOF))
-        && ch->riding != nullptr && !ch->riding->is_aff_pass_door()) {
+    if (check_enum_bit(pexit->exit_info, ExitFlag::Closed) && ch->is_aff_pass_door()
+        && !(check_enum_bit(pexit->exit_info, ExitFlag::PassProof)) && ch->riding != nullptr
+        && !ch->riding->is_aff_pass_door()) {
         ch->send_line("Your mount cannot travel through solid objects.");
         return;
     }
@@ -364,7 +365,7 @@ std::optional<Direction> find_door(Char *ch, std::string_view arg) {
             return {};
         }
 
-        if (!check_bit(pexit->exit_info, EX_ISDOOR)) {
+        if (!check_enum_bit(pexit->exit_info, ExitFlag::IsDoor)) {
             ch->send_line("You can't do that.");
             return {};
         }
@@ -373,7 +374,7 @@ std::optional<Direction> find_door(Char *ch, std::string_view arg) {
     }
 
     for (auto door : all_directions) {
-        if (auto *pexit = ch->in_room->exit[door]; pexit && check_bit(pexit->exit_info, EX_ISDOOR)
+        if (auto *pexit = ch->in_room->exit[door]; pexit && check_enum_bit(pexit->exit_info, ExitFlag::IsDoor)
                                                    && pexit->keyword != nullptr && is_name(arg, pexit->keyword))
             return door;
     }
@@ -419,16 +420,16 @@ void do_open(Char *ch, ArgParser args) {
         /* 'open door' */
 
         auto *pexit = ch->in_room->exit[door];
-        if (!check_bit(pexit->exit_info, EX_CLOSED)) {
+        if (!check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's already open.");
             return;
         }
-        if (check_bit(pexit->exit_info, EX_LOCKED)) {
+        if (check_enum_bit(pexit->exit_info, ExitFlag::Locked)) {
             ch->send_line("It's locked.");
             return;
         }
 
-        clear_bit(pexit->exit_info, EX_CLOSED);
+        clear_enum_bit(pexit->exit_info, ExitFlag::Closed);
         act("$n opens the $d.", ch, nullptr, pexit->keyword, To::Room);
         ch->send_line("Ok.");
 
@@ -438,7 +439,7 @@ void do_open(Char *ch, ArgParser args) {
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
 
-            clear_bit(pexit_rev->exit_info, EX_CLOSED);
+            clear_enum_bit(pexit_rev->exit_info, ExitFlag::Closed);
             for (auto *rch : to_room->people)
                 act("The $d opens.", rch, nullptr, pexit_rev->keyword, To::Char);
         }
@@ -478,12 +479,12 @@ void do_close(Char *ch, ArgParser args) {
         /* 'close door' */
 
         auto *pexit = ch->in_room->exit[door];
-        if (check_bit(pexit->exit_info, EX_CLOSED)) {
+        if (check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's already closed.");
             return;
         }
 
-        set_bit(pexit->exit_info, EX_CLOSED);
+        set_enum_bit(pexit->exit_info, ExitFlag::Closed);
         act("$n closes the $d.", ch, nullptr, pexit->keyword, To::Room);
         ch->send_line("Ok.");
 
@@ -492,7 +493,7 @@ void do_close(Char *ch, ArgParser args) {
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            set_bit(pexit_rev->exit_info, EX_CLOSED);
+            set_enum_bit(pexit_rev->exit_info, ExitFlag::Closed);
             for (auto *rch : to_room->people)
                 act("The $d closes.", rch, nullptr, pexit_rev->keyword, To::Char);
         }
@@ -540,7 +541,7 @@ void do_lock(Char *ch, ArgParser args) {
         /* 'lock door' */
 
         auto *pexit = ch->in_room->exit[door];
-        if (!check_bit(pexit->exit_info, EX_CLOSED)) {
+        if (!check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -552,12 +553,12 @@ void do_lock(Char *ch, ArgParser args) {
             ch->send_line("You lack the key.");
             return;
         }
-        if (check_bit(pexit->exit_info, EX_LOCKED)) {
+        if (check_enum_bit(pexit->exit_info, ExitFlag::Locked)) {
             ch->send_line("It's already locked.");
             return;
         }
 
-        set_bit(pexit->exit_info, EX_LOCKED);
+        set_enum_bit(pexit->exit_info, ExitFlag::Locked);
         ch->send_line("*Click*");
         act("$n locks the $d.", ch, nullptr, pexit->keyword, To::Room);
 
@@ -566,7 +567,7 @@ void do_lock(Char *ch, ArgParser args) {
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            set_bit(pexit_rev->exit_info, EX_LOCKED);
+            set_enum_bit(pexit_rev->exit_info, ExitFlag::Locked);
         }
     }
 }
@@ -612,7 +613,7 @@ void do_unlock(Char *ch, ArgParser args) {
         auto door = *opt_door;
         /* 'unlock door' */
         auto *pexit = ch->in_room->exit[door];
-        if (!check_bit(pexit->exit_info, EX_CLOSED)) {
+        if (!check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -624,12 +625,12 @@ void do_unlock(Char *ch, ArgParser args) {
             ch->send_line("You lack the key.");
             return;
         }
-        if (!check_bit(pexit->exit_info, EX_LOCKED)) {
+        if (!check_enum_bit(pexit->exit_info, ExitFlag::Locked)) {
             ch->send_line("It's already unlocked.");
             return;
         }
 
-        clear_bit(pexit->exit_info, EX_LOCKED);
+        clear_enum_bit(pexit->exit_info, ExitFlag::Locked);
         ch->send_line("*Click*");
         act("$n unlocks the $d.", ch, nullptr, pexit->keyword, To::Room);
 
@@ -638,7 +639,7 @@ void do_unlock(Char *ch, ArgParser args) {
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            clear_bit(pexit_rev->exit_info, EX_LOCKED);
+            clear_enum_bit(pexit_rev->exit_info, ExitFlag::Locked);
         }
     }
 }
@@ -701,7 +702,7 @@ void do_pick(Char *ch, ArgParser args) {
         /* 'pick door' */
 
         auto *pexit = ch->in_room->exit[door];
-        if (!check_bit(pexit->exit_info, EX_CLOSED) && ch->is_mortal()) {
+        if (!check_enum_bit(pexit->exit_info, ExitFlag::Closed) && ch->is_mortal()) {
             ch->send_line("It's not closed.");
             return;
         }
@@ -709,16 +710,16 @@ void do_pick(Char *ch, ArgParser args) {
             ch->send_line("It can't be picked.");
             return;
         }
-        if (!check_bit(pexit->exit_info, EX_LOCKED)) {
+        if (!check_enum_bit(pexit->exit_info, ExitFlag::Locked)) {
             ch->send_line("It's already unlocked.");
             return;
         }
-        if (check_bit(pexit->exit_info, EX_PICKPROOF) && ch->is_mortal()) {
+        if (check_enum_bit(pexit->exit_info, ExitFlag::PickProof) && ch->is_mortal()) {
             ch->send_line("You failed.");
             return;
         }
 
-        clear_bit(pexit->exit_info, EX_LOCKED);
+        clear_enum_bit(pexit->exit_info, ExitFlag::Locked);
         ch->send_line("*Click*");
         act("$n picks the $d.", ch, nullptr, pexit->keyword, To::Room);
         check_improve(ch, gsn_pick_lock, true, 2);
@@ -728,7 +729,7 @@ void do_pick(Char *ch, ArgParser args) {
         Exit *pexit_rev;
         if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
             && pexit_rev->u1.to_room == ch->in_room) {
-            clear_bit(pexit_rev->exit_info, EX_LOCKED);
+            clear_enum_bit(pexit_rev->exit_info, ExitFlag::Locked);
         }
     }
 }

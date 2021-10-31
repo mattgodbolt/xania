@@ -12,7 +12,6 @@
 #include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsExitState.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -21,6 +20,7 @@
 #include "DamageMessages.hpp"
 #include "DamageTolerance.hpp"
 #include "Exit.hpp"
+#include "ExitFlag.hpp"
 #include "Format.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
@@ -2281,7 +2281,7 @@ void do_flee(Char *ch) {
         Exit *pexit;
         auto door = random_direction();
         if ((pexit = was_in->exit[door]) == nullptr || pexit->u1.to_room == nullptr
-            || check_bit(pexit->exit_info, EX_CLOSED)
+            || check_enum_bit(pexit->exit_info, ExitFlag::Closed)
             || (ch->is_npc() && check_enum_bit(pexit->u1.to_room->room_flags, RoomFlag::NoMob)))
             continue;
 

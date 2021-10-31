@@ -17,13 +17,13 @@ struct Exit {
         Room *to_room;
         sh_int vnum;
     } u1;
-    sh_int exit_info{};
+    unsigned int exit_info{};
     sh_int key{};
     char *keyword{};
     char *description{};
 
     Exit *next{};
-    int rs_flags{};
+    unsigned int rs_flags{};
     bool is_one_way{};
 };
 

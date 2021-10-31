@@ -11,7 +11,6 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "Area.hpp"
-#include "BitsExitState.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -20,6 +19,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
+#include "ExitFlag.hpp"
 #include "Logging.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
@@ -417,7 +417,7 @@ void mobile_update() {
         auto opt_door = try_cast_direction(number_bits(5));
         if (!check_enum_bit(ch->act, CharActFlag::Sentinel) && number_bits(4) == 0 && opt_door
             && (pexit = ch->in_room->exit[*opt_door]) != nullptr && pexit->u1.to_room != nullptr
-            && !check_bit(pexit->exit_info, EX_CLOSED)
+            && !check_enum_bit(pexit->exit_info, ExitFlag::Closed)
             && !check_enum_bit(pexit->u1.to_room->room_flags, RoomFlag::NoMob)
             && (!check_enum_bit(ch->act, CharActFlag::StayArea) || pexit->u1.to_room->area == ch->in_room->area)) {
             move_char(ch, *opt_door);
