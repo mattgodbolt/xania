@@ -751,11 +751,11 @@ void obj_update() {
 void do_aggressive_sentient(Char *, Char *);
 void aggr_update() {
     for (auto *wch : char_list) {
-        /* MOBProgram ACT_PROG trigger */
+        /* MOBProgram Act trigger */
         if (wch->is_npc() && wch->mpactnum > 0 && wch->in_room->area->occupied()) {
             MPROG_ACT_LIST *tmp_act, *tmp2_act;
             for (tmp_act = wch->mpact; tmp_act != nullptr; tmp_act = tmp_act->next) {
-                mprog_wordlist_check(tmp_act->buf, wch, tmp_act->ch, tmp_act->obj, tmp_act->vo, ACT_PROG);
+                mprog_wordlist_check(tmp_act->buf, wch, tmp_act->ch, tmp_act->obj, tmp_act->vo, MobProgTypeFlag::Act);
                 free_string(tmp_act->buf);
             }
             for (tmp_act = wch->mpact; tmp_act != nullptr; tmp_act = tmp2_act) {

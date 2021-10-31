@@ -50,20 +50,20 @@ Room *find_location(Char *ch, std::string_view arg);
  *  make it just a hair bit easier to see what a mob should be doing.
  */
 
-const char *mprog_type_to_name(int type) {
+const char *mprog_type_to_name(const MobProgTypeFlag type) {
     switch (type) {
-    case IN_FILE_PROG: return "in_file_prog";
-    case ACT_PROG: return "act_prog";
-    case SPEECH_PROG: return "speech_prog";
-    case RAND_PROG: return "rand_prog";
-    case FIGHT_PROG: return "fight_prog";
-    case HITPRCNT_PROG: return "hitprcnt_prog";
-    case DEATH_PROG: return "death_prog";
-    case ENTRY_PROG: return "entry_prog";
-    case GREET_PROG: return "greet_prog";
-    case ALL_GREET_PROG: return "all_greet_prog";
-    case GIVE_PROG: return "give_prog";
-    case BRIBE_PROG: return "bribe_prog";
+    case MobProgTypeFlag::InFile: return "in_file_prog";
+    case MobProgTypeFlag::Act: return "act_prog";
+    case MobProgTypeFlag::Speech: return "speech_prog";
+    case MobProgTypeFlag::Random: return "rand_prog";
+    case MobProgTypeFlag::Fight: return "fight_prog";
+    case MobProgTypeFlag::HitPercent: return "hitprcnt_prog";
+    case MobProgTypeFlag::Death: return "death_prog";
+    case MobProgTypeFlag::Entry: return "entry_prog";
+    case MobProgTypeFlag::Greet: return "greet_prog";
+    case MobProgTypeFlag::AllGreet: return "all_greet_prog";
+    case MobProgTypeFlag::Give: return "give_prog";
+    case MobProgTypeFlag::Bribe: return "bribe_prog";
     default: return "ERROR_PROG";
     }
 }

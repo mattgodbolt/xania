@@ -174,7 +174,7 @@ sh_int gsn_bless;
  * Merc-2.2 MOBprogram locals - Faramir 31/8/1998
  */
 
-int mprog_name_to_type(char *name);
+MobProgTypeFlag mprog_name_to_type(const char *name);
 MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *mobIndex);
 void load_mobprogs(FILE *fp);
 void mprog_read_programs(FILE *fp, MobIndexData *mobIndex);
@@ -2234,32 +2234,32 @@ void append_file(Char *ch, const char *file, const char *str) {
  *  mob_prog bitvector types. This allows the use of the words in the
  *  mob/script files.
  */
-int mprog_name_to_type(char *name) {
+MobProgTypeFlag mprog_name_to_type(const char *name) {
     if (!str_cmp(name, "in_file_prog"))
-        return IN_FILE_PROG;
+        return MobProgTypeFlag::InFile;
     if (!str_cmp(name, "act_prog"))
-        return ACT_PROG;
+        return MobProgTypeFlag::Act;
     if (!str_cmp(name, "speech_prog"))
-        return SPEECH_PROG;
+        return MobProgTypeFlag::Speech;
     if (!str_cmp(name, "rand_prog"))
-        return RAND_PROG;
+        return MobProgTypeFlag::Random;
     if (!str_cmp(name, "fight_prog"))
-        return FIGHT_PROG;
+        return MobProgTypeFlag::Fight;
     if (!str_cmp(name, "hitprcnt_prog"))
-        return HITPRCNT_PROG;
+        return MobProgTypeFlag::HitPercent;
     if (!str_cmp(name, "death_prog"))
-        return DEATH_PROG;
+        return MobProgTypeFlag::Death;
     if (!str_cmp(name, "entry_prog"))
-        return ENTRY_PROG;
+        return MobProgTypeFlag::Entry;
     if (!str_cmp(name, "greet_prog"))
-        return GREET_PROG;
+        return MobProgTypeFlag::Greet;
     if (!str_cmp(name, "all_greet_prog"))
-        return ALL_GREET_PROG;
+        return MobProgTypeFlag::AllGreet;
     if (!str_cmp(name, "give_prog"))
-        return GIVE_PROG;
+        return MobProgTypeFlag::Give;
     if (!str_cmp(name, "bribe_prog"))
-        return BRIBE_PROG;
-    return (ERROR_PROG);
+        return MobProgTypeFlag::Bribe;
+    return MobProgTypeFlag::Error;
 }
 
 /* This routine reads in scripts of MOBprograms from a file */
@@ -2289,16 +2289,16 @@ MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *mob
     while (!done) {
         mprg2->type = mprog_name_to_type(fread_word(progfile));
         switch (mprg2->type) {
-        case ERROR_PROG:
+        case MobProgTypeFlag::Error:
             bug("mobprog file type error");
             exit(1);
             break;
-        case IN_FILE_PROG:
+        case MobProgTypeFlag::InFile:
             bug("mprog file contains a call to file.");
             exit(1);
             break;
         default:
-            mobIndex->progtypes = mobIndex->progtypes | mprg2->type;
+            set_enum_bit(mobIndex->progtypes, mprg2->type);
             mprg2->arglist = fread_string(progfile);
             mprg2->comlist = fread_string(progfile);
             switch (letter = fread_letter(progfile)) {
@@ -2384,11 +2384,11 @@ void mprog_read_programs(FILE *fp, MobIndexData *mobIndex) {
     while (!done) {
         mprg->type = mprog_name_to_type(fread_word(fp));
         switch (mprg->type) {
-        case ERROR_PROG:
+        case MobProgTypeFlag::Error:
             bug("Load_mobiles: vnum {} MOBPROG type.", mobIndex->vnum);
             exit(1);
             break;
-        case IN_FILE_PROG:
+        case MobProgTypeFlag::InFile:
             mprg = mprog_file_read(fread_string(fp), mprg, mobIndex);
             fread_to_eol(fp);
             switch (letter = fread_letter(fp)) {
@@ -2409,7 +2409,7 @@ void mprog_read_programs(FILE *fp, MobIndexData *mobIndex) {
             }
             break;
         default:
-            mobIndex->progtypes = mobIndex->progtypes | mprg->type;
+            set_enum_bit(mobIndex->progtypes, mprg->type);
             mprg->arglist = fread_string(fp);
             fread_to_eol(fp);
             mprg->comlist = fread_string(fp);

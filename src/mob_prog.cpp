@@ -23,6 +23,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Room.hpp"
+#include "common/BitOps.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "interp.h"
@@ -1277,7 +1278,8 @@ void mprog_driver(char *com_list, Char *mob, const Char *actor, const Object *ob
  *  on a certain percent, or trigger on a keyword or word phrase.
  *  To see how this works, look at the various trigger routines..
  */
-void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const Object *obj, const void *vo, int type) {
+void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const Object *obj, const void *vo,
+                          const MobProgTypeFlag type) {
 
     char temp1[MAX_STRING_LENGTH];
     char temp2[MAX_INPUT_LENGTH];
@@ -1290,7 +1292,7 @@ void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const O
     int i;
 
     for (mprg = mob->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next)
-        if (mprg->type & type) {
+        if (mprg->type == type) {
             strcpy(temp1, mprg->arglist);
             list = temp1;
             for (i = 0; i < (int)strlen(list); i++)
@@ -1322,13 +1324,13 @@ void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const O
         }
 }
 
-void mprog_percent_check(Char *mob, Char *actor, Object *obj, void *vo, int type) {
+void mprog_percent_check(Char *mob, Char *actor, Object *obj, void *vo, const MobProgTypeFlag type) {
     MPROG_DATA *mprg;
 
     for (mprg = mob->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next)
-        if ((mprg->type & type) && (number_percent() < atoi(mprg->arglist))) {
+        if (mprg->type == type && (number_percent() < atoi(mprg->arglist))) {
             mprog_driver(mprg->comlist, mob, actor, obj, vo);
-            if (type != GREET_PROG && type != ALL_GREET_PROG)
+            if (type != MobProgTypeFlag::Greet && type != MobProgTypeFlag::AllGreet)
                 break;
         }
 }
@@ -1345,7 +1347,7 @@ void mprog_act_trigger(const char *buf, Char *mob, const Char *ch, const Object 
 
     MPROG_ACT_LIST *tmp_act;
 
-    if (mob->is_npc() && (mob->mobIndex->progtypes & ACT_PROG)) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Act)) {
         tmp_act = (MPROG_ACT_LIST *)alloc_mem(sizeof(MPROG_ACT_LIST));
         if (mob->mpactnum > 0)
             tmp_act->next = mob->mpact->next;
@@ -1365,9 +1367,9 @@ void mprog_bribe_trigger(Char *mob, Char *ch, int amount) {
 
     MPROG_DATA *mprg;
 
-    if (mob->is_npc() && (mob->mobIndex->progtypes & BRIBE_PROG)) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Bribe)) {
         for (mprg = mob->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next)
-            if ((mprg->type & BRIBE_PROG) && (amount >= atoi(mprg->arglist))) {
+            if (mprg->type == MobProgTypeFlag::Bribe && amount >= atoi(mprg->arglist)) {
                 /* this function previously created a gold object and gave it to ch
                    but there is zero point - the gold transfer is handled in do_give now */
                 mprog_driver(mprg->comlist, mob, ch, nullptr, nullptr);
@@ -1378,21 +1380,21 @@ void mprog_bribe_trigger(Char *mob, Char *ch, int amount) {
 
 void mprog_death_trigger(Char *mob) {
 
-    if (mob->is_npc() && (mob->mobIndex->progtypes & DEATH_PROG)) {
-        mprog_percent_check(mob, nullptr, nullptr, nullptr, DEATH_PROG);
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Death)) {
+        mprog_percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Death);
     }
 }
 
 void mprog_entry_trigger(Char *mob) {
 
-    if (mob->is_npc() && (mob->mobIndex->progtypes & ENTRY_PROG))
-        mprog_percent_check(mob, nullptr, nullptr, nullptr, ENTRY_PROG);
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Entry))
+        mprog_percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Entry);
 }
 
 void mprog_fight_trigger(Char *mob, Char *ch) {
 
-    if (mob->is_npc() && (mob->mobIndex->progtypes & FIGHT_PROG))
-        mprog_percent_check(mob, ch, nullptr, nullptr, FIGHT_PROG);
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Fight))
+        mprog_percent_check(mob, ch, nullptr, nullptr, MobProgTypeFlag::Fight);
 }
 
 void mprog_give_trigger(Char *mob, Char *ch, Object *obj) {
@@ -1400,10 +1402,11 @@ void mprog_give_trigger(Char *mob, Char *ch, Object *obj) {
     char buf[MAX_INPUT_LENGTH];
     MPROG_DATA *mprg;
 
-    if (mob->is_npc() && (mob->mobIndex->progtypes & GIVE_PROG))
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Give))
         for (mprg = mob->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next) {
             one_argument(mprg->arglist, buf);
-            if ((mprg->type & GIVE_PROG) && ((matches(obj->name, mprg->arglist)) || (!str_cmp("all", buf)))) {
+            if (mprg->type == MobProgTypeFlag::Give
+                && ((matches(obj->name, mprg->arglist)) || (!str_cmp("all", buf)))) {
                 mprog_driver(mprg->comlist, mob, ch, obj, nullptr);
                 break;
             }
@@ -1413,20 +1416,20 @@ void mprog_give_trigger(Char *mob, Char *ch, Object *obj) {
 void mprog_greet_trigger(Char *mob) {
     for (auto *vmob : mob->in_room->people)
         if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && vmob->is_pos_awake()
-            && (vmob->mobIndex->progtypes & GREET_PROG))
-            mprog_percent_check(vmob, mob, nullptr, nullptr, GREET_PROG);
+            && check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::Greet))
+            mprog_percent_check(vmob, mob, nullptr, nullptr, MobProgTypeFlag::Greet);
         else if (vmob->is_npc() && (vmob->fighting == nullptr) && vmob->is_pos_awake()
-                 && (vmob->mobIndex->progtypes & ALL_GREET_PROG))
-            mprog_percent_check(vmob, mob, nullptr, nullptr, ALL_GREET_PROG);
+                 && check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::AllGreet))
+            mprog_percent_check(vmob, mob, nullptr, nullptr, MobProgTypeFlag::AllGreet);
 }
 
 void mprog_hitprcnt_trigger(Char *mob, Char *ch) {
 
     MPROG_DATA *mprg;
 
-    if (mob->is_npc() && (mob->mobIndex->progtypes & HITPRCNT_PROG))
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::HitPercent))
         for (mprg = mob->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next)
-            if ((mprg->type & HITPRCNT_PROG) && ((100 * mob->hit / mob->max_hit) < atoi(mprg->arglist))) {
+            if (mprg->type == MobProgTypeFlag::HitPercent && ((100 * mob->hit / mob->max_hit) < atoi(mprg->arglist))) {
                 mprog_driver(mprg->comlist, mob, ch, nullptr, nullptr);
                 break;
             }
@@ -1434,12 +1437,12 @@ void mprog_hitprcnt_trigger(Char *mob, Char *ch) {
 
 void mprog_random_trigger(Char *mob) {
 
-    if (mob->mobIndex->progtypes & RAND_PROG)
-        mprog_percent_check(mob, nullptr, nullptr, nullptr, RAND_PROG);
+    if (check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Random))
+        mprog_percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Random);
 }
 
 void mprog_speech_trigger(const char *txt, const Char *mob) {
     for (auto *vmob : mob->in_room->people)
-        if (vmob->is_npc() && (vmob->mobIndex->progtypes & SPEECH_PROG))
-            mprog_wordlist_check(txt, vmob, mob, nullptr, nullptr, SPEECH_PROG);
+        if (vmob->is_npc() && (check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::Speech)))
+            mprog_wordlist_check(txt, vmob, mob, nullptr, nullptr, MobProgTypeFlag::Speech);
 }
