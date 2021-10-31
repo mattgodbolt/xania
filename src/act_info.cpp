@@ -230,11 +230,9 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
         else if (victim->fighting == ch)
             buf += " |RYOU!|w";
         else if (victim->in_room == victim->fighting->in_room) {
-            std::string_view result;
-            result = ch->describe(*victim->fighting);
-            buf += fmt::format(" {}.", result);
+            buf += fmt::format(" {}.", ch->describe(*victim->fighting));
         } else
-            buf += " somone who left??";
+            buf += " someone who left??";
         break;
     default:;
     }
