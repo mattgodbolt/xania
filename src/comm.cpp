@@ -823,7 +823,7 @@ void nanny(Descriptor *d, const char *argument) {
         ch->imm_flags = ch->imm_flags | race_table[race].imm;
         ch->res_flags = ch->res_flags | race_table[race].res;
         ch->vuln_flags = ch->vuln_flags | race_table[race].vuln;
-        ch->form = race_table[race].form;
+        ch->morphology = race_table[race].morphology;
         ch->parts = race_table[race].parts;
 
         /* add skills */

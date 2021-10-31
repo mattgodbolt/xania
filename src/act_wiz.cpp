@@ -1112,7 +1112,8 @@ void do_mstat(Char *ch, std::string_view argument) {
         ch->send_line("Vulnerable: {}", (char *)imm_bit_name(victim->vuln_flags));
     }
 
-    ch->send_line("Form: {}\n\rParts: {}", form_bit_name(victim->form), (char *)part_bit_name(victim->parts));
+    ch->send_line("Form: {}\n\rParts: {}", morphology_bit_name(victim->morphology),
+                  (char *)part_bit_name(victim->parts));
 
     if (victim->affected_by) {
         ch->send_line("Affected by {}", format_set_flags(Char::AllAffectFlags, victim->affected_by));

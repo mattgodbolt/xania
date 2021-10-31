@@ -19,7 +19,7 @@ struct race_type {
     unsigned long imm; /* imm bits for the race */
     unsigned long res; /* res bits for the race */
     unsigned long vuln; /* vuln bits for the race */
-    unsigned long form; /* default form flag for the race */
+    unsigned long morphology; /* default morphology flag for the race */
     unsigned long parts; /* default parts for the race */
 };
 

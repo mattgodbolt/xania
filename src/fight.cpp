@@ -11,7 +11,6 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
-#include "BitsBodyForm.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsExitState.hpp"
 #include "BitsObjectExtra.hpp"
@@ -27,6 +26,7 @@
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
+#include "MorphologyFlag.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
@@ -1345,9 +1345,9 @@ void detach_injured_part(const Char *victim, std::optional<InjuredPart> opt_inju
         obj->description = fmt::sprintf(obj->description, victim->short_name());
 
         if (obj->type == ObjectType::Food) {
-            if (check_bit(victim->form, FORM_POISON))
+            if (check_enum_bit(victim->morphology, MorphologyFlag::Poison))
                 obj->value[3] = 1;
-            else if (!check_bit(victim->form, FORM_EDIBLE))
+            else if (!check_enum_bit(victim->morphology, MorphologyFlag::Edible))
                 obj->type = ObjectType::Trash;
         }
 

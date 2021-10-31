@@ -1191,7 +1191,7 @@ Char *create_mobile(MobIndexData *mobIndex) {
         mob->gold = 0;
     else
         mob->gold = number_range(mobIndex->gold / 2, mobIndex->gold * 3 / 2);
-    mob->form = mobIndex->form;
+    mob->morphology = mobIndex->morphology;
     mob->parts = mobIndex->parts;
     mob->body_size = mobIndex->body_size;
     mob->material = mobIndex->material;
@@ -1280,7 +1280,7 @@ void clone_mobile(Char *parent, Char *clone) {
     clone->damroll = parent->damroll;
     clone->damage = parent->damage;
     clone->wimpy = parent->wimpy;
-    clone->form = parent->form;
+    clone->morphology = parent->morphology;
     clone->parts = parent->parts;
     clone->body_size = parent->body_size;
     clone->material = parent->material;

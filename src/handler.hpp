@@ -96,7 +96,7 @@ const char *wear_bit_name(int wear_flags);
 const char *act_bit_name(int act_flags);
 const char *off_bit_name(int off_flags);
 const char *imm_bit_name(int imm_flags);
-const char *form_bit_name(int form_flags);
+const char *morphology_bit_name(unsigned long morphology_flags);
 const char *part_bit_name(int part_flags);
 const char *weapon_bit_name(int weapon_flags);
 const char *comm_bit_name(int comm_flags);

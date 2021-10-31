@@ -11,7 +11,6 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "Area.hpp"
-#include "BitsBodyForm.hpp"
 #include "BitsBodyPart.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsObjectExtra.hpp"
@@ -24,6 +23,7 @@
 #include "Descriptor.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
+#include "MorphologyFlag.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
@@ -1179,61 +1179,61 @@ const char *wear_bit_name(int wear_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-const char *form_bit_name(int form_flags) {
+const char *morphology_bit_name(unsigned long morphology_flags) {
     static char buf[512];
 
     buf[0] = '\0';
-    if (form_flags & FORM_POISON)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Poison))
         strcat(buf, " poison");
-    else if (form_flags & FORM_EDIBLE)
+    else if (check_enum_bit(morphology_flags, MorphologyFlag::Edible))
         strcat(buf, " edible");
-    if (form_flags & FORM_MAGICAL)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Magical))
         strcat(buf, " magical");
-    if (form_flags & FORM_INSTANT_DECAY)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::InstantDecay))
         strcat(buf, " instant_rot");
-    if (form_flags & FORM_OTHER)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Other))
         strcat(buf, " other");
-    if (form_flags & FORM_ANIMAL)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Animal))
         strcat(buf, " animal");
-    if (form_flags & FORM_SENTIENT)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Sentient))
         strcat(buf, " sentient");
-    if (form_flags & FORM_UNDEAD)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Undead))
         strcat(buf, " undead");
-    if (form_flags & FORM_CONSTRUCT)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Construct))
         strcat(buf, " construct");
-    if (form_flags & FORM_MIST)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Mist))
         strcat(buf, " mist");
-    if (form_flags & FORM_INTANGIBLE)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Intangible))
         strcat(buf, " intangible");
-    if (form_flags & FORM_BIPED)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Biped))
         strcat(buf, " biped");
-    if (form_flags & FORM_CENTAUR)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Centaur))
         strcat(buf, " centaur");
-    if (form_flags & FORM_INSECT)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Insect))
         strcat(buf, " insect");
-    if (form_flags & FORM_SPIDER)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Spider))
         strcat(buf, " spider");
-    if (form_flags & FORM_CRUSTACEAN)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Crustacean))
         strcat(buf, " crustacean");
-    if (form_flags & FORM_WORM)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Worm))
         strcat(buf, " worm");
-    if (form_flags & FORM_BLOB)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Blob))
         strcat(buf, " blob");
-    if (form_flags & FORM_MAMMAL)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Mammal))
         strcat(buf, " mammal");
-    if (form_flags & FORM_BIRD)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Bird))
         strcat(buf, " bird");
-    if (form_flags & FORM_REPTILE)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Reptile))
         strcat(buf, " reptile");
-    if (form_flags & FORM_SNAKE)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Snake))
         strcat(buf, " snake");
-    if (form_flags & FORM_DRAGON)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Dragon))
         strcat(buf, " dragon");
-    if (form_flags & FORM_AMPHIBIAN)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Amphibian))
         strcat(buf, " amphibian");
-    if (form_flags & FORM_FISH)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::Fish))
         strcat(buf, " fish");
-    if (form_flags & FORM_COLD_BLOOD)
+    if (check_enum_bit(morphology_flags, MorphologyFlag::ColdBlood))
         strcat(buf, " cold_blooded");
 
     return (buf[0] != '\0') ? buf + 1 : "none";

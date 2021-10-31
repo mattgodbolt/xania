@@ -512,7 +512,7 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
         ch->imm_flags = ch->imm_flags | race_table[ch->race].imm;
         ch->res_flags = ch->res_flags | race_table[ch->race].res;
         ch->vuln_flags = ch->vuln_flags | race_table[ch->race].vuln;
-        ch->form = race_table[ch->race].form;
+        ch->morphology = race_table[ch->race].morphology;
         ch->parts = race_table[ch->race].parts;
     }
     return res;

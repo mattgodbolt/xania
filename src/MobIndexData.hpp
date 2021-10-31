@@ -49,7 +49,7 @@ struct MobIndexData {
     Sex sex;
     sh_int race{};
     long gold{};
-    long form{};
+    long morphology{};
     long parts{};
     BodySize body_size{};
     Material::Type material{}; // TODO: is this actually used in any meaningful way?

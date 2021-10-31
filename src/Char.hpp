@@ -107,7 +107,7 @@ struct Char {
     Stats perm_stat;
     Stats mod_stat;
     /* parts stuff */
-    unsigned long form{};
+    unsigned long morphology{};
     unsigned long parts{};
     BodySize body_size{};
     Material::Type material{}; // TODO is this used in any meaningful way?

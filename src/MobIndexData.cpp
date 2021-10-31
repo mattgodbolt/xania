@@ -69,7 +69,7 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
     }
     gold = fread_number(fp);
 
-    form = fread_flag(fp) | race_table[race].form;
+    morphology = fread_flag(fp) | race_table[race].morphology;
     parts = fread_flag(fp) | race_table[race].parts;
     const auto raw_body_size = fread_word(fp);
     if (const auto opt_body_size = BodySizes::try_lookup(raw_body_size)) {
@@ -101,7 +101,7 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
             } else if (!str_prefix(word, "vul")) {
                 clear_bit(vuln_flags, vector);
             } else if (!str_prefix(word, "for")) {
-                clear_bit(form, vector);
+                clear_bit(morphology, vector);
             } else if (!str_prefix(word, "par")) {
                 clear_bit(parts, vector);
             } else {
