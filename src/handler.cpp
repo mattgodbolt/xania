@@ -11,7 +11,6 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "Area.hpp"
-#include "BitsCharOffensive.hpp"
 #include "BodyPartFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -28,6 +27,7 @@
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "ObjectWearFlag.hpp"
+#include "OffensiveFlag.hpp"
 #include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
@@ -1321,47 +1321,47 @@ const char *off_bit_name(int off_flags) {
 
     buf[0] = '\0';
 
-    if (off_flags & OFF_AREA_ATTACK)
+    if (check_enum_bit(off_flags, OffensiveFlag::AreaAttack))
         strcat(buf, " area attack");
-    if (off_flags & OFF_BACKSTAB)
+    if (check_enum_bit(off_flags, OffensiveFlag::Backstab))
         strcat(buf, " backstab");
-    if (off_flags & OFF_BASH)
+    if (check_enum_bit(off_flags, OffensiveFlag::Bash))
         strcat(buf, " bash");
-    if (off_flags & OFF_BERSERK)
+    if (check_enum_bit(off_flags, OffensiveFlag::Berserk))
         strcat(buf, " berserk");
-    if (off_flags & OFF_DISARM)
+    if (check_enum_bit(off_flags, OffensiveFlag::Disarm))
         strcat(buf, " disarm");
-    if (off_flags & OFF_DODGE)
+    if (check_enum_bit(off_flags, OffensiveFlag::Dodge))
         strcat(buf, " dodge");
-    if (off_flags & OFF_FADE)
+    if (check_enum_bit(off_flags, OffensiveFlag::Fade))
         strcat(buf, " fade");
-    if (off_flags & OFF_FAST)
+    if (check_enum_bit(off_flags, OffensiveFlag::Fast))
         strcat(buf, " fast");
-    if (off_flags & OFF_KICK)
+    if (check_enum_bit(off_flags, OffensiveFlag::Kick))
         strcat(buf, " kick");
-    if (off_flags & OFF_KICK_DIRT)
+    if (check_enum_bit(off_flags, OffensiveFlag::KickDirt))
         strcat(buf, " kick_dirt");
-    if (off_flags & OFF_PARRY)
+    if (check_enum_bit(off_flags, OffensiveFlag::Parry))
         strcat(buf, " parry");
-    if (off_flags & OFF_RESCUE)
+    if (check_enum_bit(off_flags, OffensiveFlag::Rescue))
         strcat(buf, " rescue");
-    if (off_flags & OFF_TAIL)
+    if (check_enum_bit(off_flags, OffensiveFlag::Tail))
         strcat(buf, " tail");
-    if (off_flags & OFF_TRIP)
+    if (check_enum_bit(off_flags, OffensiveFlag::Trip))
         strcat(buf, " trip");
-    if (off_flags & OFF_CRUSH)
+    if (check_enum_bit(off_flags, OffensiveFlag::Crush))
         strcat(buf, " crush");
-    if (off_flags & ASSIST_ALL)
+    if (check_enum_bit(off_flags, OffensiveFlag::AssistAll))
         strcat(buf, " assist_all");
-    if (off_flags & ASSIST_ALIGN)
+    if (check_enum_bit(off_flags, OffensiveFlag::AssistAlign))
         strcat(buf, " assist_align");
-    if (off_flags & ASSIST_RACE)
+    if (check_enum_bit(off_flags, OffensiveFlag::AssistRace))
         strcat(buf, " assist_race");
-    if (off_flags & ASSIST_PLAYERS)
+    if (check_enum_bit(off_flags, OffensiveFlag::AssistPlayers))
         strcat(buf, " assist_players");
-    if (off_flags & ASSIST_GUARD)
+    if (check_enum_bit(off_flags, OffensiveFlag::AssistGuard))
         strcat(buf, " assist_guard");
-    if (off_flags & ASSIST_VNUM)
+    if (check_enum_bit(off_flags, OffensiveFlag::AssistVnum))
         strcat(buf, " assist_vnum");
 
     return (buf[0] != '\0') ? buf + 1 : "none";

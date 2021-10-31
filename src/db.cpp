@@ -11,7 +11,6 @@
 #include "AFFECT_DATA.hpp"
 #include "Area.hpp"
 #include "AreaList.hpp"
-#include "BitsCharOffensive.hpp"
 #include "BodySize.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -29,6 +28,7 @@
 #include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "OffensiveFlag.hpp"
 #include "ResetData.hpp"
 #include "RoomFlag.hpp"
 #include "Shop.hpp"
@@ -1231,7 +1231,7 @@ Char *create_mobile(MobIndexData *mobIndex) {
         mob->perm_stat[Stat::Dex] += 1;
     }
 
-    if (check_bit(mob->off_flags, OFF_FAST))
+    if (check_enum_bit(mob->off_flags, OffensiveFlag::Fast))
         mob->perm_stat[Stat::Dex] += 2;
 
     mob->perm_stat[Stat::Str] += BodySizes::get_mob_str_bonus(mob->body_size);

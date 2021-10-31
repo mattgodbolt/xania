@@ -11,7 +11,6 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
-#include "BitsCharOffensive.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -30,6 +29,7 @@
 #include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "OffensiveFlag.hpp"
 #include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
@@ -126,7 +126,7 @@ void check_assist(Char *ch, Char *victim) {
         if (rch->is_pos_awake() && rch->fighting == nullptr) {
 
             /* quick check for ASSIST_PLAYER */
-            if (ch->is_pc() && rch->is_npc() && check_bit(rch->off_flags, ASSIST_PLAYERS)
+            if (ch->is_pc() && rch->is_npc() && check_enum_bit(rch->off_flags, OffensiveFlag::AssistPlayers)
                 && rch->level + 6 > victim->level) {
                 // moog: copied from do_emote:
                 act("|W$n screams and attacks!|w", rch);
@@ -149,15 +149,16 @@ void check_assist(Char *ch, Char *victim) {
             if (ch->is_npc() && !ch->is_aff_charm())
 
             {
-                if ((rch->is_npc() && check_bit(rch->off_flags, ASSIST_ALL))
+                if ((rch->is_npc() && check_enum_bit(rch->off_flags, OffensiveFlag::AssistAll))
 
-                    || (rch->is_npc() && rch->race == ch->race && check_bit(rch->off_flags, ASSIST_RACE))
+                    || (rch->is_npc() && rch->race == ch->race
+                        && check_enum_bit(rch->off_flags, OffensiveFlag::AssistRace))
 
-                    || (rch->is_npc() && check_bit(rch->off_flags, ASSIST_ALIGN)
+                    || (rch->is_npc() && check_enum_bit(rch->off_flags, OffensiveFlag::AssistAlign)
                         && ((rch->is_good() && ch->is_good()) || (rch->is_evil() && ch->is_evil())
                             || (rch->is_neutral() && ch->is_neutral())))
 
-                    || (rch->mobIndex == ch->mobIndex && check_bit(rch->off_flags, ASSIST_VNUM)))
+                    || (rch->mobIndex == ch->mobIndex && check_enum_bit(rch->off_flags, OffensiveFlag::AssistVnum)))
 
                 {
                     if (number_bits(1) == 0)
@@ -297,7 +298,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     int chance, number;
     // NPCs with the backstab act bit have a chance to land a backstab on the victim if they're unhurt.
     // Typically this will be the initial blow from an aggressive mob.
-    if (check_bit(ch->off_flags, OFF_BACKSTAB) && victim->hit == victim->max_hit
+    if (check_enum_bit(ch->off_flags, OffensiveFlag::Backstab) && victim->hit == victim->max_hit
         && number_percent() < ch->get_skill(gsn_backstab)) {
         one_hit(ch, victim, &skill_table[gsn_backstab]);
         return;
@@ -308,14 +309,14 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     /* Area attack -- BALLS nasty! */
 
-    if (check_bit(ch->off_flags, OFF_AREA_ATTACK)) {
+    if (check_enum_bit(ch->off_flags, OffensiveFlag::AreaAttack)) {
         for (auto *vch : ch->in_room->people) {
             if ((vch != victim && vch->fighting == ch))
                 one_hit(ch, vch, opt_skill);
         }
     }
 
-    if (ch->is_aff_haste() || check_bit(ch->off_flags, OFF_FAST))
+    if (ch->is_aff_haste() || check_enum_bit(ch->off_flags, OffensiveFlag::Fast))
         one_hit(ch, victim, opt_skill);
 
     // Perform no additional hits if the mob is not actually fighting the victim (a 'single blow' situation presumably)
@@ -331,7 +332,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
             return;
 
         // NPCs only launch a 3rd attack if their 2nd one succeeded.
-        // This reduces the odds of 3 attacks (possibly 4 if they have OFF_FAST too)
+        // This reduces the odds of 3 attacks (possibly 4 if they have OffensiveFlag::Fast too)
         // from landing, which can be quite nasty if it happens.
         chance = get_skill(ch, gsn_third_attack) / 4;
         if (number_percent() < chance) {
@@ -359,17 +360,17 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     switch (number) {
     case (0):
-        if (check_bit(ch->off_flags, OFF_BASH))
+        if (check_enum_bit(ch->off_flags, OffensiveFlag::Bash))
             do_bash(ch, "");
         break;
 
     case (1):
-        if (check_bit(ch->off_flags, OFF_BERSERK) && !ch->is_aff_berserk())
+        if (check_enum_bit(ch->off_flags, OffensiveFlag::Berserk) && !ch->is_aff_berserk())
             do_berserk(ch);
         break;
 
     case (2):
-        if (check_bit(ch->off_flags, OFF_DISARM)
+        if (check_enum_bit(ch->off_flags, OffensiveFlag::Disarm)
             || (get_weapon_sn(ch) != gsn_hand_to_hand
                 && (check_enum_bit(ch->act, CharActFlag::Warrior) || check_enum_bit(ch->act, CharActFlag::Thief)))) {
             if (victim->is_aff_talon()) {
@@ -380,28 +381,28 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         }
         break;
     case (3):
-        if (check_bit(ch->off_flags, OFF_KICK))
+        if (check_enum_bit(ch->off_flags, OffensiveFlag::Kick))
             do_kick(ch, "");
         break;
 
     case (4):
-        if (check_bit(ch->off_flags, OFF_KICK_DIRT))
+        if (check_enum_bit(ch->off_flags, OffensiveFlag::KickDirt))
             do_dirt(ch, "");
         break;
 
     case (5):
-        if (check_bit(ch->off_flags, OFF_TAIL)) {
+        if (check_enum_bit(ch->off_flags, OffensiveFlag::Tail)) {
             /* do_tail(ch,"") */;
         }
         break;
 
     case (6):
-        if (check_bit(ch->off_flags, OFF_TRIP))
+        if (check_enum_bit(ch->off_flags, OffensiveFlag::Trip))
             do_trip(ch, "");
         break;
 
     case (7):
-        if (check_bit(ch->off_flags, OFF_CRUSH)) {
+        if (check_enum_bit(ch->off_flags, OffensiveFlag::Crush)) {
             /* do_crush(ch,"") */;
         }
         break;
@@ -1678,7 +1679,8 @@ void do_berserk(Char *ch) {
     int chance, hp_percent;
     /*    Object *wield = get_eq_char( ch, WEAR_WIELD );*/
 
-    if ((chance = get_skill(ch, gsn_berserk)) == 0 || (ch->is_npc() && !check_bit(ch->off_flags, OFF_BERSERK))
+    if ((chance = get_skill(ch, gsn_berserk)) == 0
+        || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Berserk))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_berserk))) {
         ch->send_line("You turn red in the face, but nothing happens.");
         return;
@@ -1764,7 +1766,7 @@ void do_bash(Char *ch, const char *argument) {
 
     one_argument(argument, arg);
 
-    if ((chance = get_skill(ch, gsn_bash)) == 0 || (ch->is_npc() && !check_bit(ch->off_flags, OFF_BASH))
+    if ((chance = get_skill(ch, gsn_bash)) == 0 || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Bash))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_bash))) {
         ch->send_line("Bashing? What's that?");
         return;
@@ -1827,9 +1829,9 @@ void do_bash(Char *ch, const char *argument) {
     chance -= get_curr_stat(victim, Stat::Dex) * 4 / 3;
 
     /* speed */
-    if (check_bit(ch->off_flags, OFF_FAST) || ch->is_aff_haste())
+    if (check_enum_bit(ch->off_flags, OffensiveFlag::Fast) || ch->is_aff_haste())
         chance += 10;
-    if (check_bit(victim->off_flags, OFF_FAST) || victim->is_aff_haste())
+    if (check_enum_bit(victim->off_flags, OffensiveFlag::Fast) || victim->is_aff_haste())
         chance -= 20;
 
     /* level */
@@ -1875,7 +1877,8 @@ void do_dirt(Char *ch, const char *argument) {
 
     one_argument(argument, arg);
 
-    if ((chance = get_skill(ch, gsn_dirt)) == 0 || (ch->is_npc() && !check_bit(ch->off_flags, OFF_KICK_DIRT))
+    if ((chance = get_skill(ch, gsn_dirt)) == 0
+        || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::KickDirt))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_dirt))) {
         ch->send_line("You get your feet dirty.");
         return;
@@ -1929,9 +1932,9 @@ void do_dirt(Char *ch, const char *argument) {
     chance -= 2 * get_curr_stat(victim, Stat::Dex);
 
     /* speed  */
-    if (check_bit(ch->off_flags, OFF_FAST) || ch->is_aff_haste())
+    if (check_enum_bit(ch->off_flags, OffensiveFlag::Fast) || ch->is_aff_haste())
         chance += 10;
-    if (check_bit(victim->off_flags, OFF_FAST) || victim->is_aff_haste())
+    if (check_enum_bit(victim->off_flags, OffensiveFlag::Fast) || victim->is_aff_haste())
         chance -= 25;
 
     /* level */
@@ -1998,7 +2001,7 @@ void do_trip(Char *ch, const char *argument) {
 
     one_argument(argument, arg);
 
-    if ((chance = get_skill(ch, gsn_trip)) == 0 || (ch->is_npc() && !check_bit(ch->off_flags, OFF_TRIP))
+    if ((chance = get_skill(ch, gsn_trip)) == 0 || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Trip))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_trip))) {
         ch->send_line("Tripping?  What's that?");
         return;
@@ -2063,9 +2066,9 @@ void do_trip(Char *ch, const char *argument) {
     chance -= get_curr_stat(victim, Stat::Dex) * 3 / 2;
 
     /* speed */
-    if (check_bit(ch->off_flags, OFF_FAST) || ch->is_aff_haste())
+    if (check_enum_bit(ch->off_flags, OffensiveFlag::Fast) || ch->is_aff_haste())
         chance += 10;
-    if (check_bit(victim->off_flags, OFF_FAST) || victim->is_aff_haste())
+    if (check_enum_bit(victim->off_flags, OffensiveFlag::Fast) || victim->is_aff_haste())
         chance -= 20;
 
     /* level */
@@ -2392,7 +2395,7 @@ void do_headbutt(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->is_npc() && !check_bit(ch->off_flags, OFF_HEADBUTT))
+    if (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Headbutt))
         return;
 
     one_argument(argument, arg);
@@ -2514,7 +2517,7 @@ void do_kick(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->is_npc() && !check_bit(ch->off_flags, OFF_KICK))
+    if (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Kick))
         return;
 
     one_argument(argument, arg);
@@ -2561,7 +2564,8 @@ void do_disarm(Char *ch) {
     }
 
     if (get_eq_char(ch, WEAR_WIELD) == nullptr
-        && ((hth = get_skill(ch, gsn_hand_to_hand)) == 0 || (ch->is_npc() && !check_bit(ch->off_flags, OFF_DISARM)))) {
+        && ((hth = get_skill(ch, gsn_hand_to_hand)) == 0
+            || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Disarm)))) {
         ch->send_line("You must wield a weapon to disarm.");
         return;
     }

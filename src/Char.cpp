@@ -6,7 +6,6 @@
 #include "Char.hpp"
 #include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
-#include "BitsCharOffensive.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "CommFlag.hpp"
@@ -17,6 +16,7 @@
 #include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "OffensiveFlag.hpp"
 #include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "RoomFlag.hpp"
@@ -241,22 +241,23 @@ int Char::get_skill(int skill_number) const {
             // Defensive melee skills: Warrior/Thief NPCs are a little better at them than Mage/Cleric.
             skill = 15 + (level / (is_warrior() || is_thief() ? 2 : 3));
 
-        else if (skill_number == gsn_backstab && check_bit(off_flags, OFF_BACKSTAB))
+        else if (skill_number == gsn_backstab && check_enum_bit(off_flags, OffensiveFlag::Backstab))
             skill = std::max(30, level / 3);
 
         else if (skill_number == gsn_hand_to_hand)
             skill = 40 + 2 * level;
 
-        else if (skill_number == gsn_trip && check_bit(off_flags, OFF_TRIP))
+        else if (skill_number == gsn_trip && check_enum_bit(off_flags, OffensiveFlag::Trip))
             skill = std::max(30, level / 3);
 
-        else if (skill_number == gsn_bash && check_bit(off_flags, OFF_BASH))
+        else if (skill_number == gsn_bash && check_enum_bit(off_flags, OffensiveFlag::Bash))
             skill = std::max(30, level / 3);
 
-        else if (skill_number == gsn_disarm && (check_bit(off_flags, OFF_DISARM) || is_warrior() || is_thief()))
+        else if (skill_number == gsn_disarm
+                 && (check_enum_bit(off_flags, OffensiveFlag::Disarm) || is_warrior() || is_thief()))
             skill = std::max(30, level / 3);
 
-        else if (skill_number == gsn_berserk && check_bit(off_flags, OFF_BERSERK))
+        else if (skill_number == gsn_berserk && check_enum_bit(off_flags, OffensiveFlag::Berserk))
             skill = std::max(30, level / 3);
 
         else if (skill_number == gsn_sword || skill_number == gsn_dagger || skill_number == gsn_spear

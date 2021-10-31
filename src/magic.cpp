@@ -10,7 +10,6 @@
 #include "magic.h"
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
-#include "BitsCharOffensive.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "DamageClass.hpp"
@@ -23,6 +22,7 @@
 #include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
+#include "OffensiveFlag.hpp"
 #include "PlayerActFlag.hpp"
 #include "Room.hpp"
 #include "RoomFlag.hpp"
@@ -2473,7 +2473,8 @@ void spell_lethargy(int sn, int level, Char *ch, void *vo) {
     Char *victim = (Char *)vo;
     AFFECT_DATA af;
 
-    if (victim->is_affected_by(sn) || victim->is_aff_lethargy() || check_bit(victim->off_flags, OFF_SLOW)) {
+    if (victim->is_affected_by(sn) || victim->is_aff_lethargy()
+        || check_enum_bit(victim->off_flags, OffensiveFlag::Slow)) {
         if (victim == ch)
             ch->send_line("Your heart beat is as low as it can go!");
         else

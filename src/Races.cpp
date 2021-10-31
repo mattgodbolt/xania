@@ -5,9 +5,9 @@
 /*************************************************************************/
 #include "Races.hpp"
 #include "AffectFlag.hpp"
-#include "BitsCharOffensive.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
+#include "OffensiveFlag.hpp"
 #include "ToleranceFlag.hpp"
 
 #include <magic_enum.hpp>
@@ -63,32 +63,33 @@ const struct race_type race_table[] = {
      to_int(ToleranceFlag::Mental) | to_int(ToleranceFlag::Lightning), A | H | M | V,
      A | B | C | D | E | F | G | H | J | K},
 
-    {"bat", false, 0, to_int(AffectFlag::Flying) | to_int(AffectFlag::DarkVision), OFF_DODGE | OFF_FAST, 0, 0,
-     to_int(ToleranceFlag::Light), A | G | W, A | C | D | E | F | H | J | K | P},
+    {"bat", false, 0, to_int(AffectFlag::Flying) | to_int(AffectFlag::DarkVision),
+     to_int(OffensiveFlag::Dodge) | to_int(OffensiveFlag::Fast), 0, 0, to_int(ToleranceFlag::Light), A | G | W,
+     A | C | D | E | F | H | J | K | P},
 
-    {"bear", false, 0, 0, OFF_CRUSH | OFF_DISARM | OFF_BERSERK, 0,
-     to_int(ToleranceFlag::Bash) | to_int(ToleranceFlag::Cold), 0, A | G | V,
+    {"bear", false, 0, 0, to_int(OffensiveFlag::Crush) | to_int(OffensiveFlag::Disarm) | to_int(OffensiveFlag::Berserk),
+     0, to_int(ToleranceFlag::Bash) | to_int(ToleranceFlag::Cold), 0, A | G | V,
      A | B | C | D | E | F | H | J | K | U | V},
 
-    {"cat", false, 0, to_int(AffectFlag::DarkVision), OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
-     A | C | D | E | F | H | J | K | Q | U | V},
+    {"cat", false, 0, to_int(AffectFlag::DarkVision), to_int(OffensiveFlag::Fast) | to_int(OffensiveFlag::Dodge), 0, 0,
+     0, A | G | V, A | C | D | E | F | H | J | K | Q | U | V},
 
     {"centipede", false, 0, to_int(AffectFlag::DarkVision), 0, 0,
      to_int(ToleranceFlag::Pierce) | to_int(ToleranceFlag::Cold), to_int(ToleranceFlag::Bash),
      O | Y /* insect, snake  */, A | F | Q | X},
 
-    {"dog", false, 0, 0, OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K | U | V},
+    {"dog", false, 0, 0, to_int(OffensiveFlag::Fast), 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K | U | V},
 
     {"doll", false, 0, 0, 0, to_int(ToleranceFlag::Magic), to_int(ToleranceFlag::Bash) | to_int(ToleranceFlag::Light),
      to_int(ToleranceFlag::Slash) | to_int(ToleranceFlag::Fire) | to_int(ToleranceFlag::Acid)
          | to_int(ToleranceFlag::Lightning) | to_int(ToleranceFlag::Energy),
      E | J | M | cc, A | B | C | G | H | K},
 
-    {"fido", false, 0, 0, OFF_DODGE | ASSIST_RACE, 0, 0, to_int(ToleranceFlag::Magic), B | G | V,
-     A | C | D | E | F | H | J | K | Q | V},
+    {"fido", false, 0, 0, to_int(OffensiveFlag::Dodge) | to_int(OffensiveFlag::AssistRace), 0, 0,
+     to_int(ToleranceFlag::Magic), B | G | V, A | C | D | E | F | H | J | K | Q | V},
 
-    {"fox", false, 0, to_int(AffectFlag::DarkVision), OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | V,
-     A | C | D | E | F | H | J | K | Q | U | V},
+    {"fox", false, 0, to_int(AffectFlag::DarkVision), to_int(OffensiveFlag::Fast) | to_int(OffensiveFlag::Dodge), 0, 0,
+     0, A | G | V, A | C | D | E | F | H | J | K | Q | U | V},
 
     {"goblin", false, 0, to_int(AffectFlag::Infrared), 0, 0, to_int(ToleranceFlag::Disease),
      to_int(ToleranceFlag::Magic), A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},
@@ -106,7 +107,8 @@ const struct race_type race_table[] = {
     {"lizard", false, 0, 0, 0, 0, to_int(ToleranceFlag::Poison), to_int(ToleranceFlag::Cold), A | G | X | cc,
      A | C | D | E | F | H | K | Q | V},
 
-    {"modron", false, 0, to_int(AffectFlag::Infrared), ASSIST_RACE | ASSIST_ALIGN,
+    {"modron", false, 0, to_int(AffectFlag::Infrared),
+     to_int(OffensiveFlag::AssistRace) | to_int(OffensiveFlag::AssistAlign),
      to_int(ToleranceFlag::Charm) | to_int(ToleranceFlag::Disease) | to_int(ToleranceFlag::Mental)
          | to_int(ToleranceFlag::Holy) | to_int(ToleranceFlag::Negative),
      to_int(ToleranceFlag::Fire) | to_int(ToleranceFlag::Cold) | to_int(ToleranceFlag::Acid), 0, H,
@@ -114,7 +116,8 @@ const struct race_type race_table[] = {
 
     {"pig", false, 0, 0, 0, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K},
 
-    {"rabbit", false, 0, 0, OFF_DODGE | OFF_FAST, 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K},
+    {"rabbit", false, 0, 0, to_int(OffensiveFlag::Dodge) | to_int(OffensiveFlag::Fast), 0, 0, 0, A | G | V,
+     A | C | D | E | F | H | J | K},
 
     {"school monster", false, to_int(CharActFlag::NoAlign), 0, 0,
      to_int(ToleranceFlag::Charm) | to_int(ToleranceFlag::Summon), 0, to_int(ToleranceFlag::Magic), A | M | V,
@@ -123,12 +126,12 @@ const struct race_type race_table[] = {
     {"snake", false, 0, 0, 0, 0, to_int(ToleranceFlag::Poison), to_int(ToleranceFlag::Cold), A | G | R | X | Y | cc,
      A | D | E | F | K | L | Q | V | X},
 
-    {"song bird", false, 0, to_int(AffectFlag::Flying), OFF_FAST | OFF_DODGE, 0, 0, 0, A | G | W,
-     A | C | D | E | F | H | K | P},
+    {"song bird", false, 0, to_int(AffectFlag::Flying), to_int(OffensiveFlag::Fast) | to_int(OffensiveFlag::Dodge), 0,
+     0, 0, A | G | W, A | C | D | E | F | H | K | P},
 
     {"troll", false, 0,
-     to_int(AffectFlag::Regeneration) | to_int(AffectFlag::Infrared) | to_int(AffectFlag::DetectHidden), OFF_BERSERK, 0,
-     to_int(ToleranceFlag::Charm) | to_int(ToleranceFlag::Bash),
+     to_int(AffectFlag::Regeneration) | to_int(AffectFlag::Infrared) | to_int(AffectFlag::DetectHidden),
+     to_int(OffensiveFlag::Berserk), 0, to_int(ToleranceFlag::Charm) | to_int(ToleranceFlag::Bash),
      to_int(ToleranceFlag::Fire) | to_int(ToleranceFlag::Acid), B | M | V,
      A | B | C | D | E | F | G | H | I | J | K | U | V},
 
@@ -137,7 +140,8 @@ const struct race_type race_table[] = {
 
     {"wyvern", false, 0,
      to_int(AffectFlag::Flying) | to_int(AffectFlag::DetectInvis) | to_int(AffectFlag::DetectHidden),
-     OFF_BASH | OFF_FAST | OFF_DODGE, to_int(ToleranceFlag::Poison), 0, to_int(ToleranceFlag::Light), B | Z | cc,
+     to_int(OffensiveFlag::Bash) | to_int(OffensiveFlag::Fast) | to_int(OffensiveFlag::Dodge),
+     to_int(ToleranceFlag::Poison), 0, to_int(ToleranceFlag::Light), B | Z | cc,
      A | C | D | E | F | H | J | K | P | Q | V | X},
 
     {nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
