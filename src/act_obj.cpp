@@ -10,7 +10,6 @@
 #include "act_obj.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
-#include "BitsObjectExtra.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
 #include "CommFlag.hpp"
@@ -19,6 +18,7 @@
 #include "Logging.hpp"
 #include "Materials.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "ObjectWearFlag.hpp"
@@ -1052,11 +1052,11 @@ void pour_from_to(Object *obj, Object *target_obj) {
     } while ((obj->value[1] > 0) && (target_obj->value[1] < target_obj->value[0]) && (pour_volume < 50));
 }
 
-// Recursively collect the object index data of all in the source object list having the ITEM_UNIQUE flag.
+// Recursively collect the object index data of all in the source object list having the ObjectExtraFlag::Unique flag.
 void collect_unique_obj_indexes(const GenericList<Object *> &objects, std::set<ObjectIndex *> &unique_obj_idxs) {
 
     for (const auto object : objects) {
-        if (check_bit(object->extra_flags, ITEM_UNIQUE)) {
+        if (check_enum_bit(object->extra_flags, ObjectExtraFlag::Unique)) {
             unique_obj_idxs.insert(object->objIndex);
         }
         // This is a small optimization as all Objects have a contains list but only these types are valid containers.
@@ -1834,7 +1834,8 @@ void do_steal(Char *ch, const char *argument) {
         return;
     }
 
-    if (!can_drop_obj(ch, obj) || check_bit(obj->extra_flags, ITEM_INVENTORY) || obj->level > ch->level) {
+    if (!can_drop_obj(ch, obj) || check_enum_bit(obj->extra_flags, ObjectExtraFlag::Inventory)
+        || obj->level > ch->level) {
         ch->send_line("You can't pry it away.");
         return;
     }
@@ -1991,7 +1992,7 @@ void do_buy(Char *ch, const char *argument) {
         ch->gold -= cost;
         keeper->gold += cost;
 
-        if (check_bit(obj->extra_flags, ITEM_INVENTORY))
+        if (check_enum_bit(obj->extra_flags, ObjectExtraFlag::Inventory))
             obj = create_object(obj->objIndex);
         else
             obj_from_char(obj);

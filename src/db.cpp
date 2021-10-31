@@ -13,7 +13,6 @@
 #include "AreaList.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsExitState.hpp"
-#include "BitsObjectExtra.hpp"
 #include "BodySize.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -27,6 +26,7 @@
 #include "MobIndexData.hpp"
 #include "Note.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "ResetData.hpp"
@@ -748,7 +748,7 @@ void load_objects(FILE *fp) {
         objIndex->extra_flags = fread_flag(fp);
 
         if (objIndex->is_no_remove() && objIndex->type != ObjectType::Weapon) {
-            bug("Only weapons are meant to have ITEM_NOREMOVE: {} {}", objIndex->vnum, objIndex->name);
+            bug("Only weapons are meant to have ObjectExtraFlag::NoRemove: {} {}", objIndex->vnum, objIndex->name);
             exit(1);
         }
 
@@ -1104,7 +1104,7 @@ void reset_room(Room *room) {
 
             if (lastMob->mobIndex->shop) { /* Shop-keeper? */
                 object = create_object(objIndex);
-                set_bit(object->extra_flags, ITEM_INVENTORY);
+                set_enum_bit(object->extra_flags, ObjectExtraFlag::Inventory);
             } else {
                 const auto drop_rate = reset->arg2;
                 if (drop_rate <= 0 || drop_rate > 100) {

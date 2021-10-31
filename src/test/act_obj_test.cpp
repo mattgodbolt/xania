@@ -1,8 +1,8 @@
-#include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "MemFile.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "Shop.hpp"
@@ -29,7 +29,7 @@ TEST_CASE("unique object enforcement") {
     moving_obj.objIndex = &obj_idx;
     moving_obj.type = obj_idx.type;
     // Default case for most tests: both the existing & moving object instances are flagged unique.
-    set_bit(obj_idx.extra_flags, ITEM_UNIQUE);
+    set_enum_bit(obj_idx.extra_flags, ObjectExtraFlag::Unique);
     existing_obj.extra_flags = obj_idx.extra_flags;
     moving_obj.extra_flags = obj_idx.extra_flags;
 
@@ -47,7 +47,7 @@ TEST_CASE("unique object enforcement") {
             REQUIRE(!result);
         }
         SECTION("non-unique object doesn't collide") {
-            clear_bit(obj_idx.extra_flags, ITEM_UNIQUE);
+            clear_enum_bit(obj_idx.extra_flags, ObjectExtraFlag::Unique);
             existing_obj.extra_flags = obj_idx.extra_flags;
             moving_obj.extra_flags = obj_idx.extra_flags;
 
@@ -115,7 +115,7 @@ TEST_CASE("unique object enforcement") {
             REQUIRE(!result);
         }
         SECTION("non-unique object to container doesn't collide") {
-            clear_bit(obj_idx.extra_flags, ITEM_UNIQUE);
+            clear_enum_bit(obj_idx.extra_flags, ObjectExtraFlag::Unique);
             existing_obj.extra_flags = obj_idx.extra_flags;
             moving_obj.extra_flags = obj_idx.extra_flags;
 

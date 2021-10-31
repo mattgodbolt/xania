@@ -12,7 +12,6 @@
 #include "AffectFlag.hpp"
 #include "Area.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsObjectExtra.hpp"
 #include "BodyPartFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -25,6 +24,7 @@
 #include "Materials.hpp"
 #include "MorphologyFlag.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "ObjectWearFlag.hpp"
@@ -936,7 +936,7 @@ bool can_see_obj(const Char *ch, const Object *obj) {
  * True if char can drop obj.
  */
 bool can_drop_obj(Char *ch, Object *obj) {
-    if (!check_bit(obj->extra_flags, ITEM_NODROP))
+    if (!check_enum_bit(obj->extra_flags, ObjectExtraFlag::NoDrop))
         return true;
 
     if (ch->is_pc() && ch->level >= LEVEL_IMMORTAL)

@@ -7,9 +7,9 @@
 #include "CorpseSummoner.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
-#include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
 #include "TimeInfoData.hpp"
@@ -39,7 +39,7 @@ void CorpseSummoner::summoner_awaits(Char *ch, const time_t time_secs) {
     }
 }
 
-void CorpseSummoner::summon_corpse(Char *player, Char *summoner, Object *catalyst) {
+void CorpseSummoner::SummonCorpse(Char *player, Char *summoner, Object *catalyst) {
     mud_.act("$n clutches $p between $s bony fingers and begins to whisper.", summoner, catalyst, nullptr, To::Room);
     mud_.act("The runes on the summoning stone begin to glow more brightly!", summoner, catalyst, nullptr, To::Room);
     std::string corpse_name = fmt::format("corpse of {}", player->name);
@@ -63,7 +63,7 @@ bool CorpseSummoner::check_summoner_preconditions(Char *player, Char *summoner) 
 }
 
 std::optional<std::string_view> CorpseSummoner::is_catalyst_invalid(Char *player, Object *catalyst) {
-    if (!check_bit(catalyst->extra_flags, ITEM_SUMMON_CORPSE)) {
+    if (!check_enum_bit(catalyst->extra_flags, ObjectExtraFlag::SummonCorpse)) {
         return object_wrong_type;
     } else if (catalyst->level + ShardLevelRange < player->level) {
         return object_too_weak;
@@ -200,5 +200,5 @@ void handle_corpse_summoner(Char *player, Char *summoner, Object *catalyst) {
     if (!corpse_summoner.check_catalyst(player, summoner, catalyst)) {
         return;
     }
-    corpse_summoner.summon_corpse(player, summoner, catalyst);
+    corpse_summoner.SummonCorpse(player, summoner, catalyst);
 }

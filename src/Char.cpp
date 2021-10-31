@@ -7,7 +7,6 @@
 #include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsObjectExtra.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "CommFlag.hpp"
@@ -15,6 +14,7 @@
 #include "Logging.hpp"
 #include "Note.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "PlayerActFlag.hpp"
@@ -330,7 +330,7 @@ bool Char::can_see(const Object &object) const {
     if (has_holylight())
         return true;
 
-    if (check_bit(object.extra_flags, ITEM_VIS_DEATH))
+    if (check_enum_bit(object.extra_flags, ObjectExtraFlag::VisDeath))
         return false;
 
     if (is_aff_blind() && object.type != ObjectType::Potion)
@@ -339,10 +339,10 @@ bool Char::can_see(const Object &object) const {
     if (object.type == ObjectType::Light && object.value[2] != 0)
         return true;
 
-    if (check_bit(object.extra_flags, ITEM_INVIS) && !is_aff_detect_invis())
+    if (check_enum_bit(object.extra_flags, ObjectExtraFlag::Invis) && !is_aff_detect_invis())
         return false;
 
-    if (check_bit(object.extra_flags, ITEM_GLOW))
+    if (check_enum_bit(object.extra_flags, ObjectExtraFlag::Glow))
         return true;
 
     if (room_is_dark(in_room) && !is_aff_infrared())

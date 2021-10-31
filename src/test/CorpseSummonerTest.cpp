@@ -1,7 +1,7 @@
 #include "CorpseSummoner.hpp"
-#include "BitsObjectExtra.hpp"
 #include "CharActFlag.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
 #include "common/BitOps.hpp"
@@ -112,7 +112,7 @@ TEST_CASE("is catalyst valid") {
 
     SECTION("catalyst is below level range") {
         player.level = 12;
-        set_bit(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
+        set_enum_bit(catalyst.extra_flags, ObjectExtraFlag::SummonCorpse);
         catalyst.level = player.level - 10;
 
         auto msg = summoner.is_catalyst_invalid(&player, &catalyst);
@@ -122,7 +122,7 @@ TEST_CASE("is catalyst valid") {
 
     SECTION("catalyst is valid") {
         player.level = 12;
-        set_bit(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
+        set_enum_bit(catalyst.extra_flags, ObjectExtraFlag::SummonCorpse);
         catalyst.level = player.level - 9;
 
         auto msg = summoner.is_catalyst_invalid(&player, &catalyst);
@@ -154,7 +154,7 @@ TEST_CASE("check catalyst") {
 
     SECTION("with valid catalyst") {
         player.level = 12;
-        set_bit(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
+        set_enum_bit(catalyst.extra_flags, ObjectExtraFlag::SummonCorpse);
         catalyst.level = player.level - 9;
         FORBID_CALL(mock, obj_from_char(&catalyst));
 
@@ -231,7 +231,7 @@ TEST_CASE("summon corpse") {
     mob.in_room = &player_room;
     Object catalyst;
     catalyst.level = 12;
-    set_bit(catalyst.extra_flags, ITEM_SUMMON_CORPSE);
+    set_enum_bit(catalyst.extra_flags, ObjectExtraFlag::SummonCorpse);
     const auto weaken_sn{68};
 
     SECTION("successful summmon") {
@@ -258,7 +258,7 @@ TEST_CASE("summon corpse") {
         REQUIRE_CALL(mock, act("$n is knocked off $s feet!"sv, &player, nullptr, nullptr, To::Room)).IN_SEQUENCE(seq);
         REQUIRE_CALL(mock, extract_obj(&catalyst)).IN_SEQUENCE(seq);
 
-        summoner.summon_corpse(&player, &mob, &catalyst);
+        summoner.SummonCorpse(&player, &mob, &catalyst);
 
         CHECK(player.position == Position::Type::Resting);
     }
@@ -279,6 +279,6 @@ TEST_CASE("summon corpse") {
             .IN_SEQUENCE(seq);
         REQUIRE_CALL(mock, extract_obj(&catalyst)).IN_SEQUENCE(seq);
 
-        summoner.summon_corpse(&player, &mob, &catalyst);
+        summoner.SummonCorpse(&player, &mob, &catalyst);
     }
 }

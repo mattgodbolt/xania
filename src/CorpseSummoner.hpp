@@ -31,7 +31,7 @@ public:
     /**
      * Find a player's corpse and teleport it into the room. Consumes the catalyst used to trigger.
      */
-    void summon_corpse(Char *player, Char *summoner, Object *catalyst);
+    void SummonCorpse(Char *player, Char *summoner, Object *catalyst);
 
     time_t last_advice_time();
 

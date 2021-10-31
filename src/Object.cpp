@@ -4,7 +4,7 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Object.hpp"
-#include "BitsObjectExtra.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectType.hpp"
 #include "ObjectWearFlag.hpp"
 #include "WeaponFlag.hpp"
@@ -33,26 +33,26 @@ bool Object::is_wear_shield() const { return check_enum_bit(wear_flags, ObjectWe
 bool Object::is_wear_waist() const { return check_enum_bit(wear_flags, ObjectWearFlag::Waist); }
 bool Object::is_wear_wrist() const { return check_enum_bit(wear_flags, ObjectWearFlag::Wrist); }
 
-bool Object::is_anti_evil() const { return check_bit(extra_flags, ITEM_ANTI_EVIL); }
-bool Object::is_anti_good() const { return check_bit(extra_flags, ITEM_ANTI_GOOD); }
-bool Object::is_anti_neutral() const { return check_bit(extra_flags, ITEM_ANTI_NEUTRAL); }
-bool Object::is_blessed() const { return check_bit(extra_flags, ITEM_BLESS); }
-bool Object::is_dark() const { return check_bit(extra_flags, ITEM_DARK); }
-bool Object::is_evil() const { return check_bit(extra_flags, ITEM_EVIL); }
-bool Object::is_glowing() const { return check_bit(extra_flags, ITEM_GLOW); }
-bool Object::is_humming() const { return check_bit(extra_flags, ITEM_HUM); }
-bool Object::is_inventory() const { return check_bit(extra_flags, ITEM_INVENTORY); }
-bool Object::is_invisible() const { return check_bit(extra_flags, ITEM_INVIS); }
-bool Object::is_lock() const { return check_bit(extra_flags, ITEM_LOCK); }
-bool Object::is_magic() const { return check_bit(extra_flags, ITEM_MAGIC); }
-bool Object::is_no_drop() const { return check_bit(extra_flags, ITEM_NODROP); }
-bool Object::is_no_locate() const { return check_bit(extra_flags, ITEM_NO_LOCATE); }
-bool Object::is_no_purge() const { return check_bit(extra_flags, ITEM_NOPURGE); }
-bool Object::is_no_remove() const { return check_bit(extra_flags, ITEM_NOREMOVE); }
-bool Object::is_protect_container() const { return check_bit(extra_flags, ITEM_PROTECT_CONTAINER); }
-bool Object::is_rot_death() const { return check_bit(extra_flags, ITEM_ROT_DEATH); }
-bool Object::is_summon_corpse() const { return check_bit(extra_flags, ITEM_SUMMON_CORPSE); }
-bool Object::is_unique() const { return check_bit(extra_flags, ITEM_UNIQUE); }
-bool Object::is_vis_death() const { return check_bit(extra_flags, ITEM_VIS_DEATH); }
+bool Object::is_anti_evil() const { return check_enum_bit(extra_flags, ObjectExtraFlag::AntiEvil); }
+bool Object::is_anti_good() const { return check_enum_bit(extra_flags, ObjectExtraFlag::AntiGood); }
+bool Object::is_anti_neutral() const { return check_enum_bit(extra_flags, ObjectExtraFlag::AntiNeutral); }
+bool Object::is_blessed() const { return check_enum_bit(extra_flags, ObjectExtraFlag::Bless); }
+bool Object::is_dark() const { return check_enum_bit(extra_flags, ObjectExtraFlag::Dark); }
+bool Object::is_evil() const { return check_enum_bit(extra_flags, ObjectExtraFlag::Evil); }
+bool Object::is_glowing() const { return check_enum_bit(extra_flags, ObjectExtraFlag::Glow); }
+bool Object::is_humming() const { return check_enum_bit(extra_flags, ObjectExtraFlag::Hum); }
+bool Object::is_inventory() const { return check_enum_bit(extra_flags, ObjectExtraFlag::Inventory); }
+bool Object::is_invisible() const { return check_enum_bit(extra_flags, ObjectExtraFlag::Invis); }
+bool Object::is_lock() const { return check_enum_bit(extra_flags, ObjectExtraFlag::Lock); }
+bool Object::is_magic() const { return check_enum_bit(extra_flags, ObjectExtraFlag::Magic); }
+bool Object::is_no_drop() const { return check_enum_bit(extra_flags, ObjectExtraFlag::NoDrop); }
+bool Object::is_no_locate() const { return check_enum_bit(extra_flags, ObjectExtraFlag::NoLocate); }
+bool Object::is_no_purge() const { return check_enum_bit(extra_flags, ObjectExtraFlag::NoPurge); }
+bool Object::is_no_remove() const { return check_enum_bit(extra_flags, ObjectExtraFlag::NoRemove); }
+bool Object::is_protect_container() const { return check_enum_bit(extra_flags, ObjectExtraFlag::ProtectContainer); }
+bool Object::is_rot_death() const { return check_enum_bit(extra_flags, ObjectExtraFlag::RotDeath); }
+bool Object::is_summon_corpse() const { return check_enum_bit(extra_flags, ObjectExtraFlag::SummonCorpse); }
+bool Object::is_unique() const { return check_enum_bit(extra_flags, ObjectExtraFlag::Unique); }
+bool Object::is_vis_death() const { return check_enum_bit(extra_flags, ObjectExtraFlag::VisDeath); }
 
 bool Object::is_weapon_two_handed() const { return check_enum_bit(value[4], WeaponFlag::TwoHands); }

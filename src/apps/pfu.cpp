@@ -1,6 +1,6 @@
 #include "pfu.hpp"
-#include "BitsObjectExtra.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "VnumRooms.hpp"
@@ -125,8 +125,9 @@ AddUniqueItemFlags::AddUniqueItemFlags(CharVersion version) : UpgradeTask(versio
 
 void AddUniqueItemFlags::walk_inventory_set_unique_flag(const GenericList<Object *> &objects) const {
     for (auto object : objects) {
-        if (check_bit(object->objIndex->extra_flags, ITEM_UNIQUE) && !check_bit(object->extra_flags, ITEM_UNIQUE)) {
-            set_bit(object->extra_flags, ITEM_UNIQUE);
+        if (check_enum_bit(object->objIndex->extra_flags, ObjectExtraFlag::Unique)
+            && !check_enum_bit(object->extra_flags, ObjectExtraFlag::Unique)) {
+            set_enum_bit(object->extra_flags, ObjectExtraFlag::Unique);
         }
         if (object->type == ObjectType::Container || object->type == ObjectType::Npccorpse
             || object->type == ObjectType::Pccorpse) {

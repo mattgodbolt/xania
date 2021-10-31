@@ -9,7 +9,6 @@
 #include "AffectFlag.hpp"
 #include "Area.hpp"
 #include "ArmourClass.hpp"
-#include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -23,6 +22,7 @@
 #include "Logging.hpp"
 #include "MobIndexData.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "ObjectWearFlag.hpp"
@@ -2866,12 +2866,12 @@ void do_oset(Char *ch, const char *argument) {
         return;
     }
 
-    /* NO_LOCATE flag.  0 turns it off, 1 turns it on *WHAHEY!* */
+    /* NoLocate flag.  0 turns it off, 1 turns it on *WHAHEY!* */
     if (!str_prefix(arg2, "nolocate")) {
         if (value == 0)
-            clear_bit(obj->extra_flags, ITEM_NO_LOCATE);
+            clear_enum_bit(obj->extra_flags, ObjectExtraFlag::NoLocate);
         else
-            set_bit(obj->extra_flags, ITEM_NO_LOCATE);
+            set_enum_bit(obj->extra_flags, ObjectExtraFlag::NoLocate);
         return;
     }
 

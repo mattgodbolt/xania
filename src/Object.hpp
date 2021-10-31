@@ -5,11 +5,11 @@
 /*************************************************************************/
 #pragma once
 #include "AffectList.hpp"
-#include "BitsObjectExtra.hpp"
 #include "ExtraDescription.hpp"
 #include "Flag.hpp"
 #include "GenericList.hpp"
 #include "Materials.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectWearFlag.hpp"
 #include "Types.hpp"
 
@@ -97,27 +97,27 @@ struct Object {
 
     inline static constexpr std::array<Flag, 21> AllExtraFlags = {{
         // clang-format off
-        {ITEM_GLOW, 0, "glow"},
-        {ITEM_HUM, 0, "hum"},
-        {ITEM_DARK, 0, "dark"},
-        {ITEM_LOCK, 0, "lock"},
-        {ITEM_EVIL, 0, "evil"},
-        {ITEM_INVIS, 0, "invis"},
-        {ITEM_MAGIC, 0, "magic"},
-        {ITEM_NODROP, 0, "nodrop"},
-        {ITEM_BLESS, 0, "bless"},
-        {ITEM_ANTI_GOOD, 0, "antigood"},
-        {ITEM_ANTI_EVIL, 0, "antievil"},
-        {ITEM_ANTI_NEUTRAL, 0, "antineutral"},
-        {ITEM_NOREMOVE, 0, "noremove"}, // Only weapons are meant to have this, it prevents disarm.
-        {ITEM_INVENTORY, 0, "inventory"},
-        {ITEM_NOPURGE, 0, "nopurge"},
-        {ITEM_ROT_DEATH, 0, "rotdeath"},
-        {ITEM_VIS_DEATH, 0, "visdeath"},
-        {ITEM_PROTECT_CONTAINER, 0, "protected"},
-        {ITEM_NO_LOCATE, 0, "nolocate"},
-        {ITEM_SUMMON_CORPSE, 0, "summon_corpse"},
-        {ITEM_UNIQUE, 0, "unique"},
+        {to_int(ObjectExtraFlag::Glow), 0, "glow"},
+        {to_int(ObjectExtraFlag::Hum), 0, "hum"},
+        {to_int(ObjectExtraFlag::Dark), 0, "dark"},
+        {to_int(ObjectExtraFlag::Lock), 0, "lock"},
+        {to_int(ObjectExtraFlag::Evil), 0, "evil"},
+        {to_int(ObjectExtraFlag::Invis), 0, "invis"},
+        {to_int(ObjectExtraFlag::Magic), 0, "magic"},
+        {to_int(ObjectExtraFlag::NoDrop), 0, "nodrop"},
+        {to_int(ObjectExtraFlag::Bless), 0, "bless"},
+        {to_int(ObjectExtraFlag::AntiGood), 0, "antigood"},
+        {to_int(ObjectExtraFlag::AntiEvil), 0, "antievil"},
+        {to_int(ObjectExtraFlag::AntiNeutral), 0, "antineutral"},
+        {to_int(ObjectExtraFlag::NoRemove), 0, "noremove"}, // Only weapons are meant to have this, it prevents disarm.
+        {to_int(ObjectExtraFlag::Inventory), 0, "inventory"},
+        {to_int(ObjectExtraFlag::NoPurge), 0, "nopurge"},
+        {to_int(ObjectExtraFlag::RotDeath), 0, "rotdeath"},
+        {to_int(ObjectExtraFlag::VisDeath), 0, "visdeath"},
+        {to_int(ObjectExtraFlag::ProtectContainer), 0, "protected"},
+        {to_int(ObjectExtraFlag::NoLocate), 0, "nolocate"},
+        {to_int(ObjectExtraFlag::SummonCorpse), 0, "summon_corpse"},
+        {to_int(ObjectExtraFlag::Unique), 0, "unique"},
         // clang-format on
     }};
 

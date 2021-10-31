@@ -13,7 +13,6 @@
 #include "ArmourClass.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsExitState.hpp"
-#include "BitsObjectExtra.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -28,6 +27,7 @@
 #include "Materials.hpp"
 #include "MorphologyFlag.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "PlayerActFlag.hpp"
@@ -1284,12 +1284,12 @@ void make_corpse(Char *ch) {
             obj->timer = number_range(500, 1000);
         if (obj->type == ObjectType::Scroll)
             obj->timer = number_range(1000, 2500);
-        if (check_bit(obj->extra_flags, ITEM_ROT_DEATH))
+        if (check_enum_bit(obj->extra_flags, ObjectExtraFlag::RotDeath))
             obj->timer = number_range(5, 10);
-        clear_bit(obj->extra_flags, ITEM_VIS_DEATH);
-        clear_bit(obj->extra_flags, ITEM_ROT_DEATH);
+        clear_enum_bit(obj->extra_flags, ObjectExtraFlag::VisDeath);
+        clear_enum_bit(obj->extra_flags, ObjectExtraFlag::RotDeath);
 
-        if (check_bit(obj->extra_flags, ITEM_INVENTORY))
+        if (check_enum_bit(obj->extra_flags, ObjectExtraFlag::Inventory))
             extract_obj(obj);
         else
             obj_to_obj(obj, corpse);

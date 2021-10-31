@@ -11,7 +11,6 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "BitsCharOffensive.hpp"
-#include "BitsObjectExtra.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "DamageClass.hpp"
@@ -21,6 +20,7 @@
 #include "Logging.hpp"
 #include "Materials.hpp"
 #include "Object.hpp"
+#include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "PlayerActFlag.hpp"
@@ -1567,7 +1567,7 @@ void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (!check_bit(obj->extra_flags, ITEM_INVIS)) {
+    if (!check_enum_bit(obj->extra_flags, ObjectExtraFlag::Invis)) {
         ch->send_line("That object is not invisible!");
         return;
     }
@@ -1579,7 +1579,7 @@ void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
     if (chance >= 0) {
         act("$p appears from nowhere!", ch, obj, nullptr, To::Room);
         act("$p appears from nowhere!", ch, obj, nullptr, To::Char);
-        clear_bit(obj->extra_flags, ITEM_INVIS);
+        clear_enum_bit(obj->extra_flags, ObjectExtraFlag::Invis);
     }
 
     if ((chance >= -20) && (chance < 0)) {
@@ -1604,8 +1604,9 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if ((!check_bit(obj->extra_flags, ITEM_ANTI_EVIL)) && (!check_bit(obj->extra_flags, ITEM_ANTI_GOOD))
-        && (!check_bit(obj->extra_flags, ITEM_ANTI_NEUTRAL))) {
+    if ((!check_enum_bit(obj->extra_flags, ObjectExtraFlag::AntiEvil))
+        && (!check_enum_bit(obj->extra_flags, ObjectExtraFlag::AntiGood))
+        && (!check_enum_bit(obj->extra_flags, ObjectExtraFlag::AntiNeutral))) {
         ch->send_line("That object has no alignment!");
         return;
     }
@@ -1627,9 +1628,9 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
     if (score >= 0) {
         act("$p glows grey.", ch, obj, nullptr, To::Room);
         act("$p glows grey.", ch, obj, nullptr, To::Char);
-        clear_bit(obj->extra_flags, ITEM_ANTI_GOOD);
-        clear_bit(obj->extra_flags, ITEM_ANTI_EVIL);
-        clear_bit(obj->extra_flags, ITEM_ANTI_NEUTRAL);
+        clear_enum_bit(obj->extra_flags, ObjectExtraFlag::AntiGood);
+        clear_enum_bit(obj->extra_flags, ObjectExtraFlag::AntiEvil);
+        clear_enum_bit(obj->extra_flags, ObjectExtraFlag::AntiNeutral);
     } else if (score < -40) {
         act("$p shivers violently and explodes!", ch, obj, nullptr, To::Room);
         act("$p shivers violently and explodes!", ch, obj, nullptr, To::Char);
@@ -1736,13 +1737,13 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     if (result <= (100 - level / 5)) { /* success! */
         act("$p shimmers with a gold aura.", ch, obj, nullptr, To::Char);
         act("$p shimmers with a gold aura.", ch, obj, nullptr, To::Room);
-        set_bit(obj->extra_flags, ITEM_MAGIC);
+        set_enum_bit(obj->extra_flags, ObjectExtraFlag::Magic);
         added = -1;
     } else { /* exceptional enchant */
         act("$p glows a brillant gold!", ch, obj, nullptr, To::Char);
         act("$p glows a brillant gold!", ch, obj, nullptr, To::Room);
-        set_bit(obj->extra_flags, ITEM_MAGIC);
-        set_bit(obj->extra_flags, ITEM_GLOW);
+        set_enum_bit(obj->extra_flags, ObjectExtraFlag::Magic);
+        set_enum_bit(obj->extra_flags, ObjectExtraFlag::Glow);
         added = -2;
     }
 
@@ -1898,13 +1899,13 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     if (result <= (100 - level / 5)) { /* success! */
         act("$p glows blue.", ch, obj, nullptr, To::Char);
         act("$p glows blue.", ch, obj, nullptr, To::Room);
-        set_bit(obj->extra_flags, ITEM_MAGIC);
+        set_enum_bit(obj->extra_flags, ObjectExtraFlag::Magic);
         added = 1;
     } else { /* exceptional enchant */
         act("$p glows a brillant blue!", ch, obj, nullptr, To::Char);
         act("$p glows a brillant blue!", ch, obj, nullptr, To::Room);
-        set_bit(obj->extra_flags, ITEM_MAGIC);
-        set_bit(obj->extra_flags, ITEM_GLOW);
+        set_enum_bit(obj->extra_flags, ObjectExtraFlag::Magic);
+        set_enum_bit(obj->extra_flags, ObjectExtraFlag::Glow);
         added = 2;
     }
 
@@ -1919,7 +1920,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
                 af.modifier += added;
                 af.level = std::max(af.level, static_cast<sh_int>(level));
                 if (af.modifier > 4)
-                    set_bit(obj->extra_flags, ITEM_HUM);
+                    set_enum_bit(obj->extra_flags, ObjectExtraFlag::Hum);
             }
         }
     } else { /* add a new affect */
@@ -1940,7 +1941,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
                 af.modifier += added;
                 af.level = std::max(af.level, static_cast<sh_int>(level));
                 if (af.modifier > 4)
-                    set_bit(obj->extra_flags, ITEM_HUM);
+                    set_enum_bit(obj->extra_flags, ObjectExtraFlag::Hum);
             }
         }
     } else { /* add a new affect */
@@ -1981,7 +1982,7 @@ void spell_protect_container(int sn, int level, Char *ch, void *vo) {
     }
 
     ch->gold -= 50000;
-    set_bit(obj->extra_flags, ITEM_PROTECT_CONTAINER);
+    set_enum_bit(obj->extra_flags, ObjectExtraFlag::ProtectContainer);
     act("$p is now protected!", ch, obj, nullptr, To::Char);
 }
 
@@ -2080,7 +2081,7 @@ void spell_damnation(int sn, int level, Char *ch, void *vo) {
     }
 
     ch->gold -= (mana * 100);
-    set_bit(obj->extra_flags, ITEM_NOREMOVE);
+    set_enum_bit(obj->extra_flags, ObjectExtraFlag::NoRemove);
     ch->send_line("You turn red in the face and curse your weapon into the pits of hell!");
 }
 
@@ -2738,7 +2739,7 @@ void spell_locate_object(int sn, int level, Char *ch, void *vo) {
     std::string buffer;
     for (auto *obj : object_list) {
         if (!ch->can_see(*obj) || !is_name(target_name, obj->name) || (ch->is_mortal() && number_percent() > 2 * level)
-            || ch->level < obj->level || check_bit(obj->extra_flags, ITEM_NO_LOCATE))
+            || ch->level < obj->level || check_enum_bit(obj->extra_flags, ObjectExtraFlag::NoLocate))
             continue;
 
         found = true;
@@ -3020,7 +3021,7 @@ void spell_refresh(int sn, int level, Char *ch, void *vo) {
 namespace {
 void try_strip_noremove(const Char *victim, int level, Object *obj) {
     if (!saves_dispel(level, obj->level)) {
-        clear_bit(obj->extra_flags, ITEM_NOREMOVE);
+        clear_enum_bit(obj->extra_flags, ObjectExtraFlag::NoRemove);
         act("$p glows blue.", victim, obj, nullptr, To::Char);
         act("$p glows blue.", victim, obj, nullptr, To::Room);
     } else {
