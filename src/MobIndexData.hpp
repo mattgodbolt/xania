@@ -50,7 +50,7 @@ struct MobIndexData {
     sh_int race{};
     long gold{};
     long morphology{};
-    long parts{};
+    unsigned long parts{};
     BodySize body_size{};
     Material::Type material{}; // TODO: is this actually used in any meaningful way?
     MPROG_DATA *mobprogs{}; /* Used by MOBprogram */

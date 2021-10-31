@@ -11,9 +11,9 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "Area.hpp"
-#include "BitsBodyPart.hpp"
 #include "BitsCharOffensive.hpp"
 #include "BitsObjectExtra.hpp"
+#include "BodyPartFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
@@ -1239,51 +1239,51 @@ const char *morphology_bit_name(unsigned long morphology_flags) {
     return (buf[0] != '\0') ? buf + 1 : "none";
 }
 
-const char *part_bit_name(int part_flags) {
+const char *body_part_bit_name(unsigned long part_flags) {
     static char buf[512];
 
     buf[0] = '\0';
-    if (part_flags & PART_HEAD)
+    if (check_enum_bit(part_flags, BodyPartFlag::Head))
         strcat(buf, " head");
-    if (part_flags & PART_ARMS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Arms))
         strcat(buf, " arms");
-    if (part_flags & PART_LEGS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Legs))
         strcat(buf, " legs");
-    if (part_flags & PART_HEART)
+    if (check_enum_bit(part_flags, BodyPartFlag::Heart))
         strcat(buf, " heart");
-    if (part_flags & PART_BRAINS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Brains))
         strcat(buf, " brains");
-    if (part_flags & PART_GUTS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Guts))
         strcat(buf, " guts");
-    if (part_flags & PART_HANDS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Hands))
         strcat(buf, " hands");
-    if (part_flags & PART_FEET)
+    if (check_enum_bit(part_flags, BodyPartFlag::Feet))
         strcat(buf, " feet");
-    if (part_flags & PART_FINGERS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Fingers))
         strcat(buf, " fingers");
-    if (part_flags & PART_EAR)
+    if (check_enum_bit(part_flags, BodyPartFlag::Ear))
         strcat(buf, " ears");
-    if (part_flags & PART_EYE)
+    if (check_enum_bit(part_flags, BodyPartFlag::Eye))
         strcat(buf, " eyes");
-    if (part_flags & PART_LONG_TONGUE)
+    if (check_enum_bit(part_flags, BodyPartFlag::LongTongue))
         strcat(buf, " long_tongue");
-    if (part_flags & PART_EYESTALKS)
+    if (check_enum_bit(part_flags, BodyPartFlag::EyeStalks))
         strcat(buf, " eyestalks");
-    if (part_flags & PART_TENTACLES)
+    if (check_enum_bit(part_flags, BodyPartFlag::Tentacles))
         strcat(buf, " tentacles");
-    if (part_flags & PART_FINS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Fins))
         strcat(buf, " fins");
-    if (part_flags & PART_WINGS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Wings))
         strcat(buf, " wings");
-    if (part_flags & PART_TAIL)
+    if (check_enum_bit(part_flags, BodyPartFlag::Tail))
         strcat(buf, " tail");
-    if (part_flags & PART_CLAWS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Claws))
         strcat(buf, " claws");
-    if (part_flags & PART_FANGS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Fangs))
         strcat(buf, " fangs");
-    if (part_flags & PART_HORNS)
+    if (check_enum_bit(part_flags, BodyPartFlag::Horns))
         strcat(buf, " horns");
-    if (part_flags & PART_SCALES)
+    if (check_enum_bit(part_flags, BodyPartFlag::Scales))
         strcat(buf, " scales");
 
     return (buf[0] != '\0') ? buf + 1 : "none";
