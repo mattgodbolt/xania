@@ -559,3 +559,9 @@ void Char::try_give_item_to(Object *object, Char *victim) {
     handle_corpse_summoner(this, victim, object);
     mprog_give_trigger(victim, this, object);
 }
+
+std::string_view Char::describe(const Char &to_describe) const noexcept {
+    if (!can_see(to_describe))
+        return "someone"sv;
+    return to_describe.is_npc() ? to_describe.short_descr : to_describe.name;
+}

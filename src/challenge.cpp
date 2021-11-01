@@ -172,7 +172,7 @@ void do_accept(Char *ch) {
     if (imm == nullptr) {
         challenger->send_to("|g{}|c has accepted to control the challenge. Now waiting to see\n\r"
                             "if |g{}|c will accept your challenge.|w\n\r",
-                            pers(ch, challenger), challengee->name);
+                            challenger->describe(*ch), challengee->name);
     }
 
     challengee->send_line("|CYou have been challenged to a duel to the death by |G{}.", challenger->name);

@@ -2073,7 +2073,7 @@ void do_owhere(Char *ch, const char *argument) {
 
         if (in_obj->carried_by != nullptr) {
             buffer += fmt::format("{:3} {:<25} carried by {:<20} in room {}\n\r", number, obj->short_descr,
-                                  pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->vnum);
+                                  ch->describe(*in_obj->carried_by), in_obj->carried_by->in_room->vnum);
         } else if (in_obj->in_room != nullptr) {
             buffer += fmt::format("{:3} {:<25} in {:<30} [{}]\n\r", number, obj->short_descr, in_obj->in_room->name,
                                   in_obj->in_room->vnum);

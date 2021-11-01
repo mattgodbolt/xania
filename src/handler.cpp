@@ -918,12 +918,6 @@ bool can_see(const Char *ch, const Char *victim) {
     return ch->can_see(*victim);
 }
 
-std::string_view pers(const Char *ch, const Char *looker) {
-    if (!looker->can_see(*ch))
-        return "someone";
-    return ch->is_npc() ? ch->short_descr : ch->name;
-}
-
 /*
  * True if char can see obj.
  */

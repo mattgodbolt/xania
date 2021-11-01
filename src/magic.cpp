@@ -2753,11 +2753,12 @@ void spell_locate_object(int sn, int level, Char *ch, void *vo) {
         if (in_obj->carried_by != nullptr /*&& can_see TODO wth was this supposed to be?*/) {
             if (ch->is_immortal()) {
                 buffer += fmt::format("{} carried by {} in {} [Room {}]\n\r", InitialCap{obj->short_descr},
-                                      pers(in_obj->carried_by, ch), in_obj->carried_by->in_room->name,
+                                      ch->describe(*in_obj->carried_by), in_obj->carried_by->in_room->name,
                                       in_obj->carried_by->in_room->vnum);
-            } else
-                buffer +=
-                    fmt::format("{} carried by {}\n\r", InitialCap{obj->short_descr}, pers(in_obj->carried_by, ch));
+            } else {
+                buffer += fmt::format("{} carried by {}\n\r", InitialCap{obj->short_descr},
+                                      ch->describe(*in_obj->carried_by));
+            }
         } else {
             if (ch->is_immortal() && in_obj->in_room != nullptr)
                 buffer += fmt::format("{} in {} [Room {}]\n\r", InitialCap{obj->short_descr}, in_obj->in_room->name,

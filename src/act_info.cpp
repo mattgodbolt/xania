@@ -210,7 +210,7 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
         return;
     }
 
-    buf += pers(victim, ch);
+    buf += ch->describe(*victim);
     if (victim->is_pc() && !check_enum_bit(ch->comm, CommFlag::Brief))
         buf += victim->pcdata->title;
 
@@ -230,9 +230,9 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
         else if (victim->fighting == ch)
             buf += " |RYOU!|w";
         else if (victim->in_room == victim->fighting->in_room) {
-            buf += fmt::format(" {}.", pers(victim->fighting, ch));
+            buf += fmt::format(" {}.", ch->describe(*victim->fighting));
         } else
-            buf += " somone who left??";
+            buf += " someone who left??";
         break;
     default:;
     }
@@ -1484,7 +1484,7 @@ void do_where(Char *ch, const char *argument) {
             if (victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && !victim->is_aff_hide()
                 && !victim->is_aff_sneak() && can_see(ch, victim) && victim != ch && is_name(arg, victim->name)) {
                 found = true;
-                ch->send_line("|W{:<28}|w {}", pers(victim, ch), victim->in_room->name);
+                ch->send_line("|W{:<28}|w {}", ch->describe(*victim), victim->in_room->name);
                 break;
             }
         }

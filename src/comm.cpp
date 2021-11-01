@@ -1195,8 +1195,12 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
                 bug("$T passed but arg2 was not a string in '{}'", format);
             }
             break;
-        case 'n': buf += pers(ch, to); break;
-        case 'N': buf += pers(vch, to); break;
+        case 'n': {
+            buf += to->describe(*ch);
+        } break;
+        case 'N': {
+            buf += to->describe(*vch);
+        } break;
         case 'e': buf += he_she(ch); break;
         case 'E': buf += he_she(vch); break;
         case 'm': buf += him_her(ch); break;
