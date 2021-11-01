@@ -587,7 +587,7 @@ void nanny(Descriptor *d, const char *argument) {
                 d->close();
                 return;
             }
-            if (bans.check_ban(d->raw_full_hostname(), BAN_NEWBIES | BAN_ALL)) {
+            if (bans.check_ban(d->raw_full_hostname(), to_int(BanFlag::Newbies) | to_int(BanFlag::All))) {
                 d->write("Your site has been banned.\n\r");
                 d->close();
                 return;
@@ -618,8 +618,8 @@ void nanny(Descriptor *d, const char *argument) {
 
         SetEchoState(d, 1);
 
-        if ((!ch->is_set_extra(EXTRA_PERMIT) && (bans.check_ban(d->raw_full_hostname(), BAN_PERMIT)))
-            || bans.check_ban(d->raw_full_hostname(), BAN_ALL)) {
+        if ((!ch->is_set_extra(EXTRA_PERMIT) && (bans.check_ban(d->raw_full_hostname(), BanFlag::Permit)))
+            || bans.check_ban(d->raw_full_hostname(), BanFlag::All)) {
             d->write("Your site has been banned.  Sorry.\n\r");
             d->close();
             return;

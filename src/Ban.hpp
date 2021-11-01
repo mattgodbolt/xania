@@ -7,6 +7,7 @@
 
 #include "common/StandardBits.hpp"
 
+#include <magic_enum.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -14,12 +15,9 @@
 class Char;
 class ArgParser;
 
-static inline constexpr auto BAN_PERMANENT = A;
-static inline constexpr auto BAN_NEWBIES = B;
-static inline constexpr auto BAN_PERMIT = C;
-static inline constexpr auto BAN_PREFIX = D;
-static inline constexpr auto BAN_SUFFIX = E;
-static inline constexpr auto BAN_ALL = F;
+enum class BanFlag { Permanent = A, Newbies = B, Permit = C, Prefix = D, Suffix = E, All = F };
+
+[[nodiscard]] constexpr auto to_int(const BanFlag flag) noexcept { return magic_enum::enum_integer<BanFlag>(flag); }
 
 // Stores the site ban settings for one site.
 struct Ban {
@@ -44,7 +42,10 @@ public:
 
     explicit Bans(Dependencies &dependencies);
 
-    // Returns true if site has the specified ban type flag.
+    // Returns true if site has the specified ban flag.
+    bool check_ban(std::string_view site, const BanFlag ban_flag) const;
+
+    // Returns true if site has the specified ban flag bits.
     bool check_ban(std::string_view site, const int type_bits) const;
 
     // Sends a list of all banned sites to ch if no args are passed.

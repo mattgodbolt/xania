@@ -233,7 +233,7 @@ straylight.net 95 AF
             Bans bans(dependencies);
             CHECK(bans.load() == 1);
 
-            const auto result = bans.check_ban("desiderata.net", BAN_ALL);
+            const auto result = bans.check_ban("desiderata.net", BanFlag::All);
 
             CHECK(!result);
         }
@@ -242,7 +242,7 @@ straylight.net 95 AF
             Bans bans(dependencies);
             CHECK(bans.load() == 1);
 
-            const auto result = bans.check_ban("LOCALHOST", BAN_ALL);
+            const auto result = bans.check_ban("LOCALHOST", BanFlag::All);
 
             CHECK(result);
         }
@@ -251,15 +251,15 @@ straylight.net 95 AF
             Bans bans(dependencies);
             CHECK(bans.load() == 1);
 
-            const auto all_result = bans.check_ban("localhost", BAN_ALL);
+            const auto all_result = bans.check_ban("localhost", BanFlag::All);
 
             CHECK(!all_result);
 
-            const auto newbies_result = bans.check_ban("localhost", BAN_NEWBIES);
+            const auto newbies_result = bans.check_ban("localhost", BanFlag::Newbies);
 
             CHECK(newbies_result);
 
-            const auto either_result = bans.check_ban("localhost", BAN_ALL | BAN_NEWBIES);
+            const auto either_result = bans.check_ban("localhost", to_int(BanFlag::All) | to_int(BanFlag::Newbies));
 
             CHECK(either_result);
         }
@@ -268,7 +268,7 @@ straylight.net 95 AF
             Bans bans(dependencies);
             CHECK(bans.load() == 1);
 
-            const auto result = bans.check_ban("ashpool.straylight.net", BAN_ALL);
+            const auto result = bans.check_ban("ashpool.straylight.net", BanFlag::All);
 
             CHECK(result);
         }
@@ -277,7 +277,7 @@ straylight.net 95 AF
             Bans bans(dependencies);
             CHECK(bans.load() == 1);
 
-            const auto result = bans.check_ban("straylight.net.bogus", BAN_ALL);
+            const auto result = bans.check_ban("straylight.net.bogus", BanFlag::All);
 
             CHECK(!result);
         }
@@ -286,7 +286,7 @@ straylight.net 95 AF
             Bans bans(dependencies);
             CHECK(bans.load() == 1);
 
-            const auto result = bans.check_ban("localhost", BAN_ALL);
+            const auto result = bans.check_ban("localhost", BanFlag::All);
 
             CHECK(result);
         }
@@ -300,7 +300,7 @@ straylight.net 95 AF
 
             CHECK(allow_result);
 
-            const auto check_result = bans.check_ban("localhost", BAN_ALL);
+            const auto check_result = bans.check_ban("localhost", BanFlag::All);
 
             CHECK(!check_result);
         }
@@ -309,15 +309,15 @@ straylight.net 95 AF
             Bans bans(dependencies);
             CHECK(bans.load() == 1);
 
-            const auto all_result = bans.check_ban("localhost", BAN_ALL);
+            const auto all_result = bans.check_ban("localhost", BanFlag::All);
 
             CHECK(!all_result);
 
-            const auto newbies_result = bans.check_ban("localhost", BAN_NEWBIES);
+            const auto newbies_result = bans.check_ban("localhost", BanFlag::Newbies);
 
             CHECK(!newbies_result);
 
-            const auto permitted_result = bans.check_ban("localhost", BAN_PERMIT);
+            const auto permitted_result = bans.check_ban("localhost", BanFlag::Permit);
 
             CHECK(permitted_result);
         }
