@@ -37,9 +37,14 @@ conan_add_remote(NAME conancenter
         INDEX 0
         URL https://center.conan.io)
 
-conan_cmake_run(CONANFILE conanfile.txt
-        BASIC_SETUP CMAKE_TARGETS
+conan_cmake_autodetect(CONAN_SETTINGS)
+
+conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}
+        SETTINGS ${CONAN_SETTINGS}
         BUILD missing)
+
+include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
+conan_basic_setup(TARGETS)
 
 set(CMAKE_INSTALL_MESSAGE NEVER) # prevent logging installation messages
 
