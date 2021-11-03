@@ -15,7 +15,7 @@ If you want to build and run Xania locally, you'll need a modern Linux (Ubuntu 1
 need the following packages to build:
 
 ```bash
-$ sudo apt install git make cmake gcc g++ curl
+$ sudo apt install git make cmake gcc-10 g++-10 curl
 ```
 
 It's pretty likely you have all these already. The hope is that almost all the upstream dependencies of the code are
