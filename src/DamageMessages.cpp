@@ -6,60 +6,183 @@
 #include "DamageMessages.hpp"
 #include "Attacks.hpp"
 #include "Char.hpp"
-#include "DamageClass.hpp"
+#include "DamageType.hpp"
 #include "Logging.hpp"
 #include "SkillTables.hpp"
 
+#include <algorithm>
+#include <array>
 #include <fmt/format.h>
+#include <unordered_map>
 #include <variant>
 
 namespace {
 
 struct dam_proportion_verbs {
     const int damage_proportion;
-    const char *dam_type_verbs[MAX_DAM];
+    const std::unordered_map<const DamageType, std::string_view> verbs;
 };
 
-const struct dam_proportion_verbs dam_proportion_verbs_table[] = {
-    {0, {"miss", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-    {1, {"scrape", 0, 0, 0, "touch", 0, "touch", "brush", 0, "taint", "touch", 0, 0, 0, 0, 0, 0, 0}},
-    {2, {"scratch", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-    {3, {"bruise", 0, 0, 0, "hurt", "hurt", "hurt", "hurt", "burn", "sicken", "entangle", 0, 0, 0, 0, 0, 0, 0}},
-    {4, {"graze", 0, 0, 0, "sting", "cool", "spark", "gnaw", "fry", "nauseate", "stir", 0, 0, 0, 0, 0, 0, 0}},
-    {5, {"hit", 0, 0, 0, "scald", "chill", "zap", "sting", "sear", "score", "smolder", 0, 0, 0, 0, 0, 0, 0}},
-    {6, {"cut", 0, 0, 0, "blister", "ice", "shock", "blister", "torment", "torment", "pain", 0, 0, 0, 0, 0, 0, 0}},
-    {7,
-     {"injure", 0, 0, 0, "burn", "frost", "stun", "scald", "torment", "palpitate", "palpitate", 0, 0, 0, 0, 0, 0, 0}},
-    {8,
-     {"wound", 0, 0, 0, "torch", "freeze", "electrify", "boil", "corrupt", "torture", "torture", 0, 0, 0, 0, 0, 0, 0}},
-    {10,
-     {"split", 0, 0, 0, "sizzle", "solidify", "electrocute", "smack", "defile", "agonize", "agonize", 0, 0, 0, 0, 0, 0,
-      0}},
-    {12,
-     {"gash", 0, 0, 0, "frazzle", "crackle", "frazzle", "deteriorate", "defile", "crush", "purge", 0, 0, 0, 0, 0, 0,
-      0}},
-    {14,
-     {"shred", 0, 0, 0, "crisp", "shatter", "crisp", "perforate", "defile", "dirty", "cleanse", 0, 0, 0, 0, 0, 0, 0}},
-    {16,
-     {"maul", 0, 0, 0, "cook", "crystalize", "impale", "dissipate", "defile", "smash", "pacify", 0, 0, 0, 0, 0, 0, 0}},
-
-    {18, {"decimate", 0, 0, 0, "grill", 0, "scorch", "splutter", 0, "blacken", "purify", 0, 0, 0, 0, 0, 0, 0}},
-
-    {22, {"eviscerate", 0, 0, 0, "roast", 0, "sear", "frizzle", 0, "curse", "redeem", 0, 0, 0, 0, 0, 0, 0}},
-    {26, {"devastate", 0, 0, 0, "sear", 0, "cook", "splatter", 0, "ruin", "crystalize", 0, 0, 0, 0, 0, 0, 0}},
-    {30, {"maim", 0, 0, 0, "char", 0, "roast", "sear", 0, "enslave", "spiritualize", 0, 0, 0, 0, 0, 0, 0}},
-    {35, {"MUTILATE", 0, 0, 0, "BRAND", "FREEZE", "ELECTRIFY", "DISSOLVE", 0, 0, "VITRIFY", 0, 0, 0, 0, 0, 0, 0}},
-    {40, {"DISEMBOWEL", 0, 0, 0, "MELT", 0, "ELECTROCUTE", "MELT", 0, "PURGE", "PURGE", 0, 0, 0, 0, 0, 0, 0}},
-    {45, {"DISMEMBER", 0, 0, 0, "ENGULF", 0, "CAUTERIZE", "DECOMPOSE", 0, "CRUCIFY", "CRUCIFY", 0, 0, 0, 0, 0, 0, 0}},
-    {50, {"MASSACRE", 0, 0, 0, "NUKE", 0, "NUKE", "DISINTEGRATE", 0, "CONDEMN", "CONDEMN", 0, 0, 0, 0, 0, 0, 0}},
-    {56, {"MANGLE", 0, 0, 0, "ATOMIZE", 0, 0, "ATOMIZE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-    {62, {"DEMOLISH", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-    {70, {"DEVASTATE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-    {80, {"OBLITERATE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-    {90, {"ANNIHILATE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-    {120, {"ERADICATE", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-    {120, /* leave last item in list null */
-     {nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}};
+const std::array<struct dam_proportion_verbs, 27> dam_proportion_verbs_table = {
+    {{0, {{DamageType::None, "miss"}}},
+     {1,
+      {{DamageType::None, "scrape"},
+       {DamageType::Fire, "touch"},
+       {DamageType::Lightning, "touch"},
+       {DamageType::Acid, "brush"},
+       {DamageType::Negative, "taint"},
+       {DamageType::Holy, "touch"}}},
+     {2, {{DamageType::None, "scratch"}}},
+     {3,
+      {{DamageType::None, "bruise"},
+       {DamageType::Fire, "hurt"},
+       {DamageType::Cold, "hurt"},
+       {DamageType::Lightning, "hurt"},
+       {DamageType::Acid, "hurt"},
+       {DamageType::Poison, "sicken"},
+       {DamageType::Negative, "entangle"}}},
+     {4,
+      {{DamageType::None, "graze"},
+       {DamageType::Fire, "sting"},
+       {DamageType::Cold, "cool"},
+       {DamageType::Lightning, "jolt"},
+       {DamageType::Acid, "gnaw"},
+       {DamageType::Poison, "nauseate"},
+       {DamageType::Negative, "stir"},
+       {DamageType::Holy, "dismiss"}}},
+     {5,
+      {{DamageType::None, "hit"},
+       {DamageType::Fire, "scald"},
+       {DamageType::Cold, "chill"},
+       {DamageType::Lightning, "zap"},
+       {DamageType::Acid, "sting"},
+       {DamageType::Poison, "ail"},
+       {DamageType::Negative, "smolder"}}},
+     {6,
+      {{DamageType::None, "cut"},
+       {DamageType::Fire, "blister"},
+       {DamageType::Cold, "ice"},
+       {DamageType::Lightning, "shock"},
+       {DamageType::Acid, "blister"},
+       {DamageType::Poison, "intoxicate"},
+       {DamageType::Negative, "torment"},
+       {DamageType::Holy, "pain"}}},
+     {7,
+      {{DamageType::None, "injure"},
+       {DamageType::Fire, "burn"},
+       {DamageType::Cold, "frost"},
+       {DamageType::Lightning, "stun"},
+       {DamageType::Acid, "scald"},
+       {DamageType::Poison, "contaminate"},
+       {DamageType::Negative, "torment"},
+       {DamageType::Holy, "palpitate"}}},
+     {8,
+      {{DamageType::None, "wound"},
+       {DamageType::Fire, "torch"},
+       {DamageType::Cold, "freeze"},
+       {DamageType::Lightning, "electrify"},
+       {DamageType::Acid, "boil"},
+       {DamageType::Poison, "corrupt"},
+       {DamageType::Negative, "torture"},
+       {DamageType::Holy, "torture"}}},
+     {10,
+      {{DamageType::None, "split"},
+       {DamageType::Fire, "sizzle"},
+       {DamageType::Cold, "solidify"},
+       {DamageType::Lightning, "electrocute"},
+       {DamageType::Acid, "combust"},
+       {DamageType::Poison, "defile"},
+       {DamageType::Negative, "agonize"},
+       {DamageType::Holy, "agonize"}}},
+     {12,
+      {{DamageType::None, "gash"},
+       {DamageType::Fire, "frazzle"},
+       {DamageType::Cold, "crackle"},
+       {DamageType::Lightning, "frazzle"},
+       {DamageType::Acid, "deteriorate"},
+       {DamageType::Poison, "defile"},
+       {DamageType::Negative, "crush"},
+       {DamageType::Holy, "purge"}}},
+     {14,
+      {{DamageType::None, "shred"},
+       {DamageType::Fire, "scald"},
+       {DamageType::Cold, "shatter"},
+       {DamageType::Lightning, "crisp"},
+       {DamageType::Acid, "perforate"},
+       {DamageType::Poison, "befoul"},
+       {DamageType::Negative, "defile"},
+       {DamageType::Holy, "cleanse"}}},
+     {16,
+      {{DamageType::None, "maul"},
+       {DamageType::Fire, "bake"},
+       {DamageType::Cold, "crystalize"},
+       {DamageType::Lightning, "split"},
+       {DamageType::Acid, "dissipate"},
+       {DamageType::Poison, "corrupt"},
+       {DamageType::Negative, "smash"},
+       {DamageType::Holy, "pacify"}}},
+     {18,
+      {{DamageType::None, "decimate"},
+       {DamageType::Fire, "grill"},
+       {DamageType::Lightning, "scorch"},
+       {DamageType::Acid, "splutter"},
+       {DamageType::Negative, "blacken"},
+       {DamageType::Holy, "purify"}}},
+     {22,
+      {{DamageType::None, "eviscerate"},
+       {DamageType::Fire, "roast"},
+       {DamageType::Lightning, "sear"},
+       {DamageType::Acid, "frizzle"},
+       {DamageType::Negative, "curse"},
+       {DamageType::Holy, "interrogate"}}},
+     {26,
+      {{DamageType::None, "devastate"},
+       {DamageType::Fire, "sear"},
+       {DamageType::Lightning, "cook"},
+       {DamageType::Acid, "splatter"},
+       {DamageType::Negative, "ruin"},
+       {DamageType::Holy, "redeem"}}},
+     {30,
+      {{DamageType::None, "maim"},
+       {DamageType::Fire, "char"},
+       {DamageType::Lightning, "roast"},
+       {DamageType::Acid, "sear"},
+       {DamageType::Negative, "enslave"},
+       {DamageType::Holy, "sanctify"}}},
+     {35,
+      {{DamageType::None, "MUTILATE"},
+       {DamageType::Fire, "BRAND"},
+       {DamageType::Cold, "FREEZE"},
+       {DamageType::Lightning, "ELECTRIFY"},
+       {DamageType::Acid, "DISSOLVE"},
+       {DamageType::Holy, "VITRIFY"}}},
+     {40,
+      {{DamageType::None, "DISEMBOWEL"},
+       {DamageType::Fire, "MELT"},
+       {DamageType::Lightning, "ELECTROCUTE"},
+       {DamageType::Acid, "MELT"},
+       {DamageType::Negative, "PURGE"},
+       {DamageType::Holy, "PURGE"}}},
+     {45,
+      {{DamageType::None, "DISMEMBER"},
+       {DamageType::Fire, "ENGULF"},
+       {DamageType::Lightning, "CAUTERIZE"},
+       {DamageType::Acid, "DECOMPOSE"},
+       {DamageType::Negative, "CRUCIFY"},
+       {DamageType::Holy, "CRUCIFY"}}},
+     {50,
+      {{DamageType::None, "MASSACRE"},
+       {DamageType::Fire, "NUKE"},
+       {DamageType::Lightning, "NUKE"},
+       {DamageType::Acid, "DISINTEGRATE"},
+       {DamageType::Negative, "CONDEMN"},
+       {DamageType::Holy, "CONDEMN"}}},
+     {56, {{DamageType::None, "MANGLE"}, {DamageType::Fire, "ATOMIZE"}, {DamageType::Acid, "ATOMIZE"}}},
+     {62, {{DamageType::None, "DEMOLISH"}}},
+     {70, {{DamageType::None, "DEVASTATE"}}},
+     {80, {{DamageType::None, "OBLITERATE"}}},
+     {90, {{DamageType::None, "ANNIHILATE"}}},
+     {120, {{DamageType::None, "ERADICATE"}}}}};
 
 int calc_dam_proportion(const Char *ch, const Char *victim, const int damage, Rng &rng) {
     int proportion = 0;
@@ -115,24 +238,23 @@ constexpr auto DoesUnspeakableThings = "does |RUNSPEAKABLE|w things to";
 
 } // namespace
 
-ImpactVerbs ImpactVerbs::create(const bool has_attack_verb, const int dam_proportion, const int dam_type) {
-    const struct dam_proportion_verbs *found_type = nullptr;
-    for (auto index = 0; dam_proportion_verbs_table[index].dam_type_verbs[DAM_NONE]; index++) {
-        if (dam_proportion <= dam_proportion_verbs_table[index].damage_proportion) {
-            found_type = &dam_proportion_verbs_table[index];
-            break;
-        }
-    }
-    if (!found_type) {
+ImpactVerbs ImpactVerbs::create(const bool has_attack_verb, const int dam_proportion, const DamageType damage_type) {
+
+    const auto proportion_verbs = std::find_if(
+        dam_proportion_verbs_table.begin(), dam_proportion_verbs_table.end(),
+        [&dam_proportion](const struct dam_proportion_verbs &e) { return dam_proportion <= e.damage_proportion; });
+    if (proportion_verbs == std::end(dam_proportion_verbs_table)) {
         return ImpactVerbs{has_attack_verb ? DoesUnspeakableThings : DoUnspeakableThings, DoesUnspeakableThings};
     }
-    std::string singular, plural;
-    if (dam_type > 0 && found_type->dam_type_verbs[dam_type]) {
-        singular = found_type->dam_type_verbs[dam_type];
+    std::string singular;
+    const auto &verbs = proportion_verbs->verbs;
+    const auto damage_verb = verbs.find(damage_type);
+    if (damage_verb != verbs.end() && damage_type > DamageType::None) {
+        singular = damage_verb->second;
     } else { // there's no specific noun for the damage type being delivered and the proportion
-        singular = found_type->dam_type_verbs[0];
+        singular = verbs.at(DamageType::None);
     }
-    plural = singular;
+    std::string plural = singular;
     // Pluralize it
     const auto last = std::prev(plural.end());
     switch (*last) {
@@ -167,7 +289,7 @@ DamageMessages DamageMessages::create(const Char *ch, const Char *victim, const 
     const auto punct = (proportion <= 20) ? '.' : '!';
     const auto pref_suff = make_prefix_suffix(proportion);
     const auto opt_attack_verb = get_attack_verb(context);
-    const auto impact_verbs = ImpactVerbs::create(opt_attack_verb.has_value(), proportion, context.dam_type);
+    const auto impact_verbs = ImpactVerbs::create(opt_attack_verb.has_value(), proportion, context.damage_type);
     const auto ch_dam_label = make_damage_amount_label(ch, context.damage);
     const auto vict_dam_label = make_damage_amount_label(victim, context.damage);
 

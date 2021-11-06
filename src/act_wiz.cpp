@@ -14,7 +14,7 @@
 #include "Classes.hpp"
 #include "Columner.hpp"
 #include "CommFlag.hpp"
-#include "DamageClass.hpp"
+#include "DamageType.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
@@ -56,6 +56,7 @@
 #include "update.hpp"
 
 #include <fmt/format.h>
+#include <magic_enum.hpp>
 #include <range/v3/numeric/accumulate.hpp>
 #include <range/v3/view/concat.hpp>
 #include <range/v3/view/transform.hpp>
@@ -716,7 +717,6 @@ void do_ostat(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
     Object *obj;
     ObjectIndex *objIndex;
-    sh_int dam_type;
     int vnum;
 
     /* this will help prevent major memory allocations - a crash bug!
@@ -823,7 +823,7 @@ void do_ostat(Char *ch, const char *argument) {
         ch->send_line(".");
         break;
 
-    case ObjectType::Weapon:
+    case ObjectType::Weapon: {
         ch->send_line("Weapon type is {}", Weapons::name_from_integer(obj->value[0]));
         ch->send_line("Damage is {}d{} (average {})", obj->value[1], obj->value[2],
                       (1 + obj->value[2]) * obj->value[1] / 2);
@@ -832,34 +832,10 @@ void do_ostat(Char *ch, const char *argument) {
             ch->send_line("Weapons flags: {}", weapon_bit_name(obj->value[4]));
         }
 
-        dam_type = attack_table[obj->value[3]].damage;
-        ch->send_line("Damage type is ");
-        switch (dam_type) {
-        case DAM_NONE: ch->send_line("none."); break;
-        case DAM_BASH: ch->send_line("bash."); break;
-        case DAM_PIERCE: ch->send_line("pierce."); break;
-        case DAM_SLASH: ch->send_line("slash."); break;
-        case DAM_FIRE: ch->send_line("fire."); break;
-        case DAM_COLD: ch->send_line("cold."); break;
-        case DAM_LIGHTNING: ch->send_line("lightning."); break;
-        case DAM_ACID: ch->send_line("acid."); break;
-        case DAM_POISON: ch->send_line("poison."); break;
-        case DAM_NEGATIVE: ch->send_line("negative."); break;
-        case DAM_HOLY: ch->send_line("holy."); break;
-        case DAM_ENERGY: ch->send_line("energy."); break;
-        case DAM_MENTAL: ch->send_line("mental."); break;
-        case DAM_DISEASE: ch->send_line("disease."); break;
-        case DAM_DROWNING: ch->send_line("drowning."); break;
-        case DAM_LIGHT: ch->send_line("light."); break;
-        case DAM_OTHER: ch->send_line("other."); break;
-        case DAM_HARM: ch->send_line("harm."); break;
-        default:
-            ch->send_line("unknown!!!!");
-            bug("ostat: Unknown damage type {}", dam_type);
-            break;
-        }
+        const auto damage_type = attack_table[obj->value[3]].damage_type;
+        ch->send_line("Damage type is {}.", magic_enum::enum_name<DamageType>(damage_type));
         break;
-
+    }
     case ObjectType::Armor:
         ch->send_line("Armor class is {} pierce, {} bash, {} slash, and {} vs. magic", obj->value[0], obj->value[1],
                       obj->value[2], obj->value[3]);

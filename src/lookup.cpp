@@ -40,11 +40,9 @@ int numeric_lookup_check(std::string_view name, const int max) {
 }
 
 int attack_lookup(const char *name) {
-    int att;
-
-    for (att = 0; attack_table[att].name != nullptr; att++) {
-        if (tolower(name[0]) == tolower(attack_table[att].name[0]) && !str_prefix(name, attack_table[att].name))
-            return att;
+    for (auto atk = 0; attack_table[atk].name != nullptr; atk++) {
+        if (tolower(name[0]) == tolower(attack_table[atk].name[0]) && !str_prefix(name, attack_table[atk].name))
+            return atk;
     }
     bug("Load_objects: Unknown attack: {}", name);
     exit(1);

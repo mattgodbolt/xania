@@ -6,6 +6,7 @@
 #pragma once
 
 #include "DamageContext.hpp"
+#include "DamageType.hpp"
 
 struct Char;
 class Rng;
@@ -13,7 +14,8 @@ class Rng;
 class ImpactVerbs {
 public:
     // Creates a new ImpactVerbs structure on the stack.
-    [[nodiscard]] static ImpactVerbs create(const bool has_attack_verb, const int dam_proportion, const int dam_type);
+    [[nodiscard]] static ImpactVerbs create(const bool has_attack_verb, const int dam_proportion,
+                                            const DamageType damage_type);
 
     [[nodiscard]] std::string_view singular() const;
     [[nodiscard]] std::string_view plural() const;

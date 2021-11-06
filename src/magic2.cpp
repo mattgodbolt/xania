@@ -8,8 +8,8 @@
 #include "AffectFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
+#include "DamageType.hpp"
 #include "Exit.hpp"
 #include "Logging.hpp"
 #include "Object.hpp"
@@ -73,7 +73,7 @@ void tornado_dam(Char *ch, Char *victim, int level) {
     int sn = skill_lookup("psychic tornado");
 
     dam = dice(level, 20);
-    damage(ch, victim, dam, &skill_table[sn], DAM_MENTAL);
+    damage(ch, victim, dam, &skill_table[sn], DamageType::Mental);
 }
 
 void tornado_mental(Char *ch, Char *victim, int level) {
@@ -127,7 +127,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
         return;
     }
 
-    if (check_damage_tolerance(victim, DAM_MENTAL) == DamageTolerance::Immune) {
+    if (check_damage_tolerance(victim, DamageType::Mental) == DamageTolerance::Immune) {
         act("The great mental fortitude of $N deflects your psychic blast!", ch, nullptr, victim, To::Char);
         act("$n attempts to unleash a psychic blast upon $N, but $s efforts backfire with\n\rcatastrophic effects!", ch,
             nullptr, victim, To::NotVict);
@@ -163,7 +163,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
                 continue;
             if (vch->in_room == ch->in_room) {
                 if (vch != ch && !is_safe_spell(ch, vch, true) && (vch != victim)
-                    && (check_damage_tolerance(vch, DAM_MENTAL) != DamageTolerance::Immune))
+                    && (check_damage_tolerance(vch, DamageType::Mental) != DamageTolerance::Immune))
                     tornado_mental(ch, victim, ch->level);
                 continue;
             }
@@ -179,7 +179,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, void *vo) {
                     for (auto *current_person : room->people) {
                         current_person->send_line("Suddenly, a gale of psychic energy blows through the room!");
                         if (!is_safe_spell(ch, current_person, true)
-                            && (check_damage_tolerance(current_person, DAM_MENTAL) != DamageTolerance::Immune))
+                            && (check_damage_tolerance(current_person, DamageType::Mental) != DamageTolerance::Immune))
                             tornado_mental(ch, current_person, ch->level);
 
                     } /* Closes the for_each_char_loop */

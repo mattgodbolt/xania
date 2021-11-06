@@ -5,6 +5,7 @@
 /*************************************************************************/
 #pragma once
 
+#include "DamageType.hpp"
 #include "Types.hpp"
 #include <variant>
 
@@ -13,7 +14,7 @@ struct skill_type;
 struct attack_type {
     const char *name; /* message in the area file */
     const char *verb; /* message in the mud */
-    int damage; /* damage class */
+    const DamageType damage_type;
 };
 
 extern const struct attack_type attack_table[];

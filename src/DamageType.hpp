@@ -5,15 +5,23 @@
 /*************************************************************************/
 #pragma once
 
-#include "Attacks.hpp"
-#include "DamageType.hpp"
-#include "InjuredPart.hpp"
-
-// Combines damage related values used when generating damage messages sent to a player.
-struct DamageContext {
-    const int damage;
-    const AttackType atk_type;
-    const DamageType damage_type;
-    const bool immune;
-    const InjuredPart &injured_part;
+enum class DamageType {
+    None = 0,
+    Bash = 1,
+    Pierce = 2,
+    Slash = 3,
+    Fire = 4,
+    Cold = 5,
+    Lightning = 6,
+    Acid = 7,
+    Poison = 8,
+    Negative = 9,
+    Holy = 10,
+    Energy = 11,
+    Mental = 12,
+    Disease = 13,
+    Drowning = 14,
+    Light = 15,
+    Other = 16,
+    Harm = 17
 };

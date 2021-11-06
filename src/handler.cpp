@@ -16,8 +16,8 @@
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "CommFlag.hpp"
-#include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
+#include "DamageType.hpp"
 #include "Descriptor.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
@@ -343,7 +343,7 @@ void char_to_room(Char *ch, Room *room) {
 
         for (auto *vch : ch->in_room->people) {
             const int save = [&]() -> int {
-                switch (check_damage_tolerance(vch, DAM_DISEASE)) {
+                switch (check_damage_tolerance(vch, DamageType::Disease)) {
                 default:
                 case DamageTolerance::None: return existing_plague->level - 4;
                 case DamageTolerance::Immune: return 0;

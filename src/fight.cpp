@@ -15,9 +15,9 @@
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "CommFlag.hpp"
-#include "DamageClass.hpp"
 #include "DamageMessages.hpp"
 #include "DamageTolerance.hpp"
+#include "DamageType.hpp"
 #include "Exit.hpp"
 #include "ExitFlag.hpp"
 #include "Format.hpp"
@@ -65,8 +65,6 @@
 
 #include <ctime>
 #include <sys/types.h>
-
-#define MAX_DAMAGE_MESSAGE 32
 
 // Cap on damage deliverable by any single hit.
 // Nothing scientific about this value, it was probably plucked out of thin air.
@@ -448,7 +446,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     const auto wield = get_eq_char(ch, Wear::Wield);
     const auto atk_table_idx = (wield && wield->type == ObjectType::Weapon) ? wield->value[3] : ch->dam_type;
-    const auto dam_type = attack_table[atk_table_idx].damage;
+    const auto damage_type = attack_table[atk_table_idx].damage_type;
     AttackType atk_type;
     if (!opt_skill) {
         atk_type = &attack_table[atk_table_idx];
@@ -489,10 +487,10 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         thac0 -= get_skill(ch, gsn_backstab) / 3;
     }
 
-    switch (dam_type) {
-    case (DAM_PIERCE): victim_ac = victim->get_armour_class(ArmourClass::Pierce); break;
-    case (DAM_BASH): victim_ac = victim->get_armour_class(ArmourClass::Bash); break;
-    case (DAM_SLASH): victim_ac = victim->get_armour_class(ArmourClass::Slash); break;
+    switch (damage_type) {
+    case (DamageType::Pierce): victim_ac = victim->get_armour_class(ArmourClass::Pierce); break;
+    case (DamageType::Bash): victim_ac = victim->get_armour_class(ArmourClass::Bash); break;
+    case (DamageType::Slash): victim_ac = victim->get_armour_class(ArmourClass::Slash); break;
     default: victim_ac = victim->get_armour_class(ArmourClass::Exotic); break;
     };
 
@@ -518,7 +516,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     if (diceroll >= hit_chance) {
         /* Miss. */
-        damage(ch, victim, 0, atk_type, dam_type);
+        damage(ch, victim, 0, atk_type, damage_type);
         return;
     }
 
@@ -596,7 +594,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     if (dam > DAMAGE_CAP)
         dam = DAMAGE_CAP;
 
-    damage(ch, victim, dam, atk_type, dam_type);
+    damage(ch, victim, dam, atk_type, damage_type);
 
     if (wield == nullptr || wield->type != ObjectType::Weapon)
         return;
@@ -646,7 +644,7 @@ void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vn
  * Inflict damage from a hit. The raw damage is adjusted based on damage cap
  * and spell effects.
  */
-bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_type, const int dam_type) {
+bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_type, const DamageType damage_type) {
     int temp;
     Object *wield;
     AFFECT_DATA *octarineFire;
@@ -751,7 +749,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
             return false;
     }
 
-    switch (check_damage_tolerance(victim, dam_type)) {
+    switch (check_damage_tolerance(victim, damage_type)) {
     case (DamageTolerance::Immune):
         immune = true;
         adjusted_damage = 0;
@@ -764,7 +762,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         adjusted_damage += adjusted_damage / 2;
 
     const auto injured_part = InjuredPart::random_from_victim(ch, victim, atk_type, Rng::global_rng());
-    const DamageContext dam_context{adjusted_damage, atk_type, dam_type, immune, injured_part};
+    const DamageContext dam_context{adjusted_damage, atk_type, damage_type, immune, injured_part};
     const auto dam_messages = DamageMessages::create(ch, victim, dam_context, Rng::global_rng());
     send_dam_messages(ch, victim, dam_messages);
 
@@ -917,12 +915,12 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         } else {
             fallchance = victim->get_skill(gsn_ride);
         }
-        switch (dam_type) {
-        case DAM_BASH: break;
-        case DAM_PIERCE:
-        case DAM_SLASH:
-        case DAM_ENERGY:
-        case DAM_HARM: fallchance += 10; break;
+        switch (damage_type) {
+        case DamageType::Bash: break;
+        case DamageType::Pierce:
+        case DamageType::Slash:
+        case DamageType::Energy:
+        case DamageType::Harm: fallchance += 10; break;
         default: fallchance += 40;
         }
         fallchance += (victim->level - ch->level) / 4;
@@ -1852,12 +1850,12 @@ void do_bash(Char *ch, const char *argument) {
         ch->wait_state(skill_table[gsn_bash].beats);
         victim->position = Position::Type::Resting;
         damage(ch, victim, number_range(2, calc_max_bash_damage(ch->body_size, chance)), &skill_table[gsn_bash],
-               DAM_BASH);
+               DamageType::Bash);
         if (victim->ridden_by != nullptr) {
             thrown_off(victim->ridden_by, victim);
         }
     } else {
-        damage(ch, victim, 0, &skill_table[gsn_bash], DAM_BASH);
+        damage(ch, victim, 0, &skill_table[gsn_bash], DamageType::Bash);
         act("You fall flat on your face!", ch, nullptr, victim, To::Char);
         act("$n falls flat on $s face.", ch, nullptr, victim, To::NotVict);
         act("You evade $n's bash, causing $m to fall flat on $s face.", ch, nullptr, victim, To::Vict);
@@ -1974,7 +1972,7 @@ void do_dirt(Char *ch, const char *argument) {
     if (number_percent() < chance) {
         AFFECT_DATA af;
         act("$n is blinded by the dirt in $s eyes!", victim);
-        damage(ch, victim, number_range(2, 5), &skill_table[gsn_dirt], DAM_NONE);
+        damage(ch, victim, number_range(2, 5), &skill_table[gsn_dirt], DamageType::None);
         victim->send_line("You can't see a thing!");
         check_improve(ch, gsn_dirt, true, 2);
         ch->wait_state(skill_table[gsn_dirt].beats);
@@ -1988,7 +1986,7 @@ void do_dirt(Char *ch, const char *argument) {
 
         affect_to_char(victim, af);
     } else {
-        damage(ch, victim, 0, &skill_table[gsn_dirt], DAM_NONE);
+        damage(ch, victim, 0, &skill_table[gsn_dirt], DamageType::None);
         check_improve(ch, gsn_dirt, false, 2);
         ch->wait_state(skill_table[gsn_dirt].beats);
     }
@@ -2084,12 +2082,13 @@ void do_trip(Char *ch, const char *argument) {
         victim->wait_state(2 * PULSE_VIOLENCE);
         ch->wait_state(skill_table[gsn_trip].beats);
         victim->position = Position::Type::Resting;
-        damage(ch, victim, number_range(2, calc_max_trip_damage(victim->body_size)), &skill_table[gsn_trip], DAM_BASH);
+        damage(ch, victim, number_range(2, calc_max_trip_damage(victim->body_size)), &skill_table[gsn_trip],
+               DamageType::Bash);
         if (victim->ridden_by != nullptr) {
             thrown_off(victim->ridden_by, victim);
         }
     } else {
-        damage(ch, victim, 0, &skill_table[gsn_trip], DAM_BASH);
+        damage(ch, victim, 0, &skill_table[gsn_trip], DamageType::Bash);
         ch->wait_state(skill_table[gsn_trip].beats * 2 / 3);
         check_improve(ch, gsn_trip, false, 1);
     }
@@ -2257,7 +2256,7 @@ void do_backstab(Char *ch, const char *argument) {
         multi_hit(ch, victim, &skill_table[gsn_backstab]);
     } else {
         check_improve(ch, gsn_backstab, false, 1);
-        damage(ch, victim, 0, &skill_table[gsn_backstab], DAM_NONE); // zero damage hit, trigger a fight.
+        damage(ch, victim, 0, &skill_table[gsn_backstab], DamageType::None); // zero damage hit, trigger a fight.
     }
 }
 
@@ -2446,7 +2445,7 @@ void do_headbutt(Char *ch, const char *argument) {
     ch->wait_state(skill_table[gsn_headbutt].beats);
 
     if ((chance = number_percent()) < ch->get_skill(gsn_headbutt)) {
-        damage(ch, victim, number_range(ch->level / 3, ch->level), &skill_table[gsn_headbutt], DAM_BASH);
+        damage(ch, victim, number_range(ch->level / 3, ch->level), &skill_table[gsn_headbutt], DamageType::Bash);
         check_improve(ch, gsn_headbutt, true, 2);
 
         chance = chance - ch->level + victim->level;
@@ -2543,10 +2542,10 @@ void do_kick(Char *ch, const char *argument) {
 
     ch->wait_state(skill_table[gsn_kick].beats);
     if (number_percent() < ch->get_skill(gsn_kick)) {
-        damage(ch, victim, number_range(1, ch->level), &skill_table[gsn_kick], DAM_BASH);
+        damage(ch, victim, number_range(1, ch->level), &skill_table[gsn_kick], DamageType::Bash);
         check_improve(ch, gsn_kick, true, 1);
     } else {
-        damage(ch, victim, 0, &skill_table[gsn_kick], DAM_BASH); // zero damage hit, trigger a fight.
+        damage(ch, victim, 0, &skill_table[gsn_kick], DamageType::Bash); // zero damage hit, trigger a fight.
         check_improve(ch, gsn_kick, false, 1);
     }
 }

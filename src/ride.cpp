@@ -6,7 +6,7 @@
 #include "ride.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "DamageClass.hpp"
+#include "DamageType.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "comm.hpp"
@@ -73,7 +73,7 @@ void fallen_off_mount(Char *ch) {
     ch->wait_state(2 * PULSE_VIOLENCE);
     ch->position = Position::Type::Resting;
     damage(pet, ch, number_range(2, calc_max_fall_damage(ch->body_size, pet->body_size)), &skill_table[gsn_bash],
-           DAM_BASH);
+           DamageType::Bash);
 }
 
 void do_ride(Char *ch, const char *argument) {

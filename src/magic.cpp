@@ -12,8 +12,8 @@
 #include "AffectFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
+#include "DamageType.hpp"
 #include "FlagFormat.hpp"
 #include "Format.hpp"
 #include "Logging.hpp"
@@ -134,8 +134,8 @@ std::pair<int, int> get_direct_dmg_and_level(int level, const std::array<int, Si
  * Indexes into attack_table that are used by specific weapon enchantment spells
  * like spell_acid_wash and spell_tame_lightning. When a weapon is enchanted,
  * an index into that table is written to the object's value[3] attribute.
- * These constants are not plain damage types (DAM_*), the attack_table
- * is actually superset of the damage type enum.
+ * These constants don't correspond directly with entries in the DamageType enum, the attack_table
+ * is actually superset of the DamageType enum.
  */
 constexpr auto AttackTableIndexTameLightning = 28u;
 constexpr auto AttackTableIndexAcidWash = 31u;
@@ -678,7 +678,7 @@ void spell_acid_blast(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, AcidBlastExorciseDemonfireDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_ACID);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Acid);
 }
 
 void spell_acid_wash(int sn, int level, Char *ch, void *vo) {
@@ -793,7 +793,7 @@ void spell_burning_hands(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, BurningHandsCauseSerDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_FIRE);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Fire);
 }
 
 void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
@@ -818,7 +818,7 @@ void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
             continue;
         if (vch->in_room == ch->in_room) {
             if (vch != ch && (ch->is_npc() ? vch->is_pc() : vch->is_npc()))
-                damage(ch, vch, saves_spell(level, vch) ? dam / 2 : dam, &skill_table[sn], DAM_LIGHTNING);
+                damage(ch, vch, saves_spell(level, vch) ? dam / 2 : dam, &skill_table[sn], DamageType::Lightning);
             continue;
         }
 
@@ -945,7 +945,7 @@ void spell_cause_light(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, MagicMissileCauseLightDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_HARM);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Harm);
 }
 
 void spell_cause_critical(int sn, int level, Char *ch, void *vo) {
@@ -953,7 +953,7 @@ void spell_cause_critical(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_HARM);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Harm);
 }
 
 void spell_cause_serious(int sn, int level, Char *ch, void *vo) {
@@ -961,7 +961,7 @@ void spell_cause_serious(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, BurningHandsCauseSerDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_HARM);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Harm);
 }
 
 void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
@@ -978,7 +978,7 @@ void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 3;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_LIGHTNING);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Lightning);
     last_vict = victim;
     level -= 4; /* decrement damage */
 
@@ -994,7 +994,7 @@ void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
                 dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
                 if (saves_spell(dam_level.second, tmp_vict))
                     dam_level.first /= 3;
-                damage(ch, tmp_vict, dam_level.first, &skill_table[sn], DAM_LIGHTNING);
+                damage(ch, tmp_vict, dam_level.first, &skill_table[sn], DamageType::Lightning);
                 level -= 4; /* decrement damage */
             }
         } /* end target searching loop */
@@ -1017,7 +1017,7 @@ void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
             dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
             if (saves_spell(dam_level.second, ch))
                 dam_level.first /= 3;
-            damage(ch, ch, dam_level.first, &skill_table[sn], DAM_LIGHTNING);
+            damage(ch, ch, dam_level.first, &skill_table[sn], DamageType::Lightning);
             level -= 4; /* decrement damage */
             if ((ch == nullptr) || (ch->in_room == nullptr))
                 return;
@@ -1101,7 +1101,7 @@ void spell_chill_touch(int sn, int level, Char *ch, void *vo) {
         dam_level.first /= 2;
     }
 
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_COLD);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Cold);
 }
 
 void spell_colour_spray(int sn, int level, Char *ch, void *vo) {
@@ -1112,7 +1112,7 @@ void spell_colour_spray(int sn, int level, Char *ch, void *vo) {
     else
         spell_blindness(skill_lookup("blindness"), dam_level.second / 2, ch, (void *)victim);
 
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_LIGHT);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Light);
 }
 
 void spell_continual_light(int sn, int level, Char *ch, void *vo) {
@@ -1336,7 +1336,7 @@ void spell_exorcise(int sn, int level, Char *ch, void *vo) {
         dam_level.first /= 2;
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_HOLY);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Holy);
 }
 
 /*
@@ -1362,7 +1362,7 @@ void spell_demonfire(int sn, int level, Char *ch, void *vo) {
         dam_level.first /= 2;
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_NEGATIVE);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Negative);
 }
 
 void spell_detect_evil(int sn, int level, Char *ch, void *vo) {
@@ -1494,7 +1494,7 @@ void spell_dispel_evil(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, ColourSprayDispelGoodEvilDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_HOLY);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Holy);
 }
 
 void spell_dispel_good(int sn, int level, Char *ch, void *vo) {
@@ -1515,7 +1515,7 @@ void spell_dispel_good(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, ColourSprayDispelGoodEvilDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_HOLY);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Holy);
 }
 
 void spell_dispel_magic(int sn, int level, Char *ch, void *vo) {
@@ -1545,9 +1545,9 @@ void spell_earthquake(int sn, int level, Char *ch, void *vo) {
         if (vch->in_room == ch->in_room) {
             if (vch != ch && !is_safe_spell(ch, vch, true)) {
                 if (vch->is_aff_fly())
-                    damage(ch, vch, 0, &skill_table[sn], DAM_BASH);
+                    damage(ch, vch, 0, &skill_table[sn], DamageType::Bash);
                 else
-                    damage(ch, vch, level + dice(2, 8), &skill_table[sn], DAM_BASH);
+                    damage(ch, vch, level + dice(2, 8), &skill_table[sn], DamageType::Bash);
             }
             continue;
         }
@@ -2166,7 +2166,7 @@ void spell_energy_drain(int sn, int level, Char *ch, void *vo) {
 
     victim->send_line("You feel your life slipping away!");
     ch->send_line("Wow....what a rush!");
-    damage(ch, victim, dam, &skill_table[sn], DAM_NEGATIVE);
+    damage(ch, victim, dam, &skill_table[sn], DamageType::Negative);
 }
 
 void spell_fireball(int sn, int level, Char *ch, void *vo) {
@@ -2174,7 +2174,7 @@ void spell_fireball(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, FireballHarmDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_FIRE);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Fire);
 }
 
 /* Flamestrike is the Attack spell group's equivalent of fireball. It's slightly
@@ -2187,7 +2187,7 @@ void spell_flamestrike(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, FlamestrikeDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_FIRE);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Fire);
 }
 
 void spell_faerie_fire(int sn, int level, Char *ch, void *vo) {
@@ -2381,7 +2381,7 @@ void spell_harm(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, FireballHarmDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_FIRE);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Fire);
 }
 
 void spell_regeneration(int sn, int level, Char *ch, void *vo) {
@@ -2543,7 +2543,7 @@ void spell_holy_word(int sn, int level, Char *ch, void *vo) {
                 spell_curse(curse_num, level, ch, (void *)vch);
                 vch->send_line("You are struck down!");
                 dam = dice(level, 14);
-                damage(ch, vch, dam, &skill_table[sn], DAM_ENERGY);
+                damage(ch, vch, dam, &skill_table[sn], DamageType::Energy);
             }
         }
 
@@ -2552,7 +2552,7 @@ void spell_holy_word(int sn, int level, Char *ch, void *vo) {
                 spell_curse(curse_num, level / 2, ch, (void *)vch);
                 vch->send_line("You are struck down!");
                 dam = dice(level, 10);
-                damage(ch, vch, dam, &skill_table[sn], DAM_ENERGY);
+                damage(ch, vch, dam, &skill_table[sn], DamageType::Energy);
             }
         }
     }
@@ -2727,7 +2727,7 @@ void spell_lightning_bolt(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_LIGHTNING);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Lightning);
 }
 
 void spell_locate_object(int sn, int level, Char *ch, void *vo) {
@@ -2785,7 +2785,7 @@ void spell_magic_missile(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, MagicMissileCauseLightDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_ENERGY);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Energy);
 }
 
 void spell_mass_healing(int sn, int level, Char *ch, void *vo) {
@@ -3142,7 +3142,7 @@ void spell_shocking_grasp(int sn, int level, Char *ch, void *vo) {
     auto dam_level = get_direct_dmg_and_level(level, ShockingGraspDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DAM_LIGHTNING);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Lightning);
 }
 
 void spell_sleep(int sn, int level, Char *ch, void *vo) {
@@ -3416,7 +3416,7 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
     dam = number_range(hpch / 20 + 16, hpch / 15);
     if (saves_spell(level, victim))
         dam /= 2;
-    damage(ch, victim, dam, &skill_table[sn], DAM_ACID);
+    damage(ch, victim, dam, &skill_table[sn], DamageType::Acid);
 }
 
 void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
@@ -3474,7 +3474,7 @@ void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
     dam = number_range(hpch / 20 + 16, hpch / 15);
     if (saves_spell(level, victim))
         dam /= 2;
-    damage(ch, victim, dam, &skill_table[sn], DAM_FIRE);
+    damage(ch, victim, dam, &skill_table[sn], DamageType::Fire);
 }
 
 void spell_frost_breath(int sn, int level, Char *ch, void *vo) {
@@ -3504,7 +3504,7 @@ void spell_frost_breath(int sn, int level, Char *ch, void *vo) {
     int dam = number_range(hpch / 20 + 16, hpch / 15);
     if (saves_spell(level, victim))
         dam /= 2;
-    damage(ch, victim, dam, &skill_table[sn], DAM_COLD);
+    damage(ch, victim, dam, &skill_table[sn], DamageType::Cold);
 }
 
 void spell_gas_breath(int sn, int level, Char *ch, void *vo) {
@@ -3520,7 +3520,7 @@ void spell_gas_breath(int sn, int level, Char *ch, void *vo) {
             dam = number_range(hpch / 20 + 16, hpch / 15);
             if (saves_spell(level, vch))
                 dam /= 2;
-            damage(ch, vch, dam, &skill_table[sn], DAM_POISON);
+            damage(ch, vch, dam, &skill_table[sn], DamageType::Poison);
         }
     }
 }
@@ -3536,7 +3536,7 @@ void spell_lightning_breath(int sn, int level, Char *ch, void *vo) {
     dam = number_range(hpch / 20 + 16, hpch / 15);
     if (saves_spell(level, victim))
         dam /= 2;
-    damage(ch, victim, dam, &skill_table[sn], DAM_LIGHTNING);
+    damage(ch, victim, dam, &skill_table[sn], DamageType::Lightning);
 }
 
 /*
@@ -3549,7 +3549,7 @@ void spell_general_purpose(int sn, int level, Char *ch, void *vo) {
     dam = number_range(level, level * 3);
     if (saves_spell(level, victim))
         dam /= 2;
-    damage(ch, victim, dam, &skill_table[sn], DAM_PIERCE);
+    damage(ch, victim, dam, &skill_table[sn], DamageType::Pierce);
 }
 
 void spell_high_explosive(int sn, int level, Char *ch, void *vo) {
@@ -3558,7 +3558,7 @@ void spell_high_explosive(int sn, int level, Char *ch, void *vo) {
     dam = number_range(level, level * 3);
     if (saves_spell(level, victim))
         dam /= 2;
-    damage(ch, victim, dam, &skill_table[sn], DAM_PIERCE);
+    damage(ch, victim, dam, &skill_table[sn], DamageType::Pierce);
 }
 
 void explode_bomb(Object *bomb, Char *ch, Char *thrower) {

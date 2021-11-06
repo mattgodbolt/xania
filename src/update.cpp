@@ -14,8 +14,8 @@
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
-#include "DamageClass.hpp"
 #include "DamageTolerance.hpp"
+#include "DamageType.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
@@ -615,7 +615,7 @@ void char_update() {
             plague.bitvector = to_int(AffectFlag::Plague);
 
             for (auto *vch : ch->in_room->people) {
-                switch (check_damage_tolerance(vch, DAM_DISEASE)) {
+                switch (check_damage_tolerance(vch, DamageType::Disease)) {
                 case DamageTolerance::None: save = existing_plague->level - 4; break;
                 case DamageTolerance::Immune: save = 0; break;
                 case DamageTolerance::Resistant: save = existing_plague->level - 8; break;
@@ -634,15 +634,15 @@ void char_update() {
             dam = std::min(ch->level, 5_s);
             ch->mana = std::max(0, ch->mana - dam);
             ch->move = std::max(0, ch->move - dam);
-            damage(ch, ch, dam, &skill_table[gsn_plague], DAM_DISEASE);
+            damage(ch, ch, dam, &skill_table[gsn_plague], DamageType::Disease);
         } else if (ch->is_aff_poison() && ch != nullptr) {
             act("$n shivers and suffers.", ch);
             ch->send_line("You shiver and suffer.");
-            damage(ch, ch, 2, &skill_table[gsn_poison], DAM_POISON);
+            damage(ch, ch, 2, &skill_table[gsn_poison], DamageType::Poison);
         } else if (ch->position == Position::Type::Incap && number_range(0, 1) == 0) {
-            damage(ch, ch, 1, &attack_table[0], DAM_NONE);
+            damage(ch, ch, 1, &attack_table[0], DamageType::None);
         } else if (ch->position == Position::Type::Mortal) {
-            damage(ch, ch, 1, &attack_table[0], DAM_NONE);
+            damage(ch, ch, 1, &attack_table[0], DamageType::None);
         }
     }
 

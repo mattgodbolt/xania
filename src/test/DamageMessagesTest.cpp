@@ -1,6 +1,6 @@
 #include "DamageMessages.hpp"
 #include "Char.hpp"
-#include "DamageClass.hpp"
+#include "DamageType.hpp"
 #include "lookup.h"
 
 #include <catch2/catch.hpp>
@@ -43,7 +43,7 @@ TEST_CASE("impact verbs") {
             make_tuple(121, "does |RUNSPEAKABLE|w things to", "does |RUNSPEAKABLE|w things to") // clang-format on
         }));
         SECTION("created using basic damage type") {
-            const auto verb = ImpactVerbs::create(true, proportion, DAM_BASH);
+            const auto verb = ImpactVerbs::create(true, proportion, DamageType::Bash);
 
             CHECK(verb.singular() == singular);
             CHECK(verb.plural() == plural);
@@ -51,20 +51,20 @@ TEST_CASE("impact verbs") {
     }
     SECTION("pluralise the y") {
         SECTION("holy pacifies") {
-            const auto verb = ImpactVerbs::create(true, 16, DAM_HOLY);
+            const auto verb = ImpactVerbs::create(true, 16, DamageType::Holy);
 
             CHECK(verb.singular() == "pacify");
             CHECK(verb.plural() == "pacifies");
         }
         SECTION("holy crucifies") {
-            const auto verb = ImpactVerbs::create(true, 45, DAM_HOLY);
+            const auto verb = ImpactVerbs::create(true, 45, DamageType::Holy);
 
             CHECK(verb.singular() == "CRUCIFY");
             CHECK(verb.plural() == "CRUCIFIES");
         }
     }
     SECTION("max damage without an attack verb") {
-        const auto verb = ImpactVerbs::create(false, 121, DAM_BASH);
+        const auto verb = ImpactVerbs::create(false, 121, DamageType::Bash);
 
         CHECK(verb.singular() == "do |RUNSPEAKABLE|w things to");
         CHECK(verb.plural() == "does |RUNSPEAKABLE|w things to");
@@ -112,7 +112,7 @@ TEST_CASE("damage messages") {
         })); // clang-format on
 
         SECTION("to char, victim and room") {
-            DamageContext context{damage, atk_type, DAM_BASH, false, injured_part};
+            DamageContext context{damage, atk_type, DamageType::Bash, false, injured_part};
             const auto dmg_messages = DamageMessages::create(&ch, &victim, context, rng);
 
             CHECK(dmg_messages.to_char() == to_char);
@@ -129,7 +129,7 @@ TEST_CASE("damage messages") {
         })); // clang-format on
 
         SECTION("to char and room") {
-            DamageContext context{damage, atk_type, DAM_BASH, false, injured_part};
+            DamageContext context{damage, atk_type, DamageType::Bash, false, injured_part};
             const auto dmg_messages = DamageMessages::create(&victim, &victim, context, rng);
 
             CHECK(dmg_messages.to_char() == to_char);
@@ -147,7 +147,7 @@ TEST_CASE("damage messages") {
         })); // clang-format on
 
         SECTION("to char, victim and room") {
-            DamageContext context{damage, atk_type, DAM_SLASH, false, injured_part};
+            DamageContext context{damage, atk_type, DamageType::Slash, false, injured_part};
             const auto dmg_messages = DamageMessages::create(&ch, &victim, context, rng);
 
             CHECK(dmg_messages.to_char() == to_char);
@@ -165,7 +165,7 @@ TEST_CASE("damage messages") {
         })); // clang-format on
 
         SECTION("to char and room") {
-            DamageContext context{damage, atk_type, DAM_SLASH, false, injured_part};
+            DamageContext context{damage, atk_type, DamageType::Slash, false, injured_part};
             const auto dmg_messages = DamageMessages::create(&victim, &victim, context, rng);
 
             CHECK(dmg_messages.to_char() == to_char);
@@ -181,7 +181,7 @@ TEST_CASE("damage messages") {
         })); // clang-format on
 
         SECTION("to char, victim and room") {
-            DamageContext context{damage, atk_type, DAM_SLASH, true, injured_part};
+            DamageContext context{damage, atk_type, DamageType::Slash, true, injured_part};
             const auto dmg_messages = DamageMessages::create(&ch, &victim, context, rng);
 
             CHECK(dmg_messages.to_char() == to_char);
@@ -197,7 +197,7 @@ TEST_CASE("damage messages") {
         })); // clang-format on
 
         SECTION("to char and room") {
-            DamageContext context{damage, atk_type, DAM_SLASH, true, injured_part};
+            DamageContext context{damage, atk_type, DamageType::Slash, true, injured_part};
             const auto dmg_messages = DamageMessages::create(&victim, &victim, context, rng);
 
             CHECK(dmg_messages.to_char() == to_char);
@@ -230,7 +230,7 @@ TEST_CASE("damage messages with damage amount") {
         })); // clang-format on
 
         SECTION("to char, victim and room") {
-            DamageContext context{damage, atk_type, DAM_SLASH, false, injured_part};
+            DamageContext context{damage, atk_type, DamageType::Slash, false, injured_part};
             const auto dmg_messages = DamageMessages::create(&ch, &victim, context, rng);
 
             CHECK(dmg_messages.to_char() == to_char);
