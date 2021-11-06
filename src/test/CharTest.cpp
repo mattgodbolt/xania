@@ -33,4 +33,40 @@ TEST_CASE("Character tests", "[Char]") {
             CHECK(bob.describe(other) == "someone"sv);
         }
     }
+    SECTION("extra flags") {
+        Descriptor ch_desc(0);
+        bob.desc = &ch_desc;
+        ch_desc.character(&bob);
+        bob.pcdata = std::make_unique<PcData>();
+        SECTION("format extra flags") {
+            SECTION("no flags set") {
+                const auto result = bob.format_extra_flags();
+
+                CHECK(result == "");
+            }
+            SECTION("all flags set") {
+                for (auto i = 0; i < 3; i++)
+                    bob.extra_flags[i] = ~(0ul);
+                const auto result = bob.format_extra_flags();
+
+                CHECK(result == "wnet wn_debug wn_mort wn_imm wn_bug permit wn_tick info_mes tip_wiz tip_adv");
+            }
+        }
+        SECTION("serialize extra flags") {
+            SECTION("no flags set") {
+                const auto all_off = std::string(64u, '0');
+                const auto result = bob.serialize_extra_flags();
+
+                CHECK(result == all_off);
+            }
+            SECTION("all flags set") {
+                const auto all_on = std::string(64u, '1');
+                for (auto i = 0; i < 3; i++)
+                    bob.extra_flags[i] = ~(0ul);
+                const auto result = bob.serialize_extra_flags();
+
+                CHECK(result == all_on);
+            }
+        }
+    }
 }

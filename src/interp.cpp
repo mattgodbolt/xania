@@ -466,7 +466,7 @@ void interpret(Char *ch, const char *argument) {
                 && (check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis)
                     || check_enum_bit(ch->act, PlayerActFlag::PlrProwl)))
                 level = std::max(level, ch->get_trust());
-            auto log_level = (cmd_info->level >= LEVEL_IMMORTAL) ? EXTRA_WIZNET_IMM : EXTRA_WIZNET_MORT;
+            auto log_level = (cmd_info->level >= LEVEL_IMMORTAL) ? CharExtraFlag::WiznetImm : CharExtraFlag::WiznetMort;
             if (ch->is_npc() && ch->desc && ch->desc->original()) {
                 log_new(fmt::format("Log {} (as '{}'): {}", ch->desc->original()->name, ch->name, command_line),
                         log_level, level);

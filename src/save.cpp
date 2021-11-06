@@ -36,6 +36,7 @@
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/range/conversion.hpp>
 #include <range/v3/view/reverse.hpp>
+#include <range/v3/view/transform.hpp>
 
 std::string filename_for_player(std::string_view player_name) {
     return fmt::format("{}{}", Configuration::singleton().player_dir(), initial_caps_only(player_name));
@@ -62,23 +63,13 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp);
 void fread_pet(Char *ch, FILE *fp);
 void fread_obj(Char *ch, FILE *fp);
 
-std::string extra_bit_string(const Char &ch) {
-    std::string buf(MAX_EXTRA_FLAGS, '0');
-    for (int n = 0; n < MAX_EXTRA_FLAGS; n++)
-        if (ch.is_set_extra(n))
-            buf[n] = '1';
-    return buf;
-}
-
 void set_bits_from_pfile(Char *ch, FILE *fp) {
-    int n;
-    char c;
-    for (n = 0; n <= MAX_EXTRA_FLAGS; n++) {
-        c = fread_letter(fp);
+    for (auto extra_flag : magic_enum::enum_values<CharExtraFlag>()) {
+        char c = fread_letter(fp);
         if (c == '0')
             continue;
-        if (c == '1') {
-            ch->set_extra(n);
+        else if (c == '1') {
+            ch->set_extra(extra_flag);
         } else {
             break;
         }
@@ -239,7 +230,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
         // Timezone hours and minutes offset are unused currently.
         fmt::print(fp, "{} {}\n", cf::HourOffset, ch->pcdata->houroffset);
         fmt::print(fp, "{} {}\n", cf::MinOffset, ch->pcdata->minoffset);
-        fmt::print(fp, "{} {}~\n", cf::ExtraBits, extra_bit_string(*ch));
+        fmt::print(fp, "{} {}~\n", cf::ExtraBits, ch->serialize_extra_flags());
         fmt::print(fp, "{} {} {} {}\n", cf::Condition, ch->pcdata->inebriation.get(), ch->pcdata->hunger.get(),
                    ch->pcdata->thirst.get());
         fmt::print(fp, "{} {}~\n", cf::PronounPossessive, ch->pcdata->pronouns.possessive);

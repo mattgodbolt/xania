@@ -57,7 +57,7 @@ FingerInfo read_char_info(std::string_view player_name) {
                 return info;
             } else if (word == "extrabits") {
                 const char *line = fread_string(fp);
-                info.i_message = line[EXTRA_INFO_MESSAGE] == '1';
+                info.i_message = line[to_int(CharExtraFlag::InfoMessage)] == '1';
                 fread_to_eol(fp);
             } else if (word == "invislevel" || word == "invis") {
                 info.invis_level = fread_number(fp);
@@ -84,15 +84,13 @@ FingerInfo read_char_info(std::string_view player_name) {
 /* Rohan's setinfo function */
 void do_setinfo(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    int update_show = 0;
-    int update_hide = 0;
     char smash_tilded[MAX_INPUT_LENGTH];
 
     if (argument[0] == '\0') {
         ch->send_line("These are your current info settings:");
         if (ch->pcdata->info_message.empty())
             ch->send_line("Message: Not set.");
-        else if (ch->is_set_extra(EXTRA_INFO_MESSAGE))
+        else if (ch->is_set_extra(CharExtraFlag::InfoMessage))
             ch->send_line("Message: {}.", ch->pcdata->info_message);
         else
             ch->send_line("Message: Withheld.");
@@ -105,7 +103,7 @@ void do_setinfo(Char *ch, const char *argument) {
 
     if (!strcmp(arg, "message")) {
         if (args[0] == '\0') {
-            if (ch->is_set_extra(EXTRA_INFO_MESSAGE)) {
+            if (ch->is_set_extra(CharExtraFlag::InfoMessage)) {
                 if (ch->pcdata->info_message.empty())
                     ch->send_line("Your message is currently not set.");
                 else
@@ -116,7 +114,7 @@ void do_setinfo(Char *ch, const char *argument) {
             if (strlen(args) > 45)
                 args[45] = '\0';
             ch->pcdata->info_message = args;
-            ch->set_extra(EXTRA_INFO_MESSAGE);
+            ch->set_extra(CharExtraFlag::InfoMessage);
             ch->send_line("Your message has been set to: {}.", ch->pcdata->info_message);
             /* Update the info if it is in cache */
             if (auto cur = search_info_cache(ch)) {
@@ -137,21 +135,16 @@ void do_setinfo(Char *ch, const char *argument) {
                     ch->send_to("Your message must be set in order for it to be read by other players.\n\rUse "
                                 "'setinfo message <your message>'.\n\r");
                 else {
-                    ch->set_extra(EXTRA_INFO_MESSAGE);
+                    ch->set_extra(CharExtraFlag::InfoMessage);
                     ch->send_line("Players will now be able to read your message when looking at your info.");
-                    update_show = EXTRA_INFO_MESSAGE;
-                }
-                return;
-            }
-            if (update_show != 0) { // TODO IDE COMPLAINS THIS IS UNREACHABLE
-                /* Update the info if it is in cache */
-                if (auto cur = search_info_cache(ch)) {
-                    switch (update_show) {
-                    case EXTRA_INFO_MESSAGE: cur->i_message = true; break;
+                    /// Update the info if it is in cache
+                    if (auto cur = search_info_cache(ch)) {
+                        cur->i_message = true;
                     }
                 }
+            } else {
+                ch->send_line("You must supply one of the following arguments to 'setinfo show':\n\r    message");
             }
-            ch->send_line("You must supply one of the following arguments to 'setinfo show':\n\r    message");
             return;
         }
     }
@@ -162,22 +155,16 @@ void do_setinfo(Char *ch, const char *argument) {
             return;
         } else {
             if (!strcmp(args, "message")) {
-                ch->remove_extra(EXTRA_INFO_MESSAGE);
+                ch->remove_extra(CharExtraFlag::InfoMessage);
                 ch->send_line("Players will now not be able to read your message when looking at your info.");
-                update_hide = EXTRA_INFO_MESSAGE;
-            }
-            if (update_hide != 0) {
-                /* Update the info if it is in cache */
+                // Update the info if it is in cache
                 if (auto cur = search_info_cache(ch)) {
-                    switch (update_hide) {
-                    case EXTRA_INFO_MESSAGE: cur->i_message = false; break;
-                    }
+                    cur->i_message = false;
                 }
-                return;
             } else {
                 ch->send_to("You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r");
-                return;
             }
+            return;
         }
     }
 
@@ -237,9 +224,10 @@ void do_finger(Char *ch, ArgParser args) {
             /* Player info not in cache, proceed to put it in there */
             if (victim && victim->is_pc() && victim->desc) {
                 cur = &info_cache
-                           .emplace(name, FingerInfo(victim->name, victim->pcdata->info_message,
-                                                     victim->desc->login_time(), victim->desc->host(),
-                                                     victim->invis_level, victim->is_set_extra(EXTRA_INFO_MESSAGE)))
+                           .emplace(name,
+                                    FingerInfo(victim->name, victim->pcdata->info_message, victim->desc->login_time(),
+                                               victim->desc->host(), victim->invis_level,
+                                               victim->is_set_extra(CharExtraFlag::InfoMessage)))
                            .first->second;
             } else {
                 cur = &info_cache.emplace(name, read_char_info(name)).first->second;

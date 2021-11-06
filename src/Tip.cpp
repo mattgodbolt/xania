@@ -48,15 +48,16 @@ void tip_players() {
         tip_current = 0;
 
     auto tip = fmt::format("|WTip: {}|w\n\r", tips[tip_current].tip());
-    ranges::for_each(descriptors().playing() | DescriptorFilter::to_person()
-                         | ranges::views::filter([](const Char &ch) { return ch.is_set_extra(EXTRA_TIP_WIZARD); }),
-                     [&tip](const Char &ch) { ch.send_to(tip); });
+    ranges::for_each(
+        descriptors().playing() | DescriptorFilter::to_person()
+            | ranges::views::filter([](const Char &ch) { return ch.is_set_extra(CharExtraFlag::TipWizard); }),
+        [&tip](const Char &ch) { ch.send_to(tip); });
     tip_current++;
 }
 
 void do_tipwizard(Char *ch, ArgParser args) {
     if (args.empty()) {
-        if (ch->toggle_extra(EXTRA_TIP_WIZARD)) {
+        if (ch->toggle_extra(CharExtraFlag::TipWizard)) {
             ch->send_line("Tipwizard activated!");
         } else {
             ch->send_line("Tipwizard deactivated.");
@@ -65,10 +66,10 @@ void do_tipwizard(Char *ch, ArgParser args) {
     }
     auto arg = args.shift();
     if (matches(arg, "on")) {
-        ch->set_extra(EXTRA_TIP_WIZARD);
+        ch->set_extra(CharExtraFlag::TipWizard);
         ch->send_line("Tipwizard activated!");
     } else if (matches(arg, "off")) {
-        ch->remove_extra(EXTRA_TIP_WIZARD);
+        ch->remove_extra(CharExtraFlag::TipWizard);
         ch->send_line("Tipwizard deactivated.");
     } else
         ch->send_line("Syntax: tipwizard {on/off}");

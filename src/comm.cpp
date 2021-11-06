@@ -618,7 +618,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         SetEchoState(d, 1);
 
-        if ((!ch->is_set_extra(EXTRA_PERMIT) && (bans.check_ban(d->raw_full_hostname(), BanFlag::Permit)))
+        if ((!ch->is_set_extra(CharExtraFlag::Permit) && (bans.check_ban(d->raw_full_hostname(), BanFlag::Permit)))
             || bans.check_ban(d->raw_full_hostname(), BanFlag::All)) {
             d->write("Your site has been banned.  Sorry.\n\r");
             d->close();
@@ -631,7 +631,7 @@ void nanny(Descriptor *d, const char *argument) {
         if (check_reconnect(d, true))
             return;
 
-        log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), EXTRA_WIZNET_DEBUG,
+        log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
                 ch->is_wizinvis() || ch->is_prowlinvis() ? ch->get_trust() : 0);
 
         d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
@@ -1002,7 +1002,7 @@ void nanny(Descriptor *d, const char *argument) {
             /* hack to let the newbie know about the tipwizard */
             ch->send_line("|WTip: this is Xania's tip wizard! Type 'tips' to turn this on or off.|w");
             /* turn on the newbie's tips */
-            ch->set_extra(EXTRA_TIP_WIZARD);
+            ch->set_extra(CharExtraFlag::TipWizard);
 
         } else if (ch->in_room) {
             char_to_room(ch, ch->in_room);
@@ -1108,7 +1108,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
                 ch->timer = 0;
                 ch->send_line("Reconnecting.");
                 act("$n has reconnected.", ch);
-                log_new(fmt::format("{}@{} reconnected.", ch->name, d->host().c_str()), EXTRA_WIZNET_DEBUG,
+                log_new(fmt::format("{}@{} reconnected.", ch->name, d->host().c_str()), CharExtraFlag::WiznetDebug,
                         (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
                 d->state(DescriptorState::Playing);
             }

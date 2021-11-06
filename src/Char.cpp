@@ -413,15 +413,31 @@ void Char::say(std::string_view message) {
 bool Char::is_player_killer() const noexcept { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrKiller); }
 bool Char::is_player_thief() const noexcept { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrThief); }
 
-void Char::set_extra(unsigned int flag) noexcept {
-    if (is_npc())
-        return;
-    extra_flags[flag / 32] |= (1u << (flag & 31u));
+bool Char::is_set_extra(const CharExtraFlag flag) const noexcept {
+    const auto index = to_int(flag);
+    return is_pc() && extra_flags[index / 32u] & (1u << (index & 31u));
 }
-void Char::remove_extra(unsigned int flag) noexcept {
+
+void Char::set_extra(const CharExtraFlag flag) noexcept {
     if (is_npc())
         return;
-    extra_flags[flag / 32] &= ~(1u << (flag & 31u));
+    const auto index = to_int(flag);
+    extra_flags[index / 32u] |= (1u << (index & 31u));
+}
+
+bool Char::toggle_extra(const CharExtraFlag flag) noexcept {
+    if (is_set_extra(flag)) {
+        remove_extra(flag);
+        return false;
+    }
+    set_extra(flag);
+    return true;
+}
+
+void Char::remove_extra(const CharExtraFlag flag) noexcept {
+    if (is_npc())
+        return;
+    extra_flags[to_int(flag) / 32] &= ~(1u << (to_int(flag) & 31u));
 }
 
 int Char::get_hitroll() const noexcept { return hitroll + str_app[curr_stat(Stat::Str)].tohit; }
@@ -569,13 +585,12 @@ std::string_view Char::describe(const Char &to_describe) const noexcept {
 }
 
 std::string Char::format_extra_flags() const noexcept {
-    // The info_ flags are unused, except info_mes.
-    static constexpr std::array<std::string_view, MAX_EXTRA_FLAGS> extra_flag_names = {{
+    static constexpr std::array<std::string_view, magic_enum::enum_count<CharExtraFlag>()> extra_flag_names = {{
         // clang-format off
         "wnet",      "wn_debug",  "wn_mort",   "wn_imm",  "wn_bug",
-        "permit",    "wn_tick",   "",          "",        "info_name",
-        "info_email","info_mes", "info_url",   "",        "tip_std",
-        "tip_olc",   "tip_adv",   "",          "",        "",
+        "permit",    "wn_tick",   "",          "",        "",
+        "",          "info_mes",  "",          "",        "tip_wiz",
+        "",          "tip_adv",   "",          "",        "",
         "",          "",          "",          "",        "",
         "",          "",          "",          "",        "",
         "",          "",          "",          "",        "",
@@ -588,8 +603,16 @@ std::string Char::format_extra_flags() const noexcept {
         // clang-format on
     }};
     namespace rv = ranges::views;
-    return fmt::format("{}", fmt::join(rv::iota(0u, extra_flag_names.size()) | rv::filter([this](const auto i) {
-                                           return is_set_extra(i) && !extra_flag_names[i].empty();
-                                       }) | rv::transform([](const auto i) { return extra_flag_names[i]; }),
-                                       " "));
+    const auto is_set = [this](const auto i) { return is_set_extra(i); };
+    const auto to_name = [](const auto i) { return extra_flag_names[to_int(i)]; };
+    const auto not_empty = [](const auto name) { return !name.empty(); };
+    auto names =
+        magic_enum::enum_values<CharExtraFlag>() | rv::filter(is_set) | rv::transform(to_name) | rv::filter(not_empty);
+    return fmt::format("{}", fmt::join(names, " "));
+}
+
+std::string Char::serialize_extra_flags() const noexcept {
+    namespace rv = ranges::views;
+    const auto to_binary = [this](const auto extra_flag) { return is_set_extra(extra_flag) ? "1" : "0"; };
+    return fmt::format("{}", fmt::join(magic_enum::enum_values<CharExtraFlag>() | rv::transform(to_binary), ""));
 }

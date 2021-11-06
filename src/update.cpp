@@ -871,7 +871,7 @@ void update_handler() {
     }
 
     if (--pulse_point <= 0) {
-        log_new("TICK", EXTRA_WIZNET_TICK, 0);
+        log_new("TICK", CharExtraFlag::WiznetTick, 0);
         pulse_point = PULSE_TICK;
         /* number_range( PULSE_TICK / 2, 3 * PULSE_TICK / 2 ); */
         weather_update();

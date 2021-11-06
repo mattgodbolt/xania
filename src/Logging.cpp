@@ -41,17 +41,17 @@ void bug(std::string_view message) {
 }
 
 /* New log - takes a level and broadcasts to IMMs on WIZNET */
-void log_new(std::string_view str, int loglevel, int level) {
+void log_new(std::string_view str, const CharExtraFlag loglevel, int level) {
     // One day use spdlog here?
     fmt::print(stderr, "{} :: {}\n", formatted_time(Clock::now()), str);
 
-    if (loglevel == EXTRA_WIZNET_DEBUG)
+    if (loglevel == CharExtraFlag::WiznetDebug)
         level = std::max(level, 96); // Prevent non-SOCK ppl finding out addresses
 
     auto wiznet_msg = fmt::format("|GWIZNET:|g {}|w\n\r", str);
     for (auto &d : descriptors().playing()) {
         auto *ch = d.person();
-        if (ch->is_npc() || !ch->is_set_extra(EXTRA_WIZNET_ON) || !ch->is_set_extra(loglevel)
+        if (ch->is_npc() || !ch->is_set_extra(CharExtraFlag::WiznetOn) || !ch->is_set_extra(loglevel)
             || (ch->get_trust() < level))
             continue;
         d.character()->send_to(wiznet_msg);

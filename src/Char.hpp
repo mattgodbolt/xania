@@ -4,10 +4,10 @@
 #include "AffectFlag.hpp"
 #include "AffectList.hpp"
 #include "ArmourClass.hpp"
+#include "CharExtraFlag.hpp"
 #include "CharVersion.hpp"
 #include "Constants.hpp"
 #include "Descriptor.hpp"
-#include "ExtraFlags.hpp"
 #include "Flag.hpp"
 #include "Materials.hpp"
 #include "MobIndexData.hpp"
@@ -118,7 +118,7 @@ struct Char {
     Position start_pos{};
     Position default_pos{};
 
-    unsigned long extra_flags[(MAX_EXTRA_FLAGS / 32) + 1]{};
+    unsigned long extra_flags[(magic_enum::enum_count<CharExtraFlag>() / 32) + 1]{};
 
     MPROG_ACT_LIST *mpact{}; /* Used by MOBprogram */
     int mpactnum{}; /* Used by MOBprogram */
@@ -298,19 +298,10 @@ struct Char {
     [[nodiscard]] static int num_active() { return num_active_; }
 
     // Extra bits.
-    [[nodiscard]] bool is_set_extra(unsigned int flag) const noexcept {
-        return is_pc() && extra_flags[flag / 32u] & (1u << (flag & 31u));
-    }
-    void set_extra(unsigned int flag) noexcept;
-    void remove_extra(unsigned int flag) noexcept;
-    [[nodiscard]] bool toggle_extra(unsigned int flag) noexcept {
-        if (is_set_extra(flag)) {
-            remove_extra(flag);
-            return false;
-        }
-        set_extra(flag);
-        return true;
-    }
+    [[nodiscard]] bool is_set_extra(const CharExtraFlag flag) const noexcept;
+    void set_extra(const CharExtraFlag flag) noexcept;
+    void remove_extra(const CharExtraFlag flag) noexcept;
+    [[nodiscard]] bool toggle_extra(const CharExtraFlag flag) noexcept;
 
     [[nodiscard]] int get_damroll() const noexcept;
     [[nodiscard]] int get_hitroll() const noexcept;
@@ -387,6 +378,9 @@ struct Char {
 
     // Returns a string describing the CharExtraFlag bits the character has enabled.
     [[nodiscard]] std::string format_extra_flags() const noexcept;
+
+    // Returns the CharExtraFlag bits in ASCII binary form, for saving to the pfile.
+    [[nodiscard]] std::string serialize_extra_flags() const noexcept;
 
 private:
     template <typename Func>

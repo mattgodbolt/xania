@@ -226,7 +226,7 @@ void Descriptor::close() noexcept {
 
     if (character_) {
         do_chal_canc(character_);
-        log_new(fmt::format("Closing link to {}.", character_->name).c_str(), EXTRA_WIZNET_DEBUG,
+        log_new(fmt::format("Closing link to {}.", character_->name).c_str(), CharExtraFlag::WiznetDebug,
                 (check_enum_bit(character_->act, PlayerActFlag::PlrWizInvis)
                  || check_enum_bit(character_->act, PlayerActFlag::PlrProwl))
                     ? character_->get_trust()
@@ -240,7 +240,7 @@ void Descriptor::close() noexcept {
         character_ = nullptr;
         original_ = nullptr;
     } else {
-        log_new(fmt::format("Closing link to channel {}.", channel_).c_str(), EXTRA_WIZNET_DEBUG, 100);
+        log_new(fmt::format("Closing link to channel {}.", channel_).c_str(), CharExtraFlag::WiznetDebug, 100);
     }
 
     // If doorman didn't tell us to disconnect them, then tell doorman to kill the connection, else ack the disconnect.
