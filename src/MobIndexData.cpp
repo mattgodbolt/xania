@@ -46,7 +46,7 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
     hit = Dice::from_file(fp);
     mana = Dice::from_file(fp);
     damage = Dice::from_file(fp);
-    dam_type = attack_lookup(fread_word(fp));
+    attack_type = attack_lookup(fread_word(fp));
 
     // read armor class
     for (size_t i = 0; i < ac.size(); i++) {

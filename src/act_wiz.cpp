@@ -1043,7 +1043,7 @@ void do_mstat(Char *ch, std::string_view argument) {
                   victim->saving_throw, victim->position.name(), victim->wimpy);
 
     if (victim->is_npc()) {
-        ch->send_line("Damage: {}  Message:  {}", victim->damage, attack_table[victim->dam_type].verb);
+        ch->send_line("Damage: {}  Message:  {}", victim->damage, attack_table[victim->attack_type].verb);
     }
     ch->send_line("Fighting: {}", victim->fighting ? victim->fighting->name : "(none)");
 

@@ -114,7 +114,7 @@ struct Char {
     /* mobile stuff */
     unsigned long off_flags{};
     Dice damage; // This is non-wielding damage, and does not include the damroll bonus.
-    sh_int dam_type{};
+    sh_int attack_type{}; // attack_table index.
     Position start_pos{};
     Position default_pos{};
 

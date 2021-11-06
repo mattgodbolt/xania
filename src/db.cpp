@@ -1189,7 +1189,7 @@ Char *create_mobile(MobIndexData *mobIndex) {
     mob->damage = mobIndex->damage;
     mob->damage.bonus(0); // clear the bonus; it's accounted for in the damroll
     mob->damroll = mobIndex->damage.bonus();
-    mob->dam_type = mobIndex->dam_type;
+    mob->attack_type = mobIndex->attack_type;
     for (int i = 0; i < 4; i++)
         mob->armor[i] = mobIndex->ac[i];
     mob->off_flags = mobIndex->off_flags;
@@ -1298,7 +1298,7 @@ void clone_mobile(Char *parent, Char *clone) {
     clone->body_size = parent->body_size;
     clone->material = parent->material;
     clone->off_flags = parent->off_flags;
-    clone->dam_type = parent->dam_type;
+    clone->attack_type = parent->attack_type;
     clone->start_pos = parent->start_pos;
     clone->default_pos = parent->default_pos;
     clone->spec_fun = parent->spec_fun;

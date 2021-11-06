@@ -39,7 +39,7 @@ struct MobIndexData {
     Dice mana;
     Dice damage; // The bonus() here is the damroll
     std::array<sh_int, magic_enum::enum_count<ArmourClass>()> ac{};
-    sh_int dam_type{};
+    sh_int attack_type{}; // attack_table index.
     long off_flags{};
     long imm_flags{};
     long res_flags{};

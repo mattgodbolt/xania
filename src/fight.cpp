@@ -445,7 +445,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         return;
 
     const auto wield = get_eq_char(ch, Wear::Wield);
-    const auto atk_table_idx = (wield && wield->type == ObjectType::Weapon) ? wield->value[3] : ch->dam_type;
+    const auto atk_table_idx = (wield && wield->type == ObjectType::Weapon) ? wield->value[3] : ch->attack_type;
     const auto damage_type = attack_table[atk_table_idx].damage_type;
     AttackType atk_type;
     if (!opt_skill) {
