@@ -385,6 +385,9 @@ struct Char {
     // other character.
     [[nodiscard]] std::string_view describe(const Char &to_describe) const noexcept;
 
+    // Returns a string describing the CharExtraFlag bits the character has enabled.
+    [[nodiscard]] std::string format_extra_flags() const noexcept;
+
 private:
     template <typename Func>
     [[nodiscard]] Object *find_filtered_obj(std::string_view argument, Func filter) const;

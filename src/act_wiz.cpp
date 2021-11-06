@@ -1065,7 +1065,7 @@ void do_mstat(Char *ch, std::string_view argument) {
     ch->send_line("Act: {}", (char *)act_bit_name(victim->act));
 
     if (victim->is_pc()) {
-        ch->send_line("Extra: {}", format_set_extra_flags(ch));
+        ch->send_line("Extra: {}", ch->format_extra_flags());
     }
 
     if (victim->comm) {

@@ -16,14 +16,14 @@ TEST_CASE("format set extra flags") {
     ch_desc.character(&ch);
     ch.pcdata = std::make_unique<PcData>();
     SECTION("no flags set") {
-        const auto result = format_set_extra_flags(&ch);
+        const auto result = ch.format_extra_flags();
 
         CHECK(result == "");
     }
     SECTION("all flags set") {
         for (auto i = 0; i < 3; i++)
             ch.extra_flags[i] = ~(0ul);
-        const auto result = format_set_extra_flags(&ch);
+        const auto result = ch.format_extra_flags();
 
         CHECK(result
               == "wnet wn_debug wn_mort wn_imm wn_bug permit wn_tick info_name info_email info_mes info_url tip_std "

@@ -34,6 +34,3 @@ struct Char;
 #define EXTRA_TIP_WIZARD 14
 #define EXTRA_TIP_UNUSED_4 15
 #define EXTRA_TIP_ADVANCED 16
-
-// Returns a string containing the list of all of the extra flag names that are set on Char.
-std::string format_set_extra_flags(const Char *ch);

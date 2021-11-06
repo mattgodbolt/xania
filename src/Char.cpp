@@ -41,6 +41,8 @@
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/algorithm/count_if.hpp>
 #include <range/v3/algorithm/fill.hpp>
+#include <range/v3/view/filter.hpp>
+#include <range/v3/view/iota.hpp>
 #include <range/v3/view/transform.hpp>
 
 Seconds Char::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }
@@ -564,4 +566,30 @@ std::string_view Char::describe(const Char &to_describe) const noexcept {
     if (!can_see(to_describe))
         return "someone"sv;
     return to_describe.is_npc() ? to_describe.short_descr : to_describe.name;
+}
+
+std::string Char::format_extra_flags() const noexcept {
+    // The info_ flags are unused, except info_mes.
+    static constexpr std::array<std::string_view, MAX_EXTRA_FLAGS> extra_flag_names = {{
+        // clang-format off
+        "wnet",      "wn_debug",  "wn_mort",   "wn_imm",  "wn_bug",
+        "permit",    "wn_tick",   "",          "",        "info_name",
+        "info_email","info_mes", "info_url",   "",        "tip_std",
+        "tip_olc",   "tip_adv",   "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          ""
+        // clang-format on
+    }};
+    namespace rv = ranges::views;
+    return fmt::format("{}", fmt::join(rv::iota(0u, extra_flag_names.size()) | rv::filter([this](const auto i) {
+                                           return is_set_extra(i) && !extra_flag_names[i].empty();
+                                       }) | rv::transform([](const auto i) { return extra_flag_names[i]; }),
+                                       " "));
 }
