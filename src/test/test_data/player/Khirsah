@@ -480,4 +480,20 @@ Cost 2031
 Spell 3 'burning hands'
 End
 
+#O
+Vnum 3032
+Nest 0
+Wear -1
+Lev  1
+Cost 5
+End
+
+#O
+Vnum 3009
+Nest 1
+Wear -1
+Lev  1
+Cost 5
+End
+
 #END

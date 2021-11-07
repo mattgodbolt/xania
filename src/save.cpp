@@ -36,6 +36,7 @@
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/range/conversion.hpp>
 #include <range/v3/view/reverse.hpp>
+#include <unordered_map>
 
 std::string filename_for_player(std::string_view player_name) {
     return fmt::format("{}{}", Configuration::singleton().player_dir(), initial_caps_only(player_name));
@@ -48,19 +49,19 @@ std::string filename_for_god(std::string_view player_name) {
 /*
  * Array of containers read for proper re-nesting of objects.
  */
-#define MAX_NEST 100
-static Object *rgObjNest[MAX_NEST];
+static constexpr auto MaxObjectNest = 100u;
+using ObjectNestMap = std::unordered_map<ush_int, Object *>;
 
 /*
  * Local functions.
  */
 void fwrite_char(const Char *ch, FILE *fp);
-void fwrite_objs(const Char *ch, const GenericList<Object *> &objs, FILE *fp, int iNest = 0);
-void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, int iNest);
+void fwrite_objs(const Char *ch, const GenericList<Object *> &objs, FILE *fp, ush_int nest_level = 0);
+void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, ush_int nest_level);
 void fwrite_pet(const Char *ch, const Char *pet, FILE *fp);
 void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp);
 void fread_pet(Char *ch, FILE *fp);
-void fread_obj(Char *ch, FILE *fp);
+void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj);
 
 void set_bits_from_pfile(Char *ch, FILE *fp) {
     for (auto extra_flag : magic_enum::enum_values<CharExtraFlag>()) {
@@ -330,17 +331,17 @@ void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
     fmt::print(fp, "{}\n", cf::End);
 }
 
-void fwrite_objs(const Char *ch, const GenericList<Object *> &objs, FILE *fp, int iNest) {
+void fwrite_objs(const Char *ch, const GenericList<Object *> &objs, FILE *fp, ush_int nest_level) {
     // TODO: if/when we support reverse iteration of GenericLists, we can reverse directly here.
     auto obj_ptrs = objs | ranges::to<std::vector<Object *>>;
     for (auto *obj : obj_ptrs | ranges::views::reverse)
-        fwrite_one_obj(ch, obj, fp, iNest);
+        fwrite_one_obj(ch, obj, fp, nest_level);
 }
 
 /*
  * Write a single object and its contents.
  */
-void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, int iNest) {
+void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, ush_int nest_level) {
     /*
      * Scupper storage characters.
      */
@@ -353,7 +354,7 @@ void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, int iNest) {
     fmt::print(fp, "{} {}\n", cf::Vnum, obj->objIndex->vnum);
     if (obj->enchanted)
         fmt::print(fp, "{}\n", cf::Enchanted);
-    fmt::print(fp, "{} {}\n", cf::Nest, iNest);
+    fmt::print(fp, "{} {}\n", cf::Nest, nest_level);
 
     /* these data are only used if they do not match the defaults */
 
@@ -421,18 +422,17 @@ void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, int iNest) {
 
     fmt::print(fp, "{}\n\n", cf::End);
 
-    fwrite_objs(ch, obj->contains, fp, iNest + 1);
+    fwrite_objs(ch, obj->contains, fp, nest_level + 1);
 }
 
 // Although the LastLogin* fields are read from the player file, it's transient info unused
 // by the mud, and when a Char is saved it's read from the Char's Descriptor. But capturing
 // LastLogin* makes it easier to do offline processing of player files.
 void load_into_char(Char &character, LastLoginInfo &last_login, FILE *fp) {
-    int iNest;
-
-    for (iNest = 0; iNest < MAX_NEST; iNest++)
-        rgObjNest[iNest] = nullptr;
-
+    // Each entry in this map tracks the last Object loaded for the Char from its pfile
+    // at a nesting level specified with the "Nest" keyword. It doesn't own the pointers.
+    // Pets can also load objects, and use their own ObjectNesting.
+    ObjectNestMap nest_level_to_obj{};
     namespace cf = charfilemeta;
     for (;;) {
         auto letter = fread_letter(fp);
@@ -450,7 +450,7 @@ void load_into_char(Char &character, LastLoginInfo &last_login, FILE *fp) {
             fread_char(&character, last_login, fp);
             affect_strip(&character, gsn_ride);
         } else if (word == cf::SectionObject)
-            fread_obj(&character, fp);
+            fread_obj(&character, fp, nest_level_to_obj);
         else if (word == cf::SectionPet)
             fread_pet(&character, fp);
         else if (word == cf::SectionEnd)
@@ -747,6 +747,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
 void fread_pet(Char *ch, FILE *fp) {
     namespace cf = charfilemeta;
     std::string word;
+    ObjectNestMap nest_level_to_obj{};
     Char *pet;
     /* first entry had BETTER be the vnum or we barf */
     word = feof(fp) ? cf::End : fread_word(fp);
@@ -767,7 +768,7 @@ void fread_pet(Char *ch, FILE *fp) {
         if (word.empty() || word[0] == '*') {
             fread_to_eol(fp);
         } else if (word[0] == '#') {
-            fread_obj(pet, fp);
+            fread_obj(pet, fp, nest_level_to_obj);
         } else if (word == cf::ActFlags) {
             pet->act = fread_number(fp);
         } else if (word == cf::AffectedBy) {
@@ -848,29 +849,21 @@ void fread_pet(Char *ch, FILE *fp) {
     }
 }
 
-void fread_obj(Char *ch, FILE *fp) {
+void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
     namespace cf = charfilemeta;
-    Object *obj;
+    Object *obj = nullptr;
     std::string word;
-    int iNest;
-    bool fNest;
-    bool fVnum;
-    bool first;
-    bool new_format; /* to prevent errors */
-    bool make_new; /* update object */
-
-    fVnum = false;
-    obj = nullptr;
-    first = true; /* used to counter fp offset */
-    new_format = false;
-    make_new = false;
-
+    ush_int nest_level = 0;
+    bool fNest = false;
+    bool fVnum = false;
+    bool first = true; /* used to counter fp offset */
+    bool new_format = false; /* to prevent errors */
+    bool make_new = false; /* update object */
+    (void)nest_level_to_obj;
     word = feof(fp) ? cf::End : fread_word(fp);
     if (word == cf::Vnum) {
-        int vnum;
+        const auto vnum = fread_number(fp);
         first = false; /* fp will be in right place */
-
-        vnum = fread_number(fp);
         if (get_obj_index(vnum) == nullptr) {
             bug("fread_obj: bad vnum {}.", vnum);
         } else {
@@ -882,9 +875,7 @@ void fread_obj(Char *ch, FILE *fp) {
     if (obj == nullptr) /* either not found or old style */
         obj = new Object;
 
-    fNest = false;
     fVnum = true;
-    iNest = 0;
 
     for (;;) {
         if (first)
@@ -937,10 +928,10 @@ void fread_obj(Char *ch, FILE *fp) {
                     obj = create_object(obj->objIndex);
                     obj->wear_loc = wear;
                 }
-                if (iNest == 0 || rgObjNest[iNest] == nullptr)
+                if (nest_level == 0 || nest_level_to_obj.find(nest_level) == nest_level_to_obj.end())
                     obj_to_char(obj, ch);
                 else
-                    obj_to_obj(obj, rgObjNest[iNest - 1]);
+                    obj_to_obj(obj, nest_level_to_obj[nest_level - 1]);
                 return;
             }
         } else if (word == cf::ItemType) {
@@ -955,11 +946,11 @@ void fread_obj(Char *ch, FILE *fp) {
         } else if (word == cf::Name) {
             obj->name = fread_stdstring(fp);
         } else if (word == cf::Nest) {
-            iNest = fread_number(fp);
-            if (iNest < 0 || iNest >= MAX_NEST) {
-                bug("fread_obj: bad nest {}.", iNest);
+            nest_level = fread_number(fp);
+            if (nest_level >= MaxObjectNest) {
+                bug("fread_obj: bad nest {}.", nest_level);
             } else {
-                rgObjNest[iNest] = obj;
+                nest_level_to_obj[nest_level] = obj;
                 fNest = true;
             }
         } else if (word == cf::ShortDescription) {
