@@ -36,7 +36,6 @@
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/range/conversion.hpp>
 #include <range/v3/view/reverse.hpp>
-#include <range/v3/view/transform.hpp>
 
 std::string filename_for_player(std::string_view player_name) {
     return fmt::format("{}{}", Configuration::singleton().player_dir(), initial_caps_only(player_name));

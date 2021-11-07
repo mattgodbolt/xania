@@ -25,9 +25,6 @@
 
 #include <fmt/format.h>
 
-/* Some local DEFINES to keep things general. */
-#define NAME_SIZE 30
-
 /* Private functions. */
 static int check_duel_status(int);
 

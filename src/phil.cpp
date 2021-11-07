@@ -20,26 +20,27 @@
 #include "string_utils.hpp"
 
 #include <range/v3/iterator/operations.hpp>
+#include <tuple>
 
+namespace {
 /* Note that Death's interest is less, since Phil is unlikely to like someone who keeps slaying him for pleasure ;-) */
 /* Note also the cludgy hack so that Phil doesn't become interested in himself and ignore other people around him who */
 /* don't have a special interest. */
-const char *nameList[] = {"Forrey", "Faramir", "TheMoog", "Death", "Luxor", "Phil"};
-const int interestList[] = {1000, 900, 900, 850, 900, 0};
-#define PEOPLEONLIST int(sizeof(nameList) / sizeof(nameList[0]))
+const std::array<std::tuple<std::string_view, int>, 6> interestingChars = {
+    {std::make_tuple("Forrey", 1000), std::make_tuple("Faramir", 900), std::make_tuple("TheMoog", 900),
+     std::make_tuple("Death", 850), std::make_tuple("Luxor", 900), std::make_tuple("Phil", 0)}};
 
 /* Internal data for calculating what to do at any particular point in time. */
 int sleepiness = 500;
-int boredness = 500;
 
-#define SLEEP_AT 1000
-#define YAWN_AT 900
-#define STIR_AT 100
-#define WAKE_AT 000
-#define SLEEP_PT_ASLEEP 10
-#define SLEEP_PT_AWAKE 3
+constexpr auto SleepAt = 1000;
+constexpr auto YawnAt = 900;
+constexpr auto StirAt = 100;
+constexpr auto WakeAt = 0;
+constexpr auto SleepPtAsleep = 10;
+constexpr auto SleepPtAwake = 3;
 
-const char *randomSocial() {
+std::string_view randomSocial() {
     switch (number_range(1, 6)) {
     case 1: return "gack";
     case 2: return "gibber";
@@ -50,7 +51,7 @@ const char *randomSocial() {
     }
 
     bug("in randomSocial() in phil.c : number_range outside of bounds!");
-    return nullptr;
+    return "";
 }
 
 /* do the right thing depending on the current state of sleepiness */
@@ -60,12 +61,12 @@ bool doSleepActions(Char *ch, Room *home) {
     int random;
 
     if (ch->is_pos_sleeping()) {
-        sleepiness -= SLEEP_PT_ASLEEP;
-        if (sleepFactor < WAKE_AT) {
+        sleepiness -= SleepPtAsleep;
+        if (sleepFactor < WakeAt) {
             do_wake(ch, ArgParser(""));
             return true;
         }
-        if (sleepFactor < STIR_AT) {
+        if (sleepFactor < StirAt) {
             random = number_percent();
             if (random > 97) {
                 act("$n stirs in $s sleep.", ch);
@@ -82,9 +83,9 @@ bool doSleepActions(Char *ch, Room *home) {
         }
         return false;
     }
-    sleepiness += SLEEP_PT_AWAKE;
+    sleepiness += SleepPtAwake;
     random = number_percent();
-    if (sleepiness > SLEEP_AT) {
+    if (sleepiness > SleepAt) {
         if (ch->in_room == home) {
             do_sleep(ch);
         } else {
@@ -96,7 +97,7 @@ bool doSleepActions(Char *ch, Room *home) {
         }
         return true;
     }
-    if (sleepFactor > YAWN_AT) {
+    if (sleepFactor > YawnAt) {
         if (random > 97) {
             check_social(ch, "yawn", "");
             return true;
@@ -111,9 +112,7 @@ bool doSleepActions(Char *ch, Room *home) {
 }
 
 /* does a random social on a randomly selected person in the current room */
-void doRandomSocial(Char *ch, Room *home) {
-    (void)home;
-
+void doRandomSocial(Char *ch) {
     auto charsInRoom = ranges::distance(ch->in_room->people);
     if (!charsInRoom)
         return;
@@ -129,16 +128,12 @@ void doRandomSocial(Char *ch, Room *home) {
 /* Defaults:  ch=nullptr: 0  ch=<unknown>: 1 */
 /* Unknown characters are marginally more interesting than nothing */
 int charInterest(Char *ch) {
-    int listOffset = 0;
-
     if (ch == nullptr)
         return 0;
-
-    for (; listOffset < PEOPLEONLIST; listOffset++) {
-        if (is_name(nameList[listOffset], ch->name) == true)
-            return interestList[listOffset];
+    for (const auto interestingChar : interestingChars) {
+        if (is_name(std::get<0>(interestingChar), ch->name))
+            return std::get<1>(interestingChar);
     }
-
     return 1;
 }
 
@@ -158,6 +153,8 @@ bool findInterestingChar(Room *room, Char **follow, int *interest) {
 
     return retVal;
 }
+
+} // namespace
 
 /* Special program for 'Phil' - Forrey's meerkat 'pet'. */
 /* Note that this function will be called once every 4 seconds. */
@@ -201,8 +198,8 @@ bool spec_phil(Char *ch) {
     }
 
     /* Do a random social on someone in the room */
-    if (number_percent() >= 99) {
-        doRandomSocial(ch, home);
+    if (number_percent() >= 93) {
+        doRandomSocial(ch);
         return true;
     }
 
