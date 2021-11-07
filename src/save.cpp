@@ -38,30 +38,10 @@
 #include <range/v3/view/reverse.hpp>
 #include <unordered_map>
 
-std::string filename_for_player(std::string_view player_name) {
-    return fmt::format("{}{}", Configuration::singleton().player_dir(), initial_caps_only(player_name));
-}
+namespace { // Hide the local routines.
 
-std::string filename_for_god(std::string_view player_name) {
-    return fmt::format("{}{}", Configuration::singleton().gods_dir(), initial_caps_only(player_name));
-}
-
-/*
- * Array of containers read for proper re-nesting of objects.
- */
-static constexpr auto MaxObjectNest = 100u;
+constexpr auto MaxObjectNest = 100u;
 using ObjectNestMap = std::unordered_map<ush_int, Object *>;
-
-/*
- * Local functions.
- */
-void fwrite_char(const Char *ch, FILE *fp);
-void fwrite_objs(const Char *ch, const GenericList<Object *> &objs, FILE *fp, ush_int nest_level = 0);
-void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, ush_int nest_level);
-void fwrite_pet(const Char *ch, const Char *pet, FILE *fp);
-void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp);
-void fread_pet(Char *ch, FILE *fp);
-void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj);
 
 void set_bits_from_pfile(Char *ch, FILE *fp) {
     for (auto extra_flag : magic_enum::enum_values<CharExtraFlag>()) {
@@ -74,62 +54,6 @@ void set_bits_from_pfile(Char *ch, FILE *fp) {
             break;
         }
     }
-}
-
-void CharSaver::save(const Char &ch) const {
-    if (!ch.player()) // At the moment NPCs can't be persisted.
-        return;
-    const Char *player = ch.player();
-    FILE *god_file = nullptr;
-    // Only open the god file if it's an imm so we don't end up an empty god file for mortals.
-    if (player->is_immortal()) {
-        god_file = fopen(filename_for_god(ch.name).c_str(), "w");
-    }
-    FILE *player_file = fopen(filename_for_player(ch.name).c_str(), "w");
-    save(ch, god_file, player_file);
-    if (god_file)
-        fclose(god_file);
-    if (player_file)
-        fclose(player_file);
-}
-
-void CharSaver::save(const Char &ch, FILE *god_file, FILE *player_file) const {
-    if (!ch.player()) // At the moment NPCs can't be persisted.
-        return;
-    const Char *player = ch.player();
-    if (player->is_immortal()) {
-        if (god_file) {
-            fmt::print(god_file, "Lev {:<2} Trust {:<2}  {}{}\n", player->level, player->get_trust(), player->name,
-                       player->pcdata->title);
-        } else {
-            bug("Unable to write god file for {}", player->name);
-        }
-    }
-    if (player_file) {
-        save_char_obj(player, player_file);
-    } else {
-        bug("Unable to write player file for {}", player->name);
-    }
-}
-
-/*
- * Save a character and inventory.
- * Would be cool to save NPC's too for quest purposes,
- *   some of the infrastructure is provided.
- */
-void save_char_obj(const Char *ch) {
-    CharSaver saver;
-    saver.save(*ch);
-}
-
-void save_char_obj(const Char *ch, FILE *fp) {
-    fwrite_char(ch, fp);
-    fwrite_objs(ch, ch->carrying, fp);
-    /* save the pets */
-    if (ch->pet != nullptr && ch->pet->in_room == ch->in_room)
-        fwrite_pet(ch, ch->pet, fp);
-    namespace cf = charfilemeta;
-    fmt::print(fp, "#{}\n", cf::SectionEnd);
 }
 
 /*
@@ -264,79 +188,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fmt::print(fp, "{}\n\n", cf::End);
 }
 
-/* write a pet */
-void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
-    namespace cf = charfilemeta;
-    fmt::print(fp, "#{}\n", cf::SectionPet);
-
-    fmt::print(fp, "{} {}\n", cf::Vnum, pet->mobIndex->vnum);
-
-    fmt::print(fp, "{} {}~\n", cf::Name, pet->name);
-    if (pet->short_descr != pet->mobIndex->short_descr)
-        fmt::print(fp, "{}  {}~\n", cf::ShortDescription, pet->short_descr);
-    if (pet->long_descr != pet->mobIndex->long_descr)
-        fmt::print(fp, "{}  {}~\n", cf::LongDescription, pet->long_descr);
-    if (pet->description != pet->mobIndex->description)
-        fmt::print(fp, "{} {}~\n", cf::Description, pet->description);
-    if (pet->race != pet->mobIndex->race)
-        fmt::print(fp, "{} {}~\n", cf::Race, race_table[pet->race].name);
-    fmt::print(fp, "{}  {}\n", cf::Sex, pet->sex.integer());
-    if (pet->level != pet->mobIndex->level)
-        fmt::print(fp, "{} {}\n", cf::Level, pet->level);
-    fmt::print(fp, "{}  {} {} {} {} {} {}\n", cf::HitManaMove, pet->hit, pet->max_hit, pet->mana, pet->max_mana,
-               pet->move, pet->max_move);
-    if (pet->gold > 0)
-        fmt::print(fp, "{} {}\n", cf::Gold, pet->gold);
-    if (pet->exp > 0)
-        fmt::print(fp, "{}  {}\n", cf::Experience, pet->exp);
-    if (pet->act != pet->mobIndex->act)
-        fmt::print(fp, "{}  {}\n", cf::ActFlags, pet->act);
-    if (pet->affected_by != pet->mobIndex->affected_by)
-        fmt::print(fp, "{} {}\n", cf::AffectedBy, pet->affected_by);
-    if (pet->comm != 0)
-        fmt::print(fp, "{} {}\n", cf::CommFlags, pet->comm);
-    fmt::print(
-        fp, "{}  {}\n", cf::Position,
-        magic_enum::enum_integer<Position::Type>(pet->is_pos_fighting() ? Position::Type::Standing : pet->position));
-    if (pet->saving_throw != 0)
-        fmt::print(fp, "{} {}\n", cf::SavingThrow, pet->saving_throw);
-    if (pet->alignment != pet->mobIndex->alignment)
-        fmt::print(fp, "{} {}\n", cf::Alignment, pet->alignment);
-    if (pet->hitroll != pet->mobIndex->hitroll)
-        fmt::print(fp, "{}  {}\n", cf::HitRoll, pet->hitroll);
-    if (pet->damroll != pet->mobIndex->damage.bonus())
-        fmt::print(fp, "{}  {}\n", cf::DamRoll, pet->damroll);
-    fmt::print(fp, "{}  {} {} {} {}\n", cf::ArmourClasses, pet->armor[0], pet->armor[1], pet->armor[2], pet->armor[3]);
-    fmt::print(fp, "{} {} {} {} {} {}\n", cf::Attribs, pet->perm_stat[Stat::Str], pet->perm_stat[Stat::Int],
-               pet->perm_stat[Stat::Wis], pet->perm_stat[Stat::Dex], pet->perm_stat[Stat::Con]);
-    fmt::print(fp, "{} {} {} {} {} {}\n", cf::AttribModifiers, pet->mod_stat[Stat::Str], pet->mod_stat[Stat::Int],
-               pet->mod_stat[Stat::Wis], pet->mod_stat[Stat::Dex], pet->mod_stat[Stat::Con]);
-
-    std::stringstream ss;
-    for (const auto &af : pet->affected) {
-        if (af.type < 0 || af.type >= MAX_SKILL)
-            continue;
-        ss = std::stringstream();
-        ss << "'" << skill_table[af.type].name << "'";
-        fmt::print(fp, "{} {:<17} {:>3} {:>3} {:>3} {:>3} {:>10}\n", cf::Affected, ss.str(), af.level, af.duration,
-                   af.modifier, static_cast<int>(af.location), af.bitvector);
-    }
-
-    if (ch->riding == pet) {
-        fmt::print(fp, "{}\n", cf::Ridden);
-    }
-
-    fwrite_objs(pet, pet->carrying, fp);
-
-    fmt::print(fp, "{}\n", cf::End);
-}
-
-void fwrite_objs(const Char *ch, const GenericList<Object *> &objs, FILE *fp, ush_int nest_level) {
-    // TODO: if/when we support reverse iteration of GenericLists, we can reverse directly here.
-    auto obj_ptrs = objs | ranges::to<std::vector<Object *>>;
-    for (auto *obj : obj_ptrs | ranges::views::reverse)
-        fwrite_one_obj(ch, obj, fp, nest_level);
-}
+void fwrite_objs(const Char *ch, const GenericList<Object *> &objs, FILE *fp, ush_int nest_level);
 
 /*
  * Write a single object and its contents.
@@ -425,106 +277,83 @@ void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, ush_int nest_le
     fwrite_objs(ch, obj->contains, fp, nest_level + 1);
 }
 
-// Although the LastLogin* fields are read from the player file, it's transient info unused
-// by the mud, and when a Char is saved it's read from the Char's Descriptor. But capturing
-// LastLogin* makes it easier to do offline processing of player files.
-void load_into_char(Char &character, LastLoginInfo &last_login, FILE *fp) {
-    // Each entry in this map tracks the last Object loaded for the Char from its pfile
-    // at a nesting level specified with the "Nest" keyword. It doesn't own the pointers.
-    // Pets can also load objects, and use their own ObjectNesting.
-    ObjectNestMap nest_level_to_obj{};
-    namespace cf = charfilemeta;
-    for (;;) {
-        auto letter = fread_letter(fp);
-        if (letter == '*') {
-            fread_to_eol(fp);
-            continue;
-        }
-
-        if (letter != '#') {
-            bug("load_char_obj: # not found.");
-            break;
-        }
-        auto word = fread_stdstring_eol(fp);
-        if (word == cf::SectionPlayer) {
-            fread_char(&character, last_login, fp);
-            affect_strip(&character, gsn_ride);
-        } else if (word == cf::SectionObject)
-            fread_obj(&character, fp, nest_level_to_obj);
-        else if (word == cf::SectionPet)
-            fread_pet(&character, fp);
-        else if (word == cf::SectionEnd)
-            break;
-        else {
-            bug("load_char_obj: bad section: '{}'", word);
-            break;
-        }
-    }
+void fwrite_objs(const Char *ch, const GenericList<Object *> &objs, FILE *fp, ush_int nest_level) {
+    // TODO: if/when we support reverse iteration of GenericLists, we can reverse directly here.
+    auto obj_ptrs = objs | ranges::to<std::vector<Object *>>;
+    for (auto *obj : obj_ptrs | ranges::views::reverse)
+        fwrite_one_obj(ch, obj, fp, nest_level);
 }
 
-// Load a char and inventory into a new ch structure.
-LoadCharObjResult try_load_player(std::string_view player_name) {
-    LoadCharObjResult res{true, std::make_unique<Char>()};
+/* write a pet */
+void fwrite_pet(const Char *ch, const Char *pet, FILE *fp) {
+    namespace cf = charfilemeta;
+    fmt::print(fp, "#{}\n", cf::SectionPet);
 
-    auto *ch = res.character.get();
-    ch->pcdata = std::make_unique<PcData>();
+    fmt::print(fp, "{} {}\n", cf::Vnum, pet->mobIndex->vnum);
 
-    ch->name = player_name;
-    ch->race = race_lookup("human");
-    ch->act = to_int(PlayerActFlag::PlrAutoPeek) | to_int(PlayerActFlag::PlrAutoAssist)
-              | to_int(PlayerActFlag::PlrAutoExit) | to_int(PlayerActFlag::PlrAutoGold)
-              | to_int(PlayerActFlag::PlrAutoLoot) | to_int(PlayerActFlag::PlrAutoSac)
-              | to_int(PlayerActFlag::PlrNoSummon);
-    ch->comm = to_int(CommFlag::Combine) | to_int(CommFlag::Prompt) | to_int(CommFlag::ShowAfk)
-               | to_int(CommFlag::ShowDefence);
-    ranges::fill(ch->perm_stat, 13);
+    fmt::print(fp, "{} {}~\n", cf::Name, pet->name);
+    if (pet->short_descr != pet->mobIndex->short_descr)
+        fmt::print(fp, "{}  {}~\n", cf::ShortDescription, pet->short_descr);
+    if (pet->long_descr != pet->mobIndex->long_descr)
+        fmt::print(fp, "{}  {}~\n", cf::LongDescription, pet->long_descr);
+    if (pet->description != pet->mobIndex->description)
+        fmt::print(fp, "{} {}~\n", cf::Description, pet->description);
+    if (pet->race != pet->mobIndex->race)
+        fmt::print(fp, "{} {}~\n", cf::Race, race_table[pet->race].name);
+    fmt::print(fp, "{}  {}\n", cf::Sex, pet->sex.integer());
+    if (pet->level != pet->mobIndex->level)
+        fmt::print(fp, "{} {}\n", cf::Level, pet->level);
+    fmt::print(fp, "{}  {} {} {} {} {} {}\n", cf::HitManaMove, pet->hit, pet->max_hit, pet->mana, pet->max_mana,
+               pet->move, pet->max_move);
+    if (pet->gold > 0)
+        fmt::print(fp, "{} {}\n", cf::Gold, pet->gold);
+    if (pet->exp > 0)
+        fmt::print(fp, "{}  {}\n", cf::Experience, pet->exp);
+    if (pet->act != pet->mobIndex->act)
+        fmt::print(fp, "{}  {}\n", cf::ActFlags, pet->act);
+    if (pet->affected_by != pet->mobIndex->affected_by)
+        fmt::print(fp, "{} {}\n", cf::AffectedBy, pet->affected_by);
+    if (pet->comm != 0)
+        fmt::print(fp, "{} {}\n", cf::CommFlags, pet->comm);
+    fmt::print(
+        fp, "{}  {}\n", cf::Position,
+        magic_enum::enum_integer<Position::Type>(pet->is_pos_fighting() ? Position::Type::Standing : pet->position));
+    if (pet->saving_throw != 0)
+        fmt::print(fp, "{} {}\n", cf::SavingThrow, pet->saving_throw);
+    if (pet->alignment != pet->mobIndex->alignment)
+        fmt::print(fp, "{} {}\n", cf::Alignment, pet->alignment);
+    if (pet->hitroll != pet->mobIndex->hitroll)
+        fmt::print(fp, "{}  {}\n", cf::HitRoll, pet->hitroll);
+    if (pet->damroll != pet->mobIndex->damage.bonus())
+        fmt::print(fp, "{}  {}\n", cf::DamRoll, pet->damroll);
+    fmt::print(fp, "{}  {} {} {} {}\n", cf::ArmourClasses, pet->armor[0], pet->armor[1], pet->armor[2], pet->armor[3]);
+    fmt::print(fp, "{} {} {} {} {} {}\n", cf::Attribs, pet->perm_stat[Stat::Str], pet->perm_stat[Stat::Int],
+               pet->perm_stat[Stat::Wis], pet->perm_stat[Stat::Dex], pet->perm_stat[Stat::Con]);
+    fmt::print(fp, "{} {} {} {} {} {}\n", cf::AttribModifiers, pet->mod_stat[Stat::Str], pet->mod_stat[Stat::Int],
+               pet->mod_stat[Stat::Wis], pet->mod_stat[Stat::Dex], pet->mod_stat[Stat::Con]);
 
-    auto *fp = fopen(filename_for_player(player_name).c_str(), "r");
-    if (fp) {
-        res.newly_created = false;
-        LastLoginInfo ignored;
-        load_into_char(*ch, ignored, fp);
-        fclose(fp);
+    std::stringstream ss;
+    for (const auto &af : pet->affected) {
+        if (af.type < 0 || af.type >= MAX_SKILL)
+            continue;
+        ss = std::stringstream();
+        ss << "'" << skill_table[af.type].name << "'";
+        fmt::print(fp, "{} {:<17} {:>3} {:>3} {:>3} {:>3} {:>10}\n", cf::Affected, ss.str(), af.level, af.duration,
+                   af.modifier, static_cast<int>(af.location), af.bitvector);
     }
 
-    /* initialize race */
-    if (!res.newly_created) {
-        if (ch->race == 0)
-            ch->race = race_lookup("human");
-
-        ch->body_size = pc_race_table[ch->race].body_size;
-        ch->attack_type = attack_lookup("punch");
-
-        for (auto *group : pc_race_table[ch->race].skills) {
-            if (!group)
-                break;
-            group_add(ch, group, false);
-        }
-        ch->affected_by = ch->affected_by | race_table[ch->race].aff;
-        ch->imm_flags = ch->imm_flags | race_table[ch->race].imm;
-        ch->res_flags = ch->res_flags | race_table[ch->race].res;
-        ch->vuln_flags = ch->vuln_flags | race_table[ch->race].vuln;
-        ch->morphology = race_table[ch->race].morphology;
-        ch->parts = race_table[ch->race].parts;
+    if (ch->riding == pet) {
+        fmt::print(fp, "{}\n", cf::Ridden);
     }
-    return res;
+
+    fwrite_objs(pet, pet->carrying, fp, 0);
+
+    fmt::print(fp, "{}\n", cf::End);
 }
 
 /*
- * Read in a char.
+ * Read in a Char.
  */
-
-#if defined(KEY)
-#undef KEY
-#endif
-
-#define KEY(literal, field, value)                                                                                     \
-    if (!str_cmp(word, literal)) {                                                                                     \
-        field = value;                                                                                                 \
-        fMatch = true;                                                                                                 \
-        break;                                                                                                         \
-    }
-
 void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
     namespace cf = charfilemeta;
     for (;;) {
@@ -743,112 +572,6 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
     }
 }
 
-/* load a pet from the forgotten reaches */
-void fread_pet(Char *ch, FILE *fp) {
-    namespace cf = charfilemeta;
-    std::string word;
-    ObjectNestMap nest_level_to_obj{};
-    Char *pet;
-    /* first entry had BETTER be the vnum or we barf */
-    word = feof(fp) ? cf::End : fread_word(fp);
-    if (word == cf::Vnum) {
-        int vnum = fread_number(fp);
-        if (get_mob_index(vnum) == nullptr) {
-            bug("fread_pet: bad vnum {}.", vnum);
-            pet = create_mobile(get_mob_index(mobiles::Fido));
-        } else
-            pet = create_mobile(get_mob_index(vnum));
-    } else {
-        bug("fread_pet: no vnum in file.");
-        pet = create_mobile(get_mob_index(mobiles::Fido));
-    }
-
-    for (;;) {
-        word = feof(fp) ? cf::End : fread_word(fp);
-        if (word.empty() || word[0] == '*') {
-            fread_to_eol(fp);
-        } else if (word[0] == '#') {
-            fread_obj(pet, fp, nest_level_to_obj);
-        } else if (word == cf::ActFlags) {
-            pet->act = fread_number(fp);
-        } else if (word == cf::AffectedBy) {
-            pet->affected_by = fread_number(fp);
-        } else if (word == cf::Alignment) {
-            pet->alignment = fread_number(fp);
-        } else if (word == cf::ArmourClasses) {
-            for (int i = 0; i < 4; i++)
-                pet->armor[i] = fread_number(fp);
-        } else if (word == cf::Affected) {
-            AFFECT_DATA af;
-            int sn = skill_lookup(fread_word(fp));
-            if (sn < 0)
-                bug("fread_pet: unknown skill #{}", sn);
-            else
-                af.type = sn;
-
-            af.level = fread_number(fp);
-            af.duration = fread_number(fp);
-            af.modifier = fread_number(fp);
-            af.location = static_cast<AffectLocation>(fread_number(fp));
-            af.bitvector = fread_number(fp);
-            pet->affected.add_at_end(af);
-        } else if (word == cf::AttribModifiers) {
-            for (auto &stat : pet->mod_stat)
-                stat = fread_number(fp);
-        } else if (word == cf::Attribs) {
-            for (auto &stat : pet->perm_stat)
-                stat = fread_number(fp);
-        } else if (word == cf::CommFlags) {
-            pet->comm = fread_number(fp);
-        } else if (word == cf::DamRoll) {
-            pet->damroll = fread_number(fp);
-        } else if (word == cf::Description) {
-            pet->description = fread_stdstring(fp);
-        } else if (word == cf::End) {
-            pet->leader = ch;
-            pet->master = ch;
-            ch->pet = pet;
-            return;
-        } else if (word == cf::Experience) {
-            pet->exp = fread_number(fp);
-        } else if (word == cf::Gold) {
-            pet->gold = fread_number(fp);
-        } else if (word == cf::HitRoll) {
-            pet->hitroll = fread_number(fp);
-        } else if (word == cf::HitManaMove) {
-            pet->hit = fread_number(fp);
-            pet->max_hit = fread_number(fp);
-            pet->mana = fread_number(fp);
-            pet->max_mana = fread_number(fp);
-            pet->move = fread_number(fp);
-            pet->max_move = fread_number(fp);
-        } else if (word == cf::Level) {
-            pet->level = fread_number(fp);
-        } else if (word == cf::LongDescription) {
-            pet->long_descr = fread_stdstring(fp);
-        } else if (word == cf::Name) {
-            pet->name = fread_stdstring(fp);
-        } else if (word == cf::Position) {
-            pet->position = Position::read_from_number(fp);
-        } else if (word == cf::Race) {
-            pet->race = race_lookup(fread_string(fp));
-        } else if (word == cf::SavingThrow) {
-            pet->saving_throw = fread_number(fp);
-        } else if (word == cf::Sex) {
-            if (auto sex = Sex::try_from_integer(fread_number(fp))) {
-                pet->sex = *sex;
-            } else {
-                bug("fread_pet: unknown sex.");
-            }
-        } else if (word == cf::ShortDescription) {
-            pet->short_descr = fread_stdstring(fp);
-        } else {
-            bug("fread_pet: no match for {}.", word);
-            fread_to_eol(fp);
-        }
-    }
-}
-
 void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
     namespace cf = charfilemeta;
     Object *obj = nullptr;
@@ -997,4 +720,261 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
             fread_to_eol(fp);
         }
     }
+}
+
+/* load a pet from the forgotten reaches */
+void fread_pet(Char *ch, FILE *fp) {
+    namespace cf = charfilemeta;
+    std::string word;
+    ObjectNestMap nest_level_to_obj{};
+    Char *pet;
+    /* first entry had BETTER be the vnum or we barf */
+    word = feof(fp) ? cf::End : fread_word(fp);
+    if (word == cf::Vnum) {
+        int vnum = fread_number(fp);
+        if (get_mob_index(vnum) == nullptr) {
+            bug("fread_pet: bad vnum {}.", vnum);
+            pet = create_mobile(get_mob_index(mobiles::Fido));
+        } else
+            pet = create_mobile(get_mob_index(vnum));
+    } else {
+        bug("fread_pet: no vnum in file.");
+        pet = create_mobile(get_mob_index(mobiles::Fido));
+    }
+
+    for (;;) {
+        word = feof(fp) ? cf::End : fread_word(fp);
+        if (word.empty() || word[0] == '*') {
+            fread_to_eol(fp);
+        } else if (word[0] == '#') {
+            fread_obj(pet, fp, nest_level_to_obj);
+        } else if (word == cf::ActFlags) {
+            pet->act = fread_number(fp);
+        } else if (word == cf::AffectedBy) {
+            pet->affected_by = fread_number(fp);
+        } else if (word == cf::Alignment) {
+            pet->alignment = fread_number(fp);
+        } else if (word == cf::ArmourClasses) {
+            for (int i = 0; i < 4; i++)
+                pet->armor[i] = fread_number(fp);
+        } else if (word == cf::Affected) {
+            AFFECT_DATA af;
+            int sn = skill_lookup(fread_word(fp));
+            if (sn < 0)
+                bug("fread_pet: unknown skill #{}", sn);
+            else
+                af.type = sn;
+
+            af.level = fread_number(fp);
+            af.duration = fread_number(fp);
+            af.modifier = fread_number(fp);
+            af.location = static_cast<AffectLocation>(fread_number(fp));
+            af.bitvector = fread_number(fp);
+            pet->affected.add_at_end(af);
+        } else if (word == cf::AttribModifiers) {
+            for (auto &stat : pet->mod_stat)
+                stat = fread_number(fp);
+        } else if (word == cf::Attribs) {
+            for (auto &stat : pet->perm_stat)
+                stat = fread_number(fp);
+        } else if (word == cf::CommFlags) {
+            pet->comm = fread_number(fp);
+        } else if (word == cf::DamRoll) {
+            pet->damroll = fread_number(fp);
+        } else if (word == cf::Description) {
+            pet->description = fread_stdstring(fp);
+        } else if (word == cf::End) {
+            pet->leader = ch;
+            pet->master = ch;
+            ch->pet = pet;
+            return;
+        } else if (word == cf::Experience) {
+            pet->exp = fread_number(fp);
+        } else if (word == cf::Gold) {
+            pet->gold = fread_number(fp);
+        } else if (word == cf::HitRoll) {
+            pet->hitroll = fread_number(fp);
+        } else if (word == cf::HitManaMove) {
+            pet->hit = fread_number(fp);
+            pet->max_hit = fread_number(fp);
+            pet->mana = fread_number(fp);
+            pet->max_mana = fread_number(fp);
+            pet->move = fread_number(fp);
+            pet->max_move = fread_number(fp);
+        } else if (word == cf::Level) {
+            pet->level = fread_number(fp);
+        } else if (word == cf::LongDescription) {
+            pet->long_descr = fread_stdstring(fp);
+        } else if (word == cf::Name) {
+            pet->name = fread_stdstring(fp);
+        } else if (word == cf::Position) {
+            pet->position = Position::read_from_number(fp);
+        } else if (word == cf::Race) {
+            pet->race = race_lookup(fread_string(fp));
+        } else if (word == cf::SavingThrow) {
+            pet->saving_throw = fread_number(fp);
+        } else if (word == cf::Sex) {
+            if (auto sex = Sex::try_from_integer(fread_number(fp))) {
+                pet->sex = *sex;
+            } else {
+                bug("fread_pet: unknown sex.");
+            }
+        } else if (word == cf::ShortDescription) {
+            pet->short_descr = fread_stdstring(fp);
+        } else {
+            bug("fread_pet: no match for {}.", word);
+            fread_to_eol(fp);
+        }
+    }
+}
+
+} // namespace
+
+std::string filename_for_player(std::string_view player_name) {
+    return fmt::format("{}{}", Configuration::singleton().player_dir(), initial_caps_only(player_name));
+}
+
+std::string filename_for_god(std::string_view player_name) {
+    return fmt::format("{}{}", Configuration::singleton().gods_dir(), initial_caps_only(player_name));
+}
+
+void CharSaver::save(const Char &ch) const {
+    if (!ch.player()) // At the moment NPCs can't be persisted.
+        return;
+    const Char *player = ch.player();
+    FILE *god_file = nullptr;
+    // Only open the god file if it's an imm so we don't end up an empty god file for mortals.
+    if (player->is_immortal()) {
+        god_file = fopen(filename_for_god(ch.name).c_str(), "w");
+    }
+    FILE *player_file = fopen(filename_for_player(ch.name).c_str(), "w");
+    save(ch, god_file, player_file);
+    if (god_file)
+        fclose(god_file);
+    if (player_file)
+        fclose(player_file);
+}
+
+void CharSaver::save(const Char &ch, FILE *god_file, FILE *player_file) const {
+    if (!ch.player()) // At the moment NPCs can't be persisted.
+        return;
+    const Char *player = ch.player();
+    if (player->is_immortal()) {
+        if (god_file) {
+            fmt::print(god_file, "Lev {:<2} Trust {:<2}  {}{}\n", player->level, player->get_trust(), player->name,
+                       player->pcdata->title);
+        } else {
+            bug("Unable to write god file for {}", player->name);
+        }
+    }
+    if (player_file) {
+        save_char_obj(player, player_file);
+    } else {
+        bug("Unable to write player file for {}", player->name);
+    }
+}
+
+/*
+ * Save a character and inventory.
+ * Would be cool to save NPC's too for quest purposes,
+ *   some of the infrastructure is provided.
+ */
+void save_char_obj(const Char *ch) {
+    CharSaver saver;
+    saver.save(*ch);
+}
+
+void save_char_obj(const Char *ch, FILE *fp) {
+    fwrite_char(ch, fp);
+    fwrite_objs(ch, ch->carrying, fp, 0);
+    /* save the pets */
+    if (ch->pet != nullptr && ch->pet->in_room == ch->in_room)
+        fwrite_pet(ch, ch->pet, fp);
+    namespace cf = charfilemeta;
+    fmt::print(fp, "#{}\n", cf::SectionEnd);
+}
+
+// Although the LastLogin* fields are read from the player file, it's transient info unused
+// by the mud, and when a Char is saved it's read from the Char's Descriptor. But capturing
+// LastLogin* makes it easier to do offline processing of player files.
+void load_into_char(Char &character, LastLoginInfo &last_login, FILE *fp) {
+    // Each entry in this map tracks the last Object loaded for the Char from its pfile
+    // at a nesting level specified with the "Nest" keyword. It doesn't own the pointers.
+    // Pets can also load objects, and use their own ObjectNesting.
+    ObjectNestMap nest_level_to_obj{};
+    namespace cf = charfilemeta;
+    for (;;) {
+        auto letter = fread_letter(fp);
+        if (letter == '*') {
+            fread_to_eol(fp);
+            continue;
+        }
+
+        if (letter != '#') {
+            bug("load_char_obj: # not found.");
+            break;
+        }
+        auto word = fread_stdstring_eol(fp);
+        if (word == cf::SectionPlayer) {
+            fread_char(&character, last_login, fp);
+            affect_strip(&character, gsn_ride);
+        } else if (word == cf::SectionObject)
+            fread_obj(&character, fp, nest_level_to_obj);
+        else if (word == cf::SectionPet)
+            fread_pet(&character, fp);
+        else if (word == cf::SectionEnd)
+            break;
+        else {
+            bug("load_char_obj: bad section: '{}'", word);
+            break;
+        }
+    }
+}
+
+// Load a char and inventory into a new ch structure.
+LoadCharObjResult try_load_player(std::string_view player_name) {
+    LoadCharObjResult res{true, std::make_unique<Char>()};
+
+    auto *ch = res.character.get();
+    ch->pcdata = std::make_unique<PcData>();
+
+    ch->name = player_name;
+    ch->race = race_lookup("human");
+    ch->act = to_int(PlayerActFlag::PlrAutoPeek) | to_int(PlayerActFlag::PlrAutoAssist)
+              | to_int(PlayerActFlag::PlrAutoExit) | to_int(PlayerActFlag::PlrAutoGold)
+              | to_int(PlayerActFlag::PlrAutoLoot) | to_int(PlayerActFlag::PlrAutoSac)
+              | to_int(PlayerActFlag::PlrNoSummon);
+    ch->comm = to_int(CommFlag::Combine) | to_int(CommFlag::Prompt) | to_int(CommFlag::ShowAfk)
+               | to_int(CommFlag::ShowDefence);
+    ranges::fill(ch->perm_stat, 13);
+
+    auto *fp = fopen(filename_for_player(player_name).c_str(), "r");
+    if (fp) {
+        res.newly_created = false;
+        LastLoginInfo ignored;
+        load_into_char(*ch, ignored, fp);
+        fclose(fp);
+    }
+
+    /* initialize race */
+    if (!res.newly_created) {
+        if (ch->race == 0)
+            ch->race = race_lookup("human");
+
+        ch->body_size = pc_race_table[ch->race].body_size;
+        ch->attack_type = attack_lookup("punch");
+
+        for (auto *group : pc_race_table[ch->race].skills) {
+            if (!group)
+                break;
+            group_add(ch, group, false);
+        }
+        ch->affected_by = ch->affected_by | race_table[ch->race].aff;
+        ch->imm_flags = ch->imm_flags | race_table[ch->race].imm;
+        ch->res_flags = ch->res_flags | race_table[ch->race].res;
+        ch->vuln_flags = ch->vuln_flags | race_table[ch->race].vuln;
+        ch->morphology = race_table[ch->race].morphology;
+        ch->parts = race_table[ch->race].parts;
+    }
+    return res;
 }
