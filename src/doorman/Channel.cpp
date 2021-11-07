@@ -87,12 +87,12 @@ void Channel::on_data(gsl::span<const byte> incoming_data) {
 
 void Channel::send_info_packet() const {
     size_t payload_size = sizeof(InfoData) + hostname_.size() + 1;
-    if (payload_size > PACKET_MAX_PAYLOAD_SIZE) {
+    if (payload_size > PacketMaxPayloadSize) {
         log_.error("Dropping MUD info message as payload size was too big ({} > {})", payload_size,
-                   PACKET_MAX_PAYLOAD_SIZE);
+                   PacketMaxPayloadSize);
         return;
     }
-    char buffer[PACKET_MAX_PAYLOAD_SIZE];
+    char buffer[PacketMaxPayloadSize];
     auto data = new (buffer) InfoData;
     Packet p{PACKET_INFO, static_cast<uint32_t>(payload_size), id_->id(), {}};
 

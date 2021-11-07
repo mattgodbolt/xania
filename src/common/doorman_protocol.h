@@ -43,7 +43,7 @@ typedef struct tagInfoData {
     char data[0];
 } InfoData;
 
-#define PACKET_MAX_PAYLOAD_SIZE 4096
+constexpr auto PacketMaxPayloadSize = 4096;
 typedef struct tagPacket {
     PacketType type; /* Type of packet */
 

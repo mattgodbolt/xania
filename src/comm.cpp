@@ -93,9 +93,8 @@ bool send_to_doorman(const Packet *p, const void *extra) {
     // TODO: do something rather than return here if there's a failure
     if (!doormanDesc.is_open())
         return false;
-    if (p->nExtra > PACKET_MAX_PAYLOAD_SIZE) {
-        bug("MUD tried to send a doorman packet with payload size {} > {}! Dropping!", p->nExtra,
-            PACKET_MAX_PAYLOAD_SIZE);
+    if (p->nExtra > PacketMaxPayloadSize) {
+        bug("MUD tried to send a doorman packet with payload size {} > {}! Dropping!", p->nExtra, PacketMaxPayloadSize);
         return false;
     }
     try {
@@ -359,8 +358,8 @@ void game_loop_unix(Fd control) {
                 try {
                     p = doormanDesc.read_all<Packet>();
                     if (p.nExtra) {
-                        if (p.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
-                            bug("Doorman sent a too big packet! {} > {}: dropping", p.nExtra, PACKET_MAX_PAYLOAD_SIZE);
+                        if (p.nExtra > PacketMaxPayloadSize) {
+                            bug("Doorman sent a too big packet! {} > {}: dropping", p.nExtra, PacketMaxPayloadSize);
                             doorman_lost();
                             break;
                         }

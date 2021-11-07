@@ -102,7 +102,7 @@ bool Descriptor::write_direct(std::string_view text) const {
     p.channel = channel_;
 
     while (!text.empty()) {
-        p.nExtra = std::min<uint32_t>(text.length(), PACKET_MAX_PAYLOAD_SIZE);
+        p.nExtra = std::min<uint32_t>(text.length(), PacketMaxPayloadSize);
         if (!send_to_doorman(&p, text.data()))
             return false;
         text = text.substr(p.nExtra);

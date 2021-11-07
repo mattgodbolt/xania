@@ -16,9 +16,9 @@ static constexpr auto time_between_retries = 10s;
 bool Xania::send_to_mud(const Packet &p, const void *payload) {
     if (!connected())
         return false;
-    if (p.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
+    if (p.nExtra > PacketMaxPayloadSize) {
         log_.error("Dropping MUD packet of type {} as its payload is too long ({} > {})", p.type, p.nExtra,
-                   PACKET_MAX_PAYLOAD_SIZE);
+                   PacketMaxPayloadSize);
         return false;
     }
     if (p.nExtra)
@@ -87,7 +87,7 @@ void Xania::process_mud_message() {
     try {
         mud_packet = fd_.read_all<Packet>();
         if (mud_packet.nExtra) {
-            if (mud_packet.nExtra > PACKET_MAX_PAYLOAD_SIZE) {
+            if (mud_packet.nExtra > PacketMaxPayloadSize) {
                 log_.error("MUD payload too big: {}!", mud_packet.nExtra);
                 close();
                 return;

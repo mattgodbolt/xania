@@ -58,6 +58,15 @@
 
 namespace {
 
+/*
+ * Memory management.
+ * Increase MAX_STRING if you have too.
+ * Tune the others only if you understand what you're doing.
+ */
+constexpr auto MaxString = 2650976;
+constexpr auto MaxPermBlock = 131072;
+constexpr auto MaxMemList = 14;
+
 Shop *shop_first;
 Shop *shop_last;
 
@@ -180,17 +189,8 @@ MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *mob
 void load_mobprogs(FILE *fp);
 void mprog_read_programs(FILE *fp, MobIndexData *mobIndex);
 
-/*
- * Memory management.
- * Increase MAX_STRING if you have too.
- * Tune the others only if you understand what you're doing.
- */
-#define MAX_STRING 2650976
-#define MAX_PERM_BLOCK 131072
-#define MAX_MEM_LIST 14
-
-void *rgFreeList[MAX_MEM_LIST];
-const int rgSizeList[MAX_MEM_LIST] = {
+void *rgFreeList[MaxMemList];
+const int rgSizeList[MaxMemList] = {
     /*   16, 32, 64, 128, 256, 1024, 2048, 4096, 8192, 16384, 32768-64 */
     16, 32, 64, 128, 256, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144};
 
@@ -237,8 +237,8 @@ void boot_db() {
     maxfilelimit();
 
     /* Init some data space stuff. */
-    if ((string_space = static_cast<char *>(calloc(1, MAX_STRING))) == nullptr) {
-        bug("Boot_db: can't alloc {} string space.", MAX_STRING);
+    if ((string_space = static_cast<char *>(calloc(1, MaxString))) == nullptr) {
+        bug("Boot_db: can't alloc {} string space.", MaxString);
         exit(1);
     }
     top_string = string_space;
@@ -1714,8 +1714,8 @@ namespace {
  */
 char *do_horrible_boot_strdup_thing(const std::string &str) {
     char *plast = top_string + sizeof(char *);
-    if (plast > &string_space[MAX_STRING - MAX_STRING_LENGTH]) {
-        bug("Fread_string: MAX_STRING {} exceeded.", MAX_STRING);
+    if (plast > &string_space[MaxString - MAX_STRING_LENGTH]) {
+        bug("Fread_string: MAX_STRING {} exceeded.", MaxString);
         exit(1);
     }
     union {
@@ -1824,12 +1824,12 @@ void *alloc_mem(int sMem) {
     void *pMem;
     int iList;
 
-    for (iList = 0; iList < MAX_MEM_LIST; iList++) {
+    for (iList = 0; iList < MaxMemList; iList++) {
         if (sMem <= rgSizeList[iList])
             break;
     }
 
-    if (iList == MAX_MEM_LIST) {
+    if (iList == MaxMemList) {
         bug("Alloc_mem: size {} too large.", sMem);
         exit(1);
     }
@@ -1851,12 +1851,12 @@ void *alloc_mem(int sMem) {
 void free_mem(void *pMem, int sMem) {
     int iList;
 
-    for (iList = 0; iList < MAX_MEM_LIST; iList++) {
+    for (iList = 0; iList < MaxMemList; iList++) {
         if (sMem <= rgSizeList[iList])
             break;
     }
 
-    if (iList == MAX_MEM_LIST) {
+    if (iList == MaxMemList) {
         bug("Free_mem: size {} too large.", sMem);
         exit(1);
     }
@@ -1877,14 +1877,14 @@ void *alloc_perm(int sMem) {
 
     while (sMem % sizeof(long) != 0)
         sMem++;
-    if (sMem > MAX_PERM_BLOCK) {
+    if (sMem > MaxPermBlock) {
         bug("Alloc_perm: {} too large.", sMem);
         exit(1);
     }
 
-    if (pMemPerm == nullptr || iMemPerm + sMem > MAX_PERM_BLOCK) {
+    if (pMemPerm == nullptr || iMemPerm + sMem > MaxPermBlock) {
         iMemPerm = 0;
-        if ((pMemPerm = static_cast<char *>(calloc(1, MAX_PERM_BLOCK))) == nullptr) {
+        if ((pMemPerm = static_cast<char *>(calloc(1, MaxPermBlock))) == nullptr) {
             perror("Alloc_perm");
             exit(1);
         }
@@ -2012,7 +2012,7 @@ void do_memory(Char *ch) {
     ch->send_line("Resets  {:5}", top_reset);
     ch->send_line("Rooms   {:5}", top_room);
     ch->send_line("Shops   {:5}", top_shop);
-    ch->send_line("Strings {:5} strings of {:7} bytes (max {:7}).", nAllocString, sAllocString, MAX_STRING);
+    ch->send_line("Strings {:5} strings of {:7} bytes (max {:7}).", nAllocString, sAllocString, MaxString);
     ch->send_line("Perms   {:5} blocks  of {:7} bytes.", nAllocPerm, sAllocPerm);
 }
 
