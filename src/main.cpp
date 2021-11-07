@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     // Init time.
     current_time = Clock::now();
     bool show_entity_imbalance = false;
-    log_string("Xania {} booting...", BUILD_FULL_VERSION);
+    log_string("Xania {} booting...", get_build_full_version());
     const auto &config = Configuration::singleton();
     /*
      * Get the UNIX domain file
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
     if (show_entity_imbalance)
         report_entity_imbalance();
     load_tipfile();
-    log_string("Xania version {} is ready to rock via {}.", BUILD_VERSION, pipe_file);
+    log_string("Xania version {} is ready to rock via {}.", get_build_version(), pipe_file);
 
     Packet pInit;
     pInit.nExtra = pInit.channel = 0;

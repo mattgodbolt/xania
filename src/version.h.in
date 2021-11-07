@@ -1,6 +1,12 @@
 #pragma once
+#include <string_view>
 
 // NB this file is preprocessed by CMake
 
-#define BUILD_VERSION "@BUILD_VERSION@"
-#define BUILD_FULL_VERSION "@BUILD_FULL_VERSION@"
+std::string_view get_build_version() {
+    return "@BUILD_VERSION@";
+}
+
+std::string_view get_build_full_version() {
+    return "@BUILD_FULL_VERSION@";
+}

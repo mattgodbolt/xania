@@ -42,7 +42,7 @@ int Main(Logger &log, int argc, char *argv[]) {
         set_log_level(spdlog::level::debug);
     }
 
-    log.info("Doorman version {} starting up", BUILD_VERSION);
+    log.info("Doorman version {} starting up", get_build_version());
 
     // Prevent crashing on SIGPIPE if the MUD goes down, or if a connection goes funny.
     signal(SIGPIPE, SIG_IGN);
