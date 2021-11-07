@@ -590,7 +590,7 @@ void group_remove(Char *ch, const char *name) {
 }
 
 // Returns the level that the Char may learn a skill.
-// Long ago, the level 60 requirement for SKILL_ATTAINABLE was originally part of the mud's move from
+// Long ago, the level 60 requirement for SkillRatingAttainable was originally part of the mud's move from
 // being a 60 level mud to 100 levels and with that, we introduced 'cross training'
 // where  a class can learn skills normally only available to other classes.
 int get_skill_level(const Char *ch, int gsn) {
@@ -601,15 +601,15 @@ int get_skill_level(const Char *ch, int gsn) {
 
     /* First we work out which level they'd get it at because of their class */
 
-    if (skill_table[gsn].rating[ch->class_num] > SKILL_UNATTAINABLE) {
+    if (skill_table[gsn].rating[ch->class_num] > SkillRatingUnattainable) {
         /*  They *can* get it at level xxxx */
         level = skill_table[gsn].skill_level[ch->class_num];
     }
-    if (skill_table[gsn].rating[ch->class_num] == SKILL_ATTAINABLE) {
+    if (skill_table[gsn].rating[ch->class_num] == SkillRatingAttainable) {
         /*  They get it at level sixty */
         level = 60;
     }
-    if (skill_table[gsn].rating[ch->class_num] == SKILL_ASSASSIN) {
+    if (skill_table[gsn].rating[ch->class_num] == SkillRatingSpecial) {
         /*  It's an assassin thing */
         if (ch->pcdata->group_known[group_lookup("assassin")]) {
             /*  they have the group so they get the skill at level 30 */
@@ -643,11 +643,11 @@ int get_skill_difficulty(Char *ch, int gsn) {
 
     hard = skill_table[gsn].rating[ch->class_num];
     switch (hard) {
-    case SKILL_UNATTAINABLE: return 0; /* this should never happen as get_skill_level does this */
-    case SKILL_ATTAINABLE:
+    case SkillRatingUnattainable: return 0; /* this should never happen as get_skill_level does this */
+    case SkillRatingAttainable:
         hard = 8; /* skills at level 60 */
         break;
-    case SKILL_ASSASSIN:
+    case SkillRatingSpecial:
         hard = 5; /* Assassin group stuff */
         break;
     }
@@ -675,9 +675,9 @@ int get_skill_trains(Char *ch, int gsn) {
         return 0;
 
     switch (skill_table[gsn].rating[ch->class_num]) {
-    case SKILL_UNATTAINABLE: return 0; /* shouldn't happen */
-    case SKILL_ATTAINABLE: return 10; /* $-) */
-    case SKILL_ASSASSIN: return 10;
+    case SkillRatingUnattainable: return 0; /* shouldn't happen */
+    case SkillRatingAttainable: return 10; /* $-) */
+    case SkillRatingSpecial: return 10;
     }
     return (skill_table[gsn].rating[ch->class_num]);
 }

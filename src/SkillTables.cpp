@@ -2132,7 +2132,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         24,
         {30, 30, 30, 30},
-        {SKILL_ASSASSIN, SKILL_ASSASSIN, SKILL_ASSASSIN, SKILL_ASSASSIN},
+        {SkillRatingSpecial, SkillRatingSpecial, SkillRatingSpecial, SkillRatingSpecial},
     },
 
     {
@@ -2150,7 +2150,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         24,
         {60, 60, 5, 1},
-        {SKILL_ATTAINABLE, SKILL_ATTAINABLE, 3, 2},
+        {SkillRatingAttainable, SkillRatingAttainable, 3, 2},
     },
 
     {
@@ -2168,7 +2168,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         24,
         {60, 60, 25, 15},
-        {SKILL_ATTAINABLE, SKILL_ATTAINABLE, 6, 4},
+        {SkillRatingAttainable, SkillRatingAttainable, 6, 4},
     },
 
     {
@@ -2186,7 +2186,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         24,
         {60, 60, 6, 3},
-        {SKILL_ATTAINABLE, SKILL_ATTAINABLE, 5, 4},
+        {SkillRatingAttainable, SkillRatingAttainable, 5, 4},
     },
 
     {
@@ -2204,7 +2204,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         24,
         {60, 60, 6, 11},
-        {SKILL_ATTAINABLE, SKILL_ATTAINABLE, 4, 6},
+        {SkillRatingAttainable, SkillRatingAttainable, 4, 6},
     },
 
     {
@@ -2240,7 +2240,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         0,
         {60, 60, 5, 1},
-        {SKILL_ATTAINABLE, 9, 5, 3},
+        {SkillRatingAttainable, 9, 5, 3},
     },
 
     {
@@ -2276,7 +2276,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         12,
         {60, 12, 12, 8},
-        {SKILL_ATTAINABLE, 4, 4, 3},
+        {SkillRatingAttainable, 4, 4, 3},
     },
 
     {
@@ -2294,7 +2294,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         12,
         {60, 60, 20, 5},
-        {SKILL_ATTAINABLE, SKILL_ATTAINABLE, 8, 3},
+        {SkillRatingAttainable, SkillRatingAttainable, 8, 3},
     },
 
     {
@@ -2330,7 +2330,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         12,
         {60, 60, 3, 1},
-        {SKILL_ATTAINABLE, 6, 2, 4},
+        {SkillRatingAttainable, 6, 2, 4},
     },
 
     {
@@ -2348,7 +2348,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         24,
         {60, 60, 1, 1},
-        {SKILL_ATTAINABLE, SKILL_ATTAINABLE, 4, 3},
+        {SkillRatingAttainable, SkillRatingAttainable, 4, 3},
     },
 
     {
@@ -2384,7 +2384,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         0,
         {60, 60, 14, 12},
-        {SKILL_ATTAINABLE, SKILL_ATTAINABLE, 6, 4},
+        {SkillRatingAttainable, SkillRatingAttainable, 6, 4},
     },
 
     /* non-combat skills */
@@ -2440,7 +2440,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         12,
         {30, 30, 30, 30},
-        {SKILL_ASSASSIN, SKILL_ASSASSIN, SKILL_ASSASSIN, SKILL_ASSASSIN},
+        {SkillRatingSpecial, SkillRatingSpecial, SkillRatingSpecial, SkillRatingSpecial},
     },
 
     {
@@ -2494,7 +2494,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         0,
         {30, 30, 30, 30},
-        {SKILL_ASSASSIN, SKILL_ASSASSIN, SKILL_ASSASSIN, SKILL_ASSASSIN},
+        {SkillRatingSpecial, SkillRatingSpecial, SkillRatingSpecial, SkillRatingSpecial},
     },
 
     {
@@ -2512,7 +2512,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         0,
         {60, 60, 5, 60},
-        {SKILL_ATTAINABLE, SKILL_ATTAINABLE, 4, SKILL_ATTAINABLE},
+        {SkillRatingAttainable, SkillRatingAttainable, 4, SkillRatingAttainable},
     },
 
     {
@@ -2530,7 +2530,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         0,
         {60, 60, 15, 60},
-        {SKILL_ATTAINABLE, SKILL_ATTAINABLE, 4, SKILL_ATTAINABLE},
+        {SkillRatingAttainable, SkillRatingAttainable, 4, SkillRatingAttainable},
     },
 
     {
@@ -2566,7 +2566,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         12,
         {30, 30, 30, 30},
-        {SKILL_ASSASSIN, SKILL_ASSASSIN, SKILL_ASSASSIN, SKILL_ASSASSIN},
+        {SkillRatingSpecial, SkillRatingSpecial, SkillRatingSpecial, SkillRatingSpecial},
     },
 
     {
@@ -2584,7 +2584,7 @@ const struct skill_type skill_table[MAX_SKILL] = {
         0,
         24,
         {30, 30, 30, 30},
-        {SKILL_ASSASSIN, SKILL_ASSASSIN, SKILL_ASSASSIN, SKILL_ASSASSIN},
+        {SkillRatingSpecial, SkillRatingSpecial, SkillRatingSpecial, SkillRatingSpecial},
     },
 
     {
@@ -2682,8 +2682,8 @@ const struct skill_type skill_table[MAX_SKILL] = {
        "raise dead",      {
           1,  1,  1,  1       }
        ,  {
-         SKILL_ATTAINABLE, SKILL_ATTAINABLE,
-         SKILL_ATTAINABLE, SKILL_ATTAINABLE }
+         SkillRatingAttainable, SkillRatingAttainable,
+         SkillRatingAttainable, SkillRatingAttainable }
        ,
        spell_raise_dead,    Target::Ignore,    Position::Type::Standing,
        &gsn_raise_dead,      SLOT( 209),   100, 12,

@@ -13,9 +13,9 @@ enum class Target;
 /*
  *  Skill rating magic numbers.
  */
-#define SKILL_UNATTAINABLE 0
-#define SKILL_ATTAINABLE -1
-#define SKILL_ASSASSIN -2 /* Hacky kludge, ohyes. */
+static constexpr auto SkillRatingUnattainable = 0;
+static constexpr auto SkillRatingAttainable = -1;
+static constexpr auto SkillRatingSpecial = -2; /* Hacky kludge, ohyes. */
 
 /*
  * Skills include spells as a particular case.
