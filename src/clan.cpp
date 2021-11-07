@@ -63,8 +63,6 @@ const std::array<Clan, NUM_CLANS> clantable = {{
 /* End user servicable bits */
 
 void do_clantalk(Char *ch, const char *argument) {
-    char buf[MAX_STRING_LENGTH];
-
     auto *orig_clan = ch->desc->person() ? ch->desc->person()->pc_clan() : nullptr;
     if (orig_clan == nullptr) {
         ch->send_line("You are not a member of a clan.");
@@ -79,7 +77,7 @@ void do_clantalk(Char *ch, const char *argument) {
     if (argument[0] == '\0' || !orig_clan->channelflags) {
         /* They want to turn it on/off */
         toggle_enum_bit(orig_clan->channelflags, ClanCommFlag::ChannelOn);
-        ch->send_line(buf, "Clan channel now {}",
+        ch->send_line("Clan channel now {}.",
                       check_enum_bit(orig_clan->channelflags, ClanCommFlag::ChannelOn) ? "on" : "off");
         return;
     }
