@@ -31,6 +31,7 @@
 #include "OffensiveFlag.hpp"
 #include "ResetData.hpp"
 #include "RoomFlag.hpp"
+#include "ScrollTargetValidator.hpp"
 #include "Shop.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
@@ -710,7 +711,8 @@ void load_objects(FILE *fp) {
         bug("Load_objects: no #AREA section found yet!");
         exit(1);
     }
-
+    const auto validators = std::array<std::unique_ptr<const ObjectIndexValidator>, 1>{
+        std::make_unique<ScrollTargetValidator>(skill_table)};
     for (;;) {
         sh_int vnum;
         char letter;
@@ -898,7 +900,12 @@ void load_objects(FILE *fp) {
         case ObjectType::Wand: objIndex->value[3] = slot_lookup(objIndex->value[3]); break;
         default:;
         }
-
+        for (auto &&validator : validators) {
+            if (const auto result = validator->validate(objIndex); result.error_message) {
+                bug(*result.error_message);
+                exit(1);
+            }
+        }
         iHash = vnum % MAX_KEY_HASH;
         objIndex->next = obj_index_hash[iHash];
         obj_index_hash[iHash] = objIndex;
