@@ -14,6 +14,7 @@
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Room.hpp"
+#include "SpellTarget.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
@@ -142,5 +143,6 @@ void do_heal(Char *ch, const char *argument) {
     if (sn == -1)
         return;
 
-    spell(sn, mob->level, mob, ch);
+    auto spell_target = SpellTarget(ch);
+    spell(sn, mob->level, mob, spell_target);
 }

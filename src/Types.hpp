@@ -11,8 +11,6 @@ using ush_int = uint16_t;
 // User defined literal to cast to sh_int.
 inline sh_int operator"" _s(unsigned long long i) { return static_cast<sh_int>(i); }
 
-// Function pointers for spells.
-using SpellFunc = void (*)(int spell_num, int level, Char *ch, void *vo);
 // Function pointer for NPC special behaviours.
 using SpecialFunc = bool (*)(Char *ch);
 // Function pointers for dispel magic checks

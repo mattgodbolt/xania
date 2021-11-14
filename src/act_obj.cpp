@@ -55,8 +55,6 @@
 
 #include <set>
 
-extern const char *target_name; /* Included from magic.c */
-
 /* RT part of the corpse looting code */
 
 bool can_loot(const Char *ch, const Object *obj) {
@@ -1348,10 +1346,9 @@ void do_eat(Char *ch, const char *argument) {
         break;
 
     case ObjectType::Pill:
-        target_name = "";
-        obj_cast_spell(obj->value[1], obj->value[0], ch, ch, nullptr);
-        obj_cast_spell(obj->value[2], obj->value[0], ch, ch, nullptr);
-        obj_cast_spell(obj->value[3], obj->value[0], ch, ch, nullptr);
+        obj_cast_spell(obj->value[1], obj->value[0], ch, ch, nullptr, "");
+        obj_cast_spell(obj->value[2], obj->value[0], ch, ch, nullptr, "");
+        obj_cast_spell(obj->value[3], obj->value[0], ch, ch, nullptr, "");
         break;
     default:;
     }
@@ -1512,10 +1509,9 @@ void do_quaff(Char *ch, const char *argument) {
     act("$n quaffs $p.", ch, obj, nullptr, To::Room);
     act("You quaff $p.", ch, obj, nullptr, To::Char);
 
-    target_name = "";
-    obj_cast_spell(obj->value[1], obj->value[0], ch, ch, nullptr);
-    obj_cast_spell(obj->value[2], obj->value[0], ch, ch, nullptr);
-    obj_cast_spell(obj->value[3], obj->value[0], ch, ch, nullptr);
+    obj_cast_spell(obj->value[1], obj->value[0], ch, ch, nullptr, "");
+    obj_cast_spell(obj->value[2], obj->value[0], ch, ch, nullptr, "");
+    obj_cast_spell(obj->value[3], obj->value[0], ch, ch, nullptr, "");
 
     extract_obj(obj);
 }
@@ -1545,7 +1541,6 @@ void do_recite(Char *ch, const char *argument) {
         return;
     }
 
-    target_name = arg2; /* Makes cast 'locate object' xxxxx work */
     obj = nullptr;
     if (arg2[0] == '\0') {
         victim = ch;
@@ -1567,11 +1562,9 @@ void do_recite(Char *ch, const char *argument) {
     }
 
     else {
-        if (target_name == nullptr)
-            target_name = "";
-        obj_cast_spell(scroll->value[1], scroll->value[0], ch, victim, obj);
-        obj_cast_spell(scroll->value[2], scroll->value[0], ch, victim, obj);
-        obj_cast_spell(scroll->value[3], scroll->value[0], ch, victim, obj);
+        obj_cast_spell(scroll->value[1], scroll->value[0], ch, victim, obj, arg2);
+        obj_cast_spell(scroll->value[2], scroll->value[0], ch, victim, obj, arg2);
+        obj_cast_spell(scroll->value[3], scroll->value[0], ch, victim, obj, arg2);
         check_improve(ch, gsn_scrolls, true, 2);
     }
 
@@ -1633,9 +1626,7 @@ void do_brandish(Char *ch) {
                         continue;
                     break;
                 }
-
-                target_name = "";
-                obj_cast_spell(staff->value[3], staff->value[0], ch, vch, nullptr);
+                obj_cast_spell(staff->value[3], staff->value[0], ch, vch, nullptr, "");
                 check_improve(ch, gsn_staves, true, 2);
             }
     }
@@ -1689,13 +1680,6 @@ void do_zap(Char *ch, const char *argument) {
             ch->send_line("You can't find it.");
             return;
         }
-        if (skill_table[wand->value[3]].target == Target::CharOther
-            || skill_table[wand->value[3]].target == Target::Ignore) {
-            target_name = arg;
-        } else {
-            target_name = "";
-        }
-
         if ((victim != nullptr && victim != ch && victim->in_room->vnum != ch->in_room->vnum)
             && skill_table[wand->value[3]].target == Target::CharOffensive) {
             act(fmt::format("You attempt to zap {}.....", get_char_room(ch, arg) ? victim->short_descr : "someone"), ch,
@@ -1732,7 +1716,7 @@ void do_zap(Char *ch, const char *argument) {
             act("$n's efforts with $p produce only smoke and sparks.", ch, wand, nullptr, To::Room);
             check_improve(ch, gsn_wands, false, 2);
         } else {
-            obj_cast_spell(wand->value[3], wand->value[0], ch, victim, obj);
+            obj_cast_spell(wand->value[3], wand->value[0], ch, victim, obj, arg);
             check_improve(ch, gsn_wands, true, 2);
         }
     }

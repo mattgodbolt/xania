@@ -71,8 +71,8 @@
 static constexpr auto DAMAGE_CAP = 1000;
 static constexpr auto EXP_LOSS_ON_DEATH = 200;
 
-void spell_poison(int spell_num, int level, Char *ch, void *vo);
-void spell_plague(int spell_num, int level, Char *ch, void *vo);
+void spell_poison(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
+void spell_plague(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
 
 /*
  * Local functions.
@@ -599,17 +599,18 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     if (wield == nullptr || wield->type != ObjectType::Weapon)
         return;
 
+    auto spell_target = SpellTarget(victim);
     if ((check_enum_bit(wield->value[4], WeaponFlag::Poisoned)) && !victim->is_aff_poison()) {
         if (number_percent() > 75) {
             int p_sn = skill_lookup("poison");
-            spell_poison(p_sn, wield->level, ch, victim);
+            spell_poison(p_sn, wield->level, ch, spell_target);
         }
     }
 
     if ((check_enum_bit(wield->value[4], WeaponFlag::Plagued)) && !victim->is_aff_plague()) {
         if (number_percent() > 75) {
             int p_sn = skill_lookup("plague");
-            spell_plague(p_sn, wield->level, ch, victim);
+            spell_plague(p_sn, wield->level, ch, spell_target);
         }
     }
 }

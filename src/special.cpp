@@ -147,7 +147,8 @@ bool dragon(Char *ch, const char *spell_name) {
     int sn = skill_lookup(spell_name);
     if (sn < 0)
         return false;
-    (*skill_table[sn].spell_fun)(sn, ch->level, ch, victim);
+    auto spell_target = SpellTarget(victim);
+    (*skill_table[sn].spell_fun)(sn, ch->level, ch, spell_target);
     return true;
 }
 
@@ -184,7 +185,8 @@ bool spec_breath_gas(Char *ch) {
 
     if ((sn = skill_lookup("gas breath")) < 0)
         return false;
-    (*skill_table[sn].spell_fun)(sn, ch->level, ch, nullptr);
+    auto spell_target = SpellTarget("");
+    (*skill_table[sn].spell_fun)(sn, ch->level, ch, spell_target);
     return true;
 }
 
@@ -284,36 +286,36 @@ bool spec_cast_adept(Char *ch) {
     });
     if (!victim)
         return false;
-
+    auto spell_target = SpellTarget(victim);
     switch (number_bits(4)) {
     case 0:
         act("$n utters the word 'abrazak'.", ch);
-        spell_armor(skill_lookup("armor"), (ch->level / 4), ch, victim);
+        spell_armor(skill_lookup("armor"), (ch->level / 4), ch, spell_target);
         return true;
 
     case 1:
         act("$n utters the word 'fido'.", ch);
-        spell_bless(skill_lookup("bless"), (ch->level / 4), ch, victim);
+        spell_bless(skill_lookup("bless"), (ch->level / 4), ch, spell_target);
         return true;
 
     case 2:
         act("$n utters the word 'judicandus noselacri'.", ch);
-        spell_cure_blindness(skill_lookup("cure blindness"), ch->level, ch, victim);
+        spell_cure_blindness(skill_lookup("cure blindness"), ch->level, ch, spell_target);
         return true;
 
     case 3:
         act("$n utters the word 'judicandus dies'.", ch);
-        spell_cure_light(skill_lookup("cure light"), ch->level, ch, victim);
+        spell_cure_light(skill_lookup("cure light"), ch->level, ch, spell_target);
         return true;
 
     case 4:
         act("$n utters the words 'judicandus sausabru'.", ch);
-        spell_cure_poison(skill_lookup("cure poison"), ch->level, ch, victim);
+        spell_cure_poison(skill_lookup("cure poison"), ch->level, ch, spell_target);
         return true;
 
     case 5:
         act("$n utters the words 'candusima'.", ch);
-        spell_refresh(skill_lookup("refresh"), ch->level, ch, victim);
+        spell_refresh(skill_lookup("refresh"), ch->level, ch, spell_target);
         return true;
     }
 
@@ -383,7 +385,8 @@ bool spec_cast_cleric(Char *ch) {
 
     if ((sn = skill_lookup(spell)) < 0)
         return false;
-    (*skill_table[sn].spell_fun)(sn, ch->level, ch, victim);
+    auto spell_target = SpellTarget(victim);
+    (*skill_table[sn].spell_fun)(sn, ch->level, ch, spell_target);
     return true;
 }
 
@@ -407,7 +410,8 @@ bool spec_cast_judge(Char *ch) {
     spell = "high explosive";
     if ((sn = skill_lookup(spell)) < 0)
         return false;
-    (*skill_table[sn].spell_fun)(sn, ch->level, ch, victim);
+    auto spell_target = SpellTarget(victim);
+    (*skill_table[sn].spell_fun)(sn, ch->level, ch, spell_target);
     return true;
 }
 
@@ -482,7 +486,8 @@ bool spec_cast_mage(Char *ch) {
 
     if ((sn = skill_lookup(spell)) < 0)
         return false;
-    (*skill_table[sn].spell_fun)(sn, ch->level, ch, victim);
+    auto spell_target = SpellTarget(victim);
+    (*skill_table[sn].spell_fun)(sn, ch->level, ch, spell_target);
     return true;
 }
 
@@ -565,7 +570,8 @@ bool spec_cast_undead(Char *ch) {
 
     if ((sn = skill_lookup(spell)) < 0)
         return false;
-    (*skill_table[sn].spell_fun)(sn, ch->level, ch, victim);
+    auto spell_target = SpellTarget(victim);
+    (*skill_table[sn].spell_fun)(sn, ch->level, ch, spell_target);
     return true;
 }
 
@@ -627,7 +633,8 @@ bool spec_cast_bastard(Char *ch) {
 
     if ((sn = skill_lookup(spell)) < 0)
         return false;
-    (*skill_table[sn].spell_fun)(sn, ch->level, ch, victim);
+    auto spell_target = SpellTarget(victim);
+    (*skill_table[sn].spell_fun)(sn, ch->level, ch, spell_target);
     return true;
 }
 
@@ -745,7 +752,8 @@ bool spec_puff(Char *ch) {
         }
         if ((sn = skill_lookup("teleport")) < 0)
             return false;
-        (*skill_table[sn].spell_fun)(sn, ch->level, ch, ch);
+        auto spell_target = SpellTarget(ch);
+        (*skill_table[sn].spell_fun)(sn, ch->level, ch, spell_target);
     }
 
     /* Puff has only one spell, and it's the most annoying one, of course.
@@ -762,7 +770,8 @@ bool spec_puff(Char *ch) {
 
     if ((sn = skill_lookup("teleport")) < 0)
         return false;
-    (*skill_table[sn].spell_fun)(sn, 50, ch, victim);
+    auto spell_target = SpellTarget(victim);
+    (*skill_table[sn].spell_fun)(sn, 50, ch, spell_target);
     return true;
 }
 
@@ -915,7 +924,8 @@ bool spec_poison(Char *ch) {
     act("You bite $N!", ch, nullptr, victim, To::Char);
     act("$n bites $N!", ch, nullptr, victim, To::NotVict);
     act("$n bites you!", ch, nullptr, victim, To::Vict);
-    spell_poison(gsn_poison, ch->level, ch, victim);
+    auto spell_target = SpellTarget(victim);
+    spell_poison(gsn_poison, ch->level, ch, spell_target);
     return true;
 }
 

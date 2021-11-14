@@ -7,7 +7,7 @@
 
 #include "GenericList.hpp"
 
-class Char;
+struct Char;
 struct Object;
 
 bool can_loot(const Char *ch, const Object *obj);

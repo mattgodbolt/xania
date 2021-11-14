@@ -165,7 +165,8 @@ void concordius_fights(Char *ch) {
         int sn = skill_lookup("heal");
         if (sn > 0) {
             act("|y$n begins to incant a shamanistic verse.|w", ch, nullptr, nullptr, To::Room);
-            (*skill_table[sn].spell_fun)(sn, ch->level, ch, ch);
+            auto spell_target = SpellTarget(ch);
+            (*skill_table[sn].spell_fun)(sn, ch->level, ch, spell_target);
         }
     }
 }

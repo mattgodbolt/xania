@@ -140,6 +140,140 @@ std::pair<int, int> get_direct_dmg_and_level(int level, const std::array<int, Si
 constexpr auto AttackTableIndexTameLightning = 28u;
 constexpr auto AttackTableIndexAcidWash = 31u;
 
+/**
+ * During spell casting we need to determine the SpellTarget based on what the caster stated in entity_name
+ * and the Target type of the spell.
+ * Returns an empty optional SpellTarget that wraps the real target, or nullopt if no valid SpellTarget could be
+ * created.
+ */
+std::optional<SpellTarget> get_casting_spell_target(Char *ch, const int sn, const char *entity_name,
+                                                    const char *arguments) {
+    Char *victim;
+    switch (skill_table[sn].target) {
+    default: bug("Do_cast: bad target for sn {}.", sn); return std::nullopt;
+
+    case Target::CharOffensive:
+        if (entity_name[0] == '\0') {
+            if ((victim = ch->fighting) == nullptr) {
+                ch->send_line("Cast the spell on whom?");
+                return std::nullopt;
+            }
+        } else {
+            if ((victim = get_char_room(ch, entity_name)) == nullptr) {
+                ch->send_line("They aren't here.");
+                return std::nullopt;
+            }
+        }
+        if (ch->is_pc()) {
+            if (is_safe_spell(ch, victim, false) && victim != ch) {
+                ch->send_line("Not on that target.");
+                return std::nullopt;
+            }
+        }
+        if (ch->is_aff_charm() && ch->master == victim) {
+            ch->send_line("You can't do that on your own follower.");
+            return std::nullopt;
+        }
+        return SpellTarget(victim);
+
+    case Target::CharDefensive:
+        if (entity_name[0] == '\0') {
+            victim = ch;
+        } else {
+            if ((victim = get_char_room(ch, entity_name)) == nullptr) {
+                ch->send_line("They aren't here.");
+                return std::nullopt;
+            }
+        }
+        return SpellTarget(victim);
+    case Target::Ignore:
+    case Target::CharObject:
+    case Target::CharOther: return SpellTarget(arguments);
+
+    case Target::CharSelf:
+        if (entity_name[0] != '\0' && !is_name(entity_name, ch->name)) {
+            ch->send_line("You cannot cast this spell on another.");
+            return std::nullopt;
+        }
+        return SpellTarget(ch);
+
+    case Target::ObjectInventory:
+        if (entity_name[0] == '\0') {
+            ch->send_line("What should the spell be cast upon?");
+            return std::nullopt;
+        }
+        Object *obj;
+        if ((obj = get_obj_carry(ch, entity_name)) == nullptr) {
+            ch->send_line("You are not carrying that.");
+            return std::nullopt;
+        }
+        return SpellTarget(obj);
+    }
+}
+
+/**
+ * During spell casting using an object like a Scroll, we need to determine the SpellTarget based on what the caster
+ * stated in entity_name and the Target type of the spell. Returns an empty optional SpellTarget that wraps the real
+ * target, or nullopt if no valid SpellTarget could be created.
+ * TODO: perhaps the code for this and do_cast can be unified as they're similar.
+ */
+std::optional<SpellTarget> get_obj_casting_spell_target(Char *ch, Char *victim, Object *obj, std::string_view arguments,
+                                                        const int sn) {
+    switch (skill_table[sn].target) {
+    default: bug("Obj_cast_spell: bad target for sn {}.", sn); return std::nullopt; // FIXME?
+
+    case Target::Ignore:
+    case Target::CharObject:
+    case Target::CharOther: return SpellTarget(arguments); break;
+
+    case Target::CharOffensive:
+        if (victim == nullptr)
+            victim = ch->fighting;
+        if (victim == nullptr) {
+            ch->send_line("You can't do that.");
+            return std::nullopt;
+        }
+        if (is_safe_spell(ch, victim, false) && ch != victim) {
+            ch->send_line("Something isn't right...");
+            return std::nullopt;
+        }
+        return SpellTarget(victim);
+
+    case Target::CharDefensive:
+        if (victim == nullptr)
+            victim = ch;
+        return SpellTarget(victim);
+
+    case Target::CharSelf: return SpellTarget(ch); break;
+
+    case Target::ObjectInventory:
+        if (obj == nullptr) {
+            ch->send_line("You can't do that.");
+            return std::nullopt;
+        }
+        return SpellTarget(obj);
+    }
+}
+
+/**
+ * After casting an offensive spell (directly or when using an object), if the target of the spell is in the
+ * room, hit it and provoke a fight if one is not already under way.
+ */
+void casting_may_provoke_victim(Char *ch, const SpellTarget &spell_target, const int sn) {
+    if (skill_table[sn].target == Target::CharOffensive && spell_target.getChar() != ch
+        && spell_target.getChar()->master != ch
+        && (spell_target.getChar()->is_npc() || fighting_duel(ch, spell_target.getChar()))) {
+        if (ch && ch->in_room) {
+            for (auto *vch : ch->in_room->people) {
+                if (spell_target.getChar() == vch && spell_target.getChar()->fighting == nullptr) {
+                    multi_hit(spell_target.getChar(), ch);
+                    break;
+                }
+            }
+        }
+    }
+}
+
 }
 
 /*
@@ -232,39 +366,31 @@ int mana_for_spell(const Char *ch, const int sn) {
     return std::max(skill_table[sn].min_mana, mana);
 }
 
-/*
- * The kludgy global is for spells who want more stuff from command line.
- * TODO: #261 replace.
- */
-const char *target_name;
-
 void do_cast(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    Char *victim;
-    Object *obj;
+    // TODO convert to ArgParser
+    char spell_name[MAX_INPUT_LENGTH];
+    char entity_name[MAX_INPUT_LENGTH];
     Object *potion;
     ObjectIndex *i_Potion;
     Object *scroll;
     ObjectIndex *i_Scroll;
     Object *bomb;
-    void *vo;
     int sn;
     int pos;
     /* Switched NPC's can cast spells, but others can't. */
     if (ch->is_npc() && (ch->desc == nullptr))
         return;
 
-    target_name = one_argument(argument, arg1);
-    one_argument(target_name, arg2);
+    auto *arguments = one_argument(argument, spell_name);
+    one_argument(arguments, entity_name);
 
-    if (arg1[0] == '\0') {
+    if (spell_name[0] == '\0') {
         ch->send_line("Cast which what where?");
         return;
     }
     /* Changed this bit, to '<=' 0 : spells you didn't know, were starting
            fights =) */
-    if ((sn = skill_lookup(arg1)) <= 0 || (ch->is_pc() && ch->level < get_skill_level(ch, sn))) {
+    if ((sn = skill_lookup(spell_name)) <= 0 || (ch->is_pc() && ch->level < get_skill_level(ch, sn))) {
         ch->send_line("You don't know any spells of that name.");
         return;
     }
@@ -277,7 +403,7 @@ void do_cast(Char *ch, const char *argument) {
     const int mana = mana_for_spell(ch, sn);
     /* MG's rather more dubious bomb-making routine */
 
-    if (!str_cmp(arg2, "explosive")) {
+    if (!str_cmp(entity_name, "explosive")) {
 
         if (ch->class_num != 0) {
             ch->send_line("You're more than likely gonna kill yourself!");
@@ -370,7 +496,7 @@ void do_cast(Char *ch, const char *argument) {
     }
 
     /* MG's scribing command ... */
-    if (!str_cmp(arg2, "scribe") && (skill_table[sn].spell_fun != spell_null)) {
+    if (!str_cmp(entity_name, "scribe") && (skill_table[sn].spell_fun != spell_null)) {
 
         if ((ch->class_num != 0) && (ch->class_num != 1)) {
             ch->send_line("You can't scribe! You can't read or write!");
@@ -432,7 +558,7 @@ void do_cast(Char *ch, const char *argument) {
     }
 
     /* MG's brewing command ... */
-    if (!str_cmp(arg2, "brew") && (skill_table[sn].spell_fun != spell_null)) {
+    if (!str_cmp(entity_name, "brew") && (skill_table[sn].spell_fun != spell_null)) {
 
         if ((ch->class_num != 0) && (ch->class_num != 1)) {
             ch->send_line("You can't make potions! You don't know how!");
@@ -494,86 +620,10 @@ void do_cast(Char *ch, const char *argument) {
         return;
     }
 
-    /*
-     * Locate targets.
-     */
-    victim = nullptr;
-    obj = nullptr;
-    vo = nullptr;
-
-    switch (skill_table[sn].target) {
-    default: bug("Do_cast: bad target for sn {}.", sn); return;
-
-    case Target::Ignore: break;
-
-    case Target::CharOffensive:
-        if (arg2[0] == '\0') {
-            if ((victim = ch->fighting) == nullptr) {
-                ch->send_line("Cast the spell on whom?");
-                return;
-            }
-        } else {
-            if ((victim = get_char_room(ch, arg2)) == nullptr) {
-                ch->send_line("They aren't here.");
-                return;
-            }
-        }
-        if (ch->is_pc()) {
-
-            if (is_safe_spell(ch, victim, false) && victim != ch) {
-                ch->send_line("Not on that target.");
-                return;
-            }
-        }
-
-        if (ch->is_aff_charm() && ch->master == victim) {
-            ch->send_line("You can't do that on your own follower.");
-            return;
-        }
-
-        vo = (void *)victim;
-        break;
-
-    case Target::CharDefensive:
-        if (arg2[0] == '\0') {
-            victim = ch;
-        } else {
-            if ((victim = get_char_room(ch, arg2)) == nullptr) {
-                ch->send_line("They aren't here.");
-                return;
-            }
-        }
-
-        vo = (void *)victim;
-        break;
-
-    case Target::CharObject:
-    case Target::CharOther: vo = (void *)arg2; break;
-
-    case Target::CharSelf:
-        if (arg2[0] != '\0' && !is_name(arg2, ch->name)) {
-            ch->send_line("You cannot cast this spell on another.");
-            return;
-        }
-
-        vo = (void *)ch;
-        break;
-
-    case Target::ObjectInventory:
-        if (arg2[0] == '\0') {
-            ch->send_line("What should the spell be cast upon?");
-            return;
-        }
-
-        if ((obj = get_obj_carry(ch, arg2)) == nullptr) {
-            ch->send_line("You are not carrying that.");
-            return;
-        }
-
-        vo = (void *)obj;
-        break;
+    auto opt_spell_target = get_casting_spell_target(ch, sn, entity_name, arguments);
+    if (!opt_spell_target) {
+        return;
     }
-
     if (ch->is_pc() && ch->mana < mana) {
         ch->send_line("You don't have enough mana.");
         return;
@@ -590,29 +640,16 @@ void do_cast(Char *ch, const char *argument) {
         ch->mana -= mana / 2;
     } else {
         ch->mana -= mana;
-        (*skill_table[sn].spell_fun)(sn, ch->level, ch, vo);
+        (*skill_table[sn].spell_fun)(sn, ch->level, ch, *opt_spell_target);
         check_improve(ch, sn, true, 1);
     }
-
-    if (skill_table[sn].target == Target::CharOffensive && victim != ch && victim->master != ch
-        && (victim->is_npc() || fighting_duel(ch, victim))) {
-        if (ch && ch->in_room) {
-            for (auto *vch : ch->in_room->people) {
-                if (victim == vch && victim->fighting == nullptr) {
-                    multi_hit(victim, ch);
-                    break;
-                }
-            }
-        }
-    }
+    casting_may_provoke_victim(ch, *opt_spell_target, sn);
 }
 
 /*
  * Cast spells at targets using a magical object.
  */
-void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj) {
-    void *vo;
-
+void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj, std::string_view arguments) {
     if (sn <= 0)
         return;
 
@@ -621,71 +658,33 @@ void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj) {
         return;
     }
 
-    switch (skill_table[sn].target) {
-    default: bug("Obj_cast_spell: bad target for sn {}.", sn); return;
-
-    case Target::Ignore: vo = nullptr; break;
-
-    case Target::CharOffensive:
-        if (victim == nullptr)
-            victim = ch->fighting;
-        if (victim == nullptr) {
-            ch->send_line("You can't do that.");
-            return;
-        }
-        if (is_safe_spell(ch, victim, false) && ch != victim) {
-            ch->send_line("Something isn't right...");
-            return;
-        }
-        vo = (void *)victim;
-        break;
-
-    case Target::CharDefensive:
-        if (victim == nullptr)
-            victim = ch;
-        vo = (void *)victim;
-        break;
-
-    case Target::CharSelf: vo = (void *)ch; break;
-
-    case Target::ObjectInventory:
-        if (obj == nullptr) {
-            ch->send_line("You can't do that.");
-            return;
-        }
-        vo = (void *)obj;
-        break;
+    auto opt_spell_target = get_obj_casting_spell_target(ch, victim, obj, arguments, sn);
+    if (!opt_spell_target) {
+        return;
     }
-
-    /*   target_name = ""; - no longer needed */
-    (*skill_table[sn].spell_fun)(sn, level, ch, vo);
-
-    if (skill_table[sn].target == Target::CharOffensive && victim != ch && victim->master != ch) {
-        for (auto *vch : ch->in_room->people) {
-            if (victim == vch && victim->fighting == nullptr) {
-                multi_hit(victim, ch);
-                break;
-            }
-        }
-    }
+    (*skill_table[sn].spell_fun)(sn, level, ch, *opt_spell_target);
+    casting_may_provoke_victim(ch, *opt_spell_target, sn);
 }
 
 /*
  * Spell functions.
  */
-void spell_acid_blast(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_acid_blast(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, AcidBlastExorciseDemonfireDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Acid);
 }
 
-void spell_acid_wash(int sn, int level, Char *ch, void *vo) {
+void spell_acid_wash(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
@@ -705,8 +704,10 @@ void spell_acid_wash(int sn, int level, Char *ch, void *vo) {
     ch->send_to("With a mighty scream you draw acid from the earth.\n\rYou wash your weapon in the acid pool.\n\r");
 }
 
-void spell_armor(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_armor(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -731,8 +732,10 @@ void spell_armor(int sn, int level, Char *ch, void *vo) {
         act("$N is protected by your magic.", ch, nullptr, victim, To::Char);
 }
 
-void spell_bless(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_bless(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -761,9 +764,11 @@ void spell_bless(int sn, int level, Char *ch, void *vo) {
         act("You grant $N the favor of your god.", ch, nullptr, victim, To::Char);
 }
 
-void spell_blindness(int sn, int level, Char *ch, void *vo) {
+void spell_blindness(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)ch;
-    Char *victim = (Char *)vo;
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_aff_blind()) {
         if (ch == victim) {
             ch->send_line("You are already blind.");
@@ -788,16 +793,17 @@ void spell_blindness(int sn, int level, Char *ch, void *vo) {
     act("$n appears to be blinded.", victim);
 }
 
-void spell_burning_hands(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_burning_hands(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, BurningHandsCauseSerDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Fire);
 }
 
-void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
-    (void)vo;
+void spell_call_lightning(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     if (ch->is_inside()) {
         ch->send_line("You must be outside to invoke the power of lightning.");
         return;
@@ -829,8 +835,7 @@ void spell_call_lightning(int sn, int level, Char *ch, void *vo) {
 
 /* RT calm spell stops all fighting in the room */
 
-void spell_calm(int sn, int level, Char *ch, void *vo) {
-    (void)vo;
+void spell_calm(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     int mlevel = 0;
     int count = 0;
     sh_int high_level = 0;
@@ -922,9 +927,11 @@ bool try_dispel_all_dispellables(int level, Char *victim) {
     return found;
 }
 
-void spell_cancellation(int sn, int level, Char *ch, void *vo) {
+void spell_cancellation(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     level += 2;
 
     if ((ch->is_pc() && victim->is_npc() && !(ch->is_aff_charm() && ch->master == victim))
@@ -940,32 +947,40 @@ void spell_cancellation(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Spell failed.");
 }
 
-void spell_cause_light(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_cause_light(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, MagicMissileCauseLightDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Harm);
 }
 
-void spell_cause_critical(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_cause_critical(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Harm);
 }
 
-void spell_cause_serious(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_cause_serious(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, BurningHandsCauseSerDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Harm);
 }
 
-void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_chain_lightning(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     Char *last_vict;
     bool found;
 
@@ -1026,8 +1041,10 @@ void spell_chain_lightning(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_change_sex(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_change_sex(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     AFFECT_DATA af;
 
     if (victim->is_affected_by(sn)) {
@@ -1052,8 +1069,10 @@ void spell_change_sex(int sn, int level, Char *ch, void *vo) {
     act("$n doesn't look like $r anymore...", victim);
 }
 
-void spell_charm_person(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_charm_person(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     AFFECT_DATA af;
 
     if (victim == ch) {
@@ -1084,8 +1103,10 @@ void spell_charm_person(int sn, int level, Char *ch, void *vo) {
         act("$N looks at you with adoring eyes.", ch, nullptr, victim, To::Char);
 }
 
-void spell_chill_touch(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_chill_touch(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     AFFECT_DATA af;
     auto dam_level = get_direct_dmg_and_level(level, ChillTouchDamage);
     if (!saves_spell(dam_level.second, victim)) {
@@ -1104,21 +1125,22 @@ void spell_chill_touch(int sn, int level, Char *ch, void *vo) {
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Cold);
 }
 
-void spell_colour_spray(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_colour_spray(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, ColourSprayDispelGoodEvilDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     else
-        spell_blindness(skill_lookup("blindness"), dam_level.second / 2, ch, (void *)victim);
+        spell_blindness(skill_lookup("blindness"), dam_level.second / 2, ch, spell_target);
 
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Light);
 }
 
-void spell_continual_light(int sn, int level, Char *ch, void *vo) {
+void spell_continual_light(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    (void)vo;
     Object *light;
 
     light = create_object(get_obj_index(objects::LightBall));
@@ -1127,23 +1149,22 @@ void spell_continual_light(int sn, int level, Char *ch, void *vo) {
     act("You twiddle your thumbs and $p appears.", ch, light, nullptr, To::Char);
 }
 
-void spell_control_weather(int sn, int level, Char *ch, void *vo) {
+void spell_control_weather(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    (void)vo;
-    if (!str_cmp(target_name, "better"))
+    std::string_view arguments = spell_target.getArguments();
+    if (matches(arguments, "better"))
         weather_info.control(dice(level / 3, 4));
-    else if (!str_cmp(target_name, "worse"))
+    else if (matches(arguments, "worse"))
         weather_info.control(-dice(level / 3, 4));
     else {
         ch->send_line("Do you want it to get better or worse?");
         return;
     }
-    ch->send_line("Ok.");
+    ch->send_line("As you raise your head, a swirl of energy spirals upward into the heavens.");
 }
 
-void spell_create_food(int sn, int level, Char *ch, void *vo) {
+void spell_create_food(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     (void)sn;
-    (void)vo;
     Object *mushroom = create_object(get_obj_index(objects::Mushroom));
     mushroom->value[0] = 5 + level;
     obj_to_room(mushroom, ch->in_room);
@@ -1151,9 +1172,8 @@ void spell_create_food(int sn, int level, Char *ch, void *vo) {
     act("$p suddenly appears.", ch, mushroom, nullptr, To::Char);
 }
 
-void spell_create_spring(int sn, int level, Char *ch, void *vo) {
+void spell_create_spring(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     (void)sn;
-    (void)vo;
     Object *spring = create_object(get_obj_index(objects::Spring));
     spring->timer = level;
     obj_to_room(spring, ch->in_room);
@@ -1161,10 +1181,11 @@ void spell_create_spring(int sn, int level, Char *ch, void *vo) {
     act("$p flows from the ground.", ch, spring, nullptr, To::Char);
 }
 
-void spell_create_water(int sn, int level, Char *ch, void *vo) {
+void spell_create_water(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type != ObjectType::Drink) {
         ch->send_line("It is unable to hold water.");
         return;
@@ -1188,10 +1209,11 @@ void spell_create_water(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_cure_blindness(int sn, int level, Char *ch, void *vo) {
+void spell_cure_blindness(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (!victim->is_affected_by(gsn_blindness)) {
         if (victim == ch)
             ch->send_line("You aren't blind.");
@@ -1207,10 +1229,11 @@ void spell_cure_blindness(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Spell failed.");
 }
 
-void spell_cure_critical(int sn, int level, Char *ch, void *vo) {
+void spell_cure_critical(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const sh_int adjusted = victim->hit + (dice(3, 8) + level - 6);
     victim->hit = std::min(adjusted, victim->max_hit);
     update_pos(victim);
@@ -1220,10 +1243,11 @@ void spell_cure_critical(int sn, int level, Char *ch, void *vo) {
 }
 
 /* RT added to cure plague */
-void spell_cure_disease(int sn, int level, Char *ch, void *vo) {
+void spell_cure_disease(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (!victim->is_affected_by(gsn_plague)) {
         if (victim == ch)
             ch->send_line("You aren't ill.");
@@ -1238,10 +1262,11 @@ void spell_cure_disease(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Spell failed.");
 }
 
-void spell_cure_light(int sn, int level, Char *ch, void *vo) {
+void spell_cure_light(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const sh_int adjusted = victim->hit + (dice(1, 8) + level / 3);
     victim->hit = std::min(adjusted, victim->max_hit);
     update_pos(victim);
@@ -1250,10 +1275,11 @@ void spell_cure_light(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Ok.");
 }
 
-void spell_cure_poison(int sn, int level, Char *ch, void *vo) {
+void spell_cure_poison(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (!victim->is_affected_by(gsn_poison)) {
         if (victim == ch)
             ch->send_line("You aren't poisoned.");
@@ -1269,10 +1295,11 @@ void spell_cure_poison(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Spell failed.");
 }
 
-void spell_cure_serious(int sn, int level, Char *ch, void *vo) {
+void spell_cure_serious(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const sh_int adjusted = victim->hit + (dice(2, 8) + level / 2);
     victim->hit = std::min(adjusted, victim->max_hit);
     update_pos(victim);
@@ -1281,10 +1308,10 @@ void spell_cure_serious(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Ok.");
 }
 
-void spell_curse(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
-
+void spell_curse(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_aff_curse()) {
         act("A curse has already befallen $N.", ch, nullptr, victim, To::Char);
         return;
@@ -1293,7 +1320,7 @@ void spell_curse(int sn, int level, Char *ch, void *vo) {
         act("$N looks uncomfortable for a moment but it passes.", ch, nullptr, victim, To::Char);
         return;
     }
-
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = 3 + (level / 6);
@@ -1315,9 +1342,10 @@ void spell_curse(int sn, int level, Char *ch, void *vo) {
  * It's equivalent to Acid Blast, but more situational due to the alignment checks.
  * Like Harm, this gives clerics some firepower but at a price.
  */
-void spell_exorcise(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-
+void spell_exorcise(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (ch->is_pc() && (victim->alignment > (ch->alignment + 100))) {
         victim = ch;
         ch->send_line("Your exorcism turns upon you!");
@@ -1342,9 +1370,10 @@ void spell_exorcise(int sn, int level, Char *ch, void *vo) {
 /*
  * Demonfire is the 'evil' version of exorcise.
  */
-void spell_demonfire(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-
+void spell_demonfire(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (ch->is_pc() && (victim->alignment < (ch->alignment - 100))) {
         victim = ch;
         ch->send_line("The demons turn upon you!");
@@ -1365,8 +1394,10 @@ void spell_demonfire(int sn, int level, Char *ch, void *vo) {
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Negative);
 }
 
-void spell_detect_evil(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_detect_evil(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -1389,8 +1420,10 @@ void spell_detect_evil(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Ok.");
 }
 
-void spell_detect_hidden(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_detect_hidden(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -1413,8 +1446,10 @@ void spell_detect_hidden(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Ok.");
 }
 
-void spell_detect_invis(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_detect_invis(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -1437,8 +1472,10 @@ void spell_detect_invis(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Ok.");
 }
 
-void spell_detect_magic(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_detect_magic(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -1461,11 +1498,12 @@ void spell_detect_magic(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Ok.");
 }
 
-void spell_detect_poison(int sn, int level, Char *ch, void *vo) {
+void spell_detect_poison(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type == ObjectType::Drink || obj->type == ObjectType::Food) {
         if (obj->value[3] != 0)
             ch->send_line("You smell poisonous fumes.");
@@ -1476,8 +1514,10 @@ void spell_detect_poison(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_dispel_evil(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_dispel_evil(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (ch->is_pc() && ch->is_evil())
         victim = ch;
 
@@ -1497,9 +1537,10 @@ void spell_dispel_evil(int sn, int level, Char *ch, void *vo) {
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Holy);
 }
 
-void spell_dispel_good(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-
+void spell_dispel_good(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (ch->is_pc() && ch->is_good())
         victim = ch;
 
@@ -1518,9 +1559,11 @@ void spell_dispel_good(int sn, int level, Char *ch, void *vo) {
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Holy);
 }
 
-void spell_dispel_magic(int sn, int level, Char *ch, void *vo) {
+void spell_dispel_magic(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (saves_spell(level, victim)) {
         victim->send_line("You feel a brief tingling sensation.");
         ch->send_line("You failed.");
@@ -1533,9 +1576,7 @@ void spell_dispel_magic(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Spell failed.");
 }
 
-void spell_earthquake(int sn, int level, Char *ch, void *vo) {
-    (void)vo;
-
+void spell_earthquake(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     ch->send_line("The earth trembles beneath your feet!");
     act("$n makes the earth tremble and shiver.", ch);
 
@@ -1557,11 +1598,12 @@ void spell_earthquake(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
+void spell_remove_invisible(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->wear_loc != Wear::None) {
         ch->send_line("You have to be carrying it to remove invisible on it!");
         return;
@@ -1594,11 +1636,12 @@ void spell_remove_invisible(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
+void spell_remove_alignment(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->wear_loc != Wear::None) {
         ch->send_line("You have to be carrying it to remove alignment on it!");
         return;
@@ -1641,9 +1684,10 @@ void spell_remove_alignment(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
-    Object *obj = (Object *)vo;
-
+void spell_enchant_armor(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type != ObjectType::Armor) {
         ch->send_line("That isn't an armor.");
         return;
@@ -1772,9 +1816,10 @@ void spell_enchant_armor(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
-    Object *obj = (Object *)vo;
-
+void spell_enchant_weapon(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if ((obj->type != ObjectType::Weapon) && (obj->type != ObjectType::Armor)) {
         ch->send_line("That isn't a weapon or armour.");
         return;
@@ -1961,11 +2006,12 @@ void spell_enchant_weapon(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_protect_container(int sn, int level, Char *ch, void *vo) {
+void spell_protect_container(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type != ObjectType::Container) {
         ch->send_line("That isn't a container.");
         return;
@@ -1987,10 +2033,11 @@ void spell_protect_container(int sn, int level, Char *ch, void *vo) {
 }
 
 /*PGW A new group to give Barbarians a helping hand*/
-void spell_vorpal(int sn, int level, Char *ch, void *vo) {
+void spell_vorpal(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type != ObjectType::Weapon) {
         ch->send_line("This isn't a weapon.");
         return;
@@ -2012,10 +2059,11 @@ void spell_vorpal(int sn, int level, Char *ch, void *vo) {
     ch->send_line("You create a flaw in the universe and place it on your blade!");
 }
 
-void spell_venom(int sn, int level, Char *ch, void *vo) {
+void spell_venom(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
@@ -2036,10 +2084,11 @@ void spell_venom(int sn, int level, Char *ch, void *vo) {
     ch->send_line("You coat the blade in poison!");
 }
 
-void spell_black_death(int sn, int level, Char *ch, void *vo) {
+void spell_black_death(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
@@ -2060,10 +2109,11 @@ void spell_black_death(int sn, int level, Char *ch, void *vo) {
     ch->send_line("Your use your cunning and skill to plague the weapon!");
 }
 
-void spell_damnation(int sn, int level, Char *ch, void *vo) {
+void spell_damnation(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
@@ -2085,11 +2135,12 @@ void spell_damnation(int sn, int level, Char *ch, void *vo) {
     ch->send_line("You turn red in the face and curse your weapon into the pits of hell!");
 }
 
-void spell_vampire(int sn, int level, Char *ch, void *vo) {
+void spell_vampire(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
@@ -2106,10 +2157,11 @@ void spell_vampire(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_tame_lightning(int sn, int level, Char *ch, void *vo) {
+void spell_tame_lightning(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     if (obj->type != ObjectType::Weapon) {
         ch->send_line("That isn't a weapon.");
         return;
@@ -2142,17 +2194,17 @@ void spell_tame_lightning(int sn, int level, Char *ch, void *vo) {
  * Drain XP, MANA, HP.
  * Caster gains HP.
  */
-void spell_energy_drain(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    int dam;
-
+void spell_energy_drain(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (saves_spell(level, victim)) {
         act("$N resists your magic through sheer force of will.", ch, nullptr, victim, To::Char);
         victim->send_line("You feel a momentary chill.");
         return;
     }
-
     ch->alignment = std::max(-1000, ch->alignment - 50);
+    int dam;
     if (victim->level <= 2) {
         dam = victim->hit + 1;
     } else {
@@ -2169,8 +2221,10 @@ void spell_energy_drain(int sn, int level, Char *ch, void *vo) {
     damage(ch, victim, dam, &skill_table[sn], DamageType::Negative);
 }
 
-void spell_fireball(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_fireball(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, FireballHarmDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
@@ -2182,23 +2236,26 @@ void spell_fireball(int sn, int level, Char *ch, void *vo) {
  * meant to specialize in damage dealing. See also Harm, which is similar to Fireball
  * in the Harmful group.
  */
-void spell_flamestrike(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_flamestrike(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, FlamestrikeDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Fire);
 }
 
-void spell_faerie_fire(int sn, int level, Char *ch, void *vo) {
+void spell_faerie_fire(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)ch;
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_aff_faerie_fire()) {
         act("$N is already surrounded by a pink outline.", ch, nullptr, victim, To::Char);
         return;
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = level;
@@ -2210,9 +2267,8 @@ void spell_faerie_fire(int sn, int level, Char *ch, void *vo) {
     act("$n is surrounded by a pink outline.", victim);
 }
 
-void spell_faerie_fog(int sn, int level, Char *ch, void *vo) {
+void spell_faerie_fog(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     (void)sn;
-    (void)vo;
 
     act("$n conjures a cloud of purple smoke.", ch);
     ch->send_line("You conjure a cloud of purple smoke.");
@@ -2237,9 +2293,11 @@ void spell_faerie_fog(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_fly(int sn, int level, Char *ch, void *vo) {
+void spell_fly(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)ch;
-    Char *victim = (Char *)vo;
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     AFFECT_DATA af;
     affect_strip(victim, sn);
     af.type = sn;
@@ -2253,11 +2311,10 @@ void spell_fly(int sn, int level, Char *ch, void *vo) {
 
 /* RT clerical berserking spell */
 
-void spell_frenzy(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    /*  Object *wield = get_eq_char( ch, Wear::Wield );*/
-
-    AFFECT_DATA af;
+void spell_frenzy(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_affected_by(sn) || victim->is_aff_berserk()) {
         if (victim == ch)
             ch->send_line("You are already in a frenzy.");
@@ -2265,7 +2322,6 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
             act("$N is already in a frenzy.", ch, nullptr, victim, To::Char);
         return;
     }
-
     if (victim->is_aff_calm()) {
         if (victim == ch)
             ch->send_line("Why don't you just relax for a while?");
@@ -2273,12 +2329,12 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
             act("$N doesn't look like $E wants to fight anymore.", ch, nullptr, victim, To::Char);
         return;
     }
-
     if ((ch->is_good() && !victim->is_good()) || (ch->is_neutral() && !victim->is_neutral())
         || (ch->is_evil() && !victim->is_evil())) {
         act("Your god doesn't seem to like $N", ch, nullptr, victim, To::Char);
         return;
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = level / 3;
@@ -2306,13 +2362,13 @@ void spell_frenzy(int sn, int level, Char *ch, void *vo) {
 
 /* RT ROM-style gate */
 
-void spell_gate(int sn, int level, Char *ch, void *vo) {
+void spell_gate(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    (void)vo;
+    std::string_view arguments = spell_target.getArguments();
     Char *victim;
     bool gate_pet;
 
-    if ((victim = get_char_world(ch, target_name)) == nullptr || victim == ch || victim->in_room == nullptr
+    if ((victim = get_char_world(ch, arguments)) == nullptr || victim == ch || victim->in_room == nullptr
         || !can_see_room(ch, victim->in_room) || check_enum_bit(victim->in_room->room_flags, RoomFlag::Safe)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Private)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Solitary)
@@ -2349,8 +2405,10 @@ void spell_gate(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_giant_strength(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_giant_strength(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     AFFECT_DATA af;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
@@ -2376,17 +2434,20 @@ void spell_giant_strength(int sn, int level, Char *ch, void *vo) {
 
 // Clerics can opt in to the Harm group fairly cheaply. They'll get harm at level 23
 // vs mages getting Fireball at 22. Also, Harm is less mana efficient.
-void spell_harm(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_harm(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, FireballHarmDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Fire);
 }
 
-void spell_regeneration(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
+void spell_regeneration(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -2398,6 +2459,7 @@ void spell_regeneration(int sn, int level, Char *ch, void *vo) {
         }
         affect_strip(victim, sn);
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     if (victim == ch)
@@ -2414,8 +2476,10 @@ void spell_regeneration(int sn, int level, Char *ch, void *vo) {
 
 /* RT haste spell */
 
-void spell_haste(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_haste(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     AFFECT_DATA af;
     affect_strip(victim, sn);
     af.type = sn;
@@ -2435,10 +2499,10 @@ void spell_haste(int sn, int level, Char *ch, void *vo) {
 }
 
 /* Moog's insanity spell */
-void spell_insanity(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
-
+void spell_insanity(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_affected_by(sn)) {
         if (victim == ch)
             ch->send_line("You're mad enough!");
@@ -2451,7 +2515,7 @@ void spell_insanity(int sn, int level, Char *ch, void *vo) {
         act("$N is unaffected.", ch, nullptr, victim, To::Char);
         return;
     }
-
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = 5;
@@ -2469,10 +2533,10 @@ void spell_insanity(int sn, int level, Char *ch, void *vo) {
 
 /* PGW  lethargy spell */
 
-void spell_lethargy(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
-
+void spell_lethargy(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_affected_by(sn) || victim->is_aff_lethargy()
         || check_enum_bit(victim->off_flags, OffensiveFlag::Slow)) {
         if (victim == ch)
@@ -2487,6 +2551,7 @@ void spell_lethargy(int sn, int level, Char *ch, void *vo) {
         victim->send_line("You feel slower momentarily but it passes.");
         return;
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     if (victim == ch)
@@ -2503,9 +2568,11 @@ void spell_lethargy(int sn, int level, Char *ch, void *vo) {
         ch->send_line("Ok.");
 }
 
-void spell_heal(int sn, int level, Char *ch, void *vo) {
+void spell_heal(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const sh_int adjusted = victim->hit + (2 * (dice(3, 8) + level - 6));
     victim->hit = std::min(adjusted, victim->max_hit);
     update_pos(victim);
@@ -2516,10 +2583,8 @@ void spell_heal(int sn, int level, Char *ch, void *vo) {
         act("$n glows with warmth.", ch, nullptr, victim, To::NotVict);
 }
 
-/* RT really nasty high-level attack spell */
-/* PGW it was crap so i changed it*/
-void spell_holy_word(int sn, int level, Char *ch, void *vo) {
-    (void)vo;
+// Holy Word is an area of effect spell.
+void spell_holy_word(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     int dam;
     int bless_num, curse_num, frenzy_num;
 
@@ -2531,16 +2596,17 @@ void spell_holy_word(int sn, int level, Char *ch, void *vo) {
     ch->send_line("You utter a word of divine power.");
 
     for (auto *vch : ch->in_room->people) {
+        auto aoe_spell_target = SpellTarget(vch);
         if ((ch->is_good() && vch->is_good()) || (ch->is_evil() && vch->is_evil())
             || (ch->is_neutral() && vch->is_neutral())) {
             vch->send_line("You feel full more powerful.");
-            spell_frenzy(frenzy_num, level, ch, (void *)vch);
-            spell_bless(bless_num, level, ch, (void *)vch);
+            spell_frenzy(frenzy_num, level, ch, aoe_spell_target);
+            spell_bless(bless_num, level, ch, aoe_spell_target);
         }
 
         else if ((ch->is_good() && vch->is_evil()) || (ch->is_evil() && vch->is_good())) {
             if (!is_safe_spell(ch, vch, true)) {
-                spell_curse(curse_num, level, ch, (void *)vch);
+                spell_curse(curse_num, level, ch, aoe_spell_target);
                 vch->send_line("You are struck down!");
                 dam = dice(level, 14);
                 damage(ch, vch, dam, &skill_table[sn], DamageType::Energy);
@@ -2549,7 +2615,7 @@ void spell_holy_word(int sn, int level, Char *ch, void *vo) {
 
         else if (ch->is_neutral()) {
             if (!is_safe_spell(ch, vch, true)) {
-                spell_curse(curse_num, level / 2, ch, (void *)vch);
+                spell_curse(curse_num, level / 2, ch, aoe_spell_target);
                 vch->send_line("You are struck down!");
                 dam = dice(level, 10);
                 damage(ch, vch, dam, &skill_table[sn], DamageType::Energy);
@@ -2562,11 +2628,12 @@ void spell_holy_word(int sn, int level, Char *ch, void *vo) {
     ch->hit = (ch->hit * 3) / 4;
 }
 
-void spell_identify(int sn, int level, Char *ch, void *vo) {
+void spell_identify(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    Object *obj = (Object *)vo;
-
+    Object *obj = spell_target.getObject();
+    if (!obj)
+        return;
     ch->send_line("Object '{}' is type {}, extra flags {}.", obj->name, obj->type_name(),
                   format_set_flags(Object::AllExtraFlags, ch, obj->extra_flags));
     ch->send_line("Weight is {}, value is {}, level is {}.", obj->weight, obj->cost, obj->level);
@@ -2665,8 +2732,10 @@ void spell_identify(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_infravision(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_infravision(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     AFFECT_DATA af;
     affect_strip(victim, sn);
     act("$n's eyes glow red.\n\r", ch);
@@ -2678,15 +2747,16 @@ void spell_infravision(int sn, int level, Char *ch, void *vo) {
     victim->send_line("Your eyes glow red.");
 }
 
-void spell_invis(int sn, int level, Char *ch, void *vo) {
+void spell_invis(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)ch;
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_aff_invisible())
         return;
 
     act("$n fades out of existence.", victim);
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = 24;
@@ -2695,15 +2765,14 @@ void spell_invis(int sn, int level, Char *ch, void *vo) {
     victim->send_line("You fade out of existence.");
 }
 
-void spell_know_alignment(int sn, int level, Char *ch, void *vo) {
+void spell_know_alignment(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    Char *victim = (Char *)vo;
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const char *msg;
-    int ap;
-
-    ap = victim->alignment;
-
+    int ap = victim->alignment;
     if (ap > 700)
         msg = "$N has a pure and good aura.";
     else if (ap > 350)
@@ -2722,24 +2791,25 @@ void spell_know_alignment(int sn, int level, Char *ch, void *vo) {
     act(msg, ch, nullptr, victim, To::Char);
 }
 
-void spell_lightning_bolt(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_lightning_bolt(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, LightningBoltCauseCritDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Lightning);
 }
 
-void spell_locate_object(int sn, int level, Char *ch, void *vo) {
+void spell_locate_object(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    (void)vo;
-
+    std::string_view arguments = spell_target.getArguments();
     bool found = false;
     int number = 0;
     int max_found = ch->is_immortal() ? 200 : 2 * level;
     std::string buffer;
     for (auto *obj : object_list) {
-        if (!ch->can_see(*obj) || !is_name(target_name, obj->name) || (ch->is_mortal() && number_percent() > 2 * level)
+        if (!ch->can_see(*obj) || !is_name(arguments, obj->name) || (ch->is_mortal() && number_percent() > 2 * level)
             || ch->level < obj->level || check_enum_bit(obj->extra_flags, ObjectExtraFlag::NoLocate))
             continue;
 
@@ -2780,34 +2850,35 @@ void spell_locate_object(int sn, int level, Char *ch, void *vo) {
         ch->send_to(buffer);
 }
 
-void spell_magic_missile(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_magic_missile(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, MagicMissileCauseLightDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Energy);
 }
 
-void spell_mass_healing(int sn, int level, Char *ch, void *vo) {
+// Mass Healing is an area of effect spell.
+void spell_mass_healing(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     (void)sn;
-    (void)vo;
     int heal_num, refresh_num;
 
     heal_num = skill_lookup("heal");
     refresh_num = skill_lookup("refresh");
 
     for (auto *gch : ch->in_room->people) {
+        auto aoe_spell_target = SpellTarget(gch);
         if ((ch->is_npc() && gch->is_npc()) || (ch->is_pc() && gch->is_pc())) {
-            spell_heal(heal_num, level, ch, (void *)gch);
-            spell_refresh(refresh_num, level, ch, (void *)gch);
+            spell_heal(heal_num, level, ch, aoe_spell_target);
+            spell_refresh(refresh_num, level, ch, aoe_spell_target);
         }
     }
 }
 
-void spell_mass_invis(int sn, int level, Char *ch, void *vo) {
-    (void)vo;
+void spell_mass_invis(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     AFFECT_DATA af;
-
     for (auto *gch : ch->in_room->people) {
         if (!is_same_group(gch, ch) || gch->is_aff_invisible())
             continue;
@@ -2822,20 +2893,20 @@ void spell_mass_invis(int sn, int level, Char *ch, void *vo) {
     ch->send_line("Ok.");
 }
 
-void spell_null(int sn, int level, Char *ch, void *vo) {
+void spell_null(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    (void)vo;
     ch->send_line("That's not a spell!");
 }
 
-void spell_octarine_fire(int sn, int level, Char *ch, void *vo) {
+void spell_octarine_fire(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)ch;
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_aff_octarine_fire())
         return;
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = 2;
@@ -2847,9 +2918,10 @@ void spell_octarine_fire(int sn, int level, Char *ch, void *vo) {
     act("$n is surrounded by a octarine outline.", victim);
 }
 
-void spell_pass_door(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
+void spell_pass_door(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -2861,6 +2933,7 @@ void spell_pass_door(int sn, int level, Char *ch, void *vo) {
         }
         affect_strip(victim, sn);
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 4);
@@ -2872,10 +2945,10 @@ void spell_pass_door(int sn, int level, Char *ch, void *vo) {
 
 /* RT plague spell, very nasty */
 
-void spell_plague(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
-
+void spell_plague(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (saves_spell(level, victim) || (victim->is_npc() && check_enum_bit(victim->act, CharActFlag::Undead))) {
         if (ch == victim)
             ch->send_line("You feel momentarily ill, but it passes.");
@@ -2883,7 +2956,7 @@ void spell_plague(int sn, int level, Char *ch, void *vo) {
             act("$N seems to be unaffected.", ch, nullptr, victim, To::Char);
         return;
     }
-
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level * 3 / 4;
     af.duration = level;
@@ -2896,10 +2969,10 @@ void spell_plague(int sn, int level, Char *ch, void *vo) {
     act("$n screams in agony as plague sores erupt from $s skin.", victim);
 }
 
-void spell_portal(int sn, int level, Char *ch, void *vo) {
+void spell_portal(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    (void)vo;
-    const auto *victim = get_char_world(ch, target_name);
+    std::string_view arguments = spell_target.getArguments();
+    const auto *victim = get_char_world(ch, arguments);
     if (!victim || victim == ch || victim->in_room == nullptr || !can_see_room(ch, victim->in_room)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Safe)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Private)
@@ -2938,16 +3011,17 @@ void spell_portal(int sn, int level, Char *ch, void *vo) {
     ch->send_line("You wave your hands madly, and create a portal.");
 }
 
-void spell_poison(int sn, int level, Char *ch, void *vo) {
+void spell_poison(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)ch;
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (saves_spell(level, victim)) {
         act("$n turns slightly green, but it passes.", victim);
         victim->send_line("You feel momentarily ill, but it passes.");
         return;
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = level;
@@ -2959,9 +3033,10 @@ void spell_poison(int sn, int level, Char *ch, void *vo) {
     act("$n looks very ill.", victim);
 }
 
-void spell_protection_evil(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
+void spell_protection_evil(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -2973,6 +3048,7 @@ void spell_protection_evil(int sn, int level, Char *ch, void *vo) {
         }
         affect_strip(victim, sn);
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = 24;
@@ -2983,9 +3059,10 @@ void spell_protection_evil(int sn, int level, Char *ch, void *vo) {
         act("$N is protected from harm.", ch, nullptr, victim, To::Char);
 }
 
-void spell_protection_good(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
+void spell_protection_good(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -2997,6 +3074,7 @@ void spell_protection_good(int sn, int level, Char *ch, void *vo) {
         }
         affect_strip(victim, sn);
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = 24;
@@ -3007,9 +3085,11 @@ void spell_protection_good(int sn, int level, Char *ch, void *vo) {
         act("$N is protected from harm.", ch, nullptr, victim, To::Char);
 }
 
-void spell_refresh(int sn, int level, Char *ch, void *vo) {
+void spell_refresh(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const sh_int adjusted = victim->move + level;
     victim->move = std::min(adjusted, victim->max_move);
     if (victim->max_move == victim->move)
@@ -3033,11 +3113,12 @@ void try_strip_noremove(const Char *victim, int level, Object *obj) {
 }
 }
 
-void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
+void spell_remove_curse(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)ch;
-    Char *victim = (Char *)vo;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_affected_by(gsn_curse)) {
         if (check_dispel(level, victim, gsn_curse)) {
             victim->send_line("You feel better.");
@@ -3066,9 +3147,10 @@ void spell_remove_curse(int sn, int level, Char *ch, void *vo) {
     act("$n doesn't appear to be afflicted by a curse.", victim);
 }
 
-void spell_sanctuary(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
+void spell_sanctuary(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -3080,6 +3162,7 @@ void spell_sanctuary(int sn, int level, Char *ch, void *vo) {
         }
         affect_strip(victim, sn);
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 5);
@@ -3089,9 +3172,10 @@ void spell_sanctuary(int sn, int level, Char *ch, void *vo) {
     victim->send_line("You are surrounded by a white aura.");
 }
 
-void spell_talon(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
+void spell_talon(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -3103,6 +3187,7 @@ void spell_talon(int sn, int level, Char *ch, void *vo) {
         }
         affect_strip(victim, sn);
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = number_fuzzy(level / 6);
@@ -3112,9 +3197,10 @@ void spell_talon(int sn, int level, Char *ch, void *vo) {
     victim->send_line("You hands become as strong as talons.");
 }
 
-void spell_shield(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
+void spell_shield(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -3126,6 +3212,7 @@ void spell_shield(int sn, int level, Char *ch, void *vo) {
         }
         affect_strip(victim, sn);
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = 8 + level;
@@ -3137,23 +3224,25 @@ void spell_shield(int sn, int level, Char *ch, void *vo) {
     victim->send_line("You are surrounded by a force shield.");
 }
 
-void spell_shocking_grasp(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_shocking_grasp(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     auto dam_level = get_direct_dmg_and_level(level, ShockingGraspDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Lightning);
 }
 
-void spell_sleep(int sn, int level, Char *ch, void *vo) {
+void spell_sleep(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)ch;
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_aff_sleep() || (victim->is_npc() && check_enum_bit(victim->act, CharActFlag::Undead))
         || level < victim->level || saves_spell(level, victim))
         return;
-
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = 4 + level;
@@ -3167,9 +3256,10 @@ void spell_sleep(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_stone_skin(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
+void spell_stone_skin(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     const auto curr_affect = find_affect(victim, sn);
     if (curr_affect) {
         if (curr_affect->level > level) {
@@ -3181,6 +3271,7 @@ void spell_stone_skin(int sn, int level, Char *ch, void *vo) {
         }
         affect_strip(victim, sn);
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = level;
@@ -3197,12 +3288,15 @@ void spell_stone_skin(int sn, int level, Char *ch, void *vo) {
  * summonings, like shopkeepers into Midgaard, thieves to the pit etc
  */
 
-void spell_summon(int sn, int level, Char *ch, void *vo) {
+void spell_summon(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    (void)vo;
+    std::string_view arguments = spell_target.getArguments();
+    if (arguments.empty()) {
+        ch->send_line("As your casting completes, you forget who, or what, you were aiming to summon!");
+        return;
+    }
     Char *victim;
-
-    if ((victim = get_char_world(ch, target_name)) == nullptr || victim == ch || victim->in_room == nullptr
+    if ((victim = get_char_world(ch, arguments)) == nullptr || victim == ch || victim->in_room == nullptr
         || ch->in_room == nullptr || check_enum_bit(victim->in_room->room_flags, RoomFlag::Safe)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Private)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Solitary)
@@ -3240,9 +3334,11 @@ void spell_summon(int sn, int level, Char *ch, void *vo) {
     look_auto(victim);
 }
 
-void spell_teleport(int sn, int level, Char *ch, void *vo) {
+void spell_teleport(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    Char *victim = (Char *)vo;
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     Room *room;
 
     if (victim->in_room == nullptr || check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall)
@@ -3277,30 +3373,32 @@ void spell_teleport(int sn, int level, Char *ch, void *vo) {
     look_auto(victim);
 }
 
-void spell_ventriloquate(int sn, int level, Char *ch, void *vo) {
+void spell_ventriloquate(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
-    (void)vo;
-    char buf[MAX_INPUT_LENGTH];
-    target_name = one_argument(target_name, buf);
-    const auto speaker_name = upper_first_character(buf);
-    const auto successful_speech = fmt::format("{} says '{}'.", speaker_name, target_name);
-    const auto suspicious_speech = fmt::format("Someone makes {} say '{}'.", speaker_name, target_name);
+    std::string_view arguments = spell_target.getArguments();
+    auto parser = ArgParser(arguments);
+    auto first = parser.shift();
+    const auto speaker_name = upper_first_character(first);
+    const auto message = parser.remaining();
+    const auto successful_speech = fmt::format("{} says '{}'.", speaker_name, message);
+    const auto suspicious_speech = fmt::format("Someone makes {} say '{}'.", speaker_name, message);
     for (auto *vch : ch->in_room->people) {
         if (!is_name(speaker_name, vch->name))
             vch->send_line(saves_spell(level, vch) ? suspicious_speech : successful_speech);
     }
 }
 
-void spell_weaken(int sn, int level, Char *ch, void *vo) {
+void spell_weaken(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)ch;
-    Char *victim = (Char *)vo;
-    AFFECT_DATA af;
-
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (victim->is_affected_by(sn) || saves_spell(level, victim)) {
         act("$n looks unsteady for a moment, but it passes.", victim);
         victim->send_line("You feel unsteady for a moment, but it passes.");
         return;
     }
+    AFFECT_DATA af;
     af.type = sn;
     af.level = level;
     af.duration = level / 2;
@@ -3314,10 +3412,12 @@ void spell_weaken(int sn, int level, Char *ch, void *vo) {
 
 /* RT recall spell is back */
 
-void spell_word_of_recall(int sn, int level, Char *ch, void *vo) {
+void spell_word_of_recall(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    Char *victim = (Char *)vo;
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     Room *location;
 
     if (victim->is_npc())
@@ -3357,8 +3457,10 @@ void spell_word_of_recall(int sn, int level, Char *ch, void *vo) {
 /*
  * NPC spells.
  */
-void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_acid_breath(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     int dam;
     int hpch;
     int i;
@@ -3419,9 +3521,11 @@ void spell_acid_breath(int sn, int level, Char *ch, void *vo) {
     damage(ch, victim, dam, &skill_table[sn], DamageType::Acid);
 }
 
-void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
+void spell_fire_breath(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     /* Limit damage for PCs added by Rohan on all draconian*/
-    Char *victim = (Char *)vo;
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     int dam;
     int hpch;
 
@@ -3477,9 +3581,10 @@ void spell_fire_breath(int sn, int level, Char *ch, void *vo) {
     damage(ch, victim, dam, &skill_table[sn], DamageType::Fire);
 }
 
-void spell_frost_breath(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-
+void spell_frost_breath(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != rooms::ChallengeArena) {
         for (auto *obj_lose : victim->carrying) {
             const char *msg;
@@ -3507,8 +3612,7 @@ void spell_frost_breath(int sn, int level, Char *ch, void *vo) {
     damage(ch, victim, dam, &skill_table[sn], DamageType::Cold);
 }
 
-void spell_gas_breath(int sn, int level, Char *ch, void *vo) {
-    (void)vo;
+void spell_gas_breath(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     int dam;
     int hpch;
 
@@ -3525,8 +3629,10 @@ void spell_gas_breath(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_lightning_breath(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
+void spell_lightning_breath(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
     int dam;
     int hpch;
 
@@ -3542,76 +3648,71 @@ void spell_lightning_breath(int sn, int level, Char *ch, void *vo) {
 /*
  * Spells for mega1.are from Glop/Erkenbrand.
  */
-void spell_general_purpose(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    int dam;
-
-    dam = number_range(level, level * 3);
+void spell_general_purpose(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
+    int dam = number_range(level, level * 3);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, &skill_table[sn], DamageType::Pierce);
 }
 
-void spell_high_explosive(int sn, int level, Char *ch, void *vo) {
-    Char *victim = (Char *)vo;
-    int dam;
-    dam = number_range(level, level * 3);
+void spell_high_explosive(int sn, int level, Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
+    int dam = number_range(level, level * 3);
     if (saves_spell(level, victim))
         dam /= 2;
     damage(ch, victim, dam, &skill_table[sn], DamageType::Pierce);
 }
 
 void explode_bomb(Object *bomb, Char *ch, Char *thrower) {
-    int chance;
     int sn, position;
-    void *vo = (void *)ch;
-
-    chance = std::clamp((50 + ((bomb->value[0] - ch->level) * 8)), 5, 100);
+    const int chance = std::clamp((50 + ((bomb->value[0] - ch->level) * 8)), 5, 100);
     if (number_percent() > chance) {
         act("$p emits a loud bang and disappears in a cloud of smoke.", ch, bomb, nullptr, To::Room);
         act("$p emits a loud bang, but thankfully does not affect you.", ch, bomb, nullptr, To::Char);
         extract_obj(bomb);
         return;
     }
-
+    auto spell_target = SpellTarget(ch);
     for (position = 1; ((position <= 4) && (bomb->value[position] < MAX_SKILL) && (bomb->value[position] != -1));
          position++) {
         sn = bomb->value[position];
         if (skill_table[sn].target == Target::CharOffensive)
-            (*skill_table[sn].spell_fun)(sn, bomb->value[0], thrower, vo);
+            (*skill_table[sn].spell_fun)(sn, bomb->value[0], thrower, spell_target);
     }
     extract_obj(bomb);
 }
 
-void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
+void spell_teleport_object(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    (void)vo;
     Char *victim;
     Object *object;
-    char arg1[MAX_STRING_LENGTH];
-    char arg2[MAX_STRING_LENGTH];
     Room *old_room;
-
-    target_name = one_argument(target_name, arg1);
-    one_argument(target_name, arg2);
-
-    if (arg1[0] == '\0') {
+    std::string_view arguments = spell_target.getArguments();
+    auto parser = ArgParser(arguments);
+    const auto obj_name = parser.shift();
+    const auto dest_name = parser.remaining();
+    if (obj_name.empty()) {
         ch->send_line("Teleport what and to whom?");
         return;
     }
 
-    if ((object = get_obj_carry(ch, arg1)) == nullptr) {
+    if ((object = ch->find_in_inventory(obj_name)) == nullptr) {
         ch->send_line("You're not carrying that.");
         return;
     }
 
-    if (arg2[0] == '\0') {
+    if (dest_name.empty()) {
         ch->send_line("Teleport to whom?");
         return;
     }
 
-    if ((victim = get_char_world(ch, arg2)) == nullptr) {
+    if ((victim = get_char_world(ch, dest_name)) == nullptr) {
         ch->send_line("Teleport to whom?");
         return;
     }
@@ -3655,33 +3756,30 @@ void spell_teleport_object(int sn, int level, Char *ch, void *vo) {
     }
 }
 
-void spell_undo_spell(int sn, int level, Char *ch, void *vo) {
+void spell_undo_spell(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     (void)sn;
     (void)level;
-    (void)vo;
     Char *victim;
     int undo_spell_num;
-    char arg1[MAX_STRING_LENGTH];
-    char arg2[MAX_STRING_LENGTH];
-
-    target_name = one_argument(target_name, arg1);
-    one_argument(target_name, arg2);
-
-    if (arg2[0] == '\0') {
+    std::string_view arguments = spell_target.getArguments();
+    auto parser = ArgParser(arguments);
+    const auto spell_name = parser.shift();
+    const auto dest_name = parser.remaining();
+    if (dest_name.empty()) {
         victim = ch;
     } else {
-        if ((victim = get_char_room(ch, arg2)) == nullptr) {
+        if ((victim = get_char_room(ch, dest_name)) == nullptr) {
             ch->send_line("They're not here.");
             return;
         }
     }
 
-    if (arg1[0] == '\0') {
+    if (spell_name.empty()) {
         ch->send_line("Undo which spell?");
         return;
     }
 
-    if ((undo_spell_num = skill_lookup(arg1)) < 0) {
+    if ((undo_spell_num = skill_lookup(spell_name)) < 0) {
         ch->send_line("What kind of spell is that?");
         return;
     }

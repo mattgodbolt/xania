@@ -724,7 +724,8 @@ void do_lore(Char *ch, Object *obj, std::string_view description) {
             ch->wait_state(skill_table[identify].beats);
         ch->send_line(description);
         check_improve(ch, gsn_lore, true, 1);
-        (*skill_table[identify].spell_fun)(identify, ch->level, ch, (void *)obj);
+        auto spell_target = SpellTarget(obj);
+        (*skill_table[identify].spell_fun)(identify, ch->level, ch, spell_target);
     }
 }
 

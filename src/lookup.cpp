@@ -51,13 +51,13 @@ int attack_lookup(const char *name) {
 /*
  * Lookup a skill by name.
  */
-int skill_lookup(const char *name) {
+int skill_lookup(std::string_view name) {
     int sn;
 
     for (sn = 0; sn < MAX_SKILL; sn++) {
         if (skill_table[sn].name == nullptr)
             break;
-        if (tolower(name[0]) == tolower(skill_table[sn].name[0]) && !str_prefix(name, skill_table[sn].name))
+        if (tolower(name[0]) == tolower(skill_table[sn].name[0]) && matches_start(name, skill_table[sn].name))
             return sn;
     }
 

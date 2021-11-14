@@ -33,6 +33,7 @@
 #include "Room.hpp"
 #include "RoomFlag.hpp"
 #include "SkillNumbers.hpp"
+#include "SpellTarget.hpp"
 #include "ToleranceFlag.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
@@ -57,7 +58,7 @@
 #include <magic_enum.hpp>
 #include <range/v3/iterator/operations.hpp>
 
-void spell_poison(int spell_num, int level, Char *ch, void *vo);
+void spell_poison(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
 
 /*
  * Local functions.
@@ -451,7 +452,8 @@ void enforce_material_vulnerability(Char *ch, Object *obj) {
         act("$n shrieks in pain!", ch, obj, nullptr, To::Room);
         if (!ch->is_aff_poison()) {
             int p_sn = skill_lookup("poison");
-            spell_poison(p_sn, ch->level, ch, ch);
+            auto spell_target = SpellTarget(ch);
+            spell_poison(p_sn, ch->level, ch, spell_target);
         }
     }
 }

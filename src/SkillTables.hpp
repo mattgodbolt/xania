@@ -6,6 +6,7 @@
 #pragma once
 #include "Constants.hpp"
 #include "Position.hpp"
+#include "SpellTarget.hpp"
 #include "Types.hpp"
 
 enum class Target;
