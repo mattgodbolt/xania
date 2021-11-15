@@ -131,16 +131,6 @@ std::pair<int, int> get_direct_dmg_and_level(int level, const std::array<int, Si
 }
 
 /**
- * Indexes into attack_table that are used by specific weapon enchantment spells
- * like spell_acid_wash and spell_tame_lightning. When a weapon is enchanted,
- * an index into that table is written to the object's value[3] attribute.
- * These constants don't correspond directly with entries in the DamageType enum, the attack_table
- * is actually superset of the DamageType enum.
- */
-constexpr auto AttackTableIndexTameLightning = 28u;
-constexpr auto AttackTableIndexAcidWash = 31u;
-
-/**
  * During spell casting we need to determine the SpellTarget based on what the caster stated in entity_name
  * and the Target type of the spell.
  * Returns an empty optional SpellTarget that wraps the real target, or nullopt if no valid SpellTarget could be
@@ -699,7 +689,7 @@ void spell_acid_wash(int sn, int level, Char *ch, const SpellTarget &spell_targe
         ch->send_line("Acid and lightning don't mix.");
         return;
     }
-    obj->value[3] = AttackTableIndexAcidWash;
+    obj->value[3] = Attacks::index_of("acbite");
     set_enum_bit(obj->value[4], WeaponFlag::Acid);
     ch->send_to("With a mighty scream you draw acid from the earth.\n\rYou wash your weapon in the acid pool.\n\r");
 }
@@ -2184,7 +2174,7 @@ void spell_tame_lightning(int sn, int level, Char *ch, const SpellTarget &spell_
     }
 
     ch->gold -= (mana * 100);
-    obj->value[3] = AttackTableIndexTameLightning;
+    obj->value[3] = Attacks::index_of("shbite");
     set_enum_bit(obj->value[4], WeaponFlag::Lightning);
     ch->send_to("You summon a MASSIVE storm.\n\rHolding your weapon aloft you call lightning down from the sky. "
                 "\n\rThe lightning swirls around it - you have |YTAMED|w the |YLIGHTNING|w.\n\r");

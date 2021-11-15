@@ -831,9 +831,13 @@ void do_ostat(Char *ch, const char *argument) {
         if (obj->value[4]) {
             ch->send_line("Weapons flags: {}", weapon_bit_name(obj->value[4]));
         }
-
-        const auto damage_type = attack_table[obj->value[3]].damage_type;
-        ch->send_line("Damage type is {}.", magic_enum::enum_name<DamageType>(damage_type));
+        const auto *atk_type = Attacks::at(obj->value[3]);
+        if (!atk_type) {
+            bug("Invalid attack type {} in object #{}.", obj->value[3], obj->objIndex->vnum);
+        } else {
+            const auto damage_type = atk_type->damage_type;
+            ch->send_line("Damage type is {}.", magic_enum::enum_name<DamageType>(damage_type));
+        }
         break;
     }
     case ObjectType::Armor:
@@ -1043,7 +1047,12 @@ void do_mstat(Char *ch, std::string_view argument) {
                   victim->saving_throw, victim->position.name(), victim->wimpy);
 
     if (victim->is_npc()) {
-        ch->send_line("Damage: {}  Message:  {}", victim->damage, attack_table[victim->attack_type].verb);
+        const auto *atk_type = Attacks::at(victim->attack_type);
+        if (!atk_type) {
+            bug("Invalid attack type {} in mob #{}.", victim->attack_type, victim->mobIndex->vnum);
+        } else {
+            ch->send_line("Damage: {}  Message: {}", victim->damage, atk_type->verb);
+        }
     }
     ch->send_line("Fighting: {}", victim->fighting ? victim->fighting->name : "(none)");
 

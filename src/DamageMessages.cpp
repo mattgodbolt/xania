@@ -220,7 +220,7 @@ std::optional<std::string_view> get_attack_verb(const DamageContext &context) {
     if (const auto at = std::get_if<const attack_type *>(&context.atk_type)) {
         // The first entry in the attack table represents the raw notion of being
         // hit by _something_ unspecific, so we generate a damage message containing no attack verb.
-        if (*at == &attack_table[0]) {
+        if (*at == Attacks::at(0)) {
             return std::nullopt;
         } else {
             return (*at)->verb;
@@ -229,7 +229,7 @@ std::optional<std::string_view> get_attack_verb(const DamageContext &context) {
         return (*attack_skill)->verb;
     } else {
         bug("dam_message: bad attack type, using default attack verb");
-        return attack_table[0].verb;
+        return Attacks::at(0)->verb;
     }
 }
 

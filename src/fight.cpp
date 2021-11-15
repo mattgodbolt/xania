@@ -271,7 +271,7 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     if (ch->is_aff_haste() && !ch->is_aff_lethargy())
         one_hit(ch, victim, opt_skill);
 
-    if (ch->fighting != victim || is_attack_skill(opt_skill, gsn_backstab))
+    if (ch->fighting != victim || Attacks::is_attack_skill(opt_skill, gsn_backstab))
         return;
 
     chance = get_skill(ch, gsn_second_attack) / 2;
@@ -320,7 +320,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     // Perform no additional hits if the mob is not actually fighting the victim (a 'single blow' situation presumably)
     // or if the caller specified that backstab is being used, probably so that a backstabbing mob doesn't wreck the
     // player.
-    if (ch->fighting != victim || is_attack_skill(opt_skill, gsn_backstab))
+    if (ch->fighting != victim || Attacks::is_attack_skill(opt_skill, gsn_backstab))
         return;
 
     chance = get_skill(ch, gsn_second_attack) / 2;
@@ -446,10 +446,11 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     const auto wield = get_eq_char(ch, Wear::Wield);
     const auto atk_table_idx = (wield && wield->type == ObjectType::Weapon) ? wield->value[3] : ch->attack_type;
-    const auto damage_type = attack_table[atk_table_idx].damage_type;
+    const auto attack = Attacks::at(atk_table_idx);
+    const auto damage_type = attack->damage_type;
     AttackType atk_type;
     if (!opt_skill) {
-        atk_type = &attack_table[atk_table_idx];
+        atk_type = attack;
     } else {
         atk_type = opt_skill;
     }
@@ -483,7 +484,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     // Blindness caused by blind spell or dirt kick reduces your chance of landing a blow
     if (!can_see(ch, victim))
         thac0 *= 0.8f;
-    if (is_attack_skill(opt_skill, gsn_backstab)) {
+    if (Attacks::is_attack_skill(opt_skill, gsn_backstab)) {
         thac0 -= get_skill(ch, gsn_backstab) / 3;
     }
 
@@ -580,7 +581,7 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     else if (victim->is_pos_relaxing())
         dam = dam * 3 / 2;
 
-    if (wield && is_attack_skill(opt_skill, gsn_backstab)) {
+    if (wield && Attacks::is_attack_skill(opt_skill, gsn_backstab)) {
         if (wield->value[0] != 2)
             dam *= 2 + ch->level / 10;
         else

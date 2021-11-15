@@ -25,7 +25,7 @@ TEST_CASE("injured part creation") {
     set_form(ch, "human", BodySize::Medium);
     Char victim{};
     set_form(victim, "human", BodySize::Medium);
-    AttackType atk_type = &attack_table[1]; // slice
+    AttackType atk_type = Attacks::at(1); // slice
     KnuthRng rng(0xdeadbaff); // a magic number that'll consistently select the body parts below.
     const auto right_bicep = InjuredPart{"right bicep", "$n's arm is sliced from $s dead body.", 14};
     const auto head = InjuredPart{"head", "$n's severed head plops on the ground.", 12};

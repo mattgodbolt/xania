@@ -146,7 +146,7 @@ bool InjuredPart::operator==(const InjuredPart &rhs) const {
 }
 
 InjuredPart InjuredPart::random_from_victim(const Char *ch, const Char *victim, const AttackType atk_type, Rng &rng) {
-    if (is_attack_skill(atk_type, gsn_headbutt) || ch == victim) {
+    if (Attacks::is_attack_skill(atk_type, gsn_headbutt) || ch == victim) {
         return Head;
     }
     const auto size_diff = body_size_diff(ch, victim);

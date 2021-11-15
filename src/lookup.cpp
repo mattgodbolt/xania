@@ -39,15 +39,6 @@ int numeric_lookup_check(std::string_view name, const int max) {
         return -1;
 }
 
-int attack_lookup(const char *name) {
-    for (auto atk = 0; attack_table[atk].name != nullptr; atk++) {
-        if (tolower(name[0]) == tolower(attack_table[atk].name[0]) && !str_prefix(name, attack_table[atk].name))
-            return atk;
-    }
-    bug("Load_objects: Unknown attack: {}", name);
-    exit(1);
-}
-
 /*
  * Lookup a skill by name.
  */

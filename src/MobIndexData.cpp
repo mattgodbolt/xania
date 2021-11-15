@@ -1,5 +1,6 @@
 #include "MobIndexData.hpp"
 #include "ArmourClass.hpp"
+#include "Attacks.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
 #include "Logging.hpp"
@@ -46,7 +47,14 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
     hit = Dice::from_file(fp);
     mana = Dice::from_file(fp);
     damage = Dice::from_file(fp);
-    attack_type = attack_lookup(fread_word(fp));
+    const auto attack_name = fread_word(fp);
+    const auto attack_index = Attacks::index_of(attack_name);
+    if (attack_index < 0) {
+        bug("Invalid attack type {} in mob #{}, defaulting to hit", vnum, attack_name);
+        attack_type = Attacks::index_of("hit");
+    } else {
+        attack_type = attack_index;
+    }
 
     // read armor class
     for (size_t i = 0; i < ac.size(); i++) {

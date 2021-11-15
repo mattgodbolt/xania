@@ -11,6 +11,7 @@
 #include "AFFECT_DATA.hpp"
 #include "Area.hpp"
 #include "AreaList.hpp"
+#include "Attacks.hpp"
 #include "BodySize.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -782,7 +783,15 @@ void load_objects(FILE *fp) {
             }
             objIndex->value[1] = fread_number(fp);
             objIndex->value[2] = fread_number(fp);
-            objIndex->value[3] = attack_lookup(fread_word(fp));
+            const auto attack_name = fread_word(fp);
+            const auto attack_index = Attacks::index_of(attack_name);
+            if (attack_index < 0) {
+                bug("Invalid attack type {} in object: {} {}, defaulting to hit", attack_name, objIndex->vnum,
+                    objIndex->short_descr);
+                objIndex->value[3] = Attacks::index_of("hit");
+            } else {
+                objIndex->value[3] = attack_index;
+            }
             objIndex->value[4] = fread_flag(fp);
             break;
         }

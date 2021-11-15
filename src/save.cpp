@@ -9,6 +9,7 @@
 
 #include "save.hpp"
 #include "AFFECT_DATA.hpp"
+#include "Attacks.hpp"
 #include "CharFileMeta.hpp"
 #include "CommFlag.hpp"
 #include "Logging.hpp"
@@ -962,7 +963,7 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
             ch->race = race_lookup("human");
 
         ch->body_size = pc_race_table[ch->race].body_size;
-        ch->attack_type = attack_lookup("punch");
+        ch->attack_type = Attacks::index_of("punch");
 
         for (auto *group : pc_race_table[ch->race].skills) {
             if (!group)

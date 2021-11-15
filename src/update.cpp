@@ -640,9 +640,9 @@ void char_update() {
             ch->send_line("You shiver and suffer.");
             damage(ch, ch, 2, &skill_table[gsn_poison], DamageType::Poison);
         } else if (ch->position == Position::Type::Incap && number_range(0, 1) == 0) {
-            damage(ch, ch, 1, &attack_table[0], DamageType::None);
+            damage(ch, ch, 1, Attacks::at(0), DamageType::None);
         } else if (ch->position == Position::Type::Mortal) {
-            damage(ch, ch, 1, &attack_table[0], DamageType::None);
+            damage(ch, ch, 1, Attacks::at(0), DamageType::None);
         }
     }
 
