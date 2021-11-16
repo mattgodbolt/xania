@@ -1152,7 +1152,6 @@ void do_mfind(Char *ch, const char *argument) {
 }
 
 void do_ofind(Char *ch, const char *argument) {
-    extern int top_obj_index;
     char arg[MAX_INPUT_LENGTH];
 
     one_argument(argument, arg);
@@ -1161,25 +1160,16 @@ void do_ofind(Char *ch, const char *argument) {
         return;
     }
 
-    int nMatch = 0;
-
-    // Yeah, so iterating over all vnum's takes 10,000 loops.
-    // Get_obj_index is fast, and I don't feel like threading another link.
-    // Do you?
-    // -- Furey
-    std::string buffer;
-    for (int vnum = 0; nMatch < top_obj_index; vnum++) {
-        if (const auto *objIndex = get_obj_index(vnum)) {
-            nMatch++;
-            if (is_name(argument, objIndex->name))
-                buffer += fmt::format("[{:5}] {}\n\r", objIndex->vnum, objIndex->short_descr);
-        }
-    }
-
-    if (buffer.empty())
-        ch->send_line("No objects by that name.");
-    else
+    auto buffer = ranges::accumulate(all_object_indexes() | ranges::views::filter([&](const auto &obj_index) {
+                                         return is_name(argument, obj_index.name);
+                                     }) | ranges::views::transform([](const auto &obj_index) {
+                                         return fmt::format("[{:5}] {}\n\r", obj_index.vnum, obj_index.short_descr);
+                                     }),
+                                     std::string());
+    if (!buffer.empty())
         ch->page_to(buffer);
+    else
+        ch->send_line("No objects by that name.");
 }
 
 void do_vnum(Char *ch, const char *argument) {
@@ -2130,40 +2120,27 @@ void osearch_display_syntax(Char *ch) {
     }
 }
 
-bool osearch_is_item_in_level_range(const ObjectIndex *objIndex, const int min_level, const int max_level) {
-    if (objIndex == nullptr) {
-        return false;
-    }
-    return objIndex->level >= min_level && objIndex->level <= max_level;
-}
-
-bool osearch_is_item_type(const ObjectIndex *objIndex, const ObjectType item_type) {
-    if (objIndex == nullptr) {
-        return false;
-    }
-    return objIndex->type == item_type;
-}
-
 /**
  * Searches the item database for items of the specified type, level range and
  * optional name. Adds their item vnum, name, level and area name to a new buffer.
- * Caller must release the buffer!
  */
-std::string osearch_find_items(const int min_level, const int max_level, const ObjectType item_type, char *item_name) {
-    std::string buffer;
-    for (int i = 0; i < MAX_KEY_HASH; i++) {
-        for (ObjectIndex *objIndex = obj_index_hash[i]; objIndex != nullptr; objIndex = objIndex->next) {
-            if (!(osearch_is_item_in_level_range(objIndex, min_level, max_level)
-                  && osearch_is_item_type(objIndex, item_type))) {
-                continue;
-            }
-            if (item_name[0] != '\0' && !is_name(item_name, objIndex->name)) {
-                continue;
-            }
-            buffer += fmt::format("{:5} {:<27}|w ({:3}) {}\n\r", objIndex->vnum, objIndex->short_descr, objIndex->level,
-                                  objIndex->area->filename());
-        }
-    }
+std::string osearch_find_items(const int min_level, const int max_level, const ObjectType item_type,
+                               std::string_view item_name) {
+    const auto in_level_range = [&min_level, &max_level](const auto &obj_index) {
+        return obj_index.level >= min_level && obj_index.level <= max_level;
+    };
+    const auto is_item_type = [&item_type](const auto &obj_index) { return obj_index.type == item_type; };
+    const auto maybe_matches_name = [&item_name](const auto &obj_index) {
+        return item_name.empty() || is_name(item_name, obj_index.name);
+    };
+    const auto to_result = [](const auto &obj_index) {
+        return fmt::format("{:5} {:<27}|w ({:3}) {}\n\r", obj_index.vnum, obj_index.short_descr, obj_index.level,
+                           obj_index.area->filename());
+    };
+    auto buffer = ranges::accumulate(
+        all_object_indexes() | ranges::views::filter(in_level_range) | ranges::views::filter(is_item_type)
+            | ranges::views::filter(maybe_matches_name) | ranges::views::transform(to_result),
+        std::string());
     return buffer;
 }
 

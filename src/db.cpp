@@ -53,6 +53,7 @@
 
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/iterator/operations.hpp>
+#include <range/v3/numeric/accumulate.hpp>
 
 #include <gsl/gsl_util>
 #include <range/v3/algorithm/find_if.hpp>
@@ -82,8 +83,6 @@ int top_exit;
 int top_reset;
 int top_room;
 int top_shop;
-// Count of object templates. TODO: Get rid of this.
-int newobjs = 0;
 // Index number of the latest affect on an object.
 int top_obj_affect;
 
@@ -110,12 +109,10 @@ SpecialFunc spec_lookup(const char *name);
 GenericList<Char *> char_list;
 // Mutable global: modified whenever a new object is created or destroyed.
 GenericList<Object *> object_list;
-// Mutable global: object template pointers.
-ObjectIndex *obj_index_hash[MAX_KEY_HASH];
+// Mutable global: object templates.
+std::map<int, ObjectIndex> object_indexes;
 // Mutable global: room template pointers.
 Room *room_hash[MAX_KEY_HASH];
-// Mutable global: index number of the latest object template to be created.
-int top_obj_index;
 
 char str_empty[1]; // TODO: Get rid of this and str_dup()
 
@@ -704,7 +701,6 @@ void load_mobiles(FILE *fp) {
  * Snarf an obj section. new style
  */
 void load_objects(FILE *fp) {
-    ObjectIndex *objIndex;
     char temp; /* Used for Death's Wear Strings bit */
 
     auto area_last = AreaList::singleton().back();
@@ -715,151 +711,135 @@ void load_objects(FILE *fp) {
     const auto validators = std::array<std::unique_ptr<const ObjectIndexValidator>, 1>{
         std::make_unique<ScrollTargetValidator>(skill_table)};
     for (;;) {
-        sh_int vnum;
-        char letter;
-        int iHash;
-
-        letter = fread_letter(fp);
+        char letter = fread_letter(fp);
         if (letter != '#') {
             bug("Load_objects: # not found.");
             exit(1);
         }
-
-        vnum = fread_number(fp);
+        sh_int vnum = fread_number(fp);
         if (vnum == 0)
             break;
-
-        fBootDb = false;
-        if (get_obj_index(vnum) != nullptr) {
-            bug("Load_objects: vnum {} duplicated.", vnum);
-            exit(1);
-        }
-        fBootDb = true;
-
-        objIndex = new ObjectIndex;
-        objIndex->vnum = vnum;
-        objIndex->area = area_last;
-        objIndex->reset_num = 0;
-        newobjs++;
-        objIndex->name = fread_stdstring(fp);
+        ObjectIndex obj_index;
+        obj_index.vnum = vnum;
+        obj_index.area = area_last;
+        obj_index.reset_num = 0;
+        obj_index.name = fread_stdstring(fp);
         /*
          * MG added - snarf short descrips to kill:
          * You hit The beastly fido
          */
-        objIndex->short_descr = lower_case_articles(fread_stdstring(fp));
-        objIndex->description = fread_stdstring(fp);
-        if (objIndex->description.empty()) {
+        obj_index.short_descr = lower_case_articles(fread_stdstring(fp));
+        obj_index.description = fread_stdstring(fp);
+        if (obj_index.description.empty()) {
             bug("Load_objects: empty long description in object {}.", vnum);
         }
 
-        objIndex->material = Material::lookup_with_default(fread_string(fp))->material;
+        obj_index.material = Material::lookup_with_default(fread_string(fp))->material;
+        obj_index.type = ObjectTypes::lookup_with_default(fread_word(fp));
+        obj_index.extra_flags = fread_flag(fp);
 
-        objIndex->type = ObjectTypes::lookup_with_default(fread_word(fp));
-
-        objIndex->extra_flags = fread_flag(fp);
-
-        if (objIndex->is_no_remove() && objIndex->type != ObjectType::Weapon) {
-            bug("Only weapons are meant to have ObjectExtraFlag::NoRemove: {} {}", objIndex->vnum, objIndex->name);
+        if (obj_index.is_no_remove() && obj_index.type != ObjectType::Weapon) {
+            bug("Only weapons are meant to have ObjectExtraFlag::NoRemove: {} {}", obj_index.vnum, obj_index.name);
             exit(1);
         }
 
-        objIndex->wear_flags = fread_flag(fp);
+        obj_index.wear_flags = fread_flag(fp);
 
         temp = fread_letter(fp);
         if (temp == ',') {
-            objIndex->wear_string = fread_stdstring(fp);
+            obj_index.wear_string = fread_stdstring(fp);
         } else {
             ungetc(temp, fp);
         }
 
-        switch (objIndex->type) {
+        switch (obj_index.type) {
         case ObjectType::Weapon: {
             const auto raw_weapon_type = fread_word(fp);
             if (const auto opt_weapon_type = Weapons::try_from_name(raw_weapon_type)) {
-                objIndex->value[0] = magic_enum::enum_integer<Weapon>(*opt_weapon_type);
+                obj_index.value[0] = magic_enum::enum_integer<Weapon>(*opt_weapon_type);
             } else {
-                bug("Invalid weapon type {} in object: {} {}", raw_weapon_type, objIndex->vnum, objIndex->short_descr);
-                objIndex->value[0] = 0;
+                bug("Invalid weapon type {} in object: {} {}", raw_weapon_type, obj_index.vnum, obj_index.short_descr);
+                obj_index.value[0] = 0;
             }
-            objIndex->value[1] = fread_number(fp);
-            objIndex->value[2] = fread_number(fp);
+            obj_index.value[1] = fread_number(fp);
+            obj_index.value[2] = fread_number(fp);
             const auto attack_name = fread_word(fp);
             const auto attack_index = Attacks::index_of(attack_name);
             if (attack_index < 0) {
-                bug("Invalid attack type {} in object: {} {}, defaulting to hit", attack_name, objIndex->vnum,
-                    objIndex->short_descr);
-                objIndex->value[3] = Attacks::index_of("hit");
+                bug("Invalid attack type {} in object: {} {}, defaulting to hit", attack_name, obj_index.vnum,
+                    obj_index.short_descr);
+                obj_index.value[3] = Attacks::index_of("hit");
             } else {
-                objIndex->value[3] = attack_index;
+                obj_index.value[3] = attack_index;
             }
-            objIndex->value[4] = fread_flag(fp);
+            obj_index.value[4] = fread_flag(fp);
             break;
         }
         case ObjectType::Container:
-            objIndex->value[0] = fread_number(fp);
-            objIndex->value[1] = fread_flag(fp);
-            objIndex->value[2] = fread_number(fp);
-            objIndex->value[3] = fread_number(fp);
-            objIndex->value[4] = fread_number(fp);
+            obj_index.value[0] = fread_number(fp);
+            obj_index.value[1] = fread_flag(fp);
+            obj_index.value[2] = fread_number(fp);
+            obj_index.value[3] = fread_number(fp);
+            obj_index.value[4] = fread_number(fp);
             break;
         case ObjectType::Drink:
         case ObjectType::Fountain: {
-            objIndex->value[0] = fread_number(fp);
-            objIndex->value[1] = fread_number(fp);
+            obj_index.value[0] = fread_number(fp);
+            obj_index.value[1] = fread_number(fp);
             const auto raw_liquid = fread_word(fp);
             if (const auto *liquid = Liquid::try_lookup(raw_liquid)) {
-                objIndex->value[2] = magic_enum::enum_integer<Liquid::Type>(liquid->liquid);
+                obj_index.value[2] = magic_enum::enum_integer<Liquid::Type>(liquid->liquid);
             } else {
-                bug("Invalid liquid {} in object: {} {}, defaulting.", raw_liquid, objIndex->vnum,
-                    objIndex->short_descr);
-                objIndex->value[2] = 0;
+                bug("Invalid liquid {} in object: {} {}, defaulting.", raw_liquid, obj_index.vnum,
+                    obj_index.short_descr);
+                obj_index.value[2] = 0;
             }
-            objIndex->value[3] = fread_number(fp);
-            objIndex->value[4] = fread_number(fp);
+            obj_index.value[3] = fread_number(fp);
+            obj_index.value[4] = fread_number(fp);
             break;
         }
         case ObjectType::Wand:
         case ObjectType::Staff:
-            objIndex->value[0] = fread_number(fp);
-            objIndex->value[1] = fread_number(fp);
-            objIndex->value[2] = fread_number(fp);
-            objIndex->value[3] = fread_spnumber(fp);
-            objIndex->value[4] = fread_number(fp);
+            obj_index.value[0] = fread_number(fp);
+            obj_index.value[1] = fread_number(fp);
+            obj_index.value[2] = fread_number(fp);
+            obj_index.value[3] = fread_spnumber(fp);
+            obj_index.value[4] = fread_number(fp);
             break;
         case ObjectType::Potion:
         case ObjectType::Pill:
         case ObjectType::Scroll:
         case ObjectType::Bomb:
-            objIndex->value[0] = fread_number(fp);
-            objIndex->value[1] = fread_spnumber(fp);
-            objIndex->value[2] = fread_spnumber(fp);
-            objIndex->value[3] = fread_spnumber(fp);
-            objIndex->value[4] = fread_spnumber(fp);
+            obj_index.value[0] = fread_number(fp);
+            obj_index.value[1] = fread_spnumber(fp);
+            obj_index.value[2] = fread_spnumber(fp);
+            obj_index.value[3] = fread_spnumber(fp);
+            obj_index.value[4] = fread_spnumber(fp);
             break;
         default:
-            objIndex->value[0] = fread_flag(fp);
-            objIndex->value[1] = fread_flag(fp);
-            objIndex->value[2] = fread_flag(fp);
-            objIndex->value[3] = fread_flag(fp);
-            objIndex->value[4] = fread_flag(fp);
+            obj_index.value[0] = fread_flag(fp);
+            obj_index.value[1] = fread_flag(fp);
+            obj_index.value[2] = fread_flag(fp);
+            obj_index.value[3] = fread_flag(fp);
+            obj_index.value[4] = fread_flag(fp);
             break;
         }
 
-        objIndex->level = fread_number(fp);
-        objIndex->weight = fread_number(fp);
-        objIndex->cost = fread_number(fp);
+        obj_index.level = fread_number(fp);
+        obj_index.weight = fread_number(fp);
+        obj_index.cost = fread_number(fp);
 
         /* condition */
         letter = fread_letter(fp);
         switch (letter) {
-        case ('P'): objIndex->condition = 100; break;
-        case ('G'): objIndex->condition = 90; break;
-        case ('A'): objIndex->condition = 75; break;
-        case ('W'): objIndex->condition = 50; break;
-        case ('D'): objIndex->condition = 25; break;
-        case ('B'): objIndex->condition = 10; break;
-        case ('R'): objIndex->condition = 0; break;
-        default: objIndex->condition = 100; break;
+        case ('P'): obj_index.condition = 100; break;
+        case ('G'): obj_index.condition = 90; break;
+        case ('A'): obj_index.condition = 75; break;
+        case ('W'): obj_index.condition = 50; break;
+        case ('D'): obj_index.condition = 25; break;
+        case ('B'): obj_index.condition = 10; break;
+        case ('R'): obj_index.condition = 0; break;
+        default: obj_index.condition = 100; break;
         }
 
         for (;;) {
@@ -870,18 +850,18 @@ void load_objects(FILE *fp) {
             if (letter == 'A') {
                 AFFECT_DATA af;
                 af.type = -1;
-                af.level = objIndex->level;
+                af.level = obj_index.level;
                 af.duration = -1;
                 af.location = static_cast<AffectLocation>(fread_number(fp));
                 af.modifier = fread_number(fp);
-                objIndex->affected.add(af);
+                obj_index.affected.add(af);
                 top_obj_affect++;
             }
 
             else if (letter == 'E') {
                 auto keyword = fread_stdstring(fp);
                 auto description = fread_stdstring(fp);
-                objIndex->extra_descr.emplace_back(ExtraDescription{keyword, description});
+                obj_index.extra_descr.emplace_back(ExtraDescription{keyword, description});
             }
 
             else {
@@ -893,32 +873,32 @@ void load_objects(FILE *fp) {
         /*
          * Translate spell "slot numbers" to internal "skill numbers."
          */
-        switch (objIndex->type) {
+        switch (obj_index.type) {
         case ObjectType::Bomb:
-            objIndex->value[4] = slot_lookup(objIndex->value[4]);
+            obj_index.value[4] = slot_lookup(obj_index.value[4]);
             // fall through
         case ObjectType::Pill:
         case ObjectType::Potion:
         case ObjectType::Scroll:
-            objIndex->value[1] = slot_lookup(objIndex->value[1]);
-            objIndex->value[2] = slot_lookup(objIndex->value[2]);
-            objIndex->value[3] = slot_lookup(objIndex->value[3]);
+            obj_index.value[1] = slot_lookup(obj_index.value[1]);
+            obj_index.value[2] = slot_lookup(obj_index.value[2]);
+            obj_index.value[3] = slot_lookup(obj_index.value[3]);
             break;
 
         case ObjectType::Staff:
-        case ObjectType::Wand: objIndex->value[3] = slot_lookup(objIndex->value[3]); break;
+        case ObjectType::Wand: obj_index.value[3] = slot_lookup(obj_index.value[3]); break;
         default:;
         }
         for (auto &&validator : validators) {
-            if (const auto result = validator->validate(objIndex); result.error_message) {
+            if (const auto result = validator->validate(&obj_index); result.error_message) {
                 bug(*result.error_message);
                 exit(1);
             }
         }
-        iHash = vnum % MAX_KEY_HASH;
-        objIndex->next = obj_index_hash[iHash];
-        obj_index_hash[iHash] = objIndex;
-        top_obj_index++;
+        if (!object_indexes.try_emplace(vnum, std::move(obj_index)).second) {
+            bug("load_objects: vnum {} duplicated.", vnum);
+            exit(1);
+        }
         assign_area_vnum(vnum);
     }
 }
@@ -1484,20 +1464,17 @@ const std::map<int, MobIndexData> &all_mob_index_pairs() { return mob_indexes; }
  * Hash table lookup.
  */
 ObjectIndex *get_obj_index(int vnum) {
-    ObjectIndex *objIndex;
-
-    for (objIndex = obj_index_hash[vnum % MAX_KEY_HASH]; objIndex != nullptr; objIndex = objIndex->next) {
-        if (objIndex->vnum == vnum)
-            return objIndex;
-    }
-
-    if (fBootDb) {
-        bug("Get_obj_index: bad vnum {}.", vnum);
+    const auto it = object_indexes.find(vnum);
+    if (it != object_indexes.end()) {
+        return &it->second;
+    } else if (fBootDb) {
+        bug("get_obj_index: bad vnum {}.", vnum);
         exit(1);
     }
-
     return nullptr;
 }
+
+const std::map<int, ObjectIndex> &all_object_index_pairs() { return object_indexes; }
 
 /*
  * Translates mob virtual number to its Room.
@@ -2024,7 +2001,7 @@ void do_memory(Char *ch) {
     ch->send_line("Socials {:5}", social_count);
     ch->send_line("Mobs    {:5}", mob_indexes.size());
     ch->send_line("Chars   {:5}", Char::num_active());
-    ch->send_line("Objs    {:5} ({} new format)", top_obj_index, newobjs);
+    ch->send_line("Objs    {:5}", object_indexes.size());
     ch->send_line("Resets  {:5}", top_reset);
     ch->send_line("Rooms   {:5}", top_room);
     ch->send_line("Shops   {:5}", top_shop);
@@ -2041,11 +2018,7 @@ void do_dump(Char *ch) {
     Exit *exit;
     Descriptor *d;
     AFFECT_DATA *af;
-    FILE *fp;
-    int vnum, nMatch = 0;
-
-    /* open file */
-    fp = fopen("mem.dmp", "w");
+    FILE *fp = fopen("mem.dmp", "w");
 
     /* report use of data structures */
 
@@ -2075,13 +2048,13 @@ void do_dump(Char *ch) {
     fprintf(fp, "Descs	%4d (%8ld bytes)\n", count, count * (sizeof(*d)));
 
     /* object prototypes */
-    for (vnum = 0; nMatch < top_obj_index; vnum++)
-        if ((objIndex = get_obj_index(vnum)) != nullptr) {
-            aff_count += objIndex->affected.size();
-            nMatch++;
-        }
+    aff_count = ranges::accumulate(all_object_indexes() | ranges::views::transform([](const auto &obj_index) {
+                                       return obj_index.affected.size();
+                                   }),
+                                   aff_count);
 
-    fprintf(fp, "ObjProt	%4d (%8ld bytes)\n", top_obj_index, top_obj_index * (sizeof(*objIndex)));
+    fprintf(fp, "ObjProt	%4ld (%8ld bytes)\n", object_indexes.size(),
+            object_indexes.size() * (sizeof(*objIndex)));
 
     /* objects */
     count = 0;
@@ -2117,13 +2090,10 @@ void do_dump(Char *ch) {
 
     fprintf(fp, "\nObject Analysis\n");
     fprintf(fp, "---------------\n");
-    nMatch = 0;
-    for (vnum = 0; nMatch < top_obj_index; vnum++)
-        if ((objIndex = get_obj_index(vnum)) != nullptr) {
-            nMatch++;
-            fmt::print(fp, "#{:<4} {:3} active {:3} reset      {}\n", objIndex->vnum, objIndex->count,
-                       objIndex->reset_num, objIndex->short_descr);
-        }
+    for (const auto &obj_index : all_object_indexes()) {
+        fmt::print(fp, "#{:<4} {:3} active {:3} reset      {}\n", obj_index.vnum, obj_index.count, obj_index.reset_num,
+                   obj_index.short_descr);
+    }
 
     /* close file */
     fclose(fp);

@@ -12,13 +12,13 @@
 #include "Constants.hpp"
 #include "GenericList.hpp"
 #include "MobIndexData.hpp"
+#include "ObjectIndex.hpp"
 
 #include <range/v3/view/transform.hpp>
 
 #include <map>
 #include <string>
 
-struct MobIndexData;
 struct Object;
 struct ObjectIndex;
 struct ExtraDescription;
@@ -30,8 +30,6 @@ struct Room;
 extern GenericList<Char *> char_list;
 extern GenericList<Object *> object_list;
 extern bool fBootDb;
-extern ObjectIndex *obj_index_hash[MAX_KEY_HASH];
-extern int top_obj_index;
 
 void boot_db();
 void area_update();
@@ -41,6 +39,11 @@ Object *create_object(ObjectIndex *objIndex);
 void clone_object(Object *parent, Object *clone);
 const char *get_extra_descr(std::string_view name, const std::vector<ExtraDescription> &ed);
 ObjectIndex *get_obj_index(int vnum);
+const std::map<int, ObjectIndex> &all_object_index_pairs();
+inline auto all_object_indexes() {
+    return all_object_index_pairs()
+           | ranges::views::transform([](const auto &p) -> const ObjectIndex & { return p.second; });
+}
 Room *get_room(int vnum);
 char *fread_word(FILE *fp);
 void *alloc_mem(int sMem);

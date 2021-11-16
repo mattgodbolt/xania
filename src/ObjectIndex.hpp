@@ -20,7 +20,6 @@ struct Area;
  * Prototype for an object.
  */
 struct ObjectIndex {
-    ObjectIndex *next{};
     std::vector<ExtraDescription> extra_descr;
     AffectList affected{};
     std::string name;
