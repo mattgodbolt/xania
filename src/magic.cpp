@@ -136,14 +136,14 @@ std::pair<int, int> get_direct_dmg_and_level(int level, const std::array<int, Si
  * Returns an empty optional SpellTarget that wraps the real target, or nullopt if no valid SpellTarget could be
  * created.
  */
-std::optional<SpellTarget> get_casting_spell_target(Char *ch, const int sn, const char *entity_name,
-                                                    const char *arguments) {
+std::optional<SpellTarget> get_casting_spell_target(Char *ch, const int sn, std::string_view entity_name,
+                                                    std::string_view arguments) {
     Char *victim;
     switch (skill_table[sn].target) {
     default: bug("Do_cast: bad target for sn {}.", sn); return std::nullopt;
 
     case Target::CharOffensive:
-        if (entity_name[0] == '\0') {
+        if (entity_name.empty()) {
             if ((victim = ch->fighting) == nullptr) {
                 ch->send_line("Cast the spell on whom?");
                 return std::nullopt;
@@ -167,7 +167,7 @@ std::optional<SpellTarget> get_casting_spell_target(Char *ch, const int sn, cons
         return SpellTarget(victim);
 
     case Target::CharDefensive:
-        if (entity_name[0] == '\0') {
+        if (entity_name.empty()) {
             victim = ch;
         } else {
             if ((victim = get_char_room(ch, entity_name)) == nullptr) {
@@ -181,19 +181,19 @@ std::optional<SpellTarget> get_casting_spell_target(Char *ch, const int sn, cons
     case Target::CharOther: return SpellTarget(arguments);
 
     case Target::CharSelf:
-        if (entity_name[0] != '\0' && !is_name(entity_name, ch->name)) {
+        if (!entity_name.empty() && !is_name(entity_name, ch->name)) {
             ch->send_line("You cannot cast this spell on another.");
             return std::nullopt;
         }
         return SpellTarget(ch);
 
     case Target::ObjectInventory:
-        if (entity_name[0] == '\0') {
+        if (entity_name.empty()) {
             ch->send_line("What should the spell be cast upon?");
             return std::nullopt;
         }
         Object *obj;
-        if ((obj = get_obj_carry(ch, entity_name)) == nullptr) {
+        if ((obj = ch->find_in_inventory(entity_name)) == nullptr) {
             ch->send_line("You are not carrying that.");
             return std::nullopt;
         }
@@ -356,10 +356,7 @@ int mana_for_spell(const Char *ch, const int sn) {
     return std::max(skill_table[sn].min_mana, mana);
 }
 
-void do_cast(Char *ch, const char *argument) {
-    // TODO convert to ArgParser
-    char spell_name[MAX_INPUT_LENGTH];
-    char entity_name[MAX_INPUT_LENGTH];
+void do_cast(Char *ch, ArgParser args) {
     Object *potion;
     ObjectIndex *i_Potion;
     Object *scroll;
@@ -370,14 +367,11 @@ void do_cast(Char *ch, const char *argument) {
     /* Switched NPC's can cast spells, but others can't. */
     if (ch->is_npc() && (ch->desc == nullptr))
         return;
-
-    auto *arguments = one_argument(argument, spell_name);
-    one_argument(arguments, entity_name);
-
-    if (spell_name[0] == '\0') {
+    if (args.empty()) {
         ch->send_line("Cast which what where?");
         return;
     }
+    const auto spell_name = args.shift();
     /* Changed this bit, to '<=' 0 : spells you didn't know, were starting
            fights =) */
     if ((sn = skill_lookup(spell_name)) <= 0 || (ch->is_pc() && ch->level < get_skill_level(ch, sn))) {
@@ -389,11 +383,11 @@ void do_cast(Char *ch, const char *argument) {
         ch->send_line("You can't concentrate enough.");
         return;
     }
-
     const int mana = mana_for_spell(ch, sn);
-    /* MG's rather more dubious bomb-making routine */
+    const auto entity_name = args.shift();
 
-    if (!str_cmp(entity_name, "explosive")) {
+    /* MG's rather more dubious bomb-making routine */
+    if (matches(entity_name, "explosive")) {
 
         if (ch->class_num != 0) {
             ch->send_line("You're more than likely gonna kill yourself!");
@@ -486,7 +480,7 @@ void do_cast(Char *ch, const char *argument) {
     }
 
     /* MG's scribing command ... */
-    if (!str_cmp(entity_name, "scribe") && (skill_table[sn].spell_fun != spell_null)) {
+    if (matches(entity_name, "scribe") && (skill_table[sn].spell_fun != spell_null)) {
 
         if ((ch->class_num != 0) && (ch->class_num != 1)) {
             ch->send_line("You can't scribe! You can't read or write!");
@@ -548,7 +542,7 @@ void do_cast(Char *ch, const char *argument) {
     }
 
     /* MG's brewing command ... */
-    if (!str_cmp(entity_name, "brew") && (skill_table[sn].spell_fun != spell_null)) {
+    if (matches(entity_name, "brew") && (skill_table[sn].spell_fun != spell_null)) {
 
         if ((ch->class_num != 0) && (ch->class_num != 1)) {
             ch->send_line("You can't make potions! You don't know how!");
@@ -609,7 +603,7 @@ void do_cast(Char *ch, const char *argument) {
         }
         return;
     }
-
+    const auto arguments = args.remaining();
     auto opt_spell_target = get_casting_spell_target(ch, sn, entity_name, arguments);
     if (!opt_spell_target) {
         return;
