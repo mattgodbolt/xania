@@ -17,7 +17,7 @@ struct Object;
 int mana_for_spell(const Char *ch, const int sn);
 int slot_lookup(int slot);
 bool saves_spell(int level, const Char *victim);
-void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj, std::string_view arguments);
+void obj_cast_spell(const int sn, const int level, Char *ch, Char *victim, Object *obj, std::string_view arguments);
 bool check_dispel(int dis_level, Char *victim, int spell_num);
 
 void spell_psy_tornado(int spell_num, int level, Char *ch, const SpellTarget &spell_target);

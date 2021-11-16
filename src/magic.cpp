@@ -264,6 +264,219 @@ void casting_may_provoke_victim(Char *ch, const SpellTarget &spell_target, const
     }
 }
 
+/* MG's rather more dubious bomb-making routine */
+void try_create_bomb(Char *ch, const int sn, const int mana) {
+    if (ch->class_num != 0) {
+        ch->send_line("You're more than likely gonna kill yourself!");
+        return;
+    }
+
+    if (ch->is_pos_preoccupied()) {
+        ch->send_line("You can't concentrate enough.");
+        return;
+    }
+
+    if (ch->is_pc() && ch->gold < (mana * 100)) {
+        ch->send_line("You can't afford to!");
+        return;
+    }
+
+    if (ch->is_pc() && ch->mana < (mana * 2)) {
+        ch->send_line("You don't have enough mana.");
+        return;
+    }
+
+    ch->wait_state(skill_table[sn].beats * 2);
+
+    if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
+        ch->send_line("You lost your concentration.");
+        check_improve(ch, sn, false, 8);
+        ch->mana -= mana / 2;
+    } else {
+        // Array holding the innate chance of explosion per
+        // additional spell for bombs
+        static const int bomb_chance[5] = {0, 0, 20, 35, 70};
+        ch->mana -= (mana * 2);
+        ch->gold -= (mana * 100);
+        auto *bomb = get_eq_char(ch, Wear::Hold);
+        if (bomb) {
+            if (bomb->type != ObjectType::Bomb) {
+                ch->send_line("You must be holding a bomb to add to it.");
+                ch->send_line("Or, to create a new bomb you must have free hands.");
+                ch->mana += (mana * 2);
+                ch->gold += (mana * 100);
+                return;
+            }
+            // God alone knows what I was on when I originally wrote this....
+            /* do detonation if things go wrong */
+            if ((bomb->value[0] > (ch->level + 1)) && (number_percent() < 90)) {
+                act("Your naive fumblings on a higher-level bomb cause it to go off!", ch, nullptr, nullptr, To::Char);
+                act("$n is delving with things $s doesn't understand - BANG!!", ch, nullptr, nullptr, To::Char);
+                explode_bomb(bomb, ch, ch);
+                return;
+            }
+
+            // Find first free slot
+            auto pos = 2;
+            for (; pos < 5; ++pos) {
+                if (bomb->value[pos] <= 0)
+                    break;
+            }
+            if ((pos == 5) || // If we've run out of spaces in the bomb
+                (number_percent() > (get_curr_stat(ch, Stat::Int) * 4)) || // test against int
+                (number_percent() < bomb_chance[pos])) { // test against the number of spells in the bomb
+                act("You try to add another spell to your bomb but it can't take anymore!!!", ch, nullptr, nullptr,
+                    To::Char);
+                act("$n tries to add more power to $s bomb - but has pushed it too far!!!", ch, nullptr, nullptr,
+                    To::Room);
+                explode_bomb(bomb, ch, ch);
+                return;
+            }
+            bomb->value[pos] = sn;
+            act("$n adds more potency to $s bomb.", ch);
+            act("You carefully add another spell to your bomb.", ch, nullptr, nullptr, To::Char);
+
+        } else {
+            bomb = create_object(get_obj_index(objects::Bomb));
+            bomb->level = ch->level;
+            bomb->value[0] = ch->level;
+            bomb->value[1] = sn;
+
+            bomb->description = fmt::sprintf(bomb->description, ch->name);
+            bomb->name = fmt::sprintf(bomb->name, ch->name);
+
+            obj_to_char(bomb, ch);
+            equip_char(ch, bomb, Wear::Hold);
+            act("$n creates $p.", ch, bomb, nullptr, To::Room);
+            act("You have created $p.", ch, bomb, nullptr, To::Char);
+
+            check_improve(ch, sn, true, 8);
+        }
+    }
+    return;
+}
+
+/* MG's scribing command ... */
+void try_create_scroll(Char *ch, const int sn, const int mana) {
+    if ((ch->class_num != 0) && (ch->class_num != 1)) {
+        ch->send_line("You can't scribe! You can't read or write!");
+        return;
+    }
+
+    if (ch->is_pos_preoccupied()) {
+        ch->send_line("You can't concentrate enough.");
+        return;
+    }
+
+    if (ch->is_pc() && ch->gold < (mana * 100)) {
+        ch->send_line("You can't afford to!");
+        return;
+    }
+
+    if (ch->is_pc() && ch->mana < (mana * 2)) {
+        ch->send_line("You don't have enough mana.");
+        return;
+    }
+    auto *scroll_index = get_obj_index(objects::Scroll);
+    if (ch->carry_weight + scroll_index->weight > can_carry_w(ch)) {
+        act("You cannot carry that much weight.", ch, nullptr, nullptr, To::Char);
+        return;
+    }
+    if (ch->carry_number + 1 > can_carry_n(ch)) {
+        act("You can't carry any more items.", ch, nullptr, nullptr, To::Char);
+        return;
+    }
+
+    ch->wait_state(skill_table[sn].beats * 2);
+    if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
+        ch->send_line("You lost your concentration.");
+        check_improve(ch, sn, false, 8);
+        ch->mana -= mana / 2;
+    } else {
+        ch->mana -= (mana * 2);
+        ch->gold -= (mana * 100);
+
+        auto *scroll = create_object(get_obj_index(objects::Scroll));
+        scroll->level = ch->level;
+        scroll->value[0] = ch->level;
+        scroll->value[1] = sn;
+        scroll->value[2] = -1;
+        scroll->value[3] = -1;
+        scroll->value[4] = -1;
+
+        scroll->short_descr = fmt::sprintf(scroll->short_descr, skill_table[sn].name);
+        scroll->description = fmt::sprintf(scroll->description, skill_table[sn].name);
+        scroll->name = fmt::sprintf(scroll->name, skill_table[sn].name);
+
+        obj_to_char(scroll, ch);
+        act("$n creates $p.", ch, scroll, nullptr, To::Room);
+        act("You have created $p.", ch, scroll, nullptr, To::Char);
+
+        check_improve(ch, sn, true, 8);
+    }
+}
+
+/* MG's brewing command ... */
+void try_create_potion(Char *ch, const int sn, const int mana) {
+    if ((ch->class_num != 0) && (ch->class_num != 1)) {
+        ch->send_line("You can't make potions! You don't know how!");
+        return;
+    }
+
+    if (ch->is_pos_preoccupied()) {
+        ch->send_line("You can't concentrate enough.");
+        return;
+    }
+
+    if (ch->is_pc() && ch->gold < (mana * 100)) {
+        ch->send_line("You can't afford to!");
+        return;
+    }
+
+    if (ch->is_pc() && ch->mana < (mana * 2)) {
+        ch->send_line("You don't have enough mana.");
+        return;
+    }
+    const auto *potion_index = get_obj_index(objects::Potion);
+    if (ch->carry_weight + potion_index->weight > can_carry_w(ch)) {
+        act("You cannot carry that much weight.", ch, nullptr, nullptr, To::Char);
+        return;
+    }
+    if (ch->carry_number + 1 > can_carry_n(ch)) {
+        act("You can't carry any more items.", ch, nullptr, nullptr, To::Char);
+        return;
+    }
+
+    ch->wait_state(skill_table[sn].beats * 2);
+
+    if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
+        ch->send_line("You lost your concentration.");
+        check_improve(ch, sn, false, 8);
+        ch->mana -= mana / 2;
+    } else {
+        ch->mana -= (mana * 2);
+        ch->gold -= (mana * 100);
+
+        auto *potion = create_object(get_obj_index(objects::Potion));
+        potion->level = ch->level;
+        potion->value[0] = ch->level;
+        potion->value[1] = sn;
+        potion->value[2] = -1;
+        potion->value[3] = -1;
+        potion->value[4] = -1;
+
+        potion->short_descr = fmt::sprintf(potion->short_descr, skill_table[sn].name);
+        potion->description = fmt::sprintf(potion->description, skill_table[sn].name);
+        potion->name = fmt::sprintf(potion->name, skill_table[sn].name);
+
+        obj_to_char(potion, ch);
+        act("$n creates $p.", ch, potion, nullptr, To::Room);
+        act("You have created $p.", ch, potion, nullptr, To::Char);
+
+        check_improve(ch, sn, true, 8);
+    }
+}
+
 }
 
 /*
@@ -357,13 +570,6 @@ int mana_for_spell(const Char *ch, const int sn) {
 }
 
 void do_cast(Char *ch, ArgParser args) {
-    Object *potion;
-    ObjectIndex *i_Potion;
-    Object *scroll;
-    ObjectIndex *i_Scroll;
-    Object *bomb;
-    int sn;
-    int pos;
     /* Switched NPC's can cast spells, but others can't. */
     if (ch->is_npc() && (ch->desc == nullptr))
         return;
@@ -372,9 +578,8 @@ void do_cast(Char *ch, ArgParser args) {
         return;
     }
     const auto spell_name = args.shift();
-    /* Changed this bit, to '<=' 0 : spells you didn't know, were starting
-           fights =) */
-    if ((sn = skill_lookup(spell_name)) <= 0 || (ch->is_pc() && ch->level < get_skill_level(ch, sn))) {
+    const auto sn = skill_lookup(spell_name);
+    if (sn <= 0 || (ch->is_pc() && ch->level < get_skill_level(ch, sn))) {
         ch->send_line("You don't know any spells of that name.");
         return;
     }
@@ -385,222 +590,16 @@ void do_cast(Char *ch, ArgParser args) {
     }
     const int mana = mana_for_spell(ch, sn);
     const auto entity_name = args.shift();
-
-    /* MG's rather more dubious bomb-making routine */
     if (matches(entity_name, "explosive")) {
-
-        if (ch->class_num != 0) {
-            ch->send_line("You're more than likely gonna kill yourself!");
-            return;
-        }
-
-        if (ch->is_pos_preoccupied()) {
-            ch->send_line("You can't concentrate enough.");
-            return;
-        }
-
-        if (ch->is_pc() && ch->gold < (mana * 100)) {
-            ch->send_line("You can't afford to!");
-            return;
-        }
-
-        if (ch->is_pc() && ch->mana < (mana * 2)) {
-            ch->send_line("You don't have enough mana.");
-            return;
-        }
-
-        ch->wait_state(skill_table[sn].beats * 2);
-
-        if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
-            ch->send_line("You lost your concentration.");
-            check_improve(ch, sn, false, 8);
-            ch->mana -= mana / 2;
-        } else {
-            // Array holding the innate chance of explosion per
-            // additional spell for bombs
-            static const int bomb_chance[5] = {0, 0, 20, 35, 70};
-            ch->mana -= (mana * 2);
-            ch->gold -= (mana * 100);
-
-            if (((bomb = get_eq_char(ch, Wear::Hold)) != nullptr)) {
-                if (bomb->type != ObjectType::Bomb) {
-                    ch->send_line("You must be holding a bomb to add to it.");
-                    ch->send_line("Or, to create a new bomb you must have free hands.");
-                    ch->mana += (mana * 2);
-                    ch->gold += (mana * 100);
-                    return;
-                }
-                // God alone knows what I was on when I originally wrote this....
-                /* do detonation if things go wrong */
-                if ((bomb->value[0] > (ch->level + 1)) && (number_percent() < 90)) {
-                    act("Your naive fumblings on a higher-level bomb cause it to go off!", ch, nullptr, nullptr,
-                        To::Char);
-                    act("$n is delving with things $s doesn't understand - BANG!!", ch, nullptr, nullptr, To::Char);
-                    explode_bomb(bomb, ch, ch);
-                    return;
-                }
-
-                // Find first free slot
-                for (pos = 2; pos < 5; ++pos) {
-                    if (bomb->value[pos] <= 0)
-                        break;
-                }
-                if ((pos == 5) || // If we've run out of spaces in the bomb
-                    (number_percent() > (get_curr_stat(ch, Stat::Int) * 4)) || // test against int
-                    (number_percent() < bomb_chance[pos])) { // test against the number of spells in the bomb
-                    act("You try to add another spell to your bomb but it can't take anymore!!!", ch, nullptr, nullptr,
-                        To::Char);
-                    act("$n tries to add more power to $s bomb - but has pushed it too far!!!", ch, nullptr, nullptr,
-                        To::Room);
-                    explode_bomb(bomb, ch, ch);
-                    return;
-                }
-                bomb->value[pos] = sn;
-                act("$n adds more potency to $s bomb.", ch);
-                act("You carefully add another spell to your bomb.", ch, nullptr, nullptr, To::Char);
-
-            } else {
-                bomb = create_object(get_obj_index(objects::Bomb));
-                bomb->level = ch->level;
-                bomb->value[0] = ch->level;
-                bomb->value[1] = sn;
-
-                bomb->description = fmt::sprintf(bomb->description, ch->name);
-                bomb->name = fmt::sprintf(bomb->name, ch->name);
-
-                obj_to_char(bomb, ch);
-                equip_char(ch, bomb, Wear::Hold);
-                act("$n creates $p.", ch, bomb, nullptr, To::Room);
-                act("You have created $p.", ch, bomb, nullptr, To::Char);
-
-                check_improve(ch, sn, true, 8);
-            }
-        }
+        try_create_bomb(ch, sn, mana);
         return;
     }
-
-    /* MG's scribing command ... */
     if (matches(entity_name, "scribe") && (skill_table[sn].spell_fun != spell_null)) {
-
-        if ((ch->class_num != 0) && (ch->class_num != 1)) {
-            ch->send_line("You can't scribe! You can't read or write!");
-            return;
-        }
-
-        if (ch->is_pos_preoccupied()) {
-            ch->send_line("You can't concentrate enough.");
-            return;
-        }
-
-        if (ch->is_pc() && ch->gold < (mana * 100)) {
-            ch->send_line("You can't afford to!");
-            return;
-        }
-
-        if (ch->is_pc() && ch->mana < (mana * 2)) {
-            ch->send_line("You don't have enough mana.");
-            return;
-        }
-        i_Scroll = get_obj_index(objects::Scroll);
-        if (ch->carry_weight + i_Scroll->weight > can_carry_w(ch)) {
-            act("You cannot carry that much weight.", ch, nullptr, nullptr, To::Char);
-            return;
-        }
-        if (ch->carry_number + 1 > can_carry_n(ch)) {
-            act("You can't carry any more items.", ch, nullptr, nullptr, To::Char);
-            return;
-        }
-
-        ch->wait_state(skill_table[sn].beats * 2);
-        if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
-            ch->send_line("You lost your concentration.");
-            check_improve(ch, sn, false, 8);
-            ch->mana -= mana / 2;
-        } else {
-            ch->mana -= (mana * 2);
-            ch->gold -= (mana * 100);
-
-            scroll = create_object(get_obj_index(objects::Scroll));
-            scroll->level = ch->level;
-            scroll->value[0] = ch->level;
-            scroll->value[1] = sn;
-            scroll->value[2] = -1;
-            scroll->value[3] = -1;
-            scroll->value[4] = -1;
-
-            scroll->short_descr = fmt::sprintf(scroll->short_descr, skill_table[sn].name);
-            scroll->description = fmt::sprintf(scroll->description, skill_table[sn].name);
-            scroll->name = fmt::sprintf(scroll->name, skill_table[sn].name);
-
-            obj_to_char(scroll, ch);
-            act("$n creates $p.", ch, scroll, nullptr, To::Room);
-            act("You have created $p.", ch, scroll, nullptr, To::Char);
-
-            check_improve(ch, sn, true, 8);
-        }
+        try_create_scroll(ch, sn, mana);
         return;
     }
-
-    /* MG's brewing command ... */
     if (matches(entity_name, "brew") && (skill_table[sn].spell_fun != spell_null)) {
-
-        if ((ch->class_num != 0) && (ch->class_num != 1)) {
-            ch->send_line("You can't make potions! You don't know how!");
-            return;
-        }
-
-        if (ch->is_pos_preoccupied()) {
-            ch->send_line("You can't concentrate enough.");
-            return;
-        }
-
-        if (ch->is_pc() && ch->gold < (mana * 100)) {
-            ch->send_line("You can't afford to!");
-            return;
-        }
-
-        if (ch->is_pc() && ch->mana < (mana * 2)) {
-            ch->send_line("You don't have enough mana.");
-            return;
-        }
-        i_Potion = get_obj_index(objects::Potion);
-        if (ch->carry_weight + i_Potion->weight > can_carry_w(ch)) {
-            act("You cannot carry that much weight.", ch, nullptr, nullptr, To::Char);
-            return;
-        }
-        if (ch->carry_number + 1 > can_carry_n(ch)) {
-            act("You can't carry any more items.", ch, nullptr, nullptr, To::Char);
-            return;
-        }
-
-        ch->wait_state(skill_table[sn].beats * 2);
-
-        if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
-            ch->send_line("You lost your concentration.");
-            check_improve(ch, sn, false, 8);
-            ch->mana -= mana / 2;
-        } else {
-            ch->mana -= (mana * 2);
-            ch->gold -= (mana * 100);
-
-            potion = create_object(get_obj_index(objects::Potion));
-            potion->level = ch->level;
-            potion->value[0] = ch->level;
-            potion->value[1] = sn;
-            potion->value[2] = -1;
-            potion->value[3] = -1;
-            potion->value[4] = -1;
-
-            potion->short_descr = fmt::sprintf(potion->short_descr, skill_table[sn].name);
-            potion->description = fmt::sprintf(potion->description, skill_table[sn].name);
-            potion->name = fmt::sprintf(potion->name, skill_table[sn].name);
-
-            obj_to_char(potion, ch);
-            act("$n creates $p.", ch, potion, nullptr, To::Room);
-            act("You have created $p.", ch, potion, nullptr, To::Char);
-
-            check_improve(ch, sn, true, 8);
-        }
+        try_create_potion(ch, sn, mana);
         return;
     }
     const auto arguments = args.remaining();
@@ -633,7 +632,7 @@ void do_cast(Char *ch, ArgParser args) {
 /*
  * Cast spells at targets using a magical object.
  */
-void obj_cast_spell(int sn, int level, Char *ch, Char *victim, Object *obj, std::string_view arguments) {
+void obj_cast_spell(const int sn, const int level, Char *ch, Char *victim, Object *obj, std::string_view arguments) {
     if (sn <= 0)
         return;
 
