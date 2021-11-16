@@ -890,7 +890,7 @@ void load_objects(FILE *fp) {
         default:;
         }
         for (auto &&validator : validators) {
-            if (const auto result = validator->validate(&obj_index); result.error_message) {
+            if (const auto result = validator->validate(obj_index); result.error_message) {
                 bug(*result.error_message);
                 exit(1);
             }

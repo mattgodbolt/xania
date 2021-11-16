@@ -19,12 +19,12 @@ enum class Target;
 class ScrollTargetValidator : public ObjectIndexValidator {
 public:
     explicit ScrollTargetValidator(const skill_type *skill_table);
-    [[nodiscard]] ObjectIndexValidator::Result validate(const ObjectIndex *obj_index) const override;
+    [[nodiscard]] ObjectIndexValidator::Result validate(const ObjectIndex &obj_index) const override;
 
 private:
     [[nodiscard]] bool are_incompatible(const std::optional<Target> &opt_target_a,
                                         const std::optional<Target> &opt_target_b) const;
-    [[nodiscard]] std::optional<Target> get_target(const ObjectIndex *obj_index, const int index) const;
+    [[nodiscard]] std::optional<Target> get_target(const ObjectIndex &obj_index, const int index) const;
 
     const skill_type *skill_table_;
 

@@ -20,7 +20,7 @@ public:
         std::optional<std::string> error_message;
     };
 
-    [[nodiscard]] virtual Result validate(const ObjectIndex *obj_index) const = 0;
+    [[nodiscard]] virtual Result validate(const ObjectIndex &obj_index) const = 0;
 
 protected:
     const Result Success = ObjectIndexValidator::Result{std::nullopt};

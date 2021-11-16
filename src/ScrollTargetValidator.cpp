@@ -26,8 +26,8 @@ ScrollTargetValidator::ScrollTargetValidator(const struct skill_type *skill_tabl
           // clang-format on
       } {}
 
-ObjectIndexValidator::Result ScrollTargetValidator::validate(const ObjectIndex *obj_index) const {
-    if (obj_index->type != ObjectType::Scroll) {
+ObjectIndexValidator::Result ScrollTargetValidator::validate(const ObjectIndex &obj_index) const {
+    if (obj_index.type != ObjectType::Scroll) {
         return Success;
     }
     // Scrolls store spell slots at index 1, 2 & 3.
@@ -36,15 +36,15 @@ ObjectIndexValidator::Result ScrollTargetValidator::validate(const ObjectIndex *
     const auto opt_target3 = get_target(obj_index, 3);
     if (are_incompatible(opt_target1, opt_target2)) {
         return ObjectIndexValidator::Result{
-            fmt::format("Incompatible target type for slot1 and slot2 in #{}", obj_index->vnum)};
+            fmt::format("Incompatible target type for slot1 and slot2 in #{}", obj_index.vnum)};
     }
     if (are_incompatible(opt_target1, opt_target3)) {
         return ObjectIndexValidator::Result{
-            fmt::format("Incompatible target type for slot1 and slot3 in #{}", obj_index->vnum)};
+            fmt::format("Incompatible target type for slot1 and slot3 in #{}", obj_index.vnum)};
     }
     if (are_incompatible(opt_target2, opt_target3)) {
         return ObjectIndexValidator::Result{
-            fmt::format("Incompatible target type for slot2 and slot3 in #{}", obj_index->vnum)};
+            fmt::format("Incompatible target type for slot2 and slot3 in #{}", obj_index.vnum)};
     }
     return Success;
 }
@@ -68,9 +68,9 @@ bool ScrollTargetValidator::are_incompatible(const std::optional<Target> &opt_ta
     return are_mapped(target_a, target_b) || are_mapped(target_b, target_a);
 }
 
-std::optional<Target> ScrollTargetValidator::get_target(const ObjectIndex *obj_index, const int index) const {
-    if (obj_index->value[index] >= 0) {
-        return skill_table_[obj_index->value[index]].target;
+std::optional<Target> ScrollTargetValidator::get_target(const ObjectIndex &obj_index, const int index) const {
+    if (obj_index.value[index] >= 0) {
+        return skill_table_[obj_index.value[index]].target;
     }
     return std::nullopt;
 }

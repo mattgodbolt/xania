@@ -119,21 +119,21 @@ TEST_CASE("scroll target validator") {
     SECTION("valid one spell index 1") {
         obj_index.value[1] = FireballIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(!result.error_message);
     }
     SECTION("valid one spell index 2") {
         obj_index.value[2] = FireballIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(!result.error_message);
     }
     SECTION("valid one spell index 3") {
         obj_index.value[3] = FireballIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(!result.error_message);
     }
@@ -141,7 +141,7 @@ TEST_CASE("scroll target validator") {
         obj_index.value[1] = FireballIndex;
         obj_index.value[2] = FireballIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(!result.error_message);
     }
@@ -149,7 +149,7 @@ TEST_CASE("scroll target validator") {
         obj_index.value[2] = FireballIndex;
         obj_index.value[3] = FireballIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(!result.error_message);
     }
@@ -157,7 +157,7 @@ TEST_CASE("scroll target validator") {
         obj_index.value[1] = FireballIndex;
         obj_index.value[3] = FireballIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(!result.error_message);
     }
@@ -165,7 +165,7 @@ TEST_CASE("scroll target validator") {
         obj_index.value[1] = FireballIndex;
         obj_index.value[2] = EnchantIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(*result.error_message == "Incompatible target type for slot1 and slot2 in #0");
     }
@@ -173,7 +173,7 @@ TEST_CASE("scroll target validator") {
         obj_index.value[2] = FireballIndex;
         obj_index.value[1] = EnchantIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(*result.error_message == "Incompatible target type for slot1 and slot2 in #0");
     }
@@ -181,7 +181,7 @@ TEST_CASE("scroll target validator") {
         obj_index.value[1] = ForgeIndex;
         obj_index.value[3] = DetectEvilIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(*result.error_message == "Incompatible target type for slot1 and slot3 in #0");
     }
@@ -189,7 +189,7 @@ TEST_CASE("scroll target validator") {
         obj_index.value[3] = ForgeIndex;
         obj_index.value[2] = DetectEvilIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(*result.error_message == "Incompatible target type for slot2 and slot3 in #0");
     }
@@ -197,7 +197,7 @@ TEST_CASE("scroll target validator") {
         obj_index.value[1] = FaerieFogIndex;
         obj_index.value[2] = FireballIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(!result.error_message);
     }
@@ -206,7 +206,7 @@ TEST_CASE("scroll target validator") {
         obj_index.value[1] = FireballIndex;
         obj_index.value[3] = EnchantIndex;
 
-        const auto result = validator.validate(&obj_index);
+        const auto result = validator.validate(obj_index);
 
         CHECK(!result.error_message);
     }
