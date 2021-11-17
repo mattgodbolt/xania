@@ -1608,7 +1608,7 @@ on the number and size of these blocks.
 96 VNUM~
 Syntax: vnum <name>
 	vnum <obj or mob> <name>
-	vnum skill <name>
+	vnum skill <name, or all>
 
 Vnum finds all objects and mobiles with a particular name, and prints out
 the results.  Use vnum obj or vnum mob to limit the search.  This vnum is

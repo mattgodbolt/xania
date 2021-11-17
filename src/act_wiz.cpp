@@ -1129,15 +1129,11 @@ void do_mstat(Char *ch, std::string_view argument) {
 
 /* ofind and mfind replaced with vnum, vnum skill also added */
 
-void do_mfind(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_mfind(Char *ch, std::string_view argument) {
+    if (argument.empty()) {
         ch->send_line("Find whom?");
         return;
     }
-
     auto buffer = ranges::accumulate(all_mob_indexes() | ranges::views::filter([&](const auto &mob) {
                                          return is_name(argument, mob.player_name);
                                      }) | ranges::views::transform([](const auto &mob) {
@@ -1151,15 +1147,11 @@ void do_mfind(Char *ch, const char *argument) {
         ch->send_line("No mobiles by that name.");
 }
 
-void do_ofind(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_ofind(Char *ch, std::string_view argument) {
+    if (argument.empty()) {
         ch->send_line("Find what?");
         return;
     }
-
     auto buffer = ranges::accumulate(all_object_indexes() | ranges::views::filter([&](const auto &obj_index) {
                                          return is_name(argument, obj_index.name);
                                      }) | ranges::views::transform([](const auto &obj_index) {
@@ -1172,37 +1164,31 @@ void do_ofind(Char *ch, const char *argument) {
         ch->send_line("No objects by that name.");
 }
 
-void do_vnum(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    const char *string;
-
-    string = one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_vnum(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Syntax:");
         ch->send_line("  vnum obj <name>");
         ch->send_line("  vnum mob <name>");
         ch->send_line("  vnum skill <skill or spell>");
         return;
     }
-
-    if (!str_cmp(arg, "obj")) {
-        do_ofind(ch, string);
+    const auto arg1 = args.shift();
+    const auto arg2 = args.shift();
+    if (matches(arg1, "obj")) {
+        do_ofind(ch, arg2);
         return;
     }
-
-    if (!str_cmp(arg, "mob") || !str_cmp(arg, "char")) {
-        do_mfind(ch, string);
+    if (matches(arg1, "mob") || matches(arg1, "char")) {
+        do_mfind(ch, arg2);
         return;
     }
-
-    if (!str_cmp(arg, "skill") || !str_cmp(arg, "spell")) {
-        do_slookup(ch, string);
+    if (matches(arg1, "skill") || matches(arg1, "spell")) {
+        do_slookup(ch, arg2);
         return;
     }
     /* do both */
-    do_mfind(ch, argument);
-    do_ofind(ch, argument);
+    do_mfind(ch, arg1);
+    do_ofind(ch, arg1);
 }
 
 void do_mwhere(Char *ch, const char *argument) {
@@ -2177,22 +2163,19 @@ void do_osearch(Char *ch, ArgParser args) {
     ch->page_to(osearch_find_items(*opt_min_level, *opt_max_level, *opt_item_type, item_name));
 }
 
-void do_slookup(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_slookup(Char *ch, std::string_view argument) {
+    if (argument.empty()) {
         ch->send_line("Lookup which skill or spell?");
         return;
     }
-
-    if (!str_cmp(arg, "all")) {
+    if (matches(argument, "all")) {
         for (auto sn = 0; sn < MAX_SKILL; sn++) {
             if (skill_table[sn].name == nullptr)
                 break;
             ch->send_line("Sn: {}  Slot: {}  Skill/spell: '{}'", sn, skill_table[sn].slot, skill_table[sn].name);
         }
     } else {
-        if (auto sn = skill_lookup(arg); sn >= 0) {
+        if (auto sn = skill_lookup(argument); sn >= 0) {
             ch->send_line("Sn: {}  Slot: {}  Skill/spell: '{}'", sn, skill_table[sn].slot, skill_table[sn].name);
         } else {
             ch->send_line("No such skill or spell.");
