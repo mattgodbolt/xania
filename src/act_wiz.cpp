@@ -2151,38 +2151,30 @@ std::string osearch_find_items(const int min_level, const int max_level, const O
  * You can optionally filter on the leading part of the object name.
  * As some items are level 0, specifing min level 0 is allowed.
  */
-void do_osearch(Char *ch, const char *argument) {
-    char min_level_str[MAX_INPUT_LENGTH];
-    char max_level_str[MAX_INPUT_LENGTH];
-    char item_type_str[MAX_INPUT_LENGTH];
-    char item_name[MAX_INPUT_LENGTH];
-    int min_level;
-    int max_level;
-    if (argument[0] == '\0') {
+void do_osearch(Char *ch, ArgParser args) {
+    if (args.empty()) {
         osearch_display_syntax(ch);
         return;
     }
-    argument = one_argument(argument, min_level_str);
-    argument = one_argument(argument, max_level_str);
-    argument = one_argument(argument, item_type_str);
-    argument = one_argument(argument, item_name);
-    if (min_level_str[0] == '\0' || max_level_str[0] == '\0' || item_type_str[0] == '\0' || !is_number(min_level_str)
-        || !is_number(max_level_str)) {
+    const auto opt_min_level = args.try_shift_number();
+    const auto opt_max_level = args.try_shift_number();
+    const auto item_type = args.shift();
+    const auto item_name = args.shift();
+
+    if (!opt_min_level || !opt_max_level || item_type.empty()) {
         osearch_display_syntax(ch);
         return;
     }
-    min_level = atoi(min_level_str);
-    max_level = atoi(max_level_str);
-    if (!osearch_is_valid_level_range(min_level, max_level)) {
+    if (!osearch_is_valid_level_range(*opt_min_level, *opt_max_level)) {
         osearch_display_syntax(ch);
         return;
     }
-    const auto opt_item_type = ObjectTypes::try_lookup(item_type_str);
+    const auto opt_item_type = ObjectTypes::try_lookup(item_type);
     if (!opt_item_type) {
         osearch_display_syntax(ch);
         return;
     }
-    ch->page_to(osearch_find_items(min_level, max_level, *opt_item_type, item_name));
+    ch->page_to(osearch_find_items(*opt_min_level, *opt_max_level, *opt_item_type, item_name));
 }
 
 void do_slookup(Char *ch, const char *argument) {

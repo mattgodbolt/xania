@@ -175,7 +175,7 @@ extern void do_order(Char *ch, const char *argument);
 extern void do_oset(Char *ch, const char *argument);
 extern void do_ostat(Char *ch, const char *arg);
 extern void do_owhere(Char *ch, const char *arg);
-extern void do_osearch(Char *ch, const char *arg);
+extern void do_osearch(Char *ch, ArgParser args);
 extern void do_outfit(Char *ch);
 extern void do_pardon(Char *ch, const char *arg);
 extern void do_password(Char *ch, const char *arg);
