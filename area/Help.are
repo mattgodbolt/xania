@@ -1618,8 +1618,7 @@ the slot number (for making new zones) of a skill name.
 ~
 
 93 STAT~
-Syntax: stat <name>
-	stat mob  <name>
+Syntax: stat mob  <name>
 	stat obj  <name>
 	stat obj  <vnum>
 	stat room <number>
@@ -1627,9 +1626,7 @@ Syntax: stat <name>
 	stat prog <name>
 
 The stat command gives you detailed information on an object, mobile, or room
-within the game.  Without a class argument, the command will return a object
-(if found), a mobile (if no object exists, but a mobile does), or a room
-(if a number is  given).  Stat room with no argument stats the room you are
+within the game.  Stat room with no argument stats the room you are
 standing in.  Specifying a vnum with stat obj will provide some info on
 the object template but is not as thorough as stating an object by name.
 

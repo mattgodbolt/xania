@@ -12,8 +12,9 @@
 struct Char;
 struct Object;
 struct Area;
+class ArgParser;
 
-void do_mpstat(Char *ch, char *argument);
+void do_mpstat(Char *ch, ArgParser args);
 
 void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const Object *obj, const void *vo,
                           const MobProgTypeFlag type);

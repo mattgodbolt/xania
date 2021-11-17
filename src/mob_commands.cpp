@@ -73,14 +73,11 @@ const char *mprog_type_to_name(const MobProgTypeFlag type) {
  * show the MOBprograms which are set.
  */
 
-void do_mpstat(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_mpstat(Char *ch, ArgParser args) {
     MPROG_DATA *mprg;
     Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    const auto arg = args.shift();
+    if (arg.empty()) {
         ch->send_line("MobProg stat whom?");
         return;
     }

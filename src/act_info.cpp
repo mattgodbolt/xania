@@ -1494,15 +1494,13 @@ void do_where(Char *ch, const char *argument) {
     }
 }
 
-void do_consider(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_consider(Char *ch, ArgParser args) {
     Char *victim;
     const char *msg;
     int diff;
 
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    const auto arg = args.shift();
+    if (arg.empty()) {
         ch->send_line("Consider killing whom?");
         return;
     }
@@ -1535,8 +1533,9 @@ void do_consider(Char *ch, const char *argument) {
         msg = "|RDeath will thank you for your gift.|w";
 
     act(msg, ch, nullptr, victim, To::Char);
-    if (ch->level >= LEVEL_CONSIDER)
-        do_mstat(ch, argument);
+    if (ch->level >= LEVEL_CONSIDER) {
+        do_mstat(ch, arg);
+    }
 }
 
 void set_prompt(Char *ch, const char *prompt) {

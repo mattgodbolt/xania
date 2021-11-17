@@ -68,11 +68,11 @@ std::string deity_name = "Etaine";
 // Mutable global: imms can toggle it using the log command.
 bool fLogAll = false;
 
-void do_mskills(Char *ch, const char *argument);
-void do_maffects(Char *ch, const char *argument);
-void do_mpracs(Char *ch, const char *argument);
-void do_minfo(Char *ch, const char *argument);
-void do_mspells(Char *ch, const char *argument);
+void do_mskills(Char *ch, ArgParser args);
+void do_maffects(Char *ch, ArgParser args);
+void do_mpracs(Char *ch, ArgParser args);
+void do_minfo(Char *ch, ArgParser args);
+void do_mspells(Char *ch, ArgParser args);
 SpecialFunc spec_lookup(const char *name);
 
 /*
@@ -579,17 +579,10 @@ void do_goto(Char *ch, const char *argument) {
 
 /* RT to replace the 3 stat commands */
 
-void do_stat(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    const char *string;
-    Object *obj;
-    Room *location;
-    Char *victim;
-
-    string = one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_stat(Char *ch, ArgParser args) {
+    const auto arg = args.shift();
+    if (arg.empty()) {
         ch->send_line("Syntax:");
-        ch->send_line("  stat <name>");
         ch->send_line("  stat obj <name>");
         ch->send_line("  stat mob <name>");
         ch->send_line("  stat room <number>");
@@ -598,71 +591,47 @@ void do_stat(Char *ch, const char *argument) {
         return;
     }
 
-    if (!str_cmp(arg, "room")) {
-        do_rstat(ch, string);
+    if (matches(arg, "room")) {
+        do_rstat(ch, args);
         return;
     }
 
-    if (!str_cmp(arg, "obj")) {
-        do_ostat(ch, string);
+    if (matches(arg, "obj")) {
+        do_ostat(ch, args);
         return;
     }
-
-    if (!str_cmp(arg, "char") || !str_cmp(arg, "mob")) {
-        do_mstat(ch, string);
+    if (matches(arg, "char") || matches(arg, "mob")) {
+        do_mstat(ch, args.remaining());
         return;
     }
-
-    if (!str_cmp(arg, "skills")) {
-        do_mskills(ch, string);
+    if (matches(arg, "skills")) {
+        do_mskills(ch, args);
         return;
     }
-    if (!str_cmp(arg, "affects")) {
-        do_maffects(ch, string);
+    if (matches(arg, "affects")) {
+        do_maffects(ch, args);
         return;
     }
-    if (!str_cmp(arg, "pracs")) {
-        do_mpracs(ch, string);
+    if (matches(arg, "pracs")) {
+        do_mpracs(ch, args);
         return;
     }
-    if (!str_cmp(arg, "info")) {
-        do_minfo(ch, string);
+    if (matches(arg, "info")) {
+        do_minfo(ch, args);
         return;
     }
-    if (!str_cmp(arg, "spells")) {
-        do_mspells(ch, string);
+    if (matches(arg, "spells")) {
+        do_mspells(ch, args);
         return;
     }
-
-    if (!str_cmp(arg, "prog")) {
-        do_mpstat(ch, string);
+    if (matches(arg, "prog")) {
+        do_mpstat(ch, args);
         return;
     }
-
-    /* do it the old way */
-
-    obj = get_obj_world(ch, argument);
-    if (obj != nullptr) {
-        do_ostat(ch, argument);
-        return;
-    }
-
-    victim = get_char_world(ch, argument);
-    if (victim != nullptr) {
-        do_mstat(ch, argument);
-        return;
-    }
-
-    location = find_location(ch, argument);
-    if (location != nullptr) {
-        do_rstat(ch, argument);
-        return;
-    }
-
-    ch->send_line("Nothing by that name found anywhere.");
 }
 
-void do_rstat(Char *ch, std::string_view argument) {
+void do_rstat(Char *ch, ArgParser args) {
+    const auto argument = args.shift();
     auto *location = argument.empty() ? ch->in_room : find_location(ch, argument);
     if (location == nullptr) {
         ch->send_line("No such location.");
@@ -713,27 +682,15 @@ void do_rstat(Char *ch, std::string_view argument) {
     }
 }
 
-void do_ostat(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_ostat(Char *ch, ArgParser args) {
     Object *obj;
     ObjectIndex *objIndex;
-    int vnum;
-
-    /* this will help prevent major memory allocations - a crash bug!
-     --Faramir */
-    if (strlen(argument) < 2 && !isdigit(argument[0])) {
-        ch->send_line("Please be more specific.");
-        return;
-    }
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         ch->send_line("Stat what?");
         return;
     }
-
-    if (isdigit(argument[0])) {
-        vnum = atoi(argument);
+    if (const auto opt_number = args.try_shift_number(); opt_number) {
+        const auto vnum = *opt_number;
         if ((objIndex = get_obj_index(vnum)) == nullptr) {
             ch->send_line("Nothing like that in hell, earth, or heaven.");
             return;
@@ -757,6 +714,11 @@ void do_ostat(Char *ch, const char *argument) {
 
         ch->send_line("Values: {}", fmt::join(objIndex->value, " "));
         ch->send_line("Please load this object if you need to know more about it.");
+        return;
+    }
+    const auto argument = args.shift();
+    if (argument.length() == 1) {
+        ch->send_line("Please be more specific.");
         return;
     }
 
@@ -865,13 +827,10 @@ void do_ostat(Char *ch, const char *argument) {
             ch->send_line("Affects {}.", af.describe_item_effect(true));
 }
 
-void do_mskills(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_mskills(Char *ch, ArgParser args) {
     Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    const auto argument = args.shift();
+    if (argument.empty()) {
         ch->send_line("Stat skills whom?");
         return;
     }
@@ -881,8 +840,10 @@ void do_mskills(Char *ch, const char *argument) {
         return;
     }
 
-    if (victim->is_npc())
+    if (victim->is_npc()) {
+        ch->send_line("You can only view the skills of players.");
         return;
+    }
 
     ch->send_line("Skill table for {}:", victim->name);
     const auto tabulator = SkillsTabulator::skills(ch, victim);
@@ -892,24 +853,23 @@ void do_mskills(Char *ch, const char *argument) {
     }
 }
 
-void do_mspells(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_mspells(Char *ch, ArgParser args) {
     Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    const auto arg = args.shift();
+    if (arg.empty()) {
         ch->send_line("Stat spells whom?");
         return;
     }
 
-    if ((victim = get_char_world(ch, argument)) == nullptr) {
+    if ((victim = get_char_world(ch, arg)) == nullptr) {
         ch->send_line("They aren't here.");
         return;
     }
 
-    if (victim->is_npc())
+    if (victim->is_npc()) {
+        ch->send_line("You can only view the spells of players.");
         return;
+    }
 
     ch->send_line("Spell list for {}:", victim->name);
     const auto tabulator = SkillsTabulator::spells(ch, victim);
@@ -919,17 +879,14 @@ void do_mspells(Char *ch, const char *argument) {
     }
 }
 
-void do_maffects(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_maffects(Char *ch, ArgParser args) {
+    const auto arg = args.shift();
+    if (arg.empty()) {
         ch->send_line("Stat affects whom?");
         return;
     }
 
-    Char *victim = get_char_world(ch, argument);
+    Char *victim = get_char_world(ch, arg);
     if (!victim) {
         ch->send_line("They aren't here.");
         return;
@@ -947,18 +904,15 @@ void do_maffects(Char *ch, const char *argument) {
 }
 
 /* Corrected 28/8/96 by Oshea to give correct list of spells/skills. */
-void do_mpracs(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_mpracs(Char *ch, ArgParser args) {
     Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    const auto arg = args.shift();
+    if (arg.empty()) {
         ch->send_line("Stat pracs whom?");
         return;
     }
 
-    if ((victim = get_char_world(ch, argument)) == nullptr) {
+    if ((victim = get_char_world(ch, arg)) == nullptr) {
         ch->send_line("They aren't here.");
         return;
     }
@@ -971,24 +925,23 @@ void do_mpracs(Char *ch, const char *argument) {
 }
 
 // Show a victim's skill groups and creation points.
-void do_minfo(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_minfo(Char *ch, ArgParser args) {
     Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    const auto arg = args.shift();
+    if (arg.empty()) {
         ch->send_line("Stat info whom?");
         return;
     }
 
-    if ((victim = get_char_world(ch, argument)) == nullptr) {
+    if ((victim = get_char_world(ch, arg)) == nullptr) {
         ch->send_line("They aren't here.");
         return;
     }
 
-    if (victim->is_npc())
+    if (victim->is_npc()) {
+        ch->send_line("You can only view the info of players.");
         return;
+    }
 
     ch->send_line("Info list for {}:", victim->name);
 
@@ -1005,7 +958,10 @@ void do_minfo(Char *ch, const char *argument) {
 
 void do_mstat(Char *ch, std::string_view argument) {
     Char *victim;
-
+    if (argument.empty()) {
+        ch->send_line("Stat what?");
+        return;
+    }
     if (argument.length() < 2) {
         ch->send_line("Please be more specific.");
         return;
