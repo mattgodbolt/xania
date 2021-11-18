@@ -755,14 +755,6 @@ Object *get_obj_list(const Char *ch, std::string_view argument, GenericList<Obje
 }
 
 /*
- * Find an obj in player's inventory.
- */
-Object *get_obj_carry(Char *ch, const char *argument) {
-    // TODO remove
-    return ch->find_in_inventory(argument);
-}
-
-/*
  * Find an obj in player's equipment.
  */
 Object *get_obj_wear(Char *ch, const char *argument) {

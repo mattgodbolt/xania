@@ -709,7 +709,7 @@ void do_put(Char *ch, const char *argument) {
 
     if (str_cmp(arg1, "all") && str_prefix("all.", arg1)) {
         /* put obj container' */
-        auto *obj = get_obj_carry(ch, arg1);
+        auto *obj = ch->find_in_inventory(arg1);
         if (!obj) {
             ch->send_line("You do not have that item.");
             return;
@@ -812,7 +812,7 @@ void do_donate(Char *ch, const char *argument) {
     /* check if 'all' or 'all.' has been used */
     if (str_cmp(arg, "all") && str_prefix("all.", arg)) { /* this returns true if NEITHER matched */
 
-        auto *obj = get_obj_carry(ch, arg);
+        auto *obj = ch->find_in_inventory(arg);
         if (!obj) {
             ch->send_line("You do not have that item.");
             return;
@@ -910,7 +910,7 @@ void do_drop(Char *ch, const char *argument) {
 
     if (str_cmp(arg, "all") && str_prefix("all.", arg)) {
         /* 'drop obj' */
-        auto *obj = get_obj_carry(ch, arg);
+        auto *obj = ch->find_in_inventory(arg);
         if (!obj) {
             ch->send_line("You do not have that item.");
             return;
@@ -1083,7 +1083,7 @@ void do_pour(Char *ch, const char *argument) {
         return;
     }
 
-    auto *obj = get_obj_carry(ch, arg1);
+    auto *obj = ch->find_in_inventory(arg1);
     if (!obj) {
         ch->send_line("You do not have that item.");
         return;
@@ -1182,7 +1182,7 @@ void do_fill(Char *ch, const char *argument) {
         return;
     }
 
-    if ((obj = get_obj_carry(ch, arg)) == nullptr) {
+    if ((obj = ch->find_in_inventory(arg)) == nullptr) {
         ch->send_line("You do not have that item.");
         return;
     }
@@ -1304,7 +1304,7 @@ void do_eat(Char *ch, const char *argument) {
         return;
     }
 
-    if ((obj = get_obj_carry(ch, arg)) == nullptr) {
+    if ((obj = ch->find_in_inventory(arg)) == nullptr) {
         ch->send_line("You do not have that item.");
         return;
     }
@@ -1370,7 +1370,7 @@ void do_wear(Char *ch, const char *argument) {
             if (obj->wear_loc == Wear::None && can_see_obj(ch, obj))
                 wear_obj(ch, obj, false);
     } else {
-        auto *obj = get_obj_carry(ch, arg);
+        auto *obj = ch->find_in_inventory(arg);
         if (!obj) {
             ch->send_line("You do not have that item.");
             return;
@@ -1491,7 +1491,7 @@ void do_quaff(Char *ch, const char *argument) {
         return;
     }
 
-    if ((obj = get_obj_carry(ch, arg)) == nullptr) {
+    if ((obj = ch->find_in_inventory(arg)) == nullptr) {
         ch->send_line("You do not have that potion.");
         return;
     }
@@ -1526,7 +1526,7 @@ void do_recite(Char *ch, const char *argument) {
     argument = one_argument(argument, arg1);
     argument = one_argument(argument, arg2);
 
-    if ((scroll = get_obj_carry(ch, arg1)) == nullptr) {
+    if ((scroll = ch->find_in_inventory(arg1)) == nullptr) {
         ch->send_line("You do not have that scroll.");
         return;
     }
@@ -1813,7 +1813,7 @@ void do_steal(Char *ch, const char *argument) {
         return;
     }
 
-    if ((obj = get_obj_carry(victim, arg1)) == nullptr) {
+    if ((obj = victim->find_in_inventory(arg1)) == nullptr) {
         ch->send_line("You can't find it.");
         return;
     }
@@ -1927,7 +1927,7 @@ void do_buy(Char *ch, const char *argument) {
         if ((keeper = find_keeper(ch)) == nullptr)
             return;
 
-        obj = get_obj_carry(keeper, argument);
+        obj = keeper->find_in_inventory(argument);
         cost = get_cost(keeper, obj, true);
 
         if (cost <= 0 || !can_see_obj(ch, obj)) {
@@ -2060,7 +2060,7 @@ void do_sell(Char *ch, const char *argument) {
     if ((keeper = find_keeper(ch)) == nullptr)
         return;
 
-    if ((obj = get_obj_carry(ch, arg)) == nullptr) {
+    if ((obj = ch->find_in_inventory(arg)) == nullptr) {
         act("$n tells you 'You don't have that item'.", keeper, nullptr, ch, To::Vict);
         ch->reply = keeper;
         return;
@@ -2128,7 +2128,7 @@ void do_value(Char *ch, const char *argument) {
     if ((keeper = find_keeper(ch)) == nullptr)
         return;
 
-    if ((obj = get_obj_carry(ch, arg)) == nullptr) {
+    if ((obj = ch->find_in_inventory(arg)) == nullptr) {
         act("$n tells you 'You don't have that item'.", keeper, nullptr, ch, To::Vict);
         ch->reply = keeper;
         return;

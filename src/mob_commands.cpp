@@ -211,7 +211,7 @@ void do_mpjunk(Char *ch, const char *argument) {
             extract_obj(obj);
             return;
         }
-        if ((obj = get_obj_carry(ch, arg)) == nullptr)
+        if ((obj = ch->find_in_inventory(arg)) == nullptr)
             return;
         extract_obj(obj);
     } else {

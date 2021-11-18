@@ -79,7 +79,6 @@ bool check_sub_issue(Object *obj, Char *ch);
 Char *get_mob_by_vnum(sh_int vnum);
 Object *get_obj_type(ObjectIndex *objIndexData);
 Object *get_obj_list(const Char *ch, std::string_view argument, GenericList<Object *> &list);
-Object *get_obj_carry(Char *ch, const char *argument);
 Object *get_obj_wear(Char *ch, const char *argument);
 Object *get_obj_here(const Char *ch, std::string_view argument);
 Object *get_obj_world(Char *ch, std::string_view argument);
