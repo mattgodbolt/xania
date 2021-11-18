@@ -10,7 +10,7 @@
 #include <fmt/format.h>
 
 extern void boot_db();
-extern void reap_old_chars();
+extern void delete_globals_on_shutdown();
 
 using namespace pfu;
 
@@ -28,7 +28,9 @@ struct LoadTinyMudOnce : Catch::TestEventListenerBase {
         setenv(MUD_PORT_ENV, "9000", 1);
         boot_db();
     }
-    void testRunEnded([[maybe_unused]] Catch::TestRunStats const &testRunStats) override { reap_old_chars(); }
+    void testRunEnded([[maybe_unused]] Catch::TestRunStats const &testRunStats) override {
+        delete_globals_on_shutdown();
+    }
 };
 CATCH_REGISTER_LISTENER(LoadTinyMudOnce)
 

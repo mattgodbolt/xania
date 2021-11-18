@@ -1,9 +1,11 @@
+#include "Char.hpp"
 #include "MemFile.hpp"
+#include "Object.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
 #include "common/Configuration.hpp"
-#include "db.h"
 #include "fileutils.hpp"
+#include "handler.hpp"
 #include "save.hpp"
 #include "string_utils.hpp"
 
@@ -11,21 +13,26 @@
 
 using namespace std::literals;
 
-TEST_CASE("loading and saving player files") {
+extern void boot_db();
+extern void delete_globals_on_shutdown();
 
-    // For now: prevent us from loading multiple times, as there's no tear-down, and it takes ages.
-    static bool massive_hack = false;
-    if (!massive_hack) {
-        // boot_db() uses Configuration and that expects some path env vars to point
-        // to 'area', 'player', 'html' etc. As the env vars can be relative paths,
-        // just point them at the test data dir, or dirs within it. The 'player' dir under
-        // TEST_DATA_DIR is where the test pfiles reside.
-        REQUIRE(setenv(MUD_AREA_DIR_ENV, TEST_DATA_DIR "/area", 1) == 0);
-        REQUIRE(setenv(MUD_DATA_DIR_ENV, TEST_DATA_DIR, 1) == 0);
-        REQUIRE(setenv(MUD_HTML_DIR_ENV, TEST_DATA_DIR, 1) == 0);
+struct LoadTinyMudOnce : Catch::TestEventListenerBase {
+    using TestEventListenerBase::TestEventListenerBase;
+
+    void testRunStarting([[maybe_unused]] Catch::TestRunInfo const &testInfo) override {
+        setenv(MUD_AREA_DIR_ENV, TEST_DATA_DIR "/area", 1);
+        setenv(MUD_DATA_DIR_ENV, TEST_DATA_DIR, 1);
+        setenv(MUD_HTML_DIR_ENV, TEST_DATA_DIR, 1);
+        setenv(MUD_PORT_ENV, "9000", 1);
         boot_db();
-        massive_hack = true;
     }
+    void testRunEnded([[maybe_unused]] Catch::TestRunStats const &testRunStats) override {
+        delete_globals_on_shutdown();
+    }
+};
+CATCH_REGISTER_LISTENER(LoadTinyMudOnce)
+
+TEST_CASE("loading and saving player files") {
     SECTION("should be able to load a char") {
         auto res = try_load_player("Khirsah");
         CHECK(!res.newly_created);

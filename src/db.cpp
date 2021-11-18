@@ -73,7 +73,6 @@ constexpr auto MaxMemList = 14;
 Shop *shop_first;
 Shop *shop_last;
 
-std::map<int, MobIndexData> mob_indexes; // a map only so things like "vnum mob XXX" are ordered.
 char *string_hash[MAX_KEY_HASH];
 
 char *string_space;
@@ -81,7 +80,6 @@ char *top_string;
 
 int top_exit;
 int top_reset;
-int top_room;
 int top_shop;
 // Index number of the latest affect on an object.
 int top_obj_affect;
@@ -99,6 +97,13 @@ constexpr auto ResetRandomizeExits = 'R'; /* randomize room exits */
 constexpr auto ResetComment = '*'; /* comment line */
 constexpr auto ResetEndSection = 'S'; /* end of the resets section */
 
+// Mob templates. A map only so things like "vnum mob XXX" are ordered.
+std::map<int, MobIndexData> mob_indexes;
+// Object templates.
+std::map<int, ObjectIndex> object_indexes;
+// Unlike Mobs & Objects, Rooms are instances.
+std::map<int, Room> rooms;
+
 }
 
 /* Externally referenced functions. */
@@ -109,10 +114,6 @@ SpecialFunc spec_lookup(const char *name);
 GenericList<Char *> char_list;
 // Mutable global: modified whenever a new object is created or destroyed.
 GenericList<Object *> object_list;
-// Mutable global: object templates.
-std::map<int, ObjectIndex> object_indexes;
-// Mutable global: room template pointers.
-Room *room_hash[MAX_KEY_HASH];
 
 char str_empty[1]; // TODO: Get rid of this and str_dup()
 
@@ -343,6 +344,18 @@ void boot_db() {
     interp_initialise();
 }
 
+// On shutdown, deletes the Chars & Objects owned by char_list and object_list.
+// Note that this doesn't call extract_char(), so it relies on Char's destructor
+// to release any pointers the Char owns.
+void delete_globals_on_shutdown() {
+    for (auto *ch : char_list) {
+        delete ch;
+    }
+    for (auto *obj : object_list) {
+        delete obj;
+    }
+}
+
 /* Snarf an 'area' header line. */
 void load_area(FILE *fp, const std::string &area_name) {
     auto &area_list = AreaList::singleton();
@@ -496,46 +509,33 @@ void load_rooms(FILE *fp) {
 
     auto area_last = AreaList::singleton().back();
     if (area_last == nullptr) {
-        bug("Load_resets: no #AREA seen yet.");
+        bug("load_rooms: no #AREA seen yet.");
         exit(1);
     }
 
     for (;;) {
-        sh_int vnum;
-        char letter;
-        int iHash;
-
-        letter = fread_letter(fp);
+        char letter = fread_letter(fp);
         if (letter != '#') {
-            bug("Load_rooms: # not found.");
+            bug("load_rooms: # not found.");
             exit(1);
         }
-
-        vnum = fread_number(fp);
+        sh_int vnum = fread_number(fp);
         if (vnum == 0)
             break;
-
-        fBootDb = false;
-        if (get_room(vnum) != nullptr) {
-            bug("Load_rooms: vnum {} duplicated.", vnum);
-            exit(1);
-        }
-        fBootDb = true;
-
-        auto *room = new Room;
-        room->area = area_last;
-        room->vnum = vnum;
-        room->name = fread_string(fp);
-        room->description = fread_string(fp);
-        room->room_flags = fread_flag(fp);
+        Room room;
+        room.area = area_last;
+        room.vnum = vnum;
+        room.name = fread_string(fp);
+        room.description = fread_string(fp);
+        room.room_flags = fread_flag(fp);
         /* horrible hack */
         if (3000 <= vnum && vnum < 3400)
-            set_enum_bit(room->room_flags, RoomFlag::Law);
+            set_enum_bit(room.room_flags, RoomFlag::Law);
         int sector_value = fread_number(fp);
         if (auto sector_type = try_get_sector_type(sector_value)) {
-            room->sector_type = *sector_type;
+            room.sector_type = *sector_type;
         } else {
-            bug("Invalid sector type {}, defaulted to {}", sector_value, room->sector_type);
+            bug("Invalid sector type {}, defaulted to {}", sector_value, room.sector_type);
         }
 
         for (;;) {
@@ -550,7 +550,7 @@ void load_rooms(FILE *fp) {
 
                 auto opt_door = try_cast_direction(fread_number(fp));
                 if (!opt_door) {
-                    bug("Fread_rooms: vnum {} has bad door number.", vnum);
+                    bug("load_rooms: vnum {} has bad door number.", vnum);
                     exit(1);
                 }
 
@@ -586,22 +586,21 @@ void load_rooms(FILE *fp) {
                     break;
                 }
 
-                room->exit[*opt_door] = pexit;
+                room.exit[*opt_door] = pexit;
                 top_exit++;
             } else if (letter == 'E') {
                 auto keyword = fread_stdstring(fp);
                 auto description = fread_stdstring(fp);
-                room->extra_descr.emplace_back(ExtraDescription{keyword, description});
+                room.extra_descr.emplace_back(ExtraDescription{keyword, description});
             } else {
-                bug("Load_rooms: vnum {} has flag not 'DES'.", vnum);
+                bug("load_rooms: vnum {} has unrecognized instruction '{}'.", vnum, letter);
                 exit(1);
             }
         }
-
-        iHash = vnum % MAX_KEY_HASH;
-        room->next = room_hash[iHash];
-        room_hash[iHash] = room;
-        top_room++;
+        if (!rooms.try_emplace(vnum, std::move(room)).second) {
+            bug("load_rooms: vnum {} duplicated.", vnum);
+            exit(1);
+        }
     }
 }
 
@@ -909,42 +908,36 @@ void load_objects(FILE *fp) {
  * Check for bad reverse exits.
  */
 void fix_exits() {
-    Room *room;
+
+    const auto mutable_rooms = []() {
+        return rooms | ranges::views::transform([](auto &p) -> Room & { return p.second; });
+    };
     Room *to_room;
     Exit *pexit;
     Exit *pexit_rev;
-    int iHash;
-
-    for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
-        for (room = room_hash[iHash]; room != nullptr; room = room->next) {
-            bool fexit;
-
-            fexit = false;
-            for (auto door : all_directions) {
-                if ((pexit = room->exit[door]) != nullptr) {
-                    if (pexit->u1.vnum <= 0 || get_room(pexit->u1.vnum) == nullptr)
-                        pexit->u1.to_room = nullptr;
-                    else {
-                        fexit = true;
-                        pexit->u1.to_room = get_room(pexit->u1.vnum);
-                    }
+    for (auto &room : mutable_rooms()) {
+        bool fexit = false;
+        for (auto door : all_directions) {
+            if ((pexit = room.exit[door]) != nullptr) {
+                if (pexit->u1.vnum <= 0 || get_room(pexit->u1.vnum) == nullptr)
+                    pexit->u1.to_room = nullptr;
+                else {
+                    fexit = true;
+                    pexit->u1.to_room = get_room(pexit->u1.vnum);
                 }
             }
-            if (!fexit)
-                set_enum_bit(room->room_flags, RoomFlag::NoMob);
         }
+        if (!fexit)
+            set_enum_bit(room.room_flags, RoomFlag::NoMob);
     }
-
-    for (iHash = 0; iHash < MAX_KEY_HASH; iHash++) {
-        for (room = room_hash[iHash]; room != nullptr; room = room->next) {
-            for (auto door : all_directions) {
-                if ((pexit = room->exit[door]) != nullptr && (to_room = pexit->u1.to_room) != nullptr
-                    && (pexit_rev = to_room->exit[reverse(door)]) != nullptr && pexit_rev->u1.to_room != room
-                    && !pexit->is_one_way) {
-                    bug("Fix_exits: {} -> {}:{} -> {}.", room->vnum, static_cast<int>(door), to_room->vnum,
-                        static_cast<int>(reverse(door)),
-                        (pexit_rev->u1.to_room == nullptr) ? 0 : pexit_rev->u1.to_room->vnum);
-                }
+    for (auto &room : mutable_rooms()) {
+        for (auto door : all_directions) {
+            if ((pexit = room.exit[door]) != nullptr && (to_room = pexit->u1.to_room) != nullptr
+                && (pexit_rev = to_room->exit[reverse(door)]) != nullptr && pexit_rev->u1.to_room->vnum != room.vnum
+                && !pexit->is_one_way) {
+                bug("Fix_exits: {} -> {}:{} -> {}.", room.vnum, static_cast<int>(door), to_room->vnum,
+                    static_cast<int>(reverse(door)),
+                    (pexit_rev->u1.to_room == nullptr) ? 0 : pexit_rev->u1.to_room->vnum);
             }
         }
     }
@@ -1020,24 +1013,24 @@ void reset_room(Room *room) {
 
         case ResetObjInRoom: {
             ObjectIndex *objIndex;
-            Room *room;
+            Room *obj_room;
             if (!(objIndex = get_obj_index(reset->arg1))) {
                 bug("Reset_room: 'O': bad vnum {}.", reset->arg1);
                 continue;
             }
 
-            if (!(room = get_room(reset->arg3))) {
+            if (!(obj_room = get_room(reset->arg3))) {
                 bug("Reset_room: 'O': bad vnum {}.", reset->arg3);
                 continue;
             }
 
-            if (room->area->occupied() || count_obj_list(objIndex, room->contents) > 0) {
+            if (obj_room->area->occupied() || count_obj_list(objIndex, obj_room->contents) > 0) {
                 continue;
             }
 
             auto object = create_object(objIndex);
             object->cost = 0;
-            obj_to_room(object, room);
+            obj_to_room(object, obj_room);
             break;
         }
 
@@ -1136,8 +1129,8 @@ void reset_room(Room *room) {
         case ResetExitFlags: break;
 
         case ResetRandomizeExits: {
-            Room *room;
-            if (!(room = get_room(reset->arg1))) {
+            Room *exit_room;
+            if (!(exit_room = get_room(reset->arg1))) {
                 bug("Reset_room: 'R': bad vnum {}.", reset->arg1);
                 continue;
             }
@@ -1145,7 +1138,7 @@ void reset_room(Room *room) {
             for (int d0 = 0; d0 < reset->arg2 - 1; d0++) {
                 auto door0 = try_cast_direction(d0).value();
                 auto door1 = try_cast_direction(number_range(d0, reset->arg2 - 1)).value();
-                std::swap(room->exit[door0], room->exit[door1]);
+                std::swap(exit_room->exit[door0], exit_room->exit[door1]);
             }
             break;
         }
@@ -1459,9 +1452,12 @@ void add_mob_index(MobIndexData mob_index_data) {
 
 const std::map<int, MobIndexData> &all_mob_index_pairs() { return mob_indexes; }
 
+const std::map<int, ObjectIndex> &all_object_index_pairs() { return object_indexes; }
+
+const std::map<int, Room> &all_room_pairs() { return rooms; }
+
 /*
  * Translates mob virtual number to its obj index struct.
- * Hash table lookup.
  */
 ObjectIndex *get_obj_index(int vnum) {
     const auto it = object_indexes.find(vnum);
@@ -1474,25 +1470,17 @@ ObjectIndex *get_obj_index(int vnum) {
     return nullptr;
 }
 
-const std::map<int, ObjectIndex> &all_object_index_pairs() { return object_indexes; }
-
 /*
- * Translates mob virtual number to its Room.
- * Hash table lookup.
+ * Translates room virtual number to its Room.
  */
 Room *get_room(int vnum) {
-    Room *room;
-
-    for (room = room_hash[vnum % MAX_KEY_HASH]; room != nullptr; room = room->next) {
-        if (room->vnum == vnum)
-            return room;
-    }
-
-    if (fBootDb) {
+    const auto it = rooms.find(vnum);
+    if (it != rooms.end()) {
+        return &it->second;
+    } else if (fBootDb) {
         bug("get_room: bad vnum {}.", vnum);
         exit(1);
     }
-
     return nullptr;
 }
 
@@ -2003,7 +1991,7 @@ void do_memory(Char *ch) {
     ch->send_line("Chars   {:5}", Char::num_active());
     ch->send_line("Objs    {:5}", object_indexes.size());
     ch->send_line("Resets  {:5}", top_reset);
-    ch->send_line("Rooms   {:5}", top_room);
+    ch->send_line("Rooms   {:5}", rooms.size());
     ch->send_line("Shops   {:5}", top_shop);
     ch->send_line("Strings {:5} strings of {:7} bytes (max {:7}).", nAllocString, sAllocString, MaxString);
     ch->send_line("Perms   {:5} blocks  of {:7} bytes.", nAllocPerm, sAllocPerm);
@@ -2069,7 +2057,7 @@ void do_dump(Char *ch) {
     fprintf(fp, "Affects	%4d (%8ld bytes)\n", aff_count, aff_count * (sizeof(*af)));
 
     /* rooms */
-    fprintf(fp, "Rooms	%4d (%8ld bytes)\n", top_room, top_room * (sizeof(*room)));
+    fprintf(fp, "Rooms	%4lu (%8ld bytes)\n", rooms.size(), rooms.size() * (sizeof(*room)));
 
     /* exits */
     fprintf(fp, "Exits	%4d (%8ld bytes)\n", top_exit, top_exit * (sizeof(*exit)));

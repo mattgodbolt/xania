@@ -13,6 +13,7 @@
 #include "GenericList.hpp"
 #include "MobIndexData.hpp"
 #include "ObjectIndex.hpp"
+#include "Room.hpp"
 
 #include <range/v3/view/transform.hpp>
 
@@ -22,7 +23,6 @@
 struct Object;
 struct ObjectIndex;
 struct ExtraDescription;
-struct Room;
 
 /*
  * Mutable global variables.
@@ -31,7 +31,11 @@ extern GenericList<Char *> char_list;
 extern GenericList<Object *> object_list;
 extern bool fBootDb;
 
+// Initializes the in-memory database from the area files.
 void boot_db();
+// On shutdown, deletes the Chars & Objects owned by char_list and object_list.
+void delete_globals_on_shutdown();
+
 void area_update();
 Char *create_mobile(MobIndexData *mobIndex);
 void clone_mobile(Char *parent, Char *clone);
@@ -39,11 +43,20 @@ Object *create_object(ObjectIndex *objIndex);
 void clone_object(Object *parent, Object *clone);
 const char *get_extra_descr(std::string_view name, const std::vector<ExtraDescription> &ed);
 ObjectIndex *get_obj_index(int vnum);
+
 const std::map<int, ObjectIndex> &all_object_index_pairs();
+
 inline auto all_object_indexes() {
     return all_object_index_pairs()
            | ranges::views::transform([](const auto &p) -> const ObjectIndex & { return p.second; });
 }
+
+const std::map<int, Room> &all_room_pairs();
+
+inline auto all_rooms() {
+    return all_room_pairs() | ranges::views::transform([](const auto &p) -> const Room & { return p.second; });
+}
+
 Room *get_room(int vnum);
 char *fread_word(FILE *fp);
 void *alloc_mem(int sMem);
@@ -75,7 +88,9 @@ void reset_room(Room *room);
 
 MobIndexData *get_mob_index(int vnum);
 void add_mob_index(MobIndexData mob_index_data);
+
 const std::map<int, MobIndexData> &all_mob_index_pairs();
+
 inline auto all_mob_indexes() {
     return all_mob_index_pairs()
            | ranges::views::transform([](const auto &p) -> const MobIndexData & { return p.second; });

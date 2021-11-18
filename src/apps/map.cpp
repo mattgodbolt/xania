@@ -10,8 +10,6 @@
 #include <unistd.h>
 #include <unordered_set>
 
-extern Room *room_hash[MAX_KEY_HASH];
-
 static constexpr PerDirection<std::string_view> compass_pt = {"n", "e", "s", "w", "ne", "sw"};
 static constexpr PerDirection<std::string_view> bidir_name = {"n/s", "e/w", "n/s", "e/w", "u/d", "u/d"};
 
@@ -21,26 +19,25 @@ void render_area(FILE *out_file, Area *area) {
     fmt::print(out_file, "    label=\"{}\";\n", area->short_name());
     fmt::print(out_file, "    style=filled;\n");
     fmt::print(out_file, "    node [shape=box];\n");
-    for (auto *first_room_with_hash : room_hash) {
-        for (auto *room = first_room_with_hash; room; room = room->next) {
-            if (room->area != area)
-                continue;
-            fmt::print("    v{} [label=\"{}\"];\n", room->vnum, room->name);
-            for (auto door : all_directions) {
-                if (auto pexit = room->exit[door]) {
-                    auto *to = pexit->u1.to_room;
-                    if (!to)
-                        continue;
-                    if (to != room && to->exit[reverse(door)] && to->exit[reverse(door)]->u1.to_room == room) {
-                        // Two way; write a single exit only for the lowest vnummed.
-                        if (room->vnum <= to->vnum) {
-                            fmt::print("    v{}:{} -> v{}:{} [dir=both label=\"{}\"];\n", room->vnum, compass_pt[door],
-                                       to->vnum, compass_pt[reverse(door)], bidir_name[door]);
-                        }
-                    } else {
-                        fmt::print("    v{}:{} -> v{} [label={}];\n", room->vnum, compass_pt[door], to->vnum,
-                                   to_string(door));
+    for (auto &room : all_rooms()) {
+        if (room.area != area)
+            continue;
+        fmt::print("    v{} [label=\"{}\"];\n", room.vnum, room.name);
+        for (auto door : all_directions) {
+            if (auto pexit = room.exit[door]) {
+                auto *to = pexit->u1.to_room;
+                if (!to)
+                    continue;
+                if (to->vnum != room.vnum && to->exit[reverse(door)]
+                    && to->exit[reverse(door)]->u1.to_room->vnum == room.vnum) {
+                    // Two way; write a single exit only for the lowest vnummed.
+                    if (room.vnum <= to->vnum) {
+                        fmt::print("    v{}:{} -> v{}:{} [dir=both label=\"{}\"];\n", room.vnum, compass_pt[door],
+                                   to->vnum, compass_pt[reverse(door)], bidir_name[door]);
                     }
+                } else {
+                    fmt::print("    v{}:{} -> v{} [label={}];\n", room.vnum, compass_pt[door], to->vnum,
+                               to_string(door));
                 }
             }
         }

@@ -141,7 +141,7 @@ bool is_being_debugged() {
 }
 }
 
-/* where we're asked nicely to quit from the outside (mudmgr or OS) */
+/* where we're asked nicely to quit from the outside */
 void handle_signal_shutdown() {
     log_string("Signal shutdown received");
 

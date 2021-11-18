@@ -38,21 +38,18 @@ int main(int argc, const char **argv) {
     };
     std::unordered_map<std::string, AreaInfo> areas;
 
-    extern Room *room_hash[MAX_KEY_HASH];
-
-    for (auto *first_room_with_hash : room_hash)
-        for (auto *room = first_room_with_hash; room; room = room->next) {
-            auto *this_area = room->area;
-            auto &area_info = areas[this_area->description()];
-            for (auto door : all_directions) {
-                if (auto pexit = room->exit[door]) {
-                    auto *to = pexit->u1.to_room;
-                    if (to && to->area != this_area) {
-                        area_info.adjacent.emplace(&areas[to->area->description()]);
-                    }
+    for (auto &room : all_rooms()) {
+        auto *this_area = room.area;
+        auto &area_info = areas[this_area->description()];
+        for (auto door : all_directions) {
+            if (auto pexit = room.exit[door]) {
+                auto *to = pexit->u1.to_room;
+                if (to && to->area != this_area) {
+                    area_info.adjacent.emplace(&areas[to->area->description()]);
                 }
             }
         }
+    }
 
     auto out_file = (output.empty() || output == "-") ? stdout : fopen(output.c_str(), "w");
     fmt::print(out_file, "digraph {{\n");

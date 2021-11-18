@@ -27,7 +27,6 @@ struct ResetData;
  * Room type.
  */
 struct Room {
-    Room *next{};
     GenericList<Char *> people;
     GenericList<Object *> contents;
     std::vector<ExtraDescription> extra_descr{};
