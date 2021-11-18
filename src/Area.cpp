@@ -83,7 +83,7 @@ void Area::reset() {
     }
     age_ = gsl::narrow_cast<ush_int>(number_range(0, 3));
 
-    if (auto room = get_room(rooms::MudschoolEntrance); room != nullptr && room->area == this)
+    if (auto room = get_room(Rooms::MudschoolEntrance); room != nullptr && room->area == this)
         age_ = RoomResetAgeUnoccupiedArea;
     else if (num_players_ == 0)
         empty_since_last_reset_ = true;

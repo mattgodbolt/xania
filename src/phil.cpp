@@ -171,7 +171,7 @@ bool spec_phil(Char *ch) {
         return false;
 
     /* Check sleep state */
-    if ((home = get_room(rooms::ForreyHome)) == nullptr) {
+    if ((home = get_room(Rooms::ForreyHome)) == nullptr) {
         bug("Couldn't get Forrey's home index.");
         return false;
     }

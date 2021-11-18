@@ -570,7 +570,7 @@ void obj_to_obj(Object *obj, Object *obj_to) {
     obj->in_obj = obj_to;
     obj->in_room = nullptr;
     obj->carried_by = nullptr;
-    if (obj_to->objIndex->vnum == objects::Pit)
+    if (obj_to->objIndex->vnum == Objects::Pit)
         obj->cost = 0;
 
     for (; obj_to != nullptr; obj_to = obj_to->in_obj) {
@@ -659,7 +659,7 @@ void extract_char(Char *ch, bool delete_from_world) {
     char_from_room(ch);
 
     if (!delete_from_world) {
-        char_to_room(ch, get_room(rooms::MidgaardAltar));
+        char_to_room(ch, get_room(Rooms::MidgaardAltar));
         return;
     }
 
@@ -815,10 +815,10 @@ Object *create_money(int amount) {
     }
 
     if (amount == 1) {
-        return create_object(get_obj_index(objects::MoneyOne));
+        return create_object(get_obj_index(Objects::MoneyOne));
     }
 
-    auto *obj = create_object(get_obj_index(objects::MoneySome));
+    auto *obj = create_object(get_obj_index(Objects::MoneySome));
     obj->short_descr = fmt::sprintf(obj->short_descr, amount);
     obj->value[0] = amount;
     obj->cost = amount;

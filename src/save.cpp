@@ -88,9 +88,9 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fmt::print(fp, "{} {}\n", cf::LastNote, (int)Clock::to_time_t(ch->last_note));
     fmt::print(fp, "{} {}\n", cf::Scroll, ch->lines);
     fmt::print(fp, "{} {}\n", cf::Room,
-               (ch->in_room == get_room(rooms::Limbo) && ch->was_in_room != nullptr)
+               (ch->in_room == get_room(Rooms::Limbo) && ch->was_in_room != nullptr)
                    ? ch->was_in_room->vnum
-                   : ch->in_room == nullptr ? rooms::MidgaardTemple : ch->in_room->vnum);
+                   : ch->in_room == nullptr ? Rooms::MidgaardTemple : ch->in_room->vnum);
 
     fmt::print(fp, "{}  {} {} {} {} {} {}\n", cf::HitManaMove, ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move,
                ch->max_move);
@@ -513,7 +513,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::Room) {
             ch->in_room = get_room(fread_number(fp));
             if (ch->in_room == nullptr)
-                ch->in_room = get_room(rooms::Limbo);
+                ch->in_room = get_room(Rooms::Limbo);
         } else if (word == cf::SavingThrow) {
             ch->saving_throw = fread_number(fp);
         } else if (word == cf::Scroll) {
@@ -735,12 +735,12 @@ void fread_pet(Char *ch, FILE *fp) {
         int vnum = fread_number(fp);
         if (get_mob_index(vnum) == nullptr) {
             bug("fread_pet: bad vnum {}.", vnum);
-            pet = create_mobile(get_mob_index(mobiles::Fido));
+            pet = create_mobile(get_mob_index(Mobiles::Fido));
         } else
             pet = create_mobile(get_mob_index(vnum));
     } else {
         bug("fread_pet: no vnum in file.");
-        pet = create_mobile(get_mob_index(mobiles::Fido));
+        pet = create_mobile(get_mob_index(Mobiles::Fido));
     }
 
     for (;;) {

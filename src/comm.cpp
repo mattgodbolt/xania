@@ -989,11 +989,11 @@ void nanny(Descriptor *d, const char *argument) {
             ch->send_to("the {}", title_table[ch->class_num][ch->level][ch->sex.is_male() ? 0 : 1]);
 
             do_outfit(ch);
-            obj_to_char(create_object(get_obj_index(objects::Map)), ch);
+            obj_to_char(create_object(get_obj_index(Objects::Map)), ch);
 
             ch->pcdata->learned[get_weapon_sn(ch)] = 40;
 
-            char_to_room(ch, get_room(rooms::MudschoolEntrance));
+            char_to_room(ch, get_room(Rooms::MudschoolEntrance));
             ch->send_line("");
             do_help(ch, "NEWBIE INFO");
             ch->send_line("");
@@ -1006,9 +1006,9 @@ void nanny(Descriptor *d, const char *argument) {
         } else if (ch->in_room) {
             char_to_room(ch, ch->in_room);
         } else if (ch->is_immortal()) {
-            char_to_room(ch, get_room(rooms::Chat));
+            char_to_room(ch, get_room(Rooms::Chat));
         } else {
-            char_to_room(ch, get_room(rooms::MidgaardTemple));
+            char_to_room(ch, get_room(Rooms::MidgaardTemple));
         }
 
         announce(fmt::format("|W### |P{}|W has entered the game.|w", ch->name), ch);
@@ -1302,10 +1302,10 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg
     auto result = folks_in_room(room, ch, vch, type, min_position);
 
     // If we're sending messages to the challenge arena...
-    if (room->vnum == rooms::ChallengeArena) {
+    if (room->vnum == Rooms::ChallengeArena) {
         // also include all the folks in the viewing gallery with the appropriate position. We assume the victim
         // is not somehow in the viewing gallery.
-        auto viewing = folks_in_room(get_room(rooms::ChallengeGallery), ch, vch, type, min_position);
+        auto viewing = folks_in_room(get_room(Rooms::ChallengeGallery), ch, vch, type, min_position);
         result.insert(result.end(), viewing.begin(), viewing.end());
     }
 

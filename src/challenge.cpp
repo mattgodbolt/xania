@@ -223,7 +223,7 @@ void do_ready(Char *ch) {
         return;
     }
 
-    auto prep_room = get_room(rooms::ChallengePrep);
+    auto prep_room = get_room(Rooms::ChallengePrep);
     if (!prep_room) {
         bug("Unable to find CHAL_PREP room!");
         return;
@@ -379,7 +379,7 @@ void do_duel(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->in_room->vnum != rooms::ChallengeArena) {
+    if (ch->in_room->vnum != Rooms::ChallengeArena) {
         ch->send_line("|cYou must be in the challenge arena to duel.|w");
         return;
     }
@@ -439,7 +439,7 @@ int do_check_chal(Char *ch) {
         bug("do_check_chal: crash potential here guys, challengee/r is being killed...");
         return 0;
     }
-    auto altar = get_room(rooms::MidgaardAltar);
+    auto altar = get_room(Rooms::MidgaardAltar);
     if (!altar) {
         bug("do_check_chal: couldn't find altar!");
         return 0;
@@ -520,7 +520,7 @@ void do_flee_check(Char *ch) {
 int fighting_duel(Char *ch, Char *victim) {
     if (!challenge_fighting)
         return false;
-    if (ch->in_room->vnum != rooms::ChallengeArena)
+    if (ch->in_room->vnum != Rooms::ChallengeArena)
         return false;
     if ((ch != challenger) && (ch != challengee))
         return false;
@@ -532,7 +532,7 @@ int fighting_duel(Char *ch, Char *victim) {
 int in_duel(const Char *ch) {
     if (!challenge_fighting)
         return false;
-    if (ch->in_room->vnum != rooms::ChallengeArena)
+    if (ch->in_room->vnum != Rooms::ChallengeArena)
         return false;
     return ch == challenger || ch == challengee;
 }

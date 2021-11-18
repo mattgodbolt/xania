@@ -4,7 +4,7 @@
  * Well known mobile virtual numbers.
  * Defined in #MOBILES sections of area files.
  */
-namespace mobiles {
+namespace Mobiles {
 
 static inline constexpr auto Zombie = 2u;
 static inline constexpr auto Fido = 3090u;

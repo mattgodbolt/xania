@@ -37,42 +37,42 @@ const struct body_part_attrs body_part_attrs_table[NumBodyParts] = {
       format:
       {       BODY_PART, "description", found in a pair?, location }  */
     {to_int(BodyPartFlag::Head), "head", false, PartHeight::High, "$n's severed head plops on the ground.",
-     objects::SeveredHead}, /* don't move from top of list */
+     Objects::SeveredHead}, /* don't move from top of list */
     {to_int(BodyPartFlag::Arms), "arm", true, PartHeight::Mid, "$n's arm is sliced from $s dead body.",
-     objects::SlicedArm}, /* double */
+     Objects::SlicedArm}, /* double */
 
     {to_int(BodyPartFlag::Legs), "leg", true, PartHeight::Low, "$n's leg is sliced from $s dead body.",
-     objects::SlicedLeg}, /* double */
+     Objects::SlicedLeg}, /* double */
     {to_int(BodyPartFlag::Heart), "chest", false, PartHeight::Mid, "$n's heart is torn from $s chest.",
-     objects::TornHeart},
+     Objects::TornHeart},
 
     {to_int(BodyPartFlag::Brains), "head", false, PartHeight::High,
-     "$n's head is shattered, and $s brains splash all over you.", objects::Brains},
+     "$n's head is shattered, and $s brains splash all over you.", Objects::Brains},
 
     {to_int(BodyPartFlag::Guts), "midriff", false, PartHeight::Mid, "$n spills $s guts all over the floor.",
-     objects::Guts},
+     Objects::Guts},
 
     {to_int(BodyPartFlag::Hands), "hand", true, PartHeight::Mid, 0, 0}, /* double */
     {to_int(BodyPartFlag::Feet), "shin", true, PartHeight::Low, 0, 0}, /* double. No feet! */
     {to_int(BodyPartFlag::Fingers), "hand", true, PartHeight::Mid, 0, 0}, /* double */
     {to_int(BodyPartFlag::Ear), "head", false, PartHeight::High, "$n's severed head plops on the ground.",
-     objects::SeveredHead},
+     Objects::SeveredHead},
     {to_int(BodyPartFlag::Eye), "head", false, PartHeight::High, "$n's severed head plops on the ground.",
-     objects::SeveredHead},
+     Objects::SeveredHead},
     {to_int(BodyPartFlag::LongTongue), "tongue", false, PartHeight::High, "$n's severed head plops on the ground.",
-     objects::SeveredHead},
+     Objects::SeveredHead},
     {to_int(BodyPartFlag::EyeStalks), "eye stalks", false, PartHeight::Mid, 0, 0}, /* weird */
     {to_int(BodyPartFlag::Tentacles), "tentacles", false, PartHeight::Mid, 0, 0},
     {to_int(BodyPartFlag::Fins), "fin", false, PartHeight::Mid, 0, 0},
     {to_int(BodyPartFlag::Wings), "wings", false, PartHeight::Mid, "$n's wing is sliced off and lands with a crunch.",
-     objects::SlicedWing},
+     Objects::SlicedWing},
     {to_int(BodyPartFlag::Tail), "tail", false, PartHeight::Low, 0, 0},
     {to_int(BodyPartFlag::Claws), "claws", false, PartHeight::Mid, "$n's claw flies off and narrowly misses you.",
-     objects::SlicedClaw},
+     Objects::SlicedClaw},
     {to_int(BodyPartFlag::Fangs), "fangs", false, PartHeight::High, 0, 0},
     {to_int(BodyPartFlag::Horns), "horn", false, PartHeight::High, 0, 0},
     {to_int(BodyPartFlag::Scales), "scales", false, PartHeight::Mid, "$n's heart is torn from $s chest.",
-     objects::TornHeart},
+     Objects::TornHeart},
     {to_int(BodyPartFlag::Tusks), "tusk", false, PartHeight::Mid, 0, 0}};
 
 // This allows us to adjust the probability of where the char hits

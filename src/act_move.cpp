@@ -322,37 +322,37 @@ void do_enter(Char *ch, std::string_view argument) {
 }
 
 void do_north(Char *ch) {
-    if (ch->in_room->vnum == rooms::ChallengeArena)
+    if (ch->in_room->vnum == Rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::North);
 }
 
 void do_east(Char *ch) {
-    if (ch->in_room->vnum == rooms::ChallengeArena)
+    if (ch->in_room->vnum == Rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::East);
 }
 
 void do_south(Char *ch) {
-    if (ch->in_room->vnum == rooms::ChallengeArena)
+    if (ch->in_room->vnum == Rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::South);
 }
 
 void do_west(Char *ch) {
-    if (ch->in_room->vnum == rooms::ChallengeArena)
+    if (ch->in_room->vnum == Rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::West);
 }
 
 void do_up(Char *ch) {
-    if (ch->in_room->vnum == rooms::ChallengeArena)
+    if (ch->in_room->vnum == Rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::Up);
 }
 
 void do_down(Char *ch) {
-    if (ch->in_room->vnum == rooms::ChallengeArena)
+    if (ch->in_room->vnum == Rooms::ChallengeArena)
         do_room_check(ch);
     move_char(ch, Direction::Down);
 }
@@ -950,7 +950,7 @@ void do_recall(Char *ch, ArgParser args) {
     if (!check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis))
         act("$n prays for transportation!", ch);
 
-    auto vnum = rooms::MidgaardTemple;
+    auto vnum = Rooms::MidgaardTemple;
     auto destination = args.shift();
     if (matches(destination, "clan")) {
         if (check_enum_bit(ch->act, CharActFlag::Pet)) {

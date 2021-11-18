@@ -201,7 +201,7 @@ bool spec_DEATH(Char *ch) {
     if (ch->is_pos_preoccupied())
         return false;
 
-    if ((home = get_room(rooms::DeathHome)) == nullptr) {
+    if ((home = get_room(Rooms::DeathHome)) == nullptr) {
         bug("Couldn't get Death's home index.");
         return false;
     }
@@ -214,7 +214,7 @@ bool spec_DEATH(Char *ch) {
     }
 
     /* check for Phil the meerkat being beaten the shit out of */
-    phil = get_mob_by_vnum(mobiles::PhilMeerkat);
+    phil = get_mob_by_vnum(Mobiles::PhilMeerkat);
     if (phil && (phil->is_pos_fighting()) && ((phil->hit * 100) / phil->max_hit < 10)) /* and has less than 10% hp */
         lowest_person = phil;
     /* end */
@@ -648,8 +648,8 @@ bool spec_executioner(Char *ch) {
     ch->yell(fmt::format("{} is a {}!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!", victim->name,
                          victim->is_player_killer() ? "KILLER" : "THIEF"));
     multi_hit(ch, victim);
-    char_to_room(create_mobile(get_mob_index(mobiles::Cityguard)), ch->in_room);
-    char_to_room(create_mobile(get_mob_index(mobiles::Cityguard)), ch->in_room);
+    char_to_room(create_mobile(get_mob_index(Mobiles::Cityguard)), ch->in_room);
+    char_to_room(create_mobile(get_mob_index(Mobiles::Cityguard)), ch->in_room);
     return true;
 }
 

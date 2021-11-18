@@ -4,7 +4,7 @@
  * Well known object virtual numbers.
  * Defined in #OBJECTS sections of area files.
  */
-namespace objects {
+namespace Objects {
 
 static inline constexpr auto Dummy = 1u;
 static inline constexpr auto MoneyOne = 2u;

@@ -260,8 +260,8 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     one_hit(ch, victim, opt_skill);
 
-    if (ch->in_room != nullptr && victim->in_room != nullptr && ch->in_room->vnum == rooms::ChallengeArena
-        && victim->in_room->vnum == rooms::ChallengeArena) {
+    if (ch->in_room != nullptr && victim->in_room != nullptr && ch->in_room->vnum == Rooms::ChallengeArena
+        && victim->in_room->vnum == Rooms::ChallengeArena) {
         act(describe_fight_condition(*victim), ch, nullptr, victim, To::NotVict);
     }
 
@@ -840,7 +840,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
             announce(fmt::format("|P###|w Sadly, {} was killed by {}.", victim->name, ch->short_name()), victim);
 
             for (auto *squib : victim->in_room->people) {
-                if ((squib->is_npc()) && (squib->mobIndex->vnum == mobiles::LesserMinionDeath)) {
+                if ((squib->is_npc()) && (squib->mobIndex->vnum == Mobiles::LesserMinionDeath)) {
                     act("$n swings his scythe and ushers $N's soul into the next world.", squib, nullptr, victim,
                         To::Room);
                     break;
@@ -1257,7 +1257,7 @@ void make_corpse(Char *ch) {
     Object *corpse{};
     if (ch->is_npc()) {
         name = ch->short_descr;
-        corpse = create_object(get_obj_index(objects::NonPlayerCorpse));
+        corpse = create_object(get_obj_index(Objects::NonPlayerCorpse));
         corpse->timer = number_range(3, 6);
         if (ch->gold > 0) {
             obj_to_obj(create_money(ch->gold), corpse);
@@ -1266,7 +1266,7 @@ void make_corpse(Char *ch) {
         corpse->cost = 0;
     } else {
         name = ch->name;
-        corpse = create_object(get_obj_index(objects::PlayerCorpse));
+        corpse = create_object(get_obj_index(Objects::PlayerCorpse));
         corpse->timer = number_range(25, 40);
         clear_enum_bit(ch->act, PlayerActFlag::PlrCanLoot);
         if (!check_enum_bit(ch->act, PlayerActFlag::PlrKiller) && !check_enum_bit(ch->act, PlayerActFlag::PlrThief))

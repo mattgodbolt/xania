@@ -447,7 +447,7 @@ void weather_update() {
  */
 void move_active_char_from_limbo(Char *ch) {
     if (ch == nullptr || ch->desc == nullptr || !ch->desc->is_playing() || ch->was_in_room == nullptr
-        || ch->in_room != get_room(rooms::Limbo))
+        || ch->in_room != get_room(Rooms::Limbo))
         return;
 
     ch->timer = 0;
@@ -477,14 +477,14 @@ void move_idle_char_to_limbo(Char *ch) {
             if (ch->level > 1)
                 save_char_obj(ch);
             char_from_room(ch);
-            char_to_room(ch, get_room(rooms::Limbo));
+            char_to_room(ch, get_room(Rooms::Limbo));
             if (ch->pet) { /* move pets too */
                 if (ch->pet->fighting)
                     stop_fighting(ch->pet, true);
                 act("$n flickers and phases out", ch->pet);
                 ch->pet->was_in_room = ch->pet->in_room;
                 char_from_room(ch->pet);
-                char_to_room(ch->pet, get_room(rooms::Limbo));
+                char_to_room(ch->pet, get_room(Rooms::Limbo));
             }
         }
     }
@@ -575,7 +575,7 @@ void char_update() {
 
         /* scan all undead zombies created by raise_dead style spells
            and randomly decay them */
-        if (ch->is_npc() && ch->mobIndex->vnum == mobiles::Zombie) {
+        if (ch->is_npc() && ch->mobIndex->vnum == Mobiles::Zombie) {
             if (number_percent() > 90) {
                 act("$n fits violently before decaying in to a pile of dust.", ch);
                 extract_char(ch, true);
@@ -705,7 +705,7 @@ void obj_update() {
             else
                 act(message, obj->carried_by, obj, nullptr, To::Char);
         } else if (obj->in_room != nullptr && !obj->in_room->people.empty()) {
-            if (!(obj->in_obj && obj->in_obj->objIndex->vnum == objects::Pit && !obj->in_obj->is_takeable())) {
+            if (!(obj->in_obj && obj->in_obj->objIndex->vnum == Objects::Pit && !obj->in_obj->is_takeable())) {
                 // seems like we pick someone to emote for convenience here...
                 auto *rch = *obj->in_room->people.begin();
                 act(message, rch, obj, nullptr, To::Room);

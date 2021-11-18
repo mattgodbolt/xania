@@ -111,12 +111,12 @@ void get_obj(Char *ch, Object *obj, Object *container) {
     }
     if (container != nullptr) {
 
-        if (container->objIndex->vnum == objects::Pit && ch->get_trust() < obj->level) {
+        if (container->objIndex->vnum == Objects::Pit && ch->get_trust() < obj->level) {
             ch->send_line("You are not powerful enough to use it.");
             return;
         }
 
-        if (container->objIndex->vnum == objects::Pit && !container->is_takeable() && obj->timer)
+        if (container->objIndex->vnum == Objects::Pit && !container->is_takeable() && obj->timer)
             obj->timer = 0;
         act("You get $p from $P.", ch, obj, container, To::Char);
         act("$n gets $p from $P.", ch, obj, container, To::Room);
@@ -645,7 +645,7 @@ void do_get(Char *ch, const char *argument) {
             for (auto *obj : container->contains) {
                 if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj)) {
                     found = true;
-                    if (container->objIndex->vnum == objects::Pit && ch->is_mortal()) {
+                    if (container->objIndex->vnum == Objects::Pit && ch->is_mortal()) {
                         ch->send_line("Don't be so greedy!");
                         return;
                     }
@@ -736,7 +736,7 @@ void do_put(Char *ch, const char *argument) {
             return;
         }
 
-        if (container->objIndex->vnum == objects::Pit && !container->is_takeable()) {
+        if (container->objIndex->vnum == Objects::Pit && !container->is_takeable()) {
             if (obj->timer) {
                 ch->send_line("Only permanent items may go in the pit.");
                 return;
@@ -760,7 +760,7 @@ void do_put(Char *ch, const char *argument) {
                         nullptr, To::Char);
                     continue;
                 }
-                if (container->objIndex->vnum == objects::Pit) {
+                if (container->objIndex->vnum == Objects::Pit) {
                     if (obj->timer)
                         continue;
                     else
@@ -787,9 +787,9 @@ void do_donate(Char *ch, const char *argument) {
     }
 
     /* get the pit's Object * */
-    auto *altar = get_room(rooms::MidgaardAltar);
+    auto *altar = get_room(Rooms::MidgaardAltar);
 
-    auto pit_it = ranges::find(altar->contents, objects::Pit, [](auto *obj) { return obj->objIndex->vnum; });
+    auto pit_it = ranges::find(altar->contents, Objects::Pit, [](auto *obj) { return obj->objIndex->vnum; });
     if (pit_it == altar->contents.end()) {
         /* just in case someone should accidentally delete the pit... */
         ch->send_line("The psychic field seems to have lost its alignment.");
@@ -890,12 +890,12 @@ void do_drop(Char *ch, const char *argument) {
 
         for (auto *obj : ch->in_room->contents) {
             switch (obj->objIndex->vnum) {
-            case objects::MoneyOne:
+            case Objects::MoneyOne:
                 amount += 1;
                 extract_obj(obj);
                 break;
 
-            case objects::MoneySome:
+            case Objects::MoneySome:
                 amount += obj->value[0];
                 extract_obj(obj);
                 break;

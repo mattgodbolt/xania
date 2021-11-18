@@ -337,7 +337,7 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
             act("You carefully add another spell to your bomb.", ch, nullptr, nullptr, To::Char);
 
         } else {
-            bomb = create_object(get_obj_index(objects::Bomb));
+            bomb = create_object(get_obj_index(Objects::Bomb));
             bomb->level = ch->level;
             bomb->value[0] = ch->level;
             bomb->value[1] = sn;
@@ -377,7 +377,7 @@ void try_create_scroll(Char *ch, const int sn, const int mana) {
         ch->send_line("You don't have enough mana.");
         return;
     }
-    auto *scroll_index = get_obj_index(objects::Scroll);
+    auto *scroll_index = get_obj_index(Objects::Scroll);
     if (ch->carry_weight + scroll_index->weight > can_carry_w(ch)) {
         act("You cannot carry that much weight.", ch, nullptr, nullptr, To::Char);
         return;
@@ -396,7 +396,7 @@ void try_create_scroll(Char *ch, const int sn, const int mana) {
         ch->mana -= (mana * 2);
         ch->gold -= (mana * 100);
 
-        auto *scroll = create_object(get_obj_index(objects::Scroll));
+        auto *scroll = create_object(get_obj_index(Objects::Scroll));
         scroll->level = ch->level;
         scroll->value[0] = ch->level;
         scroll->value[1] = sn;
@@ -437,7 +437,7 @@ void try_create_potion(Char *ch, const int sn, const int mana) {
         ch->send_line("You don't have enough mana.");
         return;
     }
-    const auto *potion_index = get_obj_index(objects::Potion);
+    const auto *potion_index = get_obj_index(Objects::Potion);
     if (ch->carry_weight + potion_index->weight > can_carry_w(ch)) {
         act("You cannot carry that much weight.", ch, nullptr, nullptr, To::Char);
         return;
@@ -457,7 +457,7 @@ void try_create_potion(Char *ch, const int sn, const int mana) {
         ch->mana -= (mana * 2);
         ch->gold -= (mana * 100);
 
-        auto *potion = create_object(get_obj_index(objects::Potion));
+        auto *potion = create_object(get_obj_index(Objects::Potion));
         potion->level = ch->level;
         potion->value[0] = ch->level;
         potion->value[1] = sn;
@@ -1126,7 +1126,7 @@ void spell_continual_light(int sn, int level, Char *ch, [[maybe_unused]] const S
     (void)level;
     Object *light;
 
-    light = create_object(get_obj_index(objects::LightBall));
+    light = create_object(get_obj_index(Objects::LightBall));
     obj_to_room(light, ch->in_room);
     act("$n twiddles $s thumbs and $p appears.", ch, light, nullptr, To::Room);
     act("You twiddle your thumbs and $p appears.", ch, light, nullptr, To::Char);
@@ -1148,7 +1148,7 @@ void spell_control_weather(int sn, int level, Char *ch, const SpellTarget &spell
 
 void spell_create_food(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     (void)sn;
-    Object *mushroom = create_object(get_obj_index(objects::Mushroom));
+    Object *mushroom = create_object(get_obj_index(Objects::Mushroom));
     mushroom->value[0] = 5 + level;
     obj_to_room(mushroom, ch->in_room);
     act("$p suddenly appears.", ch, mushroom, nullptr, To::Room);
@@ -1157,7 +1157,7 @@ void spell_create_food(int sn, int level, Char *ch, [[maybe_unused]] const Spell
 
 void spell_create_spring(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     (void)sn;
-    Object *spring = create_object(get_obj_index(objects::Spring));
+    Object *spring = create_object(get_obj_index(Objects::Spring));
     spring->timer = level;
     obj_to_room(spring, ch->in_room);
     act("$p flows from the ground.", ch, spring, nullptr, To::Room);
@@ -2191,7 +2191,7 @@ void spell_energy_drain(int sn, int level, Char *ch, const SpellTarget &spell_ta
     if (victim->level <= 2) {
         dam = victim->hit + 1;
     } else {
-        if (victim->in_room->vnum != rooms::ChallengeArena)
+        if (victim->in_room->vnum != Rooms::ChallengeArena)
             gain_exp(victim, 0 - 2.5 * number_range(level / 2, 3 * level / 2));
         victim->mana /= 2;
         victim->move /= 2;
@@ -2974,7 +2974,7 @@ void spell_portal(int sn, int level, Char *ch, const SpellTarget &spell_target) 
         ch->send_line("You cannot portal from this room.");
         return;
     }
-    auto *source_portal = create_object(get_obj_index(objects::Portal));
+    auto *source_portal = create_object(get_obj_index(Objects::Portal));
     source_portal->timer = (ch->level / 10);
     source_portal->destination = victim->in_room;
 
@@ -2983,7 +2983,7 @@ void spell_portal(int sn, int level, Char *ch, const SpellTarget &spell_target) 
     obj_to_room(source_portal, ch->in_room);
 
     // Create second portal.
-    auto *dest_portal = create_object(get_obj_index(objects::Portal));
+    auto *dest_portal = create_object(get_obj_index(Objects::Portal));
     dest_portal->timer = (ch->level / 10);
     dest_portal->destination = ch->in_room;
 
@@ -3406,7 +3406,7 @@ void spell_word_of_recall(int sn, int level, Char *ch, const SpellTarget &spell_
     if (victim->is_npc())
         return;
 
-    if ((location = get_room(rooms::MidgaardTemple)) == nullptr) {
+    if ((location = get_room(Rooms::MidgaardTemple)) == nullptr) {
         victim->send_line("You are completely lost.");
         return;
     }
@@ -3448,7 +3448,7 @@ void spell_acid_breath(int sn, int level, Char *ch, const SpellTarget &spell_tar
     int hpch;
     int i;
 
-    if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != rooms::ChallengeArena) {
+    if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != Rooms::ChallengeArena) {
         for (auto *obj_lose : victim->carrying) {
             if (number_bits(2) != 0)
                 continue;
@@ -3512,7 +3512,7 @@ void spell_fire_breath(int sn, int level, Char *ch, const SpellTarget &spell_tar
     int dam;
     int hpch;
 
-    if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != rooms::ChallengeArena) {
+    if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != Rooms::ChallengeArena) {
         for (auto *obj_lose : victim->carrying) {
             const char *msg;
 
@@ -3568,7 +3568,7 @@ void spell_frost_breath(int sn, int level, Char *ch, const SpellTarget &spell_ta
     Char *victim = spell_target.getChar();
     if (!victim)
         return;
-    if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != rooms::ChallengeArena) {
+    if (number_percent() < 2 * level && !saves_spell(level, victim) && ch->in_room->vnum != Rooms::ChallengeArena) {
         for (auto *obj_lose : victim->carrying) {
             const char *msg;
 

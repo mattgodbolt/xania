@@ -4,7 +4,7 @@
  * Well known room virtual numbers.
  * Defined in #ROOMS sections of area files.
  */
-namespace rooms {
+namespace Rooms {
 
 static inline constexpr auto Limbo = 2u;
 static inline constexpr auto ForreyHome = 1158u;

@@ -113,21 +113,21 @@ void do_outfit(Char *ch) {
     }
 
     if (!get_eq_char(ch, Wear::Light)) {
-        auto *obj = create_object(get_obj_index(objects::SchoolBanner));
+        auto *obj = create_object(get_obj_index(Objects::SchoolBanner));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, Wear::Light);
     }
 
     if (!get_eq_char(ch, Wear::Body)) {
-        auto *obj = create_object(get_obj_index(objects::SchoolVest));
+        auto *obj = create_object(get_obj_index(Objects::SchoolVest));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, Wear::Body);
     }
 
     if (!get_eq_char(ch, Wear::Shield)) {
-        auto *obj = create_object(get_obj_index(objects::SchoolShield));
+        auto *obj = create_object(get_obj_index(Objects::SchoolShield));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, Wear::Shield);
@@ -343,7 +343,7 @@ void do_recho(Char *ch, const char *argument) {
     for (auto &victim : descriptors().playing() | DescriptorFilter::same_room(*ch) | DescriptorFilter::to_character()) {
         victim.send_to(fmt::format(
             "{}{}\n\r",
-            victim.get_trust() >= ch->get_trust() && ch->in_room->vnum != rooms::ChallengeGallery ? "local> " : "",
+            victim.get_trust() >= ch->get_trust() && ch->in_room->vnum != Rooms::ChallengeGallery ? "local> " : "",
             argument));
     }
 }
