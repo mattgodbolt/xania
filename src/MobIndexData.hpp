@@ -5,6 +5,7 @@
 #include "Materials.hpp"
 #include "Position.hpp"
 #include "Sex.hpp"
+#include "Shop.hpp"
 #include "Types.hpp"
 
 #include <array>
@@ -13,7 +14,6 @@
 #include <optional>
 #include <string>
 
-struct Shop;
 struct MPROG_DATA;
 enum class BodySize;
 
@@ -21,7 +21,7 @@ enum class BodySize;
 // This is the in-memory version of #MOBILES.
 struct MobIndexData {
     SpecialFunc spec_fun{};
-    Shop *shop{};
+    std::optional<Shop> shop{};
     sh_int vnum{};
     sh_int count{};
     sh_int killed{};

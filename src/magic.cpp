@@ -3298,7 +3298,7 @@ void spell_summon(int sn, int level, Char *ch, const SpellTarget &spell_target) 
         return;
     }
     if (victim->is_npc()) {
-        if (victim->mobIndex->shop != nullptr || check_enum_bit(victim->act, CharActFlag::Healer)
+        if (victim->mobIndex->shop || check_enum_bit(victim->act, CharActFlag::Healer)
             || check_enum_bit(victim->act, CharActFlag::Gain) || check_enum_bit(victim->act, CharActFlag::Practice)) {
             act("The guildspersons' convention prevents your summons.", ch, nullptr, nullptr, To::Char);
             act("The guildspersons' convention protects $n from summons.", victim);

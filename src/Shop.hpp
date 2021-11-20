@@ -14,7 +14,6 @@ static inline constexpr auto MaxTrade = 5u;
 enum class ObjectType;
 
 struct Shop {
-    Shop *next{}; /* Next shop in list            */
     sh_int keeper{}; /* Vnum of shop keeper mob      */
     ObjectType buy_type[MaxTrade]; /* Item types shop will buy     */
     sh_int profit_buy{}; /* Cost multiplier for buying   */

@@ -80,7 +80,7 @@ TEST_CASE("unique object enforcement") {
             REQUIRE(opt_char_to_idx);
             Shop shop{};
             char_to.mobIndex = &opt_char_to_idx.value();
-            char_to.mobIndex->shop = &shop;
+            char_to.mobIndex->shop = std::move(shop);
             set_enum_bit(char_to.act, CharActFlag::Npc);
             char_to.carrying.add_back(&existing_obj);
 

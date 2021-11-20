@@ -698,7 +698,7 @@ void obj_update() {
         }
 
         if (obj->carried_by != nullptr) {
-            if ((obj->carried_by->is_npc()) && obj->carried_by->mobIndex->shop != nullptr)
+            if ((obj->carried_by->is_npc()) && obj->carried_by->mobIndex->shop)
                 obj->carried_by->gold += obj->cost;
             else
                 act(message, obj->carried_by, obj, nullptr, To::Char);

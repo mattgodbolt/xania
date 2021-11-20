@@ -499,13 +499,13 @@ Char *find_keeper(Char *ch) {
     }
 
     // Shop hours.
-    const auto *shop = keeper->mobIndex->shop;
-    if (time_info.hour() < shop->open_hour) {
+    const auto &shop = *keeper->mobIndex->shop;
+    if (time_info.hour() < shop.open_hour) {
         keeper->say("Sorry, I am closed. Come back later.");
         return nullptr;
     }
 
-    if (time_info.hour() > shop->close_hour) {
+    if (time_info.hour() > shop.close_hour) {
         keeper->say("Sorry, I am closed. Come back tomorrow.");
         return nullptr;
     }
@@ -520,20 +520,19 @@ Char *find_keeper(Char *ch) {
 }
 
 int get_cost(Char *keeper, Object *obj, bool fBuy) {
-    Shop *shop;
-    int cost;
 
-    if (obj == nullptr || (shop = keeper->mobIndex->shop) == nullptr)
+    if (obj == nullptr || !keeper->mobIndex->shop)
         return 0;
-
+    const auto shop = *keeper->mobIndex->shop;
+    int cost;
     if (fBuy) {
-        cost = obj->cost * shop->profit_buy / 100;
+        cost = obj->cost * shop.profit_buy / 100;
     } else {
         uint itype;
         cost = 0;
         for (itype = 0; itype < MaxTrade; itype++) {
-            if (obj->type == shop->buy_type[itype]) {
-                cost = obj->cost * shop->profit_sell / 100;
+            if (obj->type == shop.buy_type[itype]) {
+                cost = obj->cost * shop.profit_sell / 100;
                 break;
             }
         }

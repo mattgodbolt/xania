@@ -940,7 +940,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
 
 bool is_safe(Char *ch, Char *victim) {
     /* no killing in shops hack */
-    if (victim->is_npc() && victim->mobIndex->shop != nullptr) {
+    if (victim->is_npc() && victim->mobIndex->shop) {
         ch->send_line("The shopkeeper wouldn't like that.");
         return true;
     }
@@ -1005,7 +1005,7 @@ bool is_safe_spell(Char *ch, Char *victim, bool area) {
         return true;
 
     /* no killing in shops hack */
-    if (victim->is_npc() && victim->mobIndex->shop != nullptr)
+    if (victim->is_npc() && victim->mobIndex->shop)
         return true;
 
     /* no killing healers, adepts, etc */

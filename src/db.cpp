@@ -70,15 +70,11 @@ constexpr auto MaxString = 2650976;
 constexpr auto MaxPermBlock = 131072;
 constexpr auto MaxMemList = 14;
 
-Shop *shop_first;
-Shop *shop_last;
-
 char *string_hash[MAX_KEY_HASH];
 
 char *string_space;
 char *top_string;
 
-int top_shop;
 // Index number of the latest affect on an object.
 int top_obj_affect;
 
@@ -563,41 +559,30 @@ void load_rooms(FILE *fp) {
 
 /* Snarf a shop section. */
 void load_shops(FILE *fp) {
-    Shop *shop;
-
     for (;;) {
         MobIndexData *mobIndex;
         uint iTrade;
         auto shopkeeper_vnum = fread_number(fp);
         if (shopkeeper_vnum == 0)
             break;
-        shop = static_cast<Shop *>(alloc_perm(sizeof(*shop)));
-        shop->keeper = shopkeeper_vnum;
+        Shop shop;
+        shop.keeper = shopkeeper_vnum;
         for (iTrade = 0; iTrade < MaxTrade; iTrade++) {
             const auto raw_obj_type = fread_number(fp);
             if (const auto opt_obj_type = ObjectTypes::try_from_integer(raw_obj_type)) {
-                shop->buy_type[iTrade] = *opt_obj_type;
+                shop.buy_type[iTrade] = *opt_obj_type;
             }
             // If the raw object type number is zero or unrecognized we silently ignore it.
             // The typical case is that the shopkeeper is configured to not buy anything and you can use zero to
             // state that.
         }
-        shop->profit_buy = fread_number(fp);
-        shop->profit_sell = fread_number(fp);
-        shop->open_hour = fread_number(fp);
-        shop->close_hour = fread_number(fp);
+        shop.profit_buy = fread_number(fp);
+        shop.profit_sell = fread_number(fp);
+        shop.open_hour = fread_number(fp);
+        shop.close_hour = fread_number(fp);
         fread_to_eol(fp);
-        mobIndex = get_mob_index(shop->keeper);
-        mobIndex->shop = shop;
-
-        if (shop_first == nullptr)
-            shop_first = shop;
-        if (shop_last != nullptr)
-            shop_last->next = shop;
-
-        shop_last = shop;
-        shop->next = nullptr;
-        top_shop++;
+        mobIndex = get_mob_index(shop.keeper);
+        mobIndex->shop = std::move(shop);
     }
 }
 
@@ -1948,7 +1933,6 @@ void do_memory(Char *ch) {
     ch->send_line("Chars   {:5}", Char::num_active());
     ch->send_line("Objs    {:5}", object_indexes.size());
     ch->send_line("Rooms   {:5}", rooms.size());
-    ch->send_line("Shops   {:5}", top_shop);
     ch->send_line("Strings {:5} strings of {:7} bytes (max {:7}).", nAllocString, sAllocString, MaxString);
     ch->send_line("Perms   {:5} blocks  of {:7} bytes.", nAllocPerm, sAllocPerm);
 }
