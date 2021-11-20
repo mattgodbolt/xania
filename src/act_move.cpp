@@ -50,27 +50,27 @@ constexpr PerSectorType<int> movement_loss{1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};
 
 void move_char(Char *ch, Direction door) {
     auto *in_room = ch->in_room;
-    auto *pexit = in_room->exit[door];
-    auto *to_room = pexit ? pexit->u1.to_room : nullptr;
-    if (!pexit || !to_room || !ch->can_see(*to_room)) {
+    const auto &exit = in_room->exit[door];
+    auto *to_room = exit ? exit->u1.to_room : nullptr;
+    if (!exit || !to_room || !ch->can_see(*to_room)) {
         ch->send_line("Alas, you cannot go that way.");
         return;
     }
 
-    if (check_enum_bit(pexit->exit_info, ExitFlag::Closed) && ch->is_mortal()) {
-        if (check_enum_bit(pexit->exit_info, ExitFlag::PassProof) && ch->is_aff_pass_door()) {
-            act("The $d is protected from trespass by a magical barrier.", ch, nullptr, pexit->keyword, To::Char);
+    if (check_enum_bit(exit->exit_info, ExitFlag::Closed) && ch->is_mortal()) {
+        if (check_enum_bit(exit->exit_info, ExitFlag::PassProof) && ch->is_aff_pass_door()) {
+            act("The $d is protected from trespass by a magical barrier.", ch, nullptr, exit->keyword, To::Char);
             return;
         } else {
             if (!ch->is_aff_pass_door()) {
-                act("The $d is closed.", ch, nullptr, pexit->keyword, To::Char);
+                act("The $d is closed.", ch, nullptr, exit->keyword, To::Char);
                 return;
             }
         }
     }
 
-    if (check_enum_bit(pexit->exit_info, ExitFlag::Closed) && ch->is_aff_pass_door()
-        && !(check_enum_bit(pexit->exit_info, ExitFlag::PassProof)) && ch->riding != nullptr
+    if (check_enum_bit(exit->exit_info, ExitFlag::Closed) && ch->is_aff_pass_door()
+        && !(check_enum_bit(exit->exit_info, ExitFlag::PassProof)) && ch->riding != nullptr
         && !ch->riding->is_aff_pass_door()) {
         ch->send_line("Your mount cannot travel through solid objects.");
         return;
@@ -359,13 +359,13 @@ void do_down(Char *ch) {
 
 std::optional<Direction> find_door(Char *ch, std::string_view arg) {
     if (auto door = try_parse_direction(arg)) {
-        auto *pexit = ch->in_room->exit[*door];
-        if (!pexit) {
+        const auto &exit = ch->in_room->exit[*door];
+        if (!exit) {
             act("I see no door $T here.", ch, nullptr, arg, To::Char);
             return {};
         }
 
-        if (!check_enum_bit(pexit->exit_info, ExitFlag::IsDoor)) {
+        if (!check_enum_bit(exit->exit_info, ExitFlag::IsDoor)) {
             ch->send_line("You can't do that.");
             return {};
         }
@@ -374,8 +374,8 @@ std::optional<Direction> find_door(Char *ch, std::string_view arg) {
     }
 
     for (auto door : all_directions) {
-        if (auto *pexit = ch->in_room->exit[door]; pexit && check_enum_bit(pexit->exit_info, ExitFlag::IsDoor)
-                                                   && pexit->keyword != nullptr && is_name(arg, pexit->keyword))
+        if (const auto &exit = ch->in_room->exit[door]; exit && check_enum_bit(exit->exit_info, ExitFlag::IsDoor)
+                                                        && exit->keyword != nullptr && is_name(arg, exit->keyword))
             return door;
     }
     act("I see no $T here.", ch, nullptr, arg, To::Char);
@@ -419,29 +419,27 @@ void do_open(Char *ch, ArgParser args) {
         auto door = *opt_door;
         /* 'open door' */
 
-        auto *pexit = ch->in_room->exit[door];
-        if (!check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
+        auto &exit = ch->in_room->exit[door];
+        if (!check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's already open.");
             return;
         }
-        if (check_enum_bit(pexit->exit_info, ExitFlag::Locked)) {
+        if (check_enum_bit(exit->exit_info, ExitFlag::Locked)) {
             ch->send_line("It's locked.");
             return;
         }
 
-        clear_enum_bit(pexit->exit_info, ExitFlag::Closed);
-        act("$n opens the $d.", ch, nullptr, pexit->keyword, To::Room);
+        clear_enum_bit(exit->exit_info, ExitFlag::Closed);
+        act("$n opens the $d.", ch, nullptr, exit->keyword, To::Room);
         ch->send_line("Ok.");
 
         /* open the other side */
-        Room *to_room;
-        Exit *pexit_rev;
-        if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
-            && pexit_rev->u1.to_room == ch->in_room) {
-
-            clear_enum_bit(pexit_rev->exit_info, ExitFlag::Closed);
-            for (auto *rch : to_room->people)
-                act("The $d opens.", rch, nullptr, pexit_rev->keyword, To::Char);
+        if (Room *to_room = exit->u1.to_room) {
+            if (auto &exit_rev = to_room->exit[reverse(door)]; exit_rev && exit_rev->u1.to_room == ch->in_room) {
+                clear_enum_bit(exit_rev->exit_info, ExitFlag::Closed);
+                for (auto *rch : to_room->people)
+                    act("The $d opens.", rch, nullptr, exit_rev->keyword, To::Char);
+            }
         }
     }
 }
@@ -478,24 +476,23 @@ void do_close(Char *ch, ArgParser args) {
         auto door = *opt_door;
         /* 'close door' */
 
-        auto *pexit = ch->in_room->exit[door];
-        if (check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
+        auto &exit = ch->in_room->exit[door];
+        if (check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's already closed.");
             return;
         }
 
-        set_enum_bit(pexit->exit_info, ExitFlag::Closed);
-        act("$n closes the $d.", ch, nullptr, pexit->keyword, To::Room);
+        set_enum_bit(exit->exit_info, ExitFlag::Closed);
+        act("$n closes the $d.", ch, nullptr, exit->keyword, To::Room);
         ch->send_line("Ok.");
 
         /* close the other side */
-        Room *to_room;
-        Exit *pexit_rev;
-        if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
-            && pexit_rev->u1.to_room == ch->in_room) {
-            set_enum_bit(pexit_rev->exit_info, ExitFlag::Closed);
-            for (auto *rch : to_room->people)
-                act("The $d closes.", rch, nullptr, pexit_rev->keyword, To::Char);
+        if (Room *to_room = exit->u1.to_room) {
+            if (auto &exit_rev = to_room->exit[reverse(door)]; exit_rev && exit_rev->u1.to_room == ch->in_room) {
+                set_enum_bit(exit_rev->exit_info, ExitFlag::Closed);
+                for (auto *rch : to_room->people)
+                    act("The $d closes.", rch, nullptr, exit_rev->keyword, To::Char);
+            }
         }
     }
 }
@@ -540,34 +537,33 @@ void do_lock(Char *ch, ArgParser args) {
         auto door = *opt_door;
         /* 'lock door' */
 
-        auto *pexit = ch->in_room->exit[door];
-        if (!check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
+        auto &exit = ch->in_room->exit[door];
+        if (!check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's not closed.");
             return;
         }
-        if (pexit->key < 0) {
+        if (exit->key < 0) {
             ch->send_line("It can't be locked.");
             return;
         }
-        if (!ch->carrying_object_vnum(pexit->key)) {
+        if (!ch->carrying_object_vnum(exit->key)) {
             ch->send_line("You lack the key.");
             return;
         }
-        if (check_enum_bit(pexit->exit_info, ExitFlag::Locked)) {
+        if (check_enum_bit(exit->exit_info, ExitFlag::Locked)) {
             ch->send_line("It's already locked.");
             return;
         }
 
-        set_enum_bit(pexit->exit_info, ExitFlag::Locked);
+        set_enum_bit(exit->exit_info, ExitFlag::Locked);
         ch->send_line("*Click*");
-        act("$n locks the $d.", ch, nullptr, pexit->keyword, To::Room);
+        act("$n locks the $d.", ch, nullptr, exit->keyword, To::Room);
 
         /* lock the other side */
-        Room *to_room;
-        Exit *pexit_rev;
-        if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
-            && pexit_rev->u1.to_room == ch->in_room) {
-            set_enum_bit(pexit_rev->exit_info, ExitFlag::Locked);
+        if (Room *to_room = exit->u1.to_room) {
+            if (auto &exit_rev = to_room->exit[reverse(door)]; exit_rev && exit_rev->u1.to_room == ch->in_room) {
+                set_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
+            }
         }
     }
 }
@@ -612,34 +608,33 @@ void do_unlock(Char *ch, ArgParser args) {
     if (auto opt_door = find_door(ch, arg)) {
         auto door = *opt_door;
         /* 'unlock door' */
-        auto *pexit = ch->in_room->exit[door];
-        if (!check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
+        auto &exit = ch->in_room->exit[door];
+        if (!check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's not closed.");
             return;
         }
-        if (pexit->key < 0) {
+        if (exit->key < 0) {
             ch->send_line("It can't be unlocked.");
             return;
         }
-        if (!ch->carrying_object_vnum(pexit->key)) {
+        if (!ch->carrying_object_vnum(exit->key)) {
             ch->send_line("You lack the key.");
             return;
         }
-        if (!check_enum_bit(pexit->exit_info, ExitFlag::Locked)) {
+        if (!check_enum_bit(exit->exit_info, ExitFlag::Locked)) {
             ch->send_line("It's already unlocked.");
             return;
         }
 
-        clear_enum_bit(pexit->exit_info, ExitFlag::Locked);
+        clear_enum_bit(exit->exit_info, ExitFlag::Locked);
         ch->send_line("*Click*");
-        act("$n unlocks the $d.", ch, nullptr, pexit->keyword, To::Room);
+        act("$n unlocks the $d.", ch, nullptr, exit->keyword, To::Room);
 
         /* unlock the other side */
-        Room *to_room;
-        Exit *pexit_rev;
-        if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
-            && pexit_rev->u1.to_room == ch->in_room) {
-            clear_enum_bit(pexit_rev->exit_info, ExitFlag::Locked);
+        if (Room *to_room = exit->u1.to_room) {
+            if (auto &exit_rev = to_room->exit[reverse(door)]; exit_rev && exit_rev->u1.to_room == ch->in_room) {
+                clear_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
+            }
         }
     }
 }
@@ -701,35 +696,34 @@ void do_pick(Char *ch, ArgParser args) {
         auto door = *opt_door;
         /* 'pick door' */
 
-        auto *pexit = ch->in_room->exit[door];
-        if (!check_enum_bit(pexit->exit_info, ExitFlag::Closed) && ch->is_mortal()) {
+        auto &exit = ch->in_room->exit[door];
+        if (!check_enum_bit(exit->exit_info, ExitFlag::Closed) && ch->is_mortal()) {
             ch->send_line("It's not closed.");
             return;
         }
-        if (pexit->key < 0 && ch->is_mortal()) {
+        if (exit->key < 0 && ch->is_mortal()) {
             ch->send_line("It can't be picked.");
             return;
         }
-        if (!check_enum_bit(pexit->exit_info, ExitFlag::Locked)) {
+        if (!check_enum_bit(exit->exit_info, ExitFlag::Locked)) {
             ch->send_line("It's already unlocked.");
             return;
         }
-        if (check_enum_bit(pexit->exit_info, ExitFlag::PickProof) && ch->is_mortal()) {
+        if (check_enum_bit(exit->exit_info, ExitFlag::PickProof) && ch->is_mortal()) {
             ch->send_line("You failed.");
             return;
         }
 
-        clear_enum_bit(pexit->exit_info, ExitFlag::Locked);
+        clear_enum_bit(exit->exit_info, ExitFlag::Locked);
         ch->send_line("*Click*");
-        act("$n picks the $d.", ch, nullptr, pexit->keyword, To::Room);
+        act("$n picks the $d.", ch, nullptr, exit->keyword, To::Room);
         check_improve(ch, gsn_pick_lock, true, 2);
 
         /* pick the other side */
-        Room *to_room;
-        Exit *pexit_rev;
-        if ((to_room = pexit->u1.to_room) && (pexit_rev = to_room->exit[reverse(door)])
-            && pexit_rev->u1.to_room == ch->in_room) {
-            clear_enum_bit(pexit_rev->exit_info, ExitFlag::Locked);
+        if (Room *to_room = exit->u1.to_room) {
+            if (auto &exit_rev = to_room->exit[reverse(door)]; exit_rev && exit_rev->u1.to_room == ch->in_room) {
+                clear_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
+            }
         }
     }
 }

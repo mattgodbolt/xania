@@ -673,11 +673,11 @@ void do_rstat(Char *ch, ArgParser args) {
                                                " "));
 
     for (auto door : all_directions) {
-        if (auto *pexit = location->exit[door]) {
+        if (auto &exit = location->exit[door]) {
             ch->send_to(fmt::format("Door: {}.  To: {}.  Key: {}.  Exit flags: {}.\n\rKeyword: '{}'.  Description: {}",
-                                    to_string(door), (pexit->u1.to_room == nullptr ? -1 : pexit->u1.to_room->vnum),
-                                    pexit->key, pexit->exit_info, pexit->keyword,
-                                    pexit->description[0] != '\0' ? pexit->description : "(none).\n\r"));
+                                    to_string(door), (exit->u1.to_room == nullptr ? -1 : exit->u1.to_room->vnum),
+                                    exit->key, exit->exit_info, exit->keyword,
+                                    exit->description[0] != '\0' ? exit->description : "(none).\n\r"));
         }
     }
 }

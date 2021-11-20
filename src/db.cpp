@@ -78,7 +78,6 @@ char *string_hash[MAX_KEY_HASH];
 char *string_space;
 char *top_string;
 
-int top_exit;
 int top_reset;
 int top_shop;
 // Index number of the latest affect on an object.
@@ -398,7 +397,6 @@ void new_reset(Room *room, ResetData *reset) {
 void load_resets(FILE *fp) {
     ResetData *pReset;
     Room *room;
-    Exit *pexit;
     int iLastRoom = 0;
     int iLastObj = 0;
 
@@ -469,19 +467,19 @@ void load_resets(FILE *fp) {
             room = get_room(pReset->arg1);
             auto opt_door = try_cast_direction(pReset->arg2);
 
-            if (!opt_door || !room || (pexit = room->exit[*opt_door]) == nullptr
-                || !check_enum_bit(pexit->rs_flags, ExitFlag::IsDoor)) {
+            if (!opt_door || !room || !room->exit[*opt_door]
+                || !check_enum_bit(room->exit[*opt_door]->rs_flags, ExitFlag::IsDoor)) {
                 bug("Load_resets: 'D': exit {} not door.", pReset->arg2);
                 exit(1);
             }
-
+            auto &exit = room->exit[*opt_door];
             switch (pReset->arg3) {
             default: bug("Load_resets: 'D': bad 'locks': {}.", pReset->arg3);
             case 0: break;
-            case 1: set_enum_bit(pexit->rs_flags, ExitFlag::Closed); break;
+            case 1: set_enum_bit(exit->rs_flags, ExitFlag::Closed); break;
             case 2: {
-                set_enum_bit(pexit->rs_flags, ExitFlag::Closed);
-                set_enum_bit(pexit->rs_flags, ExitFlag::Locked);
+                set_enum_bit(exit->rs_flags, ExitFlag::Closed);
+                set_enum_bit(exit->rs_flags, ExitFlag::Locked);
                 break;
             }
             }
@@ -545,49 +543,45 @@ void load_rooms(FILE *fp) {
                 break;
 
             if (letter == 'D') {
-                Exit *pexit;
+                Exit exit;
                 int locks;
-
                 auto opt_door = try_cast_direction(fread_number(fp));
                 if (!opt_door) {
                     bug("load_rooms: vnum {} has bad door number.", vnum);
-                    exit(1);
+                    ::exit(1);
                 }
 
-                pexit = static_cast<Exit *>(alloc_perm(sizeof(*pexit)));
-                pexit->description = fread_string(fp);
-                pexit->keyword = fread_string(fp);
-                pexit->exit_info = 0;
+                exit.description = fread_string(fp);
+                exit.keyword = fread_string(fp);
+                exit.exit_info = 0;
                 locks = fread_number(fp);
-                pexit->key = fread_number(fp);
+                exit.key = fread_number(fp);
                 auto exit_vnum = fread_number(fp);
                 /* If an exit's destination room vnum is negative, it can be a cosmetic-only
                  * exit (-1), otherwise it's a one-way exit.
                  * fix_exits() ignores one-way exits that don't have a return path.
                  */
                 if (exit_vnum < EXIT_VNUM_COSMETIC) {
-                    pexit->is_one_way = true;
+                    exit.is_one_way = true;
                     exit_vnum = -exit_vnum;
                 }
-                pexit->u1.vnum = exit_vnum;
-
-                pexit->rs_flags = 0;
+                exit.u1.vnum = exit_vnum;
+                exit.rs_flags = 0;
 
                 switch (locks) {
 
                     /* the following statements assign rs_flags, replacing
                             exit_info which is what used to get set. */
-                case 1: pexit->rs_flags = to_int(ExitFlag::IsDoor); break;
-                case 2: pexit->rs_flags = to_int(ExitFlag::IsDoor) | to_int(ExitFlag::PickProof); break;
-                case 3: pexit->rs_flags = to_int(ExitFlag::IsDoor) | to_int(ExitFlag::PassProof); break;
+                case 1: exit.rs_flags = to_int(ExitFlag::IsDoor); break;
+                case 2: exit.rs_flags = to_int(ExitFlag::IsDoor) | to_int(ExitFlag::PickProof); break;
+                case 3: exit.rs_flags = to_int(ExitFlag::IsDoor) | to_int(ExitFlag::PassProof); break;
                 case 4:
-                    pexit->rs_flags =
+                    exit.rs_flags =
                         to_int(ExitFlag::IsDoor) | to_int(ExitFlag::PassProof) | to_int(ExitFlag::PickProof);
                     break;
                 }
 
-                room.exit[*opt_door] = pexit;
-                top_exit++;
+                room.exit[*opt_door] = std::move(exit);
             } else if (letter == 'E') {
                 auto keyword = fread_stdstring(fp);
                 auto description = fread_stdstring(fp);
@@ -912,18 +906,16 @@ void fix_exits() {
     const auto mutable_rooms = []() {
         return rooms | ranges::views::transform([](auto &p) -> Room & { return p.second; });
     };
-    Room *to_room;
-    Exit *pexit;
-    Exit *pexit_rev;
     for (auto &room : mutable_rooms()) {
         bool fexit = false;
         for (auto door : all_directions) {
-            if ((pexit = room.exit[door]) != nullptr) {
-                if (pexit->u1.vnum <= 0 || get_room(pexit->u1.vnum) == nullptr)
-                    pexit->u1.to_room = nullptr;
+            if (auto &exit = room.exit[door]; exit) {
+                if (exit->u1.vnum <= 0 || get_room(exit->u1.vnum) == nullptr)
+                    exit->u1.to_room = nullptr;
                 else {
                     fexit = true;
-                    pexit->u1.to_room = get_room(pexit->u1.vnum);
+                    auto to_room = get_room(exit->u1.vnum);
+                    exit->u1.to_room = to_room;
                 }
             }
         }
@@ -932,12 +924,16 @@ void fix_exits() {
     }
     for (auto &room : mutable_rooms()) {
         for (auto door : all_directions) {
-            if ((pexit = room.exit[door]) != nullptr && (to_room = pexit->u1.to_room) != nullptr
-                && (pexit_rev = to_room->exit[reverse(door)]) != nullptr && pexit_rev->u1.to_room->vnum != room.vnum
-                && !pexit->is_one_way) {
-                bug("Fix_exits: {} -> {}:{} -> {}.", room.vnum, static_cast<int>(door), to_room->vnum,
-                    static_cast<int>(reverse(door)),
-                    (pexit_rev->u1.to_room == nullptr) ? 0 : pexit_rev->u1.to_room->vnum);
+            auto &exit = room.exit[door];
+            if (!exit)
+                continue;
+            if (Room *to_room = exit->u1.to_room) {
+                if (auto &exit_rev = to_room->exit[reverse(door)];
+                    exit_rev && exit_rev->u1.to_room->vnum != room.vnum && !exit->is_one_way) {
+                    bug("Fix_exits: {} -> {}:{} -> {}.", room.vnum, static_cast<int>(door), to_room->vnum,
+                        static_cast<int>(reverse(door)),
+                        (exit_rev->u1.to_room == nullptr) ? 0 : exit_rev->u1.to_room->vnum);
+                }
             }
         }
     }
@@ -959,12 +955,12 @@ void reset_room(Room *room) {
         return;
 
     for (auto exit_dir : all_directions) {
-        Exit *exit;
-        if ((exit = room->exit[exit_dir])) {
+        if (auto &exit = room->exit[exit_dir]; exit) {
             exit->exit_info = exit->rs_flags;
-            if ((exit->u1.to_room != nullptr) && ((exit = exit->u1.to_room->exit[reverse(exit_dir)]))) {
-                /* nail the other side */
-                exit->exit_info = exit->rs_flags;
+            if (exit->u1.to_room) {
+                if (auto &exit_rev = exit->u1.to_room->exit[reverse(exit_dir)]; exit_rev) {
+                    exit_rev->exit_info = exit_rev->rs_flags;
+                }
             }
         }
     }
@@ -1984,7 +1980,6 @@ void do_areas(Char *ch, ArgParser args) {
 void do_memory(Char *ch) {
     ch->send_line("Affects {:5}", top_obj_affect);
     ch->send_line("Areas   {:5}", AreaList::singleton().count());
-    ch->send_line("Exits   {:5}", top_exit);
     ch->send_line("Helps   {:5}", HelpList::singleton().count());
     ch->send_line("Socials {:5}", social_count);
     ch->send_line("Mobs    {:5}", mob_indexes.size());
@@ -2003,7 +1998,6 @@ void do_dump(Char *ch) {
     PcData *pc;
     ObjectIndex *objIndex;
     Room *room;
-    Exit *exit;
     Descriptor *d;
     AFFECT_DATA *af;
     FILE *fp = fopen("mem.dmp", "w");
@@ -2058,9 +2052,6 @@ void do_dump(Char *ch) {
 
     /* rooms */
     fprintf(fp, "Rooms	%4lu (%8ld bytes)\n", rooms.size(), rooms.size() * (sizeof(*room)));
-
-    /* exits */
-    fprintf(fp, "Exits	%4d (%8ld bytes)\n", top_exit, top_exit * (sizeof(*exit)));
 
     fclose(fp);
 

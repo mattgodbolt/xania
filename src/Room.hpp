@@ -7,6 +7,7 @@
 
 #include "Constants.hpp"
 #include "Direction.hpp"
+#include "Exit.hpp"
 #include "ExtraDescription.hpp"
 #include "Flag.hpp"
 #include "GenericList.hpp"
@@ -19,7 +20,6 @@
 
 struct Object;
 struct Area;
-struct Exit;
 struct Flag;
 struct ResetData;
 
@@ -31,7 +31,7 @@ struct Room {
     GenericList<Object *> contents;
     std::vector<ExtraDescription> extra_descr{};
     Area *area{};
-    PerDirection<Exit *> exit{};
+    PerDirection<std::optional<Exit>> exit{};
     char *name{};
     char *description{};
     sh_int vnum{};

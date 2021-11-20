@@ -2244,10 +2244,10 @@ void do_hailcorpse(Char *ch) {
     }
     /* if not here then check all the rooms adjacent to this one */
     for (auto direction : all_directions) {
-        auto *pexit = ch->in_room->exit[direction];
-        if (!pexit)
+        const auto &exit = ch->in_room->exit[direction];
+        if (!exit)
             continue;
-        auto adjacent_room = pexit->u1.to_room;
+        auto adjacent_room = exit->u1.to_room;
         if (!adjacent_room || !can_see_room(ch, adjacent_room))
             continue;
 

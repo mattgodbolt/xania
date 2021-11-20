@@ -131,11 +131,9 @@ void do_mpasound(Char *ch, const char *argument) {
 
     was_in_room = ch->in_room;
     for (auto door : all_directions) {
-        Exit *pexit;
-
-        if ((pexit = was_in_room->exit[door]) != nullptr && pexit->u1.to_room != nullptr
-            && pexit->u1.to_room != was_in_room) {
-            ch->in_room = pexit->u1.to_room;
+        if (const auto &exit = was_in_room->exit[door];
+            exit && exit->u1.to_room != nullptr && exit->u1.to_room != was_in_room) {
+            ch->in_room = exit->u1.to_room;
             MOBtrigger = false;
             act(argument, ch);
         }

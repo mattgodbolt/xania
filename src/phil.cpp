@@ -163,7 +163,6 @@ bool spec_phil(Char *ch) {
     Room *room;
     Char *follow = nullptr;
     Direction takeExit = Direction::North;
-    Exit *exitData;
     int interest = 0;
 
     /* Check fighting state */
@@ -188,10 +187,10 @@ bool spec_phil(Char *ch) {
     /* Check for known people in this, and neighbouring, rooms */
     room = ch->in_room;
     findInterestingChar(room, &follow, &interest);
-    for (auto exit : all_directions) {
-        if ((exitData = room->exit[exit]) != nullptr)
-            if (findInterestingChar(exitData->u1.to_room, &follow, &interest))
-                takeExit = exit;
+    for (auto direction : all_directions) {
+        if (const auto &exit = room->exit[direction])
+            if (findInterestingChar(exit->u1.to_room, &follow, &interest))
+                takeExit = direction;
     }
     if (follow != nullptr && (follow->in_room != room) && (ch->is_pos_standing())) {
         move_char(ch, takeExit);

@@ -1321,9 +1321,9 @@ void death_cry(Char *ch) {
 
     was_in_room = ch->in_room;
     for (auto door : all_directions) {
-        if (auto *pexit = was_in_room->exit[door];
-            pexit && pexit->u1.to_room != nullptr && pexit->u1.to_room != was_in_room) {
-            ch->in_room = pexit->u1.to_room;
+        if (const auto &exit = was_in_room->exit[door];
+            exit && exit->u1.to_room != nullptr && exit->u1.to_room != was_in_room) {
+            ch->in_room = exit->u1.to_room;
             act(msg, ch);
         }
     }
@@ -2282,11 +2282,10 @@ void do_flee(Char *ch) {
 
     was_in = ch->in_room;
     for (attempt = 0; attempt < 6; attempt++) {
-        Exit *pexit;
         auto door = random_direction();
-        if ((pexit = was_in->exit[door]) == nullptr || pexit->u1.to_room == nullptr
-            || check_enum_bit(pexit->exit_info, ExitFlag::Closed)
-            || (ch->is_npc() && check_enum_bit(pexit->u1.to_room->room_flags, RoomFlag::NoMob)))
+        const auto &exit = was_in->exit[door];
+        if (!exit || exit->u1.to_room == nullptr || check_enum_bit(exit->exit_info, ExitFlag::Closed)
+            || (ch->is_npc() && check_enum_bit(exit->u1.to_room->room_flags, RoomFlag::NoMob)))
             continue;
 
         move_char(ch, door);

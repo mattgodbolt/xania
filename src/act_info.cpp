@@ -837,22 +837,22 @@ bool handled_as_look_at_object(Char &ch, std::string_view first_arg) {
 }
 
 void look_direction(const Char &ch, Direction door) {
-    const auto *pexit = ch.in_room->exit[door];
-    if (!pexit) {
+    const auto &exit = ch.in_room->exit[door];
+    if (!exit) {
         ch.send_line("Nothing special there.");
         return;
     }
 
-    if (pexit->description && pexit->description[0] != '\0')
-        ch.send_to(pexit->description);
+    if (exit->description && exit->description[0] != '\0')
+        ch.send_to(exit->description);
     else
         ch.send_line("Nothing special there.");
 
-    if (pexit->keyword && pexit->keyword[0] != '\0' && pexit->keyword[0] != ' ') {
-        if (check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
-            act("The $d is closed.", &ch, nullptr, pexit->keyword, To::Char);
-        } else if (check_enum_bit(pexit->exit_info, ExitFlag::IsDoor)) {
-            act("The $d is open.", &ch, nullptr, pexit->keyword, To::Char);
+    if (exit->keyword && exit->keyword[0] != '\0' && exit->keyword[0] != ' ') {
+        if (check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
+            act("The $d is closed.", &ch, nullptr, exit->keyword, To::Char);
+        } else if (check_enum_bit(exit->exit_info, ExitFlag::IsDoor)) {
+            act("The $d is open.", &ch, nullptr, exit->keyword, To::Char);
         }
     }
 }
@@ -978,15 +978,15 @@ void do_exits(const Char *ch, const char *argument) {
 
     auto found = false;
     for (auto door : all_directions) {
-        if (auto *pexit = ch->in_room->exit[door]; pexit && pexit->u1.to_room && can_see_room(ch, pexit->u1.to_room)
-                                                   && !check_enum_bit(pexit->exit_info, ExitFlag::Closed)) {
+        if (const auto &exit = ch->in_room->exit[door]; exit && exit->u1.to_room && can_see_room(ch, exit->u1.to_room)
+                                                        && !check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             found = true;
             if (fAuto) {
                 buf += fmt::format(" {}", to_string(door));
             } else {
                 buf += fmt::format("{:<5} - {}\n\r", initial_caps_only(to_string(door)),
-                                   !ch->has_holylight() && room_is_dark(pexit->u1.to_room) ? "Too dark to tell"
-                                                                                           : pexit->u1.to_room->name);
+                                   !ch->has_holylight() && room_is_dark(exit->u1.to_room) ? "Too dark to tell"
+                                                                                          : exit->u1.to_room->name);
             }
         }
     }
@@ -1767,7 +1767,6 @@ void do_password(Char *ch, const char *argument) {
 
 void do_scan(Char *ch) {
     Room *current_place;
-    Exit *pexit;
     int count_num_rooms;
     int num_rooms_scan = std::max(1, ch->level / 10);
     bool found_anything = false;
@@ -1778,21 +1777,19 @@ void do_scan(Char *ch) {
 
     for (auto direction : all_directions) {
         /* No exits in that direction */
-
         current_place = ch->in_room;
-
         /* Loop for the distance see-able */
-
         for (count_num_rooms = 0; count_num_rooms < num_rooms_scan; count_num_rooms++) {
-
-            if ((pexit = current_place->exit[direction]) == nullptr || (current_place = pexit->u1.to_room) == nullptr
-                || !can_see_room(ch, pexit->u1.to_room) || check_enum_bit(pexit->exit_info, ExitFlag::Closed))
+            const auto &exit = current_place->exit[direction];
+            if (!exit)
+                break;
+            if (current_place = exit->u1.to_room; !current_place || !can_see_room(ch, exit->u1.to_room)
+                                                  || check_enum_bit(exit->exit_info, ExitFlag::Closed))
                 break;
             // Eliminate cycles in labyrinthine areas.
-            if (std::find(found_rooms.begin(), found_rooms.end(), pexit->u1.to_room->vnum) != found_rooms.end()) {
+            if (std::find(found_rooms.begin(), found_rooms.end(), exit->u1.to_room->vnum) != found_rooms.end())
                 break;
-            }
-            found_rooms.push_back(pexit->u1.to_room->vnum);
+            found_rooms.push_back(exit->u1.to_room->vnum);
 
             /* This loop goes through each character in a room and says
                         whether or not they are visible */
