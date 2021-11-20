@@ -11,6 +11,7 @@
 #include "ExtraDescription.hpp"
 #include "Flag.hpp"
 #include "GenericList.hpp"
+#include "ResetData.hpp"
 #include "RoomFlag.hpp"
 #include "SectorType.hpp"
 #include "Types.hpp"
@@ -21,7 +22,6 @@
 struct Object;
 struct Area;
 struct Flag;
-struct ResetData;
 
 /*
  * Room type.
@@ -39,8 +39,7 @@ struct Room {
     sh_int light{};
     SectorType sector_type{SectorType::Inside};
 
-    ResetData *reset_first{};
-    ResetData *reset_last{};
+    std::vector<ResetData> resets{};
 
     [[nodiscard]] bool is_outside() const;
     [[nodiscard]] bool is_inside() const;

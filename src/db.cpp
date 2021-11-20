@@ -78,7 +78,6 @@ char *string_hash[MAX_KEY_HASH];
 char *string_space;
 char *top_string;
 
-int top_reset;
 int top_shop;
 // Index number of the latest affect on an object.
 int top_obj_affect;
@@ -210,7 +209,6 @@ void load_mobiles(FILE *fp);
 void load_objects(FILE *fp);
 
 void load_resets(FILE *fp);
-void new_reset(Room *, ResetData *);
 
 void load_rooms(FILE *fp);
 
@@ -371,31 +369,7 @@ void load_helps(FILE *fp) {
         HelpList::singleton().add(std::move(*help));
 }
 
-/*
- * Adds a reset to a room.
- */
-void new_reset(Room *room, ResetData *reset) {
-    ResetData *last_reset;
-
-    if (!room) {
-        return;
-    }
-    last_reset = room->reset_last;
-
-    if (!last_reset) {
-        room->reset_first = reset;
-        room->reset_last = reset;
-    } else {
-        room->reset_last->next = reset;
-        room->reset_last = reset;
-        room->reset_last->next = nullptr;
-    }
-
-    top_reset++;
-}
-
 void load_resets(FILE *fp) {
-    ResetData *pReset;
     Room *room;
     int iLastRoom = 0;
     int iLastObj = 0;
@@ -407,7 +381,6 @@ void load_resets(FILE *fp) {
     }
 
     for (;;) {
-
         char letter;
         if ((letter = fread_letter(fp)) == ResetEndSection)
             break;
@@ -417,21 +390,14 @@ void load_resets(FILE *fp) {
             continue;
         }
 
-        pReset = static_cast<ResetData *>(alloc_perm(sizeof(*pReset)));
-        pReset->command = letter;
+        const auto command = letter;
         /* if_flag */ fread_number(fp);
-        pReset->arg1 = fread_number(fp);
-
-        pReset->arg2 = fread_number(fp);
-
-        pReset->arg3 = (letter == ResetGiveObjMob || letter == ResetRandomizeExits) ? 0 : fread_number(fp);
-
-        if (letter == ResetPutObjInObj || letter == ResetMobInRoom) {
-            pReset->arg4 = fread_number(fp);
-        } else
-            pReset->arg4 = 0;
-
+        const sh_int arg1 = fread_number(fp);
+        const sh_int arg2 = fread_number(fp);
+        const sh_int arg3 = (letter == ResetGiveObjMob || letter == ResetRandomizeExits) ? 0 : fread_number(fp);
+        const sh_int arg4 = (letter == ResetPutObjInObj || letter == ResetMobInRoom) ? fread_number(fp) : 0;
         fread_to_eol(fp);
+        const auto reset = ResetData{command, arg1, arg2, arg3, arg4};
 
         /* Don't validate now, do it after all area's have been loaded */
         /* Stuff to add reset to the correct room */
@@ -441,40 +407,40 @@ void load_resets(FILE *fp) {
             exit(1);
             break;
         case ResetMobInRoom:
-            if ((room = get_room(pReset->arg3))) {
-                new_reset(room, pReset);
-                iLastRoom = pReset->arg3;
+            if ((room = get_room(reset.arg3))) {
+                room->resets.push_back(reset);
+                iLastRoom = reset.arg3;
             }
             break;
         case ResetObjInRoom:
-            if ((room = get_room(pReset->arg3))) {
-                new_reset(room, pReset);
-                iLastObj = pReset->arg3;
+            if ((room = get_room(reset.arg3))) {
+                room->resets.push_back(reset);
+                iLastObj = reset.arg3;
             }
             break;
         case ResetPutObjInObj:
             if ((room = get_room(iLastObj)))
-                new_reset(room, pReset);
+                room->resets.push_back(reset);
             break;
         case ResetGiveObjMob:
         case ResetEquipObjMob:
             if ((room = get_room(iLastRoom))) {
-                new_reset(room, pReset);
+                room->resets.push_back(reset);
                 iLastObj = iLastRoom;
             }
             break;
         case ResetExitFlags: {
-            room = get_room(pReset->arg1);
-            auto opt_door = try_cast_direction(pReset->arg2);
+            room = get_room(reset.arg1);
+            auto opt_door = try_cast_direction(reset.arg2);
 
             if (!opt_door || !room || !room->exit[*opt_door]
                 || !check_enum_bit(room->exit[*opt_door]->rs_flags, ExitFlag::IsDoor)) {
-                bug("Load_resets: 'D': exit {} not door.", pReset->arg2);
+                bug("Load_resets: 'D': exit {} not door.", reset.arg2);
                 exit(1);
             }
             auto &exit = room->exit[*opt_door];
-            switch (pReset->arg3) {
-            default: bug("Load_resets: 'D': bad 'locks': {}.", pReset->arg3);
+            switch (reset.arg3) {
+            default: bug("Load_resets: 'D': bad 'locks': {}.", reset.arg3);
             case 0: break;
             case 1: set_enum_bit(exit->rs_flags, ExitFlag::Closed); break;
             case 2: {
@@ -486,19 +452,16 @@ void load_resets(FILE *fp) {
             break;
         }
         case ResetRandomizeExits:
-            if (pReset->arg2 < 0 || pReset->arg2 > static_cast<int>(all_directions.size())) {
-                bug("Load_resets: 'R': bad exit {}.", pReset->arg2);
+            if (reset.arg2 < 0 || reset.arg2 > static_cast<int>(all_directions.size())) {
+                bug("Load_resets: 'R': bad exit {}.", reset.arg2);
                 exit(1);
             }
 
-            if ((room = get_room(pReset->arg1)))
-                new_reset(room, pReset);
+            if ((room = get_room(reset.arg1)))
+                room->resets.push_back(reset);
 
             break;
         }
-
-        pReset->next = nullptr;
-        top_reset++;
     }
 }
 
@@ -948,7 +911,6 @@ void area_update() {
  * Reset one room.
  */
 void reset_room(Room *room) {
-    ResetData *reset;
     Char *lastMob = nullptr;
     bool lastMobWasReset = false;
     if (!room)
@@ -965,17 +927,17 @@ void reset_room(Room *room) {
         }
     }
 
-    for (reset = room->reset_first; reset != nullptr; reset = reset->next) {
-        switch (reset->command) {
-        default: bug("Reset_room: bad command {}.", reset->command); break;
+    for (const auto &reset : room->resets) {
+        switch (reset.command) {
+        default: bug("Reset_room: bad command {}.", reset.command); break;
 
         case ResetMobInRoom: {
             MobIndexData *mobIndex;
-            if (!(mobIndex = get_mob_index(reset->arg1))) {
-                bug("Reset_room: 'M': bad vnum {}.", reset->arg1);
+            if (!(mobIndex = get_mob_index(reset.arg1))) {
+                bug("Reset_room: 'M': bad vnum {}.", reset.arg1);
                 continue;
             }
-            if (mobIndex->count >= reset->arg2) {
+            if (mobIndex->count >= reset.arg2) {
                 lastMobWasReset = false;
                 continue;
             }
@@ -983,14 +945,14 @@ void reset_room(Room *room) {
             for (auto *mch : room->people) {
                 if (mch->mobIndex == mobIndex) {
                     count++;
-                    if (count >= reset->arg4) {
+                    if (count >= reset.arg4) {
                         lastMobWasReset = false;
                         break;
                     }
                 }
             }
 
-            if (count >= reset->arg4)
+            if (count >= reset.arg4)
                 continue;
 
             auto *mob = create_mobile(mobIndex);
@@ -1010,13 +972,13 @@ void reset_room(Room *room) {
         case ResetObjInRoom: {
             ObjectIndex *objIndex;
             Room *obj_room;
-            if (!(objIndex = get_obj_index(reset->arg1))) {
-                bug("Reset_room: 'O': bad vnum {}.", reset->arg1);
+            if (!(objIndex = get_obj_index(reset.arg1))) {
+                bug("Reset_room: 'O': bad vnum {}.", reset.arg1);
                 continue;
             }
 
-            if (!(obj_room = get_room(reset->arg3))) {
-                bug("Reset_room: 'O': bad vnum {}.", reset->arg3);
+            if (!(obj_room = get_room(reset.arg3))) {
+                bug("Reset_room: 'O': bad vnum {}.", reset.arg3);
                 continue;
             }
 
@@ -1035,22 +997,22 @@ void reset_room(Room *room) {
             ObjectIndex *containedObjIndex;
             ObjectIndex *containerObjIndex;
             Object *containerObj;
-            if (!(containedObjIndex = get_obj_index(reset->arg1))) {
-                bug("Reset_room: 'P': bad vnum {}.", reset->arg1);
+            if (!(containedObjIndex = get_obj_index(reset.arg1))) {
+                bug("Reset_room: 'P': bad vnum {}.", reset.arg1);
                 continue;
             }
 
-            if (!(containerObjIndex = get_obj_index(reset->arg3))) {
-                bug("Reset_room: 'P': bad vnum {}.", reset->arg3);
+            if (!(containerObjIndex = get_obj_index(reset.arg3))) {
+                bug("Reset_room: 'P': bad vnum {}.", reset.arg3);
                 continue;
             }
 
-            if (reset->arg2 > 20) /* old format reduced from 50! */
+            if (reset.arg2 > 20) /* old format reduced from 50! */
                 limit = 6;
-            else if (reset->arg2 == -1) /* no limit */
+            else if (reset.arg2 == -1) /* no limit */
                 limit = 999;
             else
-                limit = reset->arg2;
+                limit = reset.arg2;
 
             // Don't create the contained object if:
             // The area has players right now, or if the containing object doesn't exist in the world,
@@ -1058,11 +1020,11 @@ void reset_room(Room *room) {
             // or if count of contained object within the container's current room exceeds the item-in-room limit.
             if (room->area->occupied() || (containerObj = get_obj_type(containerObjIndex)) == nullptr
                 || (containedObjIndex->count >= limit && number_range(0, 4) != 0)
-                || (count = count_obj_list(containedObjIndex, containerObj->contains)) > reset->arg4) {
+                || (count = count_obj_list(containedObjIndex, containerObj->contains)) > reset.arg4) {
                 continue;
             }
 
-            while (count < reset->arg4) {
+            while (count < reset.arg4) {
                 auto object = create_object(containedObjIndex);
                 obj_to_obj(object, containerObj);
                 count++;
@@ -1081,8 +1043,8 @@ void reset_room(Room *room) {
         case ResetEquipObjMob: {
             ObjectIndex *objIndex;
             Object *object;
-            if (!(objIndex = get_obj_index(reset->arg1))) {
-                bug("Reset_room: 'E' or 'G': bad vnum {}.", reset->arg1);
+            if (!(objIndex = get_obj_index(reset.arg1))) {
+                bug("Reset_room: 'E' or 'G': bad vnum {}.", reset.arg1);
                 continue;
             }
 
@@ -1090,7 +1052,7 @@ void reset_room(Room *room) {
                 continue;
 
             if (!lastMob) {
-                bug("Reset_room: 'E' or 'G': null mob for vnum {}.", reset->arg1);
+                bug("Reset_room: 'E' or 'G': null mob for vnum {}.", reset.arg1);
                 lastMobWasReset = false;
                 continue;
             }
@@ -1099,9 +1061,9 @@ void reset_room(Room *room) {
                 object = create_object(objIndex);
                 set_enum_bit(object->extra_flags, ObjectExtraFlag::Inventory);
             } else {
-                const auto drop_rate = reset->arg2;
+                const auto drop_rate = reset.arg2;
                 if (drop_rate <= 0 || drop_rate > 100) {
-                    bug("Invalid object drop rate: {} for object #{}", drop_rate, reset->arg1);
+                    bug("Invalid object drop rate: {} for object #{}", drop_rate, reset.arg1);
                     exit(1);
                 }
                 if (number_percent() <= drop_rate) {
@@ -1111,11 +1073,11 @@ void reset_room(Room *room) {
             }
 
             obj_to_char(object, lastMob);
-            if (reset->command == ResetEquipObjMob) {
-                if (const auto opt_wear_loc = magic_enum::enum_cast<Wear>(reset->arg3)) {
+            if (reset.command == ResetEquipObjMob) {
+                if (const auto opt_wear_loc = magic_enum::enum_cast<Wear>(reset.arg3)) {
                     equip_char(lastMob, object, *opt_wear_loc);
                 } else {
-                    bug("Invalid wear location: {} for object #{}", reset->arg3, reset->arg1);
+                    bug("Invalid wear location: {} for object #{}", reset.arg3, reset.arg1);
                 }
             }
             lastMobWasReset = true;
@@ -1126,14 +1088,14 @@ void reset_room(Room *room) {
 
         case ResetRandomizeExits: {
             Room *exit_room;
-            if (!(exit_room = get_room(reset->arg1))) {
-                bug("Reset_room: 'R': bad vnum {}.", reset->arg1);
+            if (!(exit_room = get_room(reset.arg1))) {
+                bug("Reset_room: 'R': bad vnum {}.", reset.arg1);
                 continue;
             }
 
-            for (int d0 = 0; d0 < reset->arg2 - 1; d0++) {
+            for (int d0 = 0; d0 < reset.arg2 - 1; d0++) {
                 auto door0 = try_cast_direction(d0).value();
-                auto door1 = try_cast_direction(number_range(d0, reset->arg2 - 1)).value();
+                auto door1 = try_cast_direction(number_range(d0, reset.arg2 - 1)).value();
                 std::swap(exit_room->exit[door0], exit_room->exit[door1]);
             }
             break;
@@ -1985,7 +1947,6 @@ void do_memory(Char *ch) {
     ch->send_line("Mobs    {:5}", mob_indexes.size());
     ch->send_line("Chars   {:5}", Char::num_active());
     ch->send_line("Objs    {:5}", object_indexes.size());
-    ch->send_line("Resets  {:5}", top_reset);
     ch->send_line("Rooms   {:5}", rooms.size());
     ch->send_line("Shops   {:5}", top_shop);
     ch->send_line("Strings {:5} strings of {:7} bytes (max {:7}).", nAllocString, sAllocString, MaxString);
