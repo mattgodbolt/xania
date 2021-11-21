@@ -42,6 +42,7 @@
 #include "Weapon.hpp"
 #include "Wear.hpp"
 #include "WeatherData.hpp"
+#include "WrappedFd.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
 #include "handler.hpp"
@@ -179,9 +180,8 @@ sh_int gsn_bless;
  */
 
 MobProgTypeFlag mprog_name_to_type(const char *name);
-MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *mobIndex);
+bool mprog_file_read(std::string_view file_name, MobIndexData *mobIndex);
 void load_mobprogs(FILE *fp);
-void mprog_read_programs(FILE *fp, MobIndexData *mobIndex);
 
 void *rgFreeList[MaxMemList];
 const int rgSizeList[MaxMemList] = {
@@ -2172,83 +2172,65 @@ MobProgTypeFlag mprog_name_to_type(const char *name) {
     return MobProgTypeFlag::Error;
 }
 
-/* This routine reads in scripts of MOBprograms from a file */
-MPROG_DATA *mprog_file_read(char *file_name, MPROG_DATA *mprg, MobIndexData *mobIndex) {
-    MPROG_DATA *mprg2;
-    FILE *progfile;
-    char letter;
+std::optional<MobProg> try_load_one_mob_prog(std::string_view file_name, FILE *prog_file) {
+
+    const auto prog_type = mprog_name_to_type(fread_word(prog_file));
+    if (prog_type == MobProgTypeFlag::Error) {
+        bug("mobprog {} type error {}", file_name, prog_type);
+        return std::nullopt;
+    }
+    if (prog_type == MobProgTypeFlag::InFile) {
+        bug("mobprog {} contains a call to file which is not supported yet.", file_name);
+        return std::nullopt;
+    }
+    // TODO convert these to std::string
+    const auto *prog_args = fread_string(prog_file);
+    const auto *prog_commands = fread_string(prog_file);
+    const auto prog = MobProg{prog_type, prog_args, prog_commands};
+    return prog;
+}
+
+bool mprog_file_read(std::string_view file_name, FILE *prog_file, MobIndexData *mobIndex) {
     bool done = false;
-    std::string file_path = Configuration::singleton().area_dir() + file_name;
-    progfile = fopen(file_path.c_str(), "r");
-    if (!progfile) {
-        bug("Mob:{} couldnt open mobprog file {}", mobIndex->vnum, file_path);
-        exit(1);
-    }
-    mprg2 = mprg;
-    switch (letter = fread_letter(progfile)) {
-    case '>': break;
-    case '|':
-        bug("empty mobprog file.");
-        exit(1);
-        break;
-    default:
-        bug("in mobprog file syntax error.");
-        exit(1);
-        break;
-    }
     while (!done) {
-        mprg2->type = mprog_name_to_type(fread_word(progfile));
-        switch (mprg2->type) {
-        case MobProgTypeFlag::Error:
-            bug("mobprog file type error");
-            exit(1);
-            break;
-        case MobProgTypeFlag::InFile:
-            bug("mprog file contains a call to file.");
-            exit(1);
-            break;
-        default:
-            set_enum_bit(mobIndex->progtypes, mprg2->type);
-            mprg2->arglist = fread_string(progfile);
-            mprg2->comlist = fread_string(progfile);
-            switch (letter = fread_letter(progfile)) {
-            case '>':
-                mprg2->next = (MPROG_DATA *)alloc_perm(sizeof(MPROG_DATA));
-                mprg2 = mprg2->next;
-                mprg2->next = nullptr;
-                break;
-            case '|': done = true; break;
-            default:
-                bug("in mobprog file syntax error.");
-                exit(1);
-                break;
+        switch (fread_letter(prog_file)) {
+        case '>': {
+            if (const auto opt_mob_prog = try_load_one_mob_prog(file_name, prog_file)) {
+                set_enum_bit(mobIndex->progtypes, opt_mob_prog->type);
+                mobIndex->mobprogs.push_back(*opt_mob_prog);
+            } else {
+                return false;
             }
             break;
         }
+        case '|':
+            if (mobIndex->mobprogs.empty()) {
+                bug("mobprog {} empty file.", file_name);
+                return false;
+            } else {
+                done = true;
+            }
+            break;
+        default: bug("mobprog {} syntax error.", file_name); return false;
+        }
     }
-    fclose(progfile);
-    return mprg2;
+    return true;
 }
 
 /* Snarf a MOBprogram section from the area file.
  */
 void load_mobprogs(FILE *fp) {
     char letter;
-    MobIndexData *iMob;
-    int value;
-    MPROG_DATA *original;
-    MPROG_DATA *working;
-
     auto area_last = AreaList::singleton().back();
     if (area_last == nullptr) {
-        bug("Load_mobprogs: no #AREA seen yet!");
+        bug("load_mobprogs: no #AREA seen yet!");
         exit(1);
     }
 
     for (;;) {
         switch (letter = fread_letter(fp)) {
         default:
-            bug("Load_mobprogs: bad command '{}'.", letter);
+            bug("load_mobprogs: bad command '{}'.", letter);
             exit(1);
             break;
         case 'S':
@@ -2256,91 +2238,24 @@ void load_mobprogs(FILE *fp) {
         case '*': fread_to_eol(fp); break;
         case 'M':
         case 'm':
-            value = fread_number(fp);
-            if ((iMob = get_mob_index(value)) == nullptr) {
-                bug("Load_mobprogs: vnum {} doesnt exist", value);
+            const auto vnum = fread_number(fp);
+            if (auto *mob = get_mob_index(vnum)) {
+                std::string_view file_name = fread_word(fp);
+                std::string file_path = fmt::format("{}{}", Configuration::singleton().area_dir(), file_name);
+                if (auto prog_file = WrappedFd::open(file_path)) {
+                    if (!mprog_file_read(file_name, prog_file, mob)) {
+                        exit(1);
+                    }
+                    fread_to_eol(fp);
+                    break;
+                } else {
+                    bug("Mob: {} couldnt open mobprog file {}.", mob->vnum, file_path);
+                    exit(1);
+                }
+            } else {
+                bug("load_mobprogs: vnum {} doesnt exist", vnum);
                 exit(1);
             }
-
-            original = iMob->mobprogs;
-            if (original != nullptr)
-                for (; original->next != nullptr; original = original->next)
-                    ;
-            working = (MPROG_DATA *)alloc_perm(sizeof(MPROG_DATA));
-            if (original)
-                original->next = working;
-            else
-                iMob->mobprogs = working;
-            working = mprog_file_read(fread_word(fp), working, iMob);
-            working->next = nullptr;
-            fread_to_eol(fp);
-            break;
-        }
-    }
-}
-
-/* This procedure is responsible for reading any in_file MOBprograms.
- */
-void mprog_read_programs(FILE *fp, MobIndexData *mobIndex) {
-    MPROG_DATA *mprg;
-    bool done = false;
-    char letter;
-    if ((letter = fread_letter(fp)) != '>') {
-        bug("Load_mobiles: vnum {} MOBPROG char", mobIndex->vnum);
-        exit(1);
-    }
-    mobIndex->mobprogs = (MPROG_DATA *)alloc_perm(sizeof(MPROG_DATA));
-    mprg = mobIndex->mobprogs;
-    while (!done) {
-        mprg->type = mprog_name_to_type(fread_word(fp));
-        switch (mprg->type) {
-        case MobProgTypeFlag::Error:
-            bug("Load_mobiles: vnum {} MOBPROG type.", mobIndex->vnum);
-            exit(1);
-            break;
-        case MobProgTypeFlag::InFile:
-            mprg = mprog_file_read(fread_string(fp), mprg, mobIndex);
-            fread_to_eol(fp);
-            switch (letter = fread_letter(fp)) {
-            case '>':
-                mprg->next = (MPROG_DATA *)alloc_perm(sizeof(MPROG_DATA));
-                mprg = mprg->next;
-                mprg->next = nullptr;
-                break;
-            case '|':
-                mprg->next = nullptr;
-                fread_to_eol(fp);
-                done = true;
-                break;
-            default:
-                bug("Load_mobiles: vnum {} bad MOBPROG.", mobIndex->vnum);
-                exit(1);
-                break;
-            }
-            break;
-        default:
-            set_enum_bit(mobIndex->progtypes, mprg->type);
-            mprg->arglist = fread_string(fp);
-            fread_to_eol(fp);
-            mprg->comlist = fread_string(fp);
-            fread_to_eol(fp);
-            switch (letter = fread_letter(fp)) {
-            case '>':
-                mprg->next = (MPROG_DATA *)alloc_perm(sizeof(MPROG_DATA));
-                mprg = mprg->next;
-                mprg->next = nullptr;
-                break;
-            case '|':
-                mprg->next = nullptr;
-                fread_to_eol(fp);
-                done = true;
-                break;
-            default:
-                bug("Load_mobiles: vnum {} bad MOBPROG.", mobIndex->vnum);
-                exit(1);
-                break;
-            }
-            break;
         }
     }
 }

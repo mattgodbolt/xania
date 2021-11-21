@@ -7,14 +7,15 @@
 #include "Sex.hpp"
 #include "Shop.hpp"
 #include "Types.hpp"
+#include "mob_prog.hpp"
 
 #include <array>
 
 #include <magic_enum.hpp>
 #include <optional>
 #include <string>
+#include <vector>
 
-struct MPROG_DATA;
 enum class BodySize;
 
 // Prototype for a mob.
@@ -53,7 +54,7 @@ struct MobIndexData {
     unsigned long parts{};
     BodySize body_size{};
     Material::Type material{}; // TODO: is this actually used in any meaningful way?
-    MPROG_DATA *mobprogs{}; /* Used by MOBprogram */
+    std::vector<MobProg> mobprogs{};
     int progtypes{}; /* Used by MOBprogram */
 
     static std::optional<MobIndexData> from_file(FILE *fp);

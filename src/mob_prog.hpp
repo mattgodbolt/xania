@@ -38,12 +38,11 @@ struct MPROG_ACT_LIST {
     const void *vo;
 };
 
-struct MPROG_DATA {
-    MPROG_DATA *next;
-    Area *area;
-    MobProgTypeFlag type;
-    char *arglist;
-    char *comlist;
+struct MobProg {
+    const MobProgTypeFlag type;
+    // TODO convert to std::string
+    const char *arglist;
+    const char *comlist;
 };
 
 extern bool MOBtrigger;

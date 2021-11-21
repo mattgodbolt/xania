@@ -121,11 +121,4 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
             break;
         }
     }
-
-    auto letter = fread_letter(fp);
-    if (letter == '>') {
-        ungetc(letter, fp);
-        mprog_read_programs(fp, this);
-    } else
-        ungetc(letter, fp);
 }

@@ -95,4 +95,3 @@ inline auto all_mob_indexes() {
     return all_mob_index_pairs()
            | ranges::views::transform([](const auto &p) -> const MobIndexData & { return p.second; });
 }
-void mprog_read_programs(FILE *fp, MobIndexData *mobIndex);

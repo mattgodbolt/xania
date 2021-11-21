@@ -74,7 +74,6 @@ const char *mprog_type_to_name(const MobProgTypeFlag type) {
  */
 
 void do_mpstat(Char *ch, ArgParser args) {
-    MPROG_DATA *mprg;
     Char *victim;
     const auto arg = args.shift();
     if (arg.empty()) {
@@ -108,8 +107,8 @@ void do_mpstat(Char *ch, ArgParser args) {
     ch->send_line("Lv: {}.  Class: {}.  Align: {}.   Gold: {}.  Exp: {}.", victim->level, victim->class_num,
                   victim->alignment, victim->gold, victim->exp);
 
-    for (mprg = victim->mobIndex->mobprogs; mprg != nullptr; mprg = mprg->next) {
-        ch->send_line(">{} {}\n\r{}", mprog_type_to_name(mprg->type), mprg->arglist, mprg->comlist);
+    for (const auto &mprg : victim->mobIndex->mobprogs) {
+        ch->send_line(">{} {}\n\r{}", mprog_type_to_name(mprg.type), mprg.arglist, mprg.comlist);
     }
 }
 
