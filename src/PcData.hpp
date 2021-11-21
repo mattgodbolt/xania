@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Constants.hpp"
+#include "PcCustomization.hpp"
 #include "PcNutrition.hpp"
 #include "Pronouns.hpp"
 #include "Sex.hpp"
@@ -39,4 +40,6 @@ struct PcData {
     bool colour{};
     std::optional<PcClan> pcclan;
     Pronouns pronouns;
+    // Populated when a new player character is being created.
+    std::optional<PcCustomization> customization{};
 };

@@ -7,10 +7,12 @@
 
 #include "Constants.hpp"
 
-/* Data for generating characters -- only used during generation */
-struct CharGeneration {
-    CharGeneration *next{};
-    bool skill_chosen[MAX_SKILL];
-    bool group_chosen[MAX_GROUP];
+#include <array>
+
+// Data for customizing player characters, only when a new player is
+// being created and they choose to customize rather than accepting the defaults.
+struct PcCustomization {
+    std::array<bool, MAX_SKILL> skill_chosen{};
+    std::array<bool, MAX_GROUP> group_chosen{};
     int points_chosen{};
 };

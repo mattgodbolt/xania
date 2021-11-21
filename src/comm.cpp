@@ -16,7 +16,6 @@
 #include "Area.hpp"
 #include "Ban.hpp"
 #include "Char.hpp"
-#include "CharGeneration.hpp"
 #include "Classes.hpp"
 #include "CommFlag.hpp"
 #include "Descriptor.hpp"
@@ -26,6 +25,7 @@
 #include "MobIndexData.hpp"
 #include "Note.hpp"
 #include "Object.hpp"
+#include "PcCustomization.hpp"
 #include "PlayerActFlag.hpp"
 #include "Pronouns.hpp"
 #include "Races.hpp"
@@ -915,8 +915,8 @@ void nanny(Descriptor *d, const char *argument) {
         switch (argument[0]) {
         case 'y':
         case 'Y':
-            ch->generation = (CharGeneration *)alloc_perm(sizeof(*ch->generation));
-            ch->generation->points_chosen = ch->pcdata->points;
+            ch->pcdata->customization = PcCustomization{};
+            ch->pcdata->customization->points_chosen = ch->pcdata->points;
             do_help(ch, "group header");
             list_available_group_costs(ch);
             ch->send_line("You already have the following skills:");
@@ -940,7 +940,7 @@ void nanny(Descriptor *d, const char *argument) {
         ch->send_line("");
         if (!str_cmp(argument, "done")) {
             ch->send_line("Creation points: {}", ch->pcdata->points);
-            ch->send_line("Experience per level: {}", exp_per_level(ch, ch->generation->points_chosen));
+            ch->send_line("Experience per level: {}", exp_per_level(ch, ch->pcdata->customization->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
             d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");

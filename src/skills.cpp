@@ -10,9 +10,9 @@
 #include "skills.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "CharGeneration.hpp"
 #include "Columner.hpp"
 #include "Logging.hpp"
+#include "PcCustomization.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "SkillTables.hpp"
@@ -177,7 +177,7 @@ void list_group_costs(Char *ch, const auto group_filter, const auto skill_filter
     col3.flush();
     ch->send_line("");
     ch->send_line(fmt::format("Creation points: {}", ch->pcdata->points));
-    ch->send_line(fmt::format("Experience per level: {}", exp_per_level(ch, ch->generation->points_chosen)));
+    ch->send_line(fmt::format("Experience per level: {}", exp_per_level(ch, ch->pcdata->customization->points_chosen)));
 }
 
 }
@@ -235,15 +235,16 @@ void do_skills(Char *ch) {
 // Shows skills, groups and costs in creation points if not yet learned.
 void list_available_group_costs(Char *ch) {
     list_group_costs(
-        ch, [&ch](const auto gn) { return !ch->generation->group_chosen[gn] && !ch->pcdata->group_known[gn]; },
-        [&ch](const auto sn) { return !ch->generation->skill_chosen[sn] && ch->pcdata->learned[sn] == 0; });
+        ch,
+        [&ch](const auto gn) { return !ch->pcdata->customization->group_chosen[gn] && !ch->pcdata->group_known[gn]; },
+        [&ch](const auto sn) { return !ch->pcdata->customization->skill_chosen[sn] && ch->pcdata->learned[sn] == 0; });
 }
 
 // Shows skills, groups and costs in creation points if already learned.
 void list_learned_group_costs(Char *ch) {
     list_group_costs(
-        ch, [&ch](const auto gn) { return ch->generation->group_chosen[gn]; },
-        [&ch](const auto sn) { return ch->generation->skill_chosen[sn]; });
+        ch, [&ch](const auto gn) { return ch->pcdata->customization->group_chosen[gn]; },
+        [&ch](const auto sn) { return ch->pcdata->customization->skill_chosen[sn]; });
 }
 
 unsigned int exp_per_level(const Char *ch, int points) {
@@ -310,7 +311,7 @@ bool parse_gen_groups(Char *ch, const char *argument) {
 
         gn = group_lookup(argument);
         if (gn != -1) {
-            if (ch->generation->group_chosen[gn] || ch->pcdata->group_known[gn]) {
+            if (ch->pcdata->customization->group_chosen[gn] || ch->pcdata->group_known[gn]) {
                 ch->send_line("You already know that group!");
                 return true;
             }
@@ -321,8 +322,8 @@ bool parse_gen_groups(Char *ch, const char *argument) {
             }
 
             ch->send_line(fmt::format("{} group added", group_table[gn].name));
-            ch->generation->group_chosen[gn] = true;
-            ch->generation->points_chosen += get_group_trains(ch, gn);
+            ch->pcdata->customization->group_chosen[gn] = true;
+            ch->pcdata->customization->points_chosen += get_group_trains(ch, gn);
             gn_add(ch, gn);
             if (ch->pcdata->points < 200)
                 ch->pcdata->points += get_group_trains(ch, gn);
@@ -331,7 +332,7 @@ bool parse_gen_groups(Char *ch, const char *argument) {
 
         sn = skill_lookup(argument);
         if (sn != -1) {
-            if (ch->generation->skill_chosen[sn] || ch->pcdata->learned[sn] > 0) {
+            if (ch->pcdata->customization->skill_chosen[sn] || ch->pcdata->learned[sn] > 0) {
                 ch->send_line("You already know that skill!");
                 return true;
             }
@@ -347,8 +348,8 @@ bool parse_gen_groups(Char *ch, const char *argument) {
                 return true;
             }
             ch->send_line(fmt::format("{} skill added", skill_table[sn].name));
-            ch->generation->skill_chosen[sn] = true;
-            ch->generation->points_chosen += get_skill_trains(ch, sn);
+            ch->pcdata->customization->skill_chosen[sn] = true;
+            ch->pcdata->customization->points_chosen += get_skill_trains(ch, sn);
             ch->pcdata->learned[sn] = 1;
             if (ch->pcdata->points < 200)
                 ch->pcdata->points += get_skill_trains(ch, sn);
@@ -366,13 +367,13 @@ bool parse_gen_groups(Char *ch, const char *argument) {
         }
 
         gn = group_lookup(argument);
-        if (gn != -1 && ch->generation->group_chosen[gn]) {
+        if (gn != -1 && ch->pcdata->customization->group_chosen[gn]) {
             ch->send_line("Group dropped.");
-            ch->generation->group_chosen[gn] = false;
-            ch->generation->points_chosen -= get_group_trains(ch, gn);
+            ch->pcdata->customization->group_chosen[gn] = false;
+            ch->pcdata->customization->points_chosen -= get_group_trains(ch, gn);
             gn_remove(ch, gn);
             for (i = 0; i < MAX_GROUP; i++) {
-                if (ch->generation->group_chosen[gn])
+                if (ch->pcdata->customization->group_chosen[gn])
                     gn_add(ch, gn);
             }
             ch->pcdata->points -= get_group_trains(ch, gn);
@@ -380,10 +381,10 @@ bool parse_gen_groups(Char *ch, const char *argument) {
         }
 
         sn = skill_lookup(argument);
-        if (sn != -1 && ch->generation->skill_chosen[sn]) {
+        if (sn != -1 && ch->pcdata->customization->skill_chosen[sn]) {
             ch->send_line("Skill dropped.");
-            ch->generation->skill_chosen[sn] = false;
-            ch->generation->points_chosen -= get_skill_trains(ch, sn);
+            ch->pcdata->customization->skill_chosen[sn] = false;
+            ch->pcdata->customization->points_chosen -= get_skill_trains(ch, sn);
             ch->pcdata->learned[sn] = 0; // NOT ch.get_skill()
             ch->pcdata->points -= get_skill_trains(ch, sn);
             return true;
