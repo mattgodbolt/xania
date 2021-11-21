@@ -39,9 +39,9 @@ std::optional<Direction> try_parse_direction(std::string_view name) {
 
 Direction random_direction() {
     for (;;) {
-        auto door = static_cast<unsigned>(number_mm()) & 7u;
-        if (door < all_directions.size())
-            return Direction(door);
+        auto direction = static_cast<unsigned>(number_mm()) & 7u;
+        if (direction < all_directions.size())
+            return Direction(direction);
     }
 }
 

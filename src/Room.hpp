@@ -31,7 +31,7 @@ struct Room {
     GenericList<Object *> contents;
     std::vector<ExtraDescription> extra_descr{};
     Area *area{};
-    PerDirection<std::optional<Exit>> exit{};
+    PerDirection<std::optional<Exit>> exits{};
     char *name{};
     char *description{};
     sh_int vnum{};

@@ -175,7 +175,7 @@ void spell_psy_tornado(int sn, int level, Char *ch, const SpellTarget &spell_tar
 
         for (auto direction : all_directions) {
             /* No exits in that direction */
-            if (const auto &exit = ch->in_room->exit[direction]) {
+            if (const auto &exit = ch->in_room->exits[direction]) {
                 if (auto *room = exit->u1.to_room) {
                     for (auto *current_person : room->people) {
                         current_person->send_line("Suddenly, a gale of psychic energy blows through the room!");

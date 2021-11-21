@@ -672,10 +672,10 @@ void do_rstat(Char *ch, ArgParser args) {
                                                }),
                                                " "));
 
-    for (auto door : all_directions) {
-        if (auto &exit = location->exit[door]) {
+    for (auto direction : all_directions) {
+        if (auto &exit = location->exits[direction]) {
             ch->send_to(fmt::format("Door: {}.  To: {}.  Key: {}.  Exit flags: {}.\n\rKeyword: '{}'.  Description: {}",
-                                    to_string(door), (exit->u1.to_room == nullptr ? -1 : exit->u1.to_room->vnum),
+                                    to_string(direction), (exit->u1.to_room == nullptr ? -1 : exit->u1.to_room->vnum),
                                     exit->key, exit->exit_info, exit->keyword,
                                     exit->description[0] != '\0' ? exit->description : "(none).\n\r"));
         }

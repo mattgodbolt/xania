@@ -23,21 +23,21 @@ void render_area(FILE *out_file, Area *area) {
         if (room.area != area)
             continue;
         fmt::print("    v{} [label=\"{}\"];\n", room.vnum, room.name);
-        for (auto door : all_directions) {
-            if (auto pexit = room.exit[door]) {
+        for (auto direction : all_directions) {
+            if (auto pexit = room.exits[direction]) {
                 auto *to = pexit->u1.to_room;
                 if (!to)
                     continue;
-                if (to->vnum != room.vnum && to->exit[reverse(door)]
-                    && to->exit[reverse(door)]->u1.to_room->vnum == room.vnum) {
+                if (to->vnum != room.vnum && to->exits[reverse(direction)]
+                    && to->exits[reverse(direction)]->u1.to_room->vnum == room.vnum) {
                     // Two way; write a single exit only for the lowest vnummed.
                     if (room.vnum <= to->vnum) {
-                        fmt::print("    v{}:{} -> v{}:{} [dir=both label=\"{}\"];\n", room.vnum, compass_pt[door],
-                                   to->vnum, compass_pt[reverse(door)], bidir_name[door]);
+                        fmt::print("    v{}:{} -> v{}:{} [dir=both label=\"{}\"];\n", room.vnum, compass_pt[direction],
+                                   to->vnum, compass_pt[reverse(direction)], bidir_name[direction]);
                     }
                 } else {
-                    fmt::print("    v{}:{} -> v{} [label={}];\n", room.vnum, compass_pt[door], to->vnum,
-                               to_string(door));
+                    fmt::print("    v{}:{} -> v{} [label={}];\n", room.vnum, compass_pt[direction], to->vnum,
+                               to_string(direction));
                 }
             }
         }

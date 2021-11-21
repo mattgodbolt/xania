@@ -188,7 +188,7 @@ bool spec_phil(Char *ch) {
     room = ch->in_room;
     findInterestingChar(room, &follow, &interest);
     for (auto direction : all_directions) {
-        if (const auto &exit = room->exit[direction])
+        if (const auto &exit = room->exits[direction])
             if (findInterestingChar(exit->u1.to_room, &follow, &interest))
                 takeExit = direction;
     }

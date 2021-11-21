@@ -836,8 +836,8 @@ bool handled_as_look_at_object(Char &ch, std::string_view first_arg) {
     return false;
 }
 
-void look_direction(const Char &ch, Direction door) {
-    const auto &exit = ch.in_room->exit[door];
+void look_direction(const Char &ch, Direction direction) {
+    const auto &exit = ch.in_room->exits[direction];
     if (!exit) {
         ch.send_line("Nothing special there.");
         return;
@@ -932,8 +932,8 @@ void do_look(Char *ch, ArgParser args) {
     }
 
     // Look in a direction?
-    if (auto opt_door = try_parse_direction(first_arg)) {
-        look_direction(*ch, *opt_door);
+    if (auto opt_direction = try_parse_direction(first_arg)) {
+        look_direction(*ch, *opt_direction);
         return;
     }
 
@@ -977,14 +977,15 @@ void do_exits(const Char *ch, const char *argument) {
     std::string buf = fAuto ? "|W[Exits:" : "Obvious exits:\n\r";
 
     auto found = false;
-    for (auto door : all_directions) {
-        if (const auto &exit = ch->in_room->exit[door]; exit && exit->u1.to_room && can_see_room(ch, exit->u1.to_room)
-                                                        && !check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
+    for (auto direction : all_directions) {
+        if (const auto &exit = ch->in_room->exits[direction]; exit && exit->u1.to_room
+                                                              && can_see_room(ch, exit->u1.to_room)
+                                                              && !check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             found = true;
             if (fAuto) {
-                buf += fmt::format(" {}", to_string(door));
+                buf += fmt::format(" {}", to_string(direction));
             } else {
-                buf += fmt::format("{:<5} - {}\n\r", initial_caps_only(to_string(door)),
+                buf += fmt::format("{:<5} - {}\n\r", initial_caps_only(to_string(direction)),
                                    !ch->has_holylight() && room_is_dark(exit->u1.to_room) ? "Too dark to tell"
                                                                                           : exit->u1.to_room->name);
             }
@@ -1780,7 +1781,7 @@ void do_scan(Char *ch) {
         current_place = ch->in_room;
         /* Loop for the distance see-able */
         for (count_num_rooms = 0; count_num_rooms < num_rooms_scan; count_num_rooms++) {
-            const auto &exit = current_place->exit[direction];
+            const auto &exit = current_place->exits[direction];
             if (!exit)
                 break;
             if (current_place = exit->u1.to_room; !current_place || !can_see_room(ch, exit->u1.to_room)

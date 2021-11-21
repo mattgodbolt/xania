@@ -211,7 +211,7 @@ void load_rooms(FILE *fp);
 void load_shops(FILE *fp);
 void load_specials(FILE *fp);
 
-void fix_exits();
+void map_exit_destinations();
 
 /* RT max open files fix */
 
@@ -322,13 +322,7 @@ void boot_db() {
         }
         fclose(fpList);
     }
-    /*
-     * Fix up exits.
-     * Declare db booting over.
-     * Reset all areas once.
-     * Load up the notes file.
-     */
-    fix_exits();
+    map_exit_destinations();
     fBootDb = false;
     AreaList::singleton().sort();
     area_update();
@@ -427,14 +421,14 @@ void load_resets(FILE *fp) {
             break;
         case ResetExitFlags: {
             room = get_room(reset.arg1);
-            auto opt_door = try_cast_direction(reset.arg2);
+            auto opt_direction = try_cast_direction(reset.arg2);
 
-            if (!opt_door || !room || !room->exit[*opt_door]
-                || !check_enum_bit(room->exit[*opt_door]->rs_flags, ExitFlag::IsDoor)) {
+            if (!opt_direction || !room || !room->exits[*opt_direction]
+                || !check_enum_bit(room->exits[*opt_direction]->rs_flags, ExitFlag::IsDoor)) {
                 bug("Load_resets: 'D': exit {} not door.", reset.arg2);
                 exit(1);
             }
-            auto &exit = room->exit[*opt_door];
+            auto &exit = room->exits[*opt_direction];
             switch (reset.arg3) {
             default: bug("Load_resets: 'D': bad 'locks': {}.", reset.arg3);
             case 0: break;
@@ -504,8 +498,8 @@ void load_rooms(FILE *fp) {
             if (letter == 'D') {
                 Exit exit;
                 int locks;
-                auto opt_door = try_cast_direction(fread_number(fp));
-                if (!opt_door) {
+                auto opt_direction = try_cast_direction(fread_number(fp));
+                if (!opt_direction) {
                     bug("load_rooms: vnum {} has bad door number.", vnum);
                     ::exit(1);
                 }
@@ -540,7 +534,7 @@ void load_rooms(FILE *fp) {
                     break;
                 }
 
-                room.exit[*opt_door] = std::move(exit);
+                room.exits[*opt_direction] = std::move(exit);
             } else if (letter == 'E') {
                 auto keyword = fread_stdstring(fp);
                 auto description = fread_stdstring(fp);
@@ -849,15 +843,15 @@ void load_objects(FILE *fp) {
  * Has to be done after all rooms are read in.
  * Check for bad reverse exits.
  */
-void fix_exits() {
+void map_exit_destinations() {
 
     const auto mutable_rooms = []() {
         return rooms | ranges::views::transform([](auto &p) -> Room & { return p.second; });
     };
     for (auto &room : mutable_rooms()) {
         bool fexit = false;
-        for (auto door : all_directions) {
-            if (auto &exit = room.exit[door]; exit) {
+        for (auto direction : all_directions) {
+            if (auto &exit = room.exits[direction]; exit) {
                 if (exit->u1.vnum <= 0 || get_room(exit->u1.vnum) == nullptr)
                     exit->u1.to_room = nullptr;
                 else {
@@ -871,15 +865,15 @@ void fix_exits() {
             set_enum_bit(room.room_flags, RoomFlag::NoMob);
     }
     for (auto &room : mutable_rooms()) {
-        for (auto door : all_directions) {
-            auto &exit = room.exit[door];
+        for (auto direction : all_directions) {
+            auto &exit = room.exits[direction];
             if (!exit)
                 continue;
             if (Room *to_room = exit->u1.to_room) {
-                if (auto &exit_rev = to_room->exit[reverse(door)];
+                if (auto &exit_rev = to_room->exits[reverse(direction)];
                     exit_rev && exit_rev->u1.to_room->vnum != room.vnum && !exit->is_one_way) {
-                    bug("Fix_exits: {} -> {}:{} -> {}.", room.vnum, static_cast<int>(door), to_room->vnum,
-                        static_cast<int>(reverse(door)),
+                    bug("Fix_exits: {} -> {}:{} -> {}.", room.vnum, static_cast<int>(direction), to_room->vnum,
+                        static_cast<int>(reverse(direction)),
                         (exit_rev->u1.to_room == nullptr) ? 0 : exit_rev->u1.to_room->vnum);
                 }
             }
@@ -902,10 +896,10 @@ void reset_room(Room *room) {
         return;
 
     for (auto exit_dir : all_directions) {
-        if (auto &exit = room->exit[exit_dir]; exit) {
+        if (auto &exit = room->exits[exit_dir]; exit) {
             exit->exit_info = exit->rs_flags;
             if (exit->u1.to_room) {
-                if (auto &exit_rev = exit->u1.to_room->exit[reverse(exit_dir)]; exit_rev) {
+                if (auto &exit_rev = exit->u1.to_room->exits[reverse(exit_dir)]; exit_rev) {
                     exit_rev->exit_info = exit_rev->rs_flags;
                 }
             }
@@ -1079,9 +1073,9 @@ void reset_room(Room *room) {
             }
 
             for (int d0 = 0; d0 < reset.arg2 - 1; d0++) {
-                auto door0 = try_cast_direction(d0).value();
-                auto door1 = try_cast_direction(number_range(d0, reset.arg2 - 1)).value();
-                std::swap(exit_room->exit[door0], exit_room->exit[door1]);
+                auto direction0 = try_cast_direction(d0).value();
+                auto direction1 = try_cast_direction(number_range(d0, reset.arg2 - 1)).value();
+                std::swap(exit_room->exits[direction0], exit_room->exits[direction1]);
             }
             break;
         }

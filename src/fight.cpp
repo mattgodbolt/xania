@@ -1320,8 +1320,8 @@ void death_cry(Char *ch) {
         msg = "You hear someone's death cry.";
 
     was_in_room = ch->in_room;
-    for (auto door : all_directions) {
-        if (const auto &exit = was_in_room->exit[door];
+    for (auto direction : all_directions) {
+        if (const auto &exit = was_in_room->exits[direction];
             exit && exit->u1.to_room != nullptr && exit->u1.to_room != was_in_room) {
             ch->in_room = exit->u1.to_room;
             act(msg, ch);
@@ -2282,13 +2282,13 @@ void do_flee(Char *ch) {
 
     was_in = ch->in_room;
     for (attempt = 0; attempt < 6; attempt++) {
-        auto door = random_direction();
-        const auto &exit = was_in->exit[door];
+        auto direction = random_direction();
+        const auto &exit = was_in->exits[direction];
         if (!exit || exit->u1.to_room == nullptr || check_enum_bit(exit->exit_info, ExitFlag::Closed)
             || (ch->is_npc() && check_enum_bit(exit->u1.to_room->room_flags, RoomFlag::NoMob)))
             continue;
 
-        move_char(ch, door);
+        move_char(ch, direction);
         if ((now_in = ch->in_room) == was_in)
             continue;
 

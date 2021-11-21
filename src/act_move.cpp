@@ -48,9 +48,9 @@ using namespace std::literals;
 
 constexpr PerSectorType<int> movement_loss{1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};
 
-void move_char(Char *ch, Direction door) {
+void move_char(Char *ch, Direction direction) {
     auto *in_room = ch->in_room;
-    const auto &exit = in_room->exit[door];
+    const auto &exit = in_room->exits[direction];
     auto *to_room = exit ? exit->u1.to_room : nullptr;
     if (!exit || !to_room || !ch->can_see(*to_room)) {
         ch->send_line("Alas, you cannot go that way.");
@@ -160,10 +160,10 @@ void move_char(Char *ch, Direction door) {
         && (ch->is_npc() || !ch->is_wizinvis() || !ch->is_prowlinvis())) {
         if (ch->ridden_by == nullptr) {
             if (ch->riding == nullptr) {
-                act("$n leaves $T.", ch, nullptr, to_string(door), To::Room);
+                act("$n leaves $T.", ch, nullptr, to_string(direction), To::Room);
             } else {
-                act("$n rides $t on $N.", ch, to_string(door), ch->riding, To::Room);
-                act("You ride $t on $N.", ch, to_string(door), ch->riding, To::Char);
+                act("$n rides $t on $N.", ch, to_string(direction), ch->riding, To::Room);
+                act("You ride $t on $N.", ch, to_string(direction), ch->riding, To::Char);
             }
         }
     }
@@ -200,7 +200,7 @@ void move_char(Char *ch, Direction door) {
             }
 
             act("You follow $N.", fch, nullptr, ch, To::Char);
-            move_char(fch, door);
+            move_char(fch, direction);
         }
     }
 
@@ -358,8 +358,8 @@ void do_down(Char *ch) {
 }
 
 std::optional<Direction> find_door(Char *ch, std::string_view arg) {
-    if (auto door = try_parse_direction(arg)) {
-        const auto &exit = ch->in_room->exit[*door];
+    if (auto direction = try_parse_direction(arg)) {
+        const auto &exit = ch->in_room->exits[*direction];
         if (!exit) {
             act("I see no door $T here.", ch, nullptr, arg, To::Char);
             return {};
@@ -370,13 +370,14 @@ std::optional<Direction> find_door(Char *ch, std::string_view arg) {
             return {};
         }
 
-        return door;
+        return direction;
     }
 
-    for (auto door : all_directions) {
-        if (const auto &exit = ch->in_room->exit[door]; exit && check_enum_bit(exit->exit_info, ExitFlag::IsDoor)
-                                                        && exit->keyword != nullptr && is_name(arg, exit->keyword))
-            return door;
+    for (auto direction : all_directions) {
+        if (const auto &exit = ch->in_room->exits[direction]; exit && check_enum_bit(exit->exit_info, ExitFlag::IsDoor)
+                                                              && exit->keyword != nullptr
+                                                              && is_name(arg, exit->keyword))
+            return direction;
     }
     act("I see no $T here.", ch, nullptr, arg, To::Char);
     return {};
@@ -386,9 +387,9 @@ namespace {
 
 // Performs an action on the reverse side of an Exit, if the Exit leads back to the origin room.
 void update_reverse_exit(const Room *room, const auto &direction, const auto exit_action) {
-    auto &exit = room->exit[direction];
+    auto &exit = room->exits[direction];
     if (Room *to_room = exit->u1.to_room) {
-        if (auto &exit_rev = to_room->exit[reverse(direction)]; exit_rev && exit_rev->u1.to_room == room) {
+        if (auto &exit_rev = to_room->exits[reverse(direction)]; exit_rev && exit_rev->u1.to_room == room) {
             exit_action(to_room, exit_rev);
         }
     }
@@ -428,11 +429,11 @@ void do_open(Char *ch, ArgParser args) {
         return;
     }
 
-    if (auto opt_door = find_door(ch, arg)) {
-        auto door = *opt_door;
+    if (auto opt_direction = find_door(ch, arg)) {
+        auto direction = *opt_direction;
         /* 'open door' */
 
-        auto &exit = ch->in_room->exit[door];
+        auto &exit = ch->in_room->exits[direction];
         if (!check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's already open.");
             return;
@@ -451,7 +452,7 @@ void do_open(Char *ch, ArgParser args) {
             for (auto *rch : to_room->people)
                 act("The $d opens.", rch, nullptr, exit_rev->keyword, To::Char);
         };
-        update_reverse_exit(ch->in_room, door, open_exit);
+        update_reverse_exit(ch->in_room, direction, open_exit);
     }
 }
 
@@ -483,11 +484,11 @@ void do_close(Char *ch, ArgParser args) {
         return;
     }
 
-    if (auto opt_door = find_door(ch, arg)) {
-        auto door = *opt_door;
+    if (auto opt_direction = find_door(ch, arg)) {
+        auto direction = *opt_direction;
         /* 'close door' */
 
-        auto &exit = ch->in_room->exit[door];
+        auto &exit = ch->in_room->exits[direction];
         if (check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's already closed.");
             return;
@@ -502,7 +503,7 @@ void do_close(Char *ch, ArgParser args) {
             for (auto *rch : to_room->people)
                 act("The $d closes.", rch, nullptr, exit_rev->keyword, To::Char);
         };
-        update_reverse_exit(ch->in_room, door, close_exit);
+        update_reverse_exit(ch->in_room, direction, close_exit);
     }
 }
 
@@ -542,11 +543,11 @@ void do_lock(Char *ch, ArgParser args) {
         return;
     }
 
-    if (auto opt_door = find_door(ch, arg)) {
-        auto door = *opt_door;
+    if (auto opt_direction = find_door(ch, arg)) {
+        auto direction = *opt_direction;
         /* 'lock door' */
 
-        auto &exit = ch->in_room->exit[door];
+        auto &exit = ch->in_room->exits[direction];
         if (!check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's not closed.");
             return;
@@ -573,7 +574,7 @@ void do_lock(Char *ch, ArgParser args) {
             for (auto *rch : to_room->people)
                 act("You hear a faint clicking sound.", rch, nullptr, exit_rev->keyword, To::Char);
         };
-        update_reverse_exit(ch->in_room, door, lock_exit);
+        update_reverse_exit(ch->in_room, direction, lock_exit);
     }
 }
 
@@ -614,10 +615,10 @@ void do_unlock(Char *ch, ArgParser args) {
         return;
     }
 
-    if (auto opt_door = find_door(ch, arg)) {
-        auto door = *opt_door;
+    if (auto opt_direction = find_door(ch, arg)) {
+        auto direction = *opt_direction;
         /* 'unlock door' */
-        auto &exit = ch->in_room->exit[door];
+        auto &exit = ch->in_room->exits[direction];
         if (!check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             ch->send_line("It's not closed.");
             return;
@@ -642,7 +643,7 @@ void do_unlock(Char *ch, ArgParser args) {
         const auto unlock_exit = []([[maybe_unused]] const auto *to_room, auto &exit_rev) {
             clear_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
         };
-        update_reverse_exit(ch->in_room, door, unlock_exit);
+        update_reverse_exit(ch->in_room, direction, unlock_exit);
     }
 }
 
@@ -699,11 +700,11 @@ void do_pick(Char *ch, ArgParser args) {
         return;
     }
 
-    if (auto opt_door = find_door(ch, arg)) {
-        auto door = *opt_door;
+    if (auto opt_direction = find_door(ch, arg)) {
+        auto direction = *opt_direction;
         /* 'pick door' */
 
-        auto &exit = ch->in_room->exit[door];
+        auto &exit = ch->in_room->exits[direction];
         if (!check_enum_bit(exit->exit_info, ExitFlag::Closed) && ch->is_mortal()) {
             ch->send_line("It's not closed.");
             return;
@@ -729,7 +730,7 @@ void do_pick(Char *ch, ArgParser args) {
         const auto unlock_exit = []([[maybe_unused]] const auto *to_room, auto &exit_rev) {
             clear_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
         };
-        update_reverse_exit(ch->in_room, door, unlock_exit);
+        update_reverse_exit(ch->in_room, direction, unlock_exit);
     }
 }
 

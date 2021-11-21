@@ -412,13 +412,13 @@ void mobile_update() {
         }
 
         /* Wander */
-        auto opt_door = try_cast_direction(number_bits(5));
-        if (!check_enum_bit(ch->act, CharActFlag::Sentinel) && number_bits(4) == 0 && opt_door) {
-            const auto &exit = ch->in_room->exit[*opt_door];
+        auto opt_direction = try_cast_direction(number_bits(5));
+        if (!check_enum_bit(ch->act, CharActFlag::Sentinel) && number_bits(4) == 0 && opt_direction) {
+            const auto &exit = ch->in_room->exits[*opt_direction];
             if (exit && exit->u1.to_room != nullptr && !check_enum_bit(exit->exit_info, ExitFlag::Closed)
                 && !check_enum_bit(exit->u1.to_room->room_flags, RoomFlag::NoMob)
                 && (!check_enum_bit(ch->act, CharActFlag::StayArea) || exit->u1.to_room->area == ch->in_room->area)) {
-                move_char(ch, *opt_door);
+                move_char(ch, *opt_direction);
             }
         }
     }
