@@ -382,6 +382,19 @@ std::optional<Direction> find_door(Char *ch, std::string_view arg) {
     return {};
 }
 
+namespace {
+
+// Performs an action on the reverse side of an Exit, if the Exit leads back to the origin room.
+void update_reverse_exit(const Room *room, const auto &direction, const auto exit_action) {
+    auto &exit = room->exit[direction];
+    if (Room *to_room = exit->u1.to_room) {
+        if (auto &exit_rev = to_room->exit[reverse(direction)]; exit_rev && exit_rev->u1.to_room == room) {
+            exit_action(to_room, exit_rev);
+        }
+    }
+}
+}
+
 void do_open(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("Open what?");
@@ -433,14 +446,12 @@ void do_open(Char *ch, ArgParser args) {
         act("$n opens the $d.", ch, nullptr, exit->keyword, To::Room);
         ch->send_line("Ok.");
 
-        /* open the other side */
-        if (Room *to_room = exit->u1.to_room) {
-            if (auto &exit_rev = to_room->exit[reverse(door)]; exit_rev && exit_rev->u1.to_room == ch->in_room) {
-                clear_enum_bit(exit_rev->exit_info, ExitFlag::Closed);
-                for (auto *rch : to_room->people)
-                    act("The $d opens.", rch, nullptr, exit_rev->keyword, To::Char);
-            }
-        }
+        const auto open_exit = [](const auto *to_room, auto &exit_rev) {
+            clear_enum_bit(exit_rev->exit_info, ExitFlag::Closed);
+            for (auto *rch : to_room->people)
+                act("The $d opens.", rch, nullptr, exit_rev->keyword, To::Char);
+        };
+        update_reverse_exit(ch->in_room, door, open_exit);
     }
 }
 
@@ -486,14 +497,12 @@ void do_close(Char *ch, ArgParser args) {
         act("$n closes the $d.", ch, nullptr, exit->keyword, To::Room);
         ch->send_line("Ok.");
 
-        /* close the other side */
-        if (Room *to_room = exit->u1.to_room) {
-            if (auto &exit_rev = to_room->exit[reverse(door)]; exit_rev && exit_rev->u1.to_room == ch->in_room) {
-                set_enum_bit(exit_rev->exit_info, ExitFlag::Closed);
-                for (auto *rch : to_room->people)
-                    act("The $d closes.", rch, nullptr, exit_rev->keyword, To::Char);
-            }
-        }
+        const auto close_exit = [](const auto *to_room, auto &exit_rev) {
+            set_enum_bit(exit_rev->exit_info, ExitFlag::Closed);
+            for (auto *rch : to_room->people)
+                act("The $d closes.", rch, nullptr, exit_rev->keyword, To::Char);
+        };
+        update_reverse_exit(ch->in_room, door, close_exit);
     }
 }
 
@@ -559,12 +568,12 @@ void do_lock(Char *ch, ArgParser args) {
         ch->send_line("*Click*");
         act("$n locks the $d.", ch, nullptr, exit->keyword, To::Room);
 
-        /* lock the other side */
-        if (Room *to_room = exit->u1.to_room) {
-            if (auto &exit_rev = to_room->exit[reverse(door)]; exit_rev && exit_rev->u1.to_room == ch->in_room) {
-                set_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
-            }
-        }
+        const auto lock_exit = [](const auto *to_room, auto &exit_rev) {
+            set_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
+            for (auto *rch : to_room->people)
+                act("You hear a faint clicking sound.", rch, nullptr, exit_rev->keyword, To::Char);
+        };
+        update_reverse_exit(ch->in_room, door, lock_exit);
     }
 }
 
@@ -630,12 +639,10 @@ void do_unlock(Char *ch, ArgParser args) {
         ch->send_line("*Click*");
         act("$n unlocks the $d.", ch, nullptr, exit->keyword, To::Room);
 
-        /* unlock the other side */
-        if (Room *to_room = exit->u1.to_room) {
-            if (auto &exit_rev = to_room->exit[reverse(door)]; exit_rev && exit_rev->u1.to_room == ch->in_room) {
-                clear_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
-            }
-        }
+        const auto unlock_exit = []([[maybe_unused]] const auto *to_room, auto &exit_rev) {
+            clear_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
+        };
+        update_reverse_exit(ch->in_room, door, unlock_exit);
     }
 }
 
@@ -719,12 +726,10 @@ void do_pick(Char *ch, ArgParser args) {
         act("$n picks the $d.", ch, nullptr, exit->keyword, To::Room);
         check_improve(ch, gsn_pick_lock, true, 2);
 
-        /* pick the other side */
-        if (Room *to_room = exit->u1.to_room) {
-            if (auto &exit_rev = to_room->exit[reverse(door)]; exit_rev && exit_rev->u1.to_room == ch->in_room) {
-                clear_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
-            }
-        }
+        const auto unlock_exit = []([[maybe_unused]] const auto *to_room, auto &exit_rev) {
+            clear_enum_bit(exit_rev->exit_info, ExitFlag::Locked);
+        };
+        update_reverse_exit(ch->in_room, door, unlock_exit);
     }
 }
 

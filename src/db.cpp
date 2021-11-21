@@ -95,7 +95,7 @@ constexpr auto ResetEndSection = 'S'; /* end of the resets section */
 std::map<int, MobIndexData> mob_indexes;
 // Object templates.
 std::map<int, ObjectIndex> object_indexes;
-// Unlike Mobs & Objects, Rooms are instances.
+// Unlike the Mob & Object index maps, Rooms are instances.
 std::map<int, Room> rooms;
 
 }
