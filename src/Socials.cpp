@@ -5,6 +5,7 @@
 /*************************************************************************/
 #include "Socials.hpp"
 #include "db.h"
+#include "string_utils.hpp"
 
 struct social_type social_table[MAX_SOCIALS];
 int social_count = 0;
@@ -13,101 +14,73 @@ int social_count = 0;
 void load_socials(FILE *fp) {
     for (;;) {
         struct social_type social;
-        char *temp;
-        /* clear social */
-        social.char_no_arg = nullptr;
-        social.others_no_arg = nullptr;
-        social.char_found = nullptr;
-        social.others_found = nullptr;
-        social.vict_found = nullptr;
-        social.char_auto = nullptr;
-        social.others_auto = nullptr;
-
-        temp = fread_word(fp);
-        if (!strcmp(temp, "#0"))
+        char *name = fread_word(fp);
+        if (!strcmp(name, "#0"))
             return; /* done */
-
-        strcpy(social.name, temp);
+        strcpy(social.name, name);
         fread_to_eol(fp);
-
-        temp = fread_string_eol(fp);
-        if (!strcmp(temp, "$"))
-            social.char_no_arg = nullptr;
-        else if (!strcmp(temp, "#")) {
+        std::string temp = fread_stdstring_eol(fp);
+        if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
             continue;
-        } else
+        } else if (!matches(temp, "$"))
             social.char_no_arg = temp;
 
-        temp = fread_string_eol(fp);
-        if (!strcmp(temp, "$"))
-            social.others_no_arg = nullptr;
-        else if (!strcmp(temp, "#")) {
+        temp = fread_stdstring_eol(fp);
+        if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
             continue;
-        } else
+        } else if (!matches(temp, "$"))
             social.others_no_arg = temp;
 
-        temp = fread_string_eol(fp);
-        if (!strcmp(temp, "$"))
-            social.char_found = nullptr;
-        else if (!strcmp(temp, "#")) {
+        temp = fread_stdstring_eol(fp);
+        if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
             continue;
-        } else
+        } else if (!matches(temp, "$"))
             social.char_found = temp;
 
-        temp = fread_string_eol(fp);
-        if (!strcmp(temp, "$"))
-            social.others_found = nullptr;
-        else if (!strcmp(temp, "#")) {
+        temp = fread_stdstring_eol(fp);
+        if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
             continue;
-        } else
+        } else if (!matches(temp, "$"))
             social.others_found = temp;
 
-        temp = fread_string_eol(fp);
-        if (!strcmp(temp, "$"))
-            social.vict_found = nullptr;
-        else if (!strcmp(temp, "#")) {
+        temp = fread_stdstring_eol(fp);
+        if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
             continue;
-        } else
+        } else if (!matches(temp, "$"))
             social.vict_found = temp;
 
-        temp = fread_string_eol(fp);
+        temp = fread_stdstring_eol(fp);
         // MRG char_not_found wasn't used anywhere
-        if (!strcmp(temp, "$")) {
-            /*social.char_not_found = nullptr*/;
-        } else if (!strcmp(temp, "#")) {
+        if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
             continue;
         }
 
-        temp = fread_string_eol(fp);
-        if (!strcmp(temp, "$"))
-            social.char_auto = nullptr;
-        else if (!strcmp(temp, "#")) {
+        temp = fread_stdstring_eol(fp);
+        if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
             continue;
-        } else
+        } else if (!matches(temp, "$"))
             social.char_auto = temp;
 
-        temp = fread_string_eol(fp);
-        if (!strcmp(temp, "$"))
-            social.others_auto = nullptr;
-        else if (!strcmp(temp, "#")) {
+        temp = fread_stdstring_eol(fp);
+        if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
             continue;
-        } else
+        } else if (!matches(temp, "$"))
             social.others_auto = temp;
 
         social_table[social_count] = social;

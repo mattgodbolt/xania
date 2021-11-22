@@ -843,12 +843,12 @@ void look_direction(const Char &ch, Direction direction) {
         return;
     }
 
-    if (exit->description && exit->description[0] != '\0')
+    if (!exit->description.empty())
         ch.send_to(exit->description);
     else
         ch.send_line("Nothing special there.");
 
-    if (exit->keyword && exit->keyword[0] != '\0' && exit->keyword[0] != ' ') {
+    if (!exit->keyword.empty()) {
         if (check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             act("The $d is closed.", &ch, nullptr, exit->keyword, To::Char);
         } else if (check_enum_bit(exit->exit_info, ExitFlag::IsDoor)) {

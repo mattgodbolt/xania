@@ -509,7 +509,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::Prefix) {
             ch->pcdata->prefix = fread_stdstring(fp);
         } else if (word == cf::Race) {
-            ch->race = race_lookup(fread_string(fp));
+            ch->race = race_lookup(fread_stdstring(fp));
         } else if (word == cf::Room) {
             ch->in_room = get_room(fread_number(fp));
             if (ch->in_room == nullptr)
@@ -811,7 +811,7 @@ void fread_pet(Char *ch, FILE *fp) {
         } else if (word == cf::Position) {
             pet->position = Position::read_from_number(fp);
         } else if (word == cf::Race) {
-            pet->race = race_lookup(fread_string(fp));
+            pet->race = race_lookup(fread_stdstring(fp));
         } else if (word == cf::SavingThrow) {
             pet->saving_throw = fread_number(fp);
         } else if (word == cf::Sex) {

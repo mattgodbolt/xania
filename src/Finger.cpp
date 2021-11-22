@@ -56,7 +56,7 @@ FingerInfo read_char_info(std::string_view player_name) {
             if (word == "end") {
                 return info;
             } else if (word == "extrabits") {
-                const char *line = fread_string(fp);
+                const auto line = fread_stdstring(fp);
                 info.i_message = line[to_int(CharExtraFlag::InfoMessage)] == '1';
                 fread_to_eol(fp);
             } else if (word == "invislevel" || word == "invis") {

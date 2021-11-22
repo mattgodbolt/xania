@@ -32,8 +32,8 @@ struct Room {
     std::vector<ExtraDescription> extra_descr{};
     Area *area{};
     PerDirection<std::optional<Exit>> exits{};
-    char *name{};
-    char *description{};
+    std::string name{};
+    std::string description{};
     sh_int vnum{};
     unsigned int room_flags{};
     sh_int light{};

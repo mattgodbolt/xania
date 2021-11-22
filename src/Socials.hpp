@@ -6,19 +6,20 @@
 #pragma once
 
 #include <cstdio>
+#include <string>
 
 /*
  * Structure for a social in the socials table.
  */
 struct social_type {
     char name[20];
-    const char *char_no_arg;
-    const char *others_no_arg;
-    const char *char_found;
-    const char *others_found;
-    const char *vict_found;
-    const char *char_auto;
-    const char *others_auto;
+    std::string char_no_arg{};
+    std::string others_no_arg{};
+    std::string char_found{};
+    std::string others_found{};
+    std::string vict_found{};
+    std::string char_auto{};
+    std::string others_auto{};
 };
 
 extern struct social_type social_table[];

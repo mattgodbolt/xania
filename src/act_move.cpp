@@ -375,8 +375,7 @@ std::optional<Direction> find_door(Char *ch, std::string_view arg) {
 
     for (auto direction : all_directions) {
         if (const auto &exit = ch->in_room->exits[direction]; exit && check_enum_bit(exit->exit_info, ExitFlag::IsDoor)
-                                                              && exit->keyword != nullptr
-                                                              && is_name(arg, exit->keyword))
+                                                              && !exit->keyword.empty() && is_name(arg, exit->keyword))
             return direction;
     }
     act("I see no $T here.", ch, nullptr, arg, To::Char);

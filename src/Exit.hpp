@@ -7,6 +7,8 @@
 
 #include "Types.hpp"
 
+#include <string>
+
 struct Room;
 
 /*
@@ -19,8 +21,8 @@ struct Exit {
     } u1;
     unsigned int exit_info{};
     sh_int key{};
-    char *keyword{};
-    char *description{};
+    std::string keyword{};
+    std::string description{};
 
     Exit *next{};
     unsigned int rs_flags{};

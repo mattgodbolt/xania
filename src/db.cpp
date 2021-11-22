@@ -476,8 +476,8 @@ void load_rooms(FILE *fp) {
         Room room;
         room.area = area_last;
         room.vnum = vnum;
-        room.name = fread_string(fp);
-        room.description = fread_string(fp);
+        room.name = fread_stdstring(fp);
+        room.description = fread_stdstring(fp);
         room.room_flags = fread_flag(fp);
         /* horrible hack */
         if (3000 <= vnum && vnum < 3400)
@@ -504,8 +504,8 @@ void load_rooms(FILE *fp) {
                     ::exit(1);
                 }
 
-                exit.description = fread_string(fp);
-                exit.keyword = fread_string(fp);
+                exit.description = fread_stdstring(fp);
+                exit.keyword = fread_stdstring(fp);
                 exit.exit_info = 0;
                 locks = fread_number(fp);
                 exit.key = fread_number(fp);
@@ -669,7 +669,7 @@ void load_objects(FILE *fp) {
             bug("Load_objects: empty long description in object {}.", vnum);
         }
 
-        obj_index.material = Material::lookup_with_default(fread_string(fp))->material;
+        obj_index.material = Material::lookup_with_default(fread_stdstring(fp))->material;
         obj_index.type = ObjectTypes::lookup_with_default(fread_word(fp));
         obj_index.extra_flags = fread_flag(fp);
 
