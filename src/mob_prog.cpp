@@ -17,6 +17,7 @@
 
 #include "mob_prog.hpp"
 #include "AffectFlag.hpp"
+#include "ArgParser.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Logging.hpp"
@@ -31,7 +32,7 @@
 
 #include <fmt/format.h>
 
-#include <string_view>
+#include <string>
 
 using namespace std::literals;
 /*
@@ -46,7 +47,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
                        Char *rndm);
 void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm);
 void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm);
-void mprog_driver(const char *com_list, Char *mob, const Char *actor, const Object *obj, const void *vo);
+void mprog_driver(std::string_view com_list, Char *mob, const Char *actor, const Object *obj, const void *vo);
 
 /***************************************************************************
  * Local function code and brief comments.
@@ -1234,7 +1235,7 @@ void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *
  *  the command list and figuring out what to do. However, like all
  *  complex procedures, everything is farmed out to the other guys.
  */
-void mprog_driver(const char *com_list, Char *mob, const Char *actor, const Object *obj, const void *vo) {
+void mprog_driver(std::string_view com_list, Char *mob, const Char *actor, const Object *obj, const void *vo) {
 
     char tmpcmndlst[MAX_STRING_LENGTH];
     char buf[MAX_INPUT_LENGTH];
@@ -1248,14 +1249,18 @@ void mprog_driver(const char *com_list, Char *mob, const Char *actor, const Obje
         return;
 
     /* get a random visible mortal player who is in the room with the mob */
-    for (auto *vch : mob->in_room->people)
+    for (auto *vch : mob->in_room->people) {
         if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && can_see(mob, vch)) {
             if (number_range(0, count) == 0)
                 rndm = vch;
             count++;
         }
-
-    strcpy(tmpcmndlst, com_list);
+    }
+    // Take a copy of the original program because currently the mprog parsing routines
+    // mutate the input.
+    // TODO: this needs to be rewritten to be more string friendly and use things like line_iter().
+    auto com_str = std::string(com_list);
+    strncpy(tmpcmndlst, com_str.c_str(), MAX_STRING_LENGTH - 1);
     command_list = tmpcmndlst;
     cmnd = command_list;
     command_list = mprog_next_command(command_list);
@@ -1278,47 +1283,26 @@ void mprog_driver(const char *com_list, Char *mob, const Char *actor, const Obje
  *  on a certain percent, or trigger on a keyword or word phrase.
  *  To see how this works, look at the various trigger routines..
  */
-void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const Object *obj, const void *vo,
+void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const void *vo,
                           const MobProgTypeFlag type) {
-
-    char temp1[MAX_STRING_LENGTH];
-    char temp2[MAX_INPUT_LENGTH];
-    char word[MAX_INPUT_LENGTH];
-    char *list;
-    char *start;
-    char *dupl;
-    char *end;
-    int i;
-
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
-            strcpy(temp1, mprg.arglist);
-            list = temp1;
-            for (i = 0; i < (int)strlen(list); i++)
-                list[i] = tolower(list[i]);
-            strcpy(temp2, arg);
-            dupl = temp2;
-            for (i = 0; i < (int)strlen(dupl); i++)
-                dupl[i] = tolower(dupl[i]);
-            if ((list[0] == 'p') && (list[1] == ' ')) {
-                list += 2;
-                while ((start = strstr(dupl, list)))
-                    if ((start == dupl || *(start - 1) == ' ')
-                        && (*(end = start + strlen(list)) == ' ' || *end == '\n' || *end == '\r' || *end == '\0')) {
+            // Player message matches the phrase in the program.
+            if ((mprg.arglist[0] == 'p') && (mprg.arglist[1] == ' ')) {
+                auto prog_phrase = mprg.arglist.substr(2, mprg.arglist.length());
+                if (matches_inside(arg, prog_phrase)) {
+                    mprog_driver(mprg.comlist, mob, actor, obj, vo);
+                    break;
+                }
+            } else {
+                // Word in player message matches a keyword in the program.
+                auto prog_keywords = ArgParser(mprg.arglist);
+                for (const auto &keyword : prog_keywords) {
+                    if (matches(arg, keyword)) {
                         mprog_driver(mprg.comlist, mob, actor, obj, vo);
                         break;
-                    } else
-                        dupl = start + 1;
-            } else {
-                list = one_argument(list, word);
-                for (; word[0] != '\0'; list = one_argument(list, word))
-                    while ((start = strstr(dupl, word)))
-                        if ((start == dupl || *(start - 1) == ' ')
-                            && (*(end = start + strlen(word)) == ' ' || *end == '\n' || *end == '\r' || *end == '\0')) {
-                            mprog_driver(mprg.comlist, mob, actor, obj, vo);
-                            break;
-                        } else
-                            dupl = start + 1;
+                    }
+                }
             }
         }
     }
@@ -1326,14 +1310,19 @@ void mprog_wordlist_check(const char *arg, Char *mob, const Char *actor, const O
 
 void mprog_percent_check(Char *mob, Char *actor, Object *obj, void *vo, const MobProgTypeFlag type) {
     for (const auto &mprg : mob->mobIndex->mobprogs) {
-        if (mprg.type == type && (number_percent() < atoi(mprg.arglist))) {
-            mprog_driver(mprg.comlist, mob, actor, obj, vo);
-            if (type != MobProgTypeFlag::Greet && type != MobProgTypeFlag::AllGreet)
-                break;
+        if (mprg.type == type) {
+            if (!is_number(mprg.arglist)) {
+                bug("mprog_percent_check in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
+                continue;
+            }
+            if (number_percent() < parse_number(mprg.arglist)) {
+                mprog_driver(mprg.comlist, mob, actor, obj, vo);
+                if (type != MobProgTypeFlag::Greet && type != MobProgTypeFlag::AllGreet)
+                    break;
+            }
         }
     }
 }
-
 /* The triggers.. These are really basic, and since most appear only
  * once in the code (hmm. i think they all do) it would be more efficient
  * to substitute the code in and make the mprog_xxx_check routines global.
@@ -1364,14 +1353,20 @@ void mprog_act_trigger(const char *buf, Char *mob, const Char *ch, const Object 
 
 void mprog_bribe_trigger(Char *mob, Char *ch, int amount) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Bribe)) {
-        for (const auto &mprg : mob->mobIndex->mobprogs) {
-            if (mprg.type == MobProgTypeFlag::Bribe && amount >= atoi(mprg.arglist)) {
-                /* this function previously created a gold object and gave it to ch
-                   but there is zero point - the gold transfer is handled in do_give now */
-                mprog_driver(mprg.comlist, mob, ch, nullptr, nullptr);
-                break;
+        for (const auto &mprg : mob->mobIndex->mobprogs)
+            if (mprg.type == MobProgTypeFlag::Bribe) {
+                if (!is_number(mprg.arglist)) {
+                    bug("mprog_bribe_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum,
+                        mprg.arglist);
+                    continue;
+                }
+                if (amount >= parse_number(mprg.arglist)) {
+                    /* this function previously created a gold object and gave it to ch
+                       but there is zero point - the gold transfer is handled in do_give now */
+                    mprog_driver(mprg.comlist, mob, ch, nullptr, nullptr);
+                    break;
+                }
             }
-        }
     }
 }
 
@@ -1392,13 +1387,15 @@ void mprog_fight_trigger(Char *mob, Char *ch) {
 }
 
 void mprog_give_trigger(Char *mob, Char *ch, Object *obj) {
-    char buf[MAX_INPUT_LENGTH];
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Give)) {
         for (const auto &mprg : mob->mobIndex->mobprogs) {
-            one_argument(mprg.arglist, buf);
-            if (mprg.type == MobProgTypeFlag::Give && ((matches(obj->name, mprg.arglist)) || (!str_cmp("all", buf)))) {
-                mprog_driver(mprg.comlist, mob, ch, obj, nullptr);
-                break;
+            if (mprg.type == MobProgTypeFlag::Give) {
+                auto prog_args = ArgParser(mprg.arglist);
+                const auto first_prog_arg = prog_args.shift();
+                if (matches(obj->name, mprg.arglist) || matches("all", first_prog_arg)) {
+                    mprog_driver(mprg.comlist, mob, ch, obj, nullptr);
+                    break;
+                }
             }
         }
     }
@@ -1417,9 +1414,16 @@ void mprog_greet_trigger(Char *mob) {
 void mprog_hitprcnt_trigger(Char *mob, Char *ch) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::HitPercent)) {
         for (const auto &mprg : mob->mobIndex->mobprogs) {
-            if (mprg.type == MobProgTypeFlag::HitPercent && ((100 * mob->hit / mob->max_hit) < atoi(mprg.arglist))) {
-                mprog_driver(mprg.comlist, mob, ch, nullptr, nullptr);
-                break;
+            if (mprg.type == MobProgTypeFlag::HitPercent) {
+                if (!is_number(mprg.arglist)) {
+                    bug("mprog_hitprcnt_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum,
+                        mprg.arglist);
+                    continue;
+                }
+                if (100 * mob->hit / mob->max_hit < parse_number(mprg.arglist)) {
+                    mprog_driver(mprg.comlist, mob, ch, nullptr, nullptr);
+                    break;
+                }
             }
         }
     }

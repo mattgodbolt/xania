@@ -2162,8 +2162,8 @@ std::optional<MobProg> try_load_one_mob_prog(std::string_view file_name, FILE *p
         return std::nullopt;
     }
     // TODO convert these to std::string
-    const auto *prog_args = fread_string(prog_file);
-    const auto *prog_commands = fread_string(prog_file);
+    const auto prog_args = fread_stdstring(prog_file);
+    const auto prog_commands = fread_stdstring(prog_file);
     const auto prog = MobProg{prog_type, prog_args, prog_commands};
     return prog;
 }

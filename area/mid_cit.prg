@@ -24,5 +24,8 @@ say What is wrong?
 >speech_prog p My girlfriend left me~
 comfort $n 
 ~
+>speech_prog hello hi~
+say Greetings $n!
+~
 |
 
