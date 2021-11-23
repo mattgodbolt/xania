@@ -167,7 +167,7 @@ TEST_CASE("fread_spnumber") {
         CHECK(!spell);
     }
     SECTION("named spell not found") {
-        test::MemFile name("discombobulate");
+        test::MemFile name("discombobulate~");
         const auto spell = try_fread_spnumber(name.file());
 
         CHECK(!spell);

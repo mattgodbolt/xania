@@ -1660,8 +1660,6 @@ char *do_horrible_boot_strdup_thing(const std::string &str) {
 
 char *fread_string(FILE *fp) { return do_horrible_boot_strdup_thing(fread_stdstring(fp)); }
 
-char *fread_string_eol(FILE *fp) { return do_horrible_boot_strdup_thing(fread_stdstring_eol(fp)); }
-
 /*
  * Read to end of line (for comments).
  */
