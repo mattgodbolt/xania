@@ -129,3 +129,47 @@ stand stand male 200
         CHECK(mob.mobprogs.empty());
     }
 }
+TEST_CASE("fread_spnumber") {
+    SECTION("one word spell with ~") {
+        test::MemFile name("armor~");
+        const auto spell = fread_spnumber(name.file());
+
+        CHECK(spell == 1);
+    }
+    SECTION("two word spell") {
+        test::MemFile name("giant strength~");
+        const auto spell = fread_spnumber(name.file());
+
+        CHECK(spell == 39);
+    }
+    SECTION("raw slot number") {
+        test::MemFile name("1");
+        const auto spell = fread_spnumber(name.file());
+
+        CHECK(spell == 1);
+    }
+    SECTION("one word no terminator") {
+        test::MemFile name("armor ");
+        const auto spell = try_fread_spnumber(name.file());
+
+        CHECK(!spell);
+    }
+    SECTION("single quotes disallowed") {
+        test::MemFile name("'armor'");
+        const auto spell = try_fread_spnumber(name.file());
+
+        CHECK(!spell);
+    }
+    SECTION("double quotes disallowed") {
+        test::MemFile name("'armor'");
+        const auto spell = try_fread_spnumber(name.file());
+
+        CHECK(!spell);
+    }
+    SECTION("named spell not found") {
+        test::MemFile name("discombobulate");
+        const auto spell = try_fread_spnumber(name.file());
+
+        CHECK(!spell);
+    }
+}

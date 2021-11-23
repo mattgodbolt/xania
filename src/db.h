@@ -18,6 +18,7 @@
 #include <range/v3/view/transform.hpp>
 
 #include <map>
+#include <optional>
 #include <string>
 
 struct Object;
@@ -78,6 +79,7 @@ void append_file(Char *ch, const char *file, const char *str);
 char fread_letter(FILE *fp);
 int fread_number(FILE *fp);
 int fread_spnumber(FILE *fp);
+std::optional<int> try_fread_spnumber(FILE *fp);
 long fread_flag(FILE *fp);
 char *fread_string(FILE *fp);
 std::string fread_stdstring(FILE *fp);

@@ -579,7 +579,7 @@ a JoinT~
 a small rolled joint waits to be smoked~
 pill~
 pill EGU AO
-50 frenzy~ "cure critical" 0 0
+50 frenzy~ cure critical~ 0 0
 91 1 900 P
 E
 pill joint~

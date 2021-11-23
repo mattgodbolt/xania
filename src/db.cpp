@@ -1421,6 +1421,16 @@ Room *get_room(int vnum) {
     return nullptr;
 }
 
+void skip_ws(FILE *fp) {
+    for (;;) {
+        auto c = getc(fp);
+        if (!isspace(c)) {
+            ungetc(c, fp);
+            break;
+        }
+    }
+}
+
 /*
  * Read a letter from a file.
  */
@@ -1476,45 +1486,24 @@ int fread_number(FILE *fp) {
 
     return number;
 }
+
 /*
- * Read a number from a file.
+ * Parse a skill/spell slot number, or its tilde terminated name, from a file.
  */
-int fread_spnumber(FILE *fp) {
-    int number;
-    bool sign;
-    char c;
-    char *spell_name;
-    char long_spell_name[64];
-
-    do {
-        c = getc(fp);
-    } while (isspace(c));
-
-    number = 0;
-
-    sign = false;
-    if (c == '+') {
-        c = getc(fp);
-    } else if (c == '-') {
-        sign = true;
-        c = getc(fp);
-    }
-
+std::optional<int> try_fread_spnumber(FILE *fp) {
+    int number = 0;
+    skip_ws(fp);
+    char c = getc(fp);
     if (!isdigit(c)) {
         if (c == '\'' || c == '"') {
-            char endquote = c;
-            /* MG> Replaced the elided C with something which works reliably! */
-            for (spell_name = long_spell_name; (c = getc(fp)) != endquote; ++spell_name)
-                *spell_name = c;
-            *spell_name = '\0';
-            spell_name = long_spell_name;
-        } else {
-            ungetc(c, fp);
-            spell_name = fread_string(fp);
+            bug("fread_spnumber: quoted spell names not allowed, use spellname~ instead");
+            return std::nullopt;
         }
+        ungetc(c, fp);
+        const auto spell_name = fread_stdstring(fp);
         if ((number = skill_lookup(spell_name)) <= 0) {
-            bug("Fread_spnumber: bad spell.");
-            exit(1);
+            bug("fread_spnumber: bad spell.");
+            return std::nullopt;
         }
         return skill_table[number].slot;
     }
@@ -1523,16 +1512,17 @@ int fread_spnumber(FILE *fp) {
         number = number * 10 + c - '0';
         c = getc(fp);
     }
-
-    if (sign)
-        number = 0 - number;
-
-    if (c == '|')
-        number += fread_number(fp);
-    else if ((c != ' ') && (c != '~'))
+    if ((c != ' ') && (c != '~'))
         ungetc(c, fp);
-
     return number;
+}
+
+int fread_spnumber(FILE *fp) {
+    if (const auto opt_spnumber = try_fread_spnumber(fp)) {
+        return *opt_spnumber;
+    } else {
+        exit(1);
+    }
 }
 
 // Note: not all flags are possible here - we return a 'long' (32 bits), but
@@ -1578,16 +1568,6 @@ long fread_flag(FILE *fp) {
             ungetc(c, fp);
     }
     return number;
-}
-
-void skip_ws(FILE *fp) {
-    for (;;) {
-        auto c = getc(fp);
-        if (!isspace(c)) {
-            ungetc(c, fp);
-            break;
-        }
-    }
 }
 
 std::string fread_stdstring(FILE *fp) {

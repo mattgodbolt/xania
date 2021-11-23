@@ -2527,7 +2527,7 @@ an intricately carved ivory Great Horn~
 A fine horn lies on the ground, waiting to be blown.~
 bone~
 wand GK AO
-30 6 6 "acid blast" 0
+30 6 6 acid blast~ 0
 22 7 1250 P
 
 E
@@ -3141,7 +3141,7 @@ an icy cold potion~
 A frosted, glass bottle stands here.~
 glass~
 potion G AO
-35 "stone skin" talon~ 0 0
+35 stone skin~ talon~ 0 0
 25 6 0 P
 
 
