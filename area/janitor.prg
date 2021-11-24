@@ -1,4 +1,4 @@
->rand_prog 20~
+>rand_prog 5~
 grumble
 say Litterbugs.
 if rand(20)
@@ -16,10 +16,11 @@ if rand(20)
 endif
 ~
 >act_prog drops~
-say Litterbug!  You are all litterbugs!
-growl $n
-if rand(10)
-	mpkill $n
+if rand(50)
+	noogie $n
+else
+	slap $n
+	say Save the planet!
 endif
 ~
 |

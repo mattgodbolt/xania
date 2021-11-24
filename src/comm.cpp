@@ -1244,8 +1244,9 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
 }
 
 bool act_to_person(const Char *person, const Position::Type min_position) {
-    // Ignore folks with no descriptor, or below minimum position.
-    return person->desc != nullptr && person->position >= min_position;
+    // Ignore folks below minimum position.
+    // Allow NPCs so that act-driven triggers can fire.
+    return person->position >= min_position;
 }
 
 std::vector<const Char *> folks_in_room(const Room *room, const Char *ch, const Char *vch, const To &type,
@@ -1327,8 +1328,7 @@ void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To
         if (MOBtrigger) {
             auto arg1_as_obj_ptr = std::get_if<const Object *>(&arg1);
             // TODO: heinous const_cast here. Safe, but annoying and worth unpicking deeper down.
-            mprog_act_trigger(formatted.c_str(), const_cast<Char *>(to), ch,
-                              arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
+            mprog_act_trigger(formatted, const_cast<Char *>(to), ch, arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
         }
     }
     MOBtrigger = true;

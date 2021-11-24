@@ -751,18 +751,12 @@ void do_aggressive_sentient(Char *, Char *);
 void aggr_update() {
     for (auto *wch : char_list) {
         /* MOBProgram Act trigger */
-        if (wch->is_npc() && wch->mpactnum > 0 && wch->in_room->area->occupied()) {
-            MPROG_ACT_LIST *tmp_act, *tmp2_act;
-            for (tmp_act = wch->mpact; tmp_act != nullptr; tmp_act = tmp_act->next) {
-                mprog_wordlist_check(tmp_act->buf, wch, tmp_act->ch, tmp_act->obj, tmp_act->vo, MobProgTypeFlag::Act);
-                free_string(tmp_act->buf);
+        if (wch->is_npc() && !wch->mpact.empty() && wch->in_room->area->occupied()) {
+            for (const auto &mpact : wch->mpact) {
+                mprog_wordlist_check(mpact.act_message_trigger, wch, mpact.ch, mpact.obj, mpact.vo,
+                                     MobProgTypeFlag::Act);
             }
-            for (tmp_act = wch->mpact; tmp_act != nullptr; tmp_act = tmp2_act) {
-                tmp2_act = tmp_act->next;
-                free_mem(tmp_act, sizeof(MPROG_ACT_LIST));
-            }
-            wch->mpactnum = 0;
-            wch->mpact = nullptr;
+            wch->mpact.clear();
         }
 
         if (wch->is_npc() || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr

@@ -16,6 +16,7 @@
 #include "Sex.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
+#include "mob_prog.hpp"
 
 #include <array>
 #include <fmt/core.h>
@@ -31,7 +32,7 @@ struct MobIndexData;
 struct Object;
 struct Room;
 struct PcCustomization;
-struct MPROG_ACT_LIST;
+struct MobProgAct;
 
 struct LastLoginInfo {
     std::string login_from;
@@ -116,11 +117,8 @@ struct Char {
     sh_int attack_type{}; // attack_table index.
     Position start_pos{};
     Position default_pos{};
-
     unsigned long extra_flags[(magic_enum::enum_count<CharExtraFlag>() / 32) + 1]{};
-
-    MPROG_ACT_LIST *mpact{}; /* Used by MOBprogram */
-    int mpactnum{}; /* Used by MOBprogram */
+    std::vector<MobProgAct> mpact{};
 
     Char();
     ~Char();

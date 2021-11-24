@@ -19,7 +19,7 @@ void do_mpstat(Char *ch, ArgParser args);
 void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const void *vo,
                           const MobProgTypeFlag type);
 void mprog_percent_check(Char *mob, Char *actor, Object *object, void *vo, int type);
-void mprog_act_trigger(const char *buf, Char *mob, const Char *ch, const Object *obj, const void *vo);
+void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const void *vo);
 void mprog_bribe_trigger(Char *mob, Char *ch, int amount);
 void mprog_entry_trigger(Char *mob);
 void mprog_give_trigger(Char *mob, Char *ch, Object *obj);
@@ -30,9 +30,8 @@ void mprog_death_trigger(Char *mob);
 void mprog_random_trigger(Char *mob);
 void mprog_speech_trigger(const char *txt, const Char *mob);
 
-struct MPROG_ACT_LIST {
-    MPROG_ACT_LIST *next;
-    char *buf;
+struct MobProgAct {
+    const std::string act_message_trigger;
     const Char *ch;
     const Object *obj;
     const void *vo;
@@ -40,7 +39,6 @@ struct MPROG_ACT_LIST {
 
 struct MobProg {
     const MobProgTypeFlag type;
-    // TODO convert to std::string
     const std::string arglist;
     const std::string comlist;
 };

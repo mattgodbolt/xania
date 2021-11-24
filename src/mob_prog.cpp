@@ -161,7 +161,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         return -1;
     }
     /* skip leading spaces */
-    while (*point == ' ')
+    while (std::isspace(*point))
         point++;
 
     /* get whatever comes before the left paren.. ignore spaces */
@@ -169,7 +169,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         if (*point == '\0') {
             bug("Mob: {} ifchck syntax error", mob->mobIndex->vnum);
             return -1;
-        } else if (*point == ' ')
+        } else if (std::isspace(*point))
             point++;
         else
             *bufpt++ = *point++;
@@ -182,7 +182,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         if (*point == '\0') {
             bug("Mob: {} ifchck syntax error", mob->mobIndex->vnum);
             return -1;
-        } else if (*point == ' ')
+        } else if (std::isspace(*point))
             point++;
         else
             *argpt++ = *point++;
@@ -191,14 +191,14 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
     point++;
 
     /* check to see if there is an operator */
-    while (*point == ' ')
+    while (std::isspace(*point))
         point++;
     if (*point == '\0') {
         *opr = '\0';
         *val = '\0';
     } else /* there should be an operator and value, so get them */
     {
-        while ((*point != ' ') && (!isalnum(*point)))
+        while (!std::isspace(*point) && !isalnum(*point))
             if (*point == '\0') {
                 bug("Mob: {} ifchck operator without value", mob->mobIndex->vnum);
                 return -1;
@@ -208,15 +208,10 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         *oprpt = '\0';
 
         /* finished with operator, skip spaces and then get the value */
-        while (*point == ' ')
+        while (std::isspace(*point))
             point++;
-        for (;;) {
-            if ((*point != ' ') && (*point == '\0'))
-                break;
-            else
-                *valpt++ = *point++;
-        }
-
+        while (!std::isspace(*point) && *point != '\0')
+            *valpt++ = *point++;
         *valpt = '\0';
     }
     bufpt = buf;
@@ -878,7 +873,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
     while (loopdone == false) { /*scan over any existing or statements */
         cmnd = com_list;
         com_list = mprog_next_command(com_list);
-        while (*cmnd == ' ')
+        while (std::isspace(*cmnd))
             cmnd++;
         if (*cmnd == '\0') {
             bug("Mob: {} no commands after IF/OR", mob->mobIndex->vnum);
@@ -901,7 +896,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
         {
             if (!str_cmp(buf, "if")) {
                 com_list = mprog_process_if(morebuf, com_list, mob, actor, obj, vo, rndm);
-                while (*cmnd == ' ')
+                while (std::isspace(*cmnd))
                     cmnd++;
                 if (*com_list == '\0')
                     return nullptr;
@@ -918,7 +913,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
                 while (str_cmp(buf, "endif")) {
                     cmnd = com_list;
                     com_list = mprog_next_command(com_list);
-                    while (*cmnd == ' ')
+                    while (std::isspace(*cmnd))
                         cmnd++;
                     if (*cmnd == '\0') {
                         bug("Mob: {} missing endif after else", mob->mobIndex->vnum);
@@ -931,7 +926,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
             mprog_process_cmnd(cmnd, mob, actor, obj, vo, rndm);
             cmnd = com_list;
             com_list = mprog_next_command(com_list);
-            while (*cmnd == ' ')
+            while (std::isspace(*cmnd))
                 cmnd++;
             if (*cmnd == '\0') {
                 bug("Mob: {} missing else or endif", mob->mobIndex->vnum);
@@ -944,7 +939,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
         while ((str_cmp(buf, "else")) && (str_cmp(buf, "endif"))) {
             cmnd = com_list;
             com_list = mprog_next_command(com_list);
-            while (*cmnd == ' ')
+            while (std::isspace(*cmnd))
                 cmnd++;
             if (*cmnd == '\0') {
                 bug("Mob: {} missing an else or endif", mob->mobIndex->vnum);
@@ -958,7 +953,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
             return com_list;
         cmnd = com_list;
         com_list = mprog_next_command(com_list);
-        while (*cmnd == ' ')
+        while (std::isspace(*cmnd))
             cmnd++;
         if (*cmnd == '\0') {
             bug("Mob: {} missing endif", mob->mobIndex->vnum);
@@ -970,7 +965,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
         {
             if (!str_cmp(buf, "if")) {
                 com_list = mprog_process_if(morebuf, com_list, mob, actor, obj, vo, rndm);
-                while (*cmnd == ' ')
+                while (std::isspace(*cmnd))
                     cmnd++;
                 if (*com_list == '\0')
                     return nullptr;
@@ -990,7 +985,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
             mprog_process_cmnd(cmnd, mob, actor, obj, vo, rndm);
             cmnd = com_list;
             com_list = mprog_next_command(com_list);
-            while (*cmnd == ' ')
+            while (std::isspace(*cmnd))
                 cmnd++;
             if (*cmnd == '\0') {
                 bug("Mob:{} missing endif in else section", mob->mobIndex->vnum);
@@ -1288,17 +1283,17 @@ void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, co
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
             // Player message matches the phrase in the program.
-            if ((mprg.arglist[0] == 'p') && (mprg.arglist[1] == ' ')) {
+            if ((mprg.arglist[0] == 'p') && (std::isspace(mprg.arglist[1]))) {
                 auto prog_phrase = mprg.arglist.substr(2, mprg.arglist.length());
                 if (matches_inside(arg, prog_phrase)) {
                     mprog_driver(mprg.comlist, mob, actor, obj, vo);
                     break;
                 }
             } else {
-                // Word in player message matches a keyword in the program.
+                // Is any keyword in the program trigger present anywhere in the character's acted message?
                 auto prog_keywords = ArgParser(mprg.arglist);
-                for (const auto &keyword : prog_keywords) {
-                    if (matches(arg, keyword)) {
+                for (const auto &prog_keyword : prog_keywords) {
+                    if (matches_inside(prog_keyword, arg)) {
                         mprog_driver(mprg.comlist, mob, actor, obj, vo);
                         break;
                     }
@@ -1331,23 +1326,9 @@ void mprog_percent_check(Char *mob, Char *actor, Object *obj, void *vo, const Mo
  * make sure you remember to modify the variable names to the ones in the
  * trigger calls.
  */
-void mprog_act_trigger(const char *buf, Char *mob, const Char *ch, const Object *obj, const void *vo) {
-
-    MPROG_ACT_LIST *tmp_act;
-
+void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const void *vo) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Act)) {
-        tmp_act = (MPROG_ACT_LIST *)alloc_mem(sizeof(MPROG_ACT_LIST));
-        if (mob->mpactnum > 0)
-            tmp_act->next = mob->mpact->next;
-        else
-            tmp_act->next = nullptr;
-
-        mob->mpact = tmp_act;
-        mob->mpact->buf = str_dup(buf);
-        mob->mpact->ch = ch;
-        mob->mpact->obj = obj;
-        mob->mpact->vo = vo;
-        mob->mpactnum++;
+        mob->mpact.emplace_back(MobProgAct{std::string(buf), ch, obj, vo});
     }
 }
 
