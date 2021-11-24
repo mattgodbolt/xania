@@ -2,7 +2,6 @@
 #include <string>
 
 // String and memory management parameters.
-static inline constexpr auto MAX_KEY_HASH = 1024;
 static inline constexpr auto MAX_STRING_LENGTH = 4096;
 static inline constexpr auto MAX_INPUT_LENGTH = 256;
 static inline constexpr auto PAGELEN = 22;

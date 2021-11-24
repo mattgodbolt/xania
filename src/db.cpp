@@ -62,23 +62,6 @@
 
 namespace {
 
-/*
- * Memory management.
- * Increase MAX_STRING if you have too.
- * Tune the others only if you understand what you're doing.
- */
-constexpr auto MaxString = 2650976;
-constexpr auto MaxPermBlock = 131072;
-constexpr auto MaxMemList = 14;
-
-char *string_hash[MAX_KEY_HASH];
-
-char *string_space;
-char *top_string;
-
-// Index number of the latest affect on an object.
-int top_obj_affect;
-
 /**
  * Commands used in #RESETS section of area files
  */
@@ -109,8 +92,6 @@ SpecialFunc spec_lookup(const char *name);
 GenericList<Char *> char_list;
 // Mutable global: modified whenever a new object is created or destroyed.
 GenericList<Object *> object_list;
-
-char str_empty[1]; // TODO: Get rid of this and str_dup()
 
 // Global skill numbers initialized once on startup.
 sh_int gsn_backstab;
@@ -183,16 +164,6 @@ MobProgTypeFlag mprog_name_to_type(const char *name);
 bool mprog_file_read(std::string_view file_name, MobIndexData *mobIndex);
 void load_mobprogs(FILE *fp);
 
-void *rgFreeList[MaxMemList];
-const int rgSizeList[MaxMemList] = {
-    /*   16, 32, 64, 128, 256, 1024, 2048, 4096, 8192, 16384, 32768-64 */
-    16, 32, 64, 128, 256, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144};
-
-int nAllocString;
-int sAllocString;
-int nAllocPerm;
-int sAllocPerm;
-
 /* Semi-locals. */
 bool fBootDb;
 static bool area_header_found;
@@ -228,15 +199,7 @@ void boot_db() {
 
     /* open file fix */
     maxfilelimit();
-
-    /* Init some data space stuff. */
-    if ((string_space = static_cast<char *>(calloc(1, MaxString))) == nullptr) {
-        bug("Boot_db: can't alloc {} string space.", MaxString);
-        exit(1);
-    }
-    top_string = string_space;
     fBootDb = true;
-
     /* Init random number generator. */
     init_mm();
 
@@ -790,7 +753,6 @@ void load_objects(FILE *fp) {
                 af.location = static_cast<AffectLocation>(fread_number(fp));
                 af.modifier = fread_number(fp);
                 obj_index.affected.add(af);
-                top_obj_affect++;
             }
 
             else if (letter == 'E') {
@@ -1600,66 +1562,6 @@ std::string fread_stdstring_eol(FILE *fp) {
         }
     }
 }
-
-namespace {
-/*
- * Read and allocate space for a string from a file.
- * These strings are read-only and shared.
- * Strings are hashed:
- *   each string prepended with hash pointer to prev string,
- *   hash code is simply the string length.
- *   this function takes 40% to 50% of boot-up time.
- */
-char *do_horrible_boot_strdup_thing(const std::string &str) {
-    char *plast = top_string + sizeof(char *);
-    if (plast > &string_space[MaxString - MAX_STRING_LENGTH]) {
-        bug("Fread_string: MAX_STRING {} exceeded.", MaxString);
-        exit(1);
-    }
-    union {
-        char *pc;
-        char rgc[sizeof(char *)];
-    } u1;
-    int ic;
-    int iHash;
-    char *pHash;
-    char *pHashPrev;
-    char *pString;
-
-    strcpy(plast, str.c_str());
-    plast += str.size() + 1;
-    const int diff = plast - 1 - top_string;
-    iHash = std::min(MAX_KEY_HASH - 1, diff);
-    for (pHash = string_hash[iHash]; pHash; pHash = pHashPrev) {
-        for (ic = 0; ic < (int)sizeof(char *); ic++)
-            u1.rgc[ic] = pHash[ic];
-        pHashPrev = u1.pc;
-        pHash += sizeof(char *);
-
-        if (top_string[sizeof(char *)] == pHash[0] && !strcmp(top_string + sizeof(char *) + 1, pHash + 1))
-            return pHash;
-    }
-
-    if (fBootDb) {
-        pString = top_string;
-        top_string = plast;
-        u1.pc = string_hash[iHash];
-        for (ic = 0; ic < (int)sizeof(char *); ic++)
-            pString[ic] = u1.rgc[ic];
-        string_hash[iHash] = pString;
-
-        nAllocString += 1;
-        sAllocString += top_string - pString;
-        return pString + sizeof(char *);
-    } else {
-        return str_dup(top_string + sizeof(char *));
-    }
-}
-
-}
-
-char *fread_string(FILE *fp) { return do_horrible_boot_strdup_thing(fread_stdstring(fp)); }
-
 /*
  * Read to end of line (for comments).
  */
@@ -1710,117 +1612,6 @@ char *fread_word(FILE *fp) {
     bug("Fread_word: word too long.");
     exit(1);
     return nullptr;
-}
-
-/*
- * Allocate some ordinary memory,
- *   with the expectation of freeing it someday.
- */
-void *alloc_mem(int sMem) {
-    void *pMem;
-    int iList;
-
-    for (iList = 0; iList < MaxMemList; iList++) {
-        if (sMem <= rgSizeList[iList])
-            break;
-    }
-
-    if (iList == MaxMemList) {
-        bug("Alloc_mem: size {} too large.", sMem);
-        exit(1);
-    }
-
-    if (rgFreeList[iList] == nullptr) {
-        pMem = alloc_perm(rgSizeList[iList]);
-    } else {
-        pMem = rgFreeList[iList];
-        rgFreeList[iList] = *((void **)rgFreeList[iList]);
-    }
-
-    return pMem;
-}
-
-/*
- * Free some memory.
- * Recycle it back onto the free list for blocks of that size.
- */
-void free_mem(void *pMem, int sMem) {
-    int iList;
-
-    for (iList = 0; iList < MaxMemList; iList++) {
-        if (sMem <= rgSizeList[iList])
-            break;
-    }
-
-    if (iList == MaxMemList) {
-        bug("Free_mem: size {} too large.", sMem);
-        exit(1);
-    }
-
-    *((void **)pMem) = rgFreeList[iList];
-    rgFreeList[iList] = pMem;
-}
-
-/*
- * Allocate some permanent memory.
- * Permanent memory is never freed,
- *   pointers into it may be copied safely.
- */
-void *alloc_perm(int sMem) {
-    static char *pMemPerm;
-    static int iMemPerm;
-    void *pMem;
-
-    while (sMem % sizeof(long) != 0)
-        sMem++;
-    if (sMem > MaxPermBlock) {
-        bug("Alloc_perm: {} too large.", sMem);
-        exit(1);
-    }
-
-    if (pMemPerm == nullptr || iMemPerm + sMem > MaxPermBlock) {
-        iMemPerm = 0;
-        if ((pMemPerm = static_cast<char *>(calloc(1, MaxPermBlock))) == nullptr) {
-            perror("Alloc_perm");
-            exit(1);
-        }
-    }
-
-    pMem = pMemPerm + iMemPerm;
-    iMemPerm += sMem;
-    nAllocPerm += 1;
-    sAllocPerm += sMem;
-    return pMem;
-}
-
-/*
- * Duplicate a string into dynamic memory.
- * Fread_strings are read-only and shared.
- */
-char *str_dup(const char *str) {
-    char *str_new;
-
-    if (str[0] == '\0')
-        return &str_empty[0];
-
-    if (str >= string_space && str < top_string)
-        return (char *)str;
-
-    str_new = static_cast<char *>(alloc_mem(strlen(str) + 1));
-    strcpy(str_new, str);
-    return str_new;
-}
-
-/*
- * Free a string.
- * Null is legal here to simplify callers.
- * Read-only shared strings are not touched.
- */
-void free_string(char *pstr) {
-    if (pstr == nullptr || pstr == &str_empty[0] || (pstr >= string_space && pstr < top_string))
-        return;
-
-    free_mem(pstr, strlen(pstr) + 1);
 }
 
 // Now takes parameters (TM was 'ere 10/00)
@@ -1897,7 +1688,6 @@ void do_areas(Char *ch, ArgParser args) {
 }
 
 void do_memory(Char *ch) {
-    ch->send_line("Affects {:5}", top_obj_affect);
     ch->send_line("Areas   {:5}", AreaList::singleton().count());
     ch->send_line("Helps   {:5}", HelpList::singleton().count());
     ch->send_line("Socials {:5}", social_count);
@@ -1905,8 +1695,6 @@ void do_memory(Char *ch) {
     ch->send_line("Chars   {:5}", Char::num_active());
     ch->send_line("Objs    {:5}", object_indexes.size());
     ch->send_line("Rooms   {:5}", rooms.size());
-    ch->send_line("Strings {:5} strings of {:7} bytes (max {:7}).", nAllocString, sAllocString, MaxString);
-    ch->send_line("Perms   {:5} blocks  of {:7} bytes.", nAllocPerm, sAllocPerm);
 }
 
 void do_dump(Char *ch) {

@@ -60,11 +60,6 @@ inline auto all_rooms() {
 
 Room *get_room(int vnum);
 char *fread_word(FILE *fp);
-void *alloc_mem(int sMem);
-void *alloc_perm(int sMem);
-void free_mem(void *pMem, int sMem);
-char *str_dup(const char *str);
-void free_string(char *pstr);
 int number_fuzzy(int number);
 int number_range(int from, int to);
 int number_percent();
@@ -81,7 +76,6 @@ int fread_number(FILE *fp);
 int fread_spnumber(FILE *fp);
 std::optional<int> try_fread_spnumber(FILE *fp);
 long fread_flag(FILE *fp);
-char *fread_string(FILE *fp);
 std::string fread_stdstring(FILE *fp);
 void fread_to_eol(FILE *fp);
 std::string fread_stdstring_eol(FILE *fp);

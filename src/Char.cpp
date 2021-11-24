@@ -372,11 +372,8 @@ bool Char::can_see(const Room &room) const {
 
 int Char::num_active_ = 0;
 
-extern char str_empty[]; // Soon, to die...
-
 Char::Char()
-    : name(str_empty), logon(current_time),
-      position(Position::Type::Standing) /*todo once not in merc.h put in header*/ {
+    : name{}, logon(current_time), position(Position::Type::Standing) /*todo once not in merc.h put in header*/ {
     ranges::fill(armor, -1); // #216 -1 armour is the new normal
     ranges::fill(perm_stat, 13);
     ++num_active_;
