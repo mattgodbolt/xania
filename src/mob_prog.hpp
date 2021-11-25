@@ -30,11 +30,21 @@ void mprog_death_trigger(Char *mob);
 void mprog_random_trigger(Char *mob);
 void mprog_speech_trigger(const char *txt, const Char *mob);
 
-struct MobProgAct {
-    const std::string act_message_trigger;
-    const Char *ch;
-    const Object *obj;
-    const void *vo;
+class MobProgAct {
+public:
+    MobProgAct(std::string &&act_message_trigger, const Char *ch, const Object *obj, const void *vo)
+        : act_message_trigger_(std::move(act_message_trigger)), ch_(ch), obj_(obj), vo_(vo) {}
+
+    [[nodiscard]] std::string_view act_message_trigger() const { return act_message_trigger_; }
+    [[nodiscard]] const Char *character() const { return ch_; }
+    [[nodiscard]] const Object *object() const { return obj_; }
+    [[nodiscard]] const void *void_arg() const { return vo_; }
+
+private:
+    const std::string act_message_trigger_;
+    const Char *ch_;
+    const Object *obj_;
+    const void *vo_;
 };
 
 struct MobProg {

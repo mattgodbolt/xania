@@ -35,6 +35,7 @@
 #include <string>
 
 using namespace std::literals;
+
 /*
  * Local function prototypes
  */
@@ -1328,7 +1329,7 @@ void mprog_percent_check(Char *mob, Char *actor, Object *obj, void *vo, const Mo
  */
 void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const void *vo) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Act)) {
-        mob->mpact.emplace_back(MobProgAct{std::string(buf), ch, obj, vo});
+        mob->mpact.emplace_back(std::string(buf), ch, obj, vo);
     }
 }
 
