@@ -361,24 +361,24 @@ void load_resets(FILE *fp) {
             break;
         case ResetMobInRoom:
             if ((room = get_room(reset.arg3))) {
-                room->resets.push_back(reset);
+                room->resets.push_back(std::move(reset));
                 iLastRoom = reset.arg3;
             }
             break;
         case ResetObjInRoom:
             if ((room = get_room(reset.arg3))) {
-                room->resets.push_back(reset);
+                room->resets.push_back(std::move(reset));
                 iLastObj = reset.arg3;
             }
             break;
         case ResetPutObjInObj:
             if ((room = get_room(iLastObj)))
-                room->resets.push_back(reset);
+                room->resets.push_back(std::move(reset));
             break;
         case ResetGiveObjMob:
         case ResetEquipObjMob:
             if ((room = get_room(iLastRoom))) {
-                room->resets.push_back(reset);
+                room->resets.push_back(std::move(reset));
                 iLastObj = iLastRoom;
             }
             break;
@@ -411,7 +411,7 @@ void load_resets(FILE *fp) {
             }
 
             if ((room = get_room(reset.arg1)))
-                room->resets.push_back(reset);
+                room->resets.push_back(std::move(reset));
 
             break;
         }
@@ -1949,7 +1949,6 @@ std::optional<MobProg> try_load_one_mob_prog(std::string_view file_name, FILE *p
         bug("mobprog {} contains a call to file which is not supported yet.", file_name);
         return std::nullopt;
     }
-    // TODO convert these to std::string
     const auto prog_args = fread_stdstring(prog_file);
     const auto prog_commands = fread_stdstring(prog_file);
     const auto prog = MobProg{prog_type, prog_args, prog_commands};
@@ -1963,7 +1962,7 @@ bool mprog_file_read(std::string_view file_name, FILE *prog_file, MobIndexData *
         case '>': {
             if (const auto opt_mob_prog = try_load_one_mob_prog(file_name, prog_file)) {
                 set_enum_bit(mobIndex->progtypes, opt_mob_prog->type);
-                mobIndex->mobprogs.push_back(*opt_mob_prog);
+                mobIndex->mobprogs.push_back(std::move(*opt_mob_prog));
             } else {
                 return false;
             }
