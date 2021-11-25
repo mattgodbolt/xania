@@ -36,7 +36,6 @@
 #include "RoomFlag.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
-#include "Socials.hpp"
 #include "TimeInfoData.hpp"
 #include "ToleranceFlag.hpp"
 #include "Wear.hpp"
@@ -380,13 +379,6 @@ void do_scroll(Char *ch, ArgParser args) {
 
     ch->send_line("\"|cScroll set to {} lines.|w", lines);
     ch->lines = lines - 2;
-}
-
-/* RT does socials */
-void do_socials(Char *ch) {
-    Columner col(*ch, 6, 12);
-    for (int iSocial = 0; social_table[iSocial].name[0] != '\0'; iSocial++)
-        col.add(social_table[iSocial].name);
 }
 
 /* RT Commands to replace news, motd, imotd, etc from ROM */

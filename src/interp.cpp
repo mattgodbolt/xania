@@ -494,16 +494,8 @@ void interpret(Char *ch, const char *argument) {
     }
 }
 
-static const struct social_type *find_social(std::string_view name) {
-    for (int cmd = 0; social_table[cmd].name[0] != '\0'; cmd++) {
-        if (matches_start(name, social_table[cmd].name))
-            return social_table + cmd;
-    }
-    return nullptr;
-}
-
 bool check_social(Char *ch, std::string_view command, std::string_view argument) {
-    const auto *social = find_social(command);
+    const auto social = Socials::singleton().find(command);
     if (!social)
         return false;
 
@@ -512,7 +504,7 @@ bool check_social(Char *ch, std::string_view command, std::string_view argument)
         return true;
     }
 
-    if ((ch->is_pos_stunned_or_dying()) || (ch->is_pos_sleeping() && !matches(social->name, "snore"))) {
+    if ((ch->is_pos_stunned_or_dying()) || (ch->is_pos_sleeping() && !matches(social->name_, "snore"))) {
         ch->send_line(ch->position.bad_position_msg());
         return true;
     }
@@ -520,17 +512,17 @@ bool check_social(Char *ch, std::string_view command, std::string_view argument)
     ArgParser args(argument);
     Char *victim = nullptr;
     if (args.empty()) {
-        act(social->others_no_arg, ch, nullptr, victim, To::Room);
-        act(social->char_no_arg, ch, nullptr, victim, To::Char);
+        act(social->others_no_arg_, ch, nullptr, victim, To::Room);
+        act(social->char_no_arg_, ch, nullptr, victim, To::Char);
     } else if ((victim = get_char_room(ch, args.shift())) == nullptr) {
         ch->send_line("They aren't here.");
     } else if (victim == ch) {
-        act(social->others_auto, ch, nullptr, victim, To::Room);
-        act(social->char_auto, ch, nullptr, victim, To::Char);
+        act(social->others_auto_, ch, nullptr, victim, To::Room);
+        act(social->char_auto_, ch, nullptr, victim, To::Char);
     } else {
-        act(social->others_found, ch, nullptr, victim, To::NotVict);
-        act(social->char_found, ch, nullptr, victim, To::Char);
-        act(social->vict_found, ch, nullptr, victim, To::Vict);
+        act(social->others_found_, ch, nullptr, victim, To::NotVict);
+        act(social->char_found_, ch, nullptr, victim, To::Char);
+        act(social->vict_found_, ch, nullptr, victim, To::Vict);
 
         if (ch->is_pc() && victim->is_npc() && !victim->is_aff_charm() && victim->is_pos_awake()
             && victim->desc == nullptr) {
@@ -544,9 +536,9 @@ bool check_social(Char *ch, std::string_view command, std::string_view argument)
             case 6:
             case 7:
             case 8:
-                act(social->others_found, victim, nullptr, ch, To::NotVict);
-                act(social->char_found, victim, nullptr, ch, To::Char);
-                act(social->vict_found, victim, nullptr, ch, To::Vict);
+                act(social->others_found_, victim, nullptr, ch, To::NotVict);
+                act(social->char_found_, victim, nullptr, ch, To::Char);
+                act(social->vict_found_, victim, nullptr, ch, To::Vict);
                 break;
 
             case 9:

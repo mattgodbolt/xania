@@ -668,15 +668,10 @@ bool spec_executioner(Char *ch) {
                 written by Seth of Rivers of Mud         */
 
 bool spec_puff(Char *ch) {
-    int rnd_social, sn, silliness;
-    Char *victim;
-    extern int social_count;
-
+    int sn, silliness;
+    Char *victim = nullptr;
     if (!ch->is_pos_awake())
         return false;
-
-    victim = nullptr;
-
     /* Here's Furey's aggress routine, with some surgery done to it.
          All it does is pick a potential victim for a social.
          (Thank you, Furey-- I screwed this up many times until I
@@ -703,8 +698,7 @@ bool spec_puff(Char *ch) {
                 return false;
         }
     }
-    rnd_social = (number_range(0, (social_count - 1)));
-
+    const auto &rnd_social = Socials::singleton().random();
     /* Choose some manner of silliness to perpetrate.  */
 
     silliness = number_range(1, 100);
@@ -718,16 +712,16 @@ bool spec_puff(Char *ch) {
     } else if (silliness <= 55) {
         ch->say("Did you know that I'm written in C++?");
     } else if (silliness <= 75) {
-        act(social_table[rnd_social].others_no_arg, ch);
-        act(social_table[rnd_social].char_no_arg, ch, nullptr, nullptr, To::Char);
+        act(rnd_social.others_no_arg_, ch);
+        act(rnd_social.char_no_arg_, ch, nullptr, nullptr, To::Char);
     } else if (silliness <= 85) {
         // TODO(#239) : no idea what this check is supposed to do, but was in the original code and I ported it to the
         // new way.
         if (victim != *ch->in_room->people.begin())
             return false;
-        act(social_table[rnd_social].others_found, ch, nullptr, victim, To::NotVict);
-        act(social_table[rnd_social].char_found, ch, nullptr, victim, To::Char);
-        act(social_table[rnd_social].vict_found, ch, nullptr, victim, To::Vict);
+        act(rnd_social.others_found_, ch, nullptr, victim, To::NotVict);
+        act(rnd_social.char_found_, ch, nullptr, victim, To::Char);
+        act(rnd_social.vict_found_, ch, nullptr, victim, To::Vict);
     }
 
     else if (silliness <= 97) {

@@ -266,7 +266,7 @@ void boot_db() {
                 else if (matches(word, "SHOPS"))
                     load_shops(area_fp);
                 else if (matches(word, "SOCIALS"))
-                    load_socials(area_fp);
+                    Socials::singleton().load(area_fp);
                 else if (matches(word, "SPECIALS"))
                     load_specials(area_fp);
                 else if (matches(word, "MOBPROGS"))
@@ -1689,7 +1689,7 @@ void do_areas(Char *ch, ArgParser args) {
 void do_memory(Char *ch) {
     ch->send_line("Areas   {:5}", AreaList::singleton().count());
     ch->send_line("Helps   {:5}", HelpList::singleton().count());
-    ch->send_line("Socials {:5}", social_count);
+    ch->send_line("Socials {:5}", Socials::singleton().count());
     ch->send_line("Mobs    {:5}", mob_indexes.size());
     ch->send_line("Chars   {:5}", Char::num_active());
     ch->send_line("Objs    {:5}", object_indexes.size());
