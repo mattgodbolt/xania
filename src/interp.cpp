@@ -512,7 +512,7 @@ bool check_social(Char *ch, std::string_view command, std::string_view argument)
         return true;
     }
 
-    if ((ch->is_pos_stunned_or_dying()) || (ch->is_pos_sleeping() && str_cmp(social->name, "snore"))) {
+    if ((ch->is_pos_stunned_or_dying()) || (ch->is_pos_sleeping() && !matches(social->name, "snore"))) {
         ch->send_line(ch->position.bad_position_msg());
         return true;
     }

@@ -17,7 +17,7 @@ void load_socials(FILE *fp) {
         const auto name = fread_word(fp);
         if (matches(name, "#0"))
             return; /* done */
-        strcpy(social.name, name);
+        social.name = name;
         fread_to_eol(fp);
         std::string temp = fread_stdstring_eol(fp);
         if (matches(temp, "#")) {

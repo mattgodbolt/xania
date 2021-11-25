@@ -59,7 +59,8 @@ inline auto all_rooms() {
 }
 
 Room *get_room(int vnum);
-char *fread_word(FILE *fp);
+std::optional<std::string> try_fread_word(FILE *fp);
+std::string fread_word(FILE *fp);
 int number_fuzzy(int number);
 int number_range(int from, int to);
 int number_percent();

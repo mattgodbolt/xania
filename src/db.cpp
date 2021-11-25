@@ -1576,39 +1576,41 @@ void fread_to_eol(FILE *fp) {
     ungetc(c, fp);
 }
 
-/*
- * Read one word (into static buffer).
- */
-char *fread_word(FILE *fp) {
-    static char word[MAX_INPUT_LENGTH];
-    char *pword;
-    char cEnd;
-
+// Read one word which can optionally begin with a single or double quote
+// and must be terminated either with a whitespace, or with the same quote.
+std::optional<std::string> try_fread_word(FILE *fp) {
+    std::string word;
+    int letter;
+    char got_quote{'\0'};
     do {
-        cEnd = getc(fp);
-    } while (isspace(cEnd));
-
-    if (cEnd == '\'' || cEnd == '"') {
-        pword = word;
-    } else {
-        word[0] = cEnd;
-        pword = word + 1;
-        cEnd = ' ';
-    }
-
-    for (; pword < word + MAX_INPUT_LENGTH; pword++) {
-        *pword = getc(fp);
-        if (cEnd == ' ' ? isspace(*pword) : *pword == cEnd) {
-            if (cEnd == ' ')
-                ungetc(*pword, fp);
-            *pword = '\0';
+        letter = fgetc(fp);
+    } while (std::isspace(letter));
+    for (;; letter = fgetc(fp)) {
+        if (letter == EOF)
+            break;
+        if (!got_quote && (letter == '\'' || letter == '"')) {
+            got_quote = letter;
+            continue;
+        }
+        if (got_quote ? letter == got_quote : std::isspace(letter)) {
+            if (std::isspace(letter))
+                ungetc(letter, fp);
             return word;
         }
+        word.push_back(static_cast<char>(letter));
     }
+    bug("fread_word: unterminated word.");
+    return std::nullopt;
+}
 
-    bug("Fread_word: word too long.");
-    exit(1);
-    return nullptr;
+// Read one word which can optionally begin with a single or double quote
+// and must be terminated either with a whitespace, or with the same quote.
+std::string fread_word(FILE *fp) {
+    if (const auto opt_word = try_fread_word(fp)) {
+        return *opt_word;
+    } else {
+        exit(1);
+    }
 }
 
 // Now takes parameters (TM was 'ere 10/00)

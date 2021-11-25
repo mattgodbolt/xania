@@ -12,7 +12,7 @@
  * Structure for a social in the socials table.
  */
 struct social_type {
-    char name[20];
+    std::string name;
     std::string char_no_arg{};
     std::string others_no_arg{};
     std::string char_found{};

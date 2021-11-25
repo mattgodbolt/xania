@@ -12,7 +12,7 @@
 
 using namespace std::literals;
 
-extern char *fread_word(FILE *fp);
+std::string fread_word(FILE *fp);
 extern int fread_number(FILE *fp);
 
 namespace {

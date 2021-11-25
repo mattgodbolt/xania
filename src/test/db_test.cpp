@@ -173,3 +173,95 @@ TEST_CASE("fread_spnumber") {
         CHECK(!spell);
     }
 }
+TEST_CASE("fread_word") {
+    SECTION("one char space") {
+        test::MemFile input("a ");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "a");
+    }
+    SECTION("one char tab") {
+        test::MemFile input("a\t");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "a");
+    }
+    SECTION("one char nl") {
+        test::MemFile input("a\n");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "a");
+    }
+    SECTION("one char return") {
+        test::MemFile input("a\r");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "a");
+    }
+    SECTION("one char vtab") {
+        test::MemFile input("a\v");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "a");
+    }
+    SECTION("one char formfeed") {
+        test::MemFile input("a\f");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "a");
+    }
+    SECTION("one char single quoted") {
+        test::MemFile input("'a'");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "a");
+    }
+    SECTION("one char double quoted") {
+        test::MemFile input("\"a\"");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "a");
+    }
+    SECTION("three words no quotes") {
+        test::MemFile input("power of greyskull");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "power");
+    }
+    SECTION("three words with quotes") {
+        test::MemFile input("'power of greyskull'");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "power of greyskull");
+    }
+    SECTION("three words with quotes and trailing") {
+        test::MemFile input("'power of greyskull' schnarf");
+        const auto word = fread_word(input.file());
+
+        CHECK(word == "power of greyskull");
+    }
+    SECTION("one char no space terminator") {
+        test::MemFile input("a");
+        const auto word = try_fread_word(input.file());
+
+        CHECK(!word);
+    }
+    SECTION("one char no single quote terminator") {
+        test::MemFile input("'a");
+        const auto word = try_fread_word(input.file());
+
+        CHECK(!word);
+    }
+    SECTION("one char no double quote terminator") {
+        test::MemFile input("\"a");
+        const auto word = try_fread_word(input.file());
+
+        CHECK(!word);
+    }
+    SECTION("empty input") {
+        test::MemFile input("");
+        const auto word = try_fread_word(input.file());
+
+        CHECK(!word);
+    }
+}
