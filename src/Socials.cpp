@@ -14,8 +14,8 @@ int social_count = 0;
 void load_socials(FILE *fp) {
     for (;;) {
         struct social_type social;
-        char *name = fread_word(fp);
-        if (!strcmp(name, "#0"))
+        const auto name = fread_word(fp);
+        if (matches(name, "#0"))
             return; /* done */
         strcpy(social.name, name);
         fread_to_eol(fp);

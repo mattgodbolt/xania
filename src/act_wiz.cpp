@@ -73,7 +73,7 @@ void do_maffects(Char *ch, ArgParser args);
 void do_mpracs(Char *ch, ArgParser args);
 void do_minfo(Char *ch, ArgParser args);
 void do_mspells(Char *ch, ArgParser args);
-SpecialFunc spec_lookup(const char *name);
+SpecialFunc spec_lookup(std::string_view name);
 
 /*
  * Local functions.

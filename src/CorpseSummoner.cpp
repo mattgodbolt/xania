@@ -24,7 +24,7 @@
 
 using namespace std::chrono;
 using namespace std::literals;
-SpecialFunc spec_lookup(const char *name);
+SpecialFunc spec_lookup(std::string_view name);
 
 CorpseSummoner::CorpseSummoner(Dependencies &dependencies) : mud_{dependencies}, last_advice_time_{0} {}
 

@@ -29,6 +29,7 @@
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"
+#include "string_utils.hpp"
 
 #include <fmt/format.h>
 
@@ -61,58 +62,58 @@ bool spec_concordius(Char *ch);
 bool spec_aquila_pet(Char *ch);
 bool spec_summoner(Char *ch);
 /* Given a name, return the appropriate spec fun. */
-SpecialFunc spec_lookup(const char *name) {
-    if (!str_cmp(name, "spec_breath_any"))
+SpecialFunc spec_lookup(std::string_view name) {
+    if (matches(name, "spec_breath_any"))
         return spec_breath_any;
-    if (!str_cmp(name, "spec_breath_acid"))
+    if (matches(name, "spec_breath_acid"))
         return spec_breath_acid;
-    if (!str_cmp(name, "spec_breath_fire"))
+    if (matches(name, "spec_breath_fire"))
         return spec_breath_fire;
-    if (!str_cmp(name, "spec_breath_frost"))
+    if (matches(name, "spec_breath_frost"))
         return spec_breath_frost;
-    if (!str_cmp(name, "spec_breath_gas"))
+    if (matches(name, "spec_breath_gas"))
         return spec_breath_gas;
-    if (!str_cmp(name, "spec_breath_lightning"))
+    if (matches(name, "spec_breath_lightning"))
         return spec_breath_lightning;
-    if (!str_cmp(name, "spec_cast_adept"))
+    if (matches(name, "spec_cast_adept"))
         return spec_cast_adept;
-    if (!str_cmp(name, "spec_cast_cleric"))
+    if (matches(name, "spec_cast_cleric"))
         return spec_cast_cleric;
-    if (!str_cmp(name, "spec_cast_judge"))
+    if (matches(name, "spec_cast_judge"))
         return spec_cast_judge;
-    if (!str_cmp(name, "spec_cast_mage"))
+    if (matches(name, "spec_cast_mage"))
         return spec_cast_mage;
-    if (!str_cmp(name, "spec_cast_undead"))
+    if (matches(name, "spec_cast_undead"))
         return spec_cast_undead;
-    if (!str_cmp(name, "spec_cast_bastard"))
+    if (matches(name, "spec_cast_bastard"))
         return spec_cast_bastard;
-    if (!str_cmp(name, "spec_executioner"))
+    if (matches(name, "spec_executioner"))
         return spec_executioner;
-    if (!str_cmp(name, "spec_fido"))
+    if (matches(name, "spec_fido"))
         return spec_fido;
-    if (!str_cmp(name, "spec_guard"))
+    if (matches(name, "spec_guard"))
         return spec_guard;
-    if (!str_cmp(name, "spec_janitor"))
+    if (matches(name, "spec_janitor"))
         return spec_janitor;
-    if (!str_cmp(name, "spec_mayor"))
+    if (matches(name, "spec_mayor"))
         return spec_mayor;
-    if (!str_cmp(name, "spec_poison"))
+    if (matches(name, "spec_poison"))
         return spec_poison;
-    if (!str_cmp(name, "spec_thief"))
+    if (matches(name, "spec_thief"))
         return spec_thief;
-    if (!str_cmp(name, "spec_DEATH"))
+    if (matches(name, "spec_DEATH"))
         return spec_DEATH;
-    if (!str_cmp(name, "spec_puff"))
+    if (matches(name, "spec_puff"))
         return spec_puff;
-    if (!str_cmp(name, "spec_greasy_joe"))
+    if (matches(name, "spec_greasy_joe"))
         return spec_greasy_joe;
-    if (!str_cmp(name, "spec_phil"))
+    if (matches(name, "spec_phil"))
         return spec_phil;
-    if (!str_cmp(name, "spec_concordius"))
+    if (matches(name, "spec_concordius"))
         return spec_concordius;
-    if (!str_cmp(name, "spec_aquila_pet"))
+    if (matches(name, "spec_aquila_pet"))
         return spec_aquila_pet;
-    if (!str_cmp(name, "spec_summoner"))
+    if (matches(name, "spec_summoner"))
         return spec_summoner;
     return nullptr;
 }

@@ -5,13 +5,15 @@
 /*************************************************************************/
 #pragma once
 
+#include <string_view>
+
 class Char;
 
 bool parse_gen_groups(Char *ch, const char *argument);
 void list_available_group_costs(Char *ch);
 unsigned int exp_per_level(const Char *ch, int points);
 void check_improve(Char *ch, int sn, bool success, int multiplier);
-int group_lookup(const char *name);
+int group_lookup(std::string_view name);
 void gn_add(Char *ch, int gn);
 void gn_remove(Char *ch, int gn);
 void group_add(Char *ch, const char *name, bool deduct);

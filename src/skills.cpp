@@ -497,13 +497,13 @@ void check_improve(Char *ch, int sn, bool success, int multiplier) {
 }
 
 /* returns a group index number given the name */
-int group_lookup(const char *name) {
+int group_lookup(std::string_view name) {
     int gn;
 
     for (gn = 0; gn < MAX_GROUP; gn++) {
         if (group_table[gn].name == nullptr)
             break;
-        if (tolower(name[0]) == tolower(group_table[gn].name[0]) && !str_prefix(name, group_table[gn].name))
+        if (matches_start(name, group_table[gn].name))
             return gn;
     }
 

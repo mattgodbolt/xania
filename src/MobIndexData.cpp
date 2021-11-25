@@ -87,38 +87,4 @@ MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
         body_size = BodySize::Medium;
     }
     material = Material::lookup_with_default(fread_word(fp))->material;
-    for (;;) {
-        // TODO: I'm pretty sure this is not exercised anywhere: the old code would unconditionally bug() and exit after
-        // reading the "S". Confirm and remove if unused.
-        auto letter = fread_letter(fp);
-
-        if (letter == 'F') {
-            auto *word = fread_word(fp);
-            auto vector = fread_flag(fp);
-
-            if (!str_prefix(word, "act")) {
-                clear_bit(act, vector);
-            } else if (!str_prefix(word, "aff")) {
-                clear_bit(affected_by, vector);
-            } else if (!str_prefix(word, "off")) {
-                clear_bit(off_flags, vector);
-            } else if (!str_prefix(word, "imm")) {
-                clear_bit(imm_flags, vector);
-            } else if (!str_prefix(word, "res")) {
-                clear_bit(res_flags, vector);
-            } else if (!str_prefix(word, "vul")) {
-                clear_bit(vuln_flags, vector);
-            } else if (!str_prefix(word, "for")) {
-                clear_bit(morphology, vector);
-            } else if (!str_prefix(word, "par")) {
-                clear_bit(parts, vector);
-            } else {
-                bug("Flag remove: flag '{}' not found.", word);
-                exit(1);
-            }
-        } else {
-            ungetc(letter, fp);
-            break;
-        }
-    }
 }

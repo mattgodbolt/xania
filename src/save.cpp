@@ -446,10 +446,10 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::Gold) {
             ch->gold = fread_number(fp);
         } else if (word == cf::SkillGroup) {
-            char *temp = fread_word(fp);
-            int gn = group_lookup(temp);
+            const auto group = fread_word(fp);
+            int gn = group_lookup(group);
             if (gn < 0) {
-                bug("fread_char: unknown group: {}", temp);
+                bug("fread_char: unknown group: {}", group);
             } else {
                 gn_add(ch, gn);
             }
@@ -531,10 +531,10 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
             ch->short_descr = fread_stdstring(fp);
         } else if (word == cf::Skill) {
             const int value = fread_number(fp);
-            const char *temp = fread_word(fp);
-            const int sn = skill_lookup(temp);
+            const auto skill = fread_word(fp);
+            const int sn = skill_lookup(skill);
             if (sn < 0) {
-                bug("fread_char: unknown skill: {}", temp);
+                bug("fread_char: unknown skill: {}", skill);
             } else
                 ch->pcdata->learned[sn] = value;
         } else if (word == cf::TrueSex) {
@@ -611,9 +611,8 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
         } else if (word == cf::Affected) {
             AFFECT_DATA af;
             // Spell effects on chars and customized objects in PFiles
-            int sn;
-            const char *affected_by = fread_word(fp);
-            sn = skill_lookup(affected_by);
+            const auto affected_by = fread_word(fp);
+            const auto sn = skill_lookup(affected_by);
             if (sn < 0)
                 bug("fread_obj: unknown skill {}.", affected_by);
             else
@@ -681,7 +680,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
             obj->short_descr = fread_stdstring(fp);
         } else if (word == cf::Spell) {
             int iValue = fread_number(fp);
-            const char *spell = fread_word(fp);
+            const auto spell = fread_word(fp);
             int sn = skill_lookup(spell);
             if (iValue < 0 || iValue > 3) {
                 bug("fread_obj: bad iValue {}.", iValue);
@@ -760,7 +759,7 @@ void fread_pet(Char *ch, FILE *fp) {
                 pet->armor[i] = fread_number(fp);
         } else if (word == cf::Affected) {
             AFFECT_DATA af;
-            int sn = skill_lookup(fread_word(fp));
+            const auto sn = skill_lookup(fread_word(fp));
             if (sn < 0)
                 bug("fread_pet: unknown skill #{}", sn);
             else

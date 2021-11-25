@@ -102,7 +102,7 @@ static Note &ensure_note(Char &ch) {
 
 Note Note::from_file(FILE *fp) {
     auto expect = [&](std::string_view expected) {
-        auto *word = fread_word(fp);
+        const auto word = fread_word(fp);
         if (!matches(word, expected))
             throw std::runtime_error(fmt::format("Expected '{}'", expected));
     };

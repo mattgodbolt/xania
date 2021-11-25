@@ -86,7 +86,7 @@ std::map<int, Room> rooms;
 
 /* Externally referenced functions. */
 void wiznet_initialise();
-SpecialFunc spec_lookup(const char *name);
+SpecialFunc spec_lookup(std::string_view name);
 
 // Mutable global: modified whenever a new Char is loaded from the database or when a player Char logs in or out.
 GenericList<Char *> char_list;
@@ -160,7 +160,7 @@ sh_int gsn_bless;
  * Merc-2.2 MOBprogram locals - Faramir 31/8/1998
  */
 
-MobProgTypeFlag mprog_name_to_type(const char *name);
+MobProgTypeFlag mprog_name_to_type(std::string_view name);
 bool mprog_file_read(std::string_view file_name, MobIndexData *mobIndex);
 void load_mobprogs(FILE *fp);
 
@@ -244,35 +244,32 @@ void boot_db() {
             }
             BugAreaFileContext context(area_name, area_fp);
             for (;;) {
-                char *word;
                 if (fread_letter(area_fp) != '#') {
                     bug("Boot_db: # not found.");
                     exit(1);
                 }
-
-                word = fread_word(area_fp);
-
+                const auto word = fread_word(area_fp);
                 if (word[0] == '$')
                     break;
-                else if (!str_cmp(word, "AREA"))
+                else if (matches(word, "AREA"))
                     load_area(area_fp, area_name);
-                else if (!str_cmp(word, "HELPS"))
+                else if (matches(word, "HELPS"))
                     load_helps(area_fp);
-                else if (!str_cmp(word, "MOBILES"))
+                else if (matches(word, "MOBILES"))
                     load_mobiles(area_fp);
-                else if (!str_cmp(word, "OBJECTS"))
+                else if (matches(word, "OBJECTS"))
                     load_objects(area_fp);
-                else if (!str_cmp(word, "RESETS"))
+                else if (matches(word, "RESETS"))
                     load_resets(area_fp);
-                else if (!str_cmp(word, "ROOMS"))
+                else if (matches(word, "ROOMS"))
                     load_rooms(area_fp);
-                else if (!str_cmp(word, "SHOPS"))
+                else if (matches(word, "SHOPS"))
                     load_shops(area_fp);
-                else if (!str_cmp(word, "SOCIALS"))
+                else if (matches(word, "SOCIALS"))
                     load_socials(area_fp);
-                else if (!str_cmp(word, "SPECIALS"))
+                else if (matches(word, "SPECIALS"))
                     load_specials(area_fp);
-                else if (!str_cmp(word, "MOBPROGS"))
+                else if (matches(word, "MOBPROGS"))
                     load_mobprogs(area_fp);
                 else {
                     bug("Boot_db: bad section name.");
@@ -1910,30 +1907,30 @@ void append_file(Char *ch, const char *file, const char *str) {
  *  mob_prog bitvector types. This allows the use of the words in the
  *  mob/script files.
  */
-MobProgTypeFlag mprog_name_to_type(const char *name) {
-    if (!str_cmp(name, "in_file_prog"))
+MobProgTypeFlag mprog_name_to_type(std::string_view name) {
+    if (matches(name, "in_file_prog"))
         return MobProgTypeFlag::InFile;
-    if (!str_cmp(name, "act_prog"))
+    if (matches(name, "act_prog"))
         return MobProgTypeFlag::Act;
-    if (!str_cmp(name, "speech_prog"))
+    if (matches(name, "speech_prog"))
         return MobProgTypeFlag::Speech;
-    if (!str_cmp(name, "rand_prog"))
+    if (matches(name, "rand_prog"))
         return MobProgTypeFlag::Random;
-    if (!str_cmp(name, "fight_prog"))
+    if (matches(name, "fight_prog"))
         return MobProgTypeFlag::Fight;
-    if (!str_cmp(name, "hitprcnt_prog"))
+    if (matches(name, "hitprcnt_prog"))
         return MobProgTypeFlag::HitPercent;
-    if (!str_cmp(name, "death_prog"))
+    if (matches(name, "death_prog"))
         return MobProgTypeFlag::Death;
-    if (!str_cmp(name, "entry_prog"))
+    if (matches(name, "entry_prog"))
         return MobProgTypeFlag::Entry;
-    if (!str_cmp(name, "greet_prog"))
+    if (matches(name, "greet_prog"))
         return MobProgTypeFlag::Greet;
-    if (!str_cmp(name, "all_greet_prog"))
+    if (matches(name, "all_greet_prog"))
         return MobProgTypeFlag::AllGreet;
-    if (!str_cmp(name, "give_prog"))
+    if (matches(name, "give_prog"))
         return MobProgTypeFlag::Give;
-    if (!str_cmp(name, "bribe_prog"))
+    if (matches(name, "bribe_prog"))
         return MobProgTypeFlag::Bribe;
     return MobProgTypeFlag::Error;
 }
@@ -2005,8 +2002,8 @@ void load_mobprogs(FILE *fp) {
         case 'm':
             const auto vnum = fread_number(fp);
             if (auto *mob = get_mob_index(vnum)) {
-                std::string_view file_name = fread_word(fp);
-                std::string file_path = fmt::format("{}{}", Configuration::singleton().area_dir(), file_name);
+                const auto file_name = fread_word(fp);
+                const auto file_path = fmt::format("{}{}", Configuration::singleton().area_dir(), file_name);
                 if (auto prog_file = WrappedFd::open(file_path)) {
                     if (!mprog_file_read(file_name, prog_file, mob)) {
                         exit(1);
