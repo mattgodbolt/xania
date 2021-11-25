@@ -17,7 +17,7 @@ size_t tip_current = 0;
 
 }
 
-Tip Tip::from_file(FILE *fp) { return Tip(fread_stdstring(fp)); }
+Tip Tip::from_file(FILE *fp) { return Tip(fread_string(fp)); }
 
 void load_tipfile() {
     tips.clear();

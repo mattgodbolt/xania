@@ -19,7 +19,7 @@ void load_socials(FILE *fp) {
             return; /* done */
         social.name = name;
         fread_to_eol(fp);
-        std::string temp = fread_stdstring_eol(fp);
+        std::string temp = fread_string_eol(fp);
         if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -27,7 +27,7 @@ void load_socials(FILE *fp) {
         } else if (!matches(temp, "$"))
             social.char_no_arg = temp;
 
-        temp = fread_stdstring_eol(fp);
+        temp = fread_string_eol(fp);
         if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -35,7 +35,7 @@ void load_socials(FILE *fp) {
         } else if (!matches(temp, "$"))
             social.others_no_arg = temp;
 
-        temp = fread_stdstring_eol(fp);
+        temp = fread_string_eol(fp);
         if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -43,7 +43,7 @@ void load_socials(FILE *fp) {
         } else if (!matches(temp, "$"))
             social.char_found = temp;
 
-        temp = fread_stdstring_eol(fp);
+        temp = fread_string_eol(fp);
         if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -51,7 +51,7 @@ void load_socials(FILE *fp) {
         } else if (!matches(temp, "$"))
             social.others_found = temp;
 
-        temp = fread_stdstring_eol(fp);
+        temp = fread_string_eol(fp);
         if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -59,7 +59,7 @@ void load_socials(FILE *fp) {
         } else if (!matches(temp, "$"))
             social.vict_found = temp;
 
-        temp = fread_stdstring_eol(fp);
+        temp = fread_string_eol(fp);
         // MRG char_not_found wasn't used anywhere
         if (matches(temp, "#")) {
             social_table[social_count] = social;
@@ -67,7 +67,7 @@ void load_socials(FILE *fp) {
             continue;
         }
 
-        temp = fread_stdstring_eol(fp);
+        temp = fread_string_eol(fp);
         if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;
@@ -75,7 +75,7 @@ void load_socials(FILE *fp) {
         } else if (!matches(temp, "$"))
             social.char_auto = temp;
 
-        temp = fread_stdstring_eol(fp);
+        temp = fread_string_eol(fp);
         if (matches(temp, "#")) {
             social_table[social_count] = social;
             social_count++;

@@ -28,11 +28,11 @@ std::optional<MobIndexData> MobIndexData::from_file(FILE *fp) {
 #include "Materials.hpp"
 
 MobIndexData::MobIndexData(sh_int vnum, FILE *fp) : vnum(vnum) {
-    player_name = fread_stdstring(fp);
-    short_descr = lower_case_articles(fread_stdstring(fp));
-    long_descr = upper_first_character(fread_stdstring(fp));
-    description = upper_first_character(fread_stdstring(fp));
-    race = race_lookup(fread_stdstring(fp));
+    player_name = fread_string(fp);
+    short_descr = lower_case_articles(fread_string(fp));
+    long_descr = upper_first_character(fread_string(fp));
+    description = upper_first_character(fread_string(fp));
+    race = race_lookup(fread_string(fp));
 
     act = fread_flag(fp) | race_table[race].act;
     set_enum_bit(act, CharActFlag::Npc);

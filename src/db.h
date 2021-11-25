@@ -77,9 +77,9 @@ int fread_number(FILE *fp);
 int fread_spnumber(FILE *fp);
 std::optional<int> try_fread_spnumber(FILE *fp);
 long fread_flag(FILE *fp);
-std::string fread_stdstring(FILE *fp);
+std::string fread_string(FILE *fp);
 void fread_to_eol(FILE *fp);
-std::string fread_stdstring_eol(FILE *fp);
+std::string fread_string_eol(FILE *fp);
 void reset_room(Room *room);
 
 MobIndexData *get_mob_index(int vnum);

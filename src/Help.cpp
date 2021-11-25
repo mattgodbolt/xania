@@ -12,10 +12,10 @@ using namespace std::literals;
 
 std::optional<Help> Help::load(FILE *fp, const Area *area) {
     auto level = fread_number(fp);
-    auto keyword = fread_stdstring(fp);
+    auto keyword = fread_string(fp);
     if (matches_start("$", keyword))
         return {};
-    auto text = fread_stdstring(fp);
+    auto text = fread_string(fp);
     // Strip leading '.' to allow initial blanks.
     if (!text.empty() && text.front() == '.')
         text = text.substr(1);

@@ -366,7 +366,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::AffectedBy) {
             ch->affected_by = fread_number(fp);
         } else if (word == cf::Afk) {
-            ch->pcdata->afk = fread_stdstring(fp);
+            ch->pcdata->afk = fread_string(fp);
         } else if (word == cf::Alignment) {
             ch->alignment = fread_number(fp);
         } else if (word == cf::ArmourClasses) {
@@ -393,9 +393,9 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
             for (auto &stat : ch->perm_stat)
                 stat = fread_number(fp);
         } else if (word == cf::BamfIn) {
-            ch->pcdata->bamfin = fread_stdstring(fp);
+            ch->pcdata->bamfin = fread_string(fp);
         } else if (word == cf::BamfOut) {
-            ch->pcdata->bamfout = fread_stdstring(fp);
+            ch->pcdata->bamfout = fread_string(fp);
         } else if (word == cf::Clan) {
             const auto clan_char = fread_number(fp);
             bool found = false;
@@ -435,7 +435,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::DamRoll) {
             ch->damroll = fread_number(fp);
         } else if (word == cf::Description) {
-            ch->description = fread_stdstring(fp);
+            ch->description = fread_string(fp);
         } else if (word == cf::End) {
             return;
         } else if (word == cf::Experience) {
@@ -474,28 +474,28 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::InvisLevel) {
             ch->invis_level = fread_number(fp);
         } else if (word == cf::InfoMsg) {
-            ch->pcdata->info_message = fread_stdstring(fp);
+            ch->pcdata->info_message = fread_string(fp);
         } else if (word == cf::LastLevelTime) {
             ch->pcdata->last_level = fread_number(fp);
         } else if (word == cf::Level) {
             ch->level = fread_number(fp);
         } else if (word == cf::LongDescription) {
-            ch->long_descr = fread_stdstring(fp);
+            ch->long_descr = fread_string(fp);
         } else if (word == cf::LastLoginFrom) {
-            last_login.login_from = fread_stdstring(fp);
+            last_login.login_from = fread_string(fp);
         } else if (word == cf::LastLoginAt) {
-            last_login.login_at = fread_stdstring(fp);
+            last_login.login_at = fread_string(fp);
         } else if (word == cf::MinOffset) {
             ch->pcdata->minoffset = 0;
             // Timezone hours and minutes offset are unused currently but we've kept
             // them in the pfiles for compatibility/potential reuse in future.
             fread_number(fp);
         } else if (word == cf::Name) {
-            ch->name = fread_stdstring(fp);
+            ch->name = fread_string(fp);
         } else if (word == cf::LastNote) {
             ch->last_note = Clock::from_time_t(fread_number(fp));
         } else if (word == cf::Password) {
-            ch->pcdata->pwd = fread_stdstring(fp);
+            ch->pcdata->pwd = fread_string(fp);
         } else if (word == cf::PlayedTime) {
             ch->played = Seconds(fread_number(fp));
         } else if (word == cf::CreationPoints) {
@@ -505,11 +505,11 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::Practice) {
             ch->practice = fread_number(fp);
         } else if (word == cf::Prompt) {
-            ch->pcdata->prompt = fread_stdstring(fp);
+            ch->pcdata->prompt = fread_string(fp);
         } else if (word == cf::Prefix) {
-            ch->pcdata->prefix = fread_stdstring(fp);
+            ch->pcdata->prefix = fread_string(fp);
         } else if (word == cf::Race) {
-            ch->race = race_lookup(fread_stdstring(fp));
+            ch->race = race_lookup(fread_string(fp));
         } else if (word == cf::Room) {
             ch->in_room = get_room(fread_number(fp));
             if (ch->in_room == nullptr)
@@ -528,7 +528,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
                 bug("fread_char: unknown sex.");
             }
         } else if (word == cf::ShortDescription) {
-            ch->short_descr = fread_stdstring(fp);
+            ch->short_descr = fread_string(fp);
         } else if (word == cf::Skill) {
             const int value = fread_number(fp);
             const auto skill = fread_word(fp);
@@ -548,7 +548,7 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::Trust) {
             ch->trust = fread_number(fp);
         } else if (word == cf::Title) {
-            ch->set_title(fread_stdstring(fp));
+            ch->set_title(fread_string(fp));
         } else if (word == cf::Version) {
             auto raw_version = fread_number(fp);
             auto version = magic_enum::enum_cast<CharVersion>(raw_version);
@@ -562,13 +562,13 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::Wimpy) {
             ch->wimpy = fread_number(fp);
         } else if (word == cf::PronounPossessive) {
-            ch->pcdata->pronouns.possessive = fread_stdstring(fp);
+            ch->pcdata->pronouns.possessive = fread_string(fp);
         } else if (word == cf::PronounSubjective) {
-            ch->pcdata->pronouns.subjective = fread_stdstring(fp);
+            ch->pcdata->pronouns.subjective = fread_string(fp);
         } else if (word == cf::PronounObjective) {
-            ch->pcdata->pronouns.objective = fread_stdstring(fp);
+            ch->pcdata->pronouns.objective = fread_string(fp);
         } else if (word == cf::PronounReflexive) {
-            ch->pcdata->pronouns.reflexive = fread_stdstring(fp);
+            ch->pcdata->pronouns.reflexive = fread_string(fp);
         }
     }
 }
@@ -626,14 +626,14 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
         } else if (word == cf::Cost) {
             obj->cost = fread_number(fp);
         } else if (word == cf::Description) {
-            obj->description = fread_stdstring(fp);
+            obj->description = fread_string(fp);
         } else if (word == cf::Enchanted) {
             obj->enchanted = true;
         } else if (word == cf::ExtraFlags) {
             obj->extra_flags = fread_number(fp);
         } else if (word == cf::ExtraDescription) {
-            auto keyword = fread_stdstring(fp);
-            auto description = fread_stdstring(fp);
+            auto keyword = fread_string(fp);
+            auto description = fread_string(fp);
             obj->extra_descr.emplace_back(ExtraDescription{keyword, description});
         } else if (word == cf::End) {
             if (!fNest || !fVnum || obj->objIndex == nullptr) {
@@ -667,7 +667,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
         } else if (word == cf::ObjectLevel) {
             obj->level = fread_number(fp);
         } else if (word == cf::Name) {
-            obj->name = fread_stdstring(fp);
+            obj->name = fread_string(fp);
         } else if (word == cf::Nest) {
             nest_level = fread_number(fp);
             if (nest_level >= MaxObjectNest) {
@@ -677,7 +677,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
                 fNest = true;
             }
         } else if (word == cf::ShortDescription) {
-            obj->short_descr = fread_stdstring(fp);
+            obj->short_descr = fread_string(fp);
         } else if (word == cf::Spell) {
             int iValue = fread_number(fp);
             const auto spell = fread_word(fp);
@@ -714,7 +714,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
         } else if (word == cf::Weight) {
             obj->weight = fread_number(fp);
         } else if (word == cf::WearString) {
-            obj->wear_string = fread_stdstring(fp);
+            obj->wear_string = fread_string(fp);
         } else {
             bug("fread_obj: no match for {}.", word);
             fread_to_eol(fp);
@@ -782,7 +782,7 @@ void fread_pet(Char *ch, FILE *fp) {
         } else if (word == cf::DamRoll) {
             pet->damroll = fread_number(fp);
         } else if (word == cf::Description) {
-            pet->description = fread_stdstring(fp);
+            pet->description = fread_string(fp);
         } else if (word == cf::End) {
             pet->leader = ch;
             pet->master = ch;
@@ -804,13 +804,13 @@ void fread_pet(Char *ch, FILE *fp) {
         } else if (word == cf::Level) {
             pet->level = fread_number(fp);
         } else if (word == cf::LongDescription) {
-            pet->long_descr = fread_stdstring(fp);
+            pet->long_descr = fread_string(fp);
         } else if (word == cf::Name) {
-            pet->name = fread_stdstring(fp);
+            pet->name = fread_string(fp);
         } else if (word == cf::Position) {
             pet->position = Position::read_from_number(fp);
         } else if (word == cf::Race) {
-            pet->race = race_lookup(fread_stdstring(fp));
+            pet->race = race_lookup(fread_string(fp));
         } else if (word == cf::SavingThrow) {
             pet->saving_throw = fread_number(fp);
         } else if (word == cf::Sex) {
@@ -820,7 +820,7 @@ void fread_pet(Char *ch, FILE *fp) {
                 bug("fread_pet: unknown sex.");
             }
         } else if (word == cf::ShortDescription) {
-            pet->short_descr = fread_stdstring(fp);
+            pet->short_descr = fread_string(fp);
         } else {
             bug("fread_pet: no match for {}.", word);
             fread_to_eol(fp);
@@ -914,7 +914,7 @@ void load_into_char(Char &character, LastLoginInfo &last_login, FILE *fp) {
             bug("load_char_obj: # not found.");
             break;
         }
-        auto word = fread_stdstring_eol(fp);
+        auto word = fread_string_eol(fp);
         if (word == cf::SectionPlayer) {
             fread_char(&character, last_login, fp);
             affect_strip(&character, gsn_ride);

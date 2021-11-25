@@ -436,8 +436,8 @@ void load_rooms(FILE *fp) {
         Room room;
         room.area = area_last;
         room.vnum = vnum;
-        room.name = fread_stdstring(fp);
-        room.description = fread_stdstring(fp);
+        room.name = fread_string(fp);
+        room.description = fread_string(fp);
         room.room_flags = fread_flag(fp);
         /* horrible hack */
         if (3000 <= vnum && vnum < 3400)
@@ -464,8 +464,8 @@ void load_rooms(FILE *fp) {
                     ::exit(1);
                 }
 
-                exit.description = fread_stdstring(fp);
-                exit.keyword = fread_stdstring(fp);
+                exit.description = fread_string(fp);
+                exit.keyword = fread_string(fp);
                 exit.exit_info = 0;
                 locks = fread_number(fp);
                 exit.key = fread_number(fp);
@@ -496,8 +496,8 @@ void load_rooms(FILE *fp) {
 
                 room.exits[*opt_direction] = std::move(exit);
             } else if (letter == 'E') {
-                auto keyword = fread_stdstring(fp);
-                auto description = fread_stdstring(fp);
+                auto keyword = fread_string(fp);
+                auto description = fread_string(fp);
                 room.extra_descr.emplace_back(ExtraDescription{keyword, description});
             } else {
                 bug("load_rooms: vnum {} has unrecognized instruction '{}'.", vnum, letter);
@@ -618,18 +618,18 @@ void load_objects(FILE *fp) {
         obj_index.vnum = vnum;
         obj_index.area = area_last;
         obj_index.reset_num = 0;
-        obj_index.name = fread_stdstring(fp);
+        obj_index.name = fread_string(fp);
         /*
          * MG added - snarf short descrips to kill:
          * You hit The beastly fido
          */
-        obj_index.short_descr = lower_case_articles(fread_stdstring(fp));
-        obj_index.description = fread_stdstring(fp);
+        obj_index.short_descr = lower_case_articles(fread_string(fp));
+        obj_index.description = fread_string(fp);
         if (obj_index.description.empty()) {
             bug("Load_objects: empty long description in object {}.", vnum);
         }
 
-        obj_index.material = Material::lookup_with_default(fread_stdstring(fp))->material;
+        obj_index.material = Material::lookup_with_default(fread_string(fp))->material;
         obj_index.type = ObjectTypes::lookup_with_default(fread_word(fp));
         obj_index.extra_flags = fread_flag(fp);
 
@@ -642,7 +642,7 @@ void load_objects(FILE *fp) {
 
         temp = fread_letter(fp);
         if (temp == ',') {
-            obj_index.wear_string = fread_stdstring(fp);
+            obj_index.wear_string = fread_string(fp);
         } else {
             ungetc(temp, fp);
         }
@@ -753,8 +753,8 @@ void load_objects(FILE *fp) {
             }
 
             else if (letter == 'E') {
-                auto keyword = fread_stdstring(fp);
-                auto description = fread_stdstring(fp);
+                auto keyword = fread_string(fp);
+                auto description = fread_string(fp);
                 obj_index.extra_descr.emplace_back(ExtraDescription{keyword, description});
             }
 
@@ -1459,7 +1459,7 @@ std::optional<int> try_fread_spnumber(FILE *fp) {
             return std::nullopt;
         }
         ungetc(c, fp);
-        const auto spell_name = fread_stdstring(fp);
+        const auto spell_name = fread_string(fp);
         if ((number = skill_lookup(spell_name)) <= 0) {
             bug("fread_spnumber: bad spell.");
             return std::nullopt;
@@ -1529,14 +1529,14 @@ long fread_flag(FILE *fp) {
     return number;
 }
 
-std::string fread_stdstring(FILE *fp) {
+std::string fread_string(FILE *fp) {
     skip_ws(fp);
     std::string result;
     for (;;) {
         auto c = fgetc(fp);
         switch (c) {
         default: result += static_cast<char>(c); break;
-        case EOF: bug("fread_stdstring: EOF"); return result;
+        case EOF: bug("fread_string: EOF"); return result;
 
         case '\n': result += "\n\r"; break;
         case '\r': break;
@@ -1546,14 +1546,14 @@ std::string fread_stdstring(FILE *fp) {
     }
 }
 
-std::string fread_stdstring_eol(FILE *fp) {
+std::string fread_string_eol(FILE *fp) {
     skip_ws(fp);
     std::string result;
     for (;;) {
         auto c = fgetc(fp);
         switch (c) {
         default: result += static_cast<char>(c); break;
-        case EOF: bug("fread_stdstring_eol: EOF"); return result;
+        case EOF: bug("fread_string_eol: EOF"); return result;
 
         case '\n': return result;
         }
@@ -1948,8 +1948,8 @@ std::optional<MobProg> try_load_one_mob_prog(std::string_view file_name, FILE *p
         bug("mobprog {} contains a call to file which is not supported yet.", file_name);
         return std::nullopt;
     }
-    const auto prog_args = fread_stdstring(prog_file);
-    const auto prog_commands = fread_stdstring(prog_file);
+    const auto prog_args = fread_string(prog_file);
+    const auto prog_commands = fread_string(prog_file);
     const auto prog = MobProg{prog_type, prog_args, prog_commands};
     return prog;
 }

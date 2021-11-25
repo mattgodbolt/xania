@@ -108,7 +108,7 @@ Note Note::from_file(FILE *fp) {
     };
     auto expect_str = [&](std::string_view expected) {
         expect(expected);
-        return fread_stdstring(fp);
+        return fread_string(fp);
     };
     Note note(expect_str("sender"));
     note.date_ = expect_str("date");
