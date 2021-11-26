@@ -9,7 +9,9 @@
 #include "db.h"
 #include "string_utils.hpp"
 #include <algorithm>
+#include <range/v3/action/sort.hpp>
 #include <range/v3/algorithm/for_each.hpp>
+#include <range/v3/algorithm/lower_bound.hpp>
 #include <range/v3/view/transform.hpp>
 
 std::optional<Social> Social::load(FILE *fp) {
@@ -44,11 +46,9 @@ std::optional<Social> Social::load(FILE *fp) {
 
 // Binary search for a matching social, matches on a prefix of the social name case insensitively.
 const Social *Socials::find(std::string_view name) const noexcept {
-    struct Comp {
-        bool operator()(const Social &a, const Social &b) const { return a.name() < b.name(); }
-    };
+    const auto compare_names = [](const auto &a, const auto &b) noexcept { return a.name() < b.name(); };
     const auto social = Social(lower_case(name));
-    const auto it = std::lower_bound(socials_.begin(), socials_.end(), social, Comp{});
+    const auto it = ranges::lower_bound(socials_, social, compare_names);
     if (it != socials_.end() && matches_start(name, it->name())) {
         return &*it;
     } else
@@ -61,8 +61,8 @@ void Socials::load(FILE *fp) {
         if (const auto opt_social = Social::load(fp)) {
             socials_.push_back(std::move(*opt_social));
         } else {
-            std::sort(socials_.begin(), socials_.end(),
-                      [](const auto &a, const auto &b) { return a.name() < b.name(); });
+            const auto social_name = [](const Social &s) { return s.name(); };
+            ranges::actions::sort(socials_, std::less<>{}, social_name);
             return;
         }
     }
