@@ -75,28 +75,28 @@ TEST_CASE("social load") {
         const auto opt_social = Social::load(text.file());
 
         REQUIRE(opt_social);
-        CHECK(opt_social->name_ == "hug");
-        CHECK(opt_social->char_no_arg_ == "Hug who?");
-        CHECK(opt_social->others_no_arg_ == "$n gives everyone a big hug!");
-        CHECK(opt_social->char_found_ == "You hug $M.");
-        CHECK(opt_social->others_found_ == "$n hugs $N.");
-        CHECK(opt_social->vict_found_ == "$n hugs you.");
-        CHECK(opt_social->char_auto_ == "You hug yourself.");
-        CHECK(opt_social->others_auto_ == "$n hugs $r in a vain attempt to get friendship.");
+        CHECK(opt_social->name() == "hug");
+        CHECK(opt_social->char_no_arg() == "Hug who?");
+        CHECK(opt_social->others_no_arg() == "$n gives everyone a big hug!");
+        CHECK(opt_social->char_found() == "You hug $M.");
+        CHECK(opt_social->others_found() == "$n hugs $N.");
+        CHECK(opt_social->vict_found() == "$n hugs you.");
+        CHECK(opt_social->char_auto() == "You hug yourself.");
+        CHECK(opt_social->others_auto() == "$n hugs $r in a vain attempt to get friendship.");
     }
     SECTION("empty social") {
         test::MemFile text(empty);
         const auto opt_social = Social::load(text.file());
 
         REQUIRE(opt_social);
-        CHECK(opt_social->name_ == "empty");
-        CHECK(opt_social->char_no_arg_ == "");
-        CHECK(opt_social->others_no_arg_ == "");
-        CHECK(opt_social->char_found_ == "");
-        CHECK(opt_social->others_found_ == "");
-        CHECK(opt_social->vict_found_ == "");
-        CHECK(opt_social->char_auto_ == "");
-        CHECK(opt_social->others_auto_ == "");
+        CHECK(opt_social->name() == "empty");
+        CHECK(opt_social->char_no_arg() == "");
+        CHECK(opt_social->others_no_arg() == "");
+        CHECK(opt_social->char_found() == "");
+        CHECK(opt_social->others_found() == "");
+        CHECK(opt_social->vict_found() == "");
+        CHECK(opt_social->char_auto() == "");
+        CHECK(opt_social->others_auto() == "");
     }
     SECTION("unterminated social") {
         test::MemFile text(malformed);
@@ -123,13 +123,19 @@ TEST_CASE("socials") {
         const auto *social = socials.find("bkiss");
 
         REQUIRE(social);
-        CHECK(social->char_no_arg_ == "You blow kisses to the air.");
+        CHECK(social->char_no_arg() == "You blow kisses to the air.");
     }
     SECTION("find by prefix") {
         const auto *social = socials.find("bk");
 
         REQUIRE(social);
-        CHECK(social->char_no_arg_ == "You blow kisses to the air.");
+        CHECK(social->char_no_arg() == "You blow kisses to the air.");
+    }
+    SECTION("find by prefix upper case") {
+        const auto *social = socials.find("BK");
+
+        REQUIRE(social);
+        CHECK(social->char_no_arg() == "You blow kisses to the air.");
     }
     SECTION("find unknown social") {
         const auto *social = socials.find("punch");
@@ -150,6 +156,6 @@ TEST_CASE("socials") {
 
         socials.show_table(&bob);
 
-        CHECK(bob_desc.buffered_output() == "\n\rhug         bkiss\n\r");
+        CHECK(bob_desc.buffered_output() == "\n\rbkiss       hug\n\r");
     }
 }

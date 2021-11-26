@@ -8,7 +8,7 @@
 #include "Logging.hpp"
 #include "db.h"
 #include "string_utils.hpp"
-#include <range/v3/algorithm/find_if.hpp>
+#include <algorithm>
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/view/transform.hpp>
 
@@ -22,7 +22,7 @@ std::optional<Social> Social::load(FILE *fp) {
             return phrase;
         }
     };
-    const auto name = fread_word(fp);
+    const auto name = lower_case(fread_word(fp));
     if (matches(name, "#0"))
         return std::nullopt;
     const auto char_no_arg{next_phrase(fp)};
@@ -42,22 +42,27 @@ std::optional<Social> Social::load(FILE *fp) {
     return Social{name, char_no_arg, others_no_arg, char_found, others_found, vict_found, char_auto, others_auto};
 }
 
+// Binary search for a matching social, matches on a prefix of the social name case insensitively.
 const Social *Socials::find(std::string_view name) const noexcept {
-    const auto name_matches = [&name](const auto &social) { return matches_start(name, social.name_); };
-    const auto it = ranges::find_if(socials_, name_matches);
-    if (it != socials_.end()) {
+    struct Comp {
+        bool operator()(const Social &a, const Social &b) const { return a.name() < b.name(); }
+    };
+    const auto social = Social(lower_case(name));
+    const auto it = std::lower_bound(socials_.begin(), socials_.end(), social, Comp{});
+    if (it != socials_.end() && matches_start(name, it->name())) {
         return &*it;
-    } else {
+    } else
         return nullptr;
-    }
 }
 
-/* snarf a socials file */
+// Load the socials file into the socials_ vector and sort them by name.
 void Socials::load(FILE *fp) {
     for (;;) {
         if (const auto opt_social = Social::load(fp)) {
             socials_.push_back(std::move(*opt_social));
         } else {
+            std::sort(socials_.begin(), socials_.end(),
+                      [](const auto &a, const auto &b) { return a.name() < b.name(); });
             return;
         }
     }
@@ -69,7 +74,8 @@ const Social &Socials::random() const noexcept { return socials_.at(number_range
 
 void Socials::show_table(Char *ch) const noexcept {
     Columner col(*ch, 6, 12);
-    ranges::for_each(socials_ | ranges::view::transform(&Social::name_), [&col](const auto &name) { col.add(name); });
+    ranges::for_each(socials_ | ranges::view::transform([](const auto &s) { return s.name(); }),
+                     [&col](const auto &name) { col.add(name); });
 }
 
 Socials &Socials::singleton() {

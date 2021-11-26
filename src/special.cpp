@@ -712,16 +712,16 @@ bool spec_puff(Char *ch) {
     } else if (silliness <= 55) {
         ch->say("Did you know that I'm written in C++?");
     } else if (silliness <= 75) {
-        act(rnd_social.others_no_arg_, ch);
-        act(rnd_social.char_no_arg_, ch, nullptr, nullptr, To::Char);
+        act(rnd_social.others_no_arg(), ch);
+        act(rnd_social.char_no_arg(), ch, nullptr, nullptr, To::Char);
     } else if (silliness <= 85) {
         // TODO(#239) : no idea what this check is supposed to do, but was in the original code and I ported it to the
         // new way.
         if (victim != *ch->in_room->people.begin())
             return false;
-        act(rnd_social.others_found_, ch, nullptr, victim, To::NotVict);
-        act(rnd_social.char_found_, ch, nullptr, victim, To::Char);
-        act(rnd_social.vict_found_, ch, nullptr, victim, To::Vict);
+        act(rnd_social.others_found(), ch, nullptr, victim, To::NotVict);
+        act(rnd_social.char_found(), ch, nullptr, victim, To::Char);
+        act(rnd_social.vict_found(), ch, nullptr, victim, To::Vict);
     }
 
     else if (silliness <= 97) {

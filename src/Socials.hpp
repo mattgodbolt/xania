@@ -5,6 +5,7 @@
 /*************************************************************************/
 #pragma once
 
+#include "string_utils.hpp"
 #include <cstdio>
 #include <optional>
 #include <string>
@@ -25,17 +26,28 @@ public:
         : name_(std::move(name)), char_no_arg_(std::move(char_no_arg)), others_no_arg_(std::move(others_no_arg)),
           char_found_(std::move(char_found)), others_found_(std::move(others_found)),
           vict_found_(std::move(vict_found)), char_auto_(std::move(char_auto)), others_auto_(std::move(others_auto)) {}
+    Social(std::string_view name) : name_(name) {}
 
     [[nodiscard]] static std::optional<Social> load(FILE *fp);
 
-    const std::string name_;
-    const std::string char_no_arg_;
-    const std::string others_no_arg_;
-    const std::string char_found_;
-    const std::string others_found_;
-    const std::string vict_found_;
-    const std::string char_auto_;
-    const std::string others_auto_;
+    [[nodiscard]] std::string_view name() const noexcept { return name_; }
+    [[nodiscard]] std::string_view char_no_arg() const noexcept { return char_no_arg_; }
+    [[nodiscard]] std::string_view others_no_arg() const noexcept { return others_no_arg_; }
+    [[nodiscard]] std::string_view char_found() const noexcept { return char_found_; }
+    [[nodiscard]] std::string_view others_found() const noexcept { return others_found_; }
+    [[nodiscard]] std::string_view vict_found() const noexcept { return vict_found_; }
+    [[nodiscard]] std::string_view char_auto() const noexcept { return char_auto_; }
+    [[nodiscard]] std::string_view others_auto() const noexcept { return others_auto_; }
+
+private:
+    std::string name_;
+    std::string char_no_arg_;
+    std::string others_no_arg_;
+    std::string char_found_;
+    std::string others_found_;
+    std::string vict_found_;
+    std::string char_auto_;
+    std::string others_auto_;
 };
 
 class Socials {
