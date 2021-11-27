@@ -67,7 +67,6 @@ extern size_t max_on;
  */
 DescriptorList the_descriptors;
 DescriptorList &descriptors() { return the_descriptors; }
-bool god; /* All new chars are gods! */
 bool merc_down; /* Shutdown       */
 bool wizlock; /* Game is wizlocked    */
 bool newlock; /* Game is newlocked    */
