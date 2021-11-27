@@ -52,5 +52,3 @@ struct MobProg {
     const std::string arglist;
     const std::string comlist;
 };
-
-extern bool MOBtrigger;

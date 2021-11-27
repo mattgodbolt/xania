@@ -445,8 +445,9 @@ void Char::set_not_afk() {
         return;
     send_line("|cYour keyboard welcomes you back!|w");
     send_line("|cYou are no longer marked as being afk.|w");
-    ::act("|W$n's|w keyboard has welcomed $m back!", this, nullptr, nullptr, To::Room, Position::Type::Dead);
-    ::act("|W$n|w is no longer afk.", this, nullptr, nullptr, To::Room, Position::Type::Dead);
+    ::act("|W$n's|w keyboard has welcomed $m back!", this, nullptr, nullptr, To::Room, MobTrig::Yes,
+          Position::Type::Dead);
+    ::act("|W$n|w is no longer afk.", this, nullptr, nullptr, To::Room, MobTrig::Yes, Position::Type::Dead);
     announce("|W###|w (|cAFK|w) $N has returned to $S keyboard.", this);
     clear_enum_bit(act, PlayerActFlag::PlrAfk);
 }
@@ -455,8 +456,9 @@ void Char::set_afk(std::string_view afk_message) {
     pcdata->afk = afk_message;
     set_enum_bit(act, PlayerActFlag::PlrAfk);
     ::act(fmt::format("|cYou notify the mud that you are {}|c.|w", afk_message), this, nullptr, nullptr, To::Char,
+          MobTrig::Yes, Position::Type::Dead);
+    ::act(fmt::format("|W$n|w is {}|w.", afk_message), this, nullptr, nullptr, To::Room, MobTrig::Yes,
           Position::Type::Dead);
-    ::act(fmt::format("|W$n|w is {}|w.", afk_message), this, nullptr, nullptr, To::Room, Position::Type::Dead);
     announce(fmt::format("|W###|w (|cAFK|w) $N is {}|w.", afk_message), this);
 }
 
@@ -565,11 +567,10 @@ void Char::try_give_item_to(Object *object, Char *victim) {
 
     obj_from_char(object);
     obj_to_char(object, victim);
-    MOBtrigger = false;
 
-    ::act("$n gives $p to $N.", this, object, victim, To::NotVict);
-    ::act("$n gives you $p.", this, object, victim, To::Vict);
-    ::act("You give $p to $N.", this, object, victim, To::Char);
+    ::act("$n gives $p to $N.", this, object, victim, To::NotVict, MobTrig::No);
+    ::act("$n gives you $p.", this, object, victim, To::Vict, MobTrig::No);
+    ::act("You give $p to $N.", this, object, victim, To::Char, MobTrig::No);
 
     handle_corpse_summoner(this, victim, object);
     mprog_give_trigger(victim, this, object);

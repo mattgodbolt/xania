@@ -75,7 +75,7 @@ void announce(std::string_view buf, const Char *ch) {
 
     for (auto &victim : descriptors().all_who_can_see(*ch) | DescriptorFilter::to_person()) {
         if (!check_enum_bit(victim.comm, CommFlag::NoAnnounce) && !check_enum_bit(victim.comm, CommFlag::Quiet))
-            act(buf, &victim, nullptr, ch, To::Char, Position::Type::Dead);
+            act(buf, &victim, nullptr, ch, To::Char, MobTrig::Yes, Position::Type::Dead);
     }
 }
 
@@ -118,18 +118,20 @@ static void tell_to(Char *ch, Char *victim, const char *text) {
         act("|W$E|c is not receiving replies.|w", ch, nullptr, victim, To::Char);
 
     } else if (check_enum_bit(victim->act, PlayerActFlag::PlrAfk) && victim->is_pc()) {
-        act(fmt::format("|W$N|c is {}.|w", victim->pcdata->afk), ch, nullptr, victim, To::Char, Position::Type::Dead);
+        act(fmt::format("|W$N|c is {}.|w", victim->pcdata->afk), ch, nullptr, victim, To::Char, MobTrig::Yes,
+            Position::Type::Dead);
         if (check_enum_bit(victim->comm, CommFlag::ShowAfk)) {
             // TODO(#134) use the victim's timezone info.
             act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", formatted_time(current_time), text).c_str(),
-                ch, nullptr, victim, To::Vict, Position::Type::Dead);
-            act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, Position::Type::Dead);
+                ch, nullptr, victim, To::Vict, MobTrig::Yes, Position::Type::Dead);
+            act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, MobTrig::Yes,
+                Position::Type::Dead);
             victim->reply = ch;
         }
 
     } else {
-        act("|CYou tell $N '$t|C'|w", ch, text, victim, To::Char, Position::Type::Dead);
-        act("|C$n tells you '$t|C'|w", ch, text, victim, To::Vict, Position::Type::Dead);
+        act("|CYou tell $N '$t|C'|w", ch, text, victim, To::Char, MobTrig::Yes, Position::Type::Dead);
+        act("|C$n tells you '$t|C'|w", ch, text, victim, To::Vict, MobTrig::Yes, Position::Type::Dead);
         victim->reply = ch;
         chatperform(victim, ch, text);
     }

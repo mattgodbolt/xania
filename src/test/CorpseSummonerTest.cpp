@@ -16,11 +16,11 @@ namespace {
 struct MockDependencies : public CorpseSummoner::Dependencies {
 
     MAKE_MOCK2(interpret, void(Char *, std::string), override);
-    MAKE_MOCK6(act,
-               void(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to,
-                    const Position::Type position),
+    MAKE_MOCK7(act,
+               void(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to,
+                    const MobTrig mob_trig, const Position::Type position),
                override);
-    MAKE_MOCK5(act, void(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to), override);
+    MAKE_MOCK5(act, void(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to), override);
     MAKE_MOCK1(obj_from_char, void(Object *obj), override);
     MAKE_MOCK2(obj_to_char, void(Object *obj, Char *ch), override);
     MAKE_MOCK1(obj_from_room, void(Object *obj), override);
@@ -142,7 +142,7 @@ TEST_CASE("check catalyst") {
         trompeloeil::sequence seq;
         REQUIRE_CALL(mock,
                      act("|C$n tells you '$t|C'|w", &mob, "Sorry, this item cannot be used to summon your corpse."sv,
-                         &player, To::Vict, Position::Type::Dead))
+                         &player, To::Vict, MobTrig::Yes, Position::Type::Dead))
             .IN_SEQUENCE(seq);
         REQUIRE_CALL(mock, obj_from_char(&catalyst)).IN_SEQUENCE(seq);
         REQUIRE_CALL(mock, obj_to_char(&catalyst, &player)).IN_SEQUENCE(seq);

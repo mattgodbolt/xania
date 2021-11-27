@@ -71,7 +71,6 @@ bool god; /* All new chars are gods! */
 bool merc_down; /* Shutdown       */
 bool wizlock; /* Game is wizlocked    */
 bool newlock; /* Game is newlocked    */
-bool MOBtrigger;
 
 bool read_from_descriptor(Descriptor *d, std::string_view data);
 void move_active_char_from_limbo(Char *ch);
@@ -150,7 +149,6 @@ void handle_signal_shutdown() {
         // vch->d->c check added by TM to avoid crashes when
         // someone hasn't logged in but the mud is shut down
         if (vch->is_pc() && vch->desc && vch->desc->is_playing()) {
-            MOBtrigger = false;
             do_save(vch);
             vch->send_line("|RXania has been asked to shutdown by the operating system.|w");
             if (vch->desc && vch->desc->has_buffered_output())
@@ -1143,10 +1141,6 @@ void page_to_char(const char *txt, Char *ch) {
         ch->page_to(txt);
 }
 
-void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type) {
-    act(format, ch, arg1, arg2, type, Position::Type::Resting);
-}
-
 namespace {
 
 std::string_view he_she(const Char *ch) { return subjective(*ch); }
@@ -1315,7 +1309,7 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg
 
 }
 
-void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To type,
+void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To type, const MobTrig mob_trig,
          const Position::Type min_position) {
     if (format.empty() || !ch || !ch->in_room)
         return;
@@ -1325,13 +1319,12 @@ void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, To
     for (auto *to : collect_folks(ch, vch, arg2, type, min_position)) {
         auto formatted = format_act(format, ch, arg1, arg2, to, vch);
         to->send_to(formatted);
-        if (MOBtrigger) {
+        if (mob_trig == MobTrig::Yes) {
             auto arg1_as_obj_ptr = std::get_if<const Object *>(&arg1);
             // TODO: heinous const_cast here. Safe, but annoying and worth unpicking deeper down.
             mprog_act_trigger(formatted, const_cast<Char *>(to), ch, arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
         }
     }
-    MOBtrigger = true;
 }
 
 namespace {

@@ -681,7 +681,8 @@ void obj_update() {
             }
             // Only report wear-offs for those affects who are completely gone.
             for (auto sn : removed_this_tick_with_msg)
-                act(skill_table[sn].msg_off, obj->carried_by, obj, nullptr, To::Char, Position::Type::Sleeping);
+                act(skill_table[sn].msg_off, obj->carried_by, obj, nullptr, To::Char, MobTrig::Yes,
+                    Position::Type::Sleeping);
         }
 
         if (obj->timer <= 0 || --obj->timer > 0)

@@ -1955,7 +1955,8 @@ void do_awaken(Char *ch, const char *argument) {
     clear_enum_bit(victim->affected_by, AffectFlag::Sleep);
     victim->position = Position::Type::Standing;
 
-    act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, To::Room, Position::Type::Resting);
+    act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, To::Room, MobTrig::Yes,
+        Position::Type::Resting);
 }
 
 void do_owhere(Char *ch, const char *argument) {
@@ -2909,8 +2910,7 @@ void do_force(Char *ch, const char *argument) {
 
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust()) {
-                MOBtrigger = false;
-                act(buf, ch, nullptr, vch, To::Vict);
+                act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
                 interpret(vch, argument);
             }
         }
@@ -2922,8 +2922,7 @@ void do_force(Char *ch, const char *argument) {
 
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level < LEVEL_HERO) {
-                MOBtrigger = false;
-                act(buf, ch, nullptr, vch, To::Vict);
+                act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
                 interpret(vch, argument);
             }
         }
@@ -2935,8 +2934,7 @@ void do_force(Char *ch, const char *argument) {
 
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level >= LEVEL_HERO) {
-                MOBtrigger = false;
-                act(buf, ch, nullptr, vch, To::Vict);
+                act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
                 interpret(vch, argument);
             }
         }
@@ -2962,8 +2960,7 @@ void do_force(Char *ch, const char *argument) {
             ch->send_line("Not at your level!");
             return;
         }
-        MOBtrigger = false;
-        act(buf, ch, nullptr, victim, To::Vict);
+        act(buf, ch, nullptr, victim, To::Vict, MobTrig::No);
         interpret(victim, argument);
     }
 

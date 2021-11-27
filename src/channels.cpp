@@ -117,7 +117,7 @@ void channel_command(Char *ch, const char *argument, const CommFlag chan_flag, c
         for (auto &d : descriptors().all_but(*ch)) {
             auto *victim = d.person();
             if (!check_enum_bit(victim->comm, chan_flag) && !check_enum_bit(victim->comm, CommFlag::Quiet)) {
-                act(desc_other, ch, argument, d.character(), To::Vict, Position::Type::Dead);
+                act(desc_other, ch, argument, d.character(), To::Vict, MobTrig::Yes, Position::Type::Dead);
             }
         }
     }
@@ -135,10 +135,10 @@ void do_immtalk(Char *ch, std::string_view argument) {
 
     const char *format = check_enum_bit(ch->act, PlayerActFlag::PlrAfk) ? "|w(|cAFK|w)|W $n: |c$t|w" : "|W$n: |c$t|w";
     if (ch->get_trust() >= LEVEL_HERO)
-        act(format, ch, argument, nullptr, To::Char, Position::Type::Dead);
+        act(format, ch, argument, nullptr, To::Char, MobTrig::Yes, Position::Type::Dead);
     for (auto &d : descriptors().playing()) {
         if (d.character()->is_immortal() && !check_enum_bit(d.character()->comm, CommFlag::NoWiz))
-            act(format, ch, argument, d.character(), To::Vict, Position::Type::Dead);
+            act(format, ch, argument, d.character(), To::Vict, MobTrig::Yes, Position::Type::Dead);
     }
 }
 

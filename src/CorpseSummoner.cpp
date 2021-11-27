@@ -73,7 +73,7 @@ std::optional<std::string_view> CorpseSummoner::is_catalyst_invalid(Char *player
 
 bool CorpseSummoner::check_catalyst(Char *player, Char *summoner, Object *catalyst) {
     if (auto reason = is_catalyst_invalid(player, catalyst)) {
-        mud_.act("|C$n tells you '$t|C'|w", summoner, *reason, player, To::Vict, Position::Type::Dead);
+        mud_.act("|C$n tells you '$t|C'|w", summoner, *reason, player, To::Vict, MobTrig::Yes, Position::Type::Dead);
         mud_.obj_from_char(catalyst);
         mud_.obj_to_char(catalyst, player);
         mud_.act("$n gives $p to $N.", summoner, catalyst, player, To::NotVict);
@@ -127,8 +127,9 @@ class DependenciesImpl : public CorpseSummoner::Dependencies {
 public:
     DependenciesImpl();
     void interpret(Char *ch, std::string msg);
-    void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to, const Position::Type position);
-    void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to);
+    void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to, const MobTrig mob_trig,
+             const Position::Type position);
+    void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to);
     void obj_from_char(Object *obj);
     void obj_to_char(Object *obj, Char *ch);
     void obj_from_room(Object *obj);
@@ -151,12 +152,12 @@ void DependenciesImpl::interpret(Char *ch, std::string msg) {
     ::interpret(ch, msg.c_str());
 } // TODO interpret() should take a string_view really
 
-void DependenciesImpl::act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to,
-                           const Position::Type position) {
-    ::act(msg, ch, arg1, arg2, to, position);
+void DependenciesImpl::act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to,
+                           const MobTrig mob_trig, const Position::Type position) {
+    ::act(msg, ch, arg1, arg2, to, mob_trig, position);
 }
 
-void DependenciesImpl::act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, To to) {
+void DependenciesImpl::act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to) {
     ::act(msg, ch, arg1, arg2, to);
 }
 

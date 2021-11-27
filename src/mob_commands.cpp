@@ -133,8 +133,7 @@ void do_mpasound(Char *ch, const char *argument) {
         if (const auto &exit = was_in_room->exits[direction];
             exit && exit->u1.to_room != nullptr && exit->u1.to_room != was_in_room) {
             ch->in_room = exit->u1.to_room;
-            MOBtrigger = false;
-            act(argument, ch);
+            act(argument, ch, To::Char, MobTrig::No);
         }
     }
 

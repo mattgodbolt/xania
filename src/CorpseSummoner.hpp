@@ -13,8 +13,9 @@ public:
     struct Dependencies {
         virtual ~Dependencies() = default;
         virtual void interpret(Char *, std::string) = 0;
-        virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, To, const Position::Type) = 0;
-        virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, To) = 0;
+        virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, const To, const MobTrig,
+                         const Position::Type) = 0;
+        virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, const To) = 0;
         virtual void obj_from_char(Object *) = 0;
         virtual void obj_to_char(Object *, Char *) = 0;
         virtual void obj_from_room(Object *) = 0;
