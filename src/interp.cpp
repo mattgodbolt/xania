@@ -402,27 +402,26 @@ void interp_initialise() {
     add_command("mpforce", do_mpforce, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
 }
 
-std::string apply_prefix(Char *ch, const char *command) {
+std::string apply_prefix(Char *ch, std::string_view command) {
     // Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix.
     auto player = ch->player();
-    if (!player)
-        return command;
-
-    if (0 == strcmp(command, "prefix")) {
-        return command;
-    } else {
-        auto &pc_data = player->pcdata;
-        if (command[0] == '\\') {
-            if (command[1] == '\\') {
-                ch->send_to(!pc_data->prefix.empty() ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r");
-                pc_data->prefix.clear();
-                command++; /* skip the \ */
-            }
-            command++; /* skip the \ */
-            return command;
-        } else {
-            return fmt::format("{}{}", pc_data->prefix.c_str(), command);
+    if (!player || matches(command, "prefix")) {
+        return std::string(command);
+    }
+    auto &pc_data = player->pcdata;
+    auto begin = command.begin();
+    // A command starting with single backslash means execute that command without applying the prefix.
+    if (*begin == '\\') {
+        begin++;
+        // A command starting with double slash means remove the Char's prefix.
+        if (*begin == '\\') {
+            begin++;
+            ch->send_to(!pc_data->prefix.empty() ? "(prefix removed)\n\r" : "(no prefix to remove)\n\r");
+            pc_data->prefix.clear();
         }
+        return std::string(begin, static_cast<size_t>(command.end() - begin));
+    } else {
+        return fmt::format("{}{}", pc_data->prefix, command);
     }
 }
 
