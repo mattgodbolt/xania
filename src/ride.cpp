@@ -76,10 +76,7 @@ void fallen_off_mount(Char *ch) {
            DamageType::Bash);
 }
 
-void do_ride(Char *ch, const char *argument) {
-
-    char arg[MAX_INPUT_LENGTH];
-    Char *ridee;
+void do_ride(Char *ch, ArgParser args) {
 
     if (ch->is_npc())
         return;
@@ -94,23 +91,20 @@ void do_ride(Char *ch, const char *argument) {
         return;
     }
 
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         ch->send_line("Ride whom or what?");
         return;
     }
 
-    if ((ridee = get_char_room(ch, arg)) == nullptr) {
+    if (auto *ridee = get_char_room(ch, args.shift())) {
+        if ((!check_enum_bit(ridee->act, CharActFlag::CanBeRidden)) || (ridee->master != ch)) {
+            act("You can't ride $N!", ch, nullptr, ridee, To::Char);
+        } else {
+            char_ride(ch, ridee);
+        }
+    } else {
         ch->send_line("They aren't here.");
-        return;
     }
-
-    if ((!check_enum_bit(ridee->act, CharActFlag::CanBeRidden)) || (ridee->master != ch)) {
-        act("You can't ride $N!", ch, nullptr, ridee, To::Char);
-        return;
-    }
-
-    char_ride(ch, ridee);
 }
 
 void do_dismount(Char *ch) {

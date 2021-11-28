@@ -6,9 +6,10 @@
 #pragma once
 
 class Char;
+class ArgParser;
 
 void unride_char(Char *ch, Char *pet);
 void thrown_off(Char *ch, Char *pet);
 void fallen_off_mount(Char *ch);
-void do_ride(Char *ch, const char *argument);
+void do_ride(Char *ch, ArgParser args);
 void do_dismount(Char *ch);

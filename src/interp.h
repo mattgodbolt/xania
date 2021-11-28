@@ -31,7 +31,7 @@ extern void do_permban(Char *ch, ArgParser args);
 extern void do_permit(Char *ch, ArgParser args);
 extern void do_prowl(Char *ch, ArgParser args);
 extern void do_sharpen(Char *ch);
-extern void do_ride(Char *ch, const char *arg);
+extern void do_ride(Char *ch, ArgParser args);
 extern void do_dismount(Char *ch);
 extern void do_accept(Char *ch);
 extern void do_advance(Char *ch, const char *argument);
