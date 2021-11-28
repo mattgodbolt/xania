@@ -2970,128 +2970,45 @@ void do_force(Char *ch, const char *argument) {
     ch->send_line("Ok.");
 }
 
-/*
- * New routines by Dionysos.
- */
-void do_invis(Char *ch, const char *argument) {
-    int level;
-    char arg[MAX_STRING_LENGTH];
-
+namespace {
+void toggle_wiz_visibility(Char *ch, ArgParser args, const PlayerActFlag invis_flag,
+                           const PlayerActFlag complementary_flag) {
     if (ch->is_npc())
         return;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0')
-        /* take the default path */
-
-        if (check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis)) {
-            clear_enum_bit(ch->act, PlayerActFlag::PlrWizInvis);
-            ch->invis_level = 0;
-            act("$n slowly fades into existence.", ch);
-            ch->send_line("You slowly fade back into existence.");
-        } else {
-            set_enum_bit(ch->act, PlayerActFlag::PlrWizInvis);
-            if (check_enum_bit(ch->act, PlayerActFlag::PlrProwl))
-                clear_enum_bit(ch->act, PlayerActFlag::PlrProwl);
-            ch->invis_level = ch->get_trust();
-            act("$n slowly fades into thin air.", ch);
-            ch->send_line("You slowly vanish into thin air.");
-            if (ch->pet != nullptr) {
-                set_enum_bit(ch->pet->act, PlayerActFlag::PlrWizInvis);
-                if (check_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl))
-                    clear_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl);
-                ch->pet->invis_level = ch->get_trust();
-            }
-        }
-    else
-    /* do the level thing */
-    {
-        level = atoi(arg);
-        if (level < 2 || level > ch->get_trust()) {
-            ch->send_line("Invis level must be between 2 and your level.");
-            return;
-        } else {
-            ch->reply = nullptr;
-            set_enum_bit(ch->act, PlayerActFlag::PlrWizInvis);
-            ch->invis_level = level;
-            act("$n slowly fades into thin air.", ch);
-            ch->send_line("You slowly vanish into thin air.");
-        }
-    }
-}
-
-void do_prowl(Char *ch, const char *argument) {
-    char arg[MAX_STRING_LENGTH];
-    int level = 0;
-
-    if (ch->is_npc())
-        return;
-
-    if (ch->get_trust() < LEVEL_HERO) {
-        ch->send_line("Huh?");
-        return;
-    }
-
-    argument = one_argument(argument, arg);
-    if (arg[0] == '\0') {
-        if (check_enum_bit(ch->act, PlayerActFlag::PlrProwl)) {
-            clear_enum_bit(ch->act, PlayerActFlag::PlrProwl);
-            ch->invis_level = 0;
-            if (ch->pet != nullptr) {
-                clear_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl);
-                ch->pet->invis_level = 0;
-            }
-            act("$n slowly fades into existence.", ch);
-            ch->send_line("You slowly fade back into existence.");
-            return;
-        } else {
-            ch->invis_level = ch->get_trust();
-            set_enum_bit(ch->act, PlayerActFlag::PlrProwl);
-            if (ch->pet != nullptr) {
-                ch->pet->invis_level = ch->get_trust();
-                set_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl);
-            }
-            act("$n slowly fades into thin air.", ch);
-            ch->send_line("You slowly vanish into thin air.");
-            clear_enum_bit(ch->act, PlayerActFlag::PlrWizInvis);
-            if (ch->pet != nullptr)
-                clear_enum_bit(ch->pet->act, PlayerActFlag::PlrWizInvis);
-            return;
-        }
-    }
-
-    level = atoi(arg);
-
-    if ((level > ch->get_trust()) || (level < 2)) {
-        ch->send_line("You must specify a level between 2 and your level.");
-        return;
-    }
-
-    if (check_enum_bit(ch->act, PlayerActFlag::PlrProwl)) {
-        clear_enum_bit(ch->act, PlayerActFlag::PlrProwl);
+    const auto opt_level = args.try_shift_number();
+    const auto invis_level = opt_level ? std::clamp(*opt_level, 2, ch->get_trust()) : ch->get_trust();
+    const auto is_changing_level = opt_level.has_value();
+    if (!is_changing_level && check_enum_bit(ch->act, invis_flag)) {
+        clear_enum_bit(ch->act, invis_flag);
         ch->invis_level = 0;
         if (ch->pet != nullptr) {
-            clear_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl);
+            clear_enum_bit(ch->pet->act, invis_flag);
             ch->pet->invis_level = 0;
         }
         act("$n slowly fades into existence.", ch);
         ch->send_line("You slowly fade back into existence.");
-        return;
     } else {
-        ch->invis_level = level;
-        set_enum_bit(ch->act, PlayerActFlag::PlrProwl);
+        ch->invis_level = invis_level;
+        set_enum_bit(ch->act, invis_flag);
         if (ch->pet != nullptr) {
-            set_enum_bit(ch->pet->act, PlayerActFlag::PlrProwl);
-            ch->pet->invis_level = level;
+            ch->pet->invis_level = invis_level;
+            set_enum_bit(ch->pet->act, invis_flag);
         }
         act("$n slowly fades into thin air.", ch);
         ch->send_line("You slowly vanish into thin air.");
-        clear_enum_bit(ch->act, PlayerActFlag::PlrWizInvis);
+        clear_enum_bit(ch->act, complementary_flag);
         if (ch->pet != nullptr)
-            clear_enum_bit(ch->pet->act, PlayerActFlag::PlrWizInvis);
-        return;
+            clear_enum_bit(ch->pet->act, complementary_flag);
     }
+}
+}
+
+void do_invis(Char *ch, ArgParser args) {
+    toggle_wiz_visibility(ch, args, PlayerActFlag::PlrWizInvis, PlayerActFlag::PlrProwl);
+}
+
+void do_prowl(Char *ch, ArgParser args) {
+    toggle_wiz_visibility(ch, args, PlayerActFlag::PlrProwl, PlayerActFlag::PlrWizInvis);
 }
 
 void do_holylight(Char *ch) {

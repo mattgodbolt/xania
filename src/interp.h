@@ -29,7 +29,7 @@ char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of thi
  */
 extern void do_permban(Char *ch, ArgParser args);
 extern void do_permit(Char *ch, ArgParser args);
-extern void do_prowl(Char *ch, const char *arg);
+extern void do_prowl(Char *ch, ArgParser args);
 extern void do_sharpen(Char *ch);
 extern void do_ride(Char *ch, const char *arg);
 extern void do_dismount(Char *ch);
@@ -127,7 +127,7 @@ extern void do_immtalk(Char *ch, std::string_view argument);
 extern void do_immworth(Char *ch, const char *arg);
 extern void do_imotd(Char *ch);
 extern void do_inventory(Char *ch);
-extern void do_invis(Char *ch, const char *arg);
+extern void do_invis(Char *ch, ArgParser args);
 extern void do_kick(Char *ch, const char *arg);
 extern void do_kill(Char *ch, const char *arg);
 extern void do_list(Char *ch, const char *arg);
