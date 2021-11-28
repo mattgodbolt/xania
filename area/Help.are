@@ -1672,12 +1672,17 @@ AGGRESSIVE bit from mobs, and deletes the sentient victim name.
 
 92 POOFIN POOFOUT~
 Syntax: poofin  <message>
-Syntax: poofout <message>
+        poofin  reset
+        poofout <message>
+        poofout reset
+
 
 The standard messages for goto are 'arrives in a swirling mist' and
 'leaves in a swirling mist'.  You can replace these messages with messages of
 your own choosing using the poofin and poofout commands.  These messages
 must include your name somewhere in the string.
+
+Specify "reset" to restore the message to the default value.
 
 Poofin and poofout only show to characters who can see you.
 (see also goto)

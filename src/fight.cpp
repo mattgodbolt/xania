@@ -359,7 +359,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     switch (number) {
     case (0):
         if (check_enum_bit(ch->off_flags, OffensiveFlag::Bash))
-            do_bash(ch, "");
+            do_bash(ch, ArgParser(""));
         break;
 
     case (1):
@@ -1759,33 +1759,26 @@ void do_berserk(Char *ch) {
     }
 }
 
-void do_bash(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
+void do_bash(Char *ch, ArgParser args) {
     int chance;
-
-    one_argument(argument, arg);
-
     if ((chance = get_skill(ch, gsn_bash)) == 0 || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Bash))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_bash))) {
         ch->send_line("Bashing? What's that?");
         return;
     }
-
-    if (ch->riding != nullptr) {
+    if (ch->riding) {
         ch->send_line("You can't bash while mounted.");
         return;
     }
-
-    if (arg[0] == '\0') {
+    Char *victim;
+    const auto target = args.shift();
+    if (target.empty()) {
         victim = ch->fighting;
-        if (victim == nullptr) {
+        if (!victim) {
             ch->send_line("But you aren't fighting anyone!");
             return;
         }
-    }
-
-    else if ((victim = get_char_room(ch, arg)) == nullptr) {
+    } else if (!(victim = get_char_room(ch, target))) {
         ch->send_line("They aren't here.");
         return;
     }
@@ -2199,26 +2192,19 @@ void do_murder(Char *ch, const char *argument) {
     multi_hit(ch, victim);
 }
 
-void do_backstab(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-    Object *obj;
-
-    one_argument(argument, arg);
-
-    const auto chance = ch->get_skill(gsn_backstab);
-    if (chance <= 0) {
-        ch->send_line("That might not be a good idea. You might hurt yourself.");
-        return;
-    }
-
-    if (arg[0] == '\0') {
+void do_backstab(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Backstab whom?");
         return;
     }
-
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
+        return;
+    }
+    const auto chance = ch->get_skill(gsn_backstab);
+    if (chance <= 0) {
+        ch->send_line("That might not be a good idea. You might hurt yourself.");
         return;
     }
 
@@ -2234,8 +2220,7 @@ void do_backstab(Char *ch, const char *argument) {
         ch->send_line("Kill stealing is not permitted.");
         return;
     }
-
-    if ((obj = get_eq_char(ch, Wear::Wield)) == nullptr) {
+    if (!get_eq_char(ch, Wear::Wield)) {
         ch->send_line("You need to wield a weapon to backstab.");
         return;
     }

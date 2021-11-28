@@ -178,7 +178,7 @@ void do_nochannels(Char *ch, const char *argument) {
     }
 }
 
-void do_bamfin(Char *ch, const char *argument) {
+void do_bamfin(Char *ch, std::string_view argument) {
     if (ch = ch->player(); !ch)
         return;
     auto bamfin = smash_tilde(argument);
@@ -187,31 +187,36 @@ void do_bamfin(Char *ch, const char *argument) {
         ch->send_line("Your poofin is {}", ch->pcdata->bamfin);
         return;
     }
-
+    if (matches(bamfin, "reset")) {
+        ch->pcdata->bamfin = "";
+        ch->send_line("Your poofin message has been reset.");
+        return;
+    }
     if (!matches_inside(ch->name, bamfin)) {
         ch->send_line("You must include your name.");
         return;
     }
-
     ch->pcdata->bamfin = bamfin;
     ch->send_line("Your poofin is now {}", ch->pcdata->bamfin);
 }
 
-void do_bamfout(Char *ch, const char *argument) {
+void do_bamfout(Char *ch, std::string_view argument) {
     if (ch = ch->player(); !ch)
         return;
     auto bamfout = smash_tilde(argument);
-
+    if (matches(bamfout, "reset")) {
+        ch->pcdata->bamfout = "";
+        ch->send_line("Your poofout message has been reset.");
+        return;
+    }
     if (bamfout.empty()) {
         ch->send_line("Your poofout is {}", ch->pcdata->bamfout);
         return;
     }
-
     if (!matches_inside(ch->name, bamfout)) {
         ch->send_line("You must include your name.");
         return;
     }
-
     ch->pcdata->bamfout = bamfout;
     ch->send_line("Your poofout is now {}", ch->pcdata->bamfout);
 }
@@ -489,23 +494,17 @@ void do_newlock(Char *ch) {
         ch->send_line("Newlock removed.");
 }
 
-void do_at(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Room *location;
-    Room *original;
-
-    argument = one_argument(argument, arg);
-
-    if (arg[0] == '\0' || argument[0] == '\0') {
+void do_at(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("At where what?");
         return;
     }
-
-    if ((location = find_location(ch, arg)) == nullptr) {
+    auto *location = find_location(ch, args.shift());
+    if (!location) {
         ch->send_line("No such location.");
         return;
     }
-    if ((ch->in_room != nullptr) && location == ch->in_room) {
+    if (location == ch->in_room) {
         ch->send_line("But that's in here.......");
         return;
     }
@@ -513,10 +512,12 @@ void do_at(Char *ch, const char *argument) {
         ch->send_line("That room is private right now.");
         return;
     }
-    original = ch->in_room;
+    auto *original = ch->in_room;
     char_from_room(ch);
     char_to_room(ch, location);
-    interpret(ch, argument);
+    // TODO #263 should be possible to use string_view once interpret() is upgraded to use it.
+    std::string to_interpret{args.remaining()};
+    interpret(ch, to_interpret.c_str());
 
     /*
      * See if 'ch' still exists before continuing!
@@ -1919,18 +1920,13 @@ void do_peace(Char *ch) {
     ch->send_line("Ok.");
 }
 
-void do_awaken(Char *ch, const char *argument) {
-    Char *victim;
-    char arg[MAX_INPUT_LENGTH];
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_awaken(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Awaken whom?");
         return;
     }
-
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
@@ -1946,7 +1942,7 @@ void do_awaken(Char *ch, const char *argument) {
 
     clear_enum_bit(victim->affected_by, AffectFlag::Sleep);
     victim->position = Position::Type::Standing;
-
+    act("You wake $N up.", ch, nullptr, victim, To::Char);
     act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, To::Room, MobTrig::Yes,
         Position::Type::Resting);
 }
