@@ -28,7 +28,7 @@ char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of thi
  * Defined in act_*.cpp (mostly).
  */
 extern void do_permban(Char *ch, ArgParser args);
-extern void do_permit(Char *ch, const char *arg);
+extern void do_permit(Char *ch, ArgParser args);
 extern void do_prowl(Char *ch, const char *arg);
 extern void do_sharpen(Char *ch);
 extern void do_ride(Char *ch, const char *arg);

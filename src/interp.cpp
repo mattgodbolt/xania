@@ -80,7 +80,7 @@ static void add_command(const char *name, CommandFuncNoArgs do_fun,
                  level);
 }
 
-// Add command with no args.
+// Add command that uses an ArgParser.
 static void add_command(const char *name, CommandFuncArgParser do_fun,
                         const Position::Type position = Position::Type::Dead, sh_int level = 0,
                         CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {

@@ -81,28 +81,31 @@ SpecialFunc spec_lookup(std::string_view name);
 Room *find_location(Char *ch, std::string_view arg);
 
 /* Permits or denies a player from playing the Mud from a PERMIT banned site */
-void do_permit(Char *ch, const char *argument) {
-    Char *victim;
-    int flag = 1;
+void do_permit(Char *ch, ArgParser args) {
     if (ch->is_npc())
         return;
-    if (argument[0] == '-') {
-        argument++;
-        flag = 0;
-    }
-    if (argument[0] == '+')
-        argument++;
-    victim = get_char_room(ch, argument);
-    if (victim == nullptr || victim->is_npc()) {
+    if (args.empty()) {
         ch->send_line("Permit whom?");
         return;
     }
-    if (flag) {
+    auto set_permit = true;
+    auto player = args.shift();
+    if (player[0] == '-') {
+        player.remove_prefix(1);
+        set_permit = false;
+    } else if (player[0] == '+')
+        player.remove_prefix(1);
+    auto *victim = get_char_room(ch, player);
+    if (victim == nullptr || victim->is_npc()) {
+        ch->send_line("To grant or remove the permit flag, the intended player must be in the same room as you.");
+        return;
+    }
+    if (set_permit) {
         victim->set_extra(CharExtraFlag::Permit);
     } else {
         victim->remove_extra(CharExtraFlag::Permit);
     }
-    ch->send_line("PERMIT flag {} for {}.", flag ? "set" : "removed", victim->name);
+    ch->send_line("PERMIT flag {} for {}.", set_permit ? "set" : "removed", victim->name);
 }
 
 /* equips a character */
