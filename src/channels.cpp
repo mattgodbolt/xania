@@ -98,9 +98,9 @@ void do_quiet(Char *ch) {
     }
 }
 
-void channel_command(Char *ch, const char *argument, const CommFlag chan_flag, const char *chan_name,
+void channel_command(Char *ch, std::string_view argument, const CommFlag chan_flag, const char *chan_name,
                      const char *desc_self, const char *desc_other) {
-    if (argument[0] == '\0') {
+    if (argument.empty()) {
         toggle_channel(ch, chan_flag, chan_name);
     } else {
         if (check_enum_bit(ch->comm, CommFlag::Quiet)) {
@@ -142,43 +142,43 @@ void do_immtalk(Char *ch, std::string_view argument) {
     }
 }
 
-void do_gossip(Char *ch, const char *argument) {
+void do_gossip(Char *ch, std::string_view argument) {
     channel_command(ch, argument, CommFlag::NoGossip, "Gossip", "|gYou gossip '{}|g'|w", "|g$n gossips '$t|g'|w");
 }
 
-void do_auction(Char *ch, const char *argument) {
+void do_auction(Char *ch, std::string_view argument) {
     channel_command(ch, argument, CommFlag::NoAuction, "Auction", "You auction '{}|w'", "$n auctions '$t|w'");
 }
 
-void do_music(Char *ch, const char *argument) {
+void do_music(Char *ch, std::string_view argument) {
     channel_command(ch, argument, CommFlag::NoMusic, "Music", "|PYou MUSIC: '{}|P'|w", "|P$n MUSIC: '$t|P'|w");
 }
 
-void do_question(Char *ch, const char *argument) {
+void do_question(Char *ch, std::string_view argument) {
     channel_command(ch, argument, CommFlag::NoQuestion, "Q/A", "|GYou question '{}|G'|w", "|G$n questions '$t|G'|w");
 }
 
-void do_answer(Char *ch, const char *argument) {
+void do_answer(Char *ch, std::string_view argument) {
     channel_command(ch, argument, CommFlag::NoQuestion, "Q/A", "|GYou answer '{}|G'|w", "|G$n answers '$t|G'|w");
 }
 
-void do_gratz(Char *ch, const char *argument) {
+void do_gratz(Char *ch, std::string_view argument) {
     channel_command(ch, argument, CommFlag::NoGratz, "Gratz", "|yYou gratz '{}|y'|w", "|y$n gratzes '$t|y'|w");
 }
 
-void do_allege(Char *ch, const char *argument) {
+void do_allege(Char *ch, std::string_view argument) {
     channel_command(ch, argument, CommFlag::NoAllege, "Allege", "|pYou allege '{}|p'|w", "|p$n alleges '$t|p'|w");
 }
 
-void do_philosophise(Char *ch, const char *argument) {
+void do_philosophise(Char *ch, std::string_view argument) {
     channel_command(ch, argument, CommFlag::NoPhilosophise, "Philosophise", "|WYou philosophise '{}|W'|w",
                     "|W$n philosophises '$t|W'|w");
 }
 
-void do_qwest(Char *ch, const char *argument) {
+void do_qwest(Char *ch, std::string_view argument) {
     channel_command(ch, argument, CommFlag::NoQwest, "Qwest", "|YYou qwest '{}|Y'|w", "|Y$n qwests '$t|Y'|w");
 }
 
-void do_shout(Char *ch, const char *argument) {
+void do_shout(Char *ch, std::string_view argument) {
     channel_command(ch, argument, CommFlag::NoShout, "Shout", "|WYou shout '{}|W'|w", "|W$n shouts '$t|W'|w");
 }
