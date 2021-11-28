@@ -1545,22 +1545,16 @@ void do_purge(Char *ch, const char *argument) {
     extract_char(victim, true);
 }
 
-void do_advance(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    Char *victim;
-    int level;
-    int iLevel;
-
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if (arg1[0] == '\0' || arg2[0] == '\0' || !is_number(arg2)) {
+void do_advance(Char *ch, ArgParser args) {
+    const auto name = args.shift();
+    const auto opt_level = args.try_shift_number();
+    if (name.empty() || !opt_level) {
         ch->send_line("Syntax: advance <char> <level>.");
         return;
     }
 
-    if ((victim = get_char_room(ch, arg1)) == nullptr) {
+    auto *victim = get_char_room(ch, name);
+    if (!victim) {
         ch->send_line("That player is not here.");
         return;
     }
@@ -1569,12 +1563,7 @@ void do_advance(Char *ch, const char *argument) {
         ch->send_line("Not on NPC's.");
         return;
     }
-
-    if ((level = atoi(arg2)) < 1 || level > MAX_LEVEL) {
-        ch->send_line("Level must be 1 to {}.", MAX_LEVEL);
-        return;
-    }
-
+    const auto level = std::clamp(*opt_level, 1, MAX_LEVEL);
     if (level > ch->get_trust()) {
         ch->send_line("Limited to your trust level.");
         return;
@@ -1610,7 +1599,7 @@ void do_advance(Char *ch, const char *argument) {
     }
 
     if (ch->level > victim->level) {
-        for (iLevel = victim->level; iLevel < level; iLevel++) {
+        for (auto vict_level = victim->level; vict_level < level; vict_level++) {
             victim->send_line("You raise a level!!  ");
             victim->level += 1;
             advance_level(victim);

@@ -34,7 +34,7 @@ extern void do_sharpen(Char *ch);
 extern void do_ride(Char *ch, ArgParser args);
 extern void do_dismount(Char *ch);
 extern void do_accept(Char *ch);
-extern void do_advance(Char *ch, const char *argument);
+extern void do_advance(Char *ch, ArgParser args);
 extern void do_affected(Char *ch);
 extern void do_afk(Char *ch, std::string_view argument);
 extern void do_alist(Char *ch);
