@@ -1888,20 +1888,15 @@ bool str_suffix(const char *astr, const char *bstr) {
 }
 
 /*
- * Append a string to a file.
+ * Appends text to a system file.
  */
-void append_file(Char *ch, const char *file, const char *str) {
-    FILE *fp;
-
-    if (ch->is_npc() || str[0] == '\0')
-        return;
-
-    if ((fp = fopen(file, "a")) == nullptr) {
-        perror(file);
-        ch->send_line("Could not open the file!");
+bool append_file(std::string file, std::string_view text) {
+    if (auto fp = WrappedFd::open_append(file)) {
+        fmt::print(fp, "{}", text);
+        return true;
     } else {
-        fprintf(fp, "[%5d] %s: %s\n", ch->in_room ? ch->in_room->vnum : 0, ch->name.c_str(), str);
-        fclose(fp);
+        perror(file.c_str());
+        return false;
     }
 }
 

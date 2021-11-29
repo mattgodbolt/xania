@@ -71,7 +71,7 @@ int interpolate(int level, int value_00, int value_32);
 bool str_cmp(const char *astr, const char *bstr);
 bool str_prefix(const char *astr, const char *bstr);
 bool str_suffix(const char *astr, const char *bstr);
-void append_file(Char *ch, const char *file, const char *str);
+bool append_file(std::string file, std::string_view text);
 char fread_letter(FILE *fp);
 int fread_number(FILE *fp);
 int fread_spnumber(FILE *fp);

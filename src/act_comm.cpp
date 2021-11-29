@@ -297,31 +297,45 @@ void do_pose(Char *ch) {
     act(pose_table[pose].message[2 * ch->class_num + 1], ch);
 }
 
-void do_bug(Char *ch, const char *argument) {
-    if (argument[0] == '\0') {
-        ch->send_line("Please provide a brief description of the bug!");
-        return;
-    }
-    append_file(ch, Configuration::singleton().bug_file().c_str(), argument);
-    ch->send_line("|RBug logged! If you're lucky it may even get fixed!|w");
+namespace {
+
+std::string format_player_suggestion(const Char *ch, std::string_view raw_suggestion) {
+    return fmt::format("[{:5}] {} {}\n\r", ch->in_room ? ch->in_room->vnum : 0, ch->name, raw_suggestion);
 }
 
-void do_idea(Char *ch, const char *argument) {
-    if (argument[0] == '\0') {
-        ch->send_line("Please provide a brief description of your idea!");
+void save_player_suggestion(const Char *ch, std::string_view raw_suggestion, std::string file,
+                            std::string_view missing_msg, std::string_view success_msg, std::string_view error_msg) {
+    if (ch->is_npc()) {
         return;
     }
-    append_file(ch, Configuration::singleton().ideas_file().c_str(), argument);
-    ch->send_line("|WIdea logged. This is |RNOT|W an identify command.|w");
+    if (raw_suggestion.empty()) {
+        ch->send_line(missing_msg);
+        return;
+    }
+    if (append_file(file, format_player_suggestion(ch, raw_suggestion))) {
+        ch->send_line(success_msg);
+    } else {
+        ch->send_line(error_msg);
+    }
+}
 }
 
-void do_typo(Char *ch, const char *argument) {
-    if (argument[0] == '\0') {
-        ch->send_line("A typo you say? Tell us where!");
-        return;
-    }
-    append_file(ch, Configuration::singleton().typo_file().c_str(), argument);
-    ch->send_line("|WTypo logged. One day we'll fix it, or buy a spellchecker.|w");
+void do_bug(Char *ch, std::string_view argument) {
+    save_player_suggestion(ch, argument, Configuration::singleton().bug_file(),
+                           "Please provide a brief description of the bug!",
+                           "|RBug logged! If you're lucky it may even get fixed!|w", "Shucks, unable to log the bug.");
+}
+
+void do_idea(Char *ch, std::string_view argument) {
+    save_player_suggestion(ch, argument, Configuration::singleton().ideas_file(),
+                           "Please provide a brief description of your idea!",
+                           "|WIdea logged. This is |RNOT|W an identify command.|w", "Bummer, unable to log the idea.");
+}
+
+void do_typo(Char *ch, std::string_view argument) {
+    save_player_suggestion(ch, argument, Configuration::singleton().typo_file(), "A typo you say? Tell us where!",
+                           "|WTypo logged. One day we'll fix it, or buy a spellchecker.|w",
+                           "Golly, unable to log the typo.");
 }
 
 void do_qui(Char *ch) { ch->send_line("|cIf you want to |RQUIT|c, you have to spell it out.|w"); }
