@@ -385,7 +385,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     case (4):
         if (check_enum_bit(ch->off_flags, OffensiveFlag::KickDirt))
-            do_dirt(ch, "");
+            do_dirt(ch, ArgParser(""));
         break;
 
     case (5):
@@ -1863,12 +1863,9 @@ void do_bash(Char *ch, ArgParser args) {
     }
 }
 
-void do_dirt(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_dirt(Char *ch, ArgParser args) {
     Char *victim;
     int chance;
-
-    one_argument(argument, arg);
 
     if ((chance = get_skill(ch, gsn_dirt)) == 0
         || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::KickDirt))
@@ -1877,20 +1874,18 @@ void do_dirt(Char *ch, const char *argument) {
         return;
     }
 
-    if (ch->riding != nullptr) {
+    if (ch->riding) {
         ch->send_line("It's hard to dirt kick when your feet are off the ground!");
         return;
     }
 
-    if (arg[0] == '\0') {
+    if (!args.empty()) {
         victim = ch->fighting;
-        if (victim == nullptr) {
+        if (!victim) {
             ch->send_line("But you aren't in combat!");
             return;
         }
-    }
-
-    else if ((victim = get_char_room(ch, arg)) == nullptr) {
+    } else if (!(victim = get_char_room(ch, args.shift()))) {
         ch->send_line("They aren't here.");
         return;
     }
@@ -1901,7 +1896,7 @@ void do_dirt(Char *ch, const char *argument) {
     }
 
     if (victim == ch) {
-        ch->send_line("Very funny.");
+        ch->send_line("You can't kick dirt in your own eyes!");
         return;
     }
 

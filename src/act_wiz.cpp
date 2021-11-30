@@ -221,17 +221,13 @@ void do_bamfout(Char *ch, std::string_view argument) {
     ch->send_line("Your poofout is now {}", ch->pcdata->bamfout);
 }
 
-void do_deny(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_deny(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Deny whom?");
         return;
     }
-
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
+    auto *victim = get_char_world(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
@@ -253,18 +249,16 @@ void do_deny(Char *ch, const char *argument) {
     do_quit(victim);
 }
 
-void do_disconnect(Char *ch, const char *argument) {
-    char buf[MAX_INPUT_LENGTH];
-    one_argument(argument, buf);
-    if (buf[0] == '\0') {
+void do_disconnect(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Usage:");
         ch->send_line("   disconnect <player name>");
         ch->send_line("   disconnect <socket number>");
         return;
     }
-    const std::string_view argsv = buf;
-    if (is_number(argsv)) {
-        const uint32_t channel_num = parse_number(argsv);
+
+    if (auto opt_channel = args.try_shift_number()) {
+        const uint32_t channel_num = *opt_channel;
         for (auto &d : descriptors().all()) {
             if (d.channel() == channel_num) {
                 d.close();
@@ -276,7 +270,7 @@ void do_disconnect(Char *ch, const char *argument) {
         return;
     } else {
         for (auto &d : descriptors().all()) {
-            if (d.character() && matches(d.character()->name, argsv)) {
+            if (d.character() && matches(d.character()->name, args.shift())) {
                 d.close();
                 ch->send_line("Ok.");
                 return;

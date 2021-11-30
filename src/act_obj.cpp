@@ -858,24 +858,68 @@ void do_donate(Char *ch, const char *argument) {
     }
 }
 
-void do_drop(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+namespace {
+
+bool is_transferrable_currency(const auto amount, const auto noun) {
+    return amount > 0 && (matches(noun, "coins") || matches(noun, "coin") || matches(noun, "gold"));
+}
+
+void do_give_coins(Char *ch, std::string_view num_coins, ArgParser args) {
+    /* 'give NNNN coins victim' */
+    const auto amount = parse_number(num_coins);
+    const auto noun = args.shift();
+    if (!is_transferrable_currency(amount, noun)) {
+        ch->send_line("Sorry, you can't do that.");
+        return;
+    }
+
+    const auto victim_name = args.shift();
+    if (victim_name.empty()) {
+        ch->send_line("Give what to whom?");
+        return;
+    }
+
+    auto *victim = get_char_room(ch, victim_name);
+    if (!victim) {
+        ch->send_line("They aren't here.");
+        return;
+    }
+
+    if (ch->gold < amount) {
+        ch->send_line("You haven't got that much gold.");
+        return;
+    }
+    // added because people were using charmed mobs to do some cunning things - fara
+    if (victim->carry_weight + 1 > can_carry_w(ch)) {
+        ch->send_line("They can't carry any more weight.");
+        return;
+    }
+    if (victim->carry_number + 1 > can_carry_n(ch)) {
+        ch->send_line("Their hands are full.");
+        return;
+    }
+
+    ch->gold -= amount;
+    victim->gold += amount;
+    act(fmt::format("$n gives you {} gold.", amount), ch, nullptr, victim, To::Vict);
+    act("$n gives $N some gold.", ch, nullptr, victim, To::NotVict);
+    act(fmt::format("You give $N {} gold.", amount), ch, nullptr, victim, To::Char);
+    mprog_bribe_trigger(victim, ch, amount);
+}
+}
+
+void do_drop(Char *ch, ArgParser args) {
     bool found;
-
-    argument = one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         ch->send_line("Drop what?");
         return;
     }
 
-    if (is_number(arg)) {
+    if (auto opt_number = args.try_shift_number()) {
         /* 'drop NNNN coins' */
-        int amount;
-
-        amount = atoi(arg);
-        argument = one_argument(argument, arg);
-        if (amount <= 0 || (str_cmp(arg, "coins") && str_cmp(arg, "coin") && str_cmp(arg, "gold"))) {
+        auto amount = *opt_number;
+        auto noun = args.shift();
+        if (!is_transferrable_currency(amount, noun)) {
             ch->send_line("Sorry, you can't do that.");
             return;
         }
@@ -906,8 +950,8 @@ void do_drop(Char *ch, const char *argument) {
         ch->send_line("OK.");
         return;
     }
-
-    if (str_cmp(arg, "all") && str_prefix("all.", arg)) {
+    auto arg = args.shift();
+    if (!matches(arg, "all") && !matches_start("all.", arg)) {
         /* 'drop obj' */
         auto *obj = ch->find_in_inventory(arg);
         if (!obj) {
@@ -949,51 +993,6 @@ void do_drop(Char *ch, const char *argument) {
                 act("You are not carrying any $T.", ch, nullptr, &arg[4], To::Char);
         }
     }
-}
-
-namespace {
-void do_give_coins(Char *ch, std::string_view num_coins, ArgParser args) {
-    /* 'give NNNN coins victim' */
-    const auto amount = parse_number(num_coins);
-    const auto noun = args.shift();
-    if (amount <= 0 || !(matches(noun, "coins") || matches(noun, "coin") || matches(noun, "gold"))) {
-        ch->send_line("Sorry, you can't do that.");
-        return;
-    }
-
-    const auto victim_name = args.shift();
-    if (victim_name.empty()) {
-        ch->send_line("Give what to whom?");
-        return;
-    }
-
-    auto *victim = get_char_room(ch, victim_name);
-    if (!victim) {
-        ch->send_line("They aren't here.");
-        return;
-    }
-
-    if (ch->gold < amount) {
-        ch->send_line("You haven't got that much gold.");
-        return;
-    }
-    // added because people were using charmed mobs to do some cunning things - fara
-    if (victim->carry_weight + 1 > can_carry_w(ch)) {
-        ch->send_line("They can't carry any more weight.");
-        return;
-    }
-    if (victim->carry_number + 1 > can_carry_n(ch)) {
-        ch->send_line("Their hands are full.");
-        return;
-    }
-
-    ch->gold -= amount;
-    victim->gold += amount;
-    act(fmt::format("$n gives you {} gold.", amount), ch, nullptr, victim, To::Vict);
-    act("$n gives $N some gold.", ch, nullptr, victim, To::NotVict);
-    act(fmt::format("You give $N {} gold.", amount), ch, nullptr, victim, To::Char);
-    mprog_bribe_trigger(victim, ch, amount);
-}
 }
 
 void do_give(Char *ch, ArgParser args) {
@@ -1212,20 +1211,17 @@ void do_fill(Char *ch, const char *argument) {
     obj->value[1] = obj->value[0];
 }
 
-void do_drink(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_drink(Char *ch, ArgParser args) {
     Object *obj;
     int amount;
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         obj = find_fountain(ch->in_room->contents);
         if (!obj) {
             ch->send_line("Drink what?");
             return;
         }
     } else {
-        if ((obj = get_obj_here(ch, arg)) == nullptr) {
+        if (!(obj = get_obj_here(ch, args.shift()))) {
             ch->send_line("You can't find it.");
             return;
         }

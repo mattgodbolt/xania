@@ -37,13 +37,13 @@
 
 void do_delet(Char *ch) { ch->send_line("You must type the full command to delete yourself."); }
 
-void do_delete(Char *ch, const char *argument) {
+void do_delete(Char *ch, std::string_view argument) {
 
     if (ch->is_npc())
         return;
 
     if (ch->pcdata->confirm_delete) {
-        if (argument[0] != '\0') {
+        if (!argument.empty()) {
             ch->send_line("Delete status removed.");
             ch->pcdata->confirm_delete = false;
             return;
@@ -58,7 +58,7 @@ void do_delete(Char *ch, const char *argument) {
         }
     }
 
-    if (argument[0] != '\0') {
+    if (!argument.empty()) {
         ch->send_line("Just type delete. No argument.");
         return;
     }

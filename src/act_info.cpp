@@ -1556,7 +1556,7 @@ void do_title(Char *ch, const char *argument) {
     ch->send_line("Ok.");
 }
 
-void do_description(Char *ch, const char *argument) {
+void do_description(Char *ch, std::string_view argument) {
     if (auto desc_line = smash_tilde(argument); !desc_line.empty()) {
         if (desc_line.front() == '+') {
             ch->description += fmt::format("{}\n\r", ltrim(desc_line.substr(1)));
