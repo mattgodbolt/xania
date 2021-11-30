@@ -1335,36 +1335,31 @@ void recursive_clone(Char *ch, Object *obj, Object *clone) {
 }
 
 /* command that is similar to load */
-void do_clone(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *mob = nullptr;
-    Object *obj = nullptr;
-    const char *rest = one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_clone(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Clone what?");
         return;
     }
-
-    if (!str_prefix(arg, "object")) {
-        obj = get_obj_here(ch, rest);
-    } else if (!str_prefix(arg, "mobile") || !str_prefix(arg, "character")) {
-        mob = get_char_room(ch, rest);
+    auto arg = args.shift();
+    Char *mob = nullptr;
+    Object *obj = nullptr;
+    if (matches_start(arg, "object")) {
+        obj = get_obj_here(ch, args.remaining());
+    } else if (matches_start(arg, "mobile") || matches_start(arg, "character")) {
+        mob = get_char_room(ch, args.remaining());
     } else { /* find both */
-        mob = get_char_room(ch, argument);
-        obj = get_obj_here(ch, argument);
+        mob = get_char_room(ch, arg);
+        obj = get_obj_here(ch, arg);
     }
 
     /* clone an object */
     if (obj != nullptr) {
-        Object *clone;
-
         if (!obj_check(ch, obj)) {
             ch->send_line("Your powers are not great enough for such a task.");
             return;
         }
 
-        clone = create_object(obj->objIndex);
+        auto *clone = create_object(obj->objIndex);
         clone_object(obj, clone);
         if (obj->carried_by != nullptr)
             obj_to_char(clone, ch);
@@ -1375,8 +1370,6 @@ void do_clone(Char *ch, const char *argument) {
         act("$n has created $p.", ch, clone, nullptr, To::Room);
         act("You clone $p.", ch, clone, nullptr, To::Char);
     } else if (mob != nullptr) {
-        Char *clone;
-        Object *new_obj;
 
         if (mob->is_pc()) {
             ch->send_line("You can only clone mobiles.");
@@ -1390,21 +1383,21 @@ void do_clone(Char *ch, const char *argument) {
             return;
         }
 
-        clone = create_mobile(mob->mobIndex);
-        clone_mobile(mob, clone);
+        auto *cloned_mob = create_mobile(mob->mobIndex);
+        clone_mobile(mob, cloned_mob);
 
         for (auto *carried : mob->carrying) {
             if (obj_check(ch, carried)) {
-                new_obj = create_object(carried->objIndex);
-                clone_object(carried, new_obj);
-                recursive_clone(ch, carried, new_obj);
-                obj_to_char(new_obj, clone);
-                new_obj->wear_loc = carried->wear_loc;
+                auto *cloned_obj = create_object(carried->objIndex);
+                clone_object(carried, cloned_obj);
+                recursive_clone(ch, carried, cloned_obj);
+                obj_to_char(cloned_obj, cloned_mob);
+                cloned_obj->wear_loc = carried->wear_loc;
             }
         }
-        char_to_room(clone, ch->in_room);
-        act("$n has created $N.", ch, nullptr, clone, To::Room);
-        act("You clone $N.", ch, nullptr, clone, To::Char);
+        char_to_room(cloned_mob, ch->in_room);
+        act("$n has created $N.", ch, nullptr, cloned_mob, To::Room);
+        act("You clone $N.", ch, nullptr, cloned_mob, To::Char);
     } else {
         ch->send_line("You don't see that here.");
     }
@@ -1943,7 +1936,8 @@ void do_awaken(Char *ch, ArgParser args) {
     clear_enum_bit(victim->affected_by, AffectFlag::Sleep);
     victim->position = Position::Type::Standing;
     act("You wake $N up.", ch, nullptr, victim, To::Char);
-    act("$n gives $t a kick, and wakes them up.", ch, victim->short_descr, nullptr, To::Room, MobTrig::Yes,
+    act("You wake up.", victim, nullptr, nullptr, To::Char);
+    act("$n gives $N a kick and wakes them up.", ch, nullptr, victim, To::NotVict, MobTrig::Yes,
         Position::Type::Resting);
 }
 
@@ -1992,18 +1986,14 @@ void do_owhere(Char *ch, const char *argument) {
 }
 
 /* Death's command */
-void do_coma(Char *ch, const char *argument) {
-    Char *victim;
-    char arg[MAX_INPUT_LENGTH];
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        ch->send_line("Comatoze whom?");
+void do_coma(Char *ch, ArgParser args) {
+    if (args.empty()) {
+        ch->send_line("Comatose whom?");
         return;
     }
 
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
@@ -2015,13 +2005,13 @@ void do_coma(Char *ch, const char *argument) {
         ch->send_line("Duh!  Don't you dare fall asleep on the job!");
         return;
     }
-    if ((ch->get_trust() <= victim->get_trust()) || !((ch->is_immortal()) && victim->is_npc())) {
+    if (ch->get_trust() <= victim->get_trust()) {
         ch->send_line("You failed.");
         return;
     }
 
     AFFECT_DATA af;
-    af.type = 38; /* SLEEP */ // TODO 38? really?
+    af.type = skill_lookup("sleep");
     af.level = ch->trust;
     af.duration = 4 + ch->trust;
     af.bitvector = to_int(AffectFlag::Sleep);

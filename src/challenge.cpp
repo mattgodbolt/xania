@@ -46,12 +46,7 @@ bool challenge_fighting = false;
 
 /* And now on with the code. */
 
-void do_challenge(Char *ch, const char *argument) {
-    Char *victim;
-    char arg[MAX_INPUT_LENGTH];
-
-    one_argument(argument, arg);
-
+void do_challenge(Char *ch, ArgParser args) {
     if (ch->level < 20) {
         ch->send_line("|cYou are too inexperienced to duel to the death.|w");
         return;
@@ -62,12 +57,13 @@ void do_challenge(Char *ch, const char *argument) {
         return;
     }
 
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         ch->send_line("|cChallenge whom?|w");
         return;
     }
 
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
+    auto *victim = get_char_world(ch, args.shift());
+    if (!victim) {
         ch->send_line("|cThat player does not exist!|w");
         return;
     }
@@ -331,12 +327,7 @@ void do_chal_canc(Char *ch) {
     do_chal_tick();
 }
 
-void do_cancel_chal(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-    one_argument(argument, arg);
-    victim = get_char_world(ch, arg);
-
+void do_cancel_chal(Char *ch, ArgParser args) {
     if (check_duel_status(1))
         return;
 
@@ -349,14 +340,13 @@ void do_cancel_chal(Char *ch, const char *argument) {
         imm->send_line("|cEveryone must be ready to cancel the challenge.|w");
         return;
     }
-
+    auto *victim = get_char_world(ch, args.shift());
     if (victim == challenger) {
         imm->send_line("|cYou have cancelled the challenge.|w");
         challenge_ticker = 1;
         do_chal_tick();
     } else {
         imm->send_line("|cTo cancel the challenge, you must specify the challenger.|w");
-        return;
     }
 }
 

@@ -1838,61 +1838,51 @@ void do_steal(Char *ch, const char *argument) {
     check_improve(ch, gsn_steal, true, 2);
 }
 
-void do_buy(Char *ch, const char *argument) {
-    int cost, roll;
-
-    if (argument[0] == '\0') {
+void do_buy(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Buy what?");
         return;
     }
 
     if (check_enum_bit(ch->in_room->room_flags, RoomFlag::PetShop)) {
-        char arg[MAX_INPUT_LENGTH];
-        Char *pet;
-        Room *roomNext;
-        Room *in_room;
-
         if (ch->is_npc())
             return;
 
-        argument = one_argument(argument, arg);
-
-        roomNext = get_room(ch->in_room->vnum + 1);
-        if (roomNext == nullptr) {
+        auto *roomNext = get_room(ch->in_room->vnum + 1);
+        if (!roomNext) {
             bug("Do_buy: bad pet shop at vnum {}.", ch->in_room->vnum);
             ch->send_line("Sorry, you can't buy that here.");
             return;
         }
 
-        in_room = ch->in_room;
+        auto *in_room = ch->in_room;
         ch->in_room = roomNext;
-        pet = get_char_room(ch, arg);
+        const auto *pet_index = get_char_room(ch, args.shift());
         ch->in_room = in_room;
 
-        if (pet == nullptr || !check_enum_bit(pet->act, CharActFlag::Pet)) {
+        if (!pet_index || !check_enum_bit(pet_index->act, CharActFlag::Pet)) {
             ch->send_line("Sorry, you can't buy that here.");
             return;
         }
 
-        if (ch->pet != nullptr) {
+        if (ch->pet) {
             ch->send_line("You already own a pet.");
             return;
         }
 
-        cost = 10 * pet->level * pet->level;
-
+        auto cost = 10 * pet_index->level * pet_index->level;
         if (ch->gold < cost) {
             ch->send_line("You can't afford it.");
             return;
         }
 
-        if (ch->level < pet->level) {
+        if (ch->level < pet_index->level) {
             ch->send_line("You're not powerful enough to master this pet.");
             return;
         }
 
         /* haggle */
-        roll = number_percent();
+        const auto roll = number_percent();
         if (ch->is_pc() && roll < ch->get_skill(gsn_haggle)) {
             cost -= cost / 2 * roll / 100;
             ch->send_line("You haggle the price down to {} coins.", cost);
@@ -1900,15 +1890,15 @@ void do_buy(Char *ch, const char *argument) {
         }
 
         ch->gold -= cost;
-        pet = create_mobile(pet->mobIndex);
+        auto *pet = create_mobile(pet_index->mobIndex);
         set_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
         set_enum_bit(pet->act, CharActFlag::Pet);
         set_enum_bit(pet->affected_by, AffectFlag::Charm);
         pet->comm = to_int(CommFlag::NoTell) | to_int(CommFlag::NoShout) | to_int(CommFlag::NoChannels);
 
-        argument = one_argument(argument, arg);
-        if (arg[0] != '\0')
-            pet->name = smash_tilde(fmt::format("{} {}", pet->name, arg));
+        auto pet_name = args.shift();
+        if (!pet_name.empty())
+            pet->name = smash_tilde(fmt::format("{} {}", pet->name, pet_name));
 
         pet->description = fmt::format("{}A neck tag says 'I belong to {}'.", pet->description, ch->name);
 
@@ -1920,14 +1910,12 @@ void do_buy(Char *ch, const char *argument) {
         act("$n bought $N as a pet.", ch, nullptr, pet, To::Room);
         return;
     } else {
-        Char *keeper;
-        Object *obj;
-
-        if ((keeper = find_keeper(ch)) == nullptr)
+        auto *keeper = find_keeper(ch);
+        if (!keeper)
             return;
 
-        obj = keeper->find_in_inventory(argument);
-        cost = get_cost(keeper, obj, true);
+        auto *obj = keeper->find_in_inventory(args.shift());
+        auto cost = get_cost(keeper, obj, true);
 
         if (cost <= 0 || !can_see_obj(ch, obj)) {
             act("$n tells you 'I don't sell that -- try 'list''.", keeper, nullptr, ch, To::Vict);
@@ -1963,7 +1951,7 @@ void do_buy(Char *ch, const char *argument) {
         }
 
         /* haggle */
-        roll = number_percent();
+        const auto roll = number_percent();
         if (ch->is_pc() && roll < ch->get_skill(gsn_haggle)) {
             cost -= obj->cost / 2 * roll / 100;
             ch->send_line("You haggle the price down to {} coins.", cost);
@@ -2043,23 +2031,17 @@ void do_list(Char *ch, const char *argument) {
     }
 }
 
-void do_sell(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *keeper;
-    Object *obj;
-    int cost, roll;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_sell(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Sell what?");
         return;
     }
-
-    if ((keeper = find_keeper(ch)) == nullptr)
+    auto *keeper = find_keeper(ch);
+    if (!keeper)
         return;
 
-    if ((obj = ch->find_in_inventory(arg)) == nullptr) {
+    auto *obj = ch->find_in_inventory(args.shift());
+    if (!obj) {
         act("$n tells you 'You don't have that item'.", keeper, nullptr, ch, To::Vict);
         ch->reply = keeper;
         return;
@@ -2074,9 +2056,9 @@ void do_sell(Char *ch, const char *argument) {
         act("$n doesn't see what you are offering.", keeper, nullptr, ch, To::Vict);
         return;
     }
-
+    auto cost = get_cost(keeper, obj, false);
     /* won't buy rotting goods */
-    if (obj->timer || (cost = get_cost(keeper, obj, false)) <= 0) {
+    if (obj->timer || cost <= 0) {
         act("$n looks uninterested in $p.", keeper, obj, ch, To::Vict);
         return;
     }
@@ -2088,7 +2070,7 @@ void do_sell(Char *ch, const char *argument) {
 
     act("$n sells $p.", ch, obj, nullptr, To::Room);
     /* haggle */
-    roll = number_percent();
+    auto roll = number_percent();
     if (ch->is_pc() && roll < ch->get_skill(gsn_haggle)) {
         ch->send_line("You haggle with the shopkeeper.");
         cost += obj->cost / 2 * roll / 100;
