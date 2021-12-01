@@ -17,6 +17,7 @@
 #include "Room.hpp"
 #include "VnumRooms.hpp"
 #include "act_comm.hpp"
+#include "act_move.hpp"
 #include "comm.hpp"
 #include "db.h"
 #include "fight.hpp"

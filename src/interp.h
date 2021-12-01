@@ -135,7 +135,6 @@ extern void do_load(Char *ch, const char *argument);
 extern void do_lock(Char *ch, ArgParser args);
 extern void do_log(Char *ch, const char *arg);
 extern void do_look(Char *ch, ArgParser args);
-extern void look_auto(Char *ch);
 extern void do_memory(Char *ch);
 
 /* for MOBProgs */
@@ -244,7 +243,6 @@ extern void do_south(Char *ch);
 extern void do_sockets(Char *ch, const char *arg);
 extern void do_spells(Char *ch);
 extern void do_split(Char *ch, ArgParser args);
-extern void split_coins(Char *ch, int amount);
 extern void do_sset(Char *ch, const char *argument);
 extern void do_stand(Char *ch);
 extern void do_stat(Char *ch, ArgParser args);
@@ -260,7 +258,6 @@ extern void do_train(Char *ch, ArgParser args);
 extern void do_transfer(Char *ch, ArgParser args);
 extern void do_tras(Char *ch, ArgParser args);
 extern void do_trash(Char *ch, ArgParser args);
-extern void transfer(const Char *imm, Char *victim, Room *location);
 extern void do_trip(Char *ch, const char *arg);
 extern void do_trust(Char *ch, const char *arg);
 extern void do_typo(Char *ch, std::string_view argument);

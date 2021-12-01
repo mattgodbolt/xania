@@ -35,6 +35,7 @@
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "act_comm.hpp"
+#include "act_info.hpp"
 #include "challenge.hpp"
 #include "common/BitOps.hpp"
 #include "common/Fd.hpp"

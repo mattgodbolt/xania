@@ -37,6 +37,8 @@
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
 #include "Wear.hpp"
+#include "act_info.hpp"
+#include "act_move.hpp"
 #include "act_obj.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"

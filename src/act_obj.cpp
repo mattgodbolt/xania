@@ -55,93 +55,57 @@
 
 #include <set>
 
-/* RT part of the corpse looting code */
-
-bool can_loot(const Char *ch, const Object *obj) {
-    if (ch->is_immortal())
-        return true;
-
-    if (obj->owner.empty())
-        return true;
-
-    const Char *owner = nullptr;
-    for (const auto *wch : char_list)
-        if (matches(wch->name, obj->owner))
-            owner = wch;
-
-    if (owner == nullptr)
-        return true;
-
-    if (matches(ch->name, owner->name))
-        return true;
-
-    if (owner->is_pc() && check_enum_bit(owner->act, PlayerActFlag::PlrCanLoot))
-        return true;
-
-    if (is_same_group(ch, owner))
-        return true;
-
-    return false;
-}
-
-void get_obj(Char *ch, Object *obj, Object *container) {
-    if (!obj->is_takeable()) {
-        ch->send_line("You can't take that.");
-        return;
-    }
-
-    if (ch->carry_number + get_obj_number(obj) > can_carry_n(ch)) {
-        act("$d: you can't carry that many items.", ch, nullptr, obj->name, To::Char);
-        return;
-    }
-
-    if (ch->carry_weight + get_obj_weight(obj) > can_carry_w(ch)) {
-        act("$d: you can't carry that much weight.", ch, nullptr, obj->name, To::Char);
-        return;
-    }
-
-    if (!can_loot(ch, obj)) {
-        act("|rCorpse looting is not permitted.|w", ch, nullptr, nullptr, To::Char);
-        return;
-    }
-
-    if (obj_move_violates_uniqueness(container != nullptr ? container->carried_by : nullptr, ch, obj, ch->carrying)) {
-        act(deity_name + " forbids you from possessing more than one $p.", ch, obj, nullptr, To::Char);
-        return;
-    }
-    if (container != nullptr) {
-
-        if (container->objIndex->vnum == Objects::Pit && ch->get_trust() < obj->level) {
-            ch->send_line("You are not powerful enough to use it.");
-            return;
-        }
-
-        if (container->objIndex->vnum == Objects::Pit && !container->is_takeable() && obj->timer)
-            obj->timer = 0;
-        act("You get $p from $P.", ch, obj, container, To::Char);
-        act("$n gets $p from $P.", ch, obj, container, To::Room);
-        obj_from_obj(obj);
-    } else {
-        act("You get $p.", ch, obj, container, To::Char);
-        act("$n gets $p.", ch, obj, container, To::Room);
-        obj_from_room(obj);
-    }
-
-    if (obj->type == ObjectType::Money) {
-        ch->gold += obj->value[0];
-        if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoSplit)) {
-            if (ch->num_group_members_in_room() > 1 && obj->value[0] > 1) {
-                split_coins(ch, obj->value[0]);
-            }
-        }
-
-        extract_obj(obj);
-    } else {
-        obj_to_char(obj, ch);
-    }
-}
-
 namespace {
+
+void split_coins(Char *ch, int amount) {
+    if (amount < 0) {
+        ch->send_line("Your group wouldn't like that.");
+        return;
+    }
+
+    if (amount == 0) {
+        ch->send_line("You hand out zero coins, but no one notices.");
+        return;
+    }
+
+    if (ch->gold < amount) {
+        ch->send_line("You don't have that much gold.");
+        return;
+    }
+
+    int members = 0;
+    for (auto *gch : ch->in_room->people) {
+        if (is_same_group(gch, ch) && !gch->is_aff_charm())
+            members++;
+    }
+
+    if (members < 2) {
+        ch->send_line("You'd share the gold if there was someone here to split it with!");
+        return;
+    }
+
+    int share = amount / members;
+    int extra = amount % members;
+
+    if (share == 0) {
+        ch->send_line("Don't even bother, cheapskate.");
+        return;
+    }
+
+    ch->gold -= amount;
+    ch->gold += share + extra;
+
+    ch->send_line("You split {} gold coins.  Your share is {} gold coins.", amount, share + extra);
+
+    auto message = fmt::format("$n splits {} gold coins.  Your share is {} gold coins.", amount, share);
+
+    for (auto *gch : ch->in_room->people) {
+        if (gch != ch && is_same_group(gch, ch) && !gch->is_aff_charm()) {
+            act(message, ch, nullptr, gch, To::Vict);
+            gch->gold += share;
+        }
+    }
+}
 
 /*
  * Remove an object.
@@ -551,6 +515,104 @@ int get_cost(Char *keeper, Object *obj, bool fBuy) {
     return cost;
 }
 
+}
+
+/* RT part of the corpse looting code */
+
+bool can_loot(const Char *ch, const Object *obj) {
+    if (ch->is_immortal())
+        return true;
+
+    if (obj->owner.empty())
+        return true;
+
+    const Char *owner = nullptr;
+    for (const auto *wch : char_list)
+        if (matches(wch->name, obj->owner))
+            owner = wch;
+
+    if (owner == nullptr)
+        return true;
+
+    if (matches(ch->name, owner->name))
+        return true;
+
+    if (owner->is_pc() && check_enum_bit(owner->act, PlayerActFlag::PlrCanLoot))
+        return true;
+
+    if (is_same_group(ch, owner))
+        return true;
+
+    return false;
+}
+
+void get_obj(Char *ch, Object *obj, Object *container) {
+    if (!obj->is_takeable()) {
+        ch->send_line("You can't take that.");
+        return;
+    }
+
+    if (ch->carry_number + get_obj_number(obj) > can_carry_n(ch)) {
+        act("$d: you can't carry that many items.", ch, nullptr, obj->name, To::Char);
+        return;
+    }
+
+    if (ch->carry_weight + get_obj_weight(obj) > can_carry_w(ch)) {
+        act("$d: you can't carry that much weight.", ch, nullptr, obj->name, To::Char);
+        return;
+    }
+
+    if (!can_loot(ch, obj)) {
+        act("|rCorpse looting is not permitted.|w", ch, nullptr, nullptr, To::Char);
+        return;
+    }
+
+    if (obj_move_violates_uniqueness(container != nullptr ? container->carried_by : nullptr, ch, obj, ch->carrying)) {
+        act(deity_name + " forbids you from possessing more than one $p.", ch, obj, nullptr, To::Char);
+        return;
+    }
+    if (container != nullptr) {
+
+        if (container->objIndex->vnum == Objects::Pit && ch->get_trust() < obj->level) {
+            ch->send_line("You are not powerful enough to use it.");
+            return;
+        }
+
+        if (container->objIndex->vnum == Objects::Pit && !container->is_takeable() && obj->timer)
+            obj->timer = 0;
+        act("You get $p from $P.", ch, obj, container, To::Char);
+        act("$n gets $p from $P.", ch, obj, container, To::Room);
+        obj_from_obj(obj);
+    } else {
+        act("You get $p.", ch, obj, container, To::Char);
+        act("$n gets $p.", ch, obj, container, To::Room);
+        obj_from_room(obj);
+    }
+
+    if (obj->type == ObjectType::Money) {
+        ch->gold += obj->value[0];
+        if (check_enum_bit(ch->act, PlayerActFlag::PlrAutoSplit)) {
+            if (ch->num_group_members_in_room() > 1 && obj->value[0] > 1) {
+                split_coins(ch, obj->value[0]);
+            }
+        }
+
+        extract_obj(obj);
+    } else {
+        obj_to_char(obj, ch);
+    }
+}
+
+/*
+ * 'Split' originally by Gnort, God of Chaos.
+ */
+void do_split(Char *ch, ArgParser args) {
+    if (args.empty()) {
+        ch->send_line("Split how much?");
+        return;
+    }
+
+    split_coins(ch, args.try_shift_number().value_or(-1));
 }
 
 void do_get(Char *ch, const char *argument) {

@@ -37,6 +37,7 @@
 #include "Wear.hpp"
 #include "WeatherData.hpp"
 #include "act_comm.hpp"
+#include "act_info.hpp"
 #include "act_wiz.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"

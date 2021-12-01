@@ -21,6 +21,7 @@
 #include "ToleranceFlag.hpp"
 #include "VnumMobiles.hpp"
 #include "VnumRooms.hpp"
+#include "act_info.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"

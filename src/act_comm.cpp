@@ -635,68 +635,6 @@ void do_group(Char *ch, const char *argument) {
     act("$N joins your group.", ch, nullptr, victim, To::Char);
 }
 
-/*
- * 'Split' originally by Gnort, God of Chaos.
- */
-void do_split(Char *ch, ArgParser args) {
-    if (args.empty()) {
-        ch->send_line("Split how much?");
-        return;
-    }
-
-    split_coins(ch, args.try_shift_number().value_or(-1));
-}
-
-void split_coins(Char *ch, int amount) {
-    if (amount < 0) {
-        ch->send_line("Your group wouldn't like that.");
-        return;
-    }
-
-    if (amount == 0) {
-        ch->send_line("You hand out zero coins, but no one notices.");
-        return;
-    }
-
-    if (ch->gold < amount) {
-        ch->send_line("You don't have that much gold.");
-        return;
-    }
-
-    int members = 0;
-    for (auto *gch : ch->in_room->people) {
-        if (is_same_group(gch, ch) && !gch->is_aff_charm())
-            members++;
-    }
-
-    if (members < 2) {
-        ch->send_line("You'd share the gold if there was someone here to split it with!");
-        return;
-    }
-
-    int share = amount / members;
-    int extra = amount % members;
-
-    if (share == 0) {
-        ch->send_line("Don't even bother, cheapskate.");
-        return;
-    }
-
-    ch->gold -= amount;
-    ch->gold += share + extra;
-
-    ch->send_line("You split {} gold coins.  Your share is {} gold coins.", amount, share + extra);
-
-    auto message = fmt::format("$n splits {} gold coins.  Your share is {} gold coins.", amount, share);
-
-    for (auto *gch : ch->in_room->people) {
-        if (gch != ch && is_same_group(gch, ch) && !gch->is_aff_charm()) {
-            act(message, ch, nullptr, gch, To::Vict);
-            gch->gold += share;
-        }
-    }
-}
-
 void do_gtell(Char *ch, std::string_view argument) {
     if (argument.empty()) {
         ch->send_line("|cTell your group what?|w");

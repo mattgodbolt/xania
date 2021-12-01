@@ -24,6 +24,7 @@
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "VnumRooms.hpp"
+#include "act_info.hpp"
 #include "act_wiz.hpp"
 #include "challenge.hpp"
 #include "comm.hpp"
