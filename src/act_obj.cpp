@@ -2026,19 +2026,15 @@ void do_buy(Char *ch, ArgParser args) {
     }
 }
 
-void do_list(Char *ch, const char *argument) {
+void do_list(Char *ch, ArgParser args) {
     if (check_enum_bit(ch->in_room->room_flags, RoomFlag::PetShop)) {
-        Room *roomNext;
-        bool found;
-
-        roomNext = get_room(ch->in_room->vnum + 1);
-        if (roomNext == nullptr) {
+        auto *roomNext = get_room(ch->in_room->vnum + 1);
+        if (!roomNext) {
             bug("Do_list: bad pet shop at vnum {}.", ch->in_room->vnum);
             ch->send_line("You can't do that here.");
             return;
         }
-
-        found = false;
+        auto found = false;
         for (auto *pet : roomNext->people) {
             if (check_enum_bit(pet->act, CharActFlag::Pet)) {
                 if (!found) {
@@ -2052,18 +2048,15 @@ void do_list(Char *ch, const char *argument) {
             ch->send_line("Sorry, we're out of pets right now.");
     } else {
         Char *keeper;
-        int cost;
-        bool found;
-        char arg[MAX_INPUT_LENGTH];
-
-        if ((keeper = find_keeper(ch)) == nullptr)
+        if (!(keeper = find_keeper(ch)))
             return;
-        one_argument(argument, arg);
-
+        auto obj_name = args.shift();
         std::string buffer;
+        auto found = false;
+        auto cost = 0;
         for (auto *obj : keeper->carrying) {
             if (obj->wear_loc == Wear::None && can_see_obj(ch, obj) && (cost = get_cost(keeper, obj, true)) > 0
-                && (arg[0] == '\0' || is_name(arg, obj->name))) {
+                && (obj_name.empty() || is_name(obj_name, obj->name))) {
                 if (!found) {
                     found = true;
                     buffer += "[Lv Price] Item\n\r";

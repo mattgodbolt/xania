@@ -135,25 +135,3 @@ void report_entity_imbalance() {
     bug("mob> **                       Mobile sweep completed                     **");
     bug("mob> **********************************************************************");
 }
-
-void do_immworth(Char *ch, const char *argument) {
-    Object *obj;
-    int worth, shouldbe;
-
-    if ((obj = get_obj_world(ch, argument)) == nullptr) {
-        ch->send_line("Nothing like that in Xania.");
-        return;
-    }
-
-    worth = report_object(obj, 0);
-    shouldbe = ((obj->level / 10) + 1);
-    if (worth == shouldbe) {
-        ch->send_line("Object '{}' has {} point(s) - exactly right.", obj->objIndex->short_descr, worth);
-    } else if (worth > shouldbe) {
-        ch->send_line("Object '{}' has {} point(s), {} points |Rtoo high|w.", obj->objIndex->short_descr, worth,
-                      worth - shouldbe);
-    } else {
-        ch->send_line("Object '{}' has {} point(s), within the {} point maximum.", obj->objIndex->short_descr, worth,
-                      shouldbe);
-    }
-}

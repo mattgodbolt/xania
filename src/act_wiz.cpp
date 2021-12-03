@@ -1401,47 +1401,37 @@ void do_clone(Char *ch, ArgParser args) {
 
 /* RT to replace the two load commands */
 
-void do_mload(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    MobIndexData *mobIndex;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0' || !is_number(arg)) {
+void do_mload(Char *ch, ArgParser args) {
+    const auto opt_vnum = args.try_shift_number();
+    if (!opt_vnum) {
         ch->send_line("Syntax: load mob <vnum>.");
         return;
     }
-
-    if ((mobIndex = get_mob_index(atoi(arg))) == nullptr) {
+    auto *mob_index = get_mob_index(*opt_vnum);
+    if (!mob_index) {
         ch->send_line("No mob has that vnum.");
         return;
     }
 
-    Char *victim = create_mobile(mobIndex);
+    auto *victim = create_mobile(mob_index);
     char_to_room(victim, ch->in_room);
     act("$n has created $N!", ch, nullptr, victim, To::Room);
     ch->send_line("Ok.");
 }
 
-void do_oload(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
-    ObjectIndex *objIndex;
-    Object *obj;
-
-    argument = one_argument(argument, arg1);
-    one_argument(argument, arg2);
-
-    if (arg1[0] == '\0' || !is_number(arg1)) {
+void do_oload(Char *ch, ArgParser args) {
+    const auto opt_vnum = args.try_shift_number();
+    if (!opt_vnum) {
         ch->send_line("Syntax: load obj <vnum>.");
         return;
     }
-
-    if ((objIndex = get_obj_index(atoi(arg1))) == nullptr) {
+    auto *obj_index = get_obj_index(*opt_vnum);
+    if (!obj_index) {
         ch->send_line("No object has that vnum.");
         return;
     }
 
-    obj = create_object(objIndex);
+    auto *obj = create_object(obj_index);
     if (obj->is_takeable())
         obj_to_char(obj, ch);
     else
@@ -1450,29 +1440,17 @@ void do_oload(Char *ch, const char *argument) {
     ch->send_line("Ok.");
 }
 
-void do_load(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
-    argument = one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_load(Char *ch, ArgParser args) {
+    auto type = args.shift();
+    if (matches(type, "mob") || matches(type, "char")) {
+        do_mload(ch, args);
+    } else if (matches(type, "obj")) {
+        do_oload(ch, args);
+    } else {
         ch->send_line("Syntax:");
         ch->send_line("  load mob <vnum>");
         ch->send_line("  load obj <vnum> <level>");
-        return;
     }
-
-    if (!str_cmp(arg, "mob") || !str_cmp(arg, "char")) {
-        do_mload(ch, argument);
-        return;
-    }
-
-    if (!str_cmp(arg, "obj")) {
-        do_oload(ch, argument);
-        return;
-    }
-    /* echo syntax */
-    do_load(ch, "");
 }
 
 void do_purge(Char *ch, const char *argument) {

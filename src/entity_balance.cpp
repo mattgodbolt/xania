@@ -36,7 +36,7 @@ void mobbug(std::string_view str, MobIndexData *mob) {
 /* report_object, takes an object_index_data obj and a param boot and returns the 'worth' of an
    object in points.  If boot is non-zero it will also 'BUG' these, along with any other things
    that could be wrong with the object */
-int report_object(Object *object, int boot) {
+int report_object(const Object *object, const int boot) {
     int averagedam, allowedaverage;
     ObjectIndex *obj = object->objIndex;
     auto value =
@@ -133,17 +133,15 @@ void report_entity_imbalance() {
     bug("mob> **********************************************************************");
 }
 
-void do_immworth(Char *ch, const char *argument) {
-    Object *obj;
-    int worth, shouldbe;
-
-    if ((obj = get_obj_world(ch, argument)) == nullptr) {
-        ch->send_line("Nothing like that in Xania.");
+void do_immworth(Char *ch, ArgParser args) {
+    const auto *obj = get_obj_world(ch, args.shift());
+    if (!obj) {
+        ch->send_line("No object found.");
         return;
     }
 
-    worth = report_object(obj, 0);
-    shouldbe = ((obj->level / 10) + 1);
+    const auto worth = report_object(obj, 0);
+    const auto shouldbe = ((obj->level / 10) + 1);
     if (worth == shouldbe) {
         ch->send_line("Object '{}' has {} point(s) - exactly right.", obj->objIndex->short_descr, worth);
     } else if (worth > shouldbe) {

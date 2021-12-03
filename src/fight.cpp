@@ -380,7 +380,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         break;
     case (3):
         if (check_enum_bit(ch->off_flags, OffensiveFlag::Kick))
-            do_kick(ch, "");
+            do_kick(ch, ArgParser(""));
         break;
 
     case (4):
@@ -2084,18 +2084,14 @@ void do_trip(Char *ch, const char *argument) {
     }
 }
 
-void do_kill(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_kill(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Kill whom?");
         return;
     }
 
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
@@ -2467,10 +2463,8 @@ void do_sharpen(Char *ch) {
     check_improve(ch, gsn_sharpen, true, 5);
 }
 
-void do_kick(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_kick(Char *ch, ArgParser args) {
     Char *victim;
-
     if (ch->is_pc() && ch->level < get_skill_level(ch, gsn_kick)) {
         ch->send_line("You better leave the martial arts to fighters.");
         return;
@@ -2479,23 +2473,21 @@ void do_kick(Char *ch, const char *argument) {
     if (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Kick))
         return;
 
-    one_argument(argument, arg);
-
-    if (ch->riding != nullptr) {
+    if (ch->riding) {
         ch->send_line("You can't kick - your feet are still in the stirrups!");
         return;
     }
 
-    if (arg[0] == '\0') {
-        if (ch->fighting == nullptr) {
+    if (args.empty()) {
+        if (!ch->fighting) {
             ch->send_line("Kick who?");
             return;
         } else
             victim = ch->fighting;
-    } else if ((victim = get_char_room(ch, arg)) == nullptr) {
+    } else if (!(victim = get_char_room(ch, args.shift()))) {
         ch->send_line("They aren't here.");
         return;
-    } else if (victim != ch->fighting && (ch->fighting != nullptr)) {
+    } else if (victim != ch->fighting && ch->fighting) {
         ch->send_line("No way! You are still fighting!");
         return;
     }
