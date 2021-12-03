@@ -1138,23 +1138,10 @@ void do_weather(Char *ch) {
     ch->send_to(weather_info.describe() + "\n\r");
 }
 
-void do_help(Char *ch, const char *argument) {
-    char argall[MAX_INPUT_LENGTH], argone[MAX_INPUT_LENGTH];
-
-    if (argument[0] == '\0')
-        argument = "summary";
-
-    /* this parts handles help a b so that it returns help 'a b' */
-    argall[0] = '\0';
-    while (argument[0] != '\0') {
-        argument = one_argument(argument, argone);
-        if (argall[0] != '\0')
-            strcat(argall, " ");
-        strcat(argall, argone);
-    }
-
-    if (auto *help = HelpList::singleton().lookup(ch->get_trust(), argall)) {
-        if (help->level() >= 0 && !matches(argall, "imotd"))
+void do_help(Char *ch, std::string_view argument) {
+    const std::string topic{argument.empty() ? "summary" : argument};
+    if (auto *help = HelpList::singleton().lookup(ch->get_trust(), topic)) {
+        if (help->level() >= 0 && !matches(topic, "imotd"))
             ch->send_line("|W{}|w", help->keyword());
         ch->page_to(help->text());
     } else {

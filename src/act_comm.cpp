@@ -567,13 +567,8 @@ void do_order(Char *ch, const char *argument) {
         ch->send_line("You have no followers here.");
 }
 
-void do_group(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_group(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("{}'s group:", ch->describe(ch->group_leader()));
 
         for (auto *gch : char_list) {
@@ -585,8 +580,8 @@ void do_group(Char *ch, const char *argument) {
         }
         return;
     }
-
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }

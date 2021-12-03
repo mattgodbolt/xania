@@ -2364,12 +2364,8 @@ void do_rescue(Char *ch, const char *argument) {
 /* !!!! */
 /* ok now the code....yes you did get to it eventually..*/
 
-void do_headbutt(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_headbutt(Char *ch, ArgParser args) {
     Char *victim;
-    AFFECT_DATA af;
-    int chance;
-
     if (ch->is_pc() && ch->level < get_skill_level(ch, gsn_headbutt)) {
         ch->send_line("That might not be a good idea. You might hurt yourself.");
         return;
@@ -2378,15 +2374,13 @@ void do_headbutt(Char *ch, const char *argument) {
     if (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Headbutt))
         return;
 
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         if (ch->fighting == nullptr) {
             ch->send_line("You headbutt the air furiously!");
             return;
         } else
             victim = ch->fighting;
-    } else if ((victim = get_char_room(ch, arg)) == nullptr) {
+    } else if (!(victim = get_char_room(ch, args.shift()))) {
         ch->send_line("They aren't here.");
         return;
     } else if (victim != ch->fighting && (ch->fighting != nullptr)) {
@@ -2398,21 +2392,6 @@ void do_headbutt(Char *ch, const char *argument) {
         ch->send_line("You cannot headbutt whilst mounted.");
         return;
     }
-
-    /* Changed to next condition instead.  Oshea
-    if (ch->fighting == nullptr && victim->fighting == nullptr)
-    {
-       if (ch == challenger || ch == challengee)
-          return;
-    }
-
-    if (!IS_NPC (victim) && (ch->in_room->vnum != rooms::ChallengeArena)) {
-       ch->send_line ("You can only legally headbutt a player if you are
- duelling with them.");
-       return;
-    }
- */
-
     if (victim->is_pc() && !fighting_duel(ch, victim)) {
         ch->send_line("You can only legally headbutt a player if you are duelling with them.");
         return;
@@ -2425,7 +2404,7 @@ void do_headbutt(Char *ch, const char *argument) {
 
     ch->wait_state(skill_table[gsn_headbutt].beats);
 
-    if ((chance = number_percent()) < ch->get_skill(gsn_headbutt)) {
+    if (auto chance = number_percent(); chance < ch->get_skill(gsn_headbutt)) {
         damage(ch, victim, number_range(ch->level / 3, ch->level), &skill_table[gsn_headbutt], DamageType::Bash);
         check_improve(ch, gsn_headbutt, true, 2);
 
@@ -2433,7 +2412,7 @@ void do_headbutt(Char *ch, const char *argument) {
         if ((chance < 5) || !victim->is_aff_blind()) {
             act("$n is blinded by the blood running into $s eyes!", victim);
             victim->send_line("Blood runs into your eyes - you can't see!");
-
+            AFFECT_DATA af;
             af.type = gsn_headbutt;
             af.level = ch->level;
             af.duration = 0;

@@ -528,14 +528,14 @@ void do_at(Char *ch, ArgParser args) {
     }
 }
 
-void do_goto(Char *ch, const char *argument) {
-    if (argument[0] == '\0') {
+void do_goto(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Goto where?");
         return;
     }
 
-    Room *location;
-    if ((location = find_location(ch, argument)) == nullptr) {
+    auto *location = find_location(ch, args.shift());
+    if (!location) {
         ch->send_line("No such location.");
         return;
     }

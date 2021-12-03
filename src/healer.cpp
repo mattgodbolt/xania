@@ -33,8 +33,7 @@ Char *find_healer(Room *room) {
 }
 }
 
-void do_heal(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_heal(Char *ch, ArgParser args) {
     int cost, sn;
     SpellFunc spell;
     const char *words;
@@ -45,10 +44,7 @@ void do_heal(Char *ch, const char *argument) {
         ch->send_line("You can't do that here.");
         return;
     }
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         /* display price list */
         act("$N says 'I offer the following spells:'", ch, nullptr, mob, To::Char);
         ch->send_line("  light: cure light wounds      1000 gold");
@@ -64,7 +60,7 @@ void do_heal(Char *ch, const char *argument) {
         ch->send_line(" Type heal <type> to be healed.");
         return;
     }
-
+    auto arg = args.shift();
     if (matches_start(arg, "light")) {
         spell = spell_cure_light;
         sn = skill_lookup("cure light");
