@@ -24,7 +24,7 @@ enum class DescriptorState {
     GetNewClass = 8,
     GetAlignment = 9,
     DefaultChoice = 10,
-    GenGroups = 11,
+    Customize = 11,
     ReadIMotd = 13,
     ReadMotd = 14,
     BreakConnect = 15,

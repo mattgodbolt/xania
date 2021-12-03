@@ -281,76 +281,73 @@ unsigned int exp_per_level(const Char *ch, int points) {
 }
 
 /* this procedure handles the input parsing for the skill generator */
-bool parse_gen_groups(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    int gn, sn, i;
-
-    if (argument[0] == '\0')
+bool parse_customizations(Char *ch, ArgParser args) {
+    if (args.empty())
         return false;
 
-    argument = one_argument(argument, arg);
-
-    if (!str_prefix(arg, "help")) {
-        if (argument[0] == '\0') {
+    auto command = args.shift();
+    if (matches_start(command, "help")) {
+        if (args.empty()) {
             do_help(ch, "group advice");
             do_help(ch, "group help");
             return true;
         }
 
-        do_help(ch, argument);
+        do_help(ch, args.shift());
         return true;
     }
 
-    if (!str_prefix(arg, "add")) {
-        if (argument[0] == '\0') {
+    if (matches_start(command, "add")) {
+        auto skill_group = args.remaining();
+        if (skill_group.empty()) {
             ch->send_line("You must provide a skill name.");
             return true;
         }
 
-        gn = group_lookup(argument);
-        if (gn != -1) {
-            if (ch->pcdata->customization->group_chosen[gn] || ch->pcdata->group_known[gn]) {
+        const auto group_num = group_lookup(skill_group);
+        if (group_num != -1) {
+            if (ch->pcdata->customization->group_chosen[group_num] || ch->pcdata->group_known[group_num]) {
                 ch->send_line("You already know that group!");
                 return true;
             }
 
-            if (get_group_trains(ch, gn) < 1) {
+            if (get_group_trains(ch, group_num) < 1) {
                 ch->send_line("That group is not available.");
                 return true;
             }
 
-            ch->send_line(fmt::format("{} group added", group_table[gn].name));
-            ch->pcdata->customization->group_chosen[gn] = true;
-            ch->pcdata->customization->points_chosen += get_group_trains(ch, gn);
-            gn_add(ch, gn);
+            ch->send_line(fmt::format("{} group added", group_table[group_num].name));
+            ch->pcdata->customization->group_chosen[group_num] = true;
+            ch->pcdata->customization->points_chosen += get_group_trains(ch, group_num);
+            gn_add(ch, group_num);
             if (ch->pcdata->points < 200)
-                ch->pcdata->points += get_group_trains(ch, gn);
+                ch->pcdata->points += get_group_trains(ch, group_num);
             return true;
         }
 
-        sn = skill_lookup(argument);
-        if (sn != -1) {
-            if (ch->pcdata->customization->skill_chosen[sn] || ch->pcdata->learned[sn] > 0) {
+        const auto skill_num = skill_lookup(skill_group);
+        if (skill_num != -1) {
+            if (ch->pcdata->customization->skill_chosen[skill_num] || ch->pcdata->learned[skill_num] > 0) {
                 ch->send_line("You already know that skill!");
                 return true;
             }
 
-            if (get_skill_level(ch, sn) < 0
-                || skill_table[sn].spell_fun != spell_null
+            if (get_skill_level(ch, skill_num) < 0
+                || skill_table[skill_num].spell_fun != spell_null
                 /*
                  * added Faramir 7/8/96 to stop people gaining level 60
                  * skills at during generation, with no cp cost either!
                  */
-                || (get_skill_level(ch, sn) >= 60)) {
+                || (get_skill_level(ch, skill_num) >= 60)) {
                 ch->send_line("That skill is not available.");
                 return true;
             }
-            ch->send_line(fmt::format("{} skill added", skill_table[sn].name));
-            ch->pcdata->customization->skill_chosen[sn] = true;
-            ch->pcdata->customization->points_chosen += get_skill_trains(ch, sn);
-            ch->pcdata->learned[sn] = 1;
+            ch->send_line(fmt::format("{} skill added", skill_table[skill_num].name));
+            ch->pcdata->customization->skill_chosen[skill_num] = true;
+            ch->pcdata->customization->points_chosen += get_skill_trains(ch, skill_num);
+            ch->pcdata->learned[skill_num] = 1;
             if (ch->pcdata->points < 200)
-                ch->pcdata->points += get_skill_trains(ch, sn);
+                ch->pcdata->points += get_skill_trains(ch, skill_num);
             return true;
         }
 
@@ -358,33 +355,34 @@ bool parse_gen_groups(Char *ch, const char *argument) {
         return true;
     }
 
-    if (!strcmp(arg, "drop")) {
-        if (argument[0] == '\0') {
+    if (matches_start(command, "drop")) {
+        auto skill_group = args.remaining();
+        if (skill_group.empty()) {
             ch->send_line("You must provide a skill to drop.");
             return true;
         }
 
-        gn = group_lookup(argument);
-        if (gn != -1 && ch->pcdata->customization->group_chosen[gn]) {
+        const auto group_num = group_lookup(skill_group);
+        if (group_num != -1 && ch->pcdata->customization->group_chosen[group_num]) {
             ch->send_line("Group dropped.");
-            ch->pcdata->customization->group_chosen[gn] = false;
-            ch->pcdata->customization->points_chosen -= get_group_trains(ch, gn);
-            gn_remove(ch, gn);
-            for (i = 0; i < MAX_GROUP; i++) {
-                if (ch->pcdata->customization->group_chosen[gn])
-                    gn_add(ch, gn);
+            ch->pcdata->customization->group_chosen[group_num] = false;
+            ch->pcdata->customization->points_chosen -= get_group_trains(ch, group_num);
+            gn_remove(ch, group_num);
+            for (auto i = 0; i < MAX_GROUP; i++) {
+                if (ch->pcdata->customization->group_chosen[group_num])
+                    gn_add(ch, group_num);
             }
-            ch->pcdata->points -= get_group_trains(ch, gn);
+            ch->pcdata->points -= get_group_trains(ch, group_num);
             return true;
         }
 
-        sn = skill_lookup(argument);
-        if (sn != -1 && ch->pcdata->customization->skill_chosen[sn]) {
+        const auto skill_num = skill_lookup(skill_group);
+        if (skill_num != -1 && ch->pcdata->customization->skill_chosen[skill_num]) {
             ch->send_line("Skill dropped.");
-            ch->pcdata->customization->skill_chosen[sn] = false;
-            ch->pcdata->customization->points_chosen -= get_skill_trains(ch, sn);
-            ch->pcdata->learned[sn] = 0; // NOT ch.get_skill()
-            ch->pcdata->points -= get_skill_trains(ch, sn);
+            ch->pcdata->customization->skill_chosen[skill_num] = false;
+            ch->pcdata->customization->points_chosen -= get_skill_trains(ch, skill_num);
+            ch->pcdata->learned[skill_num] = 0; // NOT ch.get_skill()
+            ch->pcdata->points -= get_skill_trains(ch, skill_num);
             return true;
         }
 
@@ -392,18 +390,18 @@ bool parse_gen_groups(Char *ch, const char *argument) {
         return true;
     }
 
-    if (!str_prefix(arg, "list")) {
+    if (matches_start(command, "list")) {
         list_available_group_costs(ch);
         return true;
     }
 
-    if (!str_prefix(arg, "learned")) {
+    if (matches_start(command, "learned")) {
         list_learned_group_costs(ch);
         return true;
     }
 
-    if (!str_prefix(arg, "info")) {
-        do_groups(ch, argument);
+    if (matches_start(command, "info")) {
+        do_groups(ch, args);
         return true;
     }
 
@@ -411,12 +409,12 @@ bool parse_gen_groups(Char *ch, const char *argument) {
 }
 
 /* shows all groups, or the sub-members of a group */
-void do_groups(Char *ch, const char *argument) {
+void do_groups(Char *ch, ArgParser argument) {
     if (ch->is_npc())
         return;
     Columner col3(*ch, 3);
-
-    if (argument[0] == '\0') { /* show all groups */
+    auto group_name = argument.shift();
+    if (group_name.empty()) { /* show all groups */
         for (auto gn = 0; gn < MAX_GROUP; gn++) {
             if (group_table[gn].name == nullptr)
                 break;
@@ -428,7 +426,7 @@ void do_groups(Char *ch, const char *argument) {
         return;
     }
 
-    if (!str_cmp(argument, "all")) { /* show all groups */
+    if (matches(group_name, "all")) { /* show all groups */
         for (auto gn = 0; gn < MAX_GROUP; gn++) {
             if (group_table[gn].name == nullptr)
                 break;
@@ -438,17 +436,17 @@ void do_groups(Char *ch, const char *argument) {
     }
 
     /* show the sub-members of a group */
-    const auto gn = group_lookup(argument);
-    if (gn == -1) {
+    const auto group_num = group_lookup(group_name);
+    if (group_num == -1) {
         ch->send_line("No group of that name exist.");
         ch->send_line("Type 'groups all' or 'info all' for a full listing.");
         return;
     }
 
     for (auto sn = 0; sn < MAX_IN_GROUP; sn++) {
-        if (group_table[gn].spells[sn] == nullptr)
+        if (group_table[group_num].spells[sn] == nullptr)
             break;
-        col3.add(group_table[gn].spells[sn]);
+        col3.add(group_table[group_num].spells[sn]);
     }
 }
 

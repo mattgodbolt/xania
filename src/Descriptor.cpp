@@ -28,7 +28,7 @@ const char *short_name_of(DescriptorState state) {
     case DescriptorState::GetNewClass: return "GetNA";
     case DescriptorState::GetAlignment: return "GetAl";
     case DescriptorState::DefaultChoice: return "DefCh";
-    case DescriptorState::GenGroups: return "GenGr";
+    case DescriptorState::Customize: return "Custm";
     case DescriptorState::ReadIMotd: return "Imotd";
     case DescriptorState::ReadMotd: return "Motd";
     case DescriptorState::BreakConnect: return "BrkCn";

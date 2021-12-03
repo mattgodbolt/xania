@@ -7,9 +7,10 @@
 
 #include <string_view>
 
+class ArgParser;
 class Char;
 
-bool parse_gen_groups(Char *ch, const char *argument);
+bool parse_customizations(Char *ch, ArgParser args);
 void list_available_group_costs(Char *ch);
 unsigned int exp_per_level(const Char *ch, int points);
 void check_improve(Char *ch, int sn, bool success, int multiplier);

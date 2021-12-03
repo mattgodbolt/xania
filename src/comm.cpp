@@ -920,7 +920,7 @@ void nanny(Descriptor *d, const char *argument) {
             ch->send_line("You already have the following skills:");
             do_skills(ch);
             do_help(ch, "menu choice");
-            d->state(DescriptorState::GenGroups);
+            d->state(DescriptorState::Customize);
             break;
         case 'n':
         case 'N':
@@ -934,7 +934,7 @@ void nanny(Descriptor *d, const char *argument) {
         }
         break;
 
-    case DescriptorState::GenGroups:
+    case DescriptorState::Customize:
         ch->send_line("");
         if (!str_cmp(argument, "done")) {
             ch->send_line("Creation points: {}", ch->pcdata->points);
@@ -946,8 +946,8 @@ void nanny(Descriptor *d, const char *argument) {
 
             break;
         }
-
-        if (!parse_gen_groups(ch, argument))
+        // TODO #263 might not have to construct an ArgParser here once nanny() and interpret() work with string views
+        if (!parse_customizations(ch, ArgParser(argument)))
             ch->send_line("Choice (add, drop, help, info, learned, list, done)?");
 
         do_help(ch, "menu choice");
