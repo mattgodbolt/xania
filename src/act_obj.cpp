@@ -843,12 +843,8 @@ void do_put(Char *ch, ArgParser args) {
     }
 }
 
-void do_donate(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
-    /* Get command argument and ensure that one has been given */
-    argument = one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_donate(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Donate what?");
         return;
     }
@@ -875,11 +871,15 @@ void do_donate(Char *ch, const char *argument) {
         ch->send_line("The psychic flux is not strong enough here.");
         return;
     }
-
+    auto arg1 = args.shift();
     /* check if 'all' or 'all.' has been used */
-    if (str_cmp(arg, "all") && str_prefix("all.", arg)) { /* this returns true if NEITHER matched */
-
-        auto *obj = ch->find_in_inventory(arg);
+    const auto is_all = matches(arg1, "all");
+    const auto is_all_named = matches_start("all.", arg1);
+    if (is_all_named) {
+        arg1.remove_prefix(4);
+    }
+    if (!(is_all || is_all_named)) {
+        auto *obj = ch->find_in_inventory(arg1);
         if (!obj) {
             ch->send_line("You do not have that item.");
             return;
@@ -912,7 +912,7 @@ void do_donate(Char *ch, const char *argument) {
     } else {
         /* 'put all container' or 'put all.obj container' */
         for (auto *obj : ch->carrying) {
-            if ((arg[3] == '\0' || is_name(&arg[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
+            if ((is_all || is_name(arg1, obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
                 && can_drop_obj(ch, obj) && obj->timer == 0) {
                 obj->timer = number_range(100, 200);
                 obj_from_char(obj);

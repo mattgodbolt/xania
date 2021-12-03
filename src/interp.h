@@ -286,7 +286,7 @@ extern void do_zap(Char *ch, const char *arg);
 extern void do_zecho(Char *ch, const char *arg);
 extern void do_throw(Char *ch, const char *arg);
 extern void do_prefix(Char *ch, const char *argument); /* 'prefix' added PCFN 19-05-97 */
-extern void do_donate(Char *ch, const char *arg); /* 'donate' added PCFN 01.06.97 */
+extern void do_donate(Char *ch, ArgParser args); /* 'donate' added PCFN 01.06.97 */
 
 /* clan stuff */
 extern void do_member(Char *ch, const char *arg);
