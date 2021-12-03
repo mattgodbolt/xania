@@ -625,12 +625,12 @@ void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vn
         corpse = get_obj_list(looter, "corpse", looter->in_room->contents);
         if (check_enum_bit(looter->act, PlayerActFlag::PlrAutoLoot) && corpse
             && !corpse->contains.empty()) { /* exists and not empty */
-            do_get(looter, "all corpse");
+            do_get(looter, ArgParser("all corpse"));
         }
         if (check_enum_bit(looter->act, PlayerActFlag::PlrAutoGold) && corpse && !corpse->contains.empty()
             && /* exists and not empty */
             !check_enum_bit(looter->act, PlayerActFlag::PlrAutoLoot)) {
-            do_get(looter, "gold corpse");
+            do_get(looter, ArgParser("gold corpse"));
         }
         if (check_enum_bit(looter->act, PlayerActFlag::PlrAutoSac)) {
             if (corpse && !corpse->contains.empty()) {

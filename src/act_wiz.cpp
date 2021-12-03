@@ -1712,18 +1712,14 @@ void do_restore(Char *ch, const char *argument) {
     ch->send_line("Ok.");
 }
 
-void do_freeze(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_freeze(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Freeze whom?");
         return;
     }
 
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
+    auto *victim = get_char_world(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }

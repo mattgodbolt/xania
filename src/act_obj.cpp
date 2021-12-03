@@ -615,26 +615,22 @@ void do_split(Char *ch, ArgParser args) {
     split_coins(ch, args.try_shift_number().value_or(-1));
 }
 
-void do_get(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
+void do_get(Char *ch, ArgParser args) {
     Object *container;
     bool found;
 
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if (!str_cmp(arg2, "from"))
-        argument = one_argument(argument, arg2);
-
+    auto arg1 = args.shift();
     /* Get type. */
-    if (arg1[0] == '\0') {
+    if (arg1.empty()) {
         ch->send_line("Get what?");
         return;
     }
+    auto arg2 = args.shift();
+    if (matches(arg2, "from"))
+        arg2 = args.shift();
 
-    if (arg2[0] == '\0') {
-        if (str_cmp(arg1, "all") && str_prefix("all.", arg1)) {
+    if (arg2.empty()) {
+        if (!matches(arg1, "all") && !matches_start("all.", arg1)) {
             /* 'get obj' */
             auto *obj = get_obj_list(ch, arg1, ch->in_room->contents);
             if (!obj) {
@@ -662,7 +658,7 @@ void do_get(Char *ch, const char *argument) {
         }
     } else {
         /* 'get ... container' */
-        if (!str_cmp(arg2, "all") || !str_prefix("all.", arg2)) {
+        if (matches(arg2, "all") || matches_start("all.", arg2)) {
             ch->send_line("You can't do that.");
             return;
         }
@@ -691,8 +687,12 @@ void do_get(Char *ch, const char *argument) {
             act("The $d is closed.", ch, nullptr, container->name, To::Char);
             return;
         }
-
-        if (str_cmp(arg1, "all") && str_prefix("all.", arg1)) {
+        const auto is_all = matches(arg1, "all");
+        const auto is_all_named = matches_start("all.", arg1);
+        if (is_all_named) {
+            arg1.remove_prefix(4);
+        }
+        if (!(is_all || is_all_named)) {
             /* 'get obj container' */
             auto *obj = get_obj_list(ch, arg1, container->contains);
             if (!obj) {
@@ -704,8 +704,7 @@ void do_get(Char *ch, const char *argument) {
             /* 'get all container' or 'get all.obj container' */
             found = false;
             for (auto *obj : container->contains) {
-                if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj)) {
-                    found = true;
+                if ((is_all || is_name(arg1, obj->name)) && can_see_obj(ch, obj)) {
                     if (container->objIndex->vnum == Objects::Pit && ch->is_mortal()) {
                         ch->send_line("Don't be so greedy!");
                         return;
@@ -717,13 +716,13 @@ void do_get(Char *ch, const char *argument) {
                         act("$n refrains from looting $p as it appears to be undroppable.", ch, obj, nullptr, To::Room);
                         continue;
                     }
-
+                    found = true;
                     get_obj(ch, obj, container);
                 }
             }
 
             if (!found) {
-                if (arg1[3] == '\0')
+                if (is_all)
                     act("I see nothing in the $T.", ch, nullptr, arg2, To::Char);
                 else
                     act("I see nothing like that in the $T.", ch, nullptr, arg2, To::Char);
@@ -732,28 +731,22 @@ void do_get(Char *ch, const char *argument) {
     }
 }
 
-void do_put(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    Object *container;
-
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if (!str_cmp(arg2, "in"))
-        argument = one_argument(argument, arg2);
-
-    if (arg1[0] == '\0' || arg2[0] == '\0') {
+void do_put(Char *ch, ArgParser args) {
+    auto arg1 = args.shift();
+    auto arg2 = args.shift();
+    if (matches(arg2, "in"))
+        arg2 = args.shift();
+    if (arg1.empty() || arg2.empty()) {
         ch->send_line("Put what in what?");
         return;
     }
 
-    if (!str_cmp(arg2, "all") || !str_prefix("all.", arg2)) {
+    if (matches(arg2, "all") || matches_start("all.", arg2)) {
         ch->send_line("You can't do that.");
         return;
     }
-
-    if ((container = get_obj_here(ch, arg2)) == nullptr) {
+    auto *container = get_obj_here(ch, arg2);
+    if (!container) {
         act("I see no $T here.", ch, nullptr, arg2, To::Char);
         return;
     }
@@ -767,8 +760,12 @@ void do_put(Char *ch, const char *argument) {
         act("The $d is closed.", ch, nullptr, container->name, To::Char);
         return;
     }
-
-    if (str_cmp(arg1, "all") && str_prefix("all.", arg1)) {
+    const auto is_all = matches(arg1, "all");
+    const auto is_all_named = matches_start("all.", arg1);
+    if (is_all_named) {
+        arg1.remove_prefix(4);
+    }
+    if (!(is_all || is_all_named)) {
         /* put obj container' */
         auto *obj = ch->find_in_inventory(arg1);
         if (!obj) {
@@ -811,8 +808,9 @@ void do_put(Char *ch, const char *argument) {
         act("You put $p in $P.", ch, obj, container, To::Char);
     } else {
         /* 'put all container' or 'put all.obj container' */
+        auto found = false;
         for (auto *obj : ch->carrying) {
-            if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
+            if ((is_all || is_name(arg1, obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
                 && obj != container && can_drop_obj(ch, obj)
                 && get_obj_weight(obj) + get_obj_weight(container) <= container->value[0]) {
 
@@ -830,8 +828,16 @@ void do_put(Char *ch, const char *argument) {
 
                 obj_from_char(obj);
                 obj_to_obj(obj, container);
+                found = true;
                 act("$n puts $p in $P.", ch, obj, container, To::Room);
                 act("You put $p in $P.", ch, obj, container, To::Char);
+            }
+        }
+        if (!found) {
+            if (is_all) {
+                act("You are not carrying anything.", ch, nullptr, nullptr, To::Char);
+            } else {
+                act("You are not carrying any $T.", ch, nullptr, arg1, To::Char);
             }
         }
     }
@@ -1013,7 +1019,12 @@ void do_drop(Char *ch, ArgParser args) {
         return;
     }
     auto arg = args.shift();
-    if (!matches(arg, "all") && !matches_start("all.", arg)) {
+    const auto is_all = matches(arg, "all");
+    const auto is_all_named = matches_start("all.", arg);
+    if (is_all_named) {
+        arg.remove_prefix(4);
+    }
+    if (!(is_all || is_all_named)) {
         /* 'drop obj' */
         auto *obj = ch->find_in_inventory(arg);
         if (!obj) {
@@ -1036,7 +1047,7 @@ void do_drop(Char *ch, ArgParser args) {
         /* 'drop all' or 'drop all.obj' */
         found = false;
         for (auto *obj : ch->carrying) {
-            if ((arg[3] == '\0' || is_name(&arg[4], obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
+            if ((is_all || is_name(arg, obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
                 && can_drop_obj(ch, obj)) {
                 found = true;
                 obj_from_char(obj);
@@ -1049,10 +1060,10 @@ void do_drop(Char *ch, ArgParser args) {
         }
 
         if (!found) {
-            if (arg[3] == '\0')
-                act("You are not carrying anything.", ch, nullptr, arg, To::Char);
+            if (is_all)
+                act("You are not carrying anything.", ch, nullptr, nullptr, To::Char);
             else
-                act("You are not carrying any $T.", ch, nullptr, &arg[4], To::Char);
+                act("You are not carrying any $T.", ch, nullptr, arg, To::Char);
         }
     }
 }

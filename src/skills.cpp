@@ -183,8 +183,7 @@ void list_group_costs(Char *ch, const auto group_filter, const auto skill_filter
 }
 
 /* used to get new skills */
-void do_gain(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_gain(Char *ch, std::string_view argument) {
     if (ch->is_npc())
         return;
     auto *trainer = find_trainer(ch->in_room);
@@ -192,14 +191,13 @@ void do_gain(Char *ch, const char *argument) {
         ch->send_line("You can't do that here.");
         return;
     }
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+    if (argument.empty()) {
         trainer->say("Gain what? Pssst! Try help gain.");
-    } else if (matches_start(arg, "list")) {
+    } else if (matches_start(argument, "list")) {
         gain_list(ch);
-    } else if (matches_start(arg, "convert")) {
+    } else if (matches_start(argument, "convert")) {
         gain_convert(ch, trainer);
-    } else if (matches_start(arg, "points")) {
+    } else if (matches_start(argument, "points")) {
         gain_points(ch, trainer);
     } else if (const auto group = group_lookup(argument); group > 0) {
         gain_skill_group(ch, group, trainer);
