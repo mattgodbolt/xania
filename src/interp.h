@@ -147,12 +147,12 @@ extern void do_mpechoat(Char *ch, ArgParser args);
 extern void do_mpforce(Char *ch, ArgParser args);
 extern void do_mpgoto(Char *ch, ArgParser args);
 extern void do_mpjunk(Char *ch, ArgParser args);
-extern void do_mpkill(Char *ch, const char *arg);
-extern void do_mpmload(Char *ch, const char *arg);
-extern void do_mpoload(Char *ch, const char *arg);
-extern void do_mppurge(Char *ch, const char *arg);
+extern void do_mpkill(Char *ch, ArgParser args);
+extern void do_mpmload(Char *ch, ArgParser args);
+extern void do_mpoload(Char *ch, ArgParser args);
+extern void do_mppurge(Char *ch, ArgParser args);
 extern void do_mpstat(Char *ch, ArgParser args);
-extern void do_mptransfer(Char *ch, const char *arg);
+extern void do_mptransfer(Char *ch, ArgParser args);
 
 extern void do_mset(Char *ch, const char *argument);
 extern void do_mstat(Char *ch, std::string_view argument);

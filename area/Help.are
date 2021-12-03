@@ -1373,17 +1373,15 @@ into an orc).
 
 96 LOAD~
 Syntax: load mob <vnum>
-	load obj <vnum> <level>
+	load obj <vnum>
 
 The load command is used to load new objects or mobiles (use clone to
 duplicate strung items and mobs).  The vnums can be found with the vnum
 command, or by stat'ing an existing mob or object.
 
 Load puts objects in inventory if they can be carried, otherwise they are
-put in the room.  Mobiles are always put into the same room as the god. Old
-format objects must be given a level argument to determine their power, new
-format objects have a preset level that cannot be changed without set.
-(see also clone, vnum, stat)
+put in the room.  Mobiles are always put into the same room as the god.
+(see also clone, vnum, stat, set)
 ~
 
 98 SET~

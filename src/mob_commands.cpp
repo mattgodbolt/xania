@@ -140,42 +140,32 @@ void do_mpasound(Char *ch, std::string_view argument) {
 
 /* lets the mobile kill any player or mobile without murder*/
 
-void do_mpkill(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
+void do_mpkill(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        bug("MpKill - No argument from vnum {}.", ch->mobIndex->vnum);
+    if (args.empty()) {
+        bug("mpkill: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
-        bug("MpKill - Victim not in room from vnum {}.", ch->mobIndex->vnum);
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
+        bug("mpkill: Victim not in room from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
     if (victim == ch) {
-        bug("MpKill - Bad victim to attack from vnum {}.", ch->mobIndex->vnum);
+        bug("mpkill: Bad victim to attack from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
     if (ch->is_aff_charm() && ch->master == victim) {
-        bug("MpKill - Charmed mob attacking master from vnum {}.", ch->mobIndex->vnum);
+        bug("mpkill: Charmed mob attacking master from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
     if (ch->is_pos_fighting()) {
-        bug("MpKill - Already fighting from vnum {}", ch->mobIndex->vnum);
+        bug("mpkill: Already fighting from vnum {}", ch->mobIndex->vnum);
         return;
     }
-
     multi_hit(ch, victim);
 }
 
@@ -275,60 +265,43 @@ void do_mpecho(Char *ch, std::string_view argument) {
 }
 
 /* lets the mobile load an item or mobile.  All items
-are loaded into inventory.  you can specify a level with
-the load object portion as well. */
+are loaded into inventory. */
 
-void do_mpmload(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    MobIndexData *mobIndex;
-    Char *victim;
-
+void do_mpmload(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0' || !is_number(arg)) {
-        bug("Mpmload - Bad vnum as arg from vnum {}.", ch->mobIndex->vnum);
+    const auto opt_vnum = args.try_shift_number();
+    if (!opt_vnum) {
+        bug("mpmload: Bad vnum as arg from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if ((mobIndex = get_mob_index(atoi(arg))) == nullptr) {
-        bug("Mpmload - Bad mob vnum from vnum {}.", ch->mobIndex->vnum);
+    auto *mob_index = get_mob_index(*opt_vnum);
+    if (!mob_index) {
+        bug("mpmload: Bad mob vnum from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    victim = create_mobile(mobIndex);
+    auto *victim = create_mobile(mob_index);
     char_to_room(victim, ch->in_room);
 }
 
-void do_mpoload(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    ObjectIndex *objIndex;
-    Object *obj;
-
+void do_mpoload(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if (arg1[0] == '\0' || !is_number(arg1)) {
-        bug("Mpoload - Bad syntax from vnum {}.", ch->mobIndex->vnum);
+    const auto opt_vnum = args.try_shift_number();
+    if (!opt_vnum) {
+        bug("mpoload: Bad syntax from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if ((objIndex = get_obj_index(atoi(arg1))) == nullptr) {
-        bug("Mpoload - Bad vnum arg from vnum {}.", ch->mobIndex->vnum);
+    auto *obj_index = get_obj_index(*opt_vnum);
+    if (!obj_index) {
+        bug("mpoload: Bad vnum arg from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    obj = create_object(objIndex);
+    auto *obj = create_object(obj_index);
     if (obj->is_takeable()) {
         obj_to_char(obj, ch);
     } else {
@@ -341,18 +314,12 @@ void do_mpoload(Char *ch, const char *argument) {
    itself, but this had best be the last command in the MOBprogram
    otherwise ugly stuff will happen */
 
-void do_mppurge(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
+void do_mppurge(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        /* 'purge' */
+    if (args.empty()) {
         for (auto *victim : ch->in_room->people) {
             if (victim->is_npc() && victim != ch)
                 extract_char(victim, true);
@@ -363,24 +330,18 @@ void do_mppurge(Char *ch, const char *argument) {
 
         return;
     }
-
-    auto *victim = get_char_room(ch, arg);
+    auto target = args.shift();
+    auto *victim = get_char_room(ch, target);
     if (!victim) {
-        auto *obj = get_obj_here(ch, arg);
+        auto *obj = get_obj_here(ch, target);
         if (obj) {
             extract_obj(obj);
         } else {
-            bug("Mppurge - Bad argument from vnum {}.", ch->mobIndex->vnum);
+            bug("mppurge: Bad argument from vnum {}.", ch->mobIndex->vnum);
         }
-        return;
+    } else if (victim->is_npc()) {
+        extract_char(victim, true);
     }
-
-    if (victim->is_pc()) {
-        bug("Mppurge - Purging a PC from vnum {}.", ch->mobIndex->vnum);
-        return;
-    }
-
-    extract_char(victim, true);
 }
 
 /* lets the mobile goto any location it wishes that is not private */
@@ -446,62 +407,50 @@ void do_mpat(Char *ch, ArgParser args) {
 /* lets the mobile transfer people.  the all argument transfers
    everyone in the current room to the specified location */
 
-void do_mptransfer(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    Room *location;
-
+void do_mptransfer(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if (arg1[0] == '\0') {
+    if (args.empty()) {
         bug("Mptransfer - Bad syntax from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if (!str_cmp(arg1, "all")) {
+    auto whom = args.shift();
+    auto where = args.shift();
+    if (matches(whom, "all")) {
         for (auto &victim :
              descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
             if (victim.in_room != nullptr) {
-                do_transfer(ch, ArgParser(fmt::format("{} {}", victim.name, arg2)));
+                do_transfer(ch, ArgParser(fmt::format("{} {}", victim.name, where)));
             }
         }
         return;
     }
-
-    /*
-     * Thanks to Grodyn for the optional location parameter.
-     */
-    if (arg2[0] == '\0') {
+    Room *location{};
+    if (where.empty()) {
         location = ch->in_room;
     } else {
-        if ((location = find_location(ch, arg2)) == nullptr) {
-            bug("Mptransfer - No such location from vnum {}.", ch->mobIndex->vnum);
+        if (!(location = find_location(ch, where))) {
+            bug("mptransfer: No such location from vnum {}.", ch->mobIndex->vnum);
             return;
         }
 
         if (room_is_private(location)) {
-            bug("Mptransfer - Private room from vnum {}.", ch->mobIndex->vnum);
+            bug("mptransfer: Private room from vnum {}.", ch->mobIndex->vnum);
             return;
         }
     }
-
-    Char *victim;
-    if ((victim = get_char_world(ch, arg1)) == nullptr) {
-        bug("Mptransfer - No such person from vnum {}.", ch->mobIndex->vnum);
+    auto *victim = get_char_world(ch, whom);
+    if (!victim) {
+        bug("mptransfer: No such person from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if (victim->in_room == nullptr) {
-        bug("Mptransfer - Victim in Limbo from vnum {}.", ch->mobIndex->vnum);
+    if (!victim->in_room) {
+        bug("mptransfer: Victim in Limbo from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if (victim->fighting != nullptr)
+    if (victim->fighting)
         stop_fighting(victim, true);
 
     char_from_room(victim);

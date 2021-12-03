@@ -388,10 +388,6 @@ void do_transfer(Char *ch, ArgParser args) {
         }
         return;
     }
-
-    /*
-     * Thanks to Grodyn for the optional location parameter.
-     */
     Room *location{};
     if (where.empty()) {
         location = ch->in_room;
@@ -1397,7 +1393,6 @@ void do_oload(Char *ch, ArgParser args) {
         ch->send_line("No object has that vnum.");
         return;
     }
-
     auto *obj = create_object(obj_index);
     if (obj->is_takeable())
         obj_to_char(obj, ch);
@@ -1416,7 +1411,7 @@ void do_load(Char *ch, ArgParser args) {
     } else {
         ch->send_line("Syntax:");
         ch->send_line("  load mob <vnum>");
-        ch->send_line("  load obj <vnum> <level>");
+        ch->send_line("  load obj <vnum>");
     }
 }
 
