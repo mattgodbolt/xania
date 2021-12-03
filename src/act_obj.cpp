@@ -1430,16 +1430,14 @@ void do_wear(Char *ch, const char *argument) {
 
 void do_remove(Char *ch, const char *argument) {
     char arg[MAX_INPUT_LENGTH];
-    Object *obj;
-
     one_argument(argument, arg);
 
     if (arg[0] == '\0') {
         ch->send_line("Remove what?");
         return;
     }
-
-    if ((obj = get_obj_wear(ch, arg)) == nullptr) {
+    auto *obj = ch->find_worn(arg);
+    if (!obj) {
         ch->send_line("You do not have that item.");
         return;
     }

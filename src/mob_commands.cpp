@@ -114,21 +114,19 @@ void do_mpstat(Char *ch, ArgParser args) {
 
 /* prints the argument to all the rooms aroud the mobile */
 
-void do_mpasound(Char *ch, const char *argument) {
-
-    Room *was_in_room;
+void do_mpasound(Char *ch, std::string_view argument) {
 
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
 
-    if (argument[0] == '\0') {
-        bug("Mpasound - No argument from vnum {}.", ch->mobIndex->vnum);
+    if (argument.empty()) {
+        bug("mpasound: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
-    was_in_room = ch->in_room;
+    auto *was_in_room = ch->in_room;
     for (auto direction : all_directions) {
         if (const auto &exit = was_in_room->exits[direction];
             exit && exit->u1.to_room != nullptr && exit->u1.to_room != was_in_room) {
@@ -185,34 +183,36 @@ void do_mpkill(Char *ch, const char *argument) {
    it can also destroy a worn object and it can destroy
    items using all.xxxxx or just plain all of them */
 
-void do_mpjunk(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
+void do_mpjunk(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        bug("Mpjunk - No argument from vnum {}.", ch->mobIndex->vnum);
+    if (args.empty()) {
+        bug("mpjunk: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if (str_cmp(arg, "all") && str_prefix("all.", arg)) {
-        auto *obj = get_obj_wear(ch, arg);
+    auto obj_name = args.shift();
+    const auto is_all = matches(obj_name, "all");
+    const auto is_all_named = matches_start("all.", obj_name);
+    if (is_all_named) {
+        obj_name.remove_prefix(4);
+    }
+    if (!(is_all || is_all_named)) {
+        // mpjunk obj
+        auto *obj = ch->find_worn(obj_name);
         if (obj) {
             unequip_char(ch, obj);
             extract_obj(obj);
             return;
         }
-        if ((obj = ch->find_in_inventory(arg)) == nullptr)
-            return;
-        extract_obj(obj);
+        obj = ch->find_in_inventory(obj_name);
+        if (obj)
+            extract_obj(obj);
     } else {
+        // mpjunk all,  or mpjunk all.obj
         for (auto *obj : ch->carrying) {
-            if (arg[3] == '\0' || is_name(&arg[4], obj->name)) {
+            if (is_all || is_name(obj_name, obj->name)) {
                 if (obj->wear_loc != Wear::None)
                     unequip_char(ch, obj);
                 extract_obj(obj);
@@ -223,69 +223,54 @@ void do_mpjunk(Char *ch, const char *argument) {
 
 /* prints the message to everyone in the room other than the mob and victim */
 
-void do_mpechoaround(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
+void do_mpechoaround(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-
-    argument = one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        bug("Mpechoaround - No argument from vnum {}.", ch->mobIndex->vnum);
+    if (args.empty()) {
+        bug("mpechoaround: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if (!(victim = get_char_room(ch, arg))) {
-        bug("Mpechoaround - Victim does not exist from vnum {}.", ch->mobIndex->vnum);
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
+        bug("mpechoaround: Victim does not exist from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    act(argument, ch, nullptr, victim, To::NotVict);
+    act(args.remaining(), ch, nullptr, victim, To::NotVict);
 }
 
 /* prints the message to only the victim */
 
-void do_mpechoat(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
+void do_mpechoat(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-
-    argument = one_argument(argument, arg);
-
-    if (arg[0] == '\0' || argument[0] == '\0') {
-        bug("Mpechoat - No argument from vnum {}.", ch->mobIndex->vnum);
+    if (args.empty()) {
+        bug("mpechoat: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if (!(victim = get_char_room(ch, arg))) {
-        bug("Mpechoat - Victim does not exist from vnum {}.", ch->mobIndex->vnum);
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
+        bug("mpechoat: Victim does not exist from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    act(argument, ch, nullptr, victim, To::Vict);
+    act(args.remaining(), ch, nullptr, victim, To::Vict);
 }
 
 /* prints the message to the room at large */
 
-void do_mpecho(Char *ch, const char *argument) {
+void do_mpecho(Char *ch, std::string_view argument) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
 
-    if (argument[0] == '\0') {
-        bug("Mpecho - Called w/o argument from vnum {}.", ch->mobIndex->vnum);
+    if (argument.empty()) {
+        bug("mpecho: Called w/o argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
     act(argument, ch);
 }
 
@@ -400,27 +385,22 @@ void do_mppurge(Char *ch, const char *argument) {
 
 /* lets the mobile goto any location it wishes that is not private */
 
-void do_mpgoto(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Room *location;
-
+void do_mpgoto(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
-        bug("Mpgoto - No argument from vnum {}.", ch->mobIndex->vnum);
+    if (args.empty()) {
+        bug("mpgoto: No argument from vnum {}.", ch->mobIndex->vnum);
+        return;
+    }
+    auto *location = find_location(ch, args.shift());
+    if (!location) {
+        bug("mpgoto: No such location from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
-    if ((location = find_location(ch, arg)) == nullptr) {
-        bug("Mpgoto - No such location from vnum {}.", ch->mobIndex->vnum);
-        return;
-    }
-
-    if (ch->fighting != nullptr)
+    if (ch->fighting)
         stop_fighting(ch, true);
 
     char_from_room(ch);
@@ -429,32 +409,26 @@ void do_mpgoto(Char *ch, const char *argument) {
 
 /* lets the mobile do a command at another location. Very useful */
 
-void do_mpat(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Room *location;
-    Room *original;
-
+void do_mpat(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-
-    argument = one_argument(argument, arg);
-
-    if (arg[0] == '\0' || argument[0] == '\0') {
-        bug("Mpat - Bad argument from vnum {}.", ch->mobIndex->vnum);
+    if (args.empty()) {
+        bug("mpat: Bad argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if ((location = find_location(ch, arg)) == nullptr) {
-        bug("Mpat - No such location from vnum {}.", ch->mobIndex->vnum);
+    auto *location = find_location(ch, args.shift());
+    if (!location) {
+        bug("mpat: No such location from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    original = ch->in_room;
+    auto *original = ch->in_room;
     char_from_room(ch);
     char_to_room(ch, location);
-    interpret(ch, argument);
+    // TODO #263 should be possible to use string_view once interpret() is upgraded to use it.
+    const std::string to_interpret{args.remaining()};
+    interpret(ch, to_interpret.c_str());
 
     /*
      * See if 'ch' still exists before continuing!
@@ -537,39 +511,35 @@ void do_mptransfer(Char *ch, const char *argument) {
 /* lets the mobile force someone to do something.  must be mortal level
    and the all argument only affects those in the room with the mobile */
 
-void do_mpforce(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
+void do_mpforce(Char *ch, ArgParser args) {
     if (ch->is_pc()) {
         ch->send_line("Huh?");
         return;
     }
-
-    argument = one_argument(argument, arg);
-
-    if (arg[0] == '\0' || argument[0] == '\0') {
-        bug("Mpforce - Bad syntax from vnum {}.", ch->mobIndex->vnum);
+    if (args.empty()) {
+        bug("mpforce: Bad syntax from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-
-    if (!str_cmp(arg, "all")) {
+    auto target = args.shift();
+    // TODO #263 should be possible to use string_view once interpret() is upgraded to use it.
+    if (matches(target, "all")) {
         for (auto *vch : char_list) {
-            if (vch->in_room == ch->in_room && vch->get_trust() < ch->get_trust() && can_see(ch, vch))
-                interpret(vch, argument);
+            if (vch->in_room == ch->in_room && vch->get_trust() < ch->get_trust() && can_see(ch, vch)) {
+                const std::string to_interpret{args.remaining()};
+                interpret(vch, to_interpret.c_str());
+            }
         }
     } else {
-        Char *victim;
-
-        if ((victim = get_char_room(ch, arg)) == nullptr) {
-            bug("Mpforce - No such victim from vnum {}.", ch->mobIndex->vnum);
+        auto *victim = get_char_room(ch, target);
+        if (!victim) {
+            bug("mpforce: No such victim from vnum {}.", ch->mobIndex->vnum);
             return;
         }
-
         if (victim == ch) {
-            bug("Mpforce - Forcing oneself from vnum {}.", ch->mobIndex->vnum);
+            bug("mpforce: Forcing oneself from vnum {}.", ch->mobIndex->vnum);
             return;
         }
-
-        interpret(victim, argument);
+        const std::string to_interpret{args.remaining()};
+        interpret(victim, to_interpret.c_str());
     }
 }

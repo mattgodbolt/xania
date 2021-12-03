@@ -139,14 +139,14 @@ extern void do_memory(Char *ch);
 
 /* for MOBProgs */
 
-extern void do_mpasound(Char *ch, const char *arg);
-extern void do_mpat(Char *ch, const char *arg);
-extern void do_mpecho(Char *ch, const char *arg);
-extern void do_mpechoaround(Char *ch, const char *arg);
-extern void do_mpechoat(Char *ch, const char *arg);
-extern void do_mpforce(Char *ch, const char *arg);
-extern void do_mpgoto(Char *ch, const char *arg);
-extern void do_mpjunk(Char *ch, const char *arg);
+extern void do_mpasound(Char *ch, std::string_view argument);
+extern void do_mpat(Char *ch, ArgParser args);
+extern void do_mpecho(Char *ch, std::string_view argument);
+extern void do_mpechoaround(Char *ch, ArgParser args);
+extern void do_mpechoat(Char *ch, ArgParser args);
+extern void do_mpforce(Char *ch, ArgParser args);
+extern void do_mpgoto(Char *ch, ArgParser args);
+extern void do_mpjunk(Char *ch, ArgParser args);
 extern void do_mpkill(Char *ch, const char *arg);
 extern void do_mpmload(Char *ch, const char *arg);
 extern void do_mpoload(Char *ch, const char *arg);
