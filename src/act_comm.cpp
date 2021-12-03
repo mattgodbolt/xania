@@ -158,7 +158,7 @@ void do_tell(Char *ch, const char *argument) {
 void do_reply(Char *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
 
 void do_yell(Char *ch, std::string_view argument) {
-    if (check_enum_bit(ch->comm, CommFlag::NoShout)) {
+    if (check_enum_bit(ch->comm, CommFlag::NoYell)) {
         ch->send_line("|cYou can't yell.|w");
         return;
     }

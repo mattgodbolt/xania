@@ -1943,7 +1943,7 @@ void do_buy(Char *ch, ArgParser args) {
         set_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
         set_enum_bit(pet->act, CharActFlag::Pet);
         set_enum_bit(pet->affected_by, AffectFlag::Charm);
-        pet->comm = to_int(CommFlag::NoTell) | to_int(CommFlag::NoShout) | to_int(CommFlag::NoChannels);
+        pet->comm = to_int(CommFlag::NoTell) | to_int(CommFlag::NoYell) | to_int(CommFlag::NoChannels);
 
         auto pet_name = args.shift();
         if (!pet_name.empty())

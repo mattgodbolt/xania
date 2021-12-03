@@ -345,6 +345,7 @@ void interp_initialise() {
     add_command("nochannels", do_nochannels, Position::Type::Dead, L6, CommandLogLevel::Always);
     add_command("noemote", do_noemote, Position::Type::Dead, L6, CommandLogLevel::Always);
     add_command("notell", do_notell, Position::Type::Dead, L6, CommandLogLevel::Always);
+    add_command("noyell", do_noyell, Position::Type::Dead, L6, CommandLogLevel::Always);
     add_command("pecho", do_pecho, Position::Type::Dead, L4, CommandLogLevel::Always);
     add_command("pardon", do_pardon, Position::Type::Dead, L3, CommandLogLevel::Always);
     add_command("purge", do_purge, Position::Type::Dead, L4, CommandLogLevel::Always);

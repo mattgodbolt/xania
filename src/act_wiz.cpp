@@ -147,39 +147,6 @@ void do_outfit(Char *ch) {
     ch->send_line("You have been equipped by {}.", deity_name);
 }
 
-/* RT nochannels command, for those spammers */
-void do_nochannels(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        ch->send_line("Nochannel whom?");
-        return;
-    }
-
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
-        ch->send_line("They aren't here.");
-        return;
-    }
-
-    if (victim->get_trust() >= ch->get_trust()) {
-        ch->send_line("You failed.");
-        return;
-    }
-
-    if (check_enum_bit(victim->comm, CommFlag::NoChannels)) {
-        clear_enum_bit(victim->comm, CommFlag::NoChannels);
-        victim->send_line("The gods have restored your channel privileges.");
-        ch->send_line("NOCHANNELS removed.");
-    } else {
-        set_enum_bit(victim->comm, CommFlag::NoChannels);
-        victim->send_line("The gods have revoked your channel privileges.");
-        ch->send_line("NOCHANNELS set.");
-    }
-}
-
 void do_bamfin(Char *ch, std::string_view argument) {
     if (ch = ch->player(); !ch)
         return;
@@ -1725,18 +1692,13 @@ void do_freeze(Char *ch, ArgParser args) {
     save_char_obj(victim);
 }
 
-void do_log(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_log(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Log whom?");
         return;
     }
-
-    if (!str_cmp(arg, "all")) {
+    auto target = args.shift();
+    if (matches(target, "all")) {
         if (fLogAll) {
             fLogAll = false;
             ch->send_line("Log ALL off.");
@@ -1746,8 +1708,8 @@ void do_log(Char *ch, const char *argument) {
         }
         return;
     }
-
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
+    auto *victim = get_char_world(ch, target);
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
@@ -1769,56 +1731,18 @@ void do_log(Char *ch, const char *argument) {
     }
 }
 
-void do_noemote(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
+namespace {
 
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        ch->send_line("Noemote whom?");
+// Enables imms to toggle the comm channel flags on a victim (NoChannel, NoTell, NoEmote, NoYell).
+// Useful if a player is spamming or acting inappropriately.
+void toggle_player_comm_flag(Char *ch, ArgParser args, const CommFlag comm_flag, std::string_view verb) {
+    if (args.empty()) {
+        ch->send_line("Mute which player?");
         return;
     }
-
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
-        ch->send_line("They aren't here.");
-        return;
-    }
-
-    if (victim->get_trust() >= ch->get_trust()) {
-        ch->send_line("You failed.");
-        return;
-    }
-
-    if (check_enum_bit(victim->comm, CommFlag::NoEmote)) {
-        clear_enum_bit(victim->comm, CommFlag::NoEmote);
-        victim->send_line("You can emote again.");
-        ch->send_line("NOEMOTE removed.");
-    } else {
-        set_enum_bit(victim->comm, CommFlag::NoEmote);
-        victim->send_line("You can't emote!");
-        ch->send_line("NOEMOTE set.");
-    }
-}
-
-void do_noshout(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        ch->send_line("Noshout whom?");
-        return;
-    }
-
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
-        ch->send_line("They aren't here.");
-        return;
-    }
-
-    if (victim->is_npc()) {
-        ch->send_line("Not on NPC's.");
+    auto *victim = get_char_world(ch, args.shift());
+    if (!victim || victim->is_npc()) {
+        ch->send_line("No player with that name found.");
         return;
     }
 
@@ -1827,48 +1751,26 @@ void do_noshout(Char *ch, const char *argument) {
         return;
     }
 
-    if (check_enum_bit(victim->comm, CommFlag::NoShout)) {
-        clear_enum_bit(victim->comm, CommFlag::NoShout);
-        victim->send_line("You can shout again.");
-        ch->send_line("NOSHOUT removed.");
+    if (check_enum_bit(victim->comm, comm_flag)) {
+        clear_enum_bit(victim->comm, comm_flag);
+        victim->send_line("You can {} again.", verb);
+        ch->send_line("{} can {} again.", victim->name, verb);
     } else {
-        set_enum_bit(victim->comm, CommFlag::NoShout);
-        victim->send_line("You can't shout!");
-        ch->send_line("NOSHOUT set.");
+        set_enum_bit(victim->comm, comm_flag);
+        victim->send_line("You can no longer {}!", verb);
+        ch->send_line("{} can no longer {}.", victim->name, verb);
     }
 }
 
-void do_notell(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        ch->send_line("Notell whom?");
-        return;
-    }
-
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
-        ch->send_line("They aren't here.");
-        return;
-    }
-
-    if (victim->get_trust() >= ch->get_trust()) {
-        ch->send_line("You failed.");
-        return;
-    }
-
-    if (check_enum_bit(victim->comm, CommFlag::NoTell)) {
-        clear_enum_bit(victim->comm, CommFlag::NoTell);
-        victim->send_line("You can tell again.");
-        ch->send_line("NOTELL removed.");
-    } else {
-        set_enum_bit(victim->comm, CommFlag::NoTell);
-        victim->send_line("You can't tell!");
-        ch->send_line("NOTELL set.");
-    }
 }
+
+void do_noemote(Char *ch, ArgParser args) { toggle_player_comm_flag(ch, args, CommFlag::NoEmote, "emote"); }
+
+void do_noyell(Char *ch, ArgParser args) { toggle_player_comm_flag(ch, args, CommFlag::NoYell, "yell"); }
+
+void do_notell(Char *ch, ArgParser args) { toggle_player_comm_flag(ch, args, CommFlag::NoTell, "tell"); }
+
+void do_nochannels(Char *ch, ArgParser args) { toggle_player_comm_flag(ch, args, CommFlag::NoChannels, "talk"); }
 
 void do_peace(Char *ch) {
     for (auto *rch : ch->in_room->people) {

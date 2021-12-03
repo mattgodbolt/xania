@@ -1203,7 +1203,7 @@ ClanSet
 Teleport  Transfer  Peace   Snoop       String    Clone     Private
 ------------------------------------------------------------------------------
 94
-At	    Echo     Return    Switch   Nochannels Noemote Noshout Notell
+At	    Echo     Return    Switch   Nochannels Noemote  Noyell Notell
 Zecho
 ------------------------------------------------------------------------------
 93
@@ -1452,16 +1452,16 @@ mobile.  A full list of fields can be viewed by typing string obj or string
 mob.  Sorry, multi-line strings are not yet supported.
 ~
 
-94 NOCHANNEL NOEMOTE NOSHOUT NOTELL~
+94 NOCHANNEL NOEMOTE NOYELL NOTELL~
 Syntax: nochannel  <character>
 	noemote    <character>
-	noshout    <character>
+	noyell     <character>
 	notell     <character>
         noclanchan <clan member>
 
-Noemote, noshout, and notell are used to muffle other characters, by
-preventing them from emoting, shouting, and telling, respectively.
-Characters who are noshout'ed or no'telled will also not receive those
+Noemote, noyell, and notell are used to muffle other characters, by
+preventing them from emoting, yelling, and telling, respectively.
+Characters who are noyell'ed or no'telled will also not receive those
 forms of communication.
 
 The nochannel command is similar, but more drastic. It prevents the victim

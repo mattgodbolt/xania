@@ -47,7 +47,7 @@ void do_channels(const Char *ch) {
     print_channel_status(ch, "allege", ch->comm, CommFlag::NoAllege);
     print_channel_status(ch, "philosophise", ch->comm, CommFlag::NoPhilosophise);
     print_channel_status(ch, "qwest", ch->comm, CommFlag::NoQwest);
-    print_channel_status(ch, "shout", ch->comm, CommFlag::NoShout);
+    print_channel_status(ch, "shout", ch->comm, CommFlag::NoYell);
 
     // Determine if the player is in a clan, and find which one.
     if (const auto *pc_clan = ch->player() ? ch->player()->pc_clan() : nullptr) {
@@ -180,5 +180,5 @@ void do_qwest(Char *ch, std::string_view argument) {
 }
 
 void do_shout(Char *ch, std::string_view argument) {
-    channel_command(ch, argument, CommFlag::NoShout, "Shout", "|WYou shout '{}|W'|w", "|W$n shouts '$t|W'|w");
+    channel_command(ch, argument, CommFlag::NoYell, "Shout", "|WYou shout '{}|W'|w", "|W$n shouts '$t|W'|w");
 }

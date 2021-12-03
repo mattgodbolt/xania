@@ -31,7 +31,7 @@ enum class CommFlag : unsigned long {
     ShowDefence = R,
     /* 1 Flag Reserved, S */
     NoEmote = T,
-    NoShout = U,
+    NoYell = U,
     NoTell = V,
     NoChannels = W,
     NoAllege = X,

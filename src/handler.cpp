@@ -1063,7 +1063,7 @@ const char *comm_bit_name(int comm_flags) {
         strcat(buf, " combine");
     if (check_enum_bit(comm_flags, CommFlag::NoEmote))
         strcat(buf, " no_emote");
-    if (check_enum_bit(comm_flags, CommFlag::NoShout))
+    if (check_enum_bit(comm_flags, CommFlag::NoYell))
         strcat(buf, " no_shout");
     if (check_enum_bit(comm_flags, CommFlag::NoTell))
         strcat(buf, " no_tell");

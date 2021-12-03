@@ -1062,7 +1062,7 @@ Char *create_mobile(MobIndexData *mobIndex) {
 
     /* read from prototype */
     mob->act = mobIndex->act;
-    mob->comm = to_int(CommFlag::NoChannels) | to_int(CommFlag::NoShout) | to_int(CommFlag::NoTell);
+    mob->comm = to_int(CommFlag::NoChannels) | to_int(CommFlag::NoYell) | to_int(CommFlag::NoTell);
     mob->affected_by = mobIndex->affected_by;
     mob->alignment = mobIndex->alignment;
     mob->level = mobIndex->level;
