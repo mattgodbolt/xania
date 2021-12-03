@@ -1131,19 +1131,12 @@ void collect_unique_obj_indexes(const GenericList<Object *> &objects, std::set<O
  *  pour for Xania, Faramir 30/6/96
  */
 
-void do_pour(Char *ch, const char *argument) {
-
-    char arg1[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    argument = one_argument(argument, arg1);
-
-    if (arg1[0] == '\0') {
+void do_pour(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("What do you wish to pour?");
         return;
     }
-
-    auto *obj = ch->find_in_inventory(arg1);
+    auto *obj = ch->find_in_inventory(args.shift());
     if (!obj) {
         ch->send_line("You do not have that item.");
         return;
@@ -1154,22 +1147,19 @@ void do_pour(Char *ch, const char *argument) {
         return;
     }
 
-    one_argument(argument, arg1);
-
+    auto target = args.shift();
     if (obj->value[1] == 0) {
         ch->send_line("Your liquid container is empty.");
         return;
     }
 
-    if (arg1[0] == '\0') {
-
+    if (target.empty()) {
         act("You empty $p out onto the ground.", ch, obj, nullptr, To::Char);
         obj->value[1] = 0;
-
         return;
     }
 
-    if (!str_prefix(arg1, "in")) {
+    if (matches_start(target, "in")) {
         auto *target_obj = find_pour_target(ch->carrying, obj);
         if (!target_obj) {
             ch->send_line("Pour what into what?!");
@@ -1183,19 +1173,18 @@ void do_pour(Char *ch, const char *argument) {
 
         pour_from_to(obj, target_obj);
 
-        ch->send_to("You pour the contents of {} into {}", obj->short_descr, target_obj->short_descr);
+        ch->send_line("You pour the contents of {} into {}.", obj->short_descr, target_obj->short_descr);
         return;
     }
 
-    victim = get_char_room(ch, arg1);
-
-    if (victim == nullptr) {
+    auto *victim = get_char_room(ch, target);
+    if (!victim) {
         ch->send_line("They're not here.");
         return;
     }
 
     if (victim == ch) {
-        ch->send_line("Pour it into which of your own containers?\n\rPour <container1> in <container2>");
+        ch->send_line("Pour it into which of your own containers?\n\rPour <container1> in <container2>.");
         return;
     }
 
@@ -1231,18 +1220,13 @@ Object *find_fountain(GenericList<Object *> &list) {
 }
 }
 
-void do_fill(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Object *obj;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_fill(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Fill what?");
         return;
     }
-
-    if ((obj = ch->find_in_inventory(arg)) == nullptr) {
+    auto *obj = ch->find_in_inventory(args.shift());
+    if (!obj) {
         ch->send_line("You do not have that item.");
         return;
     }
@@ -1351,17 +1335,13 @@ void do_drink(Char *ch, ArgParser args) {
     }
 }
 
-void do_eat(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Object *obj;
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_eat(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Eat what?");
         return;
     }
-
-    if ((obj = ch->find_in_inventory(arg)) == nullptr) {
+    auto *obj = ch->find_in_inventory(args.shift());
+    if (!obj) {
         ch->send_line("You do not have that item.");
         return;
     }

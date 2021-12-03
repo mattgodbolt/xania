@@ -1182,7 +1182,7 @@ void do_reboot(Char *ch) {
     if (!check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis)) {
         do_echo(ch, fmt::format("Reboot by {}.", ch->name));
     }
-    do_force(ch, "all save");
+    do_force(ch, ArgParser("all save"));
     do_save(ch);
     merc_down = true;
     // Unlike do_shutdown(), do_reboot() does not explicitly call close_socket()
@@ -1200,7 +1200,7 @@ void do_shutdown(Char *ch) {
 
     auto buf = fmt::format("Shutdown by {}.", ch->name.c_str());
     do_echo(ch, buf + "\n\r");
-    do_force(ch, "all save");
+    do_force(ch, ArgParser("all save"));
     do_save(ch);
     merc_down = true;
     for (auto &d : descriptors().all())
@@ -2851,32 +2851,19 @@ void do_sockets(Char *ch, const char *argument) {
 /*
  * Thanks to Grodyn for pointing out bugs in this function.
  */
-void do_force(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-
-    argument = one_argument(argument, arg);
-
-    if (arg[0] == '\0' || argument[0] == '\0') {
+void do_force(Char *ch, ArgParser args) {
+    auto target = args.shift();
+    auto command = std::string(args.shift()); // TODO #263 use a string_view when interpret can support it.
+    if (target.empty() || command.empty()) {
         ch->send_line("Force whom to do what?");
         return;
     }
-
-    one_argument(argument, arg2);
-
-    if (!str_cmp(arg2, "delete")) {
+    if (matches(command, "delete") || matches(command, "private")) {
         ch->send_line("That will NOT be done.");
         return;
     }
-
-    if (!str_cmp(arg2, "private")) {
-        ch->send_line("That will NOT be done.");
-        return;
-    }
-
-    const auto buf = fmt::format("$n forces you to '{}'.", argument);
-
-    if (!str_cmp(arg, "all")) {
+    const auto buf = fmt::format("$n forces you to '{}'.", command);
+    if (matches(target, "all")) {
         if (ch->get_trust() < DEITY) {
             ch->send_line("Not at your level!");
             return;
@@ -2885,10 +2872,10 @@ void do_force(Char *ch, const char *argument) {
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust()) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
-                interpret(vch, argument);
+                interpret(vch, command.c_str());
             }
         }
-    } else if (!str_cmp(arg, "players")) {
+    } else if (matches(target, "players")) {
         if (ch->get_trust() < SUPREME) {
             ch->send_line("Not at your level!");
             return;
@@ -2897,10 +2884,10 @@ void do_force(Char *ch, const char *argument) {
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level < LEVEL_HERO) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
-                interpret(vch, argument);
+                interpret(vch, command.c_str());
             }
         }
-    } else if (!str_cmp(arg, "gods")) {
+    } else if (matches(target, "gods")) {
         if (ch->get_trust() < SUPREME) {
             ch->send_line("Not at your level!");
             return;
@@ -2909,13 +2896,12 @@ void do_force(Char *ch, const char *argument) {
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level >= LEVEL_HERO) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
-                interpret(vch, argument);
+                interpret(vch, command.c_str());
             }
         }
     } else {
-        Char *victim;
-
-        if ((victim = get_char_world(ch, arg)) == nullptr) {
+        auto *victim = get_char_world(ch, target);
+        if (!victim) {
             ch->send_line("They aren't here.");
             return;
         }
@@ -2935,7 +2921,7 @@ void do_force(Char *ch, const char *argument) {
             return;
         }
         act(buf, ch, nullptr, victim, To::Vict, MobTrig::No);
-        interpret(victim, argument);
+        interpret(victim, command.c_str());
     }
 
     ch->send_line("Ok.");

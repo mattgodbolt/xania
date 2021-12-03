@@ -959,14 +959,13 @@ void do_examine(Char *ch, ArgParser args) {
 /*
  * Thanks to Zrin for auto-exit part.
  */
-void do_exits(const Char *ch, const char *argument) {
+void do_exits(const Char *ch, std::string_view arguments) {
 
-    auto fAuto = matches(argument, "auto");
-
+    const auto is_compact = matches(arguments, "auto");
     if (!check_blind(ch))
         return;
 
-    std::string buf = fAuto ? "|W[Exits:" : "Obvious exits:\n\r";
+    std::string buf = is_compact ? "|W[Exits:" : "Obvious exits:\n\r";
 
     auto found = false;
     for (auto direction : all_directions) {
@@ -974,7 +973,7 @@ void do_exits(const Char *ch, const char *argument) {
                                                               && can_see_room(ch, exit->u1.to_room)
                                                               && !check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             found = true;
-            if (fAuto) {
+            if (is_compact) {
                 buf += fmt::format(" {}", to_string(direction));
             } else {
                 buf += fmt::format("{:<5} - {}\n\r", initial_caps_only(to_string(direction)),
@@ -985,9 +984,9 @@ void do_exits(const Char *ch, const char *argument) {
     }
 
     if (!found)
-        buf += fAuto ? " none" : "None.\n\r";
+        buf += is_compact ? " none" : "None.\n\r";
 
-    if (fAuto)
+    if (is_compact)
         buf += "]\n\r|w";
 
     ch->send_to(buf);

@@ -172,11 +172,11 @@ void do_yell(Char *ch, std::string_view argument) {
     ch->yell(argument);
 }
 
-void do_emote(Char *ch, const char *argument) {
+void do_emote(Char *ch, std::string_view argument) {
     if (ch->is_pc() && check_enum_bit(ch->comm, CommFlag::NoEmote)) {
         ch->send_line("|cYou can't show your emotions.|w");
 
-    } else if (argument[0] == '\0') {
+    } else if (argument.empty()) {
         ch->send_line("|cEmote what?|w");
 
     } else {

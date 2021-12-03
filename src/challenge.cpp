@@ -351,12 +351,11 @@ void do_cancel_chal(Char *ch, ArgParser args) {
     }
 }
 
-void do_duel(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-    one_argument(argument, arg);
-    victim = get_char_world(ch, arg);
-
+void do_duel(Char *ch, ArgParser args) {
+    if (args.empty()) {
+        ch->send_line("|cDuel whom?|w");
+        return;
+    }
     if (check_duel_status(1))
         return;
 
@@ -364,12 +363,6 @@ void do_duel(Char *ch, const char *argument) {
         ch->send_line("|cYou are not in a challenge to duel.|w");
         return;
     }
-
-    if (arg[0] == '\0') {
-        ch->send_line("|cDuel who?|w");
-        return;
-    }
-
     if (ch->in_room->vnum != Rooms::ChallengeArena) {
         ch->send_line("|cYou must be in the challenge arena to duel.|w");
         return;
@@ -380,6 +373,7 @@ void do_duel(Char *ch, const char *argument) {
         return;
     }
 
+    auto *victim = get_char_world(ch, args.shift());
     if ((ch == challenger && victim == challengee) || (ch == challengee && victim == challenger)) {
         if (ch->fighting != nullptr || victim->fighting != nullptr)
             return;
