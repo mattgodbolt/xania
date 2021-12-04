@@ -175,32 +175,24 @@ void do_noclanchan(Char *ch, const char *argument) {
                       check_enum_bit(victim_pcclan->channelflags, ClanCommFlag::ChannelRevoked) ? "revok" : "reinstat");
 } /* do_noclanchan */
 
-void do_member(Char *ch, const char *argument) {
-    char buf2[MAX_STRING_LENGTH];
-    Char *victim;
-
-    /* Check for ability to member */
-
+void do_member(Char *ch, ArgParser args) {
     if (ch->is_npc())
         return;
-
     if (!ch->pc_clan() || ch->pc_clan()->clanlevel < CLAN_LEADER) {
         ch->send_line("Huh?"); /* Cheesy cheat */
         return;
-    } /* If not privileged enough */
-
-    argument = one_argument(argument, buf2); /* Get the command */
-    if (buf2[0] != '+' && buf2[0] != '-') {
+    }
+    auto action = args.shift();
+    if (action != "+" && action != "-") {
         ch->send_line("Usage:\n\r       member + <character name>\n\r       member - <character name>");
         return;
     }
-
-    victim = get_char_room(ch, argument);
-    if ((victim == nullptr) || victim->is_npc()) {
+    auto whom = args.shift();
+    auto *victim = get_char_room(ch, whom);
+    if (!victim || victim->is_npc()) {
         ch->send_line("You can't see them here.");
         return;
     }
-
     if (victim == ch) {
         ch->send_line("What kind of wally are you?  You can't do that!");
         return;
@@ -210,12 +202,10 @@ void do_member(Char *ch, const char *argument) {
         return;
     }
 
-    if (buf2[0] == '+') {
+    if (action == "+") {
         /* Adding a new member of the clan */
         if (victim->clan()) { /* The person is *already* in a clan */
             if (victim->clan()->clanchar == ch->clan()->clanchar) {
-                /* Leader is trying to 'member +' a person who is already a member of their
-                           clan.  They're probably trying to promote the person in question */
                 ch->send_to("{} is already a member of the {}.\n\rUse 'promote' to promote characters.\n\r",
                             victim->name, ch->clan()->name);
                 return;
@@ -224,14 +214,14 @@ void do_member(Char *ch, const char *argument) {
                 ch->send_to("{} is a member of the {}.\n\rThey must leave that clan first.\n\r", victim->name,
                             ch->clan()->name);
                 return;
-            } /* in your clan? */
-        } /* if victim already in a clan */
+            }
+        }
         victim->pcdata->pcclan.emplace(PcClan{*ch->clan()});
         act(fmt::format("{} welcomes {} to the {}", ch->name, victim->name, ch->clan()->name), ch, nullptr, victim,
             To::NotVict);
         victim->send_line("You have become {} of the {}.", ch->pc_clan()->level_name(), ch->clan()->name);
         ch->send_line("You welcome {} as {} of the {}.", victim->name, ch->pc_clan()->level_name(), ch->clan()->name);
-    } else { /* End adding member */
+    } else {
         /* Removing a person from a clan */
         if (victim->clan() == nullptr || victim->clan()->clanchar != ch->clan()->clanchar) {
             ch->send_line("{} is not a member of your clan.", victim->name);
@@ -242,8 +232,8 @@ void do_member(Char *ch, const char *argument) {
             To::NotVict);
         victim->send_line("You have been discharged from the {}.", ch->clan()->name);
         ch->send_line("You remove {} from the {}.", victim->name, ch->clan()->name);
-    } /* ..else */
-} /* do_member */
+    }
+}
 
 void mote(Char *ch, const char *argument, int add) {
     /* Check for ability to *mote */

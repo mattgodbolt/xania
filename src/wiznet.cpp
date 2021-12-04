@@ -100,11 +100,9 @@ void wiznet_initialise() {
     wiznet_commands.add("tick", wiznet_tick, 0);
 }
 
-void do_wiznet(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    argument = one_argument(argument, arg);
-
-    auto wiznet_fn = wiznet_commands.get(arg, 0);
+void do_wiznet(Char *ch, ArgParser args) {
+    auto command = args.shift();
+    auto wiznet_fn = wiznet_commands.get(command, 0);
     if (wiznet_fn.has_value()) {
         (*wiznet_fn)(ch);
     } else {

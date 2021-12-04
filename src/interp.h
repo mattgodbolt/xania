@@ -273,23 +273,23 @@ extern void do_west(Char *ch);
 extern void do_west(Char *ch);
 extern void do_where(Char *ch, ArgParser args);
 extern void do_scan(Char *ch);
-extern void do_who(Char *ch, const char *arg);
+extern void do_who(Char *ch, ArgParser args);
 extern void do_whois(Char *ch, ArgParser args);
 extern void do_wimpy(Char *ch, ArgParser args);
 extern void do_wizhelp(Char *ch);
 extern void do_wizlock(Char *ch);
 extern void do_wizlist(Char *ch);
-extern void do_wiznet(Char *ch, const char *arg);
+extern void do_wiznet(Char *ch, ArgParser args);
 extern void do_worth(Char *ch);
 extern void do_yell(Char *ch, std::string_view argument);
-extern void do_zap(Char *ch, const char *arg);
+extern void do_zap(Char *ch, ArgParser args);
 extern void do_zecho(Char *ch, std::string_view argument);
-extern void do_throw(Char *ch, const char *arg);
-extern void do_prefix(Char *ch, const char *argument); /* 'prefix' added PCFN 19-05-97 */
+extern void do_throw(Char *ch, ArgParser args);
+extern void do_prefix(Char *ch, std::string_view argument); /* 'prefix' added PCFN 19-05-97 */
 extern void do_donate(Char *ch, ArgParser args); /* 'donate' added PCFN 01.06.97 */
 
 /* clan stuff */
-extern void do_member(Char *ch, const char *arg);
+extern void do_member(Char *ch, ArgParser args);
 extern void do_promote(Char *ch, const char *arg);
 extern void do_demote(Char *ch, const char *arg);
 extern void do_noclanchan(Char *ch, const char *arg);

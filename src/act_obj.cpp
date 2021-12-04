@@ -1661,47 +1661,41 @@ void do_brandish(Char *ch) {
  * eg. being able to kill mobs far away with a wand of acid blast.
  */
 
-void do_zap(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_zap(Char *ch, ArgParser args) {
     Char *victim;
     Object *wand;
     Object *obj;
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0' && ch->fighting == nullptr) {
+    if (args.empty() && !ch->fighting) {
         ch->send_line("Zap whom or what?");
         return;
     }
-
-    if ((wand = get_eq_char(ch, Wear::Hold)) == nullptr) {
+    if (!(wand = get_eq_char(ch, Wear::Hold))) {
         ch->send_line("You hold nothing in your hand.");
         return;
     }
-
     if (wand->type != ObjectType::Wand) {
         ch->send_line("You can zap only with a wand.");
         return;
     }
-
-    obj = nullptr;
-    if (arg[0] == '\0') {
-        if (ch->fighting != nullptr) {
+    auto target = args.shift();
+    if (target.empty()) {
+        if (ch->fighting) {
             victim = ch->fighting;
         } else {
             ch->send_line("Zap whom or what?");
             return;
         }
     } else {
-        if ((victim = get_char_room(ch, arg)) == nullptr && (victim = get_char_world(ch, arg)) == nullptr
-            && (obj = get_obj_here(ch, arg)) == nullptr && (skill_table[wand->value[3]].target) != Target::CharOther
+        if (!(victim = get_char_room(ch, target)) && !(obj = get_obj_here(ch, target))
+            && (skill_table[wand->value[3]].target) != Target::CharOther
             && (skill_table[wand->value[3]].target) != Target::Ignore) {
             ch->send_line("You can't find it.");
             return;
         }
         if ((victim != nullptr && victim != ch && victim->in_room->vnum != ch->in_room->vnum)
             && skill_table[wand->value[3]].target == Target::CharOffensive) {
-            act(fmt::format("You attempt to zap {}.....", get_char_room(ch, arg) ? victim->short_descr : "someone"), ch,
-                nullptr, nullptr, To::Char);
+            act(fmt::format("You attempt to zap {}.....", get_char_room(ch, target) ? victim->short_descr : "someone"),
+                ch, nullptr, nullptr, To::Char);
             act("$n attempts to zap something....", ch);
             ch->send_line("...but the |cgrand Iscarian magi|w outlawed interplanar combat millenia ago!");
             act("$n appears to have been foiled by the law, and looks slightly annoyed!", ch, nullptr, nullptr,
@@ -1734,7 +1728,7 @@ void do_zap(Char *ch, const char *argument) {
             act("$n's efforts with $p produce only smoke and sparks.", ch, wand, nullptr, To::Room);
             check_improve(ch, gsn_wands, false, 2);
         } else {
-            obj_cast_spell(wand->value[3], wand->value[0], ch, victim, obj, arg);
+            obj_cast_spell(wand->value[3], wand->value[0], ch, victim, obj, target);
             check_improve(ch, gsn_wands, true, 2);
         }
     }
@@ -2119,39 +2113,29 @@ void do_value(Char *ch, ArgParser args) {
     ch->reply = keeper;
 }
 
-void do_throw(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-    Object *bomb;
-    int chance;
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_throw(Char *ch, ArgParser args) {
+    auto whom = args.shift();
+    if (whom.empty()) {
         ch->send_line("Throw at whom?");
         return;
     }
-
-    if ((bomb = get_eq_char(ch, Wear::Hold)) == nullptr) {
+    auto *bomb = get_eq_char(ch, Wear::Hold);
+    if (!bomb) {
         ch->send_line("You hold nothing in your hand.");
         return;
     }
-
     if (bomb->type != ObjectType::Bomb) {
         ch->send_line("You can throw only bombs.");
         return;
     }
-
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto *victim = get_char_room(ch, whom);
+    if (!victim) {
         ch->send_line("You can't see them here.");
         return;
     }
-
     ch->wait_state(2 * PULSE_VIOLENCE);
-
-    chance = ch->get_skill(gsn_throw);
-
+    auto chance = ch->get_skill(gsn_throw);
     chance += std::clamp((ch->level - victim->level), -20, 20) - number_percent();
-
     if (chance >= 0) {
         act("$n throws a bomb at $N!", ch, nullptr, victim, To::NotVict);
         act("$n throws a bomb at you!", ch, nullptr, victim, To::Vict);

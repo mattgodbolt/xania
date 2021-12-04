@@ -1203,50 +1203,33 @@ void do_whois(Char *ch, ArgParser args) {
 /*
  * New 'who' command originally by Alander of Rivers of Mud.
  */
-void do_who(Char *ch, const char *argument) {
+void do_who(Char *ch, ArgParser args) {
     int iClass;
     int iRace;
-    int iLevelLower;
-    int iLevelUpper;
+    int iLevelLower = 0;
+    int iLevelUpper = MAX_LEVEL;
     int nNumber;
     int nMatch;
-    bool rgfClass[MAX_CLASS];
-    bool rgfRace[MAX_PC_RACE];
+    bool rgfClass[MAX_CLASS]{};
+    bool rgfRace[MAX_PC_RACE]{};
     std::unordered_set<const Clan *> rgfClan;
-    bool fClassRestrict;
-    bool fRaceRestrict;
-    bool fClanRestrict;
-    bool fImmortalOnly;
-    char arg[MAX_STRING_LENGTH];
-
-    /*
-     * Set default arguments.
-     */
-    iLevelLower = 0;
-    iLevelUpper = MAX_LEVEL;
-    fClassRestrict = false;
-    fRaceRestrict = false;
-    fClanRestrict = false;
-    fImmortalOnly = false;
-    for (iClass = 0; iClass < MAX_CLASS; iClass++)
-        rgfClass[iClass] = false;
-    for (iRace = 0; iRace < MAX_PC_RACE; iRace++)
-        rgfRace[iRace] = false;
-
+    bool fClassRestrict = false;
+    bool fRaceRestrict = false;
+    bool fClanRestrict = false;
+    bool fImmortalOnly = false;
     /*
      * Parse arguments.
      */
     nNumber = 0;
     for (;;) {
-
-        argument = one_argument(argument, arg);
-        if (arg[0] == '\0')
+        auto arg = args.shift();
+        if (arg.empty())
             break;
 
         if (is_number(arg)) {
             switch (++nNumber) {
-            case 1: iLevelLower = atoi(arg); break;
-            case 2: iLevelUpper = atoi(arg); break;
+            case 1: iLevelLower = parse_number(arg); break;
+            case 2: iLevelUpper = parse_number(arg); break;
             default: ch->send_line("Only two level numbers allowed."); return;
             }
         } else {
@@ -1737,7 +1720,7 @@ void do_alist(Char *ch) {
 }
 
 /* do_prefix added 19-05-97 PCFN */
-void do_prefix(Char *ch, const char *argument) {
+void do_prefix(Char *ch, std::string_view argument) {
     if (ch = ch->player(); !ch)
         return;
 
