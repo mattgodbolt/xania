@@ -2567,31 +2567,24 @@ void do_disarm(Char *ch) {
 
 void do_sla(Char *ch) { ch->send_line("If you want to SLAY, spell it out."); }
 
-void do_slay(Char *ch, const char *argument) {
-    Char *victim;
-    char arg[MAX_INPUT_LENGTH];
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_slay(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Slay whom?");
         return;
     }
-
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-
     if (ch == victim) {
         ch->send_line("Suicide is a mortal sin.");
         return;
     }
-
     if (victim->is_pc() && victim->level >= ch->get_trust()) {
         ch->send_line("You failed.");
         return;
     }
-
     act("You slay $M in cold blood!", ch, nullptr, victim, To::Char);
     act("$n slays you in cold blood!", ch, nullptr, victim, To::Vict);
     act("$n slays $N in cold blood!", ch, nullptr, victim, To::NotVict);

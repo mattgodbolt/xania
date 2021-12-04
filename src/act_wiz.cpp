@@ -1157,92 +1157,70 @@ void do_shutdown(Char *ch) {
         d.close();
 }
 
-void do_snoop(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-
-    if (ch->desc == nullptr) {
+void do_snoop(Char *ch, ArgParser args) {
+    if (!ch->desc) {
         // MRG old code was split-brained about checking this. Seems like nothing would have worked if ch->desc was
         // actually null, so bugging out here.
         bug("null ch->desc in do_snoop");
         return;
     }
-
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         ch->send_line("Snoop whom?");
         return;
     }
-
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
+    auto *victim = get_char_world(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-
     if (!victim->desc) {
         ch->send_line("No descriptor to snoop.");
         return;
     }
-
     if (victim == ch) {
         ch->send_line("Cancelling all snoops.");
         ch->desc->stop_snooping();
         return;
     }
-
     if (victim->get_trust() >= ch->get_trust()) {
         ch->send_line("You failed.");
         return;
     }
-
     if (!ch->desc->try_start_snooping(*victim->desc)) {
         ch->send_line("No snoop loops.");
         return;
     }
-
     ch->send_line("Ok.");
 }
 
-void do_switch(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_switch(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Switch into whom?");
         return;
     }
-
-    if (ch->desc == nullptr)
+    if (!ch->desc)
         return;
-
     if (ch->desc->is_switched()) {
         ch->send_line("You are already switched.");
         return;
     }
-
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
+    auto *victim = get_char_world(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-
     if (victim == ch) {
         ch->send_line("Ok.");
         return;
     }
-
     if (victim->is_pc()) {
         ch->send_line("You can only switch into mobiles.");
         return;
     }
-
-    if (victim->desc != nullptr) {
+    if (victim->desc) {
         ch->send_line("Character in use.");
         return;
     }
-
     ch->desc->do_switch(victim);
     /* change communications to match */
     victim->comm = ch->comm;
@@ -2540,19 +2518,17 @@ void do_rset(Char *ch, ArgParser args) {
     show_usage();
 }
 
-void do_sockets(Char *ch, const char *argument) {
+void do_sockets(Char *ch, ArgParser args) {
     std::string buf;
-    char arg[MAX_INPUT_LENGTH];
     int count = 0;
-
-    one_argument(argument, arg);
-    const auto view_all = arg[0] == '\0';
+    const auto view_all = args.empty();
+    auto target = args.shift();
     for (auto &d : descriptors().all()) {
         std::string_view name;
         if (auto *victim = d.character()) {
             if (!can_see(ch, victim))
                 continue;
-            if (view_all || is_name(arg, d.character()->name) || is_name(arg, d.person()->name))
+            if (view_all || is_name(target, d.character()->name) || is_name(target, d.person()->name))
                 name = d.person()->name;
         } else if (ch->get_trust() == MAX_LEVEL) {
             // log even connections that haven't logged in yet
@@ -2722,35 +2698,21 @@ void do_sacname(Char *ch, ArgParser args) {
 
 void do_smit(Char *ch) { ch->send_line("If you wish to smite someone, then SPELL it out!"); }
 
-void do_smite(Char *ch, const char *argument) {
-    /* Power of the Immortals! By Faramir
-                                 Don't use this too much, it hurts :) */
-
-    const char *smitestring;
-    Char *victim;
-    Object *obj;
-
-    if (argument[0] == '\0') {
+void do_smite(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Upon whom do you wish to unleash your power?");
         return;
     }
-
-    if ((victim = get_char_room(ch, argument)) == nullptr) {
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
-    } /* Not (visibly) present in room! */
-
-    /* In case a mort thinks he can get away
-                             with it, shah right! MMFOOMB
-                             Should be dealt with in interp.c already*/
-
+    }
     if (ch->is_npc()) {
         ch->send_line("You must take your true form before unleashing your power.");
         return;
-    } /* done whilst switched? No way Jose */
-
+    }
     if (victim->get_trust() > ch->get_trust()) {
-
         ch->send_line("You failed.\n\rUmmm...beware of retaliation!");
         act("$n attempted to smite $N!", ch, nullptr, victim, To::NotVict);
         act("$n attempted to smite you!", ch, nullptr, victim, To::Vict);
@@ -2759,36 +2721,22 @@ void do_smite(Char *ch, const char *argument) {
     /* Immortals cannot smite those with a
                              greater trust than themselves */
 
-    smitestring = "__NeutralSmite";
-
+    auto *smitestring = "__NeutralSmite";
     if (ch->alignment >= 300) {
         smitestring = "__GoodSmite";
-    } /* Good Gods */
-    if (ch->alignment <= -300) {
+    } else if (ch->alignment <= -300) {
         smitestring = "__BadSmite";
-    } /* Establish what message will actually
-           be sent when the smite takes place.
-           Evil Gods have their own evil method of
-           incurring their wrath, and so neutral and
-           good Gods =)  smitemessage default of 0
-           for neutral. */
-
-    /* ok, now the appropriate smite
-                                           string has been determined we must
-                                           send it to the victim, and tell
-                                           the smiter and others in the room. */
-
+    }
     do_help(victim, smitestring);
     act("|WThe wrath of the Gods has fallen upon you!\n\rYou are blown helplessly from your feet and are stunned!|w",
         ch, nullptr, victim, To::Vict);
-
-    if ((obj = get_eq_char(victim, Wear::Wield)) == nullptr) {
-        act("|R$n has been cast down by the power of $N!|w", victim, nullptr, ch, To::NotVict);
-    } else {
+    auto *wielded_obj = get_eq_char(victim, Wear::Wield);
+    if (wielded_obj) {
         act("|R$n has been cast down by the power of $N!\n\rTheir weapon is sent flying!|w", victim, nullptr, ch,
             To::NotVict);
+    } else {
+        act("|R$n has been cast down by the power of $N!|w", victim, nullptr, ch, To::NotVict);
     }
-
     ch->send_line("You |W>>> |YSMITE|W <<<|w {} with all of your Godly powers!",
                   (victim == ch) ? "yourself" : victim->name);
 
@@ -2796,18 +2744,12 @@ void do_smite(Char *ch, const char *argument) {
     if (victim->hit < 1)
         victim->hit = 1; /* Cap the damage */
 
-    victim->position = Position::Type::Resting;
     /* Knock them into resting and disarm them regardless of whether they have talon or a noremove weapon */
-
-    if ((obj = get_eq_char(victim, Wear::Wield)) == nullptr) {
-        return;
-    } /* can't be disarmed if no weapon */
-    else {
-        obj_from_char(obj);
-        obj_to_room(obj, victim->in_room);
-        if (victim->is_npc() && victim->wait == 0 && can_see_obj(victim, obj))
-            get_obj(victim, obj, nullptr);
-    } /* disarms them, and NPCs will collect
-              their weapon if they can see it.
-              Ta-daa, smite compleeeeeet. Ouch. */
+    victim->position = Position::Type::Resting;
+    if (wielded_obj) {
+        obj_from_char(wielded_obj);
+        obj_to_room(wielded_obj, victim->in_room);
+        if (victim->is_npc() && victim->wait == 0 && can_see_obj(victim, wielded_obj))
+            get_obj(victim, wielded_obj, nullptr);
+    }
 }

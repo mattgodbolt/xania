@@ -1749,42 +1749,30 @@ void do_zap(Char *ch, const char *argument) {
     }
 }
 
-void do_steal(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    Char *victim;
-    Object *obj;
-    int percent;
-
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if (arg1[0] == '\0' || arg2[0] == '\0') {
+void do_steal(Char *ch, ArgParser args) {
+    auto what = args.shift();
+    auto whom = args.shift();
+    if (what.empty() || whom.empty()) {
         ch->send_line("Steal what from whom?");
         return;
     }
-
-    if ((victim = get_char_room(ch, arg2)) == nullptr) {
+    auto *victim = get_char_room(ch, whom);
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-
     if (victim == ch) {
         ch->send_line("That's pointless.");
         return;
     }
-
     if (is_safe(ch, victim))
         return;
-
     if (victim->is_pos_fighting()) {
         ch->send_line("You'd better not, you might get hit.");
         return;
     }
-
     ch->wait_state(skill_table[gsn_steal].beats);
-    percent = number_percent() + (victim->is_pos_awake() ? 10 : -50);
-
+    const auto percent = number_percent() + (victim->is_pos_awake() ? 10 : -50);
     if (ch->level + 5 < victim->level || victim->is_pos_fighting() || victim->is_pc()
         || (ch->is_pc() && percent > ch->get_skill(gsn_steal))) {
         /*
@@ -1818,10 +1806,8 @@ void do_steal(Char *ch, const char *argument) {
         return;
     }
 
-    if (!str_cmp(arg1, "coin") || !str_cmp(arg1, "coins") || !str_cmp(arg1, "gold")) {
-        int amount;
-
-        amount = static_cast<int>(victim->gold * number_range(1, 10) / 100);
+    if (matches(what, "coin") || matches(what, "coins") || matches(what, "gold")) {
+        const auto amount = static_cast<int>(victim->gold * number_range(1, 10) / 100);
         if (amount <= 0) {
             ch->send_line("You couldn't get any gold.");
             return;
@@ -1833,30 +1819,27 @@ void do_steal(Char *ch, const char *argument) {
         check_improve(ch, gsn_steal, true, 2);
         return;
     }
-
-    if ((obj = victim->find_in_inventory(arg1)) == nullptr) {
+    auto *obj = victim->find_in_inventory(what);
+    if (!obj) {
         ch->send_line("You can't find it.");
         return;
     }
-
     if (!can_drop_obj(ch, obj) || check_enum_bit(obj->extra_flags, ObjectExtraFlag::Inventory)
         || obj->level > ch->level) {
         ch->send_line("You can't pry it away.");
         return;
     }
-
     if (ch->carry_number + get_obj_number(obj) > can_carry_n(ch)) {
         ch->send_line("You have your hands full.");
         return;
     }
-
     if (ch->carry_weight + get_obj_weight(obj) > can_carry_w(ch)) {
         ch->send_line("You can't carry that much weight.");
         return;
     }
-
     obj_from_char(obj);
     obj_to_char(obj, ch);
+    ch->send_line("You steal {}.", obj->short_descr);
     check_improve(ch, gsn_steal, true, 2);
 }
 
