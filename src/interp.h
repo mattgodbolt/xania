@@ -248,7 +248,7 @@ extern void do_stand(Char *ch);
 extern void do_stat(Char *ch, ArgParser args);
 extern void do_steal(Char *ch, ArgParser args);
 extern void do_story(Char *ch);
-extern void do_string(Char *ch, const char *argument);
+extern void do_string(Char *ch, ArgParser args);
 extern void do_switch(Char *ch, ArgParser args);
 extern void do_tell(Char *ch, ArgParser args);
 extern void do_time(Char *ch);

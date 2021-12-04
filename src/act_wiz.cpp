@@ -2244,138 +2244,110 @@ void do_mset(Char *ch, ArgParser args) {
     show_usage();
 }
 
-void do_string(Char *ch, const char *argument) {
-    char type[MAX_INPUT_LENGTH];
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    char arg3[MAX_INPUT_LENGTH];
-    Char *victim;
-    Object *obj;
-
-    char smash_tilded[MAX_INPUT_LENGTH];
-    strncpy(smash_tilded, smash_tilde(argument).c_str(),
-            MAX_INPUT_LENGTH - 1); // TODO to minimize changes during refactor
-    auto *args = smash_tilded;
-    args = one_argument(args, type);
-    args = one_argument(args, arg1);
-    args = one_argument(args, arg2);
-    strcpy(arg3, args);
-
-    if (type[0] == '\0' || arg1[0] == '\0' || arg2[0] == '\0' || arg3[0] == '\0') {
+void do_string(Char *ch, ArgParser args) {
+    const auto show_usage = [&ch]() {
         ch->send_line("Syntax:");
         ch->send_line("  string char <name> <field> <string>");
         ch->send_line("    fields: name short long desc title spec");
         ch->send_line("  string obj  <name> <field> <string>");
         ch->send_line("    fields: name short long extended wear");
+    };
+    auto type = args.shift();
+    auto target = args.shift();
+    auto field = args.shift();
+    auto value = smash_tilde(args.remaining());
+    if (type.empty() || target.empty() || field.empty() || value.empty()) {
+        show_usage();
         return;
     }
 
-    if (!str_prefix(type, "character") || !str_prefix(type, "mobile")) {
-        if ((victim = get_char_world(ch, arg1)) == nullptr) {
+    if (matches_start(type, "character") || matches_start(type, "mobile")) {
+        auto *victim = get_char_world(ch, target);
+        if (!victim) {
             ch->send_line("They aren't here.");
             return;
         }
-
-        /* string something */
-
-        if (!str_prefix(arg2, "name")) {
+        if (matches_start(field, "name")) {
             if (victim->is_pc()) {
                 ch->send_line("Not on PC's.");
                 return;
             }
-
-            victim->name = arg3;
+            victim->name = value;
             return;
         }
-
-        if (!str_prefix(arg2, "description")) {
-            victim->description = arg3;
+        if (matches_start(field, "description")) {
+            victim->description = value + "\n\r";
             return;
         }
-
-        if (!str_prefix(arg2, "short")) {
-            victim->short_descr = arg3;
+        if (matches_start(field, "short")) {
+            victim->short_descr = value + "\n\r";
             return;
         }
-
-        if (!str_prefix(arg2, "long")) {
-            victim->long_descr = arg3;
+        if (matches_start(field, "long")) {
+            victim->long_descr = value + "\n\r";
             return;
         }
-
-        if (!str_prefix(arg2, "title")) {
+        if (matches_start(field, "title")) {
             if (victim->is_npc()) {
                 ch->send_line("Not on NPC's.");
                 return;
             }
-
-            victim->set_title(arg3);
+            victim->set_title(value);
             return;
         }
-
-        if (!str_prefix(arg2, "spec")) {
+        if (matches_start(field, "spec")) {
             if (victim->is_pc()) {
                 ch->send_line("Not on PC's.");
                 return;
             }
-
-            if ((victim->spec_fun = spec_lookup(arg3)) == 0) {
+            if ((victim->spec_fun = spec_lookup(value)) == 0) {
                 ch->send_line("No such spec fun.");
                 return;
             }
-
             return;
         }
     }
-
-    if (!str_prefix(type, "object")) {
-        /* string an obj */
-
-        if ((obj = get_obj_world(ch, arg1)) == nullptr) {
+    if (matches_start(type, "object")) {
+        auto *obj = get_obj_world(ch, target);
+        if (!obj) {
             ch->send_line("Nothing like that in heaven or earth.");
             return;
         }
-
-        if (!str_prefix(arg2, "name")) {
-            obj->name = arg3;
+        if (matches_start(field, "name")) {
+            obj->name = value;
             return;
         }
-
-        if (!str_prefix(arg2, "short")) {
-            obj->short_descr = arg3;
+        if (matches_start(field, "short")) {
+            obj->short_descr = value;
             return;
         }
-
-        if (!str_prefix(arg2, "long")) {
-            obj->description = arg3;
+        if (matches_start(field, "long")) {
+            obj->description = value;
             return;
         }
-
-        if (!str_prefix(arg2, "wear")) {
-            if (strlen(arg3) > 17) {
+        if (matches_start(field, "wear")) {
+            if (value.length() > 17) {
                 ch->send_line("Wear_Strings may not be longer than 17 chars.");
             } else {
-                obj->wear_string = arg3;
+                obj->wear_string = value;
             }
             return;
         }
 
-        if (!str_prefix(arg2, "ed") || !str_prefix(arg2, "extended")) {
-            args = one_argument(args, arg3);
-            if (args == nullptr) {
-                ch->send_line("Syntax: oset <object> ed <keyword> <string>");
+        if (matches_start(field, "ed") || matches_start(field, "extended")) {
+            auto extended_parser = ArgParser(value);
+            auto ext_keyword = std::string(extended_parser.shift());
+            auto ext_desc = std::string(extended_parser.remaining());
+            if (ext_keyword.empty() || ext_desc.empty()) {
+                ch->send_line("Syntax: string obj <object> ed <keyword> <string>");
                 return;
             }
-
-            strcat(args, "\n\r");
-
-            obj->extra_descr.emplace_back(ExtraDescription{arg3, args});
+            ext_desc += "\n\r";
+            obj->extra_descr.emplace_back(ExtraDescription{ext_keyword, ext_desc});
             return;
         }
     }
-
-    /* echo bad use message */
-    do_string(ch, "");
+    show_usage();
 }
 
 namespace {
