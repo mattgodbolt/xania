@@ -1097,11 +1097,12 @@ void do_vnum(Char *ch, ArgParser args) {
     do_ofind(ch, arg1);
 }
 
-void do_mwhere(Char *ch, const char *argument) {
+void do_mwhere(Char *ch, ArgParser args) {
     bool find_pc = false;
-    if (argument[0] == '\0') {
+    auto target = args.shift();
+    if (target.empty()) {
         find_pc = true;
-    } else if (strlen(argument) < 2) {
+    } else if (target.length() < 2) {
         ch->send_line("Please be more specific.");
         return;
     }
@@ -1110,7 +1111,7 @@ void do_mwhere(Char *ch, const char *argument) {
     int number = 0;
     std::string buffer;
     for (auto *victim : char_list) {
-        if ((victim->is_npc() && victim->in_room != nullptr && is_name(argument, victim->name) && !find_pc)
+        if ((victim->is_npc() && victim->in_room != nullptr && is_name(target, victim->name) && !find_pc)
             || (victim->is_pc() && find_pc && can_see(ch, victim))) {
             found = true;
             number++;
@@ -1121,7 +1122,7 @@ void do_mwhere(Char *ch, const char *argument) {
     ch->page_to(buffer);
 
     if (!found)
-        act("You didn't find any $T.", ch, nullptr, argument, To::Char); // Poor Arthur.
+        act("You didn't find any $T.", ch, nullptr, target, To::Char); // Poor Arthur.
 }
 
 void do_reboo(Char *ch) { ch->send_line("If you want to REBOOT, spell it out."); }

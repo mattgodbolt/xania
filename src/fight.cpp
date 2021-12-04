@@ -2127,21 +2127,15 @@ void do_kill(Char *ch, ArgParser args) {
 
 void do_murde(Char *ch) { ch->send_line("If you want to MURDER, spell it out."); }
 
-void do_murder(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_murder(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Murder whom?");
         return;
     }
-
     if (ch->is_aff_charm() || (ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Pet)))
         return;
-
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }

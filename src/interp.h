@@ -156,10 +156,10 @@ extern void do_mptransfer(Char *ch, ArgParser args);
 
 extern void do_mset(Char *ch, ArgParser args);
 extern void do_mstat(Char *ch, std::string_view argument);
-extern void do_mwhere(Char *ch, const char *arg);
+extern void do_mwhere(Char *ch, ArgParser args);
 extern void do_motd(Char *ch);
 extern void do_murde(Char *ch);
-extern void do_murder(Char *ch, const char *arg);
+extern void do_murder(Char *ch, ArgParser args);
 extern void do_music(Char *ch, std::string_view argument);
 extern void do_newlock(Char *ch);
 extern void do_nochannels(Char *ch, ArgParser args);

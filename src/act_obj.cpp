@@ -1558,8 +1558,8 @@ void do_recite(Char *ch, ArgParser args) {
         ch->send_line("This scroll is too complex for you to comprehend.");
         return;
     }
-    Char *victim;
-    Object *obj;
+    Char *victim{};
+    Object *obj{};
     if (target.empty()) {
         victim = ch;
     } else {
@@ -1662,9 +1662,9 @@ void do_brandish(Char *ch) {
  */
 
 void do_zap(Char *ch, ArgParser args) {
-    Char *victim;
-    Object *wand;
-    Object *obj;
+    Char *victim{};
+    Object *wand{};
+    Object *obj{};
     if (args.empty() && !ch->fighting) {
         ch->send_line("Zap whom or what?");
         return;
