@@ -407,7 +407,7 @@ void mobile_update() {
                 obj_from_room(obj_best);
                 obj_to_char(obj_best, ch);
                 act("$n gets $p.", ch, obj_best, nullptr, To::Room);
-                do_wear(ch, "all");
+                do_wear(ch, ArgParser("all"));
             }
         }
 

@@ -1496,46 +1496,35 @@ void do_advance(Char *ch, ArgParser args) {
     }
 }
 
-void do_trust(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    Char *victim;
-    int level;
-
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if ((arg1[0] == '\0' && arg2[0] == '\0') || (arg2[0] != '\0' && !is_number(arg2))) {
+void do_trust(Char *ch, ArgParser args) {
+    auto whom = args.shift();
+    const auto opt_level = args.try_shift_number();
+    if (whom.empty()) {
         ch->send_line("Syntax: trust <char> <level>.");
         return;
     }
-
-    if ((victim = get_char_room(ch, arg1)) == nullptr) {
+    auto *victim = get_char_room(ch, whom);
+    if (!victim) {
         ch->send_line("That player is not here.");
         return;
     }
-
-    if (arg2[0] == '\0') {
+    if (!opt_level) {
         ch->send_line("{} has a trust of {}.", victim->name, victim->trust);
         return;
     }
-
     if (victim->is_npc()) {
         ch->send_line("Not on NPCs.");
         return;
     }
-
-    if ((level = atoi(arg2)) < 0 || level > 100) {
+    if (*opt_level < 0 || *opt_level > 100) {
         ch->send_line("Level must be 0 (reset) or 1 to 100.");
         return;
     }
-
-    if (level > ch->get_trust()) {
+    if (*opt_level > ch->get_trust()) {
         ch->send_line("Limited to your trust.");
         return;
     }
-
-    victim->trust = level;
+    victim->trust = *opt_level;
 }
 
 void do_restore(Char *ch, ArgParser args) {

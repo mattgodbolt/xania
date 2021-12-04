@@ -1404,21 +1404,18 @@ void do_eat(Char *ch, ArgParser args) {
     extract_obj(obj);
 }
 
-void do_wear(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_wear(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Wear, wield, or hold what?");
         return;
     }
-
-    if (!str_cmp(arg, "all")) {
+    auto target = args.shift();
+    if (matches(target, "all")) {
         for (auto *obj : ch->carrying)
             if (obj->wear_loc == Wear::None && can_see_obj(ch, obj))
                 wear_obj(ch, obj, false);
     } else {
-        auto *obj = ch->find_in_inventory(arg);
+        auto *obj = ch->find_in_inventory(target);
         if (!obj) {
             ch->send_line("You do not have that item.");
             return;
@@ -2091,43 +2088,33 @@ void do_sell(Char *ch, ArgParser args) {
     }
 }
 
-void do_value(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *keeper;
-    Object *obj;
-    int cost;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_value(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Value what?");
         return;
     }
-
-    if ((keeper = find_keeper(ch)) == nullptr)
+    auto *keeper = find_keeper(ch);
+    if (!keeper)
         return;
-
-    if ((obj = ch->find_in_inventory(arg)) == nullptr) {
+    auto *obj = ch->find_in_inventory(args.shift());
+    if (!obj) {
         act("$n tells you 'You don't have that item'.", keeper, nullptr, ch, To::Vict);
         ch->reply = keeper;
         return;
     }
-
     if (!can_see_obj(keeper, obj)) {
         act("$n doesn't see what you are offering.", keeper, nullptr, ch, To::Vict);
         return;
     }
-
     if (!can_drop_obj(ch, obj)) {
         ch->send_line("You can't let go of it.");
         return;
     }
-
+    int cost;
     if ((cost = get_cost(keeper, obj, false)) <= 0) {
         act("$n looks uninterested in $p.", keeper, obj, ch, To::Vict);
         return;
     }
-
     act(fmt::format("$n tells you 'I'll give you {} gold coins for $p'."), keeper, obj, ch, To::Vict);
     ch->reply = keeper;
 }

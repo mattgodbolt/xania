@@ -396,7 +396,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     case (6):
         if (check_enum_bit(ch->off_flags, OffensiveFlag::Trip))
-            do_trip(ch, "");
+            do_trip(ch, ArgParser(""));
         break;
 
     case (7):
@@ -1982,37 +1982,29 @@ void do_dirt(Char *ch, ArgParser args) {
     }
 }
 
-void do_trip(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
+void do_trip(Char *ch, ArgParser args) {
     Char *victim;
     int chance;
-
-    one_argument(argument, arg);
-
     if ((chance = get_skill(ch, gsn_trip)) == 0 || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Trip))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_trip))) {
         ch->send_line("Tripping?  What's that?");
         return;
     }
 
-    if (ch->riding != nullptr) {
+    if (ch->riding) {
         ch->send_line("You can't trip while mounted.");
         return;
     }
-
-    if (arg[0] == '\0') {
+    if (args.empty()) {
         victim = ch->fighting;
-        if (victim == nullptr) {
+        if (!victim) {
             ch->send_line("But you aren't fighting anyone!");
             return;
         }
-    }
-
-    else if ((victim = get_char_room(ch, arg)) == nullptr) {
+    } else if (!(victim = get_char_room(ch, args.shift()))) {
         ch->send_line("They aren't here.");
         return;
     }
-
     if (is_safe(ch, victim))
         return;
 

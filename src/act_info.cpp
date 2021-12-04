@@ -1426,12 +1426,8 @@ void do_compare(Char *ch, ArgParser args) {
 
 void do_credits(Char *ch) { do_help(ch, "diku"); }
 
-void do_where(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_where(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("|cYou are in {}\n\rPlayers near you:|w", ch->in_room->area->short_name());
         auto found = false;
         for (auto &victim : descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch)
@@ -1448,16 +1444,17 @@ void do_where(Char *ch, const char *argument) {
         }
     } else {
         auto found = false;
+        auto name = args.shift();
         for (auto *victim : char_list) {
             if (victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && !victim->is_aff_hide()
-                && !victim->is_aff_sneak() && can_see(ch, victim) && victim != ch && is_name(arg, victim->name)) {
+                && !victim->is_aff_sneak() && can_see(ch, victim) && victim != ch && is_name(name, victim->name)) {
                 found = true;
                 ch->send_line("|W{:<28}|w {}", ch->describe(*victim), victim->in_room->name);
                 break;
             }
         }
         if (!found)
-            act("You didn't find any $T.", ch, nullptr, arg, To::Char);
+            act("You didn't find any $T.", ch, nullptr, name, To::Char);
     }
 }
 
@@ -1513,19 +1510,16 @@ void set_prompt(Char *ch, std::string_view prompt) {
     ch->pcdata->prompt = prompt;
 }
 
-void do_title(Char *ch, const char *argument) {
+void do_title(Char *ch, std::string_view argument) {
     if (ch->is_npc())
         return;
-
-    if (argument[0] == '\0') {
+    if (argument.empty()) {
         ch->send_line("Change your title to what?");
         return;
     }
-
     auto new_title = smash_tilde(argument);
     if (new_title.length() > 45)
         new_title.resize(45);
-
     ch->set_title(new_title);
     ch->send_line("Ok.");
 }
