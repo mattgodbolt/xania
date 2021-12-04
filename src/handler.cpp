@@ -75,10 +75,9 @@ int race_lookup(std::string_view name) {
 }
 
 /* returns class number */
-int class_lookup(const char *name) {
-    for (int class_num = 0; class_num < MAX_CLASS; class_num++) {
-        if (tolower(name[0]) == tolower(class_table[class_num].name[0])
-            && !str_prefix(name, class_table[class_num].name))
+int class_lookup(std::string_view name) {
+    for (size_t class_num = 0; class_num < MAX_CLASS; class_num++) {
+        if (matches_start(name, class_table[class_num].name))
             return class_num;
     }
     return -1;

@@ -1987,196 +1987,147 @@ void do_slookup(Char *ch, std::string_view argument) {
 
 /* RT set replaces sset, mset, oset, and rset */
 
-void do_set(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-
-    argument = one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_set(Char *ch, ArgParser args) {
+    const auto show_usage = [&ch]() {
         ch->send_line("Syntax:");
         ch->send_line("  set mob   <name> <field> <value>");
         ch->send_line("  set obj   <name> <field> <value>");
         ch->send_line("  set room  <room> <field> <value>");
         ch->send_line("  set skill <name> <spell or skill> <value>");
+    };
+    if (args.empty()) {
+        show_usage();
+        return;
+    }
+    auto type = args.shift();
+    if (matches_start(type, "mobile") || matches_start(type, "character")) {
+        do_mset(ch, args);
         return;
     }
 
-    if (!str_prefix(arg, "mobile") || !str_prefix(arg, "character")) {
-        do_mset(ch, argument);
+    if (matches_start(type, "skill") || matches_start(type, "spell")) {
+        do_sset(ch, args);
         return;
     }
 
-    if (!str_prefix(arg, "skill") || !str_prefix(arg, "spell")) {
-        do_sset(ch, argument);
+    if (matches_start(type, "object")) {
+        do_oset(ch, args);
         return;
     }
 
-    if (!str_prefix(arg, "object")) {
-        do_oset(ch, argument);
+    if (matches_start(type, "room")) {
+        do_rset(ch, args);
         return;
     }
-
-    if (!str_prefix(arg, "room")) {
-        do_rset(ch, argument);
-        return;
-    }
-    /* echo syntax */
-    do_set(ch, "");
+    show_usage();
 }
 
-void do_sset(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    char arg3[MAX_INPUT_LENGTH];
-    Char *victim;
-    int value;
-    int sn;
-    bool fAll;
-
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-    argument = one_argument(argument, arg3);
-
-    if (arg1[0] == '\0' || arg2[0] == '\0' || arg3[0] == '\0') {
+void do_sset(Char *ch, ArgParser args) {
+    auto target = args.shift();
+    auto skill_name = args.shift();
+    const auto opt_value_num = args.try_shift_number();
+    if (target.empty() || skill_name.empty()) {
         ch->send_line("Syntax:");
         ch->send_line("  set skill <name> <spell or skill> <value>");
         ch->send_line("  set skill <name> all <value>");
         ch->send_line("   (use the name of the skill, not the number)");
         return;
     }
-
-    if ((victim = get_char_world(ch, arg1)) == nullptr) {
+    auto *victim = get_char_world(ch, target);
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-
     if (victim->is_npc()) {
         ch->send_line("Not on NPC's.");
         return;
     }
-
-    fAll = !str_cmp(arg2, "all");
-    sn = 0;
-    if (!fAll && (sn = skill_lookup(arg2)) < 0) {
-        ch->send_line("No such skill or spell.");
-        return;
-    }
-
-    /*
-     * Snarf the value.
-     */
-    if (!is_number(arg3)) {
+    if (!opt_value_num) {
         ch->send_line("Value must be numeric.");
         return;
     }
-
-    value = atoi(arg3);
+    const auto value = *opt_value_num;
     if (value < 0 || value > 100) {
         ch->send_line("Value range is 0 to 100.");
         return;
     }
-
-    if (fAll) {
-        for (sn = 0; sn < MAX_SKILL; sn++) {
+    if (matches(skill_name, "all")) {
+        for (auto sn = 0; sn < MAX_SKILL; sn++) {
             if (skill_table[sn].name != nullptr)
                 victim->pcdata->learned[sn] = value;
         }
+    } else if (const auto skill_num = skill_lookup(skill_name); skill_num > 0) {
+        victim->pcdata->learned[skill_num] = value;
     } else {
-        victim->pcdata->learned[sn] = value;
+        ch->send_line("No such skill or spell: {}.", skill_name);
     }
 }
 
-void do_mset(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    char arg3[MAX_INPUT_LENGTH];
-    char buf[100];
-    Char *victim;
-    int value;
-
-    char smash_tilded[MAX_INPUT_LENGTH];
-    strncpy(smash_tilded, smash_tilde(argument).c_str(),
-            MAX_INPUT_LENGTH - 1); // TODO to minimize changes during refactor
-    auto *args = smash_tilded;
-    args = one_argument(args, arg1);
-    args = one_argument(args, arg2);
-    strcpy(arg3, args);
-
-    if (arg1[0] == '\0' || arg2[0] == '\0' || arg3[0] == '\0') {
+// TODO: this could be rewritten to be less procedural.
+void do_mset(Char *ch, ArgParser args) {
+    const auto show_usage = [&ch]() {
         ch->send_line("Syntax:");
         ch->send_line("  set char <name> <field> <value>");
         ch->send_line("  Field being one of:");
         ch->send_line("    str int wis dex con sex class level");
         ch->send_line("    race gold hp mana move practice align");
         ch->send_line("    dam hit train thirst drunk full hours");
+    };
+    auto target = args.shift();
+    auto field = args.shift();
+    const auto opt_value_num = args.try_shift_number();
+    auto value_str = opt_value_num.has_value() ? "" : smash_tilde(args.remaining());
+    if (target.empty() || field.empty()) {
+        show_usage();
         return;
     }
-
-    if ((victim = get_char_world(ch, arg1)) == nullptr) {
+    auto *victim = get_char_world(ch, target);
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-
-    /*
-     * Snarf the value (which need not be numeric).
-     */
-    value = is_number(arg3) ? atoi(arg3) : -1;
-
-    /*
-     * Set something.
-     */
-    if (!str_cmp(arg2, "str")) {
-        if (value < 3 || value > get_max_train(victim, Stat::Str)) {
+    if (matches(field, "str")) {
+        if (!opt_value_num || *opt_value_num < 3 || *opt_value_num > get_max_train(victim, Stat::Str)) {
             ch->send_line("Strength range is 3 to {}.", get_max_train(victim, Stat::Str));
             return;
         }
-
-        victim->perm_stat[Stat::Str] = value;
+        victim->perm_stat[Stat::Str] = *opt_value_num;
         return;
     }
-
-    if (!str_cmp(arg2, "int")) {
-        if (value < 3 || value > get_max_train(victim, Stat::Int)) {
+    if (matches(field, "int")) {
+        if (!opt_value_num || *opt_value_num < 3 || *opt_value_num > get_max_train(victim, Stat::Int)) {
             ch->send_line("Intelligence range is 3 to {}.", get_max_train(victim, Stat::Int));
             return;
         }
-
-        victim->perm_stat[Stat::Int] = value;
+        victim->perm_stat[Stat::Int] = *opt_value_num;
         return;
     }
-
-    if (!str_cmp(arg2, "wis")) {
-        if (value < 3 || value > get_max_train(victim, Stat::Wis)) {
+    if (matches(field, "wis")) {
+        if (!opt_value_num || *opt_value_num < 3 || *opt_value_num > get_max_train(victim, Stat::Wis)) {
             ch->send_line("Wisdom range is 3 to {}.", get_max_train(victim, Stat::Wis));
             return;
         }
-
-        victim->perm_stat[Stat::Wis] = value;
+        victim->perm_stat[Stat::Wis] = *opt_value_num;
         return;
     }
-
-    if (!str_cmp(arg2, "dex")) {
-        if (value < 3 || value > get_max_train(victim, Stat::Dex)) {
+    if (matches(field, "dex")) {
+        if (!opt_value_num || *opt_value_num < 3 || *opt_value_num > get_max_train(victim, Stat::Dex)) {
             ch->send_line("Dexterity ranges is 3 to {}.", get_max_train(victim, Stat::Dex));
             return;
         }
-
-        victim->perm_stat[Stat::Dex] = value;
+        victim->perm_stat[Stat::Dex] = *opt_value_num;
         return;
     }
-
-    if (!str_cmp(arg2, "con")) {
-        if (value < 3 || value > get_max_train(victim, Stat::Con)) {
+    if (matches(field, "con")) {
+        if (!opt_value_num || *opt_value_num < 3 || *opt_value_num > get_max_train(victim, Stat::Con)) {
             ch->send_line("Constitution range is 3 to {}.", get_max_train(victim, Stat::Con));
             return;
         }
-
-        victim->perm_stat[Stat::Con] = value;
+        victim->perm_stat[Stat::Con] = *opt_value_num;
         return;
     }
-
-    if (!str_prefix(arg2, "sex")) {
-        if (auto sex = Sex::try_from_name(arg3)) {
+    if (matches_start(field, "sex")) {
+        if (auto sex = Sex::try_from_name(value_str)) {
             victim->sex = *sex;
             if (victim->is_pc())
                 victim->pcdata->true_sex = *sex;
@@ -2185,192 +2136,174 @@ void do_mset(Char *ch, const char *argument) {
         }
         return;
     }
-
-    if (!str_prefix(arg2, "class")) {
-        int class_num;
-
+    if (matches_start(field, "class")) {
         if (victim->is_npc()) {
             ch->send_line("Mobiles have no class.");
             return;
         }
-
-        class_num = class_lookup(arg3);
+        const auto class_num = class_lookup(value_str);
         if (class_num == -1) {
-            strcpy(buf, "Possible classes are: ");
-            for (class_num = 0; class_num < MAX_CLASS; class_num++) {
-                if (class_num > 0)
-                    strcat(buf, " ");
-                strcat(buf, class_table[class_num].name);
+            std::string buf{"Possible classes are: "};
+            // TODO: use ranges & fmt, and maybe put it in a Classes class.
+            for (size_t c = 0; c < MAX_CLASS; c++) {
+                if (c > 0)
+                    buf += " ";
+                buf += class_table[c].name;
             }
-            strcat(buf, ".\n\r");
-
-            ch->send_to(buf);
+            ch->send_line(buf);
             return;
         }
-
         victim->class_num = class_num;
         return;
     }
-
-    if (!str_prefix(arg2, "level")) {
+    if (matches_start(field, "level")) {
         if (victim->is_pc()) {
             ch->send_line("Not on PC's.");
             return;
         }
-
-        if (value < 0 || value > 200) {
+        if (!opt_value_num || *opt_value_num < 0 || *opt_value_num > 200) {
             ch->send_line("Level range is 0 to 200.");
             return;
         }
-        victim->level = value;
+        victim->level = *opt_value_num;
         return;
     }
-
-    if (!str_prefix(arg2, "gold")) {
-        victim->gold = value;
+    if (matches_start(field, "gold")) {
+        if (!opt_value_num || *opt_value_num < 0 || *opt_value_num > 100000) {
+            ch->send_line("Specify a gold value of 0 to 100,000.");
+            return;
+        }
+        victim->gold = *opt_value_num;
         return;
     }
-
-    if (!str_prefix(arg2, "hp")) {
-        if (value < 1 || value > 30000) {
+    if (matches_start(field, "hp")) {
+        if (!opt_value_num || *opt_value_num < 1 || *opt_value_num > 30000) {
             ch->send_line("Hp range is 1 to 30,000 hit points.");
             return;
         }
-        victim->max_hit = value;
+        victim->max_hit = *opt_value_num;
         if (victim->is_pc())
-            victim->pcdata->perm_hit = value;
+            victim->pcdata->perm_hit = *opt_value_num;
         return;
     }
-
-    if (!str_prefix(arg2, "mana")) {
-        if (value < 0 || value > 30000) {
+    if (matches_start(field, "mana")) {
+        if (!opt_value_num || *opt_value_num < 0 || *opt_value_num > 30000) {
             ch->send_line("Mana range is 0 to 30,000 mana points.");
             return;
         }
-        victim->max_mana = value;
+        victim->max_mana = *opt_value_num;
         if (victim->is_pc())
-            victim->pcdata->perm_mana = value;
+            victim->pcdata->perm_mana = *opt_value_num;
         return;
     }
-
-    if (!str_prefix(arg2, "move")) {
-        if (value < 0 || value > 30000) {
+    if (matches_start(field, "move")) {
+        if (!opt_value_num || *opt_value_num < 0 || *opt_value_num > 30000) {
             ch->send_line("Move range is 0 to 30,000 move points.");
             return;
         }
-        victim->max_move = value;
+        victim->max_move = *opt_value_num;
         if (victim->is_pc())
-            victim->pcdata->perm_move = value;
+            victim->pcdata->perm_move = *opt_value_num;
         return;
     }
-
-    if (!str_prefix(arg2, "practice")) {
-        if (value < 0 || value > 250) {
+    if (matches_start(field, "practice")) {
+        if (!opt_value_num || *opt_value_num < 0 || *opt_value_num > 250) {
             ch->send_line("Practice range is 0 to 250 sessions.");
             return;
         }
-        victim->practice = value;
+        victim->practice = *opt_value_num;
         return;
     }
-
-    if (!str_prefix(arg2, "train")) {
-        if (value < 0 || value > 50) {
+    if (matches_start(field, "train")) {
+        if (!opt_value_num || *opt_value_num < 0 || *opt_value_num > 50) {
             ch->send_line("Training session range is 0 to 50 sessions.");
             return;
         }
-        victim->train = value;
+        victim->train = *opt_value_num;
         return;
     }
-
-    if (!str_prefix(arg2, "align")) {
-        if (value < -1000 || value > 1000) {
+    if (matches_start(field, "align")) {
+        if (!opt_value_num || *opt_value_num < -1000 || *opt_value_num > 1000) {
             ch->send_line("Alignment range is -1000 to 1000.");
             return;
         }
-        victim->alignment = value;
+        victim->alignment = *opt_value_num;
         return;
     }
-
-    if (!str_cmp(arg2, "dam")) {
-        if (value < 1 || value > 100) {
+    if (matches_start(field, "dam")) {
+        if (!opt_value_num || *opt_value_num < 1 || *opt_value_num > 100) {
             ch->send_line("|RDamroll range is 1 to 100.|w");
             return;
         }
-
-        victim->damroll = value;
+        victim->damroll = *opt_value_num;
         return;
     }
-
-    if (!str_cmp(arg2, "hit")) {
-        if (value < 1 || value > 100) {
+    if (matches_start(field, "hit")) {
+        if (!opt_value_num || *opt_value_num < 1 || *opt_value_num > 100) {
             ch->send_line("|RHitroll range is 1 to 100.|w");
             return;
         }
-
-        victim->hitroll = value;
+        victim->hitroll = *opt_value_num;
         return;
     }
-
-    if (!str_prefix(arg2, "thirst")) {
+    if (matches_start(field, "thirst")) {
         if (victim->is_npc()) {
             ch->send_line("Not on NPC's.");
             return;
         }
-        victim->pcdata->thirst.set(value);
+        if (!opt_value_num) {
+            ch->send_line("Specify a thirst number.");
+            return;
+        }
+        victim->pcdata->thirst.set(*opt_value_num);
         return;
     }
-
-    if (!str_prefix(arg2, "drunk")) {
+    if (matches_start(field, "drunk")) {
         if (victim->is_npc()) {
             ch->send_line("Not on NPC's.");
             return;
         }
-        victim->pcdata->inebriation.set(value);
+        if (!opt_value_num) {
+            ch->send_line("Specify a drunk number.");
+            return;
+        }
+        victim->pcdata->inebriation.set(*opt_value_num);
         return;
     }
-
-    if (!str_prefix(arg2, "full")) {
+    if (matches_start(field, "full")) {
         if (victim->is_npc()) {
             ch->send_line("Not on NPC's.");
             return;
         }
-        victim->pcdata->hunger.set(value);
+        if (!opt_value_num) {
+            ch->send_line("Specify a full number.");
+            return;
+        }
+        victim->pcdata->hunger.set(*opt_value_num);
         return;
     }
-
-    if (!str_prefix(arg2, "race")) {
-        int race;
-
-        race = race_lookup(arg3);
-
+    if (matches_start(field, "race")) {
+        const int race = race_lookup(value_str);
         if (race == 0) {
             ch->send_line("That is not a valid race.");
             return;
         }
-
         if (victim->is_pc() && !race_table[race].pc_race) {
             ch->send_line("That is not a valid player race.");
             return;
         }
-
         victim->race = race;
         return;
     }
-
-    if (!str_cmp(arg2, "hours")) {
-        if (value < 1 || value > 999) {
+    if (matches_start(field, "hours")) {
+        if (!opt_value_num || *opt_value_num < 1 || *opt_value_num > 999) {
             ch->send_line("|RHours range is 1 to 999.|w");
             return;
         }
-
-        victim->played = std::chrono::hours(value);
+        victim->played = std::chrono::hours(*opt_value_num);
         return;
     }
-
-    /*
-     * Generate usage message.
-     */
-    do_mset(ch, "");
+    show_usage();
 }
 
 void do_string(Char *ch, const char *argument) {
@@ -2507,179 +2440,144 @@ void do_string(Char *ch, const char *argument) {
     do_string(ch, "");
 }
 
-void do_oset(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    char arg3[MAX_INPUT_LENGTH];
-    Object *obj;
-    int value;
+namespace {
 
-    char smash_tilded[MAX_INPUT_LENGTH];
-    strncpy(smash_tilded, smash_tilde(argument).c_str(),
-            MAX_INPUT_LENGTH - 1); // TODO to minimize changes during refactor
-    auto *args = smash_tilded;
-    args = one_argument(args, arg1);
-    args = one_argument(args, arg2);
-    strcpy(arg3, args);
+bool oset_value_field(Char *ch, Object *obj, std::string_view specified_field, const size_t index,
+                      const std::optional<int> opt_num) {
+    if (matches(specified_field, fmt::format("value{}", index))) {
+        if (opt_num) {
+            obj->value[index] = *opt_num;
+        } else {
+            ch->send_line("Value field requires a number.");
+        }
+        return true;
+    }
+    return false;
+}
 
-    if (arg1[0] == '\0' || arg2[0] == '\0' || arg3[0] == '\0') {
+}
+
+void do_oset(Char *ch, ArgParser args) {
+    const auto show_usage = [&ch]() {
         ch->send_line("Syntax:");
         ch->send_line("  set obj <object> <field> <value>");
         ch->send_line("  Field being one of:");
         ch->send_line("    value0 value1 value2 value3 value4 (v1-v4)");
         ch->send_line("    extra wear level weight cost timer nolocate");
         ch->send_line("    (for extra and wear, use set obj <o> <extra/wear> ? to list");
+    };
+    auto target = args.shift();
+    auto field = args.shift();
+    const auto opt_value_num = args.try_shift_number();
+    auto value_str = opt_value_num.has_value() ? "" : smash_tilde(args.remaining());
+    if (target.empty() || field.empty()) {
+        show_usage();
         return;
     }
-
-    if ((obj = get_obj_world(ch, arg1)) == nullptr) {
+    auto *obj = get_obj_world(ch, target);
+    if (!obj) {
         ch->send_line("Nothing like that in heaven or earth.");
         return;
     }
-
-    /*
-     * Snarf the value (which need not be numeric).
-     */
-    value = atoi(arg3);
-
-    /*
-     * Set something.
-     */
-    if (!str_cmp(arg2, "value0") || !str_cmp(arg2, "v0")) {
-        obj->value[0] = std::min(75, value);
-        return;
+    for (size_t index = 0; index < 5; index++) {
+        if (oset_value_field(ch, obj, field, index, opt_value_num)) {
+            return;
+        }
     }
-
-    if (!str_cmp(arg2, "value1") || !str_cmp(arg2, "v1")) {
-        obj->value[1] = value;
-        return;
-    }
-
-    if (!str_cmp(arg2, "value2") || !str_cmp(arg2, "v2")) {
-        obj->value[2] = value;
-        return;
-    }
-
-    if (!str_cmp(arg2, "value3") || !str_cmp(arg2, "v3")) {
-        obj->value[3] = value;
-        return;
-    }
-
-    if (!str_cmp(arg2, "value4") || !str_cmp(arg2, "v4")) {
-        obj->value[4] = value;
-        return;
-    }
-
-    if (!str_prefix(arg2, "extra")) {
-
+    if (matches_start(field, "extra")) {
         ch->send_line("Current extra flags are: ");
-        auto flag_args = ArgParser(arg3);
+        auto flag_args = ArgParser(value_str);
         obj->extra_flags = static_cast<unsigned int>(flag_set(Object::AllExtraFlags, flag_args, obj->extra_flags, ch));
         return;
     }
-
-    if (!str_prefix(arg2, "wear")) {
+    if (matches_start(field, "wear")) {
         ch->send_line("Current wear flags are: ");
-        auto flag_args = ArgParser(arg3);
+        auto flag_args = ArgParser(value_str);
         obj->wear_flags = static_cast<unsigned int>(flag_set(Object::AllWearFlags, flag_args, obj->wear_flags, ch));
         return;
     }
-
-    if (!str_prefix(arg2, "level")) {
-        obj->level = value;
+    if (matches_start(field, "level")) {
+        if (!opt_value_num || *opt_value_num < 0 || *opt_value_num > 200) {
+            ch->send_line("Level range is 0 to 200.");
+            return;
+        }
+        obj->level = *opt_value_num;
+        return;
+    }
+    if (matches_start(field, "weight")) {
+        if (!opt_value_num || *opt_value_num < 0 || *opt_value_num > 100000) {
+            ch->send_line("Weight range is 0 to 100000.");
+            return;
+        }
+        obj->weight = *opt_value_num;
+        return;
+    }
+    if (matches_start(field, "cost")) {
+        if (!opt_value_num || *opt_value_num < 0 || *opt_value_num > 100000) {
+            ch->send_line("Cost range is 0 to 100000.");
+            return;
+        }
+        obj->cost = *opt_value_num;
+        return;
+    }
+    if (matches_start(field, "timer")) {
+        if (!opt_value_num || *opt_value_num < 0 || *opt_value_num > 250) {
+            ch->send_line("Timer range is 0 to 250.");
+            return;
+        }
+        obj->timer = *opt_value_num;
         return;
     }
 
-    if (!str_prefix(arg2, "weight")) {
-        obj->weight = value;
-        return;
-    }
-
-    if (!str_prefix(arg2, "cost")) {
-        obj->cost = value;
-        return;
-    }
-
-    if (!str_prefix(arg2, "timer")) {
-        obj->timer = value;
-        return;
-    }
-
-    /* NoLocate flag.  0 turns it off, 1 turns it on *WHAHEY!* */
-    if (!str_prefix(arg2, "nolocate")) {
-        if (value == 0)
+    /* NoLocate flag.  0 turns it off, everything else turns it on *WHAHEY!* */
+    if (matches(field, "nolocate")) {
+        if (opt_value_num && *opt_value_num == 0)
             clear_enum_bit(obj->extra_flags, ObjectExtraFlag::NoLocate);
         else
             set_enum_bit(obj->extra_flags, ObjectExtraFlag::NoLocate);
         return;
     }
-
-    /*
-     * Generate usage message.
-     */
-    do_oset(ch, "");
+    show_usage();
 }
 
-void do_rset(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    char arg3[MAX_INPUT_LENGTH];
-    Room *location;
-    int value;
-
-    char smash_tilded[MAX_INPUT_LENGTH];
-    strncpy(smash_tilded, smash_tilde(argument).c_str(),
-            MAX_INPUT_LENGTH - 1); // TODO to minimize changes during refactor
-    auto *args = smash_tilded;
-    args = one_argument(args, arg1);
-    args = one_argument(args, arg2);
-    strcpy(arg3, args);
-
-    if (arg1[0] == '\0' || arg2[0] == '\0' || arg3[0] == '\0') {
+void do_rset(Char *ch, ArgParser args) {
+    const auto show_usage = [&ch]() {
         ch->send_line("Syntax:");
         ch->send_line("  set room <location> <field> <value>");
         ch->send_line("  Field being one of:");
         ch->send_line("    flags sector");
         ch->send_line("  (use set room <location> flags ? to list flags");
+    };
+    auto target = args.shift();
+    auto field = args.shift();
+    const auto opt_value_num = args.try_shift_number();
+    auto value_str = opt_value_num.has_value() ? "" : smash_tilde(args.remaining());
+    if (target.empty() || field.empty()) {
+        show_usage();
         return;
     }
-
-    if ((location = find_location(ch, arg1)) == nullptr) {
+    auto *location = find_location(ch, target);
+    if (!location) {
         ch->send_line("No such location.");
         return;
     }
-
-    if (!str_prefix(arg2, "flags")) {
+    if (matches_start(field, "flags")) {
         ch->send_line("The current room flags are:");
-        auto flag_args = ArgParser(arg3);
+        auto flag_args = ArgParser(value_str);
         location->room_flags = static_cast<unsigned int>(flag_set(Room::AllFlags, flag_args, location->room_flags, ch));
         return;
     }
-
-    /*
-     * Snarf the value.
-     */
-    if (!is_number(arg3)) {
-        ch->send_line("Value must be numeric.");
-        return;
-    }
-    value = atoi(arg3);
-
-    /*
-     * Set something.
-     */
-    if (!str_prefix(arg2, "sector")) {
-        if (auto sector_type = try_get_sector_type(value))
+    if (matches_start(field, "sector")) {
+        if (!opt_value_num) {
+            ch->send_line("Please specify a sector number.");
+        }
+        if (auto sector_type = try_get_sector_type(*opt_value_num))
             location->sector_type = *sector_type;
         else
             ch->send_line("Invalid sector type number.");
         return;
     }
-
-    /*
-     * Generate usage message.
-     */
-    do_rset(ch, "");
+    show_usage();
 }
 
 void do_sockets(Char *ch, const char *argument) {
