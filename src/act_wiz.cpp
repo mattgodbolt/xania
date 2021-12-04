@@ -1560,14 +1560,9 @@ void do_trust(Char *ch, const char *argument) {
     victim->trust = level;
 }
 
-void do_restore(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0' || !str_cmp(arg, "room")) {
-        /* cure room */
-
+void do_restore(Char *ch, ArgParser args) {
+    auto target = args.shift();
+    if (target.empty() || matches(target, "room")) {
         for (auto *vch : ch->in_room->people) {
             affect_strip(vch, gsn_plague);
             affect_strip(vch, gsn_poison);
@@ -1581,20 +1576,16 @@ void do_restore(Char *ch, const char *argument) {
             update_pos(vch);
             act("$n has restored you.", ch, nullptr, vch, To::Vict);
         }
-
         ch->send_line("Room restored.");
         return;
     }
-
-    if (ch->get_trust() >= MAX_LEVEL && !str_cmp(arg, "all")) {
+    if (ch->get_trust() >= MAX_LEVEL && matches(target, "all")) {
         /* cure all */
 
         for (auto &d : descriptors().playing()) {
-            victim = d.character();
-
+            auto *victim = d.character();
             if (victim->is_npc())
                 continue;
-
             affect_strip(victim, gsn_plague);
             affect_strip(victim, gsn_poison);
             affect_strip(victim, gsn_blindness);
@@ -1611,12 +1602,11 @@ void do_restore(Char *ch, const char *argument) {
         ch->send_line("All active players restored.");
         return;
     }
-
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
+    auto *victim = get_char_world(ch, target);
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-
     affect_strip(victim, gsn_plague);
     affect_strip(victim, gsn_poison);
     affect_strip(victim, gsn_blindness);

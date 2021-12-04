@@ -82,11 +82,8 @@ FingerInfo read_char_info(std::string_view player_name) {
 }
 
 /* Rohan's setinfo function */
-void do_setinfo(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    char smash_tilded[MAX_INPUT_LENGTH];
-
-    if (argument[0] == '\0') {
+void do_setinfo(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("These are your current info settings:");
         if (ch->pcdata->info_message.empty())
             ch->send_line("Message: Not set.");
@@ -96,13 +93,10 @@ void do_setinfo(Char *ch, const char *argument) {
             ch->send_line("Message: Withheld.");
         return;
     }
-    strncpy(smash_tilded, smash_tilde(argument).c_str(),
-            MAX_INPUT_LENGTH - 1); // TODO to minimize changes during refactor
-    auto *args = smash_tilded;
-    args = one_argument(args, arg);
-
-    if (!strcmp(arg, "message")) {
-        if (args[0] == '\0') {
+    auto command = args.shift();
+    if (matches(command, "message")) {
+        auto message = smash_tilde(args.remaining()).substr(0, 45);
+        if (message.empty()) {
             if (ch->is_set_extra(CharExtraFlag::InfoMessage)) {
                 if (ch->pcdata->info_message.empty())
                     ch->send_line("Your message is currently not set.");
@@ -111,9 +105,7 @@ void do_setinfo(Char *ch, const char *argument) {
             } else
                 ch->send_line("Your message is currently being withheld.");
         } else {
-            if (strlen(args) > 45)
-                args[45] = '\0';
-            ch->pcdata->info_message = args;
+            ch->pcdata->info_message = message;
             ch->set_extra(CharExtraFlag::InfoMessage);
             ch->send_line("Your message has been set to: {}.", ch->pcdata->info_message);
             /* Update the info if it is in cache */
@@ -124,51 +116,47 @@ void do_setinfo(Char *ch, const char *argument) {
         }
         return;
     }
-
-    if (!strcmp(arg, "show")) {
-        if (args[0] == '\0') {
+    if (matches(command, "show")) {
+        auto field = args.shift();
+        if (field.empty()) {
             ch->send_line("You must supply one of the following arguments to 'setinfo show':\n\r    message");
             return;
-        } else {
-            if (!strcmp(args, "message")) {
-                if (ch->pcdata->info_message[0] == '\0')
-                    ch->send_to("Your message must be set in order for it to be read by other players.\n\rUse "
-                                "'setinfo message <your message>'.\n\r");
-                else {
-                    ch->set_extra(CharExtraFlag::InfoMessage);
-                    ch->send_line("Players will now be able to read your message when looking at your info.");
-                    /// Update the info if it is in cache
-                    if (auto cur = search_info_cache(ch)) {
-                        cur->i_message = true;
-                    }
+        } else if (matches(field, "message")) {
+            if (ch->pcdata->info_message.empty())
+                ch->send_to("Your message must be set in order for it to be read by other players.\n\rUse "
+                            "'setinfo message <your message>'.\n\r");
+            else {
+                ch->set_extra(CharExtraFlag::InfoMessage);
+                ch->send_line("Players will now be able to read your message when looking at your info.");
+                /// Update the info if it is in cache
+                if (auto cur = search_info_cache(ch)) {
+                    cur->i_message = true;
                 }
-            } else {
-                ch->send_line("You must supply one of the following arguments to 'setinfo show':\n\r    message");
             }
-            return;
+        } else {
+            ch->send_line("You must supply one of the following arguments to 'setinfo show':\n\r    message");
         }
+        return;
     }
 
-    if (!strcmp(arg, "hide")) {
-        if (args[0] == '\0') {
+    if (matches(command, "hide")) {
+        auto field = args.shift();
+        if (field.empty()) {
             ch->send_line("You must supply one of the following arguments to 'setinfo hide':\n\r    message");
             return;
-        } else {
-            if (!strcmp(args, "message")) {
-                ch->remove_extra(CharExtraFlag::InfoMessage);
-                ch->send_line("Players will now not be able to read your message when looking at your info.");
-                // Update the info if it is in cache
-                if (auto cur = search_info_cache(ch)) {
-                    cur->i_message = false;
-                }
-            } else {
-                ch->send_to("You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r");
+        } else if (matches(field, "message")) {
+            ch->remove_extra(CharExtraFlag::InfoMessage);
+            ch->send_line("Players will now not be able to read your message when looking at your info.");
+            // Update the info if it is in cache
+            if (auto cur = search_info_cache(ch)) {
+                cur->i_message = false;
             }
-            return;
+        } else {
+            ch->send_to("You must supply one of the following arguments to 'setinfo hide':\n\r    message\n\r");
         }
+        return;
     }
-
-    if (!strcmp(arg, "clear")) {
+    if (matches(command, "clear")) {
         ch->pcdata->info_message.clear();
         ch->send_line("Your info details have been cleared.");
         /* Do the same if in cache */
@@ -189,12 +177,12 @@ void do_setinfo(Char *ch, const char *argument) {
 
 void do_finger(Char *ch, ArgParser args) {
     if (args.empty()) {
-        do_setinfo(ch, "");
+        do_setinfo(ch, ArgParser(""));
         return;
     }
     auto name = args.shift();
     if (matches(ch->name, name)) {
-        do_setinfo(ch, "");
+        do_setinfo(ch, ArgParser(""));
         return;
     }
 

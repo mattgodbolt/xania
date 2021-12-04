@@ -80,8 +80,8 @@ void announce(std::string_view buf, const Char *ch) {
     }
 }
 
-void do_say(Char *ch, const char *argument) {
-    if (argument[0] == '\0') {
+void do_say(Char *ch, std::string_view argument) {
+    if (argument.empty()) {
         ch->send_line("|cSay what?\n\r|w");
         return;
     }
@@ -100,10 +100,12 @@ void do_afk(Char *ch, std::string_view argument) {
         ch->set_afk(argument.empty() ? "afk" : argument.substr(0, MaxAfkLength));
 }
 
-static void tell_to(Char *ch, Char *victim, const char *text) {
+namespace {
+
+void tell_to(Char *ch, Char *victim, std::string_view text) {
     ch->set_not_afk();
 
-    if (victim == nullptr || text == nullptr || text[0] == '\0') {
+    if (!victim || text.empty()) {
         ch->send_line("|cTell whom what?|w");
 
     } else if (check_enum_bit(ch->comm, CommFlag::NoTell)) {
@@ -138,25 +140,22 @@ static void tell_to(Char *ch, Char *victim, const char *text) {
     }
 }
 
-void do_tell(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
+}
 
-    const char *message = one_argument(argument, arg);
-
-    if (arg[0] == '\0' || message[0] == '\0') {
+void do_tell(Char *ch, ArgParser args) {
+    auto whom = args.shift();
+    auto message = args.remaining();
+    if (whom.empty() || message.empty()) {
         ch->send_line("|cTell whom what?|w");
         return;
     }
-    victim = get_char_world(ch, arg);
-    // TM: victim /may/ be null here, so don't check this if so
-    if (victim && // added :)
-        victim->is_npc() && victim->in_room != ch->in_room)
+    auto *victim = get_char_world(ch, whom);
+    if (victim && victim->is_npc() && victim->in_room != ch->in_room)
         victim = nullptr;
     tell_to(ch, victim, message);
 }
 
-void do_reply(Char *ch, const char *argument) { tell_to(ch, ch->reply, argument); }
+void do_reply(Char *ch, std::string_view argument) { tell_to(ch, ch->reply, argument); }
 
 void do_yell(Char *ch, std::string_view argument) {
     if (check_enum_bit(ch->comm, CommFlag::NoYell)) {

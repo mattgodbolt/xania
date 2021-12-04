@@ -636,7 +636,7 @@ void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vn
             if (corpse && !corpse->contains.empty()) {
                 return; /* leave if corpse has treasure */
             } else {
-                do_sacrifice(looter, "corpse");
+                do_sacrifice(looter, ArgParser("corpse"));
             }
         }
     }
@@ -2287,43 +2287,34 @@ void do_flee(Char *ch) {
     ch->send_line("PANIC! You couldn't escape!");
 }
 
-void do_rescue(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-    Char *fch;
-
-    one_argument(argument, arg);
-    if (arg[0] == '\0') {
+void do_rescue(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Rescue whom?");
         return;
     }
-
-    if ((victim = get_char_room(ch, arg)) == nullptr) {
+    auto *victim = get_char_room(ch, args.shift());
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-
     if (victim == ch) {
         ch->send_line("What about fleeing instead?");
         return;
     }
-
     if (!is_same_group(ch, victim)) {
         ch->send_line("Kill stealing is not permitted.");
         return;
     }
-
     if (ch->is_pc() && victim->is_npc()) {
         ch->send_line("Doesn't need your help!");
         return;
     }
-
     if (ch->fighting == victim) {
         ch->send_line("Too late.");
         return;
     }
-
-    if ((fch = victim->fighting) == nullptr) {
+    auto *victim_fighting = victim->fighting;
+    if (!victim_fighting) {
         ch->send_line("That person is not fighting right now.");
         return;
     }
@@ -2340,12 +2331,12 @@ void do_rescue(Char *ch, const char *argument) {
     act("$n rescues $N!", ch, nullptr, victim, To::NotVict);
     check_improve(ch, gsn_rescue, true, 1);
 
-    stop_fighting(fch, false);
+    stop_fighting(victim_fighting, false);
     stop_fighting(victim, false);
 
-    check_killer(ch, fch);
-    set_fighting(ch, fch);
-    set_fighting(fch, ch);
+    check_killer(ch, victim_fighting);
+    set_fighting(ch, victim_fighting);
+    set_fighting(victim_fighting, ch);
 }
 
 /* TheMoog woz 'ere */

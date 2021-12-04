@@ -1428,59 +1428,47 @@ void do_wear(Char *ch, const char *argument) {
     }
 }
 
-void do_remove(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_remove(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Remove what?");
         return;
     }
-    auto *obj = ch->find_worn(arg);
-    if (!obj) {
+    if (auto *obj = ch->find_worn(args.shift())) {
+        remove_obj(ch, obj->wear_loc, true);
+    } else {
         ch->send_line("You do not have that item.");
-        return;
     }
-
-    remove_obj(ch, obj->wear_loc, true);
 }
 
-void do_sacrifice(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Object *obj;
-    int gold;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0' || matches(arg, ch->name)) {
+void do_sacrifice(Char *ch, ArgParser args) {
+    const auto sacrificial_value = [](auto *obj) {
+        auto gold = std::max(1, obj->level * 2);
+        if (obj->type != ObjectType::Npccorpse && obj->type != ObjectType::Pccorpse)
+            gold = std::min(gold, obj->cost);
+        return gold;
+    };
+    auto name = args.shift();
+    if (name.empty() || matches(name, ch->name)) {
         act(fmt::format("$n offers $r to {}, who graciously declines.", deity_name), ch);
         ch->send_line("{} appreciates your offer and may accept it later.", deity_name);
         return;
     }
-
-    obj = get_obj_list(ch, arg, ch->in_room->contents);
-    if (obj == nullptr) {
+    auto *obj = get_obj_list(ch, name, ch->in_room->contents);
+    if (!obj) {
         ch->send_line("You can't find it.");
         return;
     }
-
     if (obj->type == ObjectType::Pccorpse) {
         if (!obj->contains.empty()) {
             ch->send_line("{} wouldn't like that.", deity_name);
             return;
         }
     }
-
     if (!obj->is_takeable()) {
         act("$p is not an acceptable sacrifice.", ch, obj, nullptr, To::Char);
         return;
     }
-
-    gold = std::max(1, obj->level * 2);
-
-    if (obj->type != ObjectType::Npccorpse && obj->type != ObjectType::Pccorpse)
-        gold = std::min(gold, obj->cost);
-
+    const auto gold = sacrificial_value(obj);
     switch (gold) {
     default: ch->send_line("{} gives you {} gold coins for your sacrifice.", deity_name, gold); break;
     case 0: ch->send_line("{} laughs at your worthless sacrifice. You receive no gold coins.", deity_name); break;
