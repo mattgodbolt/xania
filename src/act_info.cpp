@@ -87,9 +87,7 @@ void show_char_to_char_0(const Char *victim, const Char *ch);
 void show_char_to_char_1(Char *victim, Char *ch);
 void show_char_to_char(const GenericList<Char *> &list, const Char *ch);
 bool check_blind(const Char *ch);
-
-/* Mg's funcy shun */
-void set_prompt(Char *ch, const char *prompt);
+void set_prompt(Char *ch, std::string_view prompt);
 
 std::string format_obj_to_char(const Object *obj, const Char *ch, bool fShort) {
     std::string buf;
@@ -279,35 +277,25 @@ void show_char_to_char_1(Char *victim, Char *ch) {
     }
 }
 
-void do_peek(Char *ch, const char *argument) {
-    Char *victim;
-    char arg1[MAX_INPUT_LENGTH];
-
-    if (ch->desc == nullptr)
+void do_peek(Char *ch, ArgParser args) {
+    if (!ch->desc)
         return;
-
     if (ch->is_pos_stunned_or_dying()) {
         ch->send_line("You can't see anything but stars!");
         return;
     }
-
     if (ch->is_pos_sleeping()) {
         ch->send_line("You can't see anything, you're sleeping!");
         return;
     }
-
     if (!check_blind(ch))
         return;
-
     if (ch->is_pc() && !check_enum_bit(ch->act, PlayerActFlag::PlrHolyLight) && room_is_dark(ch->in_room)) {
         ch->send_line("It is pitch black ... ");
         show_char_to_char(ch->in_room->people, ch);
         return;
     }
-
-    argument = one_argument(argument, arg1);
-
-    if ((victim = get_char_room(ch, arg1)) != nullptr) {
+    if (auto *victim = get_char_room(ch, args.shift())) {
         if (victim != ch && ch->is_pc() && number_percent() < ch->get_skill(gsn_peek)) {
             ch->send_line("\n\rYou peek at their inventory:");
             check_improve(ch, gsn_peek, true, 4);
@@ -626,25 +614,25 @@ void do_compact(Char *ch) {
     }
 }
 
-void do_prompt(Char *ch, const char *argument) {
+void do_prompt(Char *ch, std::string_view argument) {
     /* PCFN 24-05-97  Oh dear - it seems that you can't set prompt while switched
        into a MOB.  Let's change that.... */
     if (ch = ch->player(); !ch)
         return;
 
-    if (str_cmp(argument, "off") == 0) {
+    if (matches(argument, "off")) {
         ch->send_line("You will no longer see prompts.");
         clear_enum_bit(ch->comm, CommFlag::Prompt);
         return;
     }
-    if (str_cmp(argument, "on") == 0) {
+    if (matches(argument, "on")) {
         ch->send_line("You will now see prompts.");
         set_enum_bit(ch->comm, CommFlag::Prompt);
         return;
     }
 
     /* okay that was the old stuff */
-    set_prompt(ch, smash_tilde(argument).c_str());
+    set_prompt(ch, smash_tilde(argument));
     ch->send_line("Ok - prompt set.");
     set_enum_bit(ch->comm, CommFlag::Prompt);
 }
@@ -1517,7 +1505,7 @@ void do_consider(Char *ch, ArgParser args) {
     }
 }
 
-void set_prompt(Char *ch, const char *prompt) {
+void set_prompt(Char *ch, std::string_view prompt) {
     if (ch->is_npc()) {
         bug("Set_prompt: NPC.");
         return;
@@ -1582,11 +1570,11 @@ Char *find_prac_mob(Room *room) {
 }
 }
 
-void do_practice(Char *ch, const char *argument) {
+void do_practice(Char *ch, ArgParser args) {
     if (ch->is_npc())
         return;
 
-    if (argument[0] == '\0') {
+    if (args.empty()) {
         PracticeTabulator::tabulate(ch);
     } else {
         if (!ch->is_pos_awake()) {
@@ -1604,7 +1592,7 @@ void do_practice(Char *ch, const char *argument) {
             ch->send_line("You have no practice sessions left.");
             return;
         }
-        auto sn = skill_lookup(argument);
+        auto sn = skill_lookup(args.shift());
         if (sn < 0) {
             ch->send_line("You can't practice that.");
             return;

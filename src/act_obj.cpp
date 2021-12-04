@@ -1526,18 +1526,13 @@ void do_trash(Char *ch, ArgParser args) {
     extract_obj(obj);
 }
 
-void do_quaff(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Object *obj;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
+void do_quaff(Char *ch, ArgParser args) {
+    if (args.empty()) {
         ch->send_line("Quaff what?");
         return;
     }
-
-    if ((obj = ch->find_in_inventory(arg)) == nullptr) {
+    auto *obj = ch->find_in_inventory(args.shift());
+    if (!obj) {
         ch->send_line("You do not have that potion.");
         return;
     }
@@ -1562,36 +1557,28 @@ void do_quaff(Char *ch, const char *argument) {
     extract_obj(obj);
 }
 
-void do_recite(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    Char *victim;
-    Object *scroll;
-    Object *obj;
-
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if ((scroll = ch->find_in_inventory(arg1)) == nullptr) {
+void do_recite(Char *ch, ArgParser args) {
+    auto scroll_name = args.shift();
+    auto target = args.shift();
+    auto *scroll = ch->find_in_inventory(scroll_name);
+    if (!scroll) {
         ch->send_line("You do not have that scroll.");
         return;
     }
-
     if (scroll->type != ObjectType::Scroll) {
         ch->send_line("You can recite only scrolls.");
         return;
     }
-
     if (ch->level < scroll->level) {
         ch->send_line("This scroll is too complex for you to comprehend.");
         return;
     }
-
-    obj = nullptr;
-    if (arg2[0] == '\0') {
+    Char *victim;
+    Object *obj;
+    if (target.empty()) {
         victim = ch;
     } else {
-        if ((victim = get_char_room(ch, arg2)) == nullptr && (obj = get_obj_here(ch, arg2)) == nullptr
+        if (!(victim = get_char_room(ch, target)) && !(obj = get_obj_here(ch, target))
             && (skill_table[scroll->value[1]].target != Target::Ignore)
             && (skill_table[scroll->value[1]].target != Target::CharOther)) {
             ch->send_line("You can't find it.");
@@ -1608,9 +1595,9 @@ void do_recite(Char *ch, const char *argument) {
     }
 
     else {
-        obj_cast_spell(scroll->value[1], scroll->value[0], ch, victim, obj, arg2);
-        obj_cast_spell(scroll->value[2], scroll->value[0], ch, victim, obj, arg2);
-        obj_cast_spell(scroll->value[3], scroll->value[0], ch, victim, obj, arg2);
+        obj_cast_spell(scroll->value[1], scroll->value[0], ch, victim, obj, target);
+        obj_cast_spell(scroll->value[2], scroll->value[0], ch, victim, obj, target);
+        obj_cast_spell(scroll->value[3], scroll->value[0], ch, victim, obj, target);
         check_improve(ch, gsn_scrolls, true, 2);
     }
 

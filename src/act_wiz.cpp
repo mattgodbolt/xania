@@ -296,8 +296,8 @@ void do_echo(Char *ch, std::string_view argument) {
     }
 }
 
-void do_recho(Char *ch, const char *argument) {
-    if (argument[0] == '\0') {
+void do_recho(Char *ch, std::string_view argument) {
+    if (argument.empty()) {
         ch->send_line("Local echo what?");
         return;
     }
@@ -310,8 +310,8 @@ void do_recho(Char *ch, const char *argument) {
     }
 }
 
-void do_zecho(Char *ch, const char *argument) {
-    if (argument[0] == '\0') {
+void do_zecho(Char *ch, std::string_view argument) {
+    if (argument.empty()) {
         ch->send_line("Zone echo what?");
         return;
     }
@@ -321,27 +321,23 @@ void do_zecho(Char *ch, const char *argument) {
     }
 }
 
-void do_pecho(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    argument = one_argument(argument, arg);
-
-    if (argument[0] == '\0' || arg[0] == '\0') {
+void do_pecho(Char *ch, ArgParser args) {
+    auto whom = args.shift();
+    auto message = args.remaining();
+    if (whom.empty() || message.empty()) {
         ch->send_line("Personal echo what?");
         return;
     }
-
-    if ((victim = get_char_world(ch, arg)) == nullptr) {
+    auto *victim = get_char_world(ch, whom);
+    if (!victim) {
         ch->send_line("Target not found.");
         return;
     }
-
     if (victim->get_trust() >= ch->get_trust() && ch->get_trust() != MAX_LEVEL)
         victim->send_to("personal> ");
 
-    victim->send_line("{}", argument);
-    ch->send_line("personal> {}", argument);
+    victim->send_line("{}", message);
+    ch->send_line("personal> {}", message);
 }
 
 Room *find_location(Char *ch, std::string_view arg) {
@@ -1406,44 +1402,37 @@ void do_load(Char *ch, ArgParser args) {
     }
 }
 
-void do_purge(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Descriptor *d;
-
-    one_argument(argument, arg);
-
-    if (arg[0] == '\0') {
-        /* 'purge' */
-
+void do_purge(Char *ch, ArgParser args) {
+    if (args.empty()) {
+        auto obj_count = 0;
+        auto char_count = 0;
         for (auto *victim : ch->in_room->people) {
             if (victim->is_npc() && !check_enum_bit(victim->act, CharActFlag::NoPurge)
-                && victim != ch /* safety precaution */)
+                && victim != ch /* safety precaution */) {
                 extract_char(victim, true);
+                char_count++;
+            }
         }
-
         for (auto *obj : ch->in_room->contents) {
-            if (!obj->is_no_purge())
+            if (!obj->is_no_purge()) {
                 extract_obj(obj);
+                obj_count++;
+            }
         }
-
         act("$n purges the room!", ch);
-        ch->send_line("Ok.");
+        ch->send_line("Purged characters: {}, objects: {}", char_count, obj_count);
         return;
     }
-
-    auto *victim = get_char_world(ch, arg);
+    auto *victim = get_char_world(ch, args.shift());
     if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-
     if (victim->is_pc()) {
-
         if (ch == victim) {
             ch->send_line("Ho ho ho.");
             return;
         }
-
         if (ch->get_trust() <= victim->get_trust()) {
             ch->send_line("Maybe that wasn't a good idea...");
             victim->send_line("{} tried to purge you!", ch->name);
@@ -1454,14 +1443,12 @@ void do_purge(Char *ch, const char *argument) {
 
         if (victim->level > 1)
             save_char_obj(victim);
-        d = victim->desc;
+        auto *desc = victim->desc;
         extract_char(victim, true);
-        if (d != nullptr)
-            d->close();
-
+        if (desc != nullptr)
+            desc->close();
         return;
     }
-
     act("$n purges $N.", ch, nullptr, victim, To::NotVict);
     extract_char(victim, true);
 }
