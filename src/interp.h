@@ -287,13 +287,11 @@ extern void do_zecho(Char *ch, std::string_view argument);
 extern void do_throw(Char *ch, ArgParser args);
 extern void do_prefix(Char *ch, std::string_view argument); /* 'prefix' added PCFN 19-05-97 */
 extern void do_donate(Char *ch, ArgParser args); /* 'donate' added PCFN 01.06.97 */
-
-/* clan stuff */
+// Clans
 extern void do_member(Char *ch, ArgParser args);
-extern void do_promote(Char *ch, const char *arg);
-extern void do_demote(Char *ch, const char *arg);
-extern void do_noclanchan(Char *ch, const char *arg);
-extern void do_clantalk(Char *ch, const char *arg);
+extern void do_promote(Char *ch, ArgParser args);
+extern void do_demote(Char *ch, ArgParser args);
+extern void do_noclanchan(Char *ch, ArgParser args);
+extern void do_clantalk(Char *ch, std::string_view argument);
 extern void do_clanwho(Char *ch);
-extern void do_clanset(Char *ch, const char *arg);
-/* end of clan stuff */
+extern void do_clanset(Char *ch, ArgParser args);
