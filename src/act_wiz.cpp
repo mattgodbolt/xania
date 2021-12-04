@@ -250,30 +250,23 @@ void do_disconnect(Char *ch, ArgParser args) {
     }
 }
 
-void do_pardon(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    Char *victim;
-
-    argument = one_argument(argument, arg1);
-    argument = one_argument(argument, arg2);
-
-    if (arg1[0] == '\0' || arg2[0] == '\0') {
+void do_pardon(Char *ch, ArgParser args) {
+    auto whom = args.shift();
+    auto crime = args.shift();
+    if (whom.empty() || crime.empty()) {
         ch->send_line("Syntax: pardon <character> <killer|thief>.");
         return;
     }
-
-    if ((victim = get_char_world(ch, arg1)) == nullptr) {
+    auto *victim = get_char_world(ch, whom);
+    if (!victim) {
         ch->send_line("They aren't here.");
         return;
     }
-
     if (victim->is_npc()) {
         ch->send_line("Not on NPC's.");
         return;
     }
-
-    if (!str_cmp(arg2, "killer")) {
+    if (matches(crime, "killer")) {
         if (check_enum_bit(victim->act, PlayerActFlag::PlrKiller)) {
             clear_enum_bit(victim->act, PlayerActFlag::PlrKiller);
             ch->send_line("Killer flag removed.");
@@ -281,8 +274,7 @@ void do_pardon(Char *ch, const char *argument) {
         }
         return;
     }
-
-    if (!str_cmp(arg2, "thief")) {
+    if (matches(crime, "thief")) {
         if (check_enum_bit(victim->act, PlayerActFlag::PlrThief)) {
             clear_enum_bit(victim->act, PlayerActFlag::PlrThief);
             ch->send_line("Thief flag removed.");
@@ -290,7 +282,6 @@ void do_pardon(Char *ch, const char *argument) {
         }
         return;
     }
-
     ch->send_line("Syntax: pardon <character> <killer|thief>.");
 }
 
@@ -1808,33 +1799,26 @@ void do_awaken(Char *ch, ArgParser args) {
         Position::Type::Resting);
 }
 
-void do_owhere(Char *ch, const char *argument) {
-    char target_name[MAX_INPUT_LENGTH];
+void do_owhere(Char *ch, ArgParser args) {
     Object *in_obj;
-    bool found;
+    bool found = false;
     int number = 0;
-
-    found = false;
-    number = 0;
-
-    if (argument[0] == '\0') {
+    if (args.empty()) {
         ch->send_line("Owhere which object?");
         return;
     }
-    if (strlen(argument) < 2) {
+    auto obj_name = args.shift();
+    if (obj_name.length() < 2) {
         ch->send_line("Please be more specific.");
         return;
     }
-    one_argument(argument, target_name);
-
     std::string buffer;
     for (auto *obj : object_list) {
-        if (!is_name(target_name, obj->name))
+        if (!is_name(obj_name, obj->name))
             continue;
 
         found = true;
         number++;
-
         for (in_obj = obj; in_obj->in_obj != nullptr; in_obj = in_obj->in_obj)
             ;
 
@@ -1846,7 +1830,6 @@ void do_owhere(Char *ch, const char *argument) {
                                   in_obj->in_room->vnum);
         }
     }
-
     ch->page_to(buffer);
     if (!found)
         ch->send_line("Nothing like that in heaven or earth.");

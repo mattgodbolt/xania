@@ -1659,83 +1659,36 @@ void do_wimpy(Char *ch, ArgParser args) {
     ch->send_line("Wimpy set to {} hit points.", wimpy);
 }
 
-void do_password(Char *ch, const char *argument) {
-    char arg1[MAX_INPUT_LENGTH];
-    char arg2[MAX_INPUT_LENGTH];
-    char *pArg;
-    char *pwdnew;
-    char *p;
-    char cEnd;
-
+void do_password(Char *ch, ArgParser args) {
     if (ch->is_npc())
         return;
-
-    /*
-     * Can't use one_argument here because it smashes case.
-     * So we just steal all its code.  Bleagh.
-     */
-    pArg = arg1;
-    while (isspace(*argument))
-        argument++;
-
-    cEnd = ' ';
-    if (*argument == '\'' || *argument == '"')
-        cEnd = *argument++;
-
-    while (*argument != '\0') {
-        if (*argument == cEnd) {
-            argument++;
-            break;
-        }
-        *pArg++ = *argument++;
-    }
-    *pArg = '\0';
-
-    pArg = arg2;
-    while (isspace(*argument))
-        argument++;
-
-    cEnd = ' ';
-    if (*argument == '\'' || *argument == '"')
-        cEnd = *argument++;
-
-    while (*argument != '\0') {
-        if (*argument == cEnd) {
-            argument++;
-            break;
-        }
-        *pArg++ = *argument++;
-    }
-    *pArg = '\0';
-
-    if (arg1[0] == '\0' || arg2[0] == '\0') {
+    auto old_pass = std::string(args.shift());
+    auto new_pass = std::string(args.shift());
+    if (old_pass.empty() || new_pass.empty()) {
         ch->send_line("Syntax: password <old> <new>.");
         return;
     }
 
-    if (!ch->pcdata->pwd.empty() && strcmp(crypt(arg1, ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
-        ch->wait_state(40);
-        ch->send_line("Wrong password.  Wait 10 seconds.");
-        return;
-    }
-
-    if ((int)strlen(arg2) < 5) {
-        ch->send_line("New password must be at least five characters long.");
-        return;
-    }
-
-    /*
-     * No tilde allowed because of player file format.
-     */
-    pwdnew = crypt(arg2, ch->name.c_str());
-    for (p = pwdnew; *p != '\0'; p++) {
-        if (*p == '~') {
-            ch->send_line("New password not acceptable, try again.");
+    if (!ch->pcdata->pwd.empty()) {
+        if (auto old_crypt = crypt(old_pass.c_str(), ch->pcdata->pwd.c_str()); old_crypt != ch->pcdata->pwd) {
+            ch->wait_state(40);
+            ch->send_line("Wrong password.  Wait 10 seconds.");
             return;
         }
     }
-
-    ch->pcdata->pwd = pwdnew;
+    if (new_pass.length() < MinPasswordLen) {
+        ch->send_line("New password must be at least five characters long.");
+        return;
+    }
+    /*
+     * No tilde allowed because of player file format.
+     */
+    auto new_crypt = crypt(new_pass.c_str(), ch->name.c_str());
+    if (matches_inside("~", new_crypt)) {
+        ch->send_line("New password not acceptable, try again.");
+        return;
+    }
+    ch->pcdata->pwd = new_crypt;
     save_char_obj(ch);
     ch->send_line("Ok.");
 }

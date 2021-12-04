@@ -32,6 +32,7 @@
 #include "interp.h"
 #include "ride.hpp"
 #include "save.hpp"
+#include "string_utils.hpp"
 
 #include <fmt/format.h>
 
@@ -505,62 +506,50 @@ void die_follower(Char *ch) {
     }
 }
 
-void do_order(Char *ch, const char *argument) {
-    char arg[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
-    Char *victim;
-    bool found;
-    bool fAll;
-
-    auto *command_remainder = one_argument(argument, arg);
-    one_argument(command_remainder, arg2);
-
-    if (!str_cmp(arg2, "delete")) {
-        ch->send_line("That will NOT be done.");
-        return;
-    }
-
-    if (arg[0] == '\0' || command_remainder[0] == '\0') {
+void do_order(Char *ch, ArgParser args) {
+    Char *victim{};
+    bool found = false;
+    bool is_all = false;
+    auto whom = args.shift();
+    auto what = std::string(args.remaining());
+    if (whom.empty() || what.empty()) {
         ch->send_line("Order whom to do what?");
         return;
     }
-
     if (ch->is_aff_charm()) {
         ch->send_line("You feel like taking, not giving, orders.");
         return;
     }
-
-    if (!str_cmp(arg, "all")) {
-        fAll = true;
-        victim = nullptr;
+    if (matches(what, "delete")) {
+        ch->send_line("That will NOT be done.");
+        return;
+    }
+    if (matches(whom, "all")) {
+        is_all = true;
     } else {
-        fAll = false;
-        if ((victim = get_char_room(ch, arg)) == nullptr) {
+        if (!(victim = get_char_room(ch, whom))) {
             ch->send_line("They aren't here.");
             return;
         }
-
         if (victim == ch) {
             ch->send_line("Aye aye, right away!");
             return;
         }
-
         if (!victim->is_aff_charm() || victim->master != ch) {
             ch->send_line("Do it yourself!");
             return;
         }
     }
-
-    found = false;
     for (auto *och : ch->in_room->people) {
-        if (och->is_aff_charm() && och->master == ch && (fAll || och == victim)) {
+        if (och->is_aff_charm() && och->master == ch && (is_all || och == victim)) {
             found = true;
-            act(fmt::format("|W$n|w orders you to '{}'.", command_remainder), ch, nullptr, och, To::Vict);
+            act(fmt::format("|W$n|w orders you to '{}'.", what), ch, nullptr, och, To::Vict);
             ch->wait_state(2 * PULSE_VIOLENCE);
             // We know this points into the remainder of "argument"
-            interpret(och, command_remainder);
+            // TODO #263 should be possible to use string_view once interpret() is upgraded to use it.
+            interpret(och, what.c_str());
         }
     }
-
     if (found)
         ch->send_line("Ok.");
     else

@@ -14,6 +14,8 @@ struct Char;
 struct Object;
 struct Room;
 
+const auto MinPasswordLen = 5;
+
 void game_loop_unix(Fd control);
 Fd init_socket(const char *file);
 

@@ -744,7 +744,7 @@ void nanny(Descriptor *d, const char *argument) {
     case DescriptorState::GetNewPassword:
         d->write("\n\r");
 
-        if (strlen(argument) < 5) {
+        if (strlen(argument) < MinPasswordLen) {
             d->write("Password must be at least five characters long.\n\rPassword: ");
             return;
         }
