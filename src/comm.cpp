@@ -78,10 +78,10 @@ void move_active_char_from_limbo(Char *ch);
 /*
  * Other local functions (OS-independent).
  */
-bool check_parse_name(const char *name);
+bool validate_player_name(std::string_view name);
 bool check_reconnect(Descriptor *d, bool fConn);
 bool check_playing(Descriptor *d, std::string_view name);
-void nanny(Descriptor *d, const char *argument);
+void nanny(Descriptor *d, std::string_view argument);
 bool process_output(Descriptor *d, bool fPrompt);
 
 /* Handle to get to doorman */
@@ -207,8 +207,7 @@ void handle_doorman_packet(const Packet &p, std::string_view buffer) {
             greet(*d);
             // Login name
             d->write(fmt::format("{}\n\r", buffer));
-            std::string nannyable(buffer);
-            nanny(d, nannyable.c_str()); // TODO one day string_viewify
+            nanny(d, buffer);
             d->write("\n\r");
 
             // Paranoid :
@@ -398,7 +397,7 @@ void game_loop_unix(Fd control) {
                 else if (d.is_playing())
                     interpret(character, *incomm);
                 else
-                    nanny(&d, incomm->c_str());
+                    nanny(&d, *incomm);
             } else if (d.is_lobby_timeout_exceeded()) {
                 d.close();
             }
@@ -496,25 +495,11 @@ bool process_output(Descriptor *d, bool fPrompt) {
 /*
  * Deal with sockets that haven't logged in yet.
  */
-void nanny(Descriptor *d, const char *argument) {
-    char arg[MAX_INPUT_LENGTH];
-    Char *ch;
-    char *pwdnew;
-    char *p;
-    int iClass;
-    int race;
-    int i;
-    int notes;
-    bool fOld;
+void nanny(Descriptor *d, std::string_view argument) {
     const auto &bans = Bans::singleton();
-
-    while (isspace(*argument))
-        argument++;
-
-    ch = d->character();
-
+    argument = ltrim(argument);
+    auto *ch = d->character();
     switch (d->state()) {
-
     default:
         bug("Nanny: bad d->state() {}.", static_cast<int>(d->state()));
         d->close();
@@ -525,44 +510,31 @@ void nanny(Descriptor *d, const char *argument) {
         return;
 
     case DescriptorState::GetName: {
-        if (argument[0] == '\0') {
+        if (argument.empty()) {
             d->close();
             return;
         }
         // Take a copy of the character's proposed name, so we can forcibly upper-case its first letter.
-        std::string char_name(argument);
-        char_name[0] = toupper(char_name[0]);
-        if (!check_parse_name(char_name.c_str())) {
+        const auto player_name = upper_first_character(argument);
+        if (!validate_player_name(player_name)) {
             d->write("Illegal name, try another.\n\rName: ");
             return;
         }
-
-        /* TM's attempt number 2 to prevent object cloning under the
-              suspicion that the other wy was causing a hang on lagged entry */
-        /*      for ( ch = char_list ; ch ; ch=ch->next ) {
-                 if ( !IS_NPC(ch) &&
-                 (!str_cmp(ch->name,argument)) &&
-                 (ch->desc != nullptr) ) {
-                    write_to_buffer( d, "Illegal name, try another.\n\rName: ", 0 );
-                    return;
-                 }
-                 } */
-
-        auto res = try_load_player(char_name);
+        auto res = try_load_player(player_name);
         ch = res.character.release(); // this is where we take ownership of the char
-        fOld = !res.newly_created;
+        auto existing_player = !res.newly_created;
         d->character(ch);
         ch->desc = d;
 
         if (check_enum_bit(ch->act, PlayerActFlag::PlrDeny)) {
-            log_string("Denying access to {}@{}.", char_name.c_str(), d->host().c_str());
+            log_string("Denying access to {}@{}.", player_name, d->host());
             d->write("You are denied access.\n\r");
             d->close();
             return;
         }
 
         if (check_reconnect(d, false)) {
-            fOld = true;
+            existing_player = true;
         } else {
             if (wizlock && ch->is_mortal()) {
                 d->write("The game is wizlocked.  Try again later - a reboot may be imminent.\n\r");
@@ -570,15 +542,12 @@ void nanny(Descriptor *d, const char *argument) {
                 return;
             }
         }
-
-        if (fOld) {
-            /* Old player */
+        if (existing_player) {
             d->write("Password: ");
             SetEchoState(d, 0);
             d->state(DescriptorState::GetOldPassword);
             return;
         } else {
-            /* New player */
             if (newlock) {
                 d->write("The game is newlocked.  Try again later - a reboot may be imminent.\n\r");
                 d->close();
@@ -589,7 +558,7 @@ void nanny(Descriptor *d, const char *argument) {
                 d->close();
                 return;
             }
-            d->write(fmt::format("Did I hear that right - '{}' (Y/N)? ", char_name));
+            d->write(fmt::format("Did I hear that right - '{}' (Y/N)? ", player_name));
             d->state(DescriptorState::ConfirmNewName);
             return;
         }
@@ -600,7 +569,8 @@ void nanny(Descriptor *d, const char *argument) {
 
         // TODO crypt can return null if if fails (e.g. password is truncated).
         // for now we just pwd[0], which lets us reset passwords.
-        if (!ch->pcdata->pwd.empty() && strcmp(crypt(argument, ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
+        if (!ch->pcdata->pwd.empty()
+            && strcmp(crypt(std::string(argument).c_str(), ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
             d->write("Our survey said <Crude buzzer noise>.\n\rWrong password.\n\r");
             d->close();
             return;
@@ -640,7 +610,7 @@ void nanny(Descriptor *d, const char *argument) {
         /* RT code for breaking link */
 
     case DescriptorState::BreakConnect:
-        switch (*argument) {
+        switch (argument[0]) {
         case 'y':
         case 'Y':
             for (auto &d_old : descriptors().all()) {
@@ -677,7 +647,7 @@ void nanny(Descriptor *d, const char *argument) {
         break;
 
     case DescriptorState::ConfirmNewName:
-        switch (*argument) {
+        switch (argument[0]) {
         case 'y':
         case 'Y':
             SetEchoState(d, 0);
@@ -698,7 +668,7 @@ void nanny(Descriptor *d, const char *argument) {
         break;
 
     case DescriptorState::GetAnsi:
-        if (argument[0] == '\0') {
+        if (argument.empty()) {
             if (ch->pcdata->colour) {
                 ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
             }
@@ -710,7 +680,7 @@ void nanny(Descriptor *d, const char *argument) {
                 d->state(DescriptorState::ReadMotd);
             }
         } else {
-            switch (*argument) {
+            switch (argument[0]) {
             case 'y':
             case 'Y':
                 ch->pcdata->colour = true;
@@ -741,31 +711,28 @@ void nanny(Descriptor *d, const char *argument) {
         }
         break;
 
-    case DescriptorState::GetNewPassword:
+    case DescriptorState::GetNewPassword: {
         d->write("\n\r");
-
-        if (strlen(argument) < MinPasswordLen) {
+        if (argument.length() < MinPasswordLen) {
             d->write("Password must be at least five characters long.\n\rPassword: ");
             return;
         }
-
-        pwdnew = crypt(argument, ch->name.c_str());
-        for (p = pwdnew; *p != '\0'; p++) {
+        auto *new_password = crypt(std::string(argument).c_str(), ch->name.c_str());
+        for (auto *p = new_password; *p != '\0'; p++) {
             if (*p == '~') {
                 d->write("New password not acceptable, try again.\n\rPassword: ");
                 return;
             }
         }
-
-        ch->pcdata->pwd = pwdnew;
+        ch->pcdata->pwd = new_password;
         d->write("Please retype password: ");
         d->state(DescriptorState::ConfirmNewPassword);
         break;
-
+    }
     case DescriptorState::ConfirmNewPassword:
         d->write("\n\r");
 
-        if (strcmp(crypt(argument, ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
+        if (strcmp(crypt(std::string(argument).c_str(), ch->pcdata->pwd.c_str()), ch->pcdata->pwd.c_str())) {
             d->write("You could try typing the same thing in twice...\n\rRetype password: ");
             d->state(DescriptorState::GetNewPassword);
             return;
@@ -773,7 +740,7 @@ void nanny(Descriptor *d, const char *argument) {
 
         SetEchoState(d, 1);
         d->write("The following races are available:\n\r  ");
-        for (race = 1; race_table[race].name != nullptr; race++) {
+        for (auto race = 1; race_table[race].name != nullptr; race++) {
             if (!race_table[race].pc_race)
                 break;
             d->write(race_table[race].name);
@@ -784,21 +751,19 @@ void nanny(Descriptor *d, const char *argument) {
         d->state(DescriptorState::GetNewRace);
         break;
 
-    case DescriptorState::GetNewRace:
-        one_argument(argument, arg);
-
-        if (!strcmp(arg, "help")) {
-            argument = one_argument(argument, arg);
-            if (argument[0] == '\0')
+    case DescriptorState::GetNewRace: {
+        auto parser = ArgParser(argument);
+        auto choice = parser.shift();
+        if (matches(choice, "help")) {
+            if (parser.remaining().empty()) {
                 do_help(ch, "race help");
-            else
-                do_help(ch, argument);
+            } else {
+                do_help(ch, parser.remaining());
+            }
             d->write("What is your race (help for more information)? ");
             break;
         }
-
-        race = race_lookup(argument);
-
+        auto race = race_lookup(choice);
         if (race == 0 || !race_table[race].pc_race) {
             d->write("That is not a valid race.\n\r");
             d->write("The following races are available:\n\r  ");
@@ -824,7 +789,7 @@ void nanny(Descriptor *d, const char *argument) {
         ch->parts = race_table[race].parts;
 
         /* add skills */
-        for (i = 0; i < 5; i++) {
+        for (auto i = 0; i < 5; i++) {
             if (pc_race_table[race].skills[i] == nullptr)
                 break;
             group_add(ch, pc_race_table[race].skills[i], false);
@@ -836,7 +801,7 @@ void nanny(Descriptor *d, const char *argument) {
         d->write("Are you male, female or other (M/F/O)? ");
         d->state(DescriptorState::GetNewSex);
         break;
-
+    }
     case DescriptorState::GetNewSex: {
         if (auto sex = Sex::try_from_char(argument[0])) {
             ch->sex = *sex;
@@ -847,10 +812,10 @@ void nanny(Descriptor *d, const char *argument) {
         }
         d->write("Thanks. Personal pronouns can be set using the 'pronouns' command later on.\n");
         std::string buf = "The following classes are available: ";
-        for (iClass = 0; iClass < MAX_CLASS; iClass++) {
-            if (iClass > 0)
+        for (auto i = 0; i < MAX_CLASS; i++) {
+            if (i > 0)
                 buf += ' ';
-            buf += class_table[iClass].name;
+            buf += class_table[i].name;
         }
         buf += "\n\r";
         d->write(buf);
@@ -858,30 +823,31 @@ void nanny(Descriptor *d, const char *argument) {
         d->state(DescriptorState::GetNewClass);
         break;
     }
-    case DescriptorState::GetNewClass:
-        one_argument(argument, arg);
-        if (!strcmp(arg, "help")) {
-            argument = one_argument(argument, arg);
-            if (argument[0] == '\0')
+    case DescriptorState::GetNewClass: {
+        auto parser = ArgParser(argument);
+        auto choice = parser.shift();
+        if (matches(choice, "help")) {
+            if (parser.remaining().empty()) {
                 do_help(ch, "classes");
-            else
-                do_help(ch, argument);
+            } else {
+                do_help(ch, parser.remaining());
+            }
             d->write("What is your class (help for more information)? ");
             break;
         }
-        iClass = class_lookup(argument);
-        if (iClass == -1) {
+        if (const auto chosen_class = class_lookup(choice); chosen_class >= 0) {
+            ch->class_num = chosen_class;
+            log_string("{}@{} new player.", ch->name, d->host());
+            d->write("\n\r");
+            d->write("You may be good, neutral, or evil.\n\r");
+            d->write("Which alignment (G/N/E)? ");
+            d->state(DescriptorState::GetAlignment);
+        } else {
             d->write("That's not a class.\n\rWhat IS your class? ");
             return;
         }
-        ch->class_num = iClass;
-        log_string("{}@{} new player.", ch->name, d->host());
-        d->write("\n\r");
-        d->write("You may be good, neutral, or evil.\n\r");
-        d->write("Which alignment (G/N/E)? ");
-        d->state(DescriptorState::GetAlignment);
         break;
-
+    }
     case DescriptorState::GetAlignment:
         switch (argument[0]) {
         case 'g':
@@ -936,17 +902,15 @@ void nanny(Descriptor *d, const char *argument) {
 
     case DescriptorState::Customize:
         ch->send_line("");
-        if (!str_cmp(argument, "done")) {
+        if (matches(argument, "done")) {
             ch->send_line("Creation points: {}", ch->pcdata->points);
             ch->send_line("Experience per level: {}", exp_per_level(ch, ch->pcdata->customization->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
             d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
             d->state(DescriptorState::GetAnsi);
-
             break;
         }
-        // TODO #263 might not have to construct an ArgParser here once nanny() and interpret() work with string views
         if (!parse_customizations(ch, ArgParser(argument)))
             ch->send_line("Choice (add, drop, help, info, learned, list, done)?");
 
@@ -1026,67 +990,34 @@ void nanny(Descriptor *d, const char *argument) {
             char_to_room(ch->pet, ch->in_room);
             act("|P$n|W has entered the game.", ch->pet);
         }
-
-        /* check notes */
-        notes = NoteHandler::singleton().num_unread(*ch);
-
-        if (notes > 0) {
-            ch->send_line("\n\rYou have {} new note{} waiting.", notes, (notes == 1) ? "" : "s");
+        if (const auto num_unread = NoteHandler::singleton().num_unread(*ch); num_unread > 0) {
+            ch->send_line("\n\rYou have {} new note{} waiting.", num_unread, (num_unread == 1) ? "" : "s");
         }
         break;
     }
 }
 
-/*
- * Parse a name for acceptability.
- */
-bool check_parse_name(const char *name) {
-    /*
-     * Reserved words.
-     */
+bool validate_player_name(std::string_view name) {
     if (is_name(name, "all auto immortal self someone something the you"))
         return false;
-
     if (matches(name, "DEATH"))
         return true;
-
-    /*    if (str_cmp(lower_case(name),"death") && (!str_prefix("death",name)
-        || !str_suffix("Death",name)))
-       return false;*/
-
-    /*
-     * Length restrictions.
-     */
-
-    if (strlen(name) < 2)
+    if (name.length() < 2 || name.length() > 12)
         return false;
-
-    if (strlen(name) > 12)
-        return false;
-
-    /*
-     * Alphanumerics only.
-     * Lock out IllIll twits.
-     */
-    {
-        bool fIll;
-
-        fIll = true;
-        for (const char *pc = name; *pc != '\0'; pc++) {
-            if (!isalpha(*pc))
-                return false;
-            if (tolower(*pc) != 'i' && tolower(*pc) != 'l')
-                fIll = false;
-        }
-
-        if (fIll)
+    // Block non-alpha, and anyone who's creating a char with a name that only contains
+    // 'i' or 'l' (unclear why, but it may have been a spamming incident).
+    bool only_il = true;
+    for (const char c : name) {
+        if (!isalpha(c))
             return false;
+        if (tolower(c) != 'i' && tolower(c) != 'l')
+            only_il = false;
     }
-
+    if (only_il)
+        return false;
     // Prevent players from naming themselves after mobs.
     if (ranges::any_of(all_mob_indexes(), [&](const auto &p) { return is_name(name, p.player_name); }))
         return false;
-
     return true;
 }
 
