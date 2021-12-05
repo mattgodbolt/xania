@@ -248,7 +248,7 @@ void do_ready(Char *ch) {
         if (imm_ready == 1 && challenger_ready == 1 && challengee_ready == 1) {
             auto msg = fmt::format("|W### Go to the |Pviewing gallery|W to watch a duel between {} and {}.|w",
                                    challenger->name, challengee->name);
-            announce(msg.c_str(), imm);
+            announce(msg, imm);
             imm->send_to("|CRemember that you can |Gcancel|C the challenge at any time should it be\nnecessary to do "
                          "so. (use cancel + challenger name)\n\r|w");
             challenge_ticker = 0;

@@ -924,8 +924,8 @@ void do_mstat(Char *ch, std::string_view argument) {
                   victim->pc_clan() ? victim->pc_clan()->level_name() : "(none)");
 
     ch->send_line("Vnum: {}  Format: {}  Race: {}  Sex: {}  Room: {}", victim->is_npc() ? victim->mobIndex->vnum : 0,
-                  victim->is_npc() ? "npc" : "pc", race_table[victim->race].name,
-                  std::string(victim->sex.name()).c_str(), victim->in_room == nullptr ? 0 : victim->in_room->vnum);
+                  victim->is_npc() ? "npc" : "pc", race_table[victim->race].name, victim->sex.name(),
+                  victim->in_room == nullptr ? 0 : victim->in_room->vnum);
 
     if (victim->is_npc()) {
         ch->send_line("Count: {}  Killed: {}", victim->mobIndex->count, victim->mobIndex->killed);
@@ -1147,7 +1147,7 @@ void do_shutdow(Char *ch) { ch->send_line("If you want to SHUTDOWN, spell it out
 void do_shutdown(Char *ch) {
     extern bool merc_down;
 
-    auto buf = fmt::format("Shutdown by {}.", ch->name.c_str());
+    auto buf = fmt::format("Shutdown by {}.", ch->name);
     do_echo(ch, buf + "\n\r");
     do_force(ch, ArgParser("all save"));
     do_save(ch);

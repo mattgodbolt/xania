@@ -1416,7 +1416,7 @@ void mprog_random_trigger(Char *mob) {
         mprog_percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Random);
 }
 
-void mprog_speech_trigger(const char *txt, const Char *mob) {
+void mprog_speech_trigger(std::string_view txt, const Char *mob) {
     for (auto *vmob : mob->in_room->people)
         if (vmob->is_npc() && (check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::Speech)))
             mprog_wordlist_check(txt, vmob, mob, nullptr, nullptr, MobProgTypeFlag::Speech);

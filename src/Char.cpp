@@ -402,9 +402,7 @@ void Char::say(std::string_view message) {
     ::act("$n|w says '$T|w'", this, nullptr, message, To::Room);
     ::act("You say '$T|w'", this, nullptr, message, To::Char);
     chatperformtoroom(message, this);
-    // TODO: one day we will make this take string_views. but for now:
-    auto as_std = std::string(message);
-    mprog_speech_trigger(as_std.c_str(), this);
+    mprog_speech_trigger(message, this);
 }
 
 bool Char::is_player_killer() const noexcept { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrKiller); }

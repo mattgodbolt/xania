@@ -446,7 +446,7 @@ bool read_from_descriptor(Descriptor *d, std::string_view data) {
         // Only log input for the first command exceeding the input limit
         // so that wiznet doesn't become unusable.
         if (!d->is_spammer_warned()) {
-            log_string("{} input overflow!", d->host().c_str());
+            log_string("{} input overflow!", d->host());
             d->warn_spammer();
             d->add_command("quit");
         }
@@ -1036,7 +1036,7 @@ bool check_reconnect(Descriptor *d, bool fConn) {
                 ch->timer = 0;
                 ch->send_line("Reconnecting.");
                 act("$n has reconnected.", ch);
-                log_new(fmt::format("{}@{} reconnected.", ch->name, d->host().c_str()), CharExtraFlag::WiznetDebug,
+                log_new(fmt::format("{}@{} reconnected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
                         (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
                 d->state(DescriptorState::Playing);
             }

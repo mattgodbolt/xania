@@ -125,8 +125,8 @@ void tell_to(Char *ch, Char *victim, std::string_view text) {
             Position::Type::Dead);
         if (check_enum_bit(victim->comm, CommFlag::ShowAfk)) {
             // TODO(#134) use the victim's timezone info.
-            act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", formatted_time(current_time), text).c_str(),
-                ch, nullptr, victim, To::Vict, MobTrig::Yes, Position::Type::Dead);
+            act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", formatted_time(current_time), text), ch,
+                nullptr, victim, To::Vict, MobTrig::Yes, Position::Type::Dead);
             act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, MobTrig::Yes,
                 Position::Type::Dead);
             victim->reply = ch;
@@ -661,11 +661,11 @@ void chatperform(Char *to_npc, Char *from_player, std::string_view msg) {
     switch (reply[0]) {
     case '\0': break;
     case '"': /* say message */ to_npc->say(reply.substr(1)); break;
-    case ':': /* do emote */ do_emote(to_npc, reply.substr(1).c_str()); break;
+    case ':': /* do emote */ do_emote(to_npc, reply.substr(1)); break;
     case '!': /* do command */ interpret(to_npc, reply.substr(1)); break;
     default: /* say or tell */
-        if (from_player == nullptr) {
-            to_npc->say(reply.c_str());
+        if (!from_player) {
+            to_npc->say(reply);
         } else {
             act("$N tells you '$t'.", from_player, reply, to_npc, To::Char);
             from_player->reply = to_npc;

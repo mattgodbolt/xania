@@ -28,7 +28,7 @@ void mprog_fight_trigger(Char *mob, Char *ch);
 void mprog_hitprcnt_trigger(Char *mob, Char *ch);
 void mprog_death_trigger(Char *mob);
 void mprog_random_trigger(Char *mob);
-void mprog_speech_trigger(const char *txt, const Char *mob);
+void mprog_speech_trigger(std::string_view txt, const Char *mob);
 
 class MobProgAct {
 public:
