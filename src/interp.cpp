@@ -47,7 +47,7 @@ enum class CommandLogLevel { Normal, Always, Never };
 extern bool fLogAll;
 
 // Function object for commands run by the interpreter, the do_ functions.
-using CommandFunc = std::function<void(Char *ch, const char *argument)>;
+using CommandFunc = std::function<void(Char *ch, std::string_view argument)>;
 using CommandFuncNoArgs = std::function<void(Char *ch)>;
 using CommandFuncArgParser = std::function<void(Char *ch, ArgParser)>;
 
@@ -72,9 +72,9 @@ static void add_command(const char *name, CommandFunc do_fun, const Position::Ty
 static void add_command(const char *name, CommandFuncNoArgs do_fun,
                         const Position::Type position = Position::Type::Dead, sh_int level = 0,
                         CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
-    commands.add(name,
-                 CommandInfo([f = std::move(do_fun)](Char *ch, const char *) { f(ch); }, position, level, log, show),
-                 level);
+    commands.add(
+        name, CommandInfo([f = std::move(do_fun)](Char *ch, std::string_view) { f(ch); }, position, level, log, show),
+        level);
 }
 
 // Add command that uses an ArgParser.
@@ -82,8 +82,8 @@ static void add_command(const char *name, CommandFuncArgParser do_fun,
                         const Position::Type position = Position::Type::Dead, sh_int level = 0,
                         CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
     commands.add(name,
-                 CommandInfo([f = std::move(do_fun)](Char *ch, const char *args) { f(ch, ArgParser(args)); }, position,
-                             level, log, show),
+                 CommandInfo([f = std::move(do_fun)](Char *ch, std::string_view args) { f(ch, ArgParser(args)); },
+                             position, level, log, show),
                  level);
 }
 
