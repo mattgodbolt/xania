@@ -35,7 +35,7 @@ void CorpseSummoner::summoner_awaits(Char *ch, const time_t time_secs) {
         last_advice_time_ = time_secs;
         mud_.interpret(ch,
                        "say If you wish to summon your corpse, purchase a shard that is powerful enough for your level "
-                       "and give it to me. Please read the sign for more details.");
+                       "and give it to me. Please read the sign for more details."sv);
     }
 }
 
@@ -126,7 +126,7 @@ namespace {
 class DependenciesImpl : public CorpseSummoner::Dependencies {
 public:
     DependenciesImpl();
-    void interpret(Char *ch, std::string msg);
+    void interpret(Char *ch, std::string_view msg);
     void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to, const MobTrig mob_trig,
              const Position::Type position);
     void act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to);
@@ -148,9 +148,7 @@ private:
 DependenciesImpl::DependenciesImpl()
     : spec_fun_summoner_{spec_lookup("spec_summoner")}, weaken_sn_{skill_lookup("weaken")} {}
 
-void DependenciesImpl::interpret(Char *ch, std::string msg) {
-    ::interpret(ch, msg.c_str());
-} // TODO #263 interpret() should take a string_view
+void DependenciesImpl::interpret(Char *ch, std::string_view msg) { ::interpret(ch, msg); }
 
 void DependenciesImpl::act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to,
                            const MobTrig mob_trig, const Position::Type position) {

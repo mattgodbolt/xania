@@ -89,8 +89,8 @@ struct PersonalEmote {
 };
 
 static inline const std::vector<PersonalEmote> conc_personal_emotes{
-    {"bow", "bow"},       {"flip", "eye"},    {"salute", "salute"}, {"punch", "judge"},
-    {"highfive", "peer"}, {"smile", "smile"}, {"cheer", "bonk"}};
+    {"bow"sv, "bow"sv},       {"flip"sv, "eye"sv},    {"salute"sv, "salute"sv}, {"punch"sv, "judge"sv},
+    {"highfive"sv, "peer"sv}, {"smile"sv, "smile"sv}, {"cheer"sv, "bonk"sv}};
 
 static inline const std::array conc_general_emotes{
     "$n polishes $s golden claw."sv,
@@ -111,8 +111,8 @@ static inline const std::array aq_general_emotes{
 /**
  * Patrol the rooms around the temple.
  */
-static inline constexpr std::array patrol_directions{"n", "s", "s", "w", "e", "e", "w",
-                                                     "s", "e", "w", "w", "e", "n", "n"};
+static inline constexpr std::array patrol_directions{"n"sv, "s"sv, "s"sv, "w"sv, "e"sv, "e"sv, "w"sv,
+                                                     "s"sv, "e"sv, "w"sv, "w"sv, "e"sv, "n"sv, "n"sv};
 static inline uint patrol_index = 0;
 static inline uint patrol_pause = 0;
 
@@ -132,7 +132,7 @@ void concordius_patrols(Char *ch) {
         auto &pers_emote = conc_personal_emotes[random % conc_personal_emotes.size()];
         auto msg =
             fmt::format("{} {}", victim->is_good() ? pers_emote.good_msg : pers_emote.not_good_msg, victim->name);
-        interpret(ch, msg.c_str());
+        interpret(ch, msg);
         break;
     }
     // After socialising in the room, continue with patrol route.
@@ -177,7 +177,7 @@ void concordius_fights(Char *ch) {
 
 void aquila_patrols(Char *ch) {
     if (!ch->master) {
-        interpret(ch, "follow Concordius");
+        interpret(ch, "follow Concordius"sv);
     }
     uint random = number_range(0, 100);
     if (random > 90) {

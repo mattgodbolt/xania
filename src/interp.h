@@ -19,7 +19,7 @@ struct Room;
 void interp_initialise();
 bool check_social(Char *ch, std::string_view command, std::string_view argument);
 std::string apply_prefix(Char *ch, std::string_view command);
-void interpret(Char *ch, const char *argument);
+void interpret(Char *ch, std::string_view argument);
 const char *one_argument(const char *argument, char *arg_first);
 char *one_argument(char *argument, char *arg_first); // TODO(MRG) get rid of this as soon as we can.
 

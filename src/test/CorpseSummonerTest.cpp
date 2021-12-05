@@ -15,7 +15,7 @@ namespace {
 
 struct MockDependencies : public CorpseSummoner::Dependencies {
 
-    MAKE_MOCK2(interpret, void(Char *, std::string), override);
+    MAKE_MOCK2(interpret, void(Char *, std::string_view), override);
     MAKE_MOCK7(act,
                void(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to,
                     const MobTrig mob_trig, const Position::Type position),
@@ -56,7 +56,7 @@ TEST_CASE("summoner awaits") {
             mock,
             interpret(&player,
                       "say If you wish to summon your corpse, purchase a shard that is powerful enough for your level "
-                      "and give it to me. Please read the sign for more details."));
+                      "and give it to me. Please read the sign for more details."sv));
 
         summoner.summoner_awaits(&player, 31);
     }

@@ -461,9 +461,7 @@ void do_at(Char *ch, ArgParser args) {
     auto *original = ch->in_room;
     char_from_room(ch);
     char_to_room(ch, location);
-    // TODO #263 should be possible to use string_view once interpret() is upgraded to use it.
-    std::string to_interpret{args.remaining()};
-    interpret(ch, to_interpret.c_str());
+    interpret(ch, args.remaining());
 
     /*
      * See if 'ch' still exists before continuing!
@@ -2520,7 +2518,7 @@ void do_sockets(Char *ch, ArgParser args) {
  */
 void do_force(Char *ch, ArgParser args) {
     auto target = args.shift();
-    auto command = std::string(args.shift()); // TODO #263 use a string_view when interpret can support it.
+    auto command = args.remaining();
     if (target.empty() || command.empty()) {
         ch->send_line("Force whom to do what?");
         return;
@@ -2539,7 +2537,7 @@ void do_force(Char *ch, ArgParser args) {
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust()) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
-                interpret(vch, command.c_str());
+                interpret(vch, command);
             }
         }
     } else if (matches(target, "players")) {
@@ -2551,7 +2549,7 @@ void do_force(Char *ch, ArgParser args) {
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level < LEVEL_HERO) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
-                interpret(vch, command.c_str());
+                interpret(vch, command);
             }
         }
     } else if (matches(target, "gods")) {
@@ -2563,7 +2561,7 @@ void do_force(Char *ch, ArgParser args) {
         for (auto *vch : char_list) {
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level >= LEVEL_HERO) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
-                interpret(vch, command.c_str());
+                interpret(vch, command);
             }
         }
     } else {
@@ -2588,7 +2586,7 @@ void do_force(Char *ch, ArgParser args) {
             return;
         }
         act(buf, ch, nullptr, victim, To::Vict, MobTrig::No);
-        interpret(victim, command.c_str());
+        interpret(victim, command);
     }
 
     ch->send_line("Ok.");

@@ -396,7 +396,7 @@ void game_loop_unix(Fd control) {
                 if (d.is_paging())
                     d.show_next_page(*incomm);
                 else if (d.is_playing())
-                    interpret(character, incomm->c_str());
+                    interpret(character, *incomm);
                 else
                     nanny(&d, incomm->c_str());
             } else if (d.is_lobby_timeout_exceeded()) {

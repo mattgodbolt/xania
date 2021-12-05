@@ -510,7 +510,7 @@ void do_order(Char *ch, ArgParser args) {
     bool found = false;
     bool is_all = false;
     auto whom = args.shift();
-    auto what = std::string(args.remaining());
+    auto what = args.remaining();
     if (whom.empty() || what.empty()) {
         ch->send_line("Order whom to do what?");
         return;
@@ -544,9 +544,7 @@ void do_order(Char *ch, ArgParser args) {
             found = true;
             act(fmt::format("|W$n|w orders you to '{}'.", what), ch, nullptr, och, To::Vict);
             ch->wait_state(2 * PULSE_VIOLENCE);
-            // We know this points into the remainder of "argument"
-            // TODO #263 should be possible to use string_view once interpret() is upgraded to use it.
-            interpret(och, what.c_str());
+            interpret(och, what);
         }
     }
     if (found)
@@ -664,7 +662,7 @@ void chatperform(Char *to_npc, Char *from_player, std::string_view msg) {
     case '\0': break;
     case '"': /* say message */ to_npc->say(reply.substr(1)); break;
     case ':': /* do emote */ do_emote(to_npc, reply.substr(1).c_str()); break;
-    case '!': /* do command */ interpret(to_npc, reply.substr(1).c_str()); break;
+    case '!': /* do command */ interpret(to_npc, reply.substr(1)); break;
     default: /* say or tell */
         if (from_player == nullptr) {
             to_npc->say(reply.c_str());

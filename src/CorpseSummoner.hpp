@@ -12,7 +12,7 @@ public:
     // Dependencies on static functions and variables in the mud.
     struct Dependencies {
         virtual ~Dependencies() = default;
-        virtual void interpret(Char *, std::string) = 0;
+        virtual void interpret(Char *, std::string_view) = 0;
         virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, const To, const MobTrig,
                          const Position::Type) = 0;
         virtual void act(std::string_view, const Char *, Act1Arg, Act2Arg, const To) = 0;

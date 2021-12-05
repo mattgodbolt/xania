@@ -430,7 +430,7 @@ std::string apply_prefix(Char *ch, std::string_view command) {
  * The main entry point for executing commands.
  * Can be recursively called from 'at', 'order', 'force'.
  */
-void interpret(Char *ch, const char *argument) {
+void interpret(Char *ch, std::string_view argument) {
     const auto command_line = ltrim_copy(apply_prefix(ch, argument));
     if (command_line.empty()) {
         return;

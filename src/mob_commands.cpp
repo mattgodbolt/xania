@@ -387,10 +387,7 @@ void do_mpat(Char *ch, ArgParser args) {
     auto *original = ch->in_room;
     char_from_room(ch);
     char_to_room(ch, location);
-    // TODO #263 should be possible to use string_view once interpret() is upgraded to use it.
-    const std::string to_interpret{args.remaining()};
-    interpret(ch, to_interpret.c_str());
-
+    interpret(ch, args.remaining());
     /*
      * See if 'ch' still exists before continuing!
      * Handles 'at XXXX quit' case.
@@ -470,12 +467,10 @@ void do_mpforce(Char *ch, ArgParser args) {
         return;
     }
     auto target = args.shift();
-    // TODO #263 should be possible to use string_view once interpret() is upgraded to use it.
     if (matches(target, "all")) {
         for (auto *vch : char_list) {
             if (vch->in_room == ch->in_room && vch->get_trust() < ch->get_trust() && can_see(ch, vch)) {
-                const std::string to_interpret{args.remaining()};
-                interpret(vch, to_interpret.c_str());
+                interpret(vch, args.remaining());
             }
         }
     } else {
@@ -488,7 +483,6 @@ void do_mpforce(Char *ch, ArgParser args) {
             bug("mpforce: Forcing oneself from vnum {}.", ch->mobIndex->vnum);
             return;
         }
-        const std::string to_interpret{args.remaining()};
-        interpret(victim, to_interpret.c_str());
+        interpret(victim, args.remaining());
     }
 }
