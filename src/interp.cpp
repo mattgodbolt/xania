@@ -52,22 +52,20 @@ using CommandFuncNoArgs = std::function<void(Char *ch)>;
 using CommandFuncArgParser = std::function<void(Char *ch, ArgParser)>;
 
 struct CommandInfo {
-    const char *name;
     CommandFunc do_fun;
     Position::Type position;
     sh_int level;
     CommandLogLevel log;
     bool show;
-    CommandInfo(const char *name, CommandFunc do_fun, const Position::Type position, sh_int level, CommandLogLevel log,
-                bool show)
-        : name(name), do_fun(std::move(do_fun)), position(position), level(level), log(log), show(show) {}
+    CommandInfo(CommandFunc do_fun, const Position::Type position, sh_int level, CommandLogLevel log, bool show)
+        : do_fun(std::move(do_fun)), position(position), level(level), log(log), show(show) {}
 };
 
 static CommandSet<CommandInfo> commands;
 
 static void add_command(const char *name, CommandFunc do_fun, const Position::Type position = Position::Type::Dead,
                         sh_int level = 0, CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
-    commands.add(name, CommandInfo(name, std::move(do_fun), position, level, log, show), level);
+    commands.add(name, CommandInfo(std::move(do_fun), position, level, log, show), level);
 }
 
 // Add command with no args.
@@ -75,8 +73,7 @@ static void add_command(const char *name, CommandFuncNoArgs do_fun,
                         const Position::Type position = Position::Type::Dead, sh_int level = 0,
                         CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
     commands.add(name,
-                 CommandInfo(
-                     name, [f = std::move(do_fun)](Char *ch, const char *) { f(ch); }, position, level, log, show),
+                 CommandInfo([f = std::move(do_fun)](Char *ch, const char *) { f(ch); }, position, level, log, show),
                  level);
 }
 
@@ -85,9 +82,8 @@ static void add_command(const char *name, CommandFuncArgParser do_fun,
                         const Position::Type position = Position::Type::Dead, sh_int level = 0,
                         CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
     commands.add(name,
-                 CommandInfo(
-                     name, [f = std::move(do_fun)](Char *ch, const char *args) { f(ch, ArgParser(args)); }, position,
-                     level, log, show),
+                 CommandInfo([f = std::move(do_fun)](Char *ch, const char *args) { f(ch, ArgParser(args)); }, position,
+                             level, log, show),
                  level);
 }
 
