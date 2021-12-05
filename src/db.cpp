@@ -1317,15 +1317,6 @@ void clone_object(Object *parent, Object *clone) {
     clone->extra_descr = parent->extra_descr;
 }
 
-/*
- * Get an extra description from a list.
- */
-const char *get_extra_descr(std::string_view name, const std::vector<ExtraDescription> &ed) {
-    if (auto it = ranges::find_if(ed, [&name](const auto &ed) { return is_name(name, ed.keyword); }); it != ed.end())
-        return it->description.c_str();
-    return nullptr;
-}
-
 // Translates mob virtual number to its mob index struct.
 MobIndexData *get_mob_index(int vnum) {
     if (auto it = mob_indexes.find(vnum); it != mob_indexes.end())

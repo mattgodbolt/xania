@@ -42,7 +42,6 @@ Char *create_mobile(MobIndexData *mobIndex);
 void clone_mobile(Char *parent, Char *clone);
 Object *create_object(ObjectIndex *objIndex);
 void clone_object(Object *parent, Object *clone);
-const char *get_extra_descr(std::string_view name, const std::vector<ExtraDescription> &ed);
 ObjectIndex *get_obj_index(int vnum);
 
 const std::map<int, ObjectIndex> &all_object_index_pairs();

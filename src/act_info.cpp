@@ -762,12 +762,17 @@ void look_in_object(const Char &ch, const Object &obj) {
     }
 }
 
-const char *try_get_descr(const Object &obj, std::string_view name) {
-    if (auto *pdesc = get_extra_descr(name, obj.extra_descr))
-        return pdesc;
-    if (auto *pdesc = get_extra_descr(name, obj.objIndex->extra_descr))
-        return pdesc;
-    return nullptr;
+std::optional<std::string_view> get_extra_descr(auto name, const auto &extra_descs) {
+    if (auto it = ranges::find_if(extra_descs, [&name](const auto &ed) { return is_name(name, ed.keyword); });
+        it != extra_descs.end())
+        return it->description;
+    return std::nullopt;
+}
+
+std::optional<std::string_view> try_get_obj_descr(const Object &obj, std::string_view name) {
+    if (auto opt_desc = get_extra_descr(name, obj.extra_descr))
+        return opt_desc;
+    return get_extra_descr(name, obj.objIndex->extra_descr);
 }
 
 bool handled_as_look_at_object(Char &ch, std::string_view first_arg) {
@@ -776,9 +781,9 @@ bool handled_as_look_at_object(Char &ch, std::string_view first_arg) {
     for (auto *obj : ch.carrying) {
         if (!ch.can_see(*obj))
             continue;
-        if (auto *pdesc = try_get_descr(*obj, obj_desc)) {
+        if (const auto opt_desc = try_get_obj_descr(*obj, obj_desc)) {
             if (++count == number) {
-                do_lore(&ch, obj, pdesc);
+                do_lore(&ch, obj, *opt_desc);
                 return true;
             } else
                 continue;
@@ -793,9 +798,9 @@ bool handled_as_look_at_object(Char &ch, std::string_view first_arg) {
     for (auto *obj : ch.in_room->contents) {
         if (!ch.can_see(*obj))
             continue;
-        if (auto *pdesc = try_get_descr(*obj, obj_desc)) {
+        if (const auto desc = try_get_obj_descr(*obj, obj_desc)) {
             if (++count == number) {
-                ch.send_to(pdesc);
+                ch.send_to(*desc);
                 return true;
             }
         }
@@ -862,7 +867,7 @@ bool check_look(Char *ch) {
     return true;
 }
 
-}
+} // namespace
 
 void look_auto(Char *ch) {
     if (!check_look(ch))
@@ -906,8 +911,8 @@ void do_look(Char *ch, ArgParser args) {
         return;
 
     // Look at something in the extra description of the room?
-    if (auto *pdesc = get_extra_descr(first_arg, ch->in_room->extra_descr)) {
-        ch->send_to(pdesc);
+    if (const auto desc = get_extra_descr(first_arg, ch->in_room->extra_descr)) {
+        ch->send_to(*desc);
         return;
     }
 
