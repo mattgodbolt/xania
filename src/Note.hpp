@@ -106,5 +106,5 @@ private:
     void delet(Char &ch, ArgParser args);
 };
 
-void do_note(Char *ch, const char *argument);
+void do_note(Char *ch, std::string_view argument);
 void note_initialise();

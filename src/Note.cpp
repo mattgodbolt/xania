@@ -152,15 +152,13 @@ void note_initialise() {
     }
 }
 
-void do_note(Char *ch, const char *argument) {
+void do_note(Char *ch, std::string_view args) {
     if (ch->is_npc()) {
         return;
     }
-    char arg[MAX_INPUT_LENGTH];
-    auto note_remainder = smash_tilde(one_argument(argument, arg));
-
+    auto note_remainder = smash_tilde(args);
     auto &handler = NoteHandler::singleton();
-    handler.on_command(*ch, ArgParser(argument));
+    handler.on_command(*ch, ArgParser(note_remainder));
 }
 
 NoteHandler::NoteHandler(OnChangeFunc on_change_func) : on_change_func_(std::move(on_change_func)) {
