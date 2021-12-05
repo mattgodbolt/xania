@@ -479,15 +479,7 @@ void interpret(Char *ch, std::string_view argument) {
         ch->send_line(ch->position.bad_position_msg());
         return;
     }
-
-    /* Dispatch the command. */
-    {
-        // TODO #263: because do_fun expects a mutable char* (at least right now), make argument mutable in this
-        // dreadful way. Eventually we'll pass a std::string or similar through and this will all go away.
-        char mutable_argument[MAX_INPUT_LENGTH];
-        strcpy(mutable_argument, remainder.c_str());
-        cmd_info->do_fun(ch, mutable_argument);
-    }
+    cmd_info->do_fun(ch, remainder);
 }
 
 bool check_social(Char *ch, std::string_view command, std::string_view argument) {
