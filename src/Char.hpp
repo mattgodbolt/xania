@@ -4,6 +4,7 @@
 #include "AffectFlag.hpp"
 #include "AffectList.hpp"
 #include "ArmourClass.hpp"
+#include "CharActFlag.hpp"
 #include "CharExtraFlag.hpp"
 #include "CharVersion.hpp"
 #include "Constants.hpp"
@@ -12,6 +13,7 @@
 #include "Materials.hpp"
 #include "MobIndexData.hpp"
 #include "PcData.hpp"
+#include "PlayerActFlag.hpp"
 #include "Position.hpp"
 #include "Sex.hpp"
 #include "Stats.hpp"
@@ -334,6 +336,16 @@ struct Char {
     // Parched is worse than thirsty - a parched Char regenerates slower.
     [[nodiscard]] bool is_parched() const noexcept;
 
+    // Return a string view describing the given character to this character, taking into account whether we can see the
+    // other character.
+    [[nodiscard]] std::string_view describe(const Char &to_describe) const noexcept;
+
+    // Returns a string describing the CharExtraFlag bits the character has enabled.
+    [[nodiscard]] std::string format_extra_flags() const noexcept;
+
+    // Returns the CharExtraFlag bits in ASCII binary form, for saving to the pfile.
+    [[nodiscard]] std::string serialize_extra_flags() const noexcept;
+
     inline static constexpr std::array<Flag, 30> AllAffectFlags = {{
         // clang-format off
         {to_int(AffectFlag::Blind), 0, "blind"},
@@ -368,16 +380,57 @@ struct Char {
         {to_int(AffectFlag::Lethargy), 0, "lethargy"}
         // clang-format on
     }};
-
-    // Return a string view describing the given character to this character, taking into account whether we can see the
-    // other character.
-    [[nodiscard]] std::string_view describe(const Char &to_describe) const noexcept;
-
-    // Returns a string describing the CharExtraFlag bits the character has enabled.
-    [[nodiscard]] std::string format_extra_flags() const noexcept;
-
-    // Returns the CharExtraFlag bits in ASCII binary form, for saving to the pfile.
-    [[nodiscard]] std::string serialize_extra_flags() const noexcept;
+    inline static constexpr std::array<Flag, 22> AllCharActFlags = {{
+        // clang-format off
+        {to_int(CharActFlag::Npc), 0, "npc"},
+        {to_int(CharActFlag::Sentinel), 0, "sentinel"},
+        {to_int(CharActFlag::Scavenger), 0, "scavenger"},
+        {to_int(CharActFlag::Aggressive), 0, "aggressive"},
+        {to_int(CharActFlag::StayArea), 0, "stay_area"},
+        {to_int(CharActFlag::Wimpy), 0, "wimpy"},
+        {to_int(CharActFlag::Pet), 0, "pet"},
+        {to_int(CharActFlag::Train), 0, "train"},
+        {to_int(CharActFlag::Practice), 0, "practice"},
+        {to_int(CharActFlag::Sentient), 0, "sentient"},
+        {to_int(CharActFlag::Talkative), 0, "talkative"},
+        {to_int(CharActFlag::Undead), 0, "undead"},
+        {to_int(CharActFlag::Cleric), 0, "cleric"},
+        {to_int(CharActFlag::Mage), 0, "mage"},
+        {to_int(CharActFlag::Thief), 0, "thief"},
+        {to_int(CharActFlag::Warrior), 0, "warrior"},
+        {to_int(CharActFlag::NoAlign), 0, "no_align"},
+        {to_int(CharActFlag::NoPurge), 0, "no_purge"},
+        {to_int(CharActFlag::Healer), 0, "healer"},
+        {to_int(CharActFlag::Gain), 0, "skill_train"},
+        {to_int(CharActFlag::UpdateAlways), 0, "update_always"},
+        {to_int(CharActFlag::CanBeRidden), 0, "rideable"}
+        // clang-format on
+    }};
+    inline static constexpr std::array<Flag, 21> AllPlayerActFlags = {{
+        // clang-format off
+        {to_int(PlayerActFlag::PlrNpc), 0, "npc"}, // Only set for NPCs
+        {to_int(PlayerActFlag::PlrBoughtPet), 0, "owner"},
+        {to_int(PlayerActFlag::PlrAutoAssist), 0, "autoassist"},
+        {to_int(PlayerActFlag::PlrAutoExit), 0, "autoexit"},
+        {to_int(PlayerActFlag::PlrAutoLoot), 0, "autoloot"},
+        {to_int(PlayerActFlag::PlrAutoSac), 0, "autosac"},
+        {to_int(PlayerActFlag::PlrAutoGold), 0, "autogold"},
+        {to_int(PlayerActFlag::PlrAutoSplit), 0, "autosplit"},
+        {to_int(PlayerActFlag::PlrHolyLight), 0, "holy_light"},
+        {to_int(PlayerActFlag::PlrWizInvis), 0, "wizinvis"},
+        {to_int(PlayerActFlag::PlrCanLoot), 0, "loot_corpse"},
+        {to_int(PlayerActFlag::PlrNoSummon), 0, "no_summon"},
+        {to_int(PlayerActFlag::PlrNoFollow), 0, "no_follow"},
+        {to_int(PlayerActFlag::PlrAfk), 0, "afk"},
+        {to_int(PlayerActFlag::PlrLog), 0, "log"},
+        {to_int(PlayerActFlag::PlrDeny), 0, "deny"},
+        {to_int(PlayerActFlag::PlrFreeze), 0, "freeze"},
+        {to_int(PlayerActFlag::PlrThief), 0, "thief"},
+        {to_int(PlayerActFlag::PlrKiller), 0, "killer"},
+        {to_int(PlayerActFlag::PlrAutoPeek), 0, "autopeek"},
+        {to_int(PlayerActFlag::PlrProwl), 0, "prowl"}
+        // clang-format on
+    }};
 
 private:
     template <typename Func>

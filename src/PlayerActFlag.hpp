@@ -11,7 +11,7 @@
 
 // ACT bits for players.
 // IMPORTANT: These bits are flipped on Char.act just as the
-// ACT_ bits in BitCharAct.hpp are. However, these ones are only intended for player characters.
+// act bits in harActFlag.hpp are. However, these ones are only intended for player characters.
 // TODO: The two sets of bits should either be consolidated, or perhaps we should store
 // player-only bits in an bitfield in PcData.
 enum class PlayerActFlag : unsigned long {
