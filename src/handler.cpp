@@ -923,57 +923,6 @@ bool can_drop_obj(Char *ch, Object *obj) {
     return false;
 }
 
-const char *comm_bit_name(int comm_flags) {
-    static char buf[512];
-
-    buf[0] = '\0';
-
-    if (check_enum_bit(comm_flags, CommFlag::Affect))
-        strcat(buf, " affect");
-    if (check_enum_bit(comm_flags, CommFlag::Quiet))
-        strcat(buf, " quiet");
-    if (check_enum_bit(comm_flags, CommFlag::Deaf))
-        strcat(buf, " deaf");
-    if (check_enum_bit(comm_flags, CommFlag::NoWiz))
-        strcat(buf, " no_wiz");
-    if (check_enum_bit(comm_flags, CommFlag::NoAuction))
-        strcat(buf, " no_auction");
-    if (check_enum_bit(comm_flags, CommFlag::NoGossip))
-        strcat(buf, " no_gossip");
-    if (check_enum_bit(comm_flags, CommFlag::NoQuestion))
-        strcat(buf, " no_question");
-    if (check_enum_bit(comm_flags, CommFlag::NoMusic))
-        strcat(buf, " no_music");
-    if (check_enum_bit(comm_flags, CommFlag::NoPhilosophise))
-        strcat(buf, " no_philosophise");
-    if (check_enum_bit(comm_flags, CommFlag::NoGratz))
-        strcat(buf, " no_gratz");
-    if (check_enum_bit(comm_flags, CommFlag::NoAllege))
-        strcat(buf, " no_allege");
-    if (check_enum_bit(comm_flags, CommFlag::NoQwest))
-        strcat(buf, " no_qwest");
-    if (check_enum_bit(comm_flags, CommFlag::NoAnnounce))
-        strcat(buf, " no_announce");
-    if (check_enum_bit(comm_flags, CommFlag::Compact))
-        strcat(buf, " compact");
-    if (check_enum_bit(comm_flags, CommFlag::Brief))
-        strcat(buf, " brief");
-    if (check_enum_bit(comm_flags, CommFlag::Prompt))
-        strcat(buf, " prompt");
-    if (check_enum_bit(comm_flags, CommFlag::Combine))
-        strcat(buf, " combine");
-    if (check_enum_bit(comm_flags, CommFlag::NoEmote))
-        strcat(buf, " no_emote");
-    if (check_enum_bit(comm_flags, CommFlag::NoYell))
-        strcat(buf, " no_shout");
-    if (check_enum_bit(comm_flags, CommFlag::NoTell))
-        strcat(buf, " no_tell");
-    if (check_enum_bit(comm_flags, CommFlag::NoChannels))
-        strcat(buf, " no_channels");
-
-    return (buf[0] != '\0') ? buf + 1 : "none";
-}
-
 const char *imm_bit_name(int imm_flags) {
     static char buf[512];
 
@@ -1200,57 +1149,6 @@ const char *weapon_bit_name(int weapon_flags) {
         strcat(buf, " acid");
     if (check_enum_bit(weapon_flags, WeaponFlag::Lightning))
         strcat(buf, " lightning");
-
-    return (buf[0] != '\0') ? buf + 1 : "none";
-}
-
-const char *off_bit_name(int off_flags) {
-    static char buf[512];
-
-    buf[0] = '\0';
-
-    if (check_enum_bit(off_flags, OffensiveFlag::AreaAttack))
-        strcat(buf, " area attack");
-    if (check_enum_bit(off_flags, OffensiveFlag::Backstab))
-        strcat(buf, " backstab");
-    if (check_enum_bit(off_flags, OffensiveFlag::Bash))
-        strcat(buf, " bash");
-    if (check_enum_bit(off_flags, OffensiveFlag::Berserk))
-        strcat(buf, " berserk");
-    if (check_enum_bit(off_flags, OffensiveFlag::Disarm))
-        strcat(buf, " disarm");
-    if (check_enum_bit(off_flags, OffensiveFlag::Dodge))
-        strcat(buf, " dodge");
-    if (check_enum_bit(off_flags, OffensiveFlag::Fade))
-        strcat(buf, " fade");
-    if (check_enum_bit(off_flags, OffensiveFlag::Fast))
-        strcat(buf, " fast");
-    if (check_enum_bit(off_flags, OffensiveFlag::Kick))
-        strcat(buf, " kick");
-    if (check_enum_bit(off_flags, OffensiveFlag::KickDirt))
-        strcat(buf, " kick_dirt");
-    if (check_enum_bit(off_flags, OffensiveFlag::Parry))
-        strcat(buf, " parry");
-    if (check_enum_bit(off_flags, OffensiveFlag::Rescue))
-        strcat(buf, " rescue");
-    if (check_enum_bit(off_flags, OffensiveFlag::Tail))
-        strcat(buf, " tail");
-    if (check_enum_bit(off_flags, OffensiveFlag::Trip))
-        strcat(buf, " trip");
-    if (check_enum_bit(off_flags, OffensiveFlag::Crush))
-        strcat(buf, " crush");
-    if (check_enum_bit(off_flags, OffensiveFlag::AssistAll))
-        strcat(buf, " assist_all");
-    if (check_enum_bit(off_flags, OffensiveFlag::AssistAlign))
-        strcat(buf, " assist_align");
-    if (check_enum_bit(off_flags, OffensiveFlag::AssistRace))
-        strcat(buf, " assist_race");
-    if (check_enum_bit(off_flags, OffensiveFlag::AssistPlayers))
-        strcat(buf, " assist_players");
-    if (check_enum_bit(off_flags, OffensiveFlag::AssistGuard))
-        strcat(buf, " assist_guard");
-    if (check_enum_bit(off_flags, OffensiveFlag::AssistVnum))
-        strcat(buf, " assist_vnum");
 
     return (buf[0] != '\0') ? buf + 1 : "none";
 }

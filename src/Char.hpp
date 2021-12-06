@@ -7,11 +7,13 @@
 #include "CharActFlag.hpp"
 #include "CharExtraFlag.hpp"
 #include "CharVersion.hpp"
+#include "CommFlag.hpp"
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "Flag.hpp"
 #include "Materials.hpp"
 #include "MobIndexData.hpp"
+#include "OffensiveFlag.hpp"
 #include "PcData.hpp"
 #include "PlayerActFlag.hpp"
 #include "Position.hpp"
@@ -429,6 +431,60 @@ struct Char {
         {to_int(PlayerActFlag::PlrKiller), 0, "killer"},
         {to_int(PlayerActFlag::PlrAutoPeek), 0, "autopeek"},
         {to_int(PlayerActFlag::PlrProwl), 0, "prowl"}
+        // clang-format on
+    }};
+    inline static constexpr std::array<Flag, 23> AllCommFlags = {{
+        // clang-format off
+        {to_int(CommFlag::Quiet), 0, "quiet"},
+        {to_int(CommFlag::Deaf), 0, "deaf"},
+        {to_int(CommFlag::NoWiz), 0, "no_wiz"},
+        {to_int(CommFlag::NoAuction), 0, "no_action"},
+        {to_int(CommFlag::NoGossip), 0, "no_gossip"},
+        {to_int(CommFlag::NoQuestion), 0, "no_question"},
+        {to_int(CommFlag::NoMusic), 0, "no_music"},
+        {to_int(CommFlag::NoGratz), 0, "no_gratz"},
+        {to_int(CommFlag::NoAnnounce), 0, "no_allege"},
+        {to_int(CommFlag::NoPhilosophise), 0, "no_philosophise"},
+        {to_int(CommFlag::NoQwest), 0, "no_qwest"},
+        {to_int(CommFlag::Compact), 0, "compact"},
+        {to_int(CommFlag::Brief), 0, "brief"},
+        {to_int(CommFlag::Prompt), 0, "prompt"},
+        {to_int(CommFlag::Combine), 0, "combine"},
+        {to_int(CommFlag::ShowAfk), 0, "show_afk"},
+        {to_int(CommFlag::ShowDefence), 0, "show_def"},
+        {to_int(CommFlag::NoEmote), 0, "no_emote"},
+        {to_int(CommFlag::NoYell), 0, "no_yell"},
+        {to_int(CommFlag::NoTell), 0, "no_tell"},
+        {to_int(CommFlag::NoChannels), 0, "no_channels"},
+        {to_int(CommFlag::NoAllege), 0, "no_allege"},
+        {to_int(CommFlag::Affect), 0, "affect"}
+        // clang-format on
+    }};
+    inline static constexpr std::array<Flag, 23> AllOffensiveFlags = {{
+        // clang-format off
+        {to_int(OffensiveFlag::AreaAttack), 0, "area_attack"},
+        {to_int(OffensiveFlag::Backstab), 0, "backstab"},
+        {to_int(OffensiveFlag::Bash), 0, "bash"},
+        {to_int(OffensiveFlag::Berserk), 0, "berserk"},
+        {to_int(OffensiveFlag::Disarm), 0, "disarm"},
+        {to_int(OffensiveFlag::Dodge), 0, "dodge"},
+        {to_int(OffensiveFlag::Fade), 0, "fade"},
+        {to_int(OffensiveFlag::Fast), 0, "fast"},
+        {to_int(OffensiveFlag::Slow), 0, "slow"},
+        {to_int(OffensiveFlag::Kick), 0, "kick"},
+        {to_int(OffensiveFlag::KickDirt), 0, "kick_dirt"},
+        {to_int(OffensiveFlag::Parry), 0, "parry"},
+        {to_int(OffensiveFlag::Rescue), 0, "rescue"},
+        {to_int(OffensiveFlag::Tail), 0, "tail"},
+        {to_int(OffensiveFlag::Trip), 0, "trip"},
+        {to_int(OffensiveFlag::Crush), 0, "crush"},
+        {to_int(OffensiveFlag::AssistAll), 0, "assist_all"},
+        {to_int(OffensiveFlag::AssistAlign), 0, "assist_align"},
+        {to_int(OffensiveFlag::AssistRace), 0, "assist_race"},
+        {to_int(OffensiveFlag::AssistPlayers), 0, "assist_players"},
+        {to_int(OffensiveFlag::AssistGuard), 0, "assist_guard"},
+        {to_int(OffensiveFlag::AssistVnum), 0, "assist_vnum"},
+        {to_int(OffensiveFlag::Headbutt), 0, "headbutt"}
         // clang-format on
     }};
 

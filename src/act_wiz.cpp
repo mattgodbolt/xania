@@ -691,13 +691,11 @@ void do_ostat(Char *ch, ArgParser args) {
 
     ch->send_line("Level: {}  Cost: {}  Condition: {}  Timer: {}", obj->level, obj->cost, obj->condition, obj->timer);
 
-    ch->send_to(fmt::format("In room: {}  In object: {}  Carried by: {}  Wear_loc: {}\n\r",
-                            obj->in_room == nullptr ? 0 : obj->in_room->vnum,
-                            obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
-                            obj->carried_by == nullptr     ? "(none)"
-                            : can_see(ch, obj->carried_by) ? obj->carried_by->name
-                                                           : "someone",
-                            obj->wear_loc));
+    ch->send_to(fmt::format(
+        "In room: {}  In object: {}  Carried by: {}  Wear_loc: {}\n\r",
+        obj->in_room == nullptr ? 0 : obj->in_room->vnum, obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
+        obj->carried_by == nullptr ? "(none)" : can_see(ch, obj->carried_by) ? obj->carried_by->name : "someone",
+        obj->wear_loc));
 
     ch->send_line("Values: {}", fmt::join(obj->value, " "));
 
@@ -985,11 +983,11 @@ void do_mstat(Char *ch, std::string_view argument) {
     }
 
     if (victim->comm) {
-        ch->send_line("Comm: {}", (char *)comm_bit_name(victim->comm));
+        ch->send_line("Comm: {}", format_set_flags(Char::AllCommFlags, victim->comm));
     }
 
     if (victim->is_npc() && victim->off_flags) {
-        ch->send_line("Offense: {}", (char *)off_bit_name(victim->off_flags));
+        ch->send_line("Offense: {}", format_set_flags(Char::AllOffensiveFlags, victim->off_flags));
     }
 
     if (victim->imm_flags) {
