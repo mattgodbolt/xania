@@ -6,11 +6,14 @@
 #include "Char.hpp"
 #include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
+#include "BodyPartFlag.hpp"
 #include "CharActFlag.hpp"
 #include "Classes.hpp"
 #include "CommFlag.hpp"
 #include "DescriptorList.hpp"
+#include "FlagFormat.hpp"
 #include "Logging.hpp"
+#include "MorphologyFlag.hpp"
 #include "Note.hpp"
 #include "Object.hpp"
 #include "ObjectExtraFlag.hpp"
@@ -23,6 +26,7 @@
 #include "Sex.hpp"
 #include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
+#include "ToleranceFlag.hpp"
 #include "Wear.hpp"
 #include "act_comm.hpp"
 #include "act_obj.hpp"
@@ -581,26 +585,9 @@ std::string_view Char::describe(const Char &to_describe) const noexcept {
 }
 
 std::string Char::format_extra_flags() const noexcept {
-    static constexpr std::array<std::string_view, magic_enum::enum_count<CharExtraFlag>()> extra_flag_names = {{
-        // clang-format off
-        "wnet",      "wn_debug",  "wn_mort",   "wn_imm",  "wn_bug",
-        "permit",    "wn_tick",   "",          "",        "",
-        "",          "info_mes",  "",          "",        "tip_wiz",
-        "",          "tip_adv",   "",          "",        "",
-        "",          "",          "",          "",        "",
-        "",          "",          "",          "",        "",
-        "",          "",          "",          "",        "",
-        "",          "",          "",          "",        "",
-        "",          "",          "",          "",        "",
-        "",          "",          "",          "",        "",
-        "",          "",          "",          "",        "",
-        "",          "",          "",          "",        "",
-        "",          "",          "",          ""
-        // clang-format on
-    }};
     namespace rv = ranges::views;
     const auto is_set = [this](const auto i) { return is_set_extra(i); };
-    const auto to_name = [](const auto i) { return extra_flag_names[to_int(i)]; };
+    const auto to_name = [](const auto i) { return CharExtraFlags::AllExtraFlags[to_int(i)]; };
     const auto not_empty = [](const auto name) { return !name.empty(); };
     auto names =
         magic_enum::enum_values<CharExtraFlag>() | rv::filter(is_set) | rv::transform(to_name) | rv::filter(not_empty);
@@ -612,3 +599,36 @@ std::string Char::serialize_extra_flags() const noexcept {
     const auto to_binary = [this](const auto extra_flag) { return is_set_extra(extra_flag) ? "1" : "0"; };
     return fmt::format("{}", fmt::join(magic_enum::enum_values<CharExtraFlag>() | rv::transform(to_binary), ""));
 }
+
+std::string Char::format_affect_flags() const noexcept { return AffectFlags::format(affected_by); };
+
+std::string Char::format_act_flags() const noexcept {
+    return is_npc() ? format_set_flags(CharActFlags::AllCharActFlags, act)
+                    : format_set_flags(PlayerActFlags::AllPlayerActFlags, act);
+};
+
+std::string Char::format_comm_flags() const noexcept { return format_set_flags(CommFlags::AllCommFlags, comm); };
+
+std::string Char::format_offensive_flags() const noexcept {
+    return format_set_flags(OffensiveFlags::AllOffensiveFlags, off_flags);
+};
+
+std::string Char::format_immune_flags() const noexcept {
+    return format_set_flags(ToleranceFlags::AllToleranceFlags, imm_flags);
+};
+
+std::string Char::format_resist_flags() const noexcept {
+    return format_set_flags(ToleranceFlags::AllToleranceFlags, res_flags);
+};
+
+std::string Char::format_vuln_flags() const noexcept {
+    return format_set_flags(ToleranceFlags::AllToleranceFlags, vuln_flags);
+};
+
+std::string Char::format_morphology_flags() const noexcept {
+    return format_set_flags(MorphologyFlags::AllMorphologyFlags, morphology);
+};
+
+std::string Char::format_body_part_flags() const noexcept {
+    return format_set_flags(BodyPartFlags::AllBodyPartFlags, parts);
+};

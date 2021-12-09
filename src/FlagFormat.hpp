@@ -18,6 +18,7 @@
 #include <range/v3/view/transform.hpp>
 
 #include <array>
+#include <cstdlib>
 #include <optional>
 #include <string_view>
 
@@ -26,8 +27,8 @@ std::string serialize_flags(const unsigned int value);
 
 // Returns a string containing the names of all flag bits that are set on current_val, excluding
 // any bits that are above the Char's level.
-template <std::size_t SIZE>
-std::string format_set_flags(const std::array<Flag, SIZE> &flags, const Char *ch, const unsigned long current_val) {
+template <std::size_t SIZE, typename Bits>
+std::string format_set_flags(const std::array<Flag, SIZE> &flags, const Char *ch, const Bits current_val) {
     const auto flag_list =
         fmt::format("{}", fmt::join(flags | ranges::views::filter([&ch, &current_val](const auto &flag) {
                                         return ch->level >= flag.min_level && check_bit(current_val, flag.bit);
@@ -37,8 +38,8 @@ std::string format_set_flags(const std::array<Flag, SIZE> &flags, const Char *ch
 }
 
 // Returns a string containing the names of all flag bits that are set on current_val.
-template <std::size_t SIZE>
-std::string format_set_flags(const std::array<Flag, SIZE> &flags, const unsigned long current_val) {
+template <std::size_t SIZE, typename Bits>
+std::string format_set_flags(const std::array<Flag, SIZE> &flags, const Bits current_val) {
     const auto flag_list = fmt::format("{}", fmt::join(flags | ranges::views::filter([&current_val](const auto &flag) {
                                                            return check_bit(current_val, flag.bit);
                                                        }) | ranges::views::transform(&Flag::name),
@@ -69,8 +70,8 @@ std::optional<unsigned long> get_flag_bit_by_name(const std::array<Flag, SIZE> &
     }
 }
 
-template <std::size_t SIZE>
-unsigned long flag_set(const std::array<Flag, SIZE> &flags, ArgParser args, const unsigned long current_val, Char *ch) {
+template <std::size_t SIZE, typename Bits>
+unsigned long flag_set(const std::array<Flag, SIZE> &flags, ArgParser args, const Bits current_val, Char *ch) {
     const auto show_usage = [&]() {
         ch->send_line(format_set_flags(flags, ch, current_val));
         ch->send_line("Available flags:");

@@ -36,6 +36,7 @@
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
+#include "WeaponFlag.hpp"
 #include "Wear.hpp"
 #include "act_info.hpp"
 #include "act_move.hpp"
@@ -597,7 +598,7 @@ void do_rstat(Char *ch, ArgParser args) {
     ch->send_line("Vnum: {}.  Sector: {} ({}).  Light: {}.", location->vnum, to_string(location->sector_type),
                   static_cast<int>(location->sector_type), location->light);
     ch->send_to("Flags: ");
-    ch->send_line(format_set_flags(Room::AllFlags, ch, location->room_flags));
+    ch->send_line(format_set_flags(RoomFlags::AllRoomFlags, ch, location->room_flags));
     ch->send_line("Description:");
     ch->send_to(location->description);
 
@@ -651,8 +652,8 @@ void do_ostat(Char *ch, ArgParser args) {
         ch->send_line("Short description: {}", objIndex->short_descr);
         ch->send_line("Long description: {}", objIndex->description);
 
-        ch->send_line("Wear bits: {}", wear_bit_name(objIndex->wear_flags));
-        ch->send_line("Extra bits: {}", format_set_flags(Object::AllExtraFlags, ch, objIndex->extra_flags));
+        ch->send_line("Wear bits: {}", format_set_flags(ObjectWearFlags::AllObjectWearFlags, objIndex->wear_flags));
+        ch->send_line("Extra bits: {}", format_set_flags(ObjectExtraFlags::AllObjectExtraFlags, objIndex->extra_flags));
 
         ch->send_line("Wear string: {}", objIndex->wear_string);
 
@@ -682,8 +683,8 @@ void do_ostat(Char *ch, ArgParser args) {
     ch->send_line("Short description: {}", obj->short_descr);
     ch->send_line("Long description: {}", obj->description);
 
-    ch->send_line("Wear bits: {}", wear_bit_name(obj->wear_flags));
-    ch->send_line("Extra bits: {}", format_set_flags(Object::AllExtraFlags, ch, obj->extra_flags));
+    ch->send_line("Wear bits: {}", format_set_flags(ObjectWearFlags::AllObjectWearFlags, obj->wear_flags));
+    ch->send_line("Extra bits: {}", format_set_flags(ObjectExtraFlags::AllObjectExtraFlags, obj->extra_flags));
 
     ch->send_line("Wear string: {}", obj->wear_string);
 
@@ -739,7 +740,7 @@ void do_ostat(Char *ch, ArgParser args) {
                       (1 + obj->value[2]) * obj->value[1] / 2);
 
         if (obj->value[4]) {
-            ch->send_line("Weapons flags: {}", weapon_bit_name(obj->value[4]));
+            ch->send_line("Weapons flags: {}", format_set_flags(WeaponFlags::AllWeaponFlags, obj->value[4]));
         }
         const auto *atk_type = Attacks::at(obj->value[3]);
         if (!atk_type) {
@@ -975,38 +976,36 @@ void do_mstat(Char *ch, std::string_view argument) {
                       duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level, victim->timer);
     }
 
-    ch->send_line("Act: {}", victim->is_npc() ? format_set_flags(Char::AllCharActFlags, victim->act)
-                                              : format_set_flags(Char::AllPlayerActFlags, victim->act));
+    ch->send_line("Act: {}", victim->format_act_flags());
 
     if (victim->is_pc()) {
         ch->send_line("Extra: {}", ch->format_extra_flags());
     }
 
     if (victim->comm) {
-        ch->send_line("Comm: {}", format_set_flags(Char::AllCommFlags, victim->comm));
+        ch->send_line("Comm: {}", victim->format_comm_flags());
     }
 
     if (victim->is_npc() && victim->off_flags) {
-        ch->send_line("Offense: {}", format_set_flags(Char::AllOffensiveFlags, victim->off_flags));
+        ch->send_line("Offense: {}", victim->format_offensive_flags());
     }
 
     if (victim->imm_flags) {
-        ch->send_line("Immune: {}", (char *)imm_bit_name(victim->imm_flags));
+        ch->send_line("Immune: {}", victim->format_immune_flags());
     }
 
     if (victim->res_flags) {
-        ch->send_line("Resist: {}", (char *)imm_bit_name(victim->res_flags));
+        ch->send_line("Resist: {}", victim->format_resist_flags());
     }
 
     if (victim->vuln_flags) {
-        ch->send_line("Vulnerable: {}", (char *)imm_bit_name(victim->vuln_flags));
+        ch->send_line("Vulnerable: {}", victim->format_vuln_flags());
     }
 
-    ch->send_line("Form: {}\n\rParts: {}", morphology_bit_name(victim->morphology),
-                  (char *)body_part_bit_name(victim->parts));
+    ch->send_line("Form: {}\n\rParts: {}", victim->format_morphology_flags(), victim->format_body_part_flags());
 
     if (victim->affected_by) {
-        ch->send_line("Affected by {}", format_set_flags(Char::AllAffectFlags, victim->affected_by));
+        ch->send_line("Affected by: {}", victim->format_affect_flags());
     }
 
     ch->send_line(fmt::format("Master: {}  Leader: {}  Pet: {}", victim->master ? victim->master->name : "(none)",
@@ -2386,13 +2385,15 @@ void do_oset(Char *ch, ArgParser args) {
     if (matches_start(field, "extra")) {
         ch->send_line("Current extra flags are: ");
         auto flag_args = ArgParser(value_str);
-        obj->extra_flags = static_cast<unsigned int>(flag_set(Object::AllExtraFlags, flag_args, obj->extra_flags, ch));
+        obj->extra_flags =
+            static_cast<unsigned int>(flag_set(ObjectExtraFlags::AllObjectExtraFlags, flag_args, obj->extra_flags, ch));
         return;
     }
     if (matches_start(field, "wear")) {
         ch->send_line("Current wear flags are: ");
         auto flag_args = ArgParser(value_str);
-        obj->wear_flags = static_cast<unsigned int>(flag_set(Object::AllWearFlags, flag_args, obj->wear_flags, ch));
+        obj->wear_flags =
+            static_cast<unsigned int>(flag_set(ObjectWearFlags::AllObjectWearFlags, flag_args, obj->wear_flags, ch));
         return;
     }
     if (matches_start(field, "level")) {
@@ -2463,7 +2464,8 @@ void do_rset(Char *ch, ArgParser args) {
     if (matches_start(field, "flags")) {
         ch->send_line("The current room flags are:");
         auto flag_args = ArgParser(value_str);
-        location->room_flags = static_cast<unsigned int>(flag_set(Room::AllFlags, flag_args, location->room_flags, ch));
+        location->room_flags =
+            static_cast<unsigned int>(flag_set(RoomFlags::AllRoomFlags, flag_args, location->room_flags, ch));
         return;
     }
     if (matches_start(field, "sector")) {

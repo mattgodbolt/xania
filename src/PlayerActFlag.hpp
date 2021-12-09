@@ -5,6 +5,7 @@
 /*************************************************************************/
 #pragma once
 
+#include "Flag.hpp"
 #include "common/StandardBits.hpp"
 
 #include <magic_enum.hpp>
@@ -42,4 +43,35 @@ enum class PlayerActFlag : unsigned long {
 
 [[nodiscard]] constexpr auto to_int(const PlayerActFlag flag) noexcept {
     return magic_enum::enum_integer<PlayerActFlag>(flag);
+}
+
+namespace PlayerActFlags {
+
+constexpr auto NumPlayerActFlags = 21;
+constexpr std::array<Flag, NumPlayerActFlags> AllPlayerActFlags = {{
+    // clang-format off
+    {to_int(PlayerActFlag::PlrNpc), "npc"}, // Only set for NPCs
+    {to_int(PlayerActFlag::PlrBoughtPet), "owner"},
+    {to_int(PlayerActFlag::PlrAutoAssist), "autoassist"},
+    {to_int(PlayerActFlag::PlrAutoExit), "autoexit"},
+    {to_int(PlayerActFlag::PlrAutoLoot), "autoloot"},
+    {to_int(PlayerActFlag::PlrAutoSac), "autosac"},
+    {to_int(PlayerActFlag::PlrAutoGold), "autogold"},
+    {to_int(PlayerActFlag::PlrAutoSplit), "autosplit"},
+    {to_int(PlayerActFlag::PlrHolyLight), "holy_light"},
+    {to_int(PlayerActFlag::PlrWizInvis), "wizinvis"},
+    {to_int(PlayerActFlag::PlrCanLoot), "loot_corpse"},
+    {to_int(PlayerActFlag::PlrNoSummon), "no_summon"},
+    {to_int(PlayerActFlag::PlrNoFollow), "no_follow"},
+    {to_int(PlayerActFlag::PlrAfk), "afk"},
+    {to_int(PlayerActFlag::PlrLog), "log"},
+    {to_int(PlayerActFlag::PlrDeny), "deny"},
+    {to_int(PlayerActFlag::PlrFreeze), "freeze"},
+    {to_int(PlayerActFlag::PlrThief), "thief"},
+    {to_int(PlayerActFlag::PlrKiller), "killer"},
+    {to_int(PlayerActFlag::PlrAutoPeek), "autopeek"},
+    {to_int(PlayerActFlag::PlrProwl), "prowl"}
+    // clang-format on
+}};
+
 }

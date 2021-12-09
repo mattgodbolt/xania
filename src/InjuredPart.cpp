@@ -32,7 +32,7 @@ struct body_part_attrs {
     const int obj_vnum; /* object to deposit when dead */
 };
 
-const struct body_part_attrs body_part_attrs_table[NumBodyParts] = {
+const struct body_part_attrs body_part_attrs_table[BodyPartFlags::NumBodyParts] = {
     /*
       format:
       {       BODY_PART, "description", found in a pair?, location }  */
@@ -151,7 +151,7 @@ InjuredPart InjuredPart::random_from_victim(const Char *ch, const Char *victim, 
     }
     const auto size_diff = body_size_diff(ch, victim);
     for (auto tries = 0; tries < 8; tries++) {
-        const auto partnum = rng.number_range(0, NumBodyParts - 1);
+        const auto partnum = rng.number_range(0, BodyPartFlags::NumBodyParts - 1);
         const auto &part = body_part_attrs_table[partnum];
         // Note that this looks up the victim's body parts by race, rather than reading the Char.parts field directly.
         // Which is probably more robust as the race_table is immutable.

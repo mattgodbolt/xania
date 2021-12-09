@@ -1,13 +1,10 @@
 #pragma once
 
 #include "AFFECT_DATA.hpp"
-#include "AffectFlag.hpp"
 #include "AffectList.hpp"
 #include "ArmourClass.hpp"
-#include "CharActFlag.hpp"
 #include "CharExtraFlag.hpp"
 #include "CharVersion.hpp"
-#include "CommFlag.hpp"
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "Flag.hpp"
@@ -15,7 +12,6 @@
 #include "MobIndexData.hpp"
 #include "OffensiveFlag.hpp"
 #include "PcData.hpp"
-#include "PlayerActFlag.hpp"
 #include "Position.hpp"
 #include "Sex.hpp"
 #include "Stats.hpp"
@@ -344,149 +340,27 @@ struct Char {
 
     // Returns a string describing the CharExtraFlag bits the character has enabled.
     [[nodiscard]] std::string format_extra_flags() const noexcept;
-
     // Returns the CharExtraFlag bits in ASCII binary form, for saving to the pfile.
     [[nodiscard]] std::string serialize_extra_flags() const noexcept;
-
-    inline static constexpr std::array<Flag, 30> AllAffectFlags = {{
-        // clang-format off
-        {to_int(AffectFlag::Blind), 0, "blind"},
-        {to_int(AffectFlag::Invisible), 0, "invisible"},
-        {to_int(AffectFlag::DetectEvil), 0, "detect_evil"},
-        {to_int(AffectFlag::DetectInvis), 0, "detect_invis"},
-        {to_int(AffectFlag::DetectMagic), 0, "detect_magic"},
-        {to_int(AffectFlag::DetectHidden), 0, "detect_hidden"},
-        {to_int(AffectFlag::Talon), 0, "talon"},
-        {to_int(AffectFlag::Sanctuary), 0, "sanctuary"},
-        {to_int(AffectFlag::FaerieFire), 0, "faerie_fire"},
-        {to_int(AffectFlag::Infrared), 0, "infrared"},
-        {to_int(AffectFlag::Curse), 0, "curse"},
-        {to_int(AffectFlag::ProtectionEvil), 0, "protection_evil"},
-        {to_int(AffectFlag::Poison), 0, "poison"},
-        {to_int(AffectFlag::ProtectionGood), 0, "protection_good"},
-        {to_int(AffectFlag::Sneak), 0, "sneak"},
-        {to_int(AffectFlag::Hide), 0, "hide"},
-        {to_int(AffectFlag::Sleep), 0, "sleep"},
-        {to_int(AffectFlag::Charm), 0, "charm"},
-        {to_int(AffectFlag::Flying), 0, "flying"},
-        {to_int(AffectFlag::PassDoor), 0, "pass_door"},
-        {to_int(AffectFlag::Haste), 0, "haste"},
-        {to_int(AffectFlag::Calm), 0, "calm"},
-        {to_int(AffectFlag::Plague), 0, "plague"},
-        {to_int(AffectFlag::Weaken), 0, "weaken"},
-        {to_int(AffectFlag::DarkVision), 0, "dark_vision"},
-        {to_int(AffectFlag::Berserk), 0, "berserk"},
-        {to_int(AffectFlag::Swim), 0, "swim"},
-        {to_int(AffectFlag::Regeneration), 0, "regeneration"},
-        {to_int(AffectFlag::OctarineFire), 0, "octarine_fire"},
-        {to_int(AffectFlag::Lethargy), 0, "lethargy"}
-        // clang-format on
-    }};
-    inline static constexpr std::array<Flag, 22> AllCharActFlags = {{
-        // clang-format off
-        {to_int(CharActFlag::Npc), 0, "npc"},
-        {to_int(CharActFlag::Sentinel), 0, "sentinel"},
-        {to_int(CharActFlag::Scavenger), 0, "scavenger"},
-        {to_int(CharActFlag::Aggressive), 0, "aggressive"},
-        {to_int(CharActFlag::StayArea), 0, "stay_area"},
-        {to_int(CharActFlag::Wimpy), 0, "wimpy"},
-        {to_int(CharActFlag::Pet), 0, "pet"},
-        {to_int(CharActFlag::Train), 0, "train"},
-        {to_int(CharActFlag::Practice), 0, "practice"},
-        {to_int(CharActFlag::Sentient), 0, "sentient"},
-        {to_int(CharActFlag::Talkative), 0, "talkative"},
-        {to_int(CharActFlag::Undead), 0, "undead"},
-        {to_int(CharActFlag::Cleric), 0, "cleric"},
-        {to_int(CharActFlag::Mage), 0, "mage"},
-        {to_int(CharActFlag::Thief), 0, "thief"},
-        {to_int(CharActFlag::Warrior), 0, "warrior"},
-        {to_int(CharActFlag::NoAlign), 0, "no_align"},
-        {to_int(CharActFlag::NoPurge), 0, "no_purge"},
-        {to_int(CharActFlag::Healer), 0, "healer"},
-        {to_int(CharActFlag::Gain), 0, "skill_train"},
-        {to_int(CharActFlag::UpdateAlways), 0, "update_always"},
-        {to_int(CharActFlag::CanBeRidden), 0, "rideable"}
-        // clang-format on
-    }};
-    inline static constexpr std::array<Flag, 21> AllPlayerActFlags = {{
-        // clang-format off
-        {to_int(PlayerActFlag::PlrNpc), 0, "npc"}, // Only set for NPCs
-        {to_int(PlayerActFlag::PlrBoughtPet), 0, "owner"},
-        {to_int(PlayerActFlag::PlrAutoAssist), 0, "autoassist"},
-        {to_int(PlayerActFlag::PlrAutoExit), 0, "autoexit"},
-        {to_int(PlayerActFlag::PlrAutoLoot), 0, "autoloot"},
-        {to_int(PlayerActFlag::PlrAutoSac), 0, "autosac"},
-        {to_int(PlayerActFlag::PlrAutoGold), 0, "autogold"},
-        {to_int(PlayerActFlag::PlrAutoSplit), 0, "autosplit"},
-        {to_int(PlayerActFlag::PlrHolyLight), 0, "holy_light"},
-        {to_int(PlayerActFlag::PlrWizInvis), 0, "wizinvis"},
-        {to_int(PlayerActFlag::PlrCanLoot), 0, "loot_corpse"},
-        {to_int(PlayerActFlag::PlrNoSummon), 0, "no_summon"},
-        {to_int(PlayerActFlag::PlrNoFollow), 0, "no_follow"},
-        {to_int(PlayerActFlag::PlrAfk), 0, "afk"},
-        {to_int(PlayerActFlag::PlrLog), 0, "log"},
-        {to_int(PlayerActFlag::PlrDeny), 0, "deny"},
-        {to_int(PlayerActFlag::PlrFreeze), 0, "freeze"},
-        {to_int(PlayerActFlag::PlrThief), 0, "thief"},
-        {to_int(PlayerActFlag::PlrKiller), 0, "killer"},
-        {to_int(PlayerActFlag::PlrAutoPeek), 0, "autopeek"},
-        {to_int(PlayerActFlag::PlrProwl), 0, "prowl"}
-        // clang-format on
-    }};
-    inline static constexpr std::array<Flag, 23> AllCommFlags = {{
-        // clang-format off
-        {to_int(CommFlag::Quiet), 0, "quiet"},
-        {to_int(CommFlag::Deaf), 0, "deaf"},
-        {to_int(CommFlag::NoWiz), 0, "no_wiz"},
-        {to_int(CommFlag::NoAuction), 0, "no_action"},
-        {to_int(CommFlag::NoGossip), 0, "no_gossip"},
-        {to_int(CommFlag::NoQuestion), 0, "no_question"},
-        {to_int(CommFlag::NoMusic), 0, "no_music"},
-        {to_int(CommFlag::NoGratz), 0, "no_gratz"},
-        {to_int(CommFlag::NoAnnounce), 0, "no_allege"},
-        {to_int(CommFlag::NoPhilosophise), 0, "no_philosophise"},
-        {to_int(CommFlag::NoQwest), 0, "no_qwest"},
-        {to_int(CommFlag::Compact), 0, "compact"},
-        {to_int(CommFlag::Brief), 0, "brief"},
-        {to_int(CommFlag::Prompt), 0, "prompt"},
-        {to_int(CommFlag::Combine), 0, "combine"},
-        {to_int(CommFlag::ShowAfk), 0, "show_afk"},
-        {to_int(CommFlag::ShowDefence), 0, "show_def"},
-        {to_int(CommFlag::NoEmote), 0, "no_emote"},
-        {to_int(CommFlag::NoYell), 0, "no_yell"},
-        {to_int(CommFlag::NoTell), 0, "no_tell"},
-        {to_int(CommFlag::NoChannels), 0, "no_channels"},
-        {to_int(CommFlag::NoAllege), 0, "no_allege"},
-        {to_int(CommFlag::Affect), 0, "affect"}
-        // clang-format on
-    }};
-    inline static constexpr std::array<Flag, 23> AllOffensiveFlags = {{
-        // clang-format off
-        {to_int(OffensiveFlag::AreaAttack), 0, "area_attack"},
-        {to_int(OffensiveFlag::Backstab), 0, "backstab"},
-        {to_int(OffensiveFlag::Bash), 0, "bash"},
-        {to_int(OffensiveFlag::Berserk), 0, "berserk"},
-        {to_int(OffensiveFlag::Disarm), 0, "disarm"},
-        {to_int(OffensiveFlag::Dodge), 0, "dodge"},
-        {to_int(OffensiveFlag::Fade), 0, "fade"},
-        {to_int(OffensiveFlag::Fast), 0, "fast"},
-        {to_int(OffensiveFlag::Slow), 0, "slow"},
-        {to_int(OffensiveFlag::Kick), 0, "kick"},
-        {to_int(OffensiveFlag::KickDirt), 0, "kick_dirt"},
-        {to_int(OffensiveFlag::Parry), 0, "parry"},
-        {to_int(OffensiveFlag::Rescue), 0, "rescue"},
-        {to_int(OffensiveFlag::Tail), 0, "tail"},
-        {to_int(OffensiveFlag::Trip), 0, "trip"},
-        {to_int(OffensiveFlag::Crush), 0, "crush"},
-        {to_int(OffensiveFlag::AssistAll), 0, "assist_all"},
-        {to_int(OffensiveFlag::AssistAlign), 0, "assist_align"},
-        {to_int(OffensiveFlag::AssistRace), 0, "assist_race"},
-        {to_int(OffensiveFlag::AssistPlayers), 0, "assist_players"},
-        {to_int(OffensiveFlag::AssistGuard), 0, "assist_guard"},
-        {to_int(OffensiveFlag::AssistVnum), 0, "assist_vnum"},
-        {to_int(OffensiveFlag::Headbutt), 0, "headbutt"}
-        // clang-format on
-    }};
+    // Returns a string describing the AffectFlag bits the character has enabled.
+    [[nodiscard]] std::string format_affect_flags() const noexcept;
+    // Returns a string describing the CharActFlag (NPC) or PlayerActFlag (PC) bits
+    // the character has enabled.
+    [[nodiscard]] std::string format_act_flags() const noexcept;
+    // Returns a string describing the CommFlag bits the character has enabled.
+    [[nodiscard]] std::string format_comm_flags() const noexcept;
+    // Returns a string describing the OffensiveFlag bits the character has enabled.
+    [[nodiscard]] std::string format_offensive_flags() const noexcept;
+    // Returns a string describing the ToleranceFlag bits the character is immune to.
+    [[nodiscard]] std::string format_immune_flags() const noexcept;
+    // Returns a string describing the ToleranceFlag bits the character is resistant to.
+    [[nodiscard]] std::string format_resist_flags() const noexcept;
+    // Returns a string describing the ToleranceFlag bits the character is vulnerable to.
+    [[nodiscard]] std::string format_vuln_flags() const noexcept;
+    // Returns a string describing the MorphologyFlag bits the character has enabled.
+    [[nodiscard]] std::string format_morphology_flags() const noexcept;
+    // Returns a string describing the BodyPartFlag bits the character has enabled.
+    [[nodiscard]] std::string format_body_part_flags() const noexcept;
 
 private:
     template <typename Func>

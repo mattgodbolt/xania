@@ -2619,7 +2619,7 @@ void spell_identify(int sn, int level, Char *ch, const SpellTarget &spell_target
     if (!obj)
         return;
     ch->send_line("Object '{}' is type {}, extra flags {}.", obj->name, obj->type_name(),
-                  format_set_flags(Object::AllExtraFlags, ch, obj->extra_flags));
+                  format_set_flags(ObjectExtraFlags::AllObjectExtraFlags, ch, obj->extra_flags));
     ch->send_line("Weight is {}, value is {}, level is {}.", obj->weight, obj->cost, obj->level);
 
     if ((obj->material != Material::Type::None) && (obj->material != Material::Type::Default)) {

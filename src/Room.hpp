@@ -9,7 +9,6 @@
 #include "Direction.hpp"
 #include "Exit.hpp"
 #include "ExtraDescription.hpp"
-#include "Flag.hpp"
 #include "GenericList.hpp"
 #include "ResetData.hpp"
 #include "RoomFlag.hpp"
@@ -43,22 +42,4 @@ struct Room {
 
     [[nodiscard]] bool is_outside() const;
     [[nodiscard]] bool is_inside() const;
-
-    inline static constexpr std::array<Flag, 13> AllFlags = {{
-        // clang-format off
-        {to_int(RoomFlag::Dark), 0, "dark"},
-        {to_int(RoomFlag::NoMob), 0, "nomob"},
-        {to_int(RoomFlag::Indoors), 0, "indoors"},
-        {to_int(RoomFlag::Private), 0, "private"},
-        {to_int(RoomFlag::Safe), 0, "safe"},
-        {to_int(RoomFlag::Solitary), 0, "solitary"},
-        {to_int(RoomFlag::PetShop), 0, "petshop"},
-        {to_int(RoomFlag::NoRecall), 0, "recall"},
-        {to_int(RoomFlag::ImpOnly), MAX_LEVEL, "imponly"},
-        {to_int(RoomFlag::GodsOnly), LEVEL_IMMORTAL, "godonly"},
-        {to_int(RoomFlag::HeroesOnly), 0, "heronly"},
-        {to_int(RoomFlag::NewbiesOnly), 0, "newbieonly"},
-        {to_int(RoomFlag::Law), 0, "law"},
-        // clang-format on
-    }};
 };

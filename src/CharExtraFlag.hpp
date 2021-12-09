@@ -84,3 +84,25 @@ enum class CharExtraFlag {
 [[nodiscard]] constexpr auto to_int(const CharExtraFlag flag) noexcept {
     return magic_enum::enum_integer<CharExtraFlag>(flag);
 }
+
+namespace CharExtraFlags {
+
+constexpr std::array<std::string_view, magic_enum::enum_count<CharExtraFlag>()> AllExtraFlags = {{
+    // clang-format off
+        "wnet",      "wn_debug",  "wn_mort",   "wn_imm",  "wn_bug",
+        "permit",    "wn_tick",   "",          "",        "",
+        "",          "info_mes",  "",          "",        "tip_wiz",
+        "",          "tip_adv",   "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          "",        "",
+        "",          "",          "",          ""
+    // clang-format on
+}};
+
+}
