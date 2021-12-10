@@ -2109,7 +2109,7 @@ void do_value(Char *ch, ArgParser args) {
         act("$n looks uninterested in $p.", keeper, obj, ch, To::Vict);
         return;
     }
-    act(fmt::format("$n tells you 'I'll give you {} gold coins for $p'."), keeper, obj, ch, To::Vict);
+    act(fmt::format("$n tells you 'I'll give you {} gold coins for $p'.", cost), keeper, obj, ch, To::Vict);
     ch->reply = keeper;
 }
 
