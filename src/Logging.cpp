@@ -29,8 +29,9 @@ void bug(std::string_view message) {
             auto iChar = ftell(area_file);
             fseek(area_file, 0, SEEK_SET);
             for (iLine = 0; ftell(area_file) < iChar; iLine++) {
-                while (getc(area_file) != '\n')
-                    ;
+                const auto letter = getc(area_file);
+                if (letter == '\n' || letter == EOF)
+                    break;
             }
             fseek(area_file, iChar, SEEK_SET);
         }

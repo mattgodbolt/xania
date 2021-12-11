@@ -49,6 +49,7 @@ install: build dirs  ## Install to 'install' (overridable with INSTALL_DIR)
 .PHONY: dirs
 dirs:
 	@mkdir -p gods player system log
+	@PROJ_ROOT=$(CURDIR) ./scripts/validate-symlinks.sh
 
 $(CONDA): | $(CURL)
 	@mkdir -p $(CONDA_ROOT)
