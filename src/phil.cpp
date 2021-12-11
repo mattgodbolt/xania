@@ -130,7 +130,7 @@ void doRandomSocial(Char *ch) {
 int charInterest(Char *ch) {
     if (ch == nullptr)
         return 0;
-    for (const auto interestingChar : interestingChars) {
+    for (const auto &interestingChar : interestingChars) {
         if (is_name(std::get<0>(interestingChar), ch->name))
             return std::get<1>(interestingChar);
     }

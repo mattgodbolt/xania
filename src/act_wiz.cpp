@@ -1829,7 +1829,7 @@ void osearch_display_syntax(Char *ch) {
     ch->send_line("Syntax: osearch [min level] [max level] [item type] optional item name...");
     ch->send_line("        Level range no greater than 10. Item types:\n\r        ");
     Columner col4(*ch, 4, 20);
-    for (const auto type_name : ObjectTypes::sorted_type_names()) {
+    for (const auto &type_name : ObjectTypes::sorted_type_names()) {
         col4.add(type_name);
     }
 }
