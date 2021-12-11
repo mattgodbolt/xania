@@ -11,11 +11,20 @@ We chat about the mud [here](https://discord.gg/Xsstufyt8t). Feel free to drop i
 
 ## Building and running
 
-If you want to build and run Xania locally, you'll need a modern Linux (Ubuntu 18.04 and 20.04 have been tested). You'll
-need the following packages to build:
+If you want to build and run Xania locally, you'll need a modern Linux (Ubuntu 18.04 and 20.04 have been tested, and
+it has been reported to work on Fedora 34 too).
+
+Here are some Ubuntu steps for installing some prerequisites:
 
 ```bash
-$ sudo apt install git make cmake gcc-10 g++-10 curl
+# gcc-11 and g++11...
+$ sudo apt install build-essential manpages-dev software-properties-common
+$ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+$ sudo apt update && sudo apt install gcc-11 g++-11
+# Right now the mud defaults to building with g++10 but we plan on making 11 the default soon
+$ sudo apt install gcc-10 g++-10
+# And you'll need the following...
+$ sudo apt install git make cmake curl
 ```
 
 It's pretty likely you have all these already. The hope is that almost all the upstream dependencies of the code are
