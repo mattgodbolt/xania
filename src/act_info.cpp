@@ -1721,7 +1721,7 @@ void do_alist(Char *ch) {
     for (auto &pArea : AreaList::singleton())
         buffer +=
             fmt::vformat(format_str, fmt::make_format_args(pArea->num(), pArea->short_name(), pArea->lowest_vnum(),
-                              pArea->highest_vnum(), pArea->filename()));
+                                                           pArea->highest_vnum(), pArea->filename()));
     ch->page_to(buffer);
 }
 
