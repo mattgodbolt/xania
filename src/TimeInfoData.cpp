@@ -58,7 +58,7 @@ TimeInfoData::TimeInfoData(Time now) {
     using namespace date;
     using namespace std::chrono;
     // The epoch here, August 11, 1990 1:05:15 AM, is derived from the 650336715 in the original source.
-    static constexpr auto DikuEpoch = sys_days(1990_y / August / 11_d) + 1h + 5min + 15s;
+    static constexpr auto DikuEpoch = date::sys_days(1990_y / August / 11_d) + 1h + 5min + 15s;
     const auto hours_since_epoch =
         static_cast<int>(duration_cast<seconds>(now - DikuEpoch).count() / (PULSE_TICK / PULSE_PER_SECOND));
     hour_ = hours_since_epoch % HoursPerDay;

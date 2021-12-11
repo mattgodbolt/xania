@@ -38,7 +38,7 @@ Fd Fd::socket(int domain, int type, int protocol) {
     int socket_fd = ::socket(domain, type, protocol);
     if (socket_fd < 0)
         throw fmt::system_error(
-            errno, fmt::format("Unable to create a socket (domain {}, type {}, protocol {})", domain, type, protocol));
+            errno, "Unable to create a socket (domain {}, type {}, protocol {})", domain, type, protocol);
     return Fd(socket_fd);
 }
 

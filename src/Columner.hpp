@@ -34,12 +34,12 @@ public:
     Columner &operator=(Columner &&) = delete;
 
     template <typename... Args>
-    Columner &add(std::string_view txt, Args &&... args) {
-        return add_col(fmt::format(txt, std::forward<Args>(args)...));
+    Columner &add(fmt::string_view txt, Args &&... args) {
+        return add_col(fmt::vformat(txt, fmt::make_format_args(args...)));
     }
     template <typename... Args>
-    Columner &kv(std::string_view key, std::string_view value_fmt, Args &&... args) {
-        return add_col(fmt::format("|C{}|w: {}", key, fmt::format(value_fmt, std::forward<Args>(args)...)));
+    Columner &kv(std::string_view key, fmt::string_view value_fmt, Args &&... args) {
+        return add_col(fmt::format("|C{}|w: {}", key, fmt::vformat(value_fmt, fmt::make_format_args(args...))));
     }
     template <typename StatVal>
     Columner &stat(std::string_view stat, StatVal val) {
