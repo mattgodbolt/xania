@@ -46,30 +46,30 @@ enum class CharActFlag : unsigned long {
 namespace CharActFlags {
 
 constexpr auto NumCharActFlags = 22;
-constexpr std::array<Flag, NumCharActFlags> AllCharActFlags = {{
+constexpr std::array<Flag<CharActFlag>, NumCharActFlags> AllCharActFlags = {{
     // clang-format off
-    {to_int(CharActFlag::Npc), "npc"},
-    {to_int(CharActFlag::Sentinel), "sentinel"},
-    {to_int(CharActFlag::Scavenger), "scavenger"},
-    {to_int(CharActFlag::Aggressive), "aggressive"},
-    {to_int(CharActFlag::StayArea), "stay_area"},
-    {to_int(CharActFlag::Wimpy), "wimpy"},
-    {to_int(CharActFlag::Pet), "pet"},
-    {to_int(CharActFlag::Train), "train"},
-    {to_int(CharActFlag::Practice), "practice"},
-    {to_int(CharActFlag::Sentient), "sentient"},
-    {to_int(CharActFlag::Talkative), "talkative"},
-    {to_int(CharActFlag::Undead), "undead"},
-    {to_int(CharActFlag::Cleric), "cleric"},
-    {to_int(CharActFlag::Mage), "mage"},
-    {to_int(CharActFlag::Thief), "thief"},
-    {to_int(CharActFlag::Warrior), "warrior"},
-    {to_int(CharActFlag::NoAlign), "no_align"},
-    {to_int(CharActFlag::NoPurge), "no_purge"},
-    {to_int(CharActFlag::Healer), "healer"},
-    {to_int(CharActFlag::Gain), "skill_train"},
-    {to_int(CharActFlag::UpdateAlways), "update_always"},
-    {to_int(CharActFlag::CanBeRidden), "rideable"}
+    {CharActFlag::Npc, "npc"},
+    {CharActFlag::Sentinel, "sentinel"},
+    {CharActFlag::Scavenger, "scavenger"},
+    {CharActFlag::Aggressive, "aggressive"},
+    {CharActFlag::StayArea, "stay_area"},
+    {CharActFlag::Wimpy, "wimpy"},
+    {CharActFlag::Pet, "pet"},
+    {CharActFlag::Train, "train"},
+    {CharActFlag::Practice, "practice"},
+    {CharActFlag::Sentient, "sentient"},
+    {CharActFlag::Talkative, "talkative"},
+    {CharActFlag::Undead, "undead"},
+    {CharActFlag::Cleric, "cleric"},
+    {CharActFlag::Mage, "mage"},
+    {CharActFlag::Thief, "thief"},
+    {CharActFlag::Warrior, "warrior"},
+    {CharActFlag::NoAlign, "no_align"},
+    {CharActFlag::NoPurge, "no_purge"},
+    {CharActFlag::Healer, "healer"},
+    {CharActFlag::Gain, "skill_train"},
+    {CharActFlag::UpdateAlways, "update_always"},
+    {CharActFlag::CanBeRidden, "rideable"}
     // clang-format on
 }};
 

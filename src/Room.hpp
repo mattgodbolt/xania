@@ -20,7 +20,6 @@
 
 struct Object;
 struct Area;
-struct Flag;
 
 /*
  * Room type.

@@ -31,21 +31,21 @@ enum class RoomFlag : unsigned int {
 namespace RoomFlags {
 
 constexpr auto NumRoomFlags = 13;
-constexpr std::array<Flag, NumRoomFlags> AllRoomFlags = {{
+constexpr std::array<Flag<RoomFlag>, NumRoomFlags> AllRoomFlags = {{
     // clang-format off
-    {to_int(RoomFlag::Dark), "dark"},
-    {to_int(RoomFlag::NoMob), "nomob"},
-    {to_int(RoomFlag::Indoors), "indoors"},
-    {to_int(RoomFlag::Private), "private"},
-    {to_int(RoomFlag::Safe), "safe"},
-    {to_int(RoomFlag::Solitary), "solitary"},
-    {to_int(RoomFlag::PetShop), "petshop"},
-    {to_int(RoomFlag::NoRecall), "recall"},
-    {to_int(RoomFlag::ImpOnly), "imponly", MAX_LEVEL},
-    {to_int(RoomFlag::GodsOnly), "godonly", LEVEL_IMMORTAL},
-    {to_int(RoomFlag::HeroesOnly), "heroonly"},
-    {to_int(RoomFlag::NewbiesOnly), "newbieonly"},
-    {to_int(RoomFlag::Law), "law"},
+    {RoomFlag::Dark, "dark"},
+    {RoomFlag::NoMob, "nomob"},
+    {RoomFlag::Indoors, "indoors"},
+    {RoomFlag::Private, "private"},
+    {RoomFlag::Safe, "safe"},
+    {RoomFlag::Solitary, "solitary"},
+    {RoomFlag::PetShop, "petshop"},
+    {RoomFlag::NoRecall, "recall"},
+    {RoomFlag::ImpOnly, "imponly", MAX_LEVEL},
+    {RoomFlag::GodsOnly, "godonly", LEVEL_IMMORTAL},
+    {RoomFlag::HeroesOnly, "heroonly"},
+    {RoomFlag::NewbiesOnly, "newbieonly"},
+    {RoomFlag::Law, "law"},
     // clang-format on
 }};
 

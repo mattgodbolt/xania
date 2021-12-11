@@ -41,29 +41,29 @@ enum class ObjectExtraFlag : unsigned int {
 namespace ObjectExtraFlags {
 
 constexpr auto NumObjectExtraFlags = 21;
-constexpr std::array<Flag, NumObjectExtraFlags> AllObjectExtraFlags = {{
+constexpr std::array<Flag<ObjectExtraFlag>, NumObjectExtraFlags> AllObjectExtraFlags = {{
     // clang-format off
-    {to_int(ObjectExtraFlag::Glow), "glow"},
-    {to_int(ObjectExtraFlag::Hum), "hum"},
-    {to_int(ObjectExtraFlag::Dark), "dark"},
-    {to_int(ObjectExtraFlag::Lock), "lock"},
-    {to_int(ObjectExtraFlag::Evil), "evil"},
-    {to_int(ObjectExtraFlag::Invis), "invis"},
-    {to_int(ObjectExtraFlag::Magic), "magic"},
-    {to_int(ObjectExtraFlag::NoDrop), "nodrop"},
-    {to_int(ObjectExtraFlag::Bless), "bless"},
-    {to_int(ObjectExtraFlag::AntiGood), "antigood"},
-    {to_int(ObjectExtraFlag::AntiEvil), "antievil"},
-    {to_int(ObjectExtraFlag::AntiNeutral), "antineutral"},
-    {to_int(ObjectExtraFlag::NoRemove), "noremove"}, // Only weapons are meant to have this, it prevents disarm.
-    {to_int(ObjectExtraFlag::Inventory), "inventory"},
-    {to_int(ObjectExtraFlag::NoPurge), "nopurge"},
-    {to_int(ObjectExtraFlag::RotDeath), "rotdeath"},
-    {to_int(ObjectExtraFlag::VisDeath), "visdeath"},
-    {to_int(ObjectExtraFlag::ProtectContainer), "protected"},
-    {to_int(ObjectExtraFlag::NoLocate), "nolocate"},
-    {to_int(ObjectExtraFlag::SummonCorpse), "summon_corpse"},
-    {to_int(ObjectExtraFlag::Unique), "unique"},
+    {ObjectExtraFlag::Glow, "glow"},
+    {ObjectExtraFlag::Hum, "hum"},
+    {ObjectExtraFlag::Dark, "dark"},
+    {ObjectExtraFlag::Lock, "lock"},
+    {ObjectExtraFlag::Evil, "evil"},
+    {ObjectExtraFlag::Invis, "invis"},
+    {ObjectExtraFlag::Magic, "magic"},
+    {ObjectExtraFlag::NoDrop, "nodrop"},
+    {ObjectExtraFlag::Bless, "bless"},
+    {ObjectExtraFlag::AntiGood, "antigood"},
+    {ObjectExtraFlag::AntiEvil, "antievil"},
+    {ObjectExtraFlag::AntiNeutral, "antineutral"},
+    {ObjectExtraFlag::NoRemove, "noremove"}, // Only weapons are meant to have this, it prevents disarm.
+    {ObjectExtraFlag::Inventory, "inventory"},
+    {ObjectExtraFlag::NoPurge, "nopurge"},
+    {ObjectExtraFlag::RotDeath, "rotdeath"},
+    {ObjectExtraFlag::VisDeath, "visdeath"},
+    {ObjectExtraFlag::ProtectContainer, "protected"},
+    {ObjectExtraFlag::NoLocate, "nolocate"},
+    {ObjectExtraFlag::SummonCorpse, "summon_corpse"},
+    {ObjectExtraFlag::Unique, "unique"}
     // clang-format on
 }};
 

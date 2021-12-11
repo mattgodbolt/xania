@@ -44,31 +44,31 @@ enum class CommFlag : unsigned long {
 namespace CommFlags {
 
 constexpr auto NumCommFlags = 23;
-constexpr std::array<Flag, NumCommFlags> AllCommFlags = {{
+constexpr std::array<Flag<CommFlag>, NumCommFlags> AllCommFlags = {{
     // clang-format off
-    {to_int(CommFlag::Quiet), "quiet"},
-    {to_int(CommFlag::Deaf), "deaf"},
-    {to_int(CommFlag::NoWiz), "no_wiz"},
-    {to_int(CommFlag::NoAuction), "no_action"},
-    {to_int(CommFlag::NoGossip), "no_gossip"},
-    {to_int(CommFlag::NoQuestion), "no_question"},
-    {to_int(CommFlag::NoMusic), "no_music"},
-    {to_int(CommFlag::NoGratz), "no_gratz"},
-    {to_int(CommFlag::NoAnnounce), "no_allege"},
-    {to_int(CommFlag::NoPhilosophise), "no_philosophise"},
-    {to_int(CommFlag::NoQwest), "no_qwest"},
-    {to_int(CommFlag::Compact), "compact"},
-    {to_int(CommFlag::Brief), "brief"},
-    {to_int(CommFlag::Prompt), "prompt"},
-    {to_int(CommFlag::Combine), "combine"},
-    {to_int(CommFlag::ShowAfk), "show_afk"},
-    {to_int(CommFlag::ShowDefence), "show_def"},
-    {to_int(CommFlag::NoEmote), "no_emote"},
-    {to_int(CommFlag::NoYell), "no_yell"},
-    {to_int(CommFlag::NoTell), "no_tell"},
-    {to_int(CommFlag::NoChannels), "no_channels"},
-    {to_int(CommFlag::NoAllege), "no_allege"},
-    {to_int(CommFlag::Affect), "affect"}
+    {CommFlag::Quiet, "quiet"},
+    {CommFlag::Deaf, "deaf"},
+    {CommFlag::NoWiz, "no_wiz"},
+    {CommFlag::NoAuction, "no_action"},
+    {CommFlag::NoGossip, "no_gossip"},
+    {CommFlag::NoQuestion, "no_question"},
+    {CommFlag::NoMusic, "no_music"},
+    {CommFlag::NoGratz, "no_gratz"},
+    {CommFlag::NoAnnounce, "no_allege"},
+    {CommFlag::NoPhilosophise, "no_philosophise"},
+    {CommFlag::NoQwest, "no_qwest"},
+    {CommFlag::Compact, "compact"},
+    {CommFlag::Brief, "brief"},
+    {CommFlag::Prompt, "prompt"},
+    {CommFlag::Combine, "combine"},
+    {CommFlag::ShowAfk, "show_afk"},
+    {CommFlag::ShowDefence, "show_def"},
+    {CommFlag::NoEmote, "no_emote"},
+    {CommFlag::NoYell, "no_yell"},
+    {CommFlag::NoTell, "no_tell"},
+    {CommFlag::NoChannels, "no_channels"},
+    {CommFlag::NoAllege, "no_allege"},
+    {CommFlag::Affect, "affect"}
     // clang-format on
 }};
 

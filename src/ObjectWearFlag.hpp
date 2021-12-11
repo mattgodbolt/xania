@@ -37,25 +37,25 @@ enum class ObjectWearFlag : unsigned int {
 namespace ObjectWearFlags {
 
 constexpr auto NumWearFlags = 17;
-constexpr std::array<Flag, NumWearFlags> AllObjectWearFlags = {{
+constexpr std::array<Flag<ObjectWearFlag>, NumWearFlags> AllObjectWearFlags = {{
     // clang-format off
-    {to_int(ObjectWearFlag::Take), "take"},
-    {to_int(ObjectWearFlag::Finger), "finger"},
-    {to_int(ObjectWearFlag::Neck), "neck"},
-    {to_int(ObjectWearFlag::Body), "body"},
-    {to_int(ObjectWearFlag::Head), "head"},
-    {to_int(ObjectWearFlag::Legs), "legs"},
-    {to_int(ObjectWearFlag::Feet), "feet"},
-    {to_int(ObjectWearFlag::Hands), "hands"},
-    {to_int(ObjectWearFlag::Arms), "arms"},
-    {to_int(ObjectWearFlag::Shield), "shield"},
-    {to_int(ObjectWearFlag::About), "about"},
-    {to_int(ObjectWearFlag::Waist), "waist"},
-    {to_int(ObjectWearFlag::Wrist), "wrist"},
-    {to_int(ObjectWearFlag::Wield), "wield"},
-    {to_int(ObjectWearFlag::Hold), "hold"},
-    {to_int(ObjectWearFlag::TwoHands), "twohands"},
-    {to_int(ObjectWearFlag::Ears), "ears"},
+    {ObjectWearFlag::Take, "take"},
+    {ObjectWearFlag::Finger, "finger"},
+    {ObjectWearFlag::Neck, "neck"},
+    {ObjectWearFlag::Body, "body"},
+    {ObjectWearFlag::Head, "head"},
+    {ObjectWearFlag::Legs, "legs"},
+    {ObjectWearFlag::Feet, "feet"},
+    {ObjectWearFlag::Hands, "hands"},
+    {ObjectWearFlag::Arms, "arms"},
+    {ObjectWearFlag::Shield, "shield"},
+    {ObjectWearFlag::About, "about"},
+    {ObjectWearFlag::Waist, "waist"},
+    {ObjectWearFlag::Wrist, "wrist"},
+    {ObjectWearFlag::Wield, "wield"},
+    {ObjectWearFlag::Hold, "hold"},
+    {ObjectWearFlag::TwoHands, "twohands"},
+    {ObjectWearFlag::Ears, "ears"}
     // clang-format on
 }};
 

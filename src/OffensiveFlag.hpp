@@ -43,31 +43,31 @@ enum class OffensiveFlag {
 namespace OffensiveFlags {
 
 constexpr auto NumOffensiveFlags = 23;
-constexpr std::array<Flag, NumOffensiveFlags> AllOffensiveFlags = {{
+constexpr std::array<Flag<OffensiveFlag>, NumOffensiveFlags> AllOffensiveFlags = {{
     // clang-format off
-    {to_int(OffensiveFlag::AreaAttack), "area_attack"},
-    {to_int(OffensiveFlag::Backstab), "backstab"},
-    {to_int(OffensiveFlag::Bash), "bash"},
-    {to_int(OffensiveFlag::Berserk), "berserk"},
-    {to_int(OffensiveFlag::Disarm), "disarm"},
-    {to_int(OffensiveFlag::Dodge), "dodge"},
-    {to_int(OffensiveFlag::Fade), "fade"},
-    {to_int(OffensiveFlag::Fast), "fast"},
-    {to_int(OffensiveFlag::Slow), "slow"},
-    {to_int(OffensiveFlag::Kick), "kick"},
-    {to_int(OffensiveFlag::KickDirt), "kick_dirt"},
-    {to_int(OffensiveFlag::Parry), "parry"},
-    {to_int(OffensiveFlag::Rescue), "rescue"},
-    {to_int(OffensiveFlag::Tail), "tail"},
-    {to_int(OffensiveFlag::Trip), "trip"},
-    {to_int(OffensiveFlag::Crush), "crush"},
-    {to_int(OffensiveFlag::AssistAll), "assist_all"},
-    {to_int(OffensiveFlag::AssistAlign), "assist_align"},
-    {to_int(OffensiveFlag::AssistRace), "assist_race"},
-    {to_int(OffensiveFlag::AssistPlayers), "assist_players"},
-    {to_int(OffensiveFlag::AssistGuard), "assist_guard"},
-    {to_int(OffensiveFlag::AssistVnum), "assist_vnum"},
-    {to_int(OffensiveFlag::Headbutt), "headbutt"}
+    {OffensiveFlag::AreaAttack, "area_attack"},
+    {OffensiveFlag::Backstab, "backstab"},
+    {OffensiveFlag::Bash, "bash"},
+    {OffensiveFlag::Berserk, "berserk"},
+    {OffensiveFlag::Disarm, "disarm"},
+    {OffensiveFlag::Dodge, "dodge"},
+    {OffensiveFlag::Fade, "fade"},
+    {OffensiveFlag::Fast, "fast"},
+    {OffensiveFlag::Slow, "slow"},
+    {OffensiveFlag::Kick, "kick"},
+    {OffensiveFlag::KickDirt, "kick_dirt"},
+    {OffensiveFlag::Parry, "parry"},
+    {OffensiveFlag::Rescue, "rescue"},
+    {OffensiveFlag::Tail, "tail"},
+    {OffensiveFlag::Trip, "trip"},
+    {OffensiveFlag::Crush, "crush"},
+    {OffensiveFlag::AssistAll, "assist_all"},
+    {OffensiveFlag::AssistAlign, "assist_align"},
+    {OffensiveFlag::AssistRace, "assist_race"},
+    {OffensiveFlag::AssistPlayers, "assist_players"},
+    {OffensiveFlag::AssistGuard, "assist_guard"},
+    {OffensiveFlag::AssistVnum, "assist_vnum"},
+    {OffensiveFlag::Headbutt, "headbutt"}
     // clang-format on
 }};
 

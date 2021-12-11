@@ -48,29 +48,29 @@ enum class PlayerActFlag : unsigned long {
 namespace PlayerActFlags {
 
 constexpr auto NumPlayerActFlags = 21;
-constexpr std::array<Flag, NumPlayerActFlags> AllPlayerActFlags = {{
+constexpr std::array<Flag<PlayerActFlag>, NumPlayerActFlags> AllPlayerActFlags = {{
     // clang-format off
-    {to_int(PlayerActFlag::PlrNpc), "npc"}, // Only set for NPCs
-    {to_int(PlayerActFlag::PlrBoughtPet), "owner"},
-    {to_int(PlayerActFlag::PlrAutoAssist), "autoassist"},
-    {to_int(PlayerActFlag::PlrAutoExit), "autoexit"},
-    {to_int(PlayerActFlag::PlrAutoLoot), "autoloot"},
-    {to_int(PlayerActFlag::PlrAutoSac), "autosac"},
-    {to_int(PlayerActFlag::PlrAutoGold), "autogold"},
-    {to_int(PlayerActFlag::PlrAutoSplit), "autosplit"},
-    {to_int(PlayerActFlag::PlrHolyLight), "holy_light"},
-    {to_int(PlayerActFlag::PlrWizInvis), "wizinvis"},
-    {to_int(PlayerActFlag::PlrCanLoot), "loot_corpse"},
-    {to_int(PlayerActFlag::PlrNoSummon), "no_summon"},
-    {to_int(PlayerActFlag::PlrNoFollow), "no_follow"},
-    {to_int(PlayerActFlag::PlrAfk), "afk"},
-    {to_int(PlayerActFlag::PlrLog), "log"},
-    {to_int(PlayerActFlag::PlrDeny), "deny"},
-    {to_int(PlayerActFlag::PlrFreeze), "freeze"},
-    {to_int(PlayerActFlag::PlrThief), "thief"},
-    {to_int(PlayerActFlag::PlrKiller), "killer"},
-    {to_int(PlayerActFlag::PlrAutoPeek), "autopeek"},
-    {to_int(PlayerActFlag::PlrProwl), "prowl"}
+    {PlayerActFlag::PlrNpc, "npc"}, // Only set for NPCs
+    {PlayerActFlag::PlrBoughtPet, "owner"},
+    {PlayerActFlag::PlrAutoAssist, "autoassist"},
+    {PlayerActFlag::PlrAutoExit, "autoexit"},
+    {PlayerActFlag::PlrAutoLoot, "autoloot"},
+    {PlayerActFlag::PlrAutoSac, "autosac"},
+    {PlayerActFlag::PlrAutoGold, "autogold"},
+    {PlayerActFlag::PlrAutoSplit, "autosplit"},
+    {PlayerActFlag::PlrHolyLight, "holy_light"},
+    {PlayerActFlag::PlrWizInvis, "wizinvis"},
+    {PlayerActFlag::PlrCanLoot, "loot_corpse"},
+    {PlayerActFlag::PlrNoSummon, "no_summon"},
+    {PlayerActFlag::PlrNoFollow, "no_follow"},
+    {PlayerActFlag::PlrAfk, "afk"},
+    {PlayerActFlag::PlrLog, "log"},
+    {PlayerActFlag::PlrDeny, "deny"},
+    {PlayerActFlag::PlrFreeze, "freeze"},
+    {PlayerActFlag::PlrThief, "thief"},
+    {PlayerActFlag::PlrKiller, "killer"},
+    {PlayerActFlag::PlrAutoPeek, "autopeek"},
+    {PlayerActFlag::PlrProwl, "prowl"}
     // clang-format on
 }};
 

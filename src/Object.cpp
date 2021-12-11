@@ -4,6 +4,8 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Object.hpp"
+#include "Char.hpp"
+#include "FlagFormat.hpp"
 #include "ObjectExtraFlag.hpp"
 #include "ObjectType.hpp"
 #include "ObjectWearFlag.hpp"

@@ -12,9 +12,11 @@
 // See FlagFormat.hpp for the flag serialization & formatting routines.
 
 // Properties of an individual status bit. Used by Char, Room, Object and other things.
+template <typename FlagEnum>
 struct Flag {
-    constexpr Flag(const unsigned flag_bit, std::string_view flag_name, const sh_int minimum_level = 0)
-        : bit(flag_bit), name(flag_name), min_level(minimum_level) {}
+    constexpr Flag(const FlagEnum flag_enum, std::string_view flag_name, const sh_int minimum_level = 0)
+        : enum_value(flag_enum), bit(to_int(flag_enum)), name(flag_name), min_level(minimum_level) {}
+    const FlagEnum enum_value;
     const unsigned int bit;
     std::string_view name;
     const sh_int min_level;

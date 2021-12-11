@@ -45,31 +45,31 @@ enum class ToleranceFlag : unsigned long {
 namespace ToleranceFlags {
 
 constexpr auto NumToleranceFlags = 23;
-constexpr std::array<Flag, NumToleranceFlags> AllToleranceFlags = {{
+constexpr std::array<Flag<ToleranceFlag>, NumToleranceFlags> AllToleranceFlags = {{
     // clang-format off
-    {to_int(ToleranceFlag::None), "none"},
-    {to_int(ToleranceFlag::Summon), "summon"},
-    {to_int(ToleranceFlag::Charm), "charm"},
-    {to_int(ToleranceFlag::Magic), "magic"},
-    {to_int(ToleranceFlag::Weapon), "weapon"},
-    {to_int(ToleranceFlag::Bash), "bash"},
-    {to_int(ToleranceFlag::Pierce), "pierce"},
-    {to_int(ToleranceFlag::Slash), "slash"},
-    {to_int(ToleranceFlag::Fire), "fire"},
-    {to_int(ToleranceFlag::Cold), "cold"},
-    {to_int(ToleranceFlag::Lightning), "lightning"},
-    {to_int(ToleranceFlag::Acid), "acid"},
-    {to_int(ToleranceFlag::Poison), "poison"},
-    {to_int(ToleranceFlag::Negative), "negative"},
-    {to_int(ToleranceFlag::Holy), "holy"},
-    {to_int(ToleranceFlag::Energy), "energy"},
-    {to_int(ToleranceFlag::Mental), "mental"},
-    {to_int(ToleranceFlag::Disease), "disease"},
-    {to_int(ToleranceFlag::Drowning), "drowning"},
-    {to_int(ToleranceFlag::Light), "light"},
-    {to_int(ToleranceFlag::Wood), "wood"},
-    {to_int(ToleranceFlag::Silver), "silver"},
-    {to_int(ToleranceFlag::Iron), "iron"}
+    {ToleranceFlag::None, "none"},
+    {ToleranceFlag::Summon, "summon"},
+    {ToleranceFlag::Charm, "charm"},
+    {ToleranceFlag::Magic, "magic"},
+    {ToleranceFlag::Weapon, "weapon"},
+    {ToleranceFlag::Bash, "bash"},
+    {ToleranceFlag::Pierce, "pierce"},
+    {ToleranceFlag::Slash, "slash"},
+    {ToleranceFlag::Fire, "fire"},
+    {ToleranceFlag::Cold, "cold"},
+    {ToleranceFlag::Lightning, "lightning"},
+    {ToleranceFlag::Acid, "acid"},
+    {ToleranceFlag::Poison, "poison"},
+    {ToleranceFlag::Negative, "negative"},
+    {ToleranceFlag::Holy, "holy"},
+    {ToleranceFlag::Energy, "energy"},
+    {ToleranceFlag::Mental, "mental"},
+    {ToleranceFlag::Disease, "disease"},
+    {ToleranceFlag::Drowning, "drowning"},
+    {ToleranceFlag::Light, "light"},
+    {ToleranceFlag::Wood, "wood"},
+    {ToleranceFlag::Silver, "silver"},
+    {ToleranceFlag::Iron, "iron"}
     // clang-format on
 }};
 

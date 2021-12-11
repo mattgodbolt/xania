@@ -16,6 +16,31 @@
 
 #include <catch2/catch.hpp>
 
+namespace {
+
+enum class TestFlag {
+    Flag1 = A,
+    Flag2 = B,
+    Flag3 = C
+};
+
+// TODO this may be moving into Flag 
+constexpr auto to_int(const TestFlag flag) noexcept {
+    return magic_enum::enum_integer<TestFlag>(flag);
+}
+
+const Flag<TestFlag> Flag1{TestFlag::Flag1, "flag1"};
+const Flag<TestFlag> Flag2{TestFlag::Flag2, "flag2"};
+const Flag<TestFlag> Flag3{TestFlag::Flag3, "flag3", 100};
+
+const std::array<Flag<TestFlag>, 3> AllTestFlags = {{
+    Flag1,
+    Flag2,
+    Flag3
+}};
+
+}
+
 TEST_CASE("serialize flags") {
     SECTION("no flags set") {
         const auto result = serialize_flags(0);
@@ -41,21 +66,41 @@ TEST_CASE("serialize flags") {
 }
 
 TEST_CASE("get flag bit by name") {
-    std::array<Flag, 3> flags = {{{A, "first"}, {B, "second"}, {C, "third", 100}}};
     SECTION("first") {
-        auto result = get_flag_bit_by_name(flags, "first", 1);
+        auto result = get_flag_bit_by_name(AllTestFlags, "flag1", 1);
 
         CHECK(result == A);
     }
     SECTION("second") {
-        auto result = get_flag_bit_by_name(flags, "second", 1);
+        auto result = get_flag_bit_by_name(AllTestFlags, "flag2", 1);
 
         CHECK(result == B);
     }
     SECTION("third not found due to trust") {
-        auto result = get_flag_bit_by_name(flags, "third", 99);
+        auto result = get_flag_bit_by_name(AllTestFlags, "flag3", 99);
 
         CHECK(!result);
+    }
+}
+
+TEST_CASE("Flag type") {
+    SECTION("flag1 members") {
+        CHECK(Flag1.bit == 1);
+        CHECK(Flag1.enum_value == TestFlag::Flag1);
+        CHECK(Flag1.min_level == 0);
+        CHECK(Flag1.name == "flag1");
+    }
+    SECTION("flag2 members") {
+        CHECK(Flag2.bit == 2);
+        CHECK(Flag2.enum_value == TestFlag::Flag2);
+        CHECK(Flag2.min_level == 0);
+        CHECK(Flag2.name == "flag2");
+    }
+    SECTION("flag3 members") {
+        CHECK(Flag3.bit == 4);
+        CHECK(Flag3.enum_value == TestFlag::Flag3);
+        CHECK(Flag3.min_level == 100);
+        CHECK(Flag3.name == "flag3");
     }
 }
 
@@ -66,51 +111,50 @@ TEST_CASE("flag set") {
     admin_desc.character(&admin);
     admin.pcdata = std::make_unique<PcData>();
     admin.level = 99;
-    std::array<Flag, 3> flags = {{{A, "first"}, {B, "second"}, {C, "third", 100}}};
     unsigned long current_val = 0;
-    SECTION("first toggled on") {
-        auto args = ArgParser("first");
-        auto result = flag_set(flags, args, current_val, &admin);
+    SECTION("flag1 toggled on") {
+        auto args = ArgParser("flag1");
+        auto result = flag_set(AllTestFlags, args, current_val, &admin);
 
         CHECK(check_bit(result, A));
-        CHECK(admin_desc.buffered_output() == "\n\rfirst\n\r");
+        CHECK(admin_desc.buffered_output() == "\n\rflag1\n\r");
     }
-    SECTION("first toggled") {
+    SECTION("flag1 toggled") {
         set_bit(current_val, A);
-        auto args = ArgParser("first");
-        auto result = flag_set(flags, args, current_val, &admin);
+        auto args = ArgParser("flag1");
+        auto result = flag_set(AllTestFlags, args, current_val, &admin);
 
         CHECK(!check_bit(result, A));
         CHECK(admin_desc.buffered_output() == "\n\rnone\n\r");
     }
-    SECTION("first set on") {
-        auto args = ArgParser("+first");
-        auto result = flag_set(flags, args, current_val, &admin);
+    SECTION("flag1 set on") {
+        auto args = ArgParser("+flag1");
+        auto result = flag_set(AllTestFlags, args, current_val, &admin);
 
         CHECK(check_bit(result, A));
-        CHECK(admin_desc.buffered_output() == "\n\rfirst\n\r");
+        CHECK(admin_desc.buffered_output() == "\n\rflag1\n\r");
     }
-    SECTION("first set off") {
+    SECTION("flag1 set off") {
         set_bit(current_val, A);
-        auto args = ArgParser("-first");
-        auto result = flag_set(flags, args, current_val, &admin);
+        auto args = ArgParser("-flag1");
+        auto result = flag_set(AllTestFlags, args, current_val, &admin);
 
         CHECK(!check_bit(result, A));
         CHECK(admin_desc.buffered_output() == "\n\rnone\n\r");
     }
     SECTION("unrecognized flag name") {
-        auto args = ArgParser("zero");
-        auto result = flag_set(flags, args, current_val, &admin);
+        auto args = ArgParser("flag0");
+        auto result = flag_set(AllTestFlags, args, current_val, &admin);
 
         CHECK(result == 0);
-        CHECK(admin_desc.buffered_output() == "\n\rnone\n\rAvailable flags:\n\rfirst second\n\r");
+        CHECK(admin_desc.buffered_output() == "\n\rnone\n\rAvailable flags:\n\rflag1 flag2\n\r");
     }
     SECTION("insufficient trust for flag") {
-        auto args = ArgParser("third");
-        auto result = flag_set(flags, args, current_val, &admin);
+        auto args = ArgParser("flag3");
+        auto result = flag_set(AllTestFlags, args, current_val, &admin);
 
         CHECK(result == 0);
-        CHECK(admin_desc.buffered_output() == "\n\rnone\n\rAvailable flags:\n\rfirst second\n\r");
+        CHECK(admin_desc.buffered_output() == "\n\rnone\n\rAvailable flags:\n\rflag1 flag2\n\r");
     }
 }
 // See CharTest for similar coverage of ToleranceFlag, PlayerActFlag, CharActFlag, MorphologyFlag,

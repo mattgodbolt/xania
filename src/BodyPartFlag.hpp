@@ -42,30 +42,30 @@ enum class BodyPartFlag : unsigned long {
 namespace BodyPartFlags {
 
 const inline auto NumBodyParts = 22;
-constexpr std::array<Flag, NumBodyParts> AllBodyPartFlags = {{
+constexpr std::array<Flag<BodyPartFlag>, NumBodyParts> AllBodyPartFlags = {{
     // clang-format off
-    {to_int(BodyPartFlag::Head), "head"},
-    {to_int(BodyPartFlag::Arms), "arms"},
-    {to_int(BodyPartFlag::Legs), "legs"},
-    {to_int(BodyPartFlag::Heart), "heart"},
-    {to_int(BodyPartFlag::Brains), "brains"},
-    {to_int(BodyPartFlag::Guts), "guts"},
-    {to_int(BodyPartFlag::Hands), "hands"},
-    {to_int(BodyPartFlag::Feet), "feet"},
-    {to_int(BodyPartFlag::Fingers), "fingers"},
-    {to_int(BodyPartFlag::Ear), "ears"},
-    {to_int(BodyPartFlag::Eye), "eyes"},
-    {to_int(BodyPartFlag::LongTongue), "long_tongue"},
-    {to_int(BodyPartFlag::EyeStalks), "eyestalks"},
-    {to_int(BodyPartFlag::Tentacles), "tentacles"},
-    {to_int(BodyPartFlag::Fins), "fins"},
-    {to_int(BodyPartFlag::Wings), "wings"},
-    {to_int(BodyPartFlag::Tail), "tail"},
-    {to_int(BodyPartFlag::Claws), "claws"},
-    {to_int(BodyPartFlag::Fangs), "fangs"},
-    {to_int(BodyPartFlag::Horns), "horns"},
-    {to_int(BodyPartFlag::Scales), "scales"},
-    {to_int(BodyPartFlag::Tusks), "tusks"}
+    {BodyPartFlag::Head, "head"},
+    {BodyPartFlag::Arms, "arms"},
+    {BodyPartFlag::Legs, "legs"},
+    {BodyPartFlag::Heart, "heart"},
+    {BodyPartFlag::Brains, "brains"},
+    {BodyPartFlag::Guts, "guts"},
+    {BodyPartFlag::Hands, "hands"},
+    {BodyPartFlag::Feet, "feet"},
+    {BodyPartFlag::Fingers, "fingers"},
+    {BodyPartFlag::Ear, "ears"},
+    {BodyPartFlag::Eye, "eyes"},
+    {BodyPartFlag::LongTongue, "long_tongue"},
+    {BodyPartFlag::EyeStalks, "eyestalks"},
+    {BodyPartFlag::Tentacles, "tentacles"},
+    {BodyPartFlag::Fins, "fins"},
+    {BodyPartFlag::Wings, "wings"},
+    {BodyPartFlag::Tail, "tail"},
+    {BodyPartFlag::Claws, "claws"},
+    {BodyPartFlag::Fangs, "fangs"},
+    {BodyPartFlag::Horns, "horns"},
+    {BodyPartFlag::Scales, "scales"},
+    {BodyPartFlag::Tusks, "tusks"}
     // clang-format on
 }};
 

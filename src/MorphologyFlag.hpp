@@ -47,34 +47,34 @@ enum class MorphologyFlag : unsigned long {
 namespace MorphologyFlags {
 
 constexpr auto NumMorphologyFlags = 26;
-constexpr std::array<Flag, NumMorphologyFlags> AllMorphologyFlags = {{
+constexpr std::array<Flag<MorphologyFlag>, NumMorphologyFlags> AllMorphologyFlags = {{
     // clang-format off
-    {to_int(MorphologyFlag::Edible), "edible"},
-    {to_int(MorphologyFlag::Poison), "poison"},
-    {to_int(MorphologyFlag::Magical), "magical"},
-    {to_int(MorphologyFlag::InstantDecay), "instant_rot"},
-    {to_int(MorphologyFlag::Other), "other"},
-    {to_int(MorphologyFlag::Animal), "animal"},
-    {to_int(MorphologyFlag::Sentient), "sentient"},
-    {to_int(MorphologyFlag::Undead), "undead"},
-    {to_int(MorphologyFlag::Construct), "construct"},
-    {to_int(MorphologyFlag::Mist), "mist"},
-    {to_int(MorphologyFlag::Intangible), "intangible"},
-    {to_int(MorphologyFlag::Biped), "biped"},
-    {to_int(MorphologyFlag::Centaur), "centaur"},
-    {to_int(MorphologyFlag::Insect), "insect"},
-    {to_int(MorphologyFlag::Spider), "spider"},
-    {to_int(MorphologyFlag::Crustacean), "crustacean"},
-    {to_int(MorphologyFlag::Worm), "worm"},
-    {to_int(MorphologyFlag::Blob), "blob"},
-    {to_int(MorphologyFlag::Mammal), "mammal"},
-    {to_int(MorphologyFlag::Bird), "bird"},
-    {to_int(MorphologyFlag::Reptile), "reptile"},
-    {to_int(MorphologyFlag::Snake), "snake"},
-    {to_int(MorphologyFlag::Dragon), "dragon"},
-    {to_int(MorphologyFlag::Amphibian), "amphibian"},
-    {to_int(MorphologyFlag::Fish), "fish"},
-    {to_int(MorphologyFlag::ColdBlood), "cold_blooded"}
+    {MorphologyFlag::Edible, "edible"},
+    {MorphologyFlag::Poison, "poison"},
+    {MorphologyFlag::Magical, "magical"},
+    {MorphologyFlag::InstantDecay, "instant_rot"},
+    {MorphologyFlag::Other, "other"},
+    {MorphologyFlag::Animal, "animal"},
+    {MorphologyFlag::Sentient, "sentient"},
+    {MorphologyFlag::Undead, "undead"},
+    {MorphologyFlag::Construct, "construct"},
+    {MorphologyFlag::Mist, "mist"},
+    {MorphologyFlag::Intangible, "intangible"},
+    {MorphologyFlag::Biped, "biped"},
+    {MorphologyFlag::Centaur, "centaur"},
+    {MorphologyFlag::Insect, "insect"},
+    {MorphologyFlag::Spider, "spider"},
+    {MorphologyFlag::Crustacean, "crustacean"},
+    {MorphologyFlag::Worm, "worm"},
+    {MorphologyFlag::Blob, "blob"},
+    {MorphologyFlag::Mammal, "mammal"},
+    {MorphologyFlag::Bird, "bird"},
+    {MorphologyFlag::Reptile, "reptile"},
+    {MorphologyFlag::Snake, "snake"},
+    {MorphologyFlag::Dragon, "dragon"},
+    {MorphologyFlag::Amphibian, "amphibian"},
+    {MorphologyFlag::Fish, "fish"},
+    {MorphologyFlag::ColdBlood, "cold_blooded"}
     // clang-format on
 }};
 
