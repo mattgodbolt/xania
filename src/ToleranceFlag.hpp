@@ -44,33 +44,34 @@ enum class ToleranceFlag : unsigned long {
 
 namespace ToleranceFlags {
 
+using TF = Flag<ToleranceFlag>;
+constexpr auto None = TF{ToleranceFlag::None, "none"};
+constexpr auto Summon = TF{ToleranceFlag::Summon, "summon"};
+constexpr auto Charm = TF{ToleranceFlag::Charm, "charm"};
+constexpr auto Magic = TF{ToleranceFlag::Magic, "magic"};
+constexpr auto Weapon = TF{ToleranceFlag::Weapon, "weapon"};
+constexpr auto Bash = TF{ToleranceFlag::Bash, "bash"};
+constexpr auto Pierce = TF{ToleranceFlag::Pierce, "pierce"};
+constexpr auto Slash = TF{ToleranceFlag::Slash, "slash"};
+constexpr auto Fire = TF{ToleranceFlag::Fire, "fire"};
+constexpr auto Cold = TF{ToleranceFlag::Cold, "cold"};
+constexpr auto Lightning = TF{ToleranceFlag::Lightning, "lightning"};
+constexpr auto Acid = TF{ToleranceFlag::Acid, "acid"};
+constexpr auto Poison = TF{ToleranceFlag::Poison, "poison"};
+constexpr auto Negative = TF{ToleranceFlag::Negative, "negative"};
+constexpr auto Holy = TF{ToleranceFlag::Holy, "holy"};
+constexpr auto Energy = TF{ToleranceFlag::Energy, "energy"};
+constexpr auto Mental = TF{ToleranceFlag::Mental, "mental"};
+constexpr auto Disease = TF{ToleranceFlag::Disease, "disease"};
+constexpr auto Drowning = TF{ToleranceFlag::Drowning, "drowning"};
+constexpr auto Light = TF{ToleranceFlag::Light, "light"};
+constexpr auto Wood = TF{ToleranceFlag::Wood, "wood"};
+constexpr auto Silver = TF{ToleranceFlag::Silver, "silver"};
+constexpr auto Iron = TF{ToleranceFlag::Iron, "iron"};
+
 constexpr auto NumToleranceFlags = 23;
-constexpr std::array<Flag<ToleranceFlag>, NumToleranceFlags> AllToleranceFlags = {{
-    // clang-format off
-    {ToleranceFlag::None, "none"},
-    {ToleranceFlag::Summon, "summon"},
-    {ToleranceFlag::Charm, "charm"},
-    {ToleranceFlag::Magic, "magic"},
-    {ToleranceFlag::Weapon, "weapon"},
-    {ToleranceFlag::Bash, "bash"},
-    {ToleranceFlag::Pierce, "pierce"},
-    {ToleranceFlag::Slash, "slash"},
-    {ToleranceFlag::Fire, "fire"},
-    {ToleranceFlag::Cold, "cold"},
-    {ToleranceFlag::Lightning, "lightning"},
-    {ToleranceFlag::Acid, "acid"},
-    {ToleranceFlag::Poison, "poison"},
-    {ToleranceFlag::Negative, "negative"},
-    {ToleranceFlag::Holy, "holy"},
-    {ToleranceFlag::Energy, "energy"},
-    {ToleranceFlag::Mental, "mental"},
-    {ToleranceFlag::Disease, "disease"},
-    {ToleranceFlag::Drowning, "drowning"},
-    {ToleranceFlag::Light, "light"},
-    {ToleranceFlag::Wood, "wood"},
-    {ToleranceFlag::Silver, "silver"},
-    {ToleranceFlag::Iron, "iron"}
-    // clang-format on
-}};
+constexpr std::array<TF, NumToleranceFlags> AllToleranceFlags = {
+    {None,   Summon,   Charm, Magic,  Weapon, Bash,    Pierce,   Slash, Fire, Cold,   Lightning, Acid,
+     Poison, Negative, Holy,  Energy, Mental, Disease, Drowning, Light, Wood, Silver, Iron}};
 
 }

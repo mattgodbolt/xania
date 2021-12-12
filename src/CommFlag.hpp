@@ -43,33 +43,35 @@ enum class CommFlag : unsigned long {
 
 namespace CommFlags {
 
+using CF = Flag<CommFlag>;
+constexpr auto Quiet = CF{CommFlag::Quiet, "quiet"};
+constexpr auto Deaf = CF{CommFlag::Deaf, "deaf"};
+constexpr auto NoWiz = CF{CommFlag::NoWiz, "no_wiz"};
+constexpr auto NoAuction = CF{CommFlag::NoAuction, "no_action"};
+constexpr auto NoGossip = CF{CommFlag::NoGossip, "no_gossip"};
+constexpr auto NoQuestion = CF{CommFlag::NoQuestion, "no_question"};
+constexpr auto NoMusic = CF{CommFlag::NoMusic, "no_music"};
+constexpr auto NoGratz = CF{CommFlag::NoGratz, "no_gratz"};
+constexpr auto NoAnnounce = CF{CommFlag::NoAnnounce, "no_allege"};
+constexpr auto NoPhilosophise = CF{CommFlag::NoPhilosophise, "no_philosophise"};
+constexpr auto NoQwest = CF{CommFlag::NoQwest, "no_qwest"};
+constexpr auto Compact = CF{CommFlag::Compact, "compact"};
+constexpr auto Brief = CF{CommFlag::Brief, "brief"};
+constexpr auto Prompt = CF{CommFlag::Prompt, "prompt"};
+constexpr auto Combine = CF{CommFlag::Combine, "combine"};
+constexpr auto ShowAfk = CF{CommFlag::ShowAfk, "show_afk"};
+constexpr auto ShowDefence = CF{CommFlag::ShowDefence, "show_def"};
+constexpr auto NoEmote = CF{CommFlag::NoEmote, "no_emote"};
+constexpr auto NoYell = CF{CommFlag::NoYell, "no_yell"};
+constexpr auto NoTell = CF{CommFlag::NoTell, "no_tell"};
+constexpr auto NoChannels = CF{CommFlag::NoChannels, "no_channels"};
+constexpr auto NoAllege = CF{CommFlag::NoAllege, "no_allege"};
+constexpr auto Affect = CF{CommFlag::Affect, "affect"};
+
 constexpr auto NumCommFlags = 23;
-constexpr std::array<Flag<CommFlag>, NumCommFlags> AllCommFlags = {{
-    // clang-format off
-    {CommFlag::Quiet, "quiet"},
-    {CommFlag::Deaf, "deaf"},
-    {CommFlag::NoWiz, "no_wiz"},
-    {CommFlag::NoAuction, "no_action"},
-    {CommFlag::NoGossip, "no_gossip"},
-    {CommFlag::NoQuestion, "no_question"},
-    {CommFlag::NoMusic, "no_music"},
-    {CommFlag::NoGratz, "no_gratz"},
-    {CommFlag::NoAnnounce, "no_allege"},
-    {CommFlag::NoPhilosophise, "no_philosophise"},
-    {CommFlag::NoQwest, "no_qwest"},
-    {CommFlag::Compact, "compact"},
-    {CommFlag::Brief, "brief"},
-    {CommFlag::Prompt, "prompt"},
-    {CommFlag::Combine, "combine"},
-    {CommFlag::ShowAfk, "show_afk"},
-    {CommFlag::ShowDefence, "show_def"},
-    {CommFlag::NoEmote, "no_emote"},
-    {CommFlag::NoYell, "no_yell"},
-    {CommFlag::NoTell, "no_tell"},
-    {CommFlag::NoChannels, "no_channels"},
-    {CommFlag::NoAllege, "no_allege"},
-    {CommFlag::Affect, "affect"}
-    // clang-format on
-}};
+constexpr std::array<Flag<CommFlag>, NumCommFlags> AllCommFlags = {
+    {Quiet,       Deaf,           NoWiz,   NoAuction, NoGossip,   NoQuestion, NoMusic, NoGratz,
+     NoAnnounce,  NoPhilosophise, NoQwest, Compact,   Brief,      Prompt,     Combine, ShowAfk,
+     ShowDefence, NoEmote,        NoYell,  NoTell,    NoChannels, NoAllege,   Affect}};
 
 }

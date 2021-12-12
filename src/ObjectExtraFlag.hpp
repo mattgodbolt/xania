@@ -40,31 +40,33 @@ enum class ObjectExtraFlag : unsigned int {
 
 namespace ObjectExtraFlags {
 
+using OF = Flag<ObjectExtraFlag>;
+constexpr auto Glow = OF{ObjectExtraFlag::Glow, "glow"};
+constexpr auto Hum = OF{ObjectExtraFlag::Hum, "hum"};
+constexpr auto Dark = OF{ObjectExtraFlag::Dark, "dark"};
+constexpr auto Lock = OF{ObjectExtraFlag::Lock, "lock"};
+constexpr auto Evil = OF{ObjectExtraFlag::Evil, "evil"};
+constexpr auto Invis = OF{ObjectExtraFlag::Invis, "invis"};
+constexpr auto Magic = OF{ObjectExtraFlag::Magic, "magic"};
+constexpr auto NoDrop = OF{ObjectExtraFlag::NoDrop, "nodrop"};
+constexpr auto Bless = OF{ObjectExtraFlag::Bless, "bless"};
+constexpr auto AntiGood = OF{ObjectExtraFlag::AntiGood, "antigood"};
+constexpr auto AntiEvil = OF{ObjectExtraFlag::AntiEvil, "antievil"};
+constexpr auto AntiNeutral = OF{ObjectExtraFlag::AntiNeutral, "antineutral"};
+constexpr auto NoRemove = OF{ObjectExtraFlag::NoRemove, "noremove"};
+constexpr auto Inventory = OF{ObjectExtraFlag::Inventory, "inventory"};
+constexpr auto NoPurge = OF{ObjectExtraFlag::NoPurge, "nopurge"};
+constexpr auto RotDeath = OF{ObjectExtraFlag::RotDeath, "rotdeath"};
+constexpr auto VisDeath = OF{ObjectExtraFlag::VisDeath, "visdeath"};
+constexpr auto ProtectContainer = OF{ObjectExtraFlag::ProtectContainer, "protected"};
+constexpr auto NoLocate = OF{ObjectExtraFlag::NoLocate, "nolocate"};
+constexpr auto SummonCorpse = OF{ObjectExtraFlag::SummonCorpse, "summon_corpse"};
+constexpr auto Unique = OF{ObjectExtraFlag::Unique, "unique"};
+
 constexpr auto NumObjectExtraFlags = 21;
-constexpr std::array<Flag<ObjectExtraFlag>, NumObjectExtraFlags> AllObjectExtraFlags = {{
-    // clang-format off
-    {ObjectExtraFlag::Glow, "glow"},
-    {ObjectExtraFlag::Hum, "hum"},
-    {ObjectExtraFlag::Dark, "dark"},
-    {ObjectExtraFlag::Lock, "lock"},
-    {ObjectExtraFlag::Evil, "evil"},
-    {ObjectExtraFlag::Invis, "invis"},
-    {ObjectExtraFlag::Magic, "magic"},
-    {ObjectExtraFlag::NoDrop, "nodrop"},
-    {ObjectExtraFlag::Bless, "bless"},
-    {ObjectExtraFlag::AntiGood, "antigood"},
-    {ObjectExtraFlag::AntiEvil, "antievil"},
-    {ObjectExtraFlag::AntiNeutral, "antineutral"},
-    {ObjectExtraFlag::NoRemove, "noremove"}, // Only weapons are meant to have this, it prevents disarm.
-    {ObjectExtraFlag::Inventory, "inventory"},
-    {ObjectExtraFlag::NoPurge, "nopurge"},
-    {ObjectExtraFlag::RotDeath, "rotdeath"},
-    {ObjectExtraFlag::VisDeath, "visdeath"},
-    {ObjectExtraFlag::ProtectContainer, "protected"},
-    {ObjectExtraFlag::NoLocate, "nolocate"},
-    {ObjectExtraFlag::SummonCorpse, "summon_corpse"},
-    {ObjectExtraFlag::Unique, "unique"}
-    // clang-format on
-}};
+constexpr std::array<OF, NumObjectExtraFlags> AllObjectExtraFlags = {
+    {Glow,     Hum,          Dark,        Lock,     Evil,      Invis,   Magic,    NoDrop,   Bless,
+     AntiGood, AntiEvil,     AntiNeutral, NoRemove, Inventory, NoPurge, RotDeath, VisDeath, ProtectContainer,
+     NoLocate, SummonCorpse, Unique}};
 
 }

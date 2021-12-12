@@ -30,20 +30,20 @@ enum class WeaponFlag : unsigned int {
 
 namespace WeaponFlags {
 
+using WF = Flag<WeaponFlag>;
+constexpr auto Flaming = WF{WeaponFlag::Flaming, "flaming"};
+constexpr auto Frost = WF{WeaponFlag::Frost, "frost"};
+constexpr auto Vampiric = WF{WeaponFlag::Vampiric, "vampiric"};
+constexpr auto Sharp = WF{WeaponFlag::Sharp, "sharp"};
+constexpr auto Vorpal = WF{WeaponFlag::Vorpal, "vorpal"};
+constexpr auto TwoHands = WF{WeaponFlag::TwoHands, "two-handed"};
+constexpr auto Poisoned = WF{WeaponFlag::Poisoned, "poisoned"};
+constexpr auto Plagued = WF{WeaponFlag::Plagued, "plagued"};
+constexpr auto Lightning = WF{WeaponFlag::Lightning, "lightning"};
+constexpr auto Acid = WF{WeaponFlag::Acid, "acid"};
+
 constexpr auto NumWeaponFlags = 10;
-constexpr std::array<Flag<WeaponFlag>, NumWeaponFlags> AllWeaponFlags = {{
-    // clang-format off
-    {WeaponFlag::Flaming, "flaming"},
-    {WeaponFlag::Frost, "frost"},
-    {WeaponFlag::Vampiric, "vampiric"},
-    {WeaponFlag::Sharp, "sharp"},
-    {WeaponFlag::Vorpal, "vorpal"},
-    {WeaponFlag::TwoHands, "two-handed"},
-    {WeaponFlag::Poisoned, "poisoned"},
-    {WeaponFlag::Plagued, "plagued"},
-    {WeaponFlag::Lightning, "lightning"},
-    {WeaponFlag::Acid, "acid"}
-    // clang-format on
-}};
+constexpr std::array<Flag<WeaponFlag>, NumWeaponFlags> AllWeaponFlags = {
+    {Flaming, Frost, Vampiric, Sharp, Vorpal, TwoHands, Poisoned, Plagued, Lightning, Acid}};
 
 }

@@ -42,33 +42,35 @@ enum class OffensiveFlag {
 
 namespace OffensiveFlags {
 
+using OF = Flag<OffensiveFlag>;
+constexpr auto AreaAttack = OF{OffensiveFlag::AreaAttack, "area_attack"};
+constexpr auto Backstab = OF{OffensiveFlag::Backstab, "backstab"};
+constexpr auto Bash = OF{OffensiveFlag::Bash, "bash"};
+constexpr auto Berserk = OF{OffensiveFlag::Berserk, "berserk"};
+constexpr auto Disarm = OF{OffensiveFlag::Disarm, "disarm"};
+constexpr auto Dodge = OF{OffensiveFlag::Dodge, "dodge"};
+constexpr auto Fade = OF{OffensiveFlag::Fade, "fade"};
+constexpr auto Fast = OF{OffensiveFlag::Fast, "fast"};
+constexpr auto Slow = OF{OffensiveFlag::Slow, "slow"};
+constexpr auto Kick = OF{OffensiveFlag::Kick, "kick"};
+constexpr auto KickDirt = OF{OffensiveFlag::KickDirt, "kick_dirt"};
+constexpr auto Parry = OF{OffensiveFlag::Parry, "parry"};
+constexpr auto Rescue = OF{OffensiveFlag::Rescue, "rescue"};
+constexpr auto Tail = OF{OffensiveFlag::Tail, "tail"};
+constexpr auto Trip = OF{OffensiveFlag::Trip, "trip"};
+constexpr auto Crush = OF{OffensiveFlag::Crush, "crush"};
+constexpr auto AssistAll = OF{OffensiveFlag::AssistAll, "assist_all"};
+constexpr auto AssistAlign = OF{OffensiveFlag::AssistAlign, "assist_align"};
+constexpr auto AssistRace = OF{OffensiveFlag::AssistRace, "assist_race"};
+constexpr auto AssistPlayers = OF{OffensiveFlag::AssistPlayers, "assist_players"};
+constexpr auto AssistGuard = OF{OffensiveFlag::AssistGuard, "assist_guard"};
+constexpr auto AssistVnum = OF{OffensiveFlag::AssistVnum, "assist_vnum"};
+constexpr auto Headbutt = OF{OffensiveFlag::Headbutt, "headbutt"};
+
 constexpr auto NumOffensiveFlags = 23;
-constexpr std::array<Flag<OffensiveFlag>, NumOffensiveFlags> AllOffensiveFlags = {{
-    // clang-format off
-    {OffensiveFlag::AreaAttack, "area_attack"},
-    {OffensiveFlag::Backstab, "backstab"},
-    {OffensiveFlag::Bash, "bash"},
-    {OffensiveFlag::Berserk, "berserk"},
-    {OffensiveFlag::Disarm, "disarm"},
-    {OffensiveFlag::Dodge, "dodge"},
-    {OffensiveFlag::Fade, "fade"},
-    {OffensiveFlag::Fast, "fast"},
-    {OffensiveFlag::Slow, "slow"},
-    {OffensiveFlag::Kick, "kick"},
-    {OffensiveFlag::KickDirt, "kick_dirt"},
-    {OffensiveFlag::Parry, "parry"},
-    {OffensiveFlag::Rescue, "rescue"},
-    {OffensiveFlag::Tail, "tail"},
-    {OffensiveFlag::Trip, "trip"},
-    {OffensiveFlag::Crush, "crush"},
-    {OffensiveFlag::AssistAll, "assist_all"},
-    {OffensiveFlag::AssistAlign, "assist_align"},
-    {OffensiveFlag::AssistRace, "assist_race"},
-    {OffensiveFlag::AssistPlayers, "assist_players"},
-    {OffensiveFlag::AssistGuard, "assist_guard"},
-    {OffensiveFlag::AssistVnum, "assist_vnum"},
-    {OffensiveFlag::Headbutt, "headbutt"}
-    // clang-format on
-}};
+constexpr std::array<OF, NumOffensiveFlags> AllOffensiveFlags = {
+    {AreaAttack, Backstab,    Bash,       Berserk,       Disarm,      Dodge,      Fade,    Fast,
+     Slow,       Kick,        KickDirt,   Parry,         Rescue,      Tail,       Trip,    Crush,
+     AssistAll,  AssistAlign, AssistRace, AssistPlayers, AssistGuard, AssistVnum, Headbutt}};
 
 }

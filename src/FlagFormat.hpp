@@ -40,25 +40,27 @@ std::string format_set_flags(const std::array<Flag<FlagEnum>, SIZE> &flags, cons
 // Returns a string containing the names of all flag bits that are set on current_val.
 template <std::size_t SIZE, typename FlagEnum, typename Bits>
 std::string format_set_flags(const std::array<Flag<FlagEnum>, SIZE> &flags, const Bits current_val) {
-    const auto flag_list = fmt::format("{}", fmt::join(flags | ranges::views::filter([&current_val](const auto &flag) {
-                                                           return check_bit(current_val, flag.bit);
-                                                       }) | ranges::views::transform([](const auto &flag) { return flag.name; }),
-                                                       " "));
+    const auto flag_list =
+        fmt::format("{}", fmt::join(flags | ranges::views::filter([&current_val](const auto &flag) {
+                                        return check_bit(current_val, flag.bit);
+                                    }) | ranges::views::transform([](const auto &flag) { return flag.name; }),
+                                    " "));
     return flag_list.empty() ? "none" : "|C" + flag_list + "|w";
 }
 
 template <std::size_t SIZE, typename FlagEnum>
 std::string format_available_flags(const std::array<Flag<FlagEnum>, SIZE> &flags, const Char *ch) {
-    const auto flag_list = fmt::format("{}", fmt::join(flags | ranges::views::filter([&ch](const auto &flag) {
-                                                           return ch->level >= flag.min_level;
-                                                       }) | ranges::views::transform([](const auto &flag) { return flag.name; }),
-                                                       " "));
+    const auto flag_list =
+        fmt::format("{}", fmt::join(flags | ranges::views::filter([&ch](const auto &flag) {
+                                        return ch->level >= flag.min_level;
+                                    }) | ranges::views::transform([](const auto &flag) { return flag.name; }),
+                                    " "));
     return flag_list.empty() ? "none" : "|C" + flag_list + "|w";
 }
 
 template <std::size_t SIZE, typename FlagEnum>
-std::optional<unsigned long> get_flag_bit_by_name(const std::array<Flag<FlagEnum>, SIZE> &flags, std::string_view requested_name,
-                                                  const sh_int trust_level) {
+std::optional<unsigned long> get_flag_bit_by_name(const std::array<Flag<FlagEnum>, SIZE> &flags,
+                                                  std::string_view requested_name, const sh_int trust_level) {
     if (auto it = ranges::find_if(flags,
                                   [&requested_name, &trust_level](const auto &flag) {
                                       return flag.name == requested_name && trust_level >= flag.min_level;
@@ -71,7 +73,8 @@ std::optional<unsigned long> get_flag_bit_by_name(const std::array<Flag<FlagEnum
 }
 
 template <std::size_t SIZE, typename FlagEnum, typename Bits>
-unsigned long flag_set(const std::array<Flag<FlagEnum>, SIZE> &flags, ArgParser args, const Bits current_val, Char *ch) {
+unsigned long flag_set(const std::array<Flag<FlagEnum>, SIZE> &flags, ArgParser args, const Bits current_val,
+                       Char *ch) {
     const auto show_usage = [&]() {
         ch->send_line(format_set_flags(flags, ch, current_val));
         ch->send_line("Available flags:");

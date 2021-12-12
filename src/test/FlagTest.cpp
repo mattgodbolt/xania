@@ -18,26 +18,16 @@
 
 namespace {
 
-enum class TestFlag {
-    Flag1 = A,
-    Flag2 = B,
-    Flag3 = C
-};
+enum class TestFlag { Flag1 = A, Flag2 = B, Flag3 = C };
 
-// TODO this may be moving into Flag 
-constexpr auto to_int(const TestFlag flag) noexcept {
-    return magic_enum::enum_integer<TestFlag>(flag);
-}
+// TODO this may be moving into Flag
+constexpr auto to_int(const TestFlag flag) noexcept { return magic_enum::enum_integer<TestFlag>(flag); }
 
 const Flag<TestFlag> Flag1{TestFlag::Flag1, "flag1"};
 const Flag<TestFlag> Flag2{TestFlag::Flag2, "flag2"};
 const Flag<TestFlag> Flag3{TestFlag::Flag3, "flag3", 100};
 
-const std::array<Flag<TestFlag>, 3> AllTestFlags = {{
-    Flag1,
-    Flag2,
-    Flag3
-}};
+const std::array<Flag<TestFlag>, 3> AllTestFlags = {{Flag1, Flag2, Flag3}};
 
 }
 

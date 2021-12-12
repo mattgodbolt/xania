@@ -41,32 +41,33 @@ enum class BodyPartFlag : unsigned long {
 
 namespace BodyPartFlags {
 
+using BF = Flag<BodyPartFlag>;
+constexpr auto Head = BF{BodyPartFlag::Head, "head"};
+constexpr auto Arms = BF{BodyPartFlag::Arms, "arms"};
+constexpr auto Legs = BF{BodyPartFlag::Legs, "legs"};
+constexpr auto Heart = BF{BodyPartFlag::Heart, "heart"};
+constexpr auto Brains = BF{BodyPartFlag::Brains, "brains"};
+constexpr auto Guts = BF{BodyPartFlag::Guts, "guts"};
+constexpr auto Hands = BF{BodyPartFlag::Hands, "hands"};
+constexpr auto Feet = BF{BodyPartFlag::Feet, "feet"};
+constexpr auto Fingers = BF{BodyPartFlag::Fingers, "fingers"};
+constexpr auto Ear = BF{BodyPartFlag::Ear, "ears"};
+constexpr auto Eye = BF{BodyPartFlag::Eye, "eyes"};
+constexpr auto LongTongue = BF{BodyPartFlag::LongTongue, "long_tongue"};
+constexpr auto EyeStalks = BF{BodyPartFlag::EyeStalks, "eyestalks"};
+constexpr auto Tentacles = BF{BodyPartFlag::Tentacles, "tentacles"};
+constexpr auto Fins = BF{BodyPartFlag::Fins, "fins"};
+constexpr auto Wings = BF{BodyPartFlag::Wings, "wings"};
+constexpr auto Tail = BF{BodyPartFlag::Tail, "tail"};
+constexpr auto Claws = BF{BodyPartFlag::Claws, "claws"};
+constexpr auto Fangs = BF{BodyPartFlag::Fangs, "fangs"};
+constexpr auto Horns = BF{BodyPartFlag::Horns, "horns"};
+constexpr auto Scales = BF{BodyPartFlag::Scales, "scales"};
+constexpr auto Tusks = BF{BodyPartFlag::Tusks, "tusks"};
+
 const inline auto NumBodyParts = 22;
-constexpr std::array<Flag<BodyPartFlag>, NumBodyParts> AllBodyPartFlags = {{
-    // clang-format off
-    {BodyPartFlag::Head, "head"},
-    {BodyPartFlag::Arms, "arms"},
-    {BodyPartFlag::Legs, "legs"},
-    {BodyPartFlag::Heart, "heart"},
-    {BodyPartFlag::Brains, "brains"},
-    {BodyPartFlag::Guts, "guts"},
-    {BodyPartFlag::Hands, "hands"},
-    {BodyPartFlag::Feet, "feet"},
-    {BodyPartFlag::Fingers, "fingers"},
-    {BodyPartFlag::Ear, "ears"},
-    {BodyPartFlag::Eye, "eyes"},
-    {BodyPartFlag::LongTongue, "long_tongue"},
-    {BodyPartFlag::EyeStalks, "eyestalks"},
-    {BodyPartFlag::Tentacles, "tentacles"},
-    {BodyPartFlag::Fins, "fins"},
-    {BodyPartFlag::Wings, "wings"},
-    {BodyPartFlag::Tail, "tail"},
-    {BodyPartFlag::Claws, "claws"},
-    {BodyPartFlag::Fangs, "fangs"},
-    {BodyPartFlag::Horns, "horns"},
-    {BodyPartFlag::Scales, "scales"},
-    {BodyPartFlag::Tusks, "tusks"}
-    // clang-format on
-}};
+constexpr std::array<Flag<BodyPartFlag>, NumBodyParts> AllBodyPartFlags = {
+    {Head,       Arms,      Legs,      Heart, Brains, Guts, Hands, Feet,  Fingers, Ear,    Eye,
+     LongTongue, EyeStalks, Tentacles, Fins,  Wings,  Tail, Claws, Fangs, Horns,   Scales, Tusks}};
 
 }

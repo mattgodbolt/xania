@@ -47,31 +47,33 @@ enum class PlayerActFlag : unsigned long {
 
 namespace PlayerActFlags {
 
+using PF = Flag<PlayerActFlag>;
+constexpr auto PlrNpc = PF{PlayerActFlag::PlrNpc, "npc"};
+constexpr auto PlrBoughtPet = PF{PlayerActFlag::PlrBoughtPet, "owner"};
+constexpr auto PlrAutoAssist = PF{PlayerActFlag::PlrAutoAssist, "autoassist"};
+constexpr auto PlrAutoExit = PF{PlayerActFlag::PlrAutoExit, "autoexit"};
+constexpr auto PlrAutoLoot = PF{PlayerActFlag::PlrAutoLoot, "autoloot"};
+constexpr auto PlrAutoSac = PF{PlayerActFlag::PlrAutoSac, "autosac"};
+constexpr auto PlrAutoGold = PF{PlayerActFlag::PlrAutoGold, "autogold"};
+constexpr auto PlrAutoSplit = PF{PlayerActFlag::PlrAutoSplit, "autosplit"};
+constexpr auto PlrHolyLight = PF{PlayerActFlag::PlrHolyLight, "holy_light"};
+constexpr auto PlrWizInvis = PF{PlayerActFlag::PlrWizInvis, "wizinvis"};
+constexpr auto PlrCanLoot = PF{PlayerActFlag::PlrCanLoot, "loot_corpse"};
+constexpr auto PlrNoSummon = PF{PlayerActFlag::PlrNoSummon, "no_summon"};
+constexpr auto PlrNoFollow = PF{PlayerActFlag::PlrNoFollow, "no_follow"};
+constexpr auto PlrAfk = PF{PlayerActFlag::PlrAfk, "afk"};
+constexpr auto PlrLog = PF{PlayerActFlag::PlrLog, "log"};
+constexpr auto PlrDeny = PF{PlayerActFlag::PlrDeny, "deny"};
+constexpr auto PlrFreeze = PF{PlayerActFlag::PlrFreeze, "freeze"};
+constexpr auto PlrThief = PF{PlayerActFlag::PlrThief, "thief"};
+constexpr auto PlrKiller = PF{PlayerActFlag::PlrKiller, "killer"};
+constexpr auto PlrAutoPeek = PF{PlayerActFlag::PlrAutoPeek, "autopeek"};
+constexpr auto PlrProwl = PF{PlayerActFlag::PlrProwl, "prowl"};
+
 constexpr auto NumPlayerActFlags = 21;
-constexpr std::array<Flag<PlayerActFlag>, NumPlayerActFlags> AllPlayerActFlags = {{
-    // clang-format off
-    {PlayerActFlag::PlrNpc, "npc"}, // Only set for NPCs
-    {PlayerActFlag::PlrBoughtPet, "owner"},
-    {PlayerActFlag::PlrAutoAssist, "autoassist"},
-    {PlayerActFlag::PlrAutoExit, "autoexit"},
-    {PlayerActFlag::PlrAutoLoot, "autoloot"},
-    {PlayerActFlag::PlrAutoSac, "autosac"},
-    {PlayerActFlag::PlrAutoGold, "autogold"},
-    {PlayerActFlag::PlrAutoSplit, "autosplit"},
-    {PlayerActFlag::PlrHolyLight, "holy_light"},
-    {PlayerActFlag::PlrWizInvis, "wizinvis"},
-    {PlayerActFlag::PlrCanLoot, "loot_corpse"},
-    {PlayerActFlag::PlrNoSummon, "no_summon"},
-    {PlayerActFlag::PlrNoFollow, "no_follow"},
-    {PlayerActFlag::PlrAfk, "afk"},
-    {PlayerActFlag::PlrLog, "log"},
-    {PlayerActFlag::PlrDeny, "deny"},
-    {PlayerActFlag::PlrFreeze, "freeze"},
-    {PlayerActFlag::PlrThief, "thief"},
-    {PlayerActFlag::PlrKiller, "killer"},
-    {PlayerActFlag::PlrAutoPeek, "autopeek"},
-    {PlayerActFlag::PlrProwl, "prowl"}
-    // clang-format on
-}};
+constexpr std::array<PF, NumPlayerActFlags> AllPlayerActFlags = {
+    {PlrNpc,       PlrBoughtPet, PlrAutoAssist, PlrAutoExit, PlrAutoLoot, PlrAutoSac,  PlrAutoGold,
+     PlrAutoSplit, PlrHolyLight, PlrWizInvis,   PlrCanLoot,  PlrNoSummon, PlrNoFollow, PlrAfk,
+     PlrLog,       PlrDeny,      PlrFreeze,     PlrThief,    PlrKiller,   PlrAutoPeek, PlrProwl}};
 
 }

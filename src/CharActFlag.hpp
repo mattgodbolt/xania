@@ -45,32 +45,33 @@ enum class CharActFlag : unsigned long {
 
 namespace CharActFlags {
 
+using CF = Flag<CharActFlag>;
+constexpr auto Npc = CF{CharActFlag::Npc, "npc"};
+constexpr auto Sentinel = CF{CharActFlag::Sentinel, "sentinel"};
+constexpr auto Scavenger = CF{CharActFlag::Scavenger, "scavenger"};
+constexpr auto Aggressive = CF{CharActFlag::Aggressive, "aggressive"};
+constexpr auto StayArea = CF{CharActFlag::StayArea, "stay_area"};
+constexpr auto Wimpy = CF{CharActFlag::Wimpy, "wimpy"};
+constexpr auto Pet = CF{CharActFlag::Pet, "pet"};
+constexpr auto Train = CF{CharActFlag::Train, "train"};
+constexpr auto Practice = CF{CharActFlag::Practice, "practice"};
+constexpr auto Sentient = CF{CharActFlag::Sentient, "sentient"};
+constexpr auto Talkative = CF{CharActFlag::Talkative, "talkative"};
+constexpr auto Undead = CF{CharActFlag::Undead, "undead"};
+constexpr auto Cleric = CF{CharActFlag::Cleric, "cleric"};
+constexpr auto Mage = CF{CharActFlag::Mage, "mage"};
+constexpr auto Thief = CF{CharActFlag::Thief, "thief"};
+constexpr auto Warrior = CF{CharActFlag::Warrior, "warrior"};
+constexpr auto NoAlign = CF{CharActFlag::NoAlign, "no_align"};
+constexpr auto NoPurge = CF{CharActFlag::NoPurge, "no_purge"};
+constexpr auto Healer = CF{CharActFlag::Healer, "healer"};
+constexpr auto Gain = CF{CharActFlag::Gain, "skill_train"};
+constexpr auto UpdateAlways = CF{CharActFlag::UpdateAlways, "update_always"};
+constexpr auto CanBeRidden = CF{CharActFlag::CanBeRidden, "rideable"};
+
 constexpr auto NumCharActFlags = 22;
-constexpr std::array<Flag<CharActFlag>, NumCharActFlags> AllCharActFlags = {{
-    // clang-format off
-    {CharActFlag::Npc, "npc"},
-    {CharActFlag::Sentinel, "sentinel"},
-    {CharActFlag::Scavenger, "scavenger"},
-    {CharActFlag::Aggressive, "aggressive"},
-    {CharActFlag::StayArea, "stay_area"},
-    {CharActFlag::Wimpy, "wimpy"},
-    {CharActFlag::Pet, "pet"},
-    {CharActFlag::Train, "train"},
-    {CharActFlag::Practice, "practice"},
-    {CharActFlag::Sentient, "sentient"},
-    {CharActFlag::Talkative, "talkative"},
-    {CharActFlag::Undead, "undead"},
-    {CharActFlag::Cleric, "cleric"},
-    {CharActFlag::Mage, "mage"},
-    {CharActFlag::Thief, "thief"},
-    {CharActFlag::Warrior, "warrior"},
-    {CharActFlag::NoAlign, "no_align"},
-    {CharActFlag::NoPurge, "no_purge"},
-    {CharActFlag::Healer, "healer"},
-    {CharActFlag::Gain, "skill_train"},
-    {CharActFlag::UpdateAlways, "update_always"},
-    {CharActFlag::CanBeRidden, "rideable"}
-    // clang-format on
-}};
+constexpr std::array<CF, NumCharActFlags> AllCharActFlags = {
+    {Npc,    Sentinel, Scavenger, Aggressive, StayArea, Wimpy,   Pet,     Train,  Practice, Sentient,     Talkative,
+     Undead, Cleric,   Mage,      Thief,      Warrior,  NoAlign, NoPurge, Healer, Gain,     UpdateAlways, CanBeRidden}};
 
 }

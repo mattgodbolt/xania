@@ -30,23 +30,23 @@ enum class RoomFlag : unsigned int {
 
 namespace RoomFlags {
 
+using RF = Flag<RoomFlag>;
+constexpr auto Dark = RF{RoomFlag::Dark, "dark"};
+constexpr auto NoMob = RF{RoomFlag::NoMob, "nomob"};
+constexpr auto Indoors = RF{RoomFlag::Indoors, "indoors"};
+constexpr auto Private = RF{RoomFlag::Private, "private"};
+constexpr auto Safe = RF{RoomFlag::Safe, "safe"};
+constexpr auto Solitary = RF{RoomFlag::Solitary, "solitary"};
+constexpr auto PetShop = RF{RoomFlag::PetShop, "petshop"};
+constexpr auto NoRecall = RF{RoomFlag::NoRecall, "recall"};
+constexpr auto ImpOnly = RF{RoomFlag::ImpOnly, "imponly", MAX_LEVEL};
+constexpr auto GodsOnly = RF{RoomFlag::GodsOnly, "godonly", LEVEL_IMMORTAL};
+constexpr auto HeroesOnly = RF{RoomFlag::HeroesOnly, "heroonly"};
+constexpr auto NewbiesOnly = RF{RoomFlag::NewbiesOnly, "newbieonly"};
+constexpr auto Law = RF{RoomFlag::Law, "law"};
+
 constexpr auto NumRoomFlags = 13;
-constexpr std::array<Flag<RoomFlag>, NumRoomFlags> AllRoomFlags = {{
-    // clang-format off
-    {RoomFlag::Dark, "dark"},
-    {RoomFlag::NoMob, "nomob"},
-    {RoomFlag::Indoors, "indoors"},
-    {RoomFlag::Private, "private"},
-    {RoomFlag::Safe, "safe"},
-    {RoomFlag::Solitary, "solitary"},
-    {RoomFlag::PetShop, "petshop"},
-    {RoomFlag::NoRecall, "recall"},
-    {RoomFlag::ImpOnly, "imponly", MAX_LEVEL},
-    {RoomFlag::GodsOnly, "godonly", LEVEL_IMMORTAL},
-    {RoomFlag::HeroesOnly, "heroonly"},
-    {RoomFlag::NewbiesOnly, "newbieonly"},
-    {RoomFlag::Law, "law"},
-    // clang-format on
-}};
+constexpr std::array<RF, NumRoomFlags> AllRoomFlags = {{Dark, NoMob, Indoors, Private, Safe, Solitary, PetShop,
+                                                        NoRecall, ImpOnly, GodsOnly, HeroesOnly, NewbiesOnly, Law}};
 
 }
