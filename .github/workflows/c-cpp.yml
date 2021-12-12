@@ -32,8 +32,13 @@ jobs:
   deploy-code:
     needs: build-and-test
     runs-on: ubuntu-20.04
+    env:
+      CC: gcc-11
+      CXX: g++-11
     steps:
       - uses: actions/checkout@v1
+      - name: install-compiler
+        run : sudo apt-get update && sudo apt-get install g++-11 -y
       - name: configure
         run: |
           cmake -DCMAKE_BUILD_TYPE=Release \
