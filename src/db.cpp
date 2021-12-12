@@ -1838,30 +1838,6 @@ bool str_cmp(const char *astr, const char *bstr) {
 }
 
 /*
- * Compare strings, case insensitive, for prefix matching.
- * Return true if astr not a prefix of bstr
- *   (compatibility with historical functions).
- */
-bool str_prefix(const char *astr, const char *bstr) {
-    if (astr == nullptr) {
-        bug("Strn_cmp: null astr.");
-        return true;
-    }
-
-    if (bstr == nullptr) {
-        bug("Strn_cmp: null bstr.");
-        return true;
-    }
-
-    for (; *astr; astr++, bstr++) {
-        if (tolower(*astr) != tolower(*bstr))
-            return true;
-    }
-
-    return false;
-}
-
-/*
  * Appends text to a system file.
  */
 bool append_file(std::string file, std::string_view text) {

@@ -58,11 +58,6 @@
 #include <functional>
 #include <range/v3/algorithm/find_if.hpp>
 
-/*
- * Local functions.
- */
-void say_spell(Char *ch, int sn);
-
 namespace {
 
 constexpr std::array AcidBlastExorciseDemonfireDamage = {
@@ -479,48 +474,51 @@ void try_create_potion(Char *ch, const int sn, const int mana) {
     }
 }
 
+struct Syllable {
+    std::string_view old;
+    std::string_view new_t;
+};
+
+constexpr std::array<Syllable, 52> Syllables = {
+    {{" ", " "},        {"ar", "abra"},    {"au", "kada"},   {"bless", "fido"}, {"blind", "nose"}, {"bur", "mosa"},
+     {"cu", "judi"},    {"de", "oculo"},   {"en", "unso"},   {"light", "dies"}, {"lo", "hi"},      {"mor", "zak"},
+     {"move", "sido"},  {"ness", "lacri"}, {"ning", "illa"}, {"per", "duda"},   {"ra", "gru"},     {"fresh", "ima"},
+     {"gate", "imoff"}, {"re", "candus"},  {"son", "sabru"}, {"tect", "infra"}, {"tri", "cula"},   {"ven", "nofo"},
+     {"oct", "bogusi"}, {"rine", "dude"},  {"a", "a"},       {"b", "b"},        {"c", "q"},        {"d", "e"},
+     {"e", "z"},        {"f", "y"},        {"g", "o"},       {"h", "p"},        {"i", "u"},        {"j", "y"},
+     {"k", "t"},        {"l", "r"},        {"m", "w"},       {"n", "i"},        {"o", "a"},        {"p", "s"},
+     {"q", "d"},        {"r", "f"},        {"s", "g"},       {"t", "h"},        {"u", "j"},        {"v", "z"},
+     {"w", "x"},        {"x", "n"},        {"y", "l"},       {"z", "k"}}};
+
 } // namespace
+
+std::pair<std::string, std::string> casting_messages(const int sn) {
+    std::string translation;
+    size_t length;
+    for (const auto *pName = skill_table[sn].name; *pName != '\0'; pName += length) {
+        for (const auto &syllable : Syllables) {
+            if (matches_start(syllable.old, pName)) {
+                translation += syllable.new_t;
+                length = syllable.old.length();
+                break;
+            }
+        }
+        if (length == 0)
+            length = 1;
+    }
+    auto to_same_class = fmt::format("|y$n utters the words '{}'.|w", skill_table[sn].name);
+    auto to_other_class = fmt::format("|y$n utters the words '{}'.|w", translation);
+    return {to_same_class, to_other_class};
+}
 
 /*
  * Utter mystical words for an sn.
  */
-void say_spell(Char *ch, int sn) {
-    std::string translation;
-    std::string to_same_class, to_other_class;
-    int length;
-
-    struct syl_type {
-        const char *old;
-        const char *new_t;
-    };
-
-    static const struct syl_type syl_table[] = {
-        {" ", " "},        {"ar", "abra"},    {"au", "kada"},   {"bless", "fido"}, {"blind", "nose"}, {"bur", "mosa"},
-        {"cu", "judi"},    {"de", "oculo"},   {"en", "unso"},   {"light", "dies"}, {"lo", "hi"},      {"mor", "zak"},
-        {"move", "sido"},  {"ness", "lacri"}, {"ning", "illa"}, {"per", "duda"},   {"ra", "gru"},     {"fresh", "ima"},
-        {"gate", "imoff"}, {"re", "candus"},  {"son", "sabru"}, {"tect", "infra"}, {"tri", "cula"},   {"ven", "nofo"},
-        {"oct", "bogusi"}, {"rine", "dude"},  {"a", "a"},       {"b", "b"},        {"c", "q"},        {"d", "e"},
-        {"e", "z"},        {"f", "y"},        {"g", "o"},       {"h", "p"},        {"i", "u"},        {"j", "y"},
-        {"k", "t"},        {"l", "r"},        {"m", "w"},       {"n", "i"},        {"o", "a"},        {"p", "s"},
-        {"q", "d"},        {"r", "f"},        {"s", "g"},       {"t", "h"},        {"u", "j"},        {"v", "z"},
-        {"w", "x"},        {"x", "n"},        {"y", "l"},       {"z", "k"},        {"", ""}};
-
-    for (const char *pName = skill_table[sn].name; *pName != '\0'; pName += length) {
-        for (int iSyl = 0; (length = strlen(syl_table[iSyl].old)) != 0; iSyl++) {
-            if (!str_prefix(syl_table[iSyl].old, pName)) {
-                translation += syl_table[iSyl].new_t;
-                break;
-            }
-        }
-
-        if (length == 0)
-            length = 1;
-    }
-    to_other_class = fmt::format("|y$n utters the words '{}'.|w", translation);
-    to_same_class = fmt::format("|y$n utters the words '{}'.|w", skill_table[sn].name);
+void say_spell(Char *ch, const int sn) {
+    const auto messages = casting_messages(sn);
     for (auto *rch : ch->in_room->people) {
         if (rch != ch)
-            act(ch->class_num == rch->class_num ? to_same_class : to_other_class, ch, nullptr, rch, To::Vict);
+            act(ch->class_num == rch->class_num ? messages.first : messages.second, ch, nullptr, rch, To::Vict);
     }
 }
 
