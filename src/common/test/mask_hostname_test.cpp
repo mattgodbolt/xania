@@ -1,4 +1,4 @@
-#include "mask_hostname.hpp"
+#include "common/mask_hostname.hpp"
 
 #include <catch2/catch.hpp>
 

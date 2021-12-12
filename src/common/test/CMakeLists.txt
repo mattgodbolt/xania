@@ -1,4 +1,3 @@
-include_directories(..)
 file(GLOB SOURCE_FILES CONFIGURE_DEPENDS *.cpp *.hpp)
 add_executable(common_test ${SOURCE_FILES})
 target_link_libraries(common_test PRIVATE xania_common CONAN_PKG::catch2 CONAN_PKG::trompeloeil)
