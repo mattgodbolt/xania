@@ -1,6 +1,6 @@
 include_directories(..)
 file(GLOB SOURCE_FILES CONFIGURE_DEPENDS *.cpp *.hpp *.c *.h)
 add_executable(xania_test ${SOURCE_FILES} SectorTypeTest.cpp)
-target_link_libraries(xania_test xania_lib CONAN_PKG::catch2 CONAN_PKG::trompeloeil)
+target_link_libraries(xania_test PRIVATE xania_lib CONAN_PKG::catch2 CONAN_PKG::trompeloeil)
 target_compile_definitions(xania_test PUBLIC CATCH_CONFIG_ENABLE_ALL_STRINGMAKERS CATCH_CONFIG_EXTERNAL_INTERFACES TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/test_data")
 add_test(NAME xania_test COMMAND $<TARGET_FILE:xania_test>)

@@ -5,10 +5,10 @@ add_library(doorman_lib STATIC
         Logger.cpp Logger.hpp
         TelnetProtocol.cpp TelnetProtocol.hpp
         Xania.cpp Xania.hpp)
-target_link_libraries(doorman_lib xania_lib CONAN_PKG::fmt CONAN_PKG::ms-gsl CONAN_PKG::spdlog CONAN_PKG::lyra)
+target_link_libraries(doorman_lib PUBLIC xania_lib CONAN_PKG::spdlog PRIVATE CONAN_PKG::fmt CONAN_PKG::ms-gsl CONAN_PKG::lyra)
 
 add_executable(doorman main.cpp)
-target_link_libraries(doorman doorman_lib)
+target_link_libraries(doorman PRIVATE doorman_lib CONAN_PKG::lyra)
 
 add_subdirectory(test)
 
