@@ -9,6 +9,7 @@ target_compile_definitions(map PRIVATE DEFAULT_AREA_PATH="${CMAKE_SOURCE_DIR}/ar
 
 add_library(pfu_lib STATIC pfu.cpp)
 target_link_libraries(pfu_lib PRIVATE xania_common PUBLIC xania_lib CONAN_PKG::spdlog)
+target_include_directories(pfu_lib PUBLIC .)
 
 add_executable(pfu pfumain.cpp)
 target_link_libraries(pfu PRIVATE pfu_lib xania_lib CONAN_PKG::lyra)
