@@ -329,6 +329,27 @@ TEST_CASE("string_util tests") {
         }
     }
 
+    SECTION("string matches end") {
+        SECTION("empty should not match end of empty") { CHECK(!matches_end("", "")); }
+        SECTION("empty should not match to nonempty") {
+            CHECK(!matches_end("something", ""));
+            CHECK(!matches_end("", "something"));
+        }
+        SECTION("identical strings should match") { CHECK(matches_end("monkey", "monkey")); }
+        SECTION("non-identical, same-length strings should not match") { CHECK(!matches_end("mankey", "monkey")); }
+        SECTION("strings differing in whitespace should not match") {
+            // This one we might consider changing behaviour of later, if matches() also changes.
+            CHECK(!matches_end(" monkey", "monkey"));
+            CHECK(!matches_end("monkey ", "monkey"));
+            CHECK(!matches_end("monkey", "monkey "));
+        }
+        SECTION("rhs ends with lhs") {
+            CHECK(matches_end("Aa", "raa"));
+            CHECK(matches_end("aa", "raa"));
+            CHECK(matches_end("onkey", " monkey"));
+        }
+    }
+
     SECTION("matches inside") {
         SECTION("empty should not match inside empty") { CHECK(!matches_inside("", "")); }
         SECTION("empty should not match inside nonempty") {

@@ -52,8 +52,7 @@ bool Bans::check_ban(std::string_view site, const int type_bits) const {
             && matches_inside(ban->site_, host))
             return true;
 
-        if (check_enum_bit(ban->ban_flags_, BanFlag::Prefix)
-            && !str_suffix(ban->site_.c_str(), host.c_str())) // FIXME: we need a matches_end()
+        if (check_enum_bit(ban->ban_flags_, BanFlag::Prefix) && matches_end(ban->site_, host))
             return true;
 
         if (check_enum_bit(ban->ban_flags_, BanFlag::Suffix) && matches_start(ban->site_, host))

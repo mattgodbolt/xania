@@ -69,7 +69,6 @@ int dice(int number, int size);
 int interpolate(int level, int value_00, int value_32);
 bool str_cmp(const char *astr, const char *bstr);
 bool str_prefix(const char *astr, const char *bstr);
-bool str_suffix(const char *astr, const char *bstr);
 bool append_file(std::string file, std::string_view text);
 char fread_letter(FILE *fp);
 int fread_number(FILE *fp);

@@ -76,6 +76,10 @@ Container split_lines(std::string_view input) {
 // lhs must be at least one character long and must not be longer than rhs.
 [[nodiscard]] bool matches_start(std::string_view lhs, std::string_view rhs);
 
+// Similar to matches_start() but checks if rhs ends with lhs, case insensitively.
+// lhs must be at least one character long and must not be longer than rhs.
+[[nodiscard]] bool matches_end(std::string_view lhs, std::string_view rhs);
+
 // Is 'needle' contained inside 'haystack' case insensitively?
 [[nodiscard]] bool matches_inside(std::string_view needle, std::string_view haystack);
 

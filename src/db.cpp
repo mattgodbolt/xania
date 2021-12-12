@@ -1862,23 +1862,6 @@ bool str_prefix(const char *astr, const char *bstr) {
 }
 
 /*
- * Compare strings, case insensitive, for suffix matching.
- * Return true if astr not a suffix of bstr
- *   (compatibility with historical functions).
- */
-bool str_suffix(const char *astr, const char *bstr) {
-    int sstr1;
-    int sstr2;
-
-    sstr1 = strlen(astr);
-    sstr2 = strlen(bstr);
-    if (sstr1 <= sstr2 && !str_cmp(astr, bstr + sstr2 - sstr1))
-        return false;
-    else
-        return true;
-}
-
-/*
  * Appends text to a system file.
  */
 bool append_file(std::string file, std::string_view text) {

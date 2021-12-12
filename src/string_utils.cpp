@@ -8,6 +8,7 @@
 #include <range/v3/algorithm/search.hpp>
 #include <range/v3/range/conversion.hpp>
 #include <range/v3/view/drop.hpp>
+#include <range/v3/view/reverse.hpp>
 #include <range/v3/view/take.hpp>
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/zip.hpp>
@@ -258,6 +259,14 @@ bool matches_start(std::string_view lhs, std::string_view rhs) {
     if (lhs.size() > rhs.size() || lhs.empty())
         return false;
     return matches(lhs, rhs.substr(0, lhs.size()));
+}
+
+bool matches_end(std::string_view lhs, std::string_view rhs) {
+    if (lhs.size() > rhs.size() || lhs.empty())
+        return false;
+    auto rhs_remaining = rhs.substr(rhs.size() - lhs.size(), lhs.size());
+    auto zipped_reverse = ranges::zip_view(lhs, rhs_remaining) | ranges::views::reverse;
+    return ranges::all_of(zipped_reverse, [](auto pr) { return tolower(pr.first) == tolower(pr.second); });
 }
 
 bool matches_inside(std::string_view needle, std::string_view haystack) {
