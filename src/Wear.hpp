@@ -7,8 +7,7 @@
 #pragma once
 
 #include <magic_enum.hpp>
-#include <range/v3/algorithm/count_if.hpp>
-#include <range/v3/view/filter.hpp>
+#include <ranges>
 
 // Locations an Object can be worn in, and the None slot meaning the Object isn't worn.
 enum class Wear {
@@ -38,8 +37,8 @@ enum class Wear {
 
 struct WearFilter {
     // Wear locations that are valid slots an object can be equipped in.
-    [[nodiscard]] static auto wearable() noexcept {
-        return magic_enum::enum_values<Wear>() | ranges::views::filter([](const auto w) { return w != Wear::None; });
+    [[nodiscard]] constexpr static auto wearable() noexcept {
+        return magic_enum::enum_values<Wear>() | std::views::filter([](const auto w) { return w != Wear::None; });
     }
 
     [[nodiscard]] constexpr static auto wearable_count() noexcept { return magic_enum::enum_count<Wear>() - 1; }

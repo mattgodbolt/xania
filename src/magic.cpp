@@ -52,6 +52,7 @@
 #include "string_utils.hpp"
 #include "update.hpp"
 
+#include <array>
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include <functional>
@@ -478,7 +479,7 @@ void try_create_potion(Char *ch, const int sn, const int mana) {
     }
 }
 
-}
+} // namespace
 
 /*
  * Utter mystical words for an sn.
@@ -3112,7 +3113,6 @@ void spell_remove_curse(int sn, int level, Char *ch, const SpellTarget &spell_ta
         }
         return;
     }
-
     for (const auto &wear : WearFilter::wearable()) {
         auto *obj = get_eq_char(victim, wear);
         if (obj && obj->is_no_remove()) {
