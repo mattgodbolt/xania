@@ -1,4 +1,3 @@
-include_directories(..)
 file(GLOB SOURCE_FILES CONFIGURE_DEPENDS *.cpp *.hpp)
 add_executable(chat_test ${SOURCE_FILES})
 target_compile_definitions(chat_test PUBLIC TEST_RESOURCE_DIR="${CMAKE_SOURCE_DIR}/area/")
