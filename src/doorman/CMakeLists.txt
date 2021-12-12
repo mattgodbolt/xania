@@ -8,7 +8,7 @@ add_library(doorman_lib STATIC
 target_link_libraries(doorman_lib PUBLIC xania_lib CONAN_PKG::spdlog PRIVATE CONAN_PKG::fmt CONAN_PKG::ms-gsl CONAN_PKG::lyra)
 
 add_executable(doorman main.cpp)
-target_link_libraries(doorman PRIVATE doorman_lib CONAN_PKG::lyra)
+target_link_libraries(doorman PRIVATE doorman_lib version CONAN_PKG::lyra)
 
 add_subdirectory(test)
 
