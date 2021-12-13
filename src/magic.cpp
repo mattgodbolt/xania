@@ -493,8 +493,8 @@ constexpr std::array<Syllable, 52> Syllables = {
 } // namespace
 
 std::pair<std::string, std::string> casting_messages(const int sn) {
-    std::string translation;
-    size_t length;
+    std::string translation{};
+    size_t length{};
     for (const auto *pName = skill_table[sn].name; *pName != '\0'; pName += length) {
         for (const auto &syllable : Syllables) {
             if (matches_start(syllable.old, pName)) {
