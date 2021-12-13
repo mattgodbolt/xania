@@ -4,9 +4,13 @@ set -euo pipefail
 
 hostname mud.xania.org
 echo mud.xania.org > /etc/hostname
+
+# PPA currently hosting g++-11
+add-apt-repository ppa:ubuntu-toolchain-r/test
+
 apt-get update
 apt-get upgrade -y
-apt-get install -y awscli git cmake ninja-build gcc g++ cronic jq ssmtp mailutils
+apt-get install -y awscli git cmake ninja-build gcc g++ gcc-11 g++11 curl cronic jq ssmtp mailutils
 apt-get autoremove -y
 
 useradd -m -s /bin/bash xania
