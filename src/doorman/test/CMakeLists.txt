@@ -1,4 +1,3 @@
-include_directories(..)
 file(GLOB SOURCE_FILES CONFIGURE_DEPENDS *.cpp *.hpp)
 add_executable(doorman_test ${SOURCE_FILES})
 target_link_libraries(doorman_test PRIVATE doorman_lib CONAN_PKG::catch2 CONAN_PKG::trompeloeil)
