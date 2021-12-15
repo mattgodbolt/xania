@@ -11,20 +11,25 @@ We chat about the mud [here](https://discord.gg/Xsstufyt8t). Feel free to drop i
 
 ## Building and running
 
-If you want to build and run Xania locally, you'll need a modern Linux (Ubuntu 18.04 and 20.04 have been tested, and
-it has been reported to work on Fedora 34 too).
+If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 20.04 and 18.04.
 
-Here are some Ubuntu steps for installing some prerequisites:
+It has been reported to work on Fedora 34 and Ubuntu under Windows Subsystem for Linux too.
+
+Here are the Ubuntu steps for installing some prerequisites:
 
 ```bash
-# gcc-11 and g++11...
+# Install gcc-11 and g++11...
 $ sudo apt install build-essential manpages-dev software-properties-common
 $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 $ sudo apt update && sudo apt install gcc-11 g++-11
-# Right now the mud defaults to building with g++10 but we plan on making 11 the default soon
-$ sudo apt install gcc-10 g++-10
 # And you'll need the following...
 $ sudo apt install git make cmake curl
+
+# Local builds default to compiling with g++-11. If you need to build with a different compiler
+# you can specify the CC and CXX variables to make e.g.
+$ sudo apt install gcc-10 g++-10
+$ make distclean
+$ make CC=gcc-10 CXX=g++-10 test
 ```
 
 It's pretty likely you have all these already. The hope is that almost all the upstream dependencies of the code are
@@ -86,7 +91,7 @@ The mud processes use some environment variables for configuration. Out of the b
 for these. The default settings are stored in `mud-settings-dev.sh`, and `make start` will read this file.
 
 If you are doing development and launching the processes from an IDE then you prefer to configure these settings separately.
-The project includes an example VS Code `launch.json` that sets these.
+The project includes an example Visual Studio Code `launch.json` that sets these.
 
 - `MUD_AREA_DIR`:  Static game database files.
 - `MUD_DATA_DIR`:  The base directory of all runtime data. The mud uses these subdirectories:

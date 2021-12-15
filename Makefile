@@ -22,8 +22,11 @@ CONAN_VERSION=1.42.1
 PIP:=$(CONDA_ROOT)/bin/pip
 CONAN:=$(CONDA_ROOT)/bin/conan
 SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name *.hpp)
-export CC:=gcc-10
-export CXX:=g++-10
+# Make local development use g++-11 by default although you can override this by specifying
+# the CC and CXX environment variables _after_ the make command e.g.
+#        $ make CC=gcc-10 CXX=g++-10 test
+export CC=gcc-11
+export CXX=g++-11
 
 ifeq ($(shell which ninja),)
 CMAKE_GENERATOR_FLAGS?=
