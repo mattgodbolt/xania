@@ -57,7 +57,7 @@ void Rng::set_global_rng(Rng &rng) { the_rng = &rng; }
 KnuthRng::KnuthRng(int seed) {
     auto *piState = &state_[2];
 
-    piState[-2] = StateSize - StateSize;
+    piState[-2] = 0;
     piState[-1] = StateSize - StateSize / 2;
 
     piState[0] = seed & ((1u << 30) - 1);
