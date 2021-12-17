@@ -13,7 +13,7 @@ class Char;
 bool parse_customizations(Char *ch, ArgParser args);
 void list_available_group_costs(Char *ch);
 unsigned int exp_per_level(const Char *ch, int points);
-void check_improve(Char *ch, int sn, bool success, int multiplier);
+void check_improve(Char *ch, const int skill_num, const bool success, const int multiplier);
 int group_lookup(std::string_view name);
 void gn_add(Char *ch, int gn);
 void gn_remove(Char *ch, int gn);

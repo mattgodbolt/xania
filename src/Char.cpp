@@ -605,30 +605,36 @@ std::string Char::format_affect_flags() const noexcept { return AffectFlags::for
 std::string Char::format_act_flags() const noexcept {
     return is_npc() ? format_set_flags(CharActFlags::AllCharActFlags, act)
                     : format_set_flags(PlayerActFlags::AllPlayerActFlags, act);
-};
+}
 
 std::string Char::format_comm_flags() const noexcept { return format_set_flags(CommFlags::AllCommFlags, comm); };
 
 std::string Char::format_offensive_flags() const noexcept {
     return format_set_flags(OffensiveFlags::AllOffensiveFlags, off_flags);
-};
+}
 
 std::string Char::format_immune_flags() const noexcept {
     return format_set_flags(ToleranceFlags::AllToleranceFlags, imm_flags);
-};
+}
 
 std::string Char::format_resist_flags() const noexcept {
     return format_set_flags(ToleranceFlags::AllToleranceFlags, res_flags);
-};
+}
 
 std::string Char::format_vuln_flags() const noexcept {
     return format_set_flags(ToleranceFlags::AllToleranceFlags, vuln_flags);
-};
+}
 
 std::string Char::format_morphology_flags() const noexcept {
     return format_set_flags(MorphologyFlags::AllMorphologyFlags, morphology);
-};
+}
 
 std::string Char::format_body_part_flags() const noexcept {
     return format_set_flags(BodyPartFlags::AllBodyPartFlags, parts);
-};
+}
+
+void Char::apply_skill_points(const int skill_num, const sh_int change) {
+    if (is_pc()) {
+        pcdata->learned[skill_num] = std::clamp(static_cast<sh_int>(pcdata->learned[skill_num] + change), 1_s, 100_s);
+    }
+}

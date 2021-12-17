@@ -1,8 +1,10 @@
 #include "Char.hpp"
 #include "AffectFlag.hpp"
+#include "CharActFlag.hpp"
 #include "PlayerActFlag.hpp"
 #include "Room.hpp"
 #include "common/BitOps.hpp"
+#include "lookup.h"
 
 #include <catch2/catch.hpp>
 
@@ -200,6 +202,46 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result
                       == "|Chead arms legs heart brains guts hands feet fingers ears eyes long_tongue eyestalks "
                          "tentacles fins wings tail claws fangs horns scales tusks|w");
+            }
+        }
+    }
+    SECTION("apply skill points") {
+        SECTION("not applied as npc") {
+            set_enum_bit(bob.act, CharActFlag::Npc);
+            bob.apply_skill_points(1, 1);
+        }
+        SECTION("pc") {
+            bob.level = 1;
+            Descriptor ch_desc(0);
+            bob.desc = &ch_desc;
+            ch_desc.character(&bob);
+            bob.pcdata = std::make_unique<PcData>();
+            const auto skill = skill_lookup("dagger");
+            SECTION("applied ok") {
+                bob.pcdata->learned[skill] = 1;
+
+                bob.apply_skill_points(skill, 1);
+                CHECK(bob.pcdata->learned[skill] == 2);
+                CHECK(bob.get_skill(skill) == 2);
+                bob.apply_skill_points(skill, 2);
+                CHECK(bob.pcdata->learned[skill] == 4);
+                CHECK(bob.get_skill(skill) == 4);
+            }
+            SECTION("clamped to max") {
+                bob.pcdata->learned[skill] = 99;
+
+                bob.apply_skill_points(skill, 2);
+
+                CHECK(bob.pcdata->learned[skill] == 100);
+                CHECK(bob.get_skill(skill) == 100);
+            }
+            SECTION("clamped to min") {
+                bob.pcdata->learned[skill] = 1;
+
+                bob.apply_skill_points(skill, -1);
+
+                CHECK(bob.pcdata->learned[skill] == 1);
+                CHECK(bob.get_skill(skill) == 1);
             }
         }
     }

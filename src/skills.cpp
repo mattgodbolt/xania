@@ -11,6 +11,7 @@
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Columner.hpp"
+#include "Learning.hpp"
 #include "Logging.hpp"
 #include "PcCustomization.hpp"
 #include "Races.hpp"
@@ -451,44 +452,12 @@ void do_groups(Char *ch, ArgParser argument) {
 }
 
 /* checks for skill improvement */
-void check_improve(Char *ch, int sn, bool success, int multiplier) {
-    int chance, how_good;
-    if (ch->is_npc())
-        return;
-
-    if (ch->level < get_skill_level(ch, sn) || ch->pcdata->learned[sn] == 0 || ch->pcdata->learned[sn] == 100)
-        return; /* skill is not known */
-
-    how_good = get_skill_difficulty(ch, sn);
-    /* check to see if the character has a chance to learn */
-    chance = 10 * int_app[get_curr_stat(ch, Stat::Int)].learn;
-    chance /= (multiplier * how_good * 4);
-    chance += ch->level;
-
-    if (number_range(1, 1000) > chance)
-        return;
-
-    /* now that the character has a CHANCE to learn, see if they really have */
-
-    if (success) {
-        chance = std::clamp(100 - ch->pcdata->learned[sn], 5, 95);
-        if (number_percent() < chance) {
-            ch->pcdata->learned[sn]++;
-            ch->send_to(fmt::format("|WYou have become better at |C{}|W! ({})|w\n\r", skill_table[sn].name,
-                                    ch->pcdata->learned[sn]));
-            gain_exp(ch, 2 * how_good);
-        }
-    }
-
-    else {
-        chance = std::clamp(ch->get_skill(sn) / 2, 5, 30);
-        if (number_percent() < chance) {
-            ch->pcdata->learned[sn] += number_range(1, 3);
-            ch->pcdata->learned[sn] = std::min(ch->pcdata->learned[sn], 100_s);
-            ch->send_to(fmt::format("|WYou learn from your mistakes, and your |C{}|W skill improves. ({})|w\n\r",
-                                    skill_table[sn].name, ch->pcdata->learned[sn]));
-            gain_exp(ch, 2 * how_good);
-        }
+void check_improve(Char *ch, const int skill_num, const bool success, const int multiplier) {
+    const auto learning = Learning(ch, skill_num, success, multiplier, Rng::global_rng());
+    if (learning.has_learned()) {
+        ch->apply_skill_points(skill_num, learning.gainable_points());
+        ch->send_line(learning.learning_message());
+        gain_exp(ch, learning.experience_reward());
     }
 }
 

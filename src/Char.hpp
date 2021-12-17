@@ -362,6 +362,9 @@ struct Char {
     // Returns a string describing the BodyPartFlag bits the character has enabled.
     [[nodiscard]] std::string format_body_part_flags() const noexcept;
 
+    // Applies a change in skill level to the specified skill.
+    void apply_skill_points(const int skill_num, const sh_int change);
+
 private:
     template <typename Func>
     [[nodiscard]] Object *find_filtered_obj(std::string_view argument, Func filter) const;
