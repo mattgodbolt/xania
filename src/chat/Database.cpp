@@ -103,7 +103,6 @@ int Database::match(std::string_view db_keywords, std::string_view input_msg, st
             } else
                 return progressive_match_result;
 
-            break;
         default: current_db_keyword.push_back(*it);
         }
     }

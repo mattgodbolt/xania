@@ -187,8 +187,8 @@ void do_refuse(Char *ch) {
 
     if (ch == challengee && imm != nullptr) {
         ch->send_line("|cYou have refused to fight to the death with {}.|w", challenger->name);
-        imm->send_to(
-            fmt::format("|c{} has refused to fight to the death with {}.|w\n\r", challengee->name, challenger->name));
+        imm->send_line(
+            fmt::format("|c{} has refused to fight to the death with {}.|w", challengee->name, challenger->name));
         challenger->send_line("|c{} has refused to fight to the death with you.|w", challengee->name);
 
         challenger = nullptr;

@@ -211,7 +211,7 @@ std::optional<SpellTarget> get_obj_casting_spell_target(Char *ch, Char *victim, 
 
     case Target::Ignore:
     case Target::CharObject:
-    case Target::CharOther: return SpellTarget(arguments); break;
+    case Target::CharOther: return SpellTarget(arguments);
 
     case Target::CharOffensive:
         if (victim == nullptr)
@@ -231,7 +231,7 @@ std::optional<SpellTarget> get_obj_casting_spell_target(Char *ch, Char *victim, 
             victim = ch;
         return SpellTarget(victim);
 
-    case Target::CharSelf: return SpellTarget(ch); break;
+    case Target::CharSelf: return SpellTarget(ch);
 
     case Target::ObjectInventory:
         if (obj == nullptr) {
@@ -3324,8 +3324,7 @@ void spell_teleport(int sn, int level, Char *ch, const SpellTarget &spell_target
     Room *room;
 
     if (victim->in_room == nullptr || check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall)
-        || (ch->is_pc() && victim->fighting != nullptr)
-        || (victim != ch && (saves_spell(level, victim) || saves_spell(level, victim)))) {
+        || (ch->is_pc() && victim->fighting != nullptr) || (victim != ch && saves_spell(level, victim))) {
         ch->send_line("You failed.");
         return;
     }
@@ -3534,7 +3533,6 @@ void spell_fire_breath(int sn, int level, Char *ch, const SpellTarget &spell_tar
 
                 if (!obj_lose->is_protect_container()) {
                     msg = "$p ignites and burns!";
-                    break;
                     act(msg, victim, obj_lose, nullptr, To::Char);
 
                     for (auto *t_obj : obj_lose->contains) {

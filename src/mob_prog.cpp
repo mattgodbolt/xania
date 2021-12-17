@@ -790,7 +790,6 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-            break;
         case 'p':
             if (v_obj) {
                 lhsvl = v_obj->objIndex->vnum;
@@ -798,7 +797,6 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
                 return mprog_veval(lhsvl, opr, rhsvl);
             } else
                 return -1;
-            break;
         default: bug("Mob: {} bad argument to 'number'", mob->mobIndex->vnum); return -1;
         }
     }
@@ -1023,11 +1021,12 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
     case 'I': strcpy(t, mob->short_descr.c_str()); break;
 
     case 'n':
-        if (actor)
+        if (actor) {
             if (can_see(mob, actor))
                 one_argument(actor->name.c_str(), t);
-        if (actor->is_pc())
-            *t = toupper(*t);
+            if (actor->is_pc())
+                *t = toupper(*t);
+        }
         break;
 
     case 'N':
@@ -1049,9 +1048,9 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
         if (vict) {
             if (can_see(mob, vict))
                 one_argument(vict->name.c_str(), t);
+            if (vict->is_pc())
+                *t = toupper(*t);
         }
-        if (vict->is_pc())
-            *t = toupper(*t);
         break;
 
     case 'T':
@@ -1074,9 +1073,9 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
         if (rndm) {
             if (can_see(mob, rndm))
                 one_argument(rndm->name.c_str(), t);
+            if (rndm->is_pc())
+                *t = toupper(*t);
         }
-        if (rndm->is_pc())
-            *t = toupper(*t);
         break;
 
     case 'R':

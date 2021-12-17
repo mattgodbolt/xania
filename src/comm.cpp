@@ -562,7 +562,7 @@ void nanny(Descriptor *d, std::string_view argument) {
             d->state(DescriptorState::ConfirmNewName);
             return;
         }
-    } break;
+    }
 
     case DescriptorState::GetOldPassword:
         d->write("\n\r");
@@ -1342,7 +1342,7 @@ std::string format_one_prompt_part(char c, const Char &ch) {
         char time_buf[MAX_STRING_LENGTH];
         strftime(time_buf, sizeof(time_buf), "%H:%M:%S", gmtime(&ch_timet));
         return time_buf;
-    } break;
+    }
     default: break;
     }
 

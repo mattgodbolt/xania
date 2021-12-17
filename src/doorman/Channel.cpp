@@ -15,7 +15,7 @@ static constexpr auto MaxIncomingDataBufferSize = 2048u;
 std::string Channel::lookup(const sockaddr_in &address) const {
     char lookup_buffer[8192];
     hostent ent{};
-    hostent *res{};
+    hostent *res = &ent;
     int host_errno{};
     auto as_ip = std::string(inet_ntoa(address.sin_addr));
     auto gh_errno = gethostbyaddr_r(&address.sin_addr, sizeof(address.sin_addr), AF_INET, &ent, lookup_buffer,

@@ -352,10 +352,7 @@ void load_resets(FILE *fp) {
         /* Don't validate now, do it after all area's have been loaded */
         /* Stuff to add reset to the correct room */
         switch (letter) {
-        default:
-            bug("Load_resets: bad command '{}'.", letter);
-            exit(1);
-            break;
+        default: bug("Load_resets: bad command '{}'.", letter); exit(1);
         case ResetMobInRoom:
             if ((room = get_room(reset.arg3))) {
                 room->resets.push_back(std::move(reset));
@@ -1938,10 +1935,7 @@ void load_mobprogs(FILE *fp) {
 
     for (;;) {
         switch (letter = fread_letter(fp)) {
-        default:
-            bug("load_mobprogs: bad command '{}'.", letter);
-            exit(1);
-            break;
+        default: bug("load_mobprogs: bad command '{}'.", letter); exit(1);
         case 'S':
         case 's': fread_to_eol(fp); return;
         case '*': fread_to_eol(fp); break;

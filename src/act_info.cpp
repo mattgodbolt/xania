@@ -1146,15 +1146,15 @@ namespace {
 
 std::string_view who_class_name_of(const Char &wch) {
     switch (wch.level) {
-    case MAX_LEVEL - 0: return "|WIMP|w"sv; break;
-    case MAX_LEVEL - 1: return "|YCRE|w"sv; break;
-    case MAX_LEVEL - 2: return "|YSUP|w"sv; break;
-    case MAX_LEVEL - 3: return "|GDEI|w"sv; break;
-    case MAX_LEVEL - 4: return "|GGOD|w"sv; break;
-    case MAX_LEVEL - 5: return "|gIMM|w"sv; break;
-    case MAX_LEVEL - 6: return "|gDEM|w"sv; break;
-    case MAX_LEVEL - 7: return "ANG"sv; break;
-    case MAX_LEVEL - 8: return "AVA"sv; break;
+    case MAX_LEVEL - 0: return "|WIMP|w"sv;
+    case MAX_LEVEL - 1: return "|YCRE|w"sv;
+    case MAX_LEVEL - 2: return "|YSUP|w"sv;
+    case MAX_LEVEL - 3: return "|GDEI|w"sv;
+    case MAX_LEVEL - 4: return "|GGOD|w"sv;
+    case MAX_LEVEL - 5: return "|gIMM|w"sv;
+    case MAX_LEVEL - 6: return "|gDEM|w"sv;
+    case MAX_LEVEL - 7: return "ANG"sv;
+    case MAX_LEVEL - 8: return "AVA"sv;
     }
     return class_table[wch.class_num].who_name;
 }
