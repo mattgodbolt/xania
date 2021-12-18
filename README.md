@@ -37,9 +37,7 @@ $ make CC=gcc-10 CXX=g++-10 test
 
 ### CMake
 
-You'll also need a recent version of __cmake__, at least version 3.19 is required. If you get a build error
-saying something like `add_library INTERFACE library requires no source arguments` then you probably need to
-upgrade the version you have.  One way to do that is to
+You'll also need a recent version of __cmake__, at least version 3.19 is required. One way to do that is to
 [add the __Kitware__ apt repository](https://apt.kitware.com) to your apt sources. After that just run
 ```bash
 $ sudo apt install cmake
