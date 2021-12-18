@@ -1,4 +1,4 @@
-#include "Configuration.hpp"
+#include "common/Configuration.hpp"
 
 #include <catch2/catch.hpp>
 
