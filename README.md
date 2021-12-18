@@ -15,6 +15,8 @@ If you want to build and run Xania locally, you'll need a modern Linux. We test 
 
 It has been reported to work on Fedora 34 and Ubuntu under Windows Subsystem for Linux too.
 
+### g++ and Other Essentials
+
 Here are the Ubuntu steps for installing some prerequisites:
 
 ```bash
@@ -22,8 +24,9 @@ Here are the Ubuntu steps for installing some prerequisites:
 $ sudo apt install build-essential manpages-dev software-properties-common
 $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 $ sudo apt update && sudo apt install gcc-11 g++-11
+
 # And you'll need the following...
-$ sudo apt install git make cmake curl
+$ sudo apt install git make curl
 
 # Local builds default to compiling with g++-11. If you need to build with a different compiler
 # you can specify the CC and CXX variables to make e.g.
@@ -32,8 +35,18 @@ $ make distclean
 $ make CC=gcc-10 CXX=g++-10 test
 ```
 
-It's pretty likely you have all these already. The hope is that almost all the upstream dependencies of the code are
-downloaded and managed by the master `Makefile`.
+### CMake
+
+You'll also need a recent version of __cmake__, at least version 3.19 is required. If you get a build error
+saying something like `add_library INTERFACE library requires no source arguments` then you probably need to
+upgrade the version you have.  One way to do that is to
+[add the __Kitware__ apt repository](https://apt.kitware.com) to your apt sources. After that just run
+```bash
+$ sudo apt install cmake
+```
+
+The build itself downloads and manages many other upstream dependencies such as __conda__ and __conan__
+via the `Makefile`.
 
 To build and run, type `make`:
 
