@@ -54,21 +54,6 @@ void mprog_driver(std::string_view com_list, Char *mob, const Char *actor, const
  * Local function code and brief comments.
  */
 
-/* if you dont have these functions, you damn well should... */
-
-#ifdef DUNNO_STRSTR
-char *strstr(s1, s2) const char *s1;
-const char *s2;
-{
-    char *cp;
-    int i, j = strlen(s1) - strlen(s2), k = strlen(s2);
-    if (j < 0)
-        return nullptr;
-    for (i = 0; i <= j && strncmp(s1++, s2, k) != 0; i++)
-        ;
-    return (i > j) ? nullptr : (s1 - 1);
-}
-#endif
 
 /* Used to get sequential lines of a multi line string (separated by "\n\r")
  * Thus its like one_argument(), but a trifle different. It is destructive
