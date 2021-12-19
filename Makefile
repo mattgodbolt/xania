@@ -42,7 +42,7 @@ endif
 	@exit 1
 
 .PHONY: build
-build: $(BUILD_ROOT)/CMakeCache.txt  ## Build Xania source
+build: deps $(BUILD_ROOT)/CMakeCache.txt  ## Build Xania source
 	$(CMAKE) --build $(BUILD_ROOT)
 
 # Grr older cmakes don't support --install and --prefix
@@ -71,12 +71,8 @@ $(CONAN): | $(PIP)
 conda: $(CONDA)
 conan: $(CONAN)
 
-.PHONY: deps cmake-print-deps
+.PHONY: deps
 deps: conda conan $(CLANG_FORMAT)
-cmake-print-deps: deps Makefile
-	@echo "# Automatically created by the Makefile - DO NOT EDIT" > $(CMAKE_CONFIG_FILE)
-	@echo "set(CMAKE_PROGRAM_PATH $(CONDA_ROOT)/bin \$$(CMAKE_PROGRAM_PATH))" >> $(CMAKE_CONFIG_FILE)
-
 
 # ideally would check the sha512 here. TODO: This
 $(CLANG_FORMAT): $(CURL)
@@ -100,7 +96,7 @@ stop: dirs  ## Stop Xania
 restart: stop start  ## Restart Xania
 
 $(BUILD_ROOT)/CMakeCache.txt:
-	$(CMAKE) -S . -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) --toolchain toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
+	PATH=${PATH}:$(CONDA_ROOT)/bin $(CMAKE) -S . -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) --toolchain toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
 
 .PHONY: distclean
 distclean:  ## Clean up everything
