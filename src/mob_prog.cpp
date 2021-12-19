@@ -48,7 +48,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
                        Char *rndm);
 void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm);
 void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm);
-void mprog_driver(std::string_view com_list, Char *mob, const Char *actor, const Object *obj, const void *vo);
+void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const void *vo);
 
 /***************************************************************************
  * Local function code and brief comments.
@@ -1214,7 +1214,7 @@ void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *
  *  the command list and figuring out what to do. However, like all
  *  complex procedures, everything is farmed out to the other guys.
  */
-void mprog_driver(std::string_view com_list, Char *mob, const Char *actor, const Object *obj, const void *vo) {
+void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const void *vo) {
 
     char tmpcmndlst[MAX_STRING_LENGTH];
     char buf[MAX_INPUT_LENGTH];
@@ -1238,7 +1238,7 @@ void mprog_driver(std::string_view com_list, Char *mob, const Char *actor, const
     // Take a copy of the original program because currently the mprog parsing routines
     // mutate the input.
     // TODO: this needs to be rewritten to be more string friendly and use things like line_iter().
-    auto com_str = std::string(com_list);
+    auto com_str = std::string(prog.comlist);
     strncpy(tmpcmndlst, com_str.c_str(), MAX_STRING_LENGTH - 1);
     command_list = tmpcmndlst;
     cmnd = command_list;
@@ -1270,7 +1270,7 @@ void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, co
             if ((mprg.arglist[0] == 'p') && (std::isspace(mprg.arglist[1]))) {
                 auto prog_phrase = mprg.arglist.substr(2, mprg.arglist.length());
                 if (matches_inside(arg, prog_phrase)) {
-                    mprog_driver(mprg.comlist, mob, actor, obj, vo);
+                    mprog_driver(mob, mprg, actor, obj, vo);
                     break;
                 }
             } else {
@@ -1278,7 +1278,7 @@ void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, co
                 auto prog_keywords = ArgParser(mprg.arglist);
                 for (const auto &prog_keyword : prog_keywords) {
                     if (matches_inside(prog_keyword, arg)) {
-                        mprog_driver(mprg.comlist, mob, actor, obj, vo);
+                        mprog_driver(mob, mprg, actor, obj, vo);
                         break;
                     }
                 }
@@ -1295,7 +1295,7 @@ void mprog_percent_check(Char *mob, Char *actor, Object *obj, void *vo, const Mo
                 continue;
             }
             if (number_percent() < parse_number(mprg.arglist)) {
-                mprog_driver(mprg.comlist, mob, actor, obj, vo);
+                mprog_driver(mob, mprg, actor, obj, vo);
                 if (type != MobProgTypeFlag::Greet && type != MobProgTypeFlag::AllGreet)
                     break;
             }
@@ -1328,7 +1328,7 @@ void mprog_bribe_trigger(Char *mob, Char *ch, int amount) {
                 if (amount >= parse_number(mprg.arglist)) {
                     /* this function previously created a gold object and gave it to ch
                        but there is zero point - the gold transfer is handled in do_give now */
-                    mprog_driver(mprg.comlist, mob, ch, nullptr, nullptr);
+                    mprog_driver(mob, mprg, ch, nullptr, nullptr);
                     break;
                 }
             }
@@ -1358,7 +1358,7 @@ void mprog_give_trigger(Char *mob, Char *ch, Object *obj) {
                 auto prog_args = ArgParser(mprg.arglist);
                 const auto first_prog_arg = prog_args.shift();
                 if (matches(obj->name, mprg.arglist) || matches("all", first_prog_arg)) {
-                    mprog_driver(mprg.comlist, mob, ch, obj, nullptr);
+                    mprog_driver(mob, mprg, ch, obj, nullptr);
                     break;
                 }
             }
@@ -1386,7 +1386,7 @@ void mprog_hitprcnt_trigger(Char *mob, Char *ch) {
                     continue;
                 }
                 if (100 * mob->hit / mob->max_hit < parse_number(mprg.arglist)) {
-                    mprog_driver(mprg.comlist, mob, ch, nullptr, nullptr);
+                    mprog_driver(mob, mprg, ch, nullptr, nullptr);
                     break;
                 }
             }

@@ -82,7 +82,7 @@ void announce(std::string_view buf, const Char *ch) {
 
 void do_say(Char *ch, std::string_view argument) {
     if (argument.empty()) {
-        ch->send_line("|cSay what?\n\r|w");
+        ch->send_line("|cSay what?|w");
         return;
     }
 
