@@ -20,13 +20,6 @@ INSTALL_DIR=$(CURDIR)/install
 TOOLS_DIR=$(CURDIR)/.tools
 CLANG_VERSION?=10
 CLANG_FORMAT:=$(TOOLS_DIR)/clang-format-$(CLANG_VERSION)
-CONDA_VERSION?=4.10.3
-CONDA_ROOT:=$(TOOLS_DIR)/conda-$(CONDA_VERSION)
-CONDA_INSTALLER=$(TOOLS_DIR)/conda-$(CONDA_VERSION)/installer.sh
-CONDA:=$(CONDA_ROOT)/bin/conda
-CONAN_VERSION=1.43.1
-PIP:=$(CONDA_ROOT)/bin/pip
-CONAN:=$(CONDA_ROOT)/bin/conan
 SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name *.hpp)
 
 ifeq ($(shell which ninja),)
@@ -42,7 +35,9 @@ endif
 	@exit 1
 
 .PHONY: build
-build: deps $(BUILD_ROOT)/CMakeCache.txt  ## Build Xania source
+build: deps ## Build Xania source
+	PATH=${PATH}:$(CONDA_ROOT)/bin $(CMAKE) -S . -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) \
+	                    --toolchain toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
 	$(CMAKE) --build $(BUILD_ROOT)
 
 # Grr older cmakes don't support --install and --prefix
@@ -55,24 +50,8 @@ dirs:
 	@mkdir -p gods player system log
 	@PROJ_ROOT=$(CURDIR) ./scripts/validate-symlinks.sh
 
-$(CONDA): | $(CURL)
-	@mkdir -p $(CONDA_ROOT)
-	@echo "Installing conda locally..."
-	$(CURL) $(CURL_OPTIONS) https://repo.anaconda.com/miniconda/Miniconda3-py39_${CONDA_VERSION}-Linux-x86_64.sh -o $(CONDA_INSTALLER)
-	@chmod +x $(CONDA_INSTALLER)
-	$(CONDA_INSTALLER) -u -b -p $(CONDA_ROOT)
-$(PIP): $(CONDA) # ideally would specify two outputs in $(CONDA) but make -j fails with that
-
-$(CONAN): | $(PIP)
-	@echo "Installing conan locally..."
-	$(PIP) install conan==$(CONAN_VERSION)
-
-.PHONY: conda conan
-conda: $(CONDA)
-conan: $(CONAN)
-
 .PHONY: deps
-deps: conda conan $(CLANG_FORMAT)
+deps: $(CLANG_FORMAT)
 
 # ideally would check the sha512 here. TODO: This
 $(CLANG_FORMAT): $(CURL)
@@ -94,9 +73,6 @@ stop: dirs  ## Stop Xania
 
 .PHONY: restart
 restart: stop start  ## Restart Xania
-
-$(BUILD_ROOT)/CMakeCache.txt:
-	PATH=${PATH}:$(CONDA_ROOT)/bin $(CMAKE) -S . -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) --toolchain toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
 
 .PHONY: distclean
 distclean:  ## Clean up everything
