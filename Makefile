@@ -20,6 +20,7 @@ INSTALL_DIR=$(CURDIR)/install
 TOOLS_DIR=$(CURDIR)/.tools
 CLANG_VERSION?=10
 CLANG_FORMAT:=$(TOOLS_DIR)/clang-format-$(CLANG_VERSION)
+TOP_SRC_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name *.hpp)
 
 ifeq ($(shell which ninja),)
@@ -36,7 +37,8 @@ endif
 
 .PHONY: build
 build: deps ## Build Xania source
-	PATH=${PATH}:$(CONDA_ROOT)/bin $(CMAKE) -S . -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) \
+	PATH=${PATH}:$(CONDA_ROOT)/bin \
+	  $(CMAKE) -S $(TOP_SRC_DIR) -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) \
 	                    --toolchain toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
 	$(CMAKE) --build $(BUILD_ROOT)
 
