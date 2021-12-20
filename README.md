@@ -25,15 +25,22 @@ $ sudo apt install build-essential manpages-dev software-properties-common
 $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 $ sudo apt update && sudo apt install gcc-11 g++-11
 
+# Optional step: We recommend installing ninja-build as it speeds the builds up significantly.
+$ sudo apt install ninja-build
+
 # And you'll need the following...
 $ sudo apt install git make curl
 
-# Local builds default to compiling with g++-11. If you need to build with a different compiler
-# you can specify the CC and CXX variables to make e.g.
-$ sudo apt install gcc-10 g++-10
-$ make distclean
-$ make CC=gcc-10 CXX=g++-10 test
+# Local builds autodetect g++-11 and use it for compilation, but fallback to g++-10. If you want to build with a different compiler
+# create a new cmake toolchain file e.g. "toolchain/mycompilers.cmake" and set the compiler variables in it. Then invoke make specifying
+# the leading part of your toolchain name in the TOOLCHAIN make variable e.g.
+$ make TOOLCHAIN=mycompilers test
+
+# Alternatively, if you know what you're doing you can invoke cmake directly and pass the --toolchain switch. Take a 
+# look in the Makefile for how cmake gets invoked to generate the build currently.
 ```
+
+
 
 ### CMake
 
