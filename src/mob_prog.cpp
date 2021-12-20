@@ -54,7 +54,6 @@ void mprog_driver(std::string_view com_list, Char *mob, const Char *actor, const
  * Local function code and brief comments.
  */
 
-
 /* Used to get sequential lines of a multi line string (separated by "\n\r")
  * Thus its like one_argument(), but a trifle different. It is destructive
  * to the multi line string argument, and thus clist must not be shared.
