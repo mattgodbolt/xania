@@ -5,6 +5,12 @@ default: install
 help: # with thanks to Ben Rady
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
+ifeq ($(shell which g++-11),)
+TOOLCHAIN?=g++-10
+else
+TOOLCHAIN?=g++-11
+endif
+
 CMAKE?=$(shell which cmake || echo .cmake-not-found)
 CURL?=$(shell which curl || echo .curl-not-found)
 CURL_OPTIONS:=-sL --fail -m 120 --connect-timeout 3 --retry 3 --retry-max-time 360
@@ -22,11 +28,6 @@ CONAN_VERSION=1.43.1
 PIP:=$(CONDA_ROOT)/bin/pip
 CONAN:=$(CONDA_ROOT)/bin/conan
 SOURCE_FILES:=$(shell find src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name *.hpp)
-# Make local development use g++-11 by default although you can override this by specifying
-# the CC and CXX environment variables _after_ the make command e.g.
-#        $ make CC=gcc-10 CXX=g++-10 test
-export CC=gcc-11
-export CXX=g++-11
 
 ifeq ($(shell which ninja),)
 CMAKE_GENERATOR_FLAGS?=
@@ -98,10 +99,8 @@ stop: dirs  ## Stop Xania
 .PHONY: restart
 restart: stop start  ## Restart Xania
 
-# Grr older cmakes don't support -S -B
 $(BUILD_ROOT)/CMakeCache.txt:
-	@mkdir -p $(BUILD_ROOT)
-	cd $(BUILD_ROOT) && $(CMAKE) .. $(CMAKE_GENERATOR_FLAGS) -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
+	$(CMAKE) -S . -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) --toolchain toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
 
 .PHONY: distclean
 distclean:  ## Clean up everything

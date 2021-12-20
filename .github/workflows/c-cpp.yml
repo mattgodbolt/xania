@@ -22,9 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: install-compiler
-        run : sudo apt-get update && sudo apt-get install g++-${{ matrix.gcc_version }} -y
+        run : sudo apt-get update && sudo apt-get install ninja-build g++-${{ matrix.gcc_version }} -y
       - name: configure
-        run: cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S . -B cmake-build-${{ matrix.build_type }}
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S . -B cmake-build-${{ matrix.build_type }}
       - name: build
         run: cmake --build cmake-build-${{ matrix.build_type }}
       - name: test
@@ -38,10 +38,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: install-compiler
-        run : sudo apt-get update && sudo apt-get install g++-11 -y
+        run : sudo apt-get update && sudo apt-get install ninja-build g++-11 -y
       - name: configure
         run: |
-          cmake -DCMAKE_BUILD_TYPE=Release \
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release \
             -DBUILD_VERSION="$GITHUB_RUN_NUMBER" \
             -DBUILD_COMMIT_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$GITHUB_SHA" \
             -DBUILD_FULL_VERSION="$GITHUB_RUN_NUMBER $GITHUB_SHA on $GITHUB_REF" \
