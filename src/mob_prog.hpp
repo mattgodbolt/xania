@@ -9,6 +9,8 @@
 
 #include "MobProgTypeFlag.hpp"
 
+#include <optional>
+
 struct Char;
 struct Object;
 struct Area;
@@ -29,6 +31,20 @@ void mprog_hitprcnt_trigger(Char *mob, Char *ch);
 void mprog_death_trigger(Char *mob);
 void mprog_random_trigger(Char *mob);
 void mprog_speech_trigger(std::string_view txt, const Char *mob);
+
+namespace mprog {
+
+struct IfExpr {
+    std::string_view function;
+    std::string_view arg;
+    std::string_view op;
+    std::string_view operand;
+    bool operator==(const IfExpr &other) const = default;
+
+    static std::optional<IfExpr> parse_if(std::string_view text);
+};
+
+}
 
 class MobProgAct {
 public:

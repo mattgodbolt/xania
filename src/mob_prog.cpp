@@ -1,6 +1,6 @@
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
+/*  (C) 1995-2000 Xania Development Team                                 */
 /*  See the header to file: merc.h for original code copyrights          */
 /*************************************************************************/
 
@@ -42,13 +42,66 @@ using namespace std::literals;
 
 char *mprog_next_command(char *clist);
 bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rhs);
-bool mprog_veval(int lhs, std::string_view opr, int rhs);
+bool mprog_veval(const int lhs, std::string_view opr, const int rhs);
 bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm);
 char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj, const void *vo,
                        Char *rndm);
 void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm);
 void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm);
 void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const void *vo);
+
+namespace mprog {
+
+// Parses an if expression taking these forms (the if has already been processed)
+//   func_name(func_arg)
+//   func_name(func_arg) operator operand
+// Returns an empty optional if it couldn't be parsed.
+std::optional<IfExpr> IfExpr::parse_if(std::string_view text) {
+    auto orig = text;
+    text = trim(text);
+    if (text.empty()) {
+        return std::nullopt;
+    }
+    auto open_paren = text.find_first_of("(");
+    if (open_paren == std::string_view::npos) {
+        bug("parse_if: missing '(': {}", orig);
+        return std::nullopt;
+    }
+    auto function = trim(text.substr(0, open_paren));
+    if (function.empty()) {
+        bug("parse_if: missing function name: {}", orig);
+        return std::nullopt;
+    }
+    text = ltrim(text.substr(open_paren + 1));
+    auto close_paren = text.find_first_of(")");
+    if (close_paren == std::string_view::npos) {
+        bug("parse_if: missing ')': {}", orig);
+        return std::nullopt;
+    }
+    auto arg = trim(text.substr(0, close_paren));
+    if (arg.empty()) {
+        bug("parse_if: missing argument: {}", orig);
+        return std::nullopt;
+    }
+    text = ltrim(text.substr(close_paren + 1));
+    if (text.empty()) {
+        return IfExpr{function, arg, "", ""};
+    }
+    auto after_op = text.find_first_of(" \t");
+    if (after_op == std::string_view::npos) {
+        bug("parse_if: operator missing operand: {}", orig);
+        return std::nullopt;
+    }
+    auto op = trim(text.substr(0, after_op));
+    text = ltrim(text.substr(after_op + 1));
+    if (text.empty()) {
+        bug("parse_if: operator missing operand: {}", orig);
+        return std::nullopt;
+    }
+    return IfExpr{function, arg, op, text};
+}
+
+}
 
 /***************************************************************************
  * Local function code and brief comments.
@@ -93,7 +146,7 @@ bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rh
     return false;
 }
 
-bool mprog_veval(int lhs, std::string_view opr, int rhs) {
+bool mprog_veval(const int lhs, std::string_view opr, const int rhs) {
     if (opr == "=="sv)
         return lhs == rhs;
     if (opr == "!="sv)
@@ -127,703 +180,287 @@ bool mprog_veval(int lhs, std::string_view opr, int rhs) {
  */
 bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm) {
 
-    char buf[MAX_INPUT_LENGTH];
-    char arg[MAX_INPUT_LENGTH];
-    char opr[MAX_INPUT_LENGTH];
-    char val[MAX_INPUT_LENGTH];
     auto *vict = (const Char *)vo;
     auto *v_obj = (const Object *)vo;
-    char *bufpt = buf;
-    char *argpt = arg;
-    char *oprpt = opr;
-    char *valpt = val;
-    char *point = ifchck;
-    int lhsvl;
-    int rhsvl;
-
-    if (*point == '\0') {
-        bug("Mob: {} null ifchck", mob->mobIndex->vnum);
-        return -1;
+    using namespace mprog;
+    const auto opt_ifexpr = IfExpr::parse_if(ifchck);
+    if (!opt_ifexpr) {
+        return false;
     }
-    /* skip leading spaces */
-    while (std::isspace(*point))
-        point++;
-
-    /* get whatever comes before the left paren.. ignore spaces */
-    while (*point != '(')
-        if (*point == '\0') {
-            bug("Mob: {} ifchck syntax error", mob->mobIndex->vnum);
-            return -1;
-        } else if (std::isspace(*point))
-            point++;
-        else
-            *bufpt++ = *point++;
-
-    *bufpt = '\0';
-    point++;
-
-    /* get whatever is in between the parens.. ignore spaces */
-    while (*point != ')')
-        if (*point == '\0') {
-            bug("Mob: {} ifchck syntax error", mob->mobIndex->vnum);
-            return -1;
-        } else if (std::isspace(*point))
-            point++;
-        else
-            *argpt++ = *point++;
-
-    *argpt = '\0';
-    point++;
-
-    /* check to see if there is an operator */
-    while (std::isspace(*point))
-        point++;
-    if (*point == '\0') {
-        *opr = '\0';
-        *val = '\0';
-    } else /* there should be an operator and value, so get them */
-    {
-        while (!std::isspace(*point) && !isalnum(*point))
-            if (*point == '\0') {
-                bug("Mob: {} ifchck operator without value", mob->mobIndex->vnum);
-                return -1;
-            } else
-                *oprpt++ = *point++;
-
-        *oprpt = '\0';
-
-        /* finished with operator, skip spaces and then get the value */
-        while (std::isspace(*point))
-            point++;
-        while (!std::isspace(*point) && *point != '\0')
-            *valpt++ = *point++;
-        *valpt = '\0';
+    const auto ifexpr = *opt_ifexpr;
+    if (matches(ifexpr.function, "rand")) {
+        if (!is_number(ifexpr.arg)) {
+            bug("Mob: {} bad argument to 'rand': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        return number_percent() <= parse_number(ifexpr.arg);
     }
-    bufpt = buf;
-    argpt = arg;
-    oprpt = opr;
-    valpt = val;
-
-    /* Ok... now buf contains the ifchck, arg contains the inside of the
-     *  parentheses, opr contains an operator if one is present, and val
-     *  has the value if an operator was present.
-     *  So.. basically use if statements and run over all known ifchecks
-     *  Once inside, use the argument and expand the lhs. Then if need be
-     *  send the lhs,opr,rhs off to be evaluated.
-     */
-
-    if (!str_cmp(buf, "rand")) {
-        return (number_percent() <= atoi(arg));
-    }
-
-    if (!str_cmp(buf, "ispc")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i': return 0;
-        case 'n':
-            if (actor)
-                return (actor->is_pc());
-            else
-                return -1;
-        case 't':
-            if (vict)
-                return (vict->is_pc());
-            else
-                return -1;
-        case 'r':
-            if (rndm)
-                return (rndm->is_pc());
-            else
-                return -1;
-        default: bug("Mob: {} bad argument to 'ispc'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "ispc")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'ispc': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) { // arg should be "$*" so just get the letter
+        case 'i': return false; // Self
+        case 'n': return actor && actor->is_pc();
+        case 't': return vict && vict->is_pc();
+        case 'r': return rndm && rndm->is_pc();
+        default: bug("Mob: {} bad argument to 'ispc': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "isnpc")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i': return 1;
-        case 'n':
-            if (actor)
-                return actor->is_npc();
-            else
-                return -1;
-        case 't':
-            if (vict)
-                return vict->is_npc();
-            else
-                return -1;
-        case 'r':
-            if (rndm)
-                return rndm->is_npc();
-            else
-                return -1;
-        default: bug("Mob: {} bad argument to 'isnpc'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "isnpc")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'isnpc': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return true; // Self
+        case 'n': return actor && actor->is_npc();
+        case 't': return vict && vict->is_npc();
+        case 'r': return rndm && rndm->is_npc();
+        default: bug("Mob: {} bad argument to 'isnpc': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "isgood")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
+    if (matches(ifexpr.function, "isgood")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'isgood': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
         case 'i': return mob->is_good();
-        case 'n':
-            if (actor)
-                return actor->is_good();
-            else
-                return -1;
-        case 't':
-            if (vict)
-                return vict->is_good();
-            else
-                return -1;
-        case 'r':
-            if (rndm)
-                return rndm->is_good();
-            else
-                return -1;
-        default: bug("Mob: {} bad argument to 'isgood'", mob->mobIndex->vnum); return -1;
+        case 'n': return actor && actor->is_good();
+        case 't': return vict && vict->is_good();
+        case 'r': return rndm && rndm->is_good();
+        default: bug("Mob: {} bad argument to 'isgood': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "isfight")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i': return (mob->fighting) ? 1 : 0;
-        case 'n':
-            if (actor)
-                return (actor->fighting) ? 1 : 0;
-            else
-                return -1;
-        case 't':
-            if (vict)
-                return (vict->fighting) ? 1 : 0;
-            else
-                return -1;
-        case 'r':
-            if (rndm)
-                return (rndm->fighting) ? 1 : 0;
-            else
-                return -1;
-        default: bug("Mob: {} bad argument to 'isfight'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "isfight")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'isfight': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->fighting;
+        case 'n': return actor && actor->fighting;
+        case 't': return vict && vict->fighting;
+        case 'r': return rndm && rndm->fighting;
+        default: bug("Mob: {} bad argument to 'isfight': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "isimmort")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i': return (mob->get_trust() > LEVEL_IMMORTAL);
-        case 'n':
-            if (actor)
-                return (actor->get_trust() > LEVEL_IMMORTAL);
-            else
-                return -1;
-        case 't':
-            if (vict)
-                return (vict->get_trust() > LEVEL_IMMORTAL);
-            else
-                return -1;
-        case 'r':
-            if (rndm)
-                return (rndm->get_trust() > LEVEL_IMMORTAL);
-            else
-                return -1;
-        default: bug("Mob: {} bad argument to 'isimmort'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "isimmort")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'isimmort': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->get_trust() > LEVEL_IMMORTAL;
+        case 'n': return actor && actor->get_trust() > LEVEL_IMMORTAL;
+        case 't': return vict && vict->get_trust() > LEVEL_IMMORTAL;
+        case 'r': return rndm && rndm->get_trust() > LEVEL_IMMORTAL;
+        default: bug("Mob: {} bad argument to 'isimmort': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "ischarmed")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-            // TheMoog changed here to get rid of warning
-        case 'i': return mob->is_aff_charm() ? true : false;
-        case 'n':
-            if (actor)
-                return actor->is_aff_charm() ? true : false;
-            else
-                return -1;
-        case 't':
-            if (vict)
-                return vict->is_aff_charm() ? true : false;
-            else
-                return -1;
-        case 'r':
-            if (rndm)
-                return rndm->is_aff_charm() ? true : false;
-            else
-                return -1;
-        default: bug("Mob: {} bad argument to 'ischarmed'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "ischarmed")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'ischarmed': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->is_aff_charm();
+        case 'n': return actor && actor->is_aff_charm();
+        case 't': return vict && vict->is_aff_charm();
+        case 'r': return rndm && rndm->is_aff_charm();
+        default: bug("Mob: {} bad argument to 'ischarmed': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "isfollow")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i': return (mob->master != nullptr && mob->master->in_room == mob->in_room);
-        case 'n':
-            if (actor)
-                return (actor->master != nullptr && actor->master->in_room == actor->in_room);
-            else
-                return -1;
-        case 't':
-            if (vict)
-                return (vict->master != nullptr && vict->master->in_room == vict->in_room);
-            else
-                return -1;
-        case 'r':
-            if (rndm)
-                return (rndm->master != nullptr && rndm->master->in_room == rndm->in_room);
-            else
-                return -1;
-        default: bug("Mob: {} bad argument to 'isfollow'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "isfollow")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'isfollow': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->master && mob->master->in_room == mob->in_room;
+        case 'n': return actor && actor->master && actor->master->in_room == actor->in_room;
+        case 't': return vict && vict->master && vict->master->in_room == vict->in_room;
+        case 'r': return rndm && rndm->master && rndm->master->in_room == rndm->in_room;
+        default: bug("Mob: {} bad argument to 'isfollow': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "isaffected")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i': return (mob->affected_by & atoi(arg));
-        case 'n':
-            if (actor)
-                return (actor->affected_by & atoi(arg));
-            else
-                return -1;
-        case 't':
-            if (vict)
-                return (vict->affected_by & atoi(arg));
-            else
-                return -1;
-        case 'r':
-            if (rndm)
-                return (rndm->affected_by & atoi(arg));
-            else
-                return -1;
-        default: bug("Mob: {} bad argument to 'isaffected'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "isaffected")) {
+        if (!is_number(ifexpr.arg)) {
+            bug("Mob: {} bad argument to 'isaffected': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        const auto affect_bit = parse_number(ifexpr.arg);
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->affected_by & affect_bit;
+        case 'n': return actor && actor->affected_by & affect_bit;
+        case 't': return vict && vict->affected_by & affect_bit;
+        case 'r': return rndm && rndm->affected_by & affect_bit;
+        default: bug("Mob: {} bad argument to 'isaffected': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "hitprcnt")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i':
-            lhsvl = mob->hit / mob->max_hit;
-            rhsvl = atoi(val);
-            return mprog_veval(lhsvl, opr, rhsvl);
-        case 'n':
-            if (actor) {
-                lhsvl = actor->hit / actor->max_hit;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 't':
-            if (vict) {
-                lhsvl = vict->hit / vict->max_hit;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'r':
-            if (rndm) {
-                lhsvl = rndm->hit / rndm->max_hit;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'hitprcnt'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "hitprcnt")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'hitprcnt': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'hitprcnt': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto percent = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return mprog_veval(mob->hit / mob->max_hit, ifexpr.op, percent);
+        case 'n': return actor && mprog_veval(actor->hit / actor->max_hit, ifexpr.op, percent);
+        case 't': return vict && mprog_veval(vict->hit / vict->max_hit, ifexpr.op, percent);
+        case 'r': return rndm && mprog_veval(rndm->hit / rndm->max_hit, ifexpr.op, percent);
+        default: bug("Mob: {} bad argument to 'hitprcnt': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "inroom")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i':
-            lhsvl = mob->in_room->vnum;
-            rhsvl = atoi(val);
-            return mprog_veval(lhsvl, opr, rhsvl);
-        case 'n':
-            if (actor) {
-                lhsvl = actor->in_room->vnum;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 't':
-            if (vict) {
-                lhsvl = vict->in_room->vnum;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'r':
-            if (rndm) {
-                lhsvl = rndm->in_room->vnum;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'inroom'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "inroom")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'inroom': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'inroom': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto room_vnum = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return mprog_veval(mob->in_room->vnum, ifexpr.op, room_vnum);
+        case 'n': return actor && mprog_veval(actor->in_room->vnum, ifexpr.op, room_vnum);
+        case 't': return vict && mprog_veval(vict->in_room->vnum, ifexpr.op, room_vnum);
+        case 'r': return rndm && mprog_veval(rndm->in_room->vnum, ifexpr.op, room_vnum);
+        default: bug("Mob: {} bad argument to 'inroom': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "sex")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i':
-            lhsvl = mob->sex.integer();
-            rhsvl = atoi(val);
-            return mprog_veval(lhsvl, opr, rhsvl);
-        case 'n':
-            if (actor) {
-                lhsvl = actor->sex.integer();
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 't':
-            if (vict) {
-                lhsvl = vict->sex.integer();
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'r':
-            if (rndm) {
-                lhsvl = rndm->sex.integer();
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'sex'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "sex")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'sex': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'sex': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto sex = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return mprog_veval(mob->sex.integer(), ifexpr.op, sex);
+        case 'n': return actor && mprog_veval(actor->sex.integer(), ifexpr.op, sex);
+        case 't': return vict && mprog_veval(vict->sex.integer(), ifexpr.op, sex);
+        case 'r': return rndm && mprog_veval(rndm->sex.integer(), ifexpr.op, sex);
+        default: bug("Mob: {} bad argument to 'sex': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "position")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i':
-            lhsvl = mob->position.integer();
-            rhsvl = atoi(val);
-            return mprog_veval(lhsvl, opr, rhsvl);
-        case 'n':
-            if (actor) {
-                lhsvl = actor->position.integer();
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 't':
-            if (vict) {
-                lhsvl = vict->position.integer();
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'r':
-            if (rndm) {
-                lhsvl = rndm->position.integer();
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'position'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "position")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'position': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'position': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto position = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return mprog_veval(mob->position.integer(), ifexpr.op, position);
+        case 'n': return actor && mprog_veval(actor->position.integer(), ifexpr.op, position);
+        case 't': return vict && mprog_veval(vict->position.integer(), ifexpr.op, position);
+        case 'r': return rndm && mprog_veval(rndm->position.integer(), ifexpr.op, position);
+        default: bug("Mob: {} bad argument to 'position': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "level")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i':
-            lhsvl = mob->get_trust();
-            rhsvl = atoi(val);
-            return mprog_veval(lhsvl, opr, rhsvl);
-        case 'n':
-            if (actor) {
-                lhsvl = actor->get_trust();
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 't':
-            if (vict) {
-                lhsvl = vict->get_trust();
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'r':
-            if (rndm) {
-                lhsvl = rndm->get_trust();
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'level'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "level")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'level': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'level': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto level = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return mprog_veval(mob->get_trust(), ifexpr.op, level);
+        case 'n': return actor && mprog_veval(actor->get_trust(), ifexpr.op, level);
+        case 't': return vict && mprog_veval(vict->get_trust(), ifexpr.op, level);
+        case 'r': return rndm && mprog_veval(rndm->get_trust(), ifexpr.op, level);
+        default: bug("Mob: {} bad argument to 'level': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "class")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i':
-            lhsvl = mob->class_num;
-            rhsvl = atoi(val);
-            return mprog_veval(lhsvl, opr, rhsvl);
-        case 'n':
-            if (actor) {
-                lhsvl = actor->class_num;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 't':
-            if (vict) {
-                lhsvl = vict->class_num;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'r':
-            if (rndm) {
-                lhsvl = rndm->class_num;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'class'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "class")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'class': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'class': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto class_num = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return mprog_veval(mob->class_num, ifexpr.op, class_num);
+        case 'n': return actor && mprog_veval(actor->class_num, ifexpr.op, class_num);
+        case 't': return vict && mprog_veval(vict->class_num, ifexpr.op, class_num);
+        case 'r': return rndm && mprog_veval(rndm->class_num, ifexpr.op, class_num);
+        default: bug("Mob: {} bad argument to 'class': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "goldamt")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i':
-            lhsvl = mob->gold;
-            rhsvl = atoi(val);
-            return mprog_veval(lhsvl, opr, rhsvl);
-        case 'n':
-            if (actor) {
-                lhsvl = actor->gold;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 't':
-            if (vict) {
-                lhsvl = vict->gold;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'r':
-            if (rndm) {
-                lhsvl = rndm->gold;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'goldamt'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "goldamt")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'goldamt': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'goldamt': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto gold = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return mprog_veval(mob->gold, ifexpr.op, gold);
+        case 'n': return actor && mprog_veval(actor->gold, ifexpr.op, gold);
+        case 't': return vict && mprog_veval(vict->gold, ifexpr.op, gold);
+        case 'r': return rndm && mprog_veval(rndm->gold, ifexpr.op, gold);
+        default: bug("Mob: {} bad argument to 'goldamt': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "objtype")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'o':
-            if (obj) {
-                lhsvl = magic_enum::enum_integer<ObjectType>(obj->type);
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'p':
-            if (v_obj) {
-                lhsvl = magic_enum::enum_integer<ObjectType>(v_obj->type);
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'objtype'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "objtype")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'objtype': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'objtype': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto obj_type = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'o': return obj && mprog_veval(magic_enum::enum_integer<ObjectType>(obj->type), ifexpr.op, obj_type);
+        case 'p': return v_obj && mprog_veval(magic_enum::enum_integer<ObjectType>(v_obj->type), ifexpr.op, obj_type);
+        default: bug("Mob: {} bad argument to 'objtype': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    if (!str_cmp(buf, "objval0")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'o':
-            if (obj) {
-                lhsvl = obj->value[0];
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'p':
-            if (v_obj) {
-                lhsvl = v_obj->value[0];
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'objval0'", mob->mobIndex->vnum); return -1;
-        }
-    }
-
-    if (!str_cmp(buf, "objval1")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'o':
-            if (obj) {
-                lhsvl = obj->value[1];
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'p':
-            if (v_obj) {
-                lhsvl = v_obj->value[1];
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'objval1'", mob->mobIndex->vnum); return -1;
-        }
-    }
-
-    if (!str_cmp(buf, "objval2")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'o':
-            if (obj) {
-                lhsvl = obj->value[2];
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'p':
-            if (v_obj) {
-                lhsvl = v_obj->value[2];
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'objval2'", mob->mobIndex->vnum); return -1;
-        }
-    }
-
-    if (!str_cmp(buf, "objval3")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'o':
-            if (obj) {
-                lhsvl = obj->value[3];
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'p':
-            if (v_obj) {
-                lhsvl = v_obj->value[3];
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'objval3'", mob->mobIndex->vnum); return -1;
-        }
-    }
-
-    if (!str_cmp(buf, "number")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i':
-            lhsvl = mob->gold;
-            rhsvl = atoi(val);
-            return mprog_veval(lhsvl, opr, rhsvl);
-        case 'n':
-            if (actor) {
-                if (actor->is_npc()) {
-                    lhsvl = actor->mobIndex->vnum;
-                    rhsvl = atoi(val);
-                    return mprog_veval(lhsvl, opr, rhsvl);
-                }
-            } else
-                return -1;
-            break; // TODO this fell through (as did all) but not clear that's what was wanted
-        case 't':
-            if (vict) {
-                if (actor->is_npc()) {
-                    lhsvl = vict->mobIndex->vnum;
-                    rhsvl = atoi(val);
-                    return mprog_veval(lhsvl, opr, rhsvl);
-                }
-            } else
-                return -1;
-            break;
-        case 'r':
-            if (rndm) {
-                if (actor->is_npc()) {
-                    lhsvl = rndm->mobIndex->vnum;
-                    rhsvl = atoi(val);
-                    return mprog_veval(lhsvl, opr, rhsvl);
-                }
-            } else
-                return -1;
-            break;
-        case 'o':
-            if (obj) {
-                lhsvl = obj->objIndex->vnum;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        case 'p':
-            if (v_obj) {
-                lhsvl = v_obj->objIndex->vnum;
-                rhsvl = atoi(val);
-                return mprog_veval(lhsvl, opr, rhsvl);
-            } else
-                return -1;
-        default: bug("Mob: {} bad argument to 'number'", mob->mobIndex->vnum); return -1;
-        }
-    }
-
-    if (!str_cmp(buf, "name")) {
-        switch (arg[1]) /* arg should be "$*" so just get the letter */
-        {
-        case 'i': return mprog_seval(mob->name, opr, val);
-        case 'n':
-            if (actor)
-                return mprog_seval(actor->name, opr, val);
-            else
-                return -1;
-        case 't':
-            if (vict)
-                return mprog_seval(vict->name, opr, val);
-            else
-                return -1;
-        case 'r':
-            if (rndm)
-                return mprog_seval(rndm->name, opr, val);
-            else
-                return -1;
-        case 'o':
-            if (obj)
-                return mprog_seval(obj->name, opr, val);
-            else
-                return -1;
-        case 'p':
-            if (v_obj)
-                return mprog_seval(v_obj->name, opr, val);
-            else
-                return -1;
-        default: bug("Mob: {} bad argument to 'name'", mob->mobIndex->vnum); return -1;
+    if (matches(ifexpr.function, "name")) {
+        switch (ifexpr.arg[1]) {
+        case 'i': return mprog_seval(mob->name, ifexpr.op, ifexpr.operand);
+        case 'n': return actor && mprog_seval(actor->name, ifexpr.op, ifexpr.operand);
+        case 't': return vict && mprog_seval(vict->name, ifexpr.op, ifexpr.operand);
+        case 'r': return rndm && mprog_seval(rndm->name, ifexpr.op, ifexpr.operand);
+        case 'o': return obj && mprog_seval(obj->name, ifexpr.op, ifexpr.operand);
+        case 'p': return v_obj && mprog_seval(v_obj->name, ifexpr.op, ifexpr.operand);
+        default: bug("Mob: {} bad argument to 'name': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
 
     /* Ok... all the ifchcks are done, so if we didnt find ours then something
      * odd happened.  So report the bug and abort the MOBprogram (return error)
      */
-    bug("Mob: {} unknown ifchck", mob->mobIndex->vnum);
-    return -1;
+    bug("Mob: {} unknown ifchck: {}", mob->mobIndex->vnum, ifexpr.function);
+    return false;
 }
+
 /* Quite a long and arduous function, this guy handles the control
  * flow part of MOBprograms.  Basicially once the driver sees an
  * 'if' attention shifts to here.  While many syntax errors are

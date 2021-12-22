@@ -2,7 +2,6 @@
 emote keeps an eye out for wanted criminals.
 ~
 >greet_prog 40~
-look $n
 if isgood($n)
 	say Good day.
 	smile $n
