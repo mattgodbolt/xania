@@ -1,5 +1,5 @@
 file(GLOB SOURCE_FILES CONFIGURE_DEPENDS *.cpp *.hpp)
 add_executable(apps_test ${SOURCE_FILES})
 target_compile_definitions(apps_test PUBLIC CATCH_CONFIG_EXTERNAL_INTERFACES CATCH_CONFIG_ENABLE_ALL_STRINGMAKERS TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/test_data")
-target_link_libraries(apps_test PRIVATE pfu_lib CONAN_PKG::catch2)
+target_link_libraries(apps_test PRIVATE pfu_lib Catch2::Catch2)
 add_test(NAME apps_test COMMAND $<TARGET_FILE:apps_test>)
