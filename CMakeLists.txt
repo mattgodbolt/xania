@@ -7,7 +7,7 @@ set(BUILD_COMMIT_URL "https://this.is.a.local.build/1234" CACHE STRING "Full str
 project(xania)
 
 set(CMAKE_CXX_STANDARD 20)
-add_compile_options(-Werror -Wall -Wextra -Wno-error=deprecated-declarations)
+add_compile_options(-Werror -Wall -Wextra)
 # Regardless of the CMake settings, I always want us to have debug information available.
 add_compile_options(-g)
 
