@@ -30,6 +30,7 @@ jobs:
       - name: test
         run: cd cmake-build-${{ matrix.build_type }} && ctest --verbose
   deploy-code:
+    if: ${{ github.ref_name == 'main' }}
     needs: build-and-test
     runs-on: ubuntu-20.04
     env:
@@ -41,7 +42,7 @@ jobs:
         run : sudo apt-get update && sudo apt-get install ninja-build g++-11 -y
       - name: configure
         run: |
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release \
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=release \
             -DBUILD_VERSION="$GITHUB_RUN_NUMBER" \
             -DBUILD_COMMIT_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$GITHUB_SHA" \
             -DBUILD_FULL_VERSION="$GITHUB_RUN_NUMBER $GITHUB_SHA on $GITHUB_REF" \
@@ -53,6 +54,7 @@ jobs:
       - name: tarball # TODO probably branch name here?
         run: tar Jcvf xania-$GITHUB_RUN_NUMBER.tar.xz --transform "s|^cmake-build-install|./xania-$GITHUB_RUN_NUMBER|" cmake-build-install
       - name: Upload file to bucket
+
         uses: zdurham/s3-upload-github-action@master
         env:
           FILE: xania-${{ github.run_number }}.tar.xz
