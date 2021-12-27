@@ -43,8 +43,8 @@ using namespace std::literals;
 char *mprog_next_command(char *clist);
 bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rhs);
 bool mprog_veval(const int lhs, std::string_view opr, const int rhs);
-bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
-                     Char *rndm);
+bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
+                     const mprog::Target target, Char *rndm);
 char *mprog_process_if(std::string_view ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj,
                        const mprog::Target target, Char *rndm);
 void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
@@ -125,6 +125,9 @@ Target to_target(const Char *ch, const Object *obj) {
  */
 char *mprog_next_command(char *clist) {
 
+    if (!clist) {
+        return nullptr;
+    }
     char *pointer = clist;
 
     while (*pointer != '\n' && *pointer != '\0')
@@ -190,8 +193,8 @@ bool mprog_veval(const int lhs, std::string_view opr, const int rhs) {
  * to reduce the redundancy of the mammoth if statement list.
  * If there are errors, then return -1 otherwise return boolean 1,0
  */
-bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
-                     Char *rndm) {
+bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
+                     const mprog::Target target, Char *rndm) {
     using namespace mprog;
     const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
     const auto *targ_obj =
@@ -805,7 +808,7 @@ void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *
 
     point = buf;
     str = cmnd;
-
+    // TODO Stringification: This is really unsafe, as cmnd can be longer than buf.
     while (*str != '\0') {
         if (*str != '$') {
             *point++ = *str++;
@@ -855,15 +858,15 @@ void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Objec
     strncpy(tmpcmndlst, com_str.c_str(), MAX_STRING_LENGTH - 1);
     command_list = tmpcmndlst;
     cmnd = command_list;
-    command_list = mprog_next_command(command_list);
-    while (*cmnd != '\0') {
-        morebuf = one_argument(cmnd, buf);
-        if (!str_cmp(buf, "if"))
-            command_list = mprog_process_if(morebuf, command_list, mob, actor, obj, target, rndm);
-        else
-            mprog_process_cmnd(cmnd, mob, actor, obj, target, rndm);
-        cmnd = command_list;
+    while (cmnd && *cmnd != '\0') {
         command_list = mprog_next_command(command_list);
+        morebuf = one_argument(cmnd, buf);
+        if (!str_cmp(buf, "if")) {
+            command_list = mprog_process_if(morebuf, command_list, mob, actor, obj, target, rndm);
+        } else {
+            mprog_process_cmnd(cmnd, mob, actor, obj, target, rndm);
+        }
+        cmnd = command_list;
     }
 }
 
