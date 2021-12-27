@@ -43,12 +43,15 @@ using namespace std::literals;
 char *mprog_next_command(char *clist);
 bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rhs);
 bool mprog_veval(const int lhs, std::string_view opr, const int rhs);
-bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm);
-char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj, const void *vo,
-                       Char *rndm);
-void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm);
-void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm);
-void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const void *vo);
+bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
+                     Char *rndm);
+char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj,
+                       const mprog::Target target, Char *rndm);
+void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
+                     Char *rndm);
+void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
+                        Char *rndm);
+void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const mprog::Target target);
 
 namespace mprog {
 
@@ -99,6 +102,15 @@ std::optional<IfExpr> IfExpr::parse_if(std::string_view text) {
         return std::nullopt;
     }
     return IfExpr{function, arg, op, text};
+}
+
+Target to_target(const Char *ch, const Object *obj) {
+    if (ch)
+        return mprog::Target{ch};
+    else if (obj)
+        return mprog::Target{obj};
+    else
+        return mprog::Target{nullptr};
 }
 
 }
@@ -178,11 +190,12 @@ bool mprog_veval(const int lhs, std::string_view opr, const int rhs) {
  * to reduce the redundancy of the mammoth if statement list.
  * If there are errors, then return -1 otherwise return boolean 1,0
  */
-bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm) {
-
-    auto *vict = (const Char *)vo;
-    auto *v_obj = (const Object *)vo;
+bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
+                     Char *rndm) {
     using namespace mprog;
+    const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
+    const auto *targ_obj =
+        std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
     const auto opt_ifexpr = IfExpr::parse_if(ifchck);
     if (!opt_ifexpr) {
         return false;
@@ -203,7 +216,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) { // arg should be "$*" so just get the letter
         case 'i': return false; // Self
         case 'n': return actor && actor->is_pc();
-        case 't': return vict && vict->is_pc();
+        case 't': return targ_ch && targ_ch->is_pc();
         case 'r': return rndm && rndm->is_pc();
         default: bug("Mob: {} bad argument to 'ispc': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -216,7 +229,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return true; // Self
         case 'n': return actor && actor->is_npc();
-        case 't': return vict && vict->is_npc();
+        case 't': return targ_ch && targ_ch->is_npc();
         case 'r': return rndm && rndm->is_npc();
         default: bug("Mob: {} bad argument to 'isnpc': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -229,7 +242,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mob->is_good();
         case 'n': return actor && actor->is_good();
-        case 't': return vict && vict->is_good();
+        case 't': return targ_ch && targ_ch->is_good();
         case 'r': return rndm && rndm->is_good();
         default: bug("Mob: {} bad argument to 'isgood': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -242,7 +255,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mob->fighting;
         case 'n': return actor && actor->fighting;
-        case 't': return vict && vict->fighting;
+        case 't': return targ_ch && targ_ch->fighting;
         case 'r': return rndm && rndm->fighting;
         default: bug("Mob: {} bad argument to 'isfight': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -255,7 +268,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mob->get_trust() > LEVEL_IMMORTAL;
         case 'n': return actor && actor->get_trust() > LEVEL_IMMORTAL;
-        case 't': return vict && vict->get_trust() > LEVEL_IMMORTAL;
+        case 't': return targ_ch && targ_ch->get_trust() > LEVEL_IMMORTAL;
         case 'r': return rndm && rndm->get_trust() > LEVEL_IMMORTAL;
         default: bug("Mob: {} bad argument to 'isimmort': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -268,7 +281,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mob->is_aff_charm();
         case 'n': return actor && actor->is_aff_charm();
-        case 't': return vict && vict->is_aff_charm();
+        case 't': return targ_ch && targ_ch->is_aff_charm();
         case 'r': return rndm && rndm->is_aff_charm();
         default: bug("Mob: {} bad argument to 'ischarmed': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -281,7 +294,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mob->master && mob->master->in_room == mob->in_room;
         case 'n': return actor && actor->master && actor->master->in_room == actor->in_room;
-        case 't': return vict && vict->master && vict->master->in_room == vict->in_room;
+        case 't': return targ_ch && targ_ch->master && targ_ch->master->in_room == targ_ch->in_room;
         case 'r': return rndm && rndm->master && rndm->master->in_room == rndm->in_room;
         default: bug("Mob: {} bad argument to 'isfollow': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -295,7 +308,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mob->affected_by & affect_bit;
         case 'n': return actor && actor->affected_by & affect_bit;
-        case 't': return vict && vict->affected_by & affect_bit;
+        case 't': return targ_ch && targ_ch->affected_by & affect_bit;
         case 'r': return rndm && rndm->affected_by & affect_bit;
         default: bug("Mob: {} bad argument to 'isaffected': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -313,7 +326,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mprog_veval(mob->hit / mob->max_hit, ifexpr.op, percent);
         case 'n': return actor && mprog_veval(actor->hit / actor->max_hit, ifexpr.op, percent);
-        case 't': return vict && mprog_veval(vict->hit / vict->max_hit, ifexpr.op, percent);
+        case 't': return targ_ch && mprog_veval(targ_ch->hit / targ_ch->max_hit, ifexpr.op, percent);
         case 'r': return rndm && mprog_veval(rndm->hit / rndm->max_hit, ifexpr.op, percent);
         default: bug("Mob: {} bad argument to 'hitprcnt': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -331,7 +344,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mprog_veval(mob->in_room->vnum, ifexpr.op, room_vnum);
         case 'n': return actor && mprog_veval(actor->in_room->vnum, ifexpr.op, room_vnum);
-        case 't': return vict && mprog_veval(vict->in_room->vnum, ifexpr.op, room_vnum);
+        case 't': return targ_ch && mprog_veval(targ_ch->in_room->vnum, ifexpr.op, room_vnum);
         case 'r': return rndm && mprog_veval(rndm->in_room->vnum, ifexpr.op, room_vnum);
         default: bug("Mob: {} bad argument to 'inroom': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -349,7 +362,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mprog_veval(mob->sex.integer(), ifexpr.op, sex);
         case 'n': return actor && mprog_veval(actor->sex.integer(), ifexpr.op, sex);
-        case 't': return vict && mprog_veval(vict->sex.integer(), ifexpr.op, sex);
+        case 't': return targ_ch && mprog_veval(targ_ch->sex.integer(), ifexpr.op, sex);
         case 'r': return rndm && mprog_veval(rndm->sex.integer(), ifexpr.op, sex);
         default: bug("Mob: {} bad argument to 'sex': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -367,7 +380,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mprog_veval(mob->position.integer(), ifexpr.op, position);
         case 'n': return actor && mprog_veval(actor->position.integer(), ifexpr.op, position);
-        case 't': return vict && mprog_veval(vict->position.integer(), ifexpr.op, position);
+        case 't': return targ_ch && mprog_veval(targ_ch->position.integer(), ifexpr.op, position);
         case 'r': return rndm && mprog_veval(rndm->position.integer(), ifexpr.op, position);
         default: bug("Mob: {} bad argument to 'position': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -385,7 +398,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mprog_veval(mob->get_trust(), ifexpr.op, level);
         case 'n': return actor && mprog_veval(actor->get_trust(), ifexpr.op, level);
-        case 't': return vict && mprog_veval(vict->get_trust(), ifexpr.op, level);
+        case 't': return targ_ch && mprog_veval(targ_ch->get_trust(), ifexpr.op, level);
         case 'r': return rndm && mprog_veval(rndm->get_trust(), ifexpr.op, level);
         default: bug("Mob: {} bad argument to 'level': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -403,7 +416,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mprog_veval(mob->class_num, ifexpr.op, class_num);
         case 'n': return actor && mprog_veval(actor->class_num, ifexpr.op, class_num);
-        case 't': return vict && mprog_veval(vict->class_num, ifexpr.op, class_num);
+        case 't': return targ_ch && mprog_veval(targ_ch->class_num, ifexpr.op, class_num);
         case 'r': return rndm && mprog_veval(rndm->class_num, ifexpr.op, class_num);
         default: bug("Mob: {} bad argument to 'class': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -421,7 +434,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mprog_veval(mob->gold, ifexpr.op, gold);
         case 'n': return actor && mprog_veval(actor->gold, ifexpr.op, gold);
-        case 't': return vict && mprog_veval(vict->gold, ifexpr.op, gold);
+        case 't': return targ_ch && mprog_veval(targ_ch->gold, ifexpr.op, gold);
         case 'r': return rndm && mprog_veval(rndm->gold, ifexpr.op, gold);
         default: bug("Mob: {} bad argument to 'goldamt': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
@@ -438,7 +451,8 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         const auto obj_type = parse_number(ifexpr.operand);
         switch (ifexpr.arg[1]) {
         case 'o': return obj && mprog_veval(magic_enum::enum_integer<ObjectType>(obj->type), ifexpr.op, obj_type);
-        case 'p': return v_obj && mprog_veval(magic_enum::enum_integer<ObjectType>(v_obj->type), ifexpr.op, obj_type);
+        case 'p':
+            return targ_obj && mprog_veval(magic_enum::enum_integer<ObjectType>(targ_obj->type), ifexpr.op, obj_type);
         default: bug("Mob: {} bad argument to 'objtype': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
@@ -446,10 +460,10 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
         switch (ifexpr.arg[1]) {
         case 'i': return mprog_seval(mob->name, ifexpr.op, ifexpr.operand);
         case 'n': return actor && mprog_seval(actor->name, ifexpr.op, ifexpr.operand);
-        case 't': return vict && mprog_seval(vict->name, ifexpr.op, ifexpr.operand);
+        case 't': return targ_ch && mprog_seval(targ_ch->name, ifexpr.op, ifexpr.operand);
         case 'r': return rndm && mprog_seval(rndm->name, ifexpr.op, ifexpr.operand);
         case 'o': return obj && mprog_seval(obj->name, ifexpr.op, ifexpr.operand);
-        case 'p': return v_obj && mprog_seval(v_obj->name, ifexpr.op, ifexpr.operand);
+        case 'p': return targ_obj && mprog_seval(targ_obj->name, ifexpr.op, ifexpr.operand);
         default: bug("Mob: {} bad argument to 'name': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
@@ -473,24 +487,19 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
  * in theory, but it is 'guaranteed' to work on syntactically correct
  * MOBprograms, so if the mud crashes here, check the mob carefully!
  */
-char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj, const void *vo,
-                       Char *rndm) {
+char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj,
+                       const mprog::Target target, Char *rndm) {
     char buf[MAX_INPUT_LENGTH];
     char *morebuf = nullptr;
     char *cmnd = nullptr;
     bool loopdone = false;
-    bool flag = false;
-    int legal;
+    bool predicate = false;
 
-    /* check for trueness of the ifcheck */
-    if ((legal = mprog_do_ifchck(ifchck, mob, actor, obj, vo, rndm))) {
-        if (legal == 1)
-            flag = true;
-        else
-            return nullptr;
+    if (predicate = mprog_do_ifchck(ifchck, mob, actor, obj, target, rndm); !predicate) {
+        return nullptr;
     }
 
-    while (loopdone == false) { /*scan over any existing or statements */
+    while (!loopdone) { /*scan over any existing or statements */
         cmnd = com_list;
         com_list = mprog_next_command(com_list);
         while (std::isspace(*cmnd))
@@ -501,21 +510,17 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
         }
         morebuf = one_argument(cmnd, buf);
         if (!str_cmp(buf, "or")) {
-            if ((legal = mprog_do_ifchck(morebuf, mob, actor, obj, vo, rndm))) {
-                if (legal == 1)
-                    flag = true;
-                else
-                    return nullptr;
+            if (predicate = mprog_do_ifchck(morebuf, mob, actor, obj, target, rndm); !predicate) {
+                return nullptr;
             }
         } else
             loopdone = true;
     }
 
-    if (flag)
-        for (;;) /*ifcheck was true, do commands but ignore else to endif*/
-        {
+    if (predicate) {
+        for (;;) { // ifcheck was true, do commands but ignore else to endif
             if (!str_cmp(buf, "if")) {
-                com_list = mprog_process_if(morebuf, com_list, mob, actor, obj, vo, rndm);
+                com_list = mprog_process_if(morebuf, com_list, mob, actor, obj, target, rndm);
                 while (std::isspace(*cmnd))
                     cmnd++;
                 if (*com_list == '\0')
@@ -543,7 +548,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
                 }
                 return com_list;
             }
-            mprog_process_cmnd(cmnd, mob, actor, obj, vo, rndm);
+            mprog_process_cmnd(cmnd, mob, actor, obj, target, rndm);
             cmnd = com_list;
             com_list = mprog_next_command(com_list);
             while (std::isspace(*cmnd))
@@ -554,8 +559,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
             }
             morebuf = one_argument(cmnd, buf);
         }
-    else /*false ifcheck, find else and do existing commands or quit at endif*/
-    {
+    } else { // false ifcheck, find else and do existing commands or quit at endif
         while ((str_cmp(buf, "else")) && (str_cmp(buf, "endif"))) {
             cmnd = com_list;
             com_list = mprog_next_command(com_list);
@@ -581,10 +585,9 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
         }
         morebuf = one_argument(cmnd, buf);
 
-        for (;;) /*process the post-else commands until an endif is found.*/
-        {
+        for (;;) { // process the post-else commands until an endif is found.
             if (!str_cmp(buf, "if")) {
-                com_list = mprog_process_if(morebuf, com_list, mob, actor, obj, vo, rndm);
+                com_list = mprog_process_if(morebuf, com_list, mob, actor, obj, target, rndm);
                 while (std::isspace(*cmnd))
                     cmnd++;
                 if (*com_list == '\0')
@@ -602,7 +605,7 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
                 return nullptr;
             if (!str_cmp(buf, "endif"))
                 return com_list;
-            mprog_process_cmnd(cmnd, mob, actor, obj, vo, rndm);
+            mprog_process_cmnd(cmnd, mob, actor, obj, target, rndm);
             cmnd = com_list;
             com_list = mprog_next_command(com_list);
             while (std::isspace(*cmnd))
@@ -620,20 +623,17 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
  * If you want to add any go right ahead, it should be fairly
  * clear how it is done and they are quite easy to do, so you
  * can be as creative as you want. The only catch is to check
- * that your variables exist before you use them. At the moment,
- * using $t when the secondary target refers to an object
- * i.e. >prog_act drops~<nl>if ispc($t)<nl>sigh<nl>endif<nl>~<nl>
- * probably makes the mud crash (vice versa as well) The cure
- * would be to change act() so that vo becomes vict & v_obj.
- * but this would require a lot of small changes all over the code.
+ * that your variables exist before you use them.
  */
-void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm) {
+void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
+                     Char *rndm) {
     // TODO: when `t` is not just a string view, we can more easily use the `Pronouns` stuff.
     static const char *he_she[] = {"it", "he", "she"};
     static const char *him_her[] = {"it", "him", "her"};
     static const char *his_her[] = {"its", "his", "her"};
-    auto *vict = (const Char *)vo;
-    auto *v_obj = (const Object *)vo;
+    // FIXME cleanup?
+    const Char *vict = std::get_if<const Char *>(&target) ? *std::get_if<const Char *>(&target) : nullptr;
+    const Object *v_obj = std::get_if<const Object *>(&target) ? *std::get_if<const Object *>(&target) : nullptr;
 
     *t = '\0';
     switch (ch) {
@@ -820,7 +820,8 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
  * any variables by calling the translate procedure.  The observant
  * code scrutinizer will notice that this is taken from act()
  */
-void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *obj, const void *vo, Char *rndm) {
+void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
+                        Char *rndm) {
     char buf[MAX_INPUT_LENGTH];
     char tmp[MAX_INPUT_LENGTH];
     char *str;
@@ -836,7 +837,7 @@ void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *
             continue;
         }
         str++;
-        mprog_translate(*str, tmp, mob, actor, obj, vo, rndm);
+        mprog_translate(*str, tmp, mob, actor, obj, target, rndm);
         i = tmp;
         ++str;
         while ((*point = *i) != '\0')
@@ -851,7 +852,7 @@ void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *
  *  the command list and figuring out what to do. However, like all
  *  complex procedures, everything is farmed out to the other guys.
  */
-void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const void *vo) {
+void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const mprog::Target target) {
 
     char tmpcmndlst[MAX_STRING_LENGTH];
     char buf[MAX_INPUT_LENGTH];
@@ -883,9 +884,9 @@ void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Objec
     while (*cmnd != '\0') {
         morebuf = one_argument(cmnd, buf);
         if (!str_cmp(buf, "if"))
-            command_list = mprog_process_if(morebuf, command_list, mob, actor, obj, vo, rndm);
+            command_list = mprog_process_if(morebuf, command_list, mob, actor, obj, target, rndm);
         else
-            mprog_process_cmnd(cmnd, mob, actor, obj, vo, rndm);
+            mprog_process_cmnd(cmnd, mob, actor, obj, target, rndm);
         cmnd = command_list;
         command_list = mprog_next_command(command_list);
     }
@@ -899,15 +900,15 @@ void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Objec
  *  on a certain percent, or trigger on a keyword or word phrase.
  *  To see how this works, look at the various trigger routines..
  */
-void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const void *vo,
-                          const MobProgTypeFlag type) {
+void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj,
+                          const mprog::Target target, const MobProgTypeFlag type) {
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
             // Player message matches the phrase in the program.
             if ((mprg.arglist[0] == 'p') && (std::isspace(mprg.arglist[1]))) {
                 auto prog_phrase = mprg.arglist.substr(2, mprg.arglist.length());
-                if (matches_inside(arg, prog_phrase)) {
-                    mprog_driver(mob, mprg, actor, obj, vo);
+                if (matches_inside(prog_phrase, arg)) {
+                    mprog_driver(mob, mprg, actor, obj, target);
                     break;
                 }
             } else {
@@ -915,7 +916,7 @@ void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, co
                 auto prog_keywords = ArgParser(mprg.arglist);
                 for (const auto &prog_keyword : prog_keywords) {
                     if (matches_inside(prog_keyword, arg)) {
-                        mprog_driver(mob, mprg, actor, obj, vo);
+                        mprog_driver(mob, mprg, actor, obj, target);
                         break;
                     }
                 }
@@ -924,7 +925,7 @@ void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, co
     }
 }
 
-void mprog_percent_check(Char *mob, Char *actor, Object *obj, void *vo, const MobProgTypeFlag type) {
+void mprog_percent_check(Char *mob, Char *actor, Object *obj, const mprog::Target target, const MobProgTypeFlag type) {
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
             if (!is_number(mprg.arglist)) {
@@ -932,7 +933,7 @@ void mprog_percent_check(Char *mob, Char *actor, Object *obj, void *vo, const Mo
                 continue;
             }
             if (number_percent() < parse_number(mprg.arglist)) {
-                mprog_driver(mob, mprg, actor, obj, vo);
+                mprog_driver(mob, mprg, actor, obj, target);
                 if (type != MobProgTypeFlag::Greet && type != MobProgTypeFlag::AllGreet)
                     break;
             }
@@ -947,9 +948,9 @@ void mprog_percent_check(Char *mob, Char *actor, Object *obj, void *vo, const Mo
  * make sure you remember to modify the variable names to the ones in the
  * trigger calls.
  */
-void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const void *vo) {
+void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const mprog::Target target) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Act)) {
-        mob->mpact.emplace_back(std::string(buf), ch, obj, vo);
+        mob->mpact.emplace_back(std::string(buf), ch, obj, target);
     }
 }
 

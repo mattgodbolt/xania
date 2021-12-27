@@ -755,7 +755,7 @@ void aggr_update() {
         if (wch->is_npc() && !wch->mpact.empty() && wch->in_room->area->occupied()) {
             for (const auto &mpact : wch->mpact) {
                 mprog_wordlist_check(mpact.act_message_trigger(), wch, mpact.character(), mpact.object(),
-                                     mpact.void_arg(), MobProgTypeFlag::Act);
+                                     mpact.target(), MobProgTypeFlag::Act);
             }
             wch->mpact.clear();
         }

@@ -1080,7 +1080,7 @@ std::string_view his_her(const Char *ch) { return possessive(*ch); }
 std::string_view himself_herself(const Char *ch) { return reflexive(*ch); }
 
 std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, const Char *to,
-                       const Char *vch) {
+                       const Char *targ_ch) {
     std::string buf;
 
     bool prev_was_dollar = false;
@@ -1123,16 +1123,16 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
             buf += to->describe(*ch);
         } break;
         case 'N': {
-            buf += to->describe(*vch);
+            buf += to->describe(*targ_ch);
         } break;
         case 'e': buf += he_she(ch); break;
-        case 'E': buf += he_she(vch); break;
+        case 'E': buf += he_she(targ_ch); break;
         case 'm': buf += him_her(ch); break;
-        case 'M': buf += him_her(vch); break;
+        case 'M': buf += him_her(targ_ch); break;
         case 's': buf += his_her(ch); break;
-        case 'S': buf += his_her(vch); break;
+        case 'S': buf += his_her(targ_ch); break;
         case 'r': buf += himself_herself(ch); break;
-        case 'R': buf += himself_herself(vch); break;
+        case 'R': buf += himself_herself(targ_ch); break;
 
         case 'p':
             if (auto arg1_as_obj_ptr = std::get_if<const Object *>(&arg1)) {
@@ -1191,7 +1191,7 @@ std::vector<const Char *> folks_in_room(const Room *room, const Char *ch, const 
     return result;
 }
 
-std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg arg2, To type,
+std::vector<const Char *> collect_folks(const Char *ch, const Char *targ_ch, Act2Arg arg2, To type,
                                         const Position::Type min_position) {
     const Room *room{};
 
@@ -1203,14 +1203,14 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg
             return {};
 
     case To::Vict:
-        if (vch == nullptr) {
-            bug("Act: null or incorrect type of vch");
+        if (!targ_ch) {
+            bug("Act: null or incorrect type of target ch");
             return {};
         }
-        if (vch->in_room == nullptr || ch == vch || !act_to_person(vch, min_position))
+        if (!targ_ch->in_room || ch == targ_ch || !act_to_person(targ_ch, min_position))
             return {};
 
-        return {vch};
+        return {targ_ch};
 
     case To::GivenRoom:
         if (auto arg2_as_room_ptr = std::get_if<const Room *>(&arg2)) {
@@ -1225,13 +1225,13 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *vch, Act2Arg
     case To::NotVict: room = ch->in_room; break;
     }
 
-    auto result = folks_in_room(room, ch, vch, type, min_position);
+    auto result = folks_in_room(room, ch, targ_ch, type, min_position);
 
     // If we're sending messages to the challenge arena...
     if (room->vnum == Rooms::ChallengeArena) {
         // also include all the folks in the viewing gallery with the appropriate position. We assume the victim
         // is not somehow in the viewing gallery.
-        auto viewing = folks_in_room(get_room(Rooms::ChallengeGallery), ch, vch, type, min_position);
+        auto viewing = folks_in_room(get_room(Rooms::ChallengeGallery), ch, targ_ch, type, min_position);
         result.insert(result.end(), viewing.begin(), viewing.end());
     }
 
@@ -1245,15 +1245,18 @@ void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, co
     if (format.empty() || !ch || !ch->in_room)
         return;
 
-    const Char *vch = std::get_if<const Char *>(&arg2) ? *std::get_if<const Char *>(&arg2) : nullptr;
+    const auto arg1_as_obj_ptr =
+        std::holds_alternative<const Object *>(arg1) ? *std::get_if<const Object *>(&arg1) : nullptr;
+    const auto *targ_ch = std::holds_alternative<const Char *>(arg2) ? *std::get_if<const Char *>(&arg2) : nullptr;
+    const auto *targ_obj = std::holds_alternative<const Object *>(arg2) ? *std::get_if<const Object *>(&arg2) : nullptr;
+    const auto mprog_target = mprog::to_target(targ_ch, targ_obj);
 
-    for (auto *to : collect_folks(ch, vch, arg2, type, min_position)) {
-        auto formatted = format_act(format, ch, arg1, arg2, to, vch);
+    for (auto *to : collect_folks(ch, targ_ch, arg2, type, min_position)) {
+        auto formatted = format_act(format, ch, arg1, arg2, to, targ_ch);
         to->send_to(formatted);
         if (mob_trig == MobTrig::Yes) {
-            auto arg1_as_obj_ptr = std::get_if<const Object *>(&arg1);
             // TODO: heinous const_cast here. Safe, but annoying and worth unpicking deeper down.
-            mprog_act_trigger(formatted, const_cast<Char *>(to), ch, arg1_as_obj_ptr ? *arg1_as_obj_ptr : nullptr, vch);
+            mprog_act_trigger(formatted, const_cast<Char *>(to), ch, arg1_as_obj_ptr, mprog_target);
         }
     }
 }

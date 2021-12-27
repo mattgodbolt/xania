@@ -26,5 +26,9 @@ comfort $n
 >speech_prog hello hi~
 say Greetings $n!
 ~
+>act_prog p zaps a~
+if objtype($p) == 25
+	say Oi! Be careful zapping $P with yer magic wand!
+endif
+~
 |
-
