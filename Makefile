@@ -6,11 +6,9 @@ help: # with thanks to Ben Rady
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 ifeq ($(shell which g++-11),)
-CXX?=g++-10
-CC?=gcc-10
+TOOLCHAIN?=g++-10
 else
-CXX?=g++-11
-CC?=gcc-11
+TOOLCHAIN?=g++-11
 endif
 
 CMAKE?=$(shell which cmake || echo .cmake-not-found)
@@ -41,7 +39,7 @@ endif
 build: ## Build Xania source
 	PATH=${PATH}:$(CONDA_ROOT)/bin \
 	  $(CMAKE) -S $(TOP_SRC_DIR)/conan -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) \
-	                    -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
+	                    --toolchain toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
 	$(CMAKE) --build $(BUILD_ROOT)
 
 # Grr older cmakes don't support --install and --prefix
