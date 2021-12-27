@@ -43,9 +43,9 @@ using namespace std::literals;
 char *mprog_next_command(char *clist);
 bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rhs);
 bool mprog_veval(const int lhs, std::string_view opr, const int rhs);
-bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
+bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
                      Char *rndm);
-char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj,
+char *mprog_process_if(std::string_view ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj,
                        const mprog::Target target, Char *rndm);
 void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
                      Char *rndm);
@@ -190,7 +190,7 @@ bool mprog_veval(const int lhs, std::string_view opr, const int rhs) {
  * to reduce the redundancy of the mammoth if statement list.
  * If there are errors, then return -1 otherwise return boolean 1,0
  */
-bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
+bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
                      Char *rndm) {
     using namespace mprog;
     const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
@@ -487,7 +487,7 @@ bool mprog_do_ifchck(char *ifchck, Char *mob, const Char *actor, const Object *o
  * in theory, but it is 'guaranteed' to work on syntactically correct
  * MOBprograms, so if the mud crashes here, check the mob carefully!
  */
-char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj,
+char *mprog_process_if(std::string_view ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj,
                        const mprog::Target target, Char *rndm) {
     char buf[MAX_INPUT_LENGTH];
     char *morebuf = nullptr;
