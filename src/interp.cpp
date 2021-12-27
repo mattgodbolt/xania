@@ -384,19 +384,19 @@ void interp_initialise() {
     add_command(":", do_immtalk, Position::Type::Dead, IM, CommandLogLevel::Normal, false);
 
     /* MOBprogram commands. */
-    add_command("mpasound", do_mpasound, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mpjunk", do_mpjunk, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mpecho", do_mpecho, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mpechoat", do_mpechoat, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mpechoaround", do_mpechoaround, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mpkill", do_mpkill, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mpmload", do_mpmload, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mpoload", do_mpoload, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mppurge", do_mppurge, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mpgoto", do_mpgoto, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mpat", do_mpat, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mptransfer", do_mptransfer, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
-    add_command("mpforce", do_mpforce, Position::Type::Dead, MAX_LEVEL_MPROG, CommandLogLevel::Normal, false);
+    add_command("mpasound", do_mpasound, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mpjunk", do_mpjunk, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mpecho", do_mpecho, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mpechoat", do_mpechoat, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mpechoaround", do_mpechoaround, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mpkill", do_mpkill, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mpmload", do_mpmload, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mpoload", do_mpoload, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mppurge", do_mppurge, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mpgoto", do_mpgoto, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mpat", do_mpat, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mptransfer", do_mptransfer, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
+    add_command("mpforce", do_mpforce, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
 }
 
 std::string apply_prefix(Char *ch, std::string_view command) {

@@ -492,33 +492,17 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
     char buf[MAX_INPUT_LENGTH];
     char *morebuf = nullptr;
     char *cmnd = nullptr;
-    bool loopdone = false;
-    bool predicate = false;
-
-    if (predicate = mprog_do_ifchck(ifchck, mob, actor, obj, target, rndm); !predicate) {
-        return nullptr;
-    }
-
-    while (!loopdone) { /*scan over any existing or statements */
-        cmnd = com_list;
-        com_list = mprog_next_command(com_list);
-        while (std::isspace(*cmnd))
-            cmnd++;
-        if (*cmnd == '\0') {
-            bug("Mob: {} no commands after IF/OR", mob->mobIndex->vnum);
-            return nullptr;
-        }
-        morebuf = one_argument(cmnd, buf);
-        if (!str_cmp(buf, "or")) {
-            if (predicate = mprog_do_ifchck(morebuf, mob, actor, obj, target, rndm); !predicate) {
+    if (mprog_do_ifchck(ifchck, mob, actor, obj, target, rndm)) {
+        for (;;) { // ifcheck was true, do commands but ignore else to endif
+            cmnd = com_list;
+            com_list = mprog_next_command(com_list);
+            while (std::isspace(*cmnd))
+                cmnd++;
+            if (*cmnd == '\0') {
+                bug("Mob: {} missing else or endif", mob->mobIndex->vnum);
                 return nullptr;
             }
-        } else
-            loopdone = true;
-    }
-
-    if (predicate) {
-        for (;;) { // ifcheck was true, do commands but ignore else to endif
+            morebuf = one_argument(cmnd, buf);
             if (!str_cmp(buf, "if")) {
                 com_list = mprog_process_if(morebuf, com_list, mob, actor, obj, target, rndm);
                 while (std::isspace(*cmnd))
@@ -549,15 +533,6 @@ char *mprog_process_if(char *ifchck, char *com_list, Char *mob, const Char *acto
                 return com_list;
             }
             mprog_process_cmnd(cmnd, mob, actor, obj, target, rndm);
-            cmnd = com_list;
-            com_list = mprog_next_command(com_list);
-            while (std::isspace(*cmnd))
-                cmnd++;
-            if (*cmnd == '\0') {
-                bug("Mob: {} missing else or endif", mob->mobIndex->vnum);
-                return nullptr;
-            }
-            morebuf = one_argument(cmnd, buf);
         }
     } else { // false ifcheck, find else and do existing commands or quit at endif
         while ((str_cmp(buf, "else")) && (str_cmp(buf, "endif"))) {

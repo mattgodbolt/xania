@@ -16,7 +16,6 @@ static inline constexpr auto MAX_IN_GROUP = 15;
 static inline constexpr auto MAX_CLASS = 4;
 static inline constexpr auto MAX_PC_RACE = 12;
 static inline constexpr auto MAX_LEVEL = 100;
-static inline constexpr auto MAX_LEVEL_MPROG = MAX_LEVEL + 1;
 static inline constexpr auto LEVEL_HERO = MAX_LEVEL - 9;
 static inline constexpr auto LEVEL_IMMORTAL = MAX_LEVEL - 8;
 static inline constexpr auto LEVEL_CONSIDER = 80;
