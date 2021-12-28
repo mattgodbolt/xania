@@ -17,8 +17,13 @@ struct Char;
 struct Object;
 struct Area;
 class ArgParser;
+struct MobIndexData;
 
 namespace mprog {
+
+MobProgTypeFlag mprog_name_to_type(std::string_view name);
+bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mobIndex);
+void load_mobprogs(FILE *fp);
 
 // When a mobprog is triggered via an 'act()' call (often using MobProgAct), the caller may have specified an
 // optional target object or target character. These can be referenced within the act format string with $ variables.

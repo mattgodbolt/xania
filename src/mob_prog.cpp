@@ -17,6 +17,8 @@
 
 #include "mob_prog.hpp"
 #include "AffectFlag.hpp"
+#include "Area.hpp"
+#include "AreaList.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -25,7 +27,9 @@
 #include "ObjectIndex.hpp"
 #include "Pronouns.hpp"
 #include "Room.hpp"
+#include "WrappedFd.hpp"
 #include "common/BitOps.hpp"
+#include "common/Configuration.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "interp.h"
@@ -114,7 +118,123 @@ Target to_target(const Char *ch, const Object *obj) {
         return mprog::Target{nullptr};
 }
 
+/* This routine transfers between alpha and numeric forms of the
+ *  mob_prog bitvector types. This allows the use of the words in the
+ *  mob/script files.
+ */
+MobProgTypeFlag mprog_name_to_type(std::string_view name) {
+    if (matches(name, "in_file_prog"))
+        return MobProgTypeFlag::InFile;
+    if (matches(name, "act_prog"))
+        return MobProgTypeFlag::Act;
+    if (matches(name, "speech_prog"))
+        return MobProgTypeFlag::Speech;
+    if (matches(name, "rand_prog"))
+        return MobProgTypeFlag::Random;
+    if (matches(name, "fight_prog"))
+        return MobProgTypeFlag::Fight;
+    if (matches(name, "hitprcnt_prog"))
+        return MobProgTypeFlag::HitPercent;
+    if (matches(name, "death_prog"))
+        return MobProgTypeFlag::Death;
+    if (matches(name, "entry_prog"))
+        return MobProgTypeFlag::Entry;
+    if (matches(name, "greet_prog"))
+        return MobProgTypeFlag::Greet;
+    if (matches(name, "all_greet_prog"))
+        return MobProgTypeFlag::AllGreet;
+    if (matches(name, "give_prog"))
+        return MobProgTypeFlag::Give;
+    if (matches(name, "bribe_prog"))
+        return MobProgTypeFlag::Bribe;
+    return MobProgTypeFlag::Error;
 }
+
+std::optional<MobProg> try_load_one_mob_prog(std::string_view file_name, FILE *prog_file) {
+
+    const auto prog_type = mprog_name_to_type(fread_word(prog_file));
+    if (prog_type == MobProgTypeFlag::Error) {
+        bug("mobprog {} type error {}", file_name, prog_type);
+        return std::nullopt;
+    }
+    if (prog_type == MobProgTypeFlag::InFile) {
+        bug("mobprog {} contains a call to file which is not supported yet.", file_name);
+        return std::nullopt;
+    }
+    const auto prog_args = fread_string(prog_file);
+    const auto script = fread_string(prog_file);
+    const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+    const auto prog = MobProg{prog_type, prog_args, std::move(lines)};
+    return prog;
+}
+
+bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mobIndex) {
+    bool done = false;
+    while (!done) {
+        switch (fread_letter(prog_file)) {
+        case '>': {
+            if (const auto opt_mob_prog = try_load_one_mob_prog(file_name, prog_file)) {
+                set_enum_bit(mobIndex->progtypes, opt_mob_prog->type);
+                mobIndex->mobprogs.push_back(std::move(*opt_mob_prog));
+            } else {
+                return false;
+            }
+            break;
+        }
+        case '|':
+            if (mobIndex->mobprogs.empty()) {
+                bug("mobprog {} empty file.", file_name);
+                return false;
+            } else {
+                done = true;
+            }
+            break;
+        default: bug("mobprog {} syntax error.", file_name); return false;
+        }
+    }
+    return true;
+}
+
+// Snarf a MOBprogram section from the area file.
+void load_mobprogs(FILE *fp) {
+    char letter;
+    auto area_last = AreaList::singleton().back();
+    if (area_last == nullptr) {
+        bug("load_mobprogs: no #AREA seen yet!");
+        exit(1);
+    }
+
+    for (;;) {
+        switch (letter = fread_letter(fp)) {
+        default: bug("load_mobprogs: bad command '{}'.", letter); exit(1);
+        case 'S':
+        case 's': fread_to_eol(fp); return;
+        case '*': fread_to_eol(fp); break;
+        case 'M':
+        case 'm':
+            const auto vnum = fread_number(fp);
+            if (auto *mob = get_mob_index(vnum)) {
+                const auto file_name = fread_word(fp);
+                const auto file_path = fmt::format("{}{}", Configuration::singleton().area_dir(), file_name);
+                if (auto prog_file = WrappedFd::open(file_path)) {
+                    if (!read_program(file_name, prog_file, mob)) {
+                        exit(1);
+                    }
+                    fread_to_eol(fp);
+                    break;
+                } else {
+                    bug("Mob: {} couldnt open mobprog file {}.", mob->vnum, file_path);
+                    exit(1);
+                }
+            } else {
+                bug("load_mobprogs: vnum {} doesnt exist", vnum);
+                exit(1);
+            }
+        }
+    }
+}
+
+} // namespace mprog
 
 /* These two functions do the basic evaluation of ifcheck operators.
  *  It is important to note that the string operations are not what
