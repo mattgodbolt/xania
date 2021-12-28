@@ -27,7 +27,7 @@ void load_mobprogs(FILE *fp);
 
 // When a mobprog is triggered via an 'act()' call (often using MobProgAct), the caller may have specified an
 // optional target object or target character. These can be referenced within the act format string with $ variables.
-// The target is made available to mprog_act_trigger() and the lower level mprog routines using this variant.
+// The target is made available to act_trigger() and the lower level mprog routines using this variant.
 using Target = std::variant<nullptr_t, const Char *, const Object *>;
 
 struct IfExpr {
@@ -42,23 +42,23 @@ struct IfExpr {
 
 Target to_target(const Char *vict, const Object *vict_obj);
 
+void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const MProg::Target target,
+                    const MobProgTypeFlag type);
+void percent_check(Char *mob, Char *actor, Object *object, void *vo, int type);
+void act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const MProg::Target target);
+void bribe_trigger(Char *mob, Char *ch, int amount);
+void entry_trigger(Char *mob);
+void give_trigger(Char *mob, Char *ch, Object *obj);
+void greet_trigger(Char *mob);
+void fight_trigger(Char *mob, Char *ch);
+void hitprcnt_trigger(Char *mob, Char *ch);
+void death_trigger(Char *mob);
+void random_trigger(Char *mob);
+void speech_trigger(std::string_view txt, const Char *mob);
+
 }
 
 void do_mpstat(Char *ch, ArgParser args);
-
-void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj,
-                          const MProg::Target target, const MobProgTypeFlag type);
-void mprog_percent_check(Char *mob, Char *actor, Object *object, void *vo, int type);
-void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const MProg::Target target);
-void mprog_bribe_trigger(Char *mob, Char *ch, int amount);
-void mprog_entry_trigger(Char *mob);
-void mprog_give_trigger(Char *mob, Char *ch, Object *obj);
-void mprog_greet_trigger(Char *mob);
-void mprog_fight_trigger(Char *mob, Char *ch);
-void mprog_hitprcnt_trigger(Char *mob, Char *ch);
-void mprog_death_trigger(Char *mob);
-void mprog_random_trigger(Char *mob);
-void mprog_speech_trigger(std::string_view txt, const Char *mob);
 
 class MobProgAct {
 public:

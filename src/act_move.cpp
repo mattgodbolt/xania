@@ -205,8 +205,8 @@ void move_char(Char *ch, Direction direction) {
         }
     }
 
-    mprog_entry_trigger(ch);
-    mprog_greet_trigger(ch);
+    MProg::entry_trigger(ch);
+    MProg::greet_trigger(ch);
 }
 
 void do_enter(Char *ch, std::string_view argument) {
@@ -308,8 +308,8 @@ void do_enter(Char *ch, std::string_view argument) {
                         }
                     }
 
-                    mprog_entry_trigger(ch);
-                    mprog_greet_trigger(ch);
+                    MProg::entry_trigger(ch);
+                    MProg::greet_trigger(ch);
 
                     return;
                 } else {

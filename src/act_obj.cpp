@@ -972,7 +972,7 @@ void do_give_coins(Char *ch, std::string_view num_coins, ArgParser args) {
     act(fmt::format("$n gives you {} gold.", amount), ch, nullptr, victim, To::Vict);
     act("$n gives $N some gold.", ch, nullptr, victim, To::NotVict);
     act(fmt::format("You give $N {} gold.", amount), ch, nullptr, victim, To::Char);
-    mprog_bribe_trigger(victim, ch, amount);
+    MProg::bribe_trigger(victim, ch, amount);
 }
 }
 

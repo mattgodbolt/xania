@@ -41,6 +41,7 @@
 #include <vector>
 
 using namespace std::literals;
+using namespace MProg;
 
 /*
  * Local function prototypes
@@ -234,6 +235,144 @@ void load_mobprogs(FILE *fp) {
     }
 }
 
+/* The next two routines are the basic trigger types. Either trigger
+ *  on a certain percent, or trigger on a keyword or word phrase.
+ *  To see how this works, look at the various trigger routines..
+ */
+void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const MProg::Target target,
+                    const MobProgTypeFlag type) {
+    for (const auto &mprg : mob->mobIndex->mobprogs) {
+        if (mprg.type == type) {
+            // Player message matches the phrase in the program.
+            if ((mprg.arglist[0] == 'p') && (std::isspace(mprg.arglist[1]))) {
+                auto prog_phrase = mprg.arglist.substr(2, mprg.arglist.length());
+                if (matches_inside(prog_phrase, arg)) {
+                    mprog_driver(mob, mprg, actor, obj, target);
+                    break;
+                }
+            } else {
+                // Is any keyword in the program trigger present anywhere in the character's acted message?
+                auto prog_keywords = ArgParser(mprg.arglist);
+                for (const auto &prog_keyword : prog_keywords) {
+                    if (matches_inside(prog_keyword, arg)) {
+                        mprog_driver(mob, mprg, actor, obj, target);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void percent_check(Char *mob, Char *actor, Object *obj, const MProg::Target target, const MobProgTypeFlag type) {
+    for (const auto &mprg : mob->mobIndex->mobprogs) {
+        if (mprg.type == type) {
+            if (!is_number(mprg.arglist)) {
+                bug("percent_check in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
+                continue;
+            }
+            if (number_percent() < parse_number(mprg.arglist)) {
+                mprog_driver(mob, mprg, actor, obj, target);
+                if (type != MobProgTypeFlag::Greet && type != MobProgTypeFlag::AllGreet)
+                    break;
+            }
+        }
+    }
+}
+
+void act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const MProg::Target target) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Act)) {
+        mob->mpact.emplace_back(std::string(buf), ch, obj, target);
+    }
+}
+
+void bribe_trigger(Char *mob, Char *ch, int amount) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Bribe)) {
+        for (const auto &mprg : mob->mobIndex->mobprogs)
+            if (mprg.type == MobProgTypeFlag::Bribe) {
+                if (!is_number(mprg.arglist)) {
+                    bug("bribe_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
+                    continue;
+                }
+                if (amount >= parse_number(mprg.arglist)) {
+                    /* this function previously created a gold object and gave it to ch
+                       but there is zero point - the gold transfer is handled in do_give now */
+                    mprog_driver(mob, mprg, ch, nullptr, nullptr);
+                    break;
+                }
+            }
+    }
+}
+
+void death_trigger(Char *mob) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Death)) {
+        percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Death);
+    }
+}
+
+void entry_trigger(Char *mob) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Entry))
+        percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Entry);
+}
+
+void fight_trigger(Char *mob, Char *ch) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Fight))
+        percent_check(mob, ch, nullptr, nullptr, MobProgTypeFlag::Fight);
+}
+
+void give_trigger(Char *mob, Char *ch, Object *obj) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Give)) {
+        for (const auto &mprg : mob->mobIndex->mobprogs) {
+            if (mprg.type == MobProgTypeFlag::Give) {
+                auto prog_args = ArgParser(mprg.arglist);
+                const auto first_prog_arg = prog_args.shift();
+                if (matches(obj->name, mprg.arglist) || matches("all", first_prog_arg)) {
+                    mprog_driver(mob, mprg, ch, obj, nullptr);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void greet_trigger(Char *mob) {
+    for (auto *vmob : mob->in_room->people)
+        if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && vmob->is_pos_awake()
+            && check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::Greet))
+            percent_check(vmob, mob, nullptr, nullptr, MobProgTypeFlag::Greet);
+        else if (vmob->is_npc() && (vmob->fighting == nullptr) && vmob->is_pos_awake()
+                 && check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::AllGreet))
+            percent_check(vmob, mob, nullptr, nullptr, MobProgTypeFlag::AllGreet);
+}
+
+void hitprcnt_trigger(Char *mob, Char *ch) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::HitPercent)) {
+        for (const auto &mprg : mob->mobIndex->mobprogs) {
+            if (mprg.type == MobProgTypeFlag::HitPercent) {
+                if (!is_number(mprg.arglist)) {
+                    bug("hitprcnt_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
+                    continue;
+                }
+                if (100 * mob->hit / mob->max_hit < parse_number(mprg.arglist)) {
+                    mprog_driver(mob, mprg, ch, nullptr, nullptr);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void random_trigger(Char *mob) {
+    if (check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Random))
+        percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Random);
+}
+
+void speech_trigger(std::string_view txt, const Char *mob) {
+    for (auto *vmob : mob->in_room->people)
+        if (vmob->is_npc() && (check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::Speech)))
+            wordlist_check(txt, vmob, mob, nullptr, nullptr, MobProgTypeFlag::Speech);
+}
+
 } // namespace mprog
 
 /* These two functions do the basic evaluation of ifcheck operators.
@@ -291,7 +430,6 @@ bool mprog_veval(const int lhs, std::string_view opr, const int rhs) {
  */
 bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
                      const MProg::Target target, const Char *rndm) {
-    using namespace MProg;
     const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
     const auto *targ_obj =
         std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
@@ -795,144 +933,4 @@ void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Objec
             mprog_process_cmnd(*line_it, mob, actor, obj, target, rndm);
         }
     }
-}
-
-/* The next two routines are the basic trigger types. Either trigger
- *  on a certain percent, or trigger on a keyword or word phrase.
- *  To see how this works, look at the various trigger routines..
- */
-void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj,
-                          const MProg::Target target, const MobProgTypeFlag type) {
-    for (const auto &mprg : mob->mobIndex->mobprogs) {
-        if (mprg.type == type) {
-            // Player message matches the phrase in the program.
-            if ((mprg.arglist[0] == 'p') && (std::isspace(mprg.arglist[1]))) {
-                auto prog_phrase = mprg.arglist.substr(2, mprg.arglist.length());
-                if (matches_inside(prog_phrase, arg)) {
-                    mprog_driver(mob, mprg, actor, obj, target);
-                    break;
-                }
-            } else {
-                // Is any keyword in the program trigger present anywhere in the character's acted message?
-                auto prog_keywords = ArgParser(mprg.arglist);
-                for (const auto &prog_keyword : prog_keywords) {
-                    if (matches_inside(prog_keyword, arg)) {
-                        mprog_driver(mob, mprg, actor, obj, target);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-}
-
-void mprog_percent_check(Char *mob, Char *actor, Object *obj, const MProg::Target target, const MobProgTypeFlag type) {
-    for (const auto &mprg : mob->mobIndex->mobprogs) {
-        if (mprg.type == type) {
-            if (!is_number(mprg.arglist)) {
-                bug("mprog_percent_check in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
-                continue;
-            }
-            if (number_percent() < parse_number(mprg.arglist)) {
-                mprog_driver(mob, mprg, actor, obj, target);
-                if (type != MobProgTypeFlag::Greet && type != MobProgTypeFlag::AllGreet)
-                    break;
-            }
-        }
-    }
-}
-
-void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const MProg::Target target) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Act)) {
-        mob->mpact.emplace_back(std::string(buf), ch, obj, target);
-    }
-}
-
-void mprog_bribe_trigger(Char *mob, Char *ch, int amount) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Bribe)) {
-        for (const auto &mprg : mob->mobIndex->mobprogs)
-            if (mprg.type == MobProgTypeFlag::Bribe) {
-                if (!is_number(mprg.arglist)) {
-                    bug("mprog_bribe_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum,
-                        mprg.arglist);
-                    continue;
-                }
-                if (amount >= parse_number(mprg.arglist)) {
-                    /* this function previously created a gold object and gave it to ch
-                       but there is zero point - the gold transfer is handled in do_give now */
-                    mprog_driver(mob, mprg, ch, nullptr, nullptr);
-                    break;
-                }
-            }
-    }
-}
-
-void mprog_death_trigger(Char *mob) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Death)) {
-        mprog_percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Death);
-    }
-}
-
-void mprog_entry_trigger(Char *mob) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Entry))
-        mprog_percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Entry);
-}
-
-void mprog_fight_trigger(Char *mob, Char *ch) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Fight))
-        mprog_percent_check(mob, ch, nullptr, nullptr, MobProgTypeFlag::Fight);
-}
-
-void mprog_give_trigger(Char *mob, Char *ch, Object *obj) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Give)) {
-        for (const auto &mprg : mob->mobIndex->mobprogs) {
-            if (mprg.type == MobProgTypeFlag::Give) {
-                auto prog_args = ArgParser(mprg.arglist);
-                const auto first_prog_arg = prog_args.shift();
-                if (matches(obj->name, mprg.arglist) || matches("all", first_prog_arg)) {
-                    mprog_driver(mob, mprg, ch, obj, nullptr);
-                    break;
-                }
-            }
-        }
-    }
-}
-
-void mprog_greet_trigger(Char *mob) {
-    for (auto *vmob : mob->in_room->people)
-        if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && vmob->is_pos_awake()
-            && check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::Greet))
-            mprog_percent_check(vmob, mob, nullptr, nullptr, MobProgTypeFlag::Greet);
-        else if (vmob->is_npc() && (vmob->fighting == nullptr) && vmob->is_pos_awake()
-                 && check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::AllGreet))
-            mprog_percent_check(vmob, mob, nullptr, nullptr, MobProgTypeFlag::AllGreet);
-}
-
-void mprog_hitprcnt_trigger(Char *mob, Char *ch) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::HitPercent)) {
-        for (const auto &mprg : mob->mobIndex->mobprogs) {
-            if (mprg.type == MobProgTypeFlag::HitPercent) {
-                if (!is_number(mprg.arglist)) {
-                    bug("mprog_hitprcnt_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum,
-                        mprg.arglist);
-                    continue;
-                }
-                if (100 * mob->hit / mob->max_hit < parse_number(mprg.arglist)) {
-                    mprog_driver(mob, mprg, ch, nullptr, nullptr);
-                    break;
-                }
-            }
-        }
-    }
-}
-
-void mprog_random_trigger(Char *mob) {
-    if (check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Random))
-        mprog_percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Random);
-}
-
-void mprog_speech_trigger(std::string_view txt, const Char *mob) {
-    for (auto *vmob : mob->in_room->people)
-        if (vmob->is_npc() && (check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::Speech)))
-            mprog_wordlist_check(txt, vmob, mob, nullptr, nullptr, MobProgTypeFlag::Speech);
 }

@@ -406,7 +406,7 @@ void Char::say(std::string_view message) {
     ::act("$n|w says '$T|w'", this, nullptr, message, To::Room);
     ::act("You say '$T|w'", this, nullptr, message, To::Char);
     chatperformtoroom(message, this);
-    mprog_speech_trigger(message, this);
+    MProg::speech_trigger(message, this);
 }
 
 bool Char::is_player_killer() const noexcept { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrKiller); }
@@ -575,7 +575,7 @@ void Char::try_give_item_to(Object *object, Char *victim) {
     ::act("You give $p to $N.", this, object, victim, To::Char, MobTrig::No);
 
     handle_corpse_summoner(this, victim, object);
-    mprog_give_trigger(victim, this, object);
+    MProg::give_trigger(victim, this, object);
 }
 
 std::string_view Char::describe(const Char &to_describe) const noexcept {

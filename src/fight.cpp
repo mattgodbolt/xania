@@ -112,8 +112,8 @@ void violence_update() {
         if ((victim = ch->fighting) == nullptr)
             continue;
 
-        mprog_hitprcnt_trigger(ch, victim);
-        mprog_fight_trigger(ch, victim);
+        MProg::hitprcnt_trigger(ch, victim);
+        MProg::fight_trigger(ch, victim);
         check_assist(ch, victim);
     }
 }
@@ -1358,7 +1358,7 @@ void detach_injured_part(const Char *victim, std::optional<InjuredPart> opt_inju
 
 void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
     stop_fighting(victim, true);
-    mprog_death_trigger(victim);
+    MProg::death_trigger(victim);
     death_cry(victim);
     detach_injured_part(victim, opt_injured_part);
 

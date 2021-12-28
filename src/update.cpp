@@ -385,7 +385,7 @@ void mobile_update() {
             continue;
 
         if (ch->in_room->area->occupied()) {
-            mprog_random_trigger(ch);
+            MProg::random_trigger(ch);
             /* If ch dies or changes
                position due to it's random
                trigger continue - Kahn */
@@ -754,8 +754,8 @@ void aggr_update() {
         /* MOBProgram Act trigger */
         if (wch->is_npc() && !wch->mpact.empty() && wch->in_room->area->occupied()) {
             for (const auto &mpact : wch->mpact) {
-                mprog_wordlist_check(mpact.act_message_trigger(), wch, mpact.character(), mpact.object(),
-                                     mpact.target(), MobProgTypeFlag::Act);
+                MProg::wordlist_check(mpact.act_message_trigger(), wch, mpact.character(), mpact.object(),
+                                      mpact.target(), MobProgTypeFlag::Act);
             }
             wch->mpact.clear();
         }
