@@ -49,16 +49,16 @@ using namespace std::literals;
 bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rhs);
 bool mprog_veval(const int lhs, std::string_view opr, const int rhs);
 bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
-                     const mprog::Target target, const Char *rndm);
+                     const MProg::Target target, const Char *rndm);
 void mprog_process_if(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
-                      const mprog::Target target, const Char *rndm, auto &line_it, auto end_it);
+                      const MProg::Target target, const Char *rndm, auto &line_it, auto end_it);
 std::string mprog_expand_var(const char c, const Char *mob, const Char *actor, const Object *obj,
-                             const mprog::Target target, const Char *rndm);
+                             const MProg::Target target, const Char *rndm);
 void mprog_process_cmnd(std::string_view cmnd, Char *mob, const Char *actor, const Object *obj,
-                        const mprog::Target target, const Char *rndm);
-void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const mprog::Target target);
+                        const MProg::Target target, const Char *rndm);
+void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const MProg::Target target);
 
-namespace mprog {
+namespace MProg {
 
 // Parses an if expression taking these forms (the if has already been processed)
 //   func_name(func_arg)
@@ -111,11 +111,11 @@ std::optional<IfExpr> IfExpr::parse_if(std::string_view text) {
 
 Target to_target(const Char *ch, const Object *obj) {
     if (ch)
-        return mprog::Target{ch};
+        return MProg::Target{ch};
     else if (obj)
-        return mprog::Target{obj};
+        return MProg::Target{obj};
     else
-        return mprog::Target{nullptr};
+        return MProg::Target{nullptr};
 }
 
 /* This routine transfers between alpha and numeric forms of the
@@ -290,8 +290,8 @@ bool mprog_veval(const int lhs, std::string_view opr, const int rhs) {
  * If there are errors, then return -1 otherwise return boolean 1,0
  */
 bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
-                     const mprog::Target target, const Char *rndm) {
-    using namespace mprog;
+                     const MProg::Target target, const Char *rndm) {
+    using namespace MProg;
     const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
     const auto *targ_obj =
         std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
@@ -571,7 +571,7 @@ bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, cons
 }
 
 void mprog_process_if(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
-                      const mprog::Target target, const Char *rndm, auto &line_it, auto end_it) {
+                      const MProg::Target target, const Char *rndm, auto &line_it, auto end_it) {
     if (mprog_do_ifchck(ifchck, mob, actor, obj, target, rndm)) {
         while (true) { // ifchck was true, do commands but ignore else to endif
             if (++line_it == end_it) {
@@ -645,7 +645,7 @@ void mprog_process_if(std::string_view ifchck, Char *mob, const Char *actor, con
 }
 
 std::string mprog_expand_var(const char c, const Char *mob, const Char *actor, const Object *obj,
-                             const mprog::Target target, const Char *rndm) {
+                             const MProg::Target target, const Char *rndm) {
     const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
     const auto *targ_obj =
         std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
@@ -752,7 +752,7 @@ std::string mprog_expand_var(const char c, const Char *mob, const Char *actor, c
 }
 
 void mprog_process_cmnd(std::string_view cmnd, Char *mob, const Char *actor, const Object *obj,
-                        const mprog::Target target, const Char *rndm) {
+                        const MProg::Target target, const Char *rndm) {
     std::string buf{};
     bool prev_was_dollar = false;
     for (auto c : cmnd) {
@@ -781,7 +781,7 @@ Char *random_mortal_in_room(Char *mob) {
     return nullptr;
 }
 
-void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const mprog::Target target) {
+void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const MProg::Target target) {
     if (mob->is_aff_charm())
         return;
     const auto *rndm = random_mortal_in_room(mob);
@@ -802,7 +802,7 @@ void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Objec
  *  To see how this works, look at the various trigger routines..
  */
 void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj,
-                          const mprog::Target target, const MobProgTypeFlag type) {
+                          const MProg::Target target, const MobProgTypeFlag type) {
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
             // Player message matches the phrase in the program.
@@ -826,7 +826,7 @@ void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, co
     }
 }
 
-void mprog_percent_check(Char *mob, Char *actor, Object *obj, const mprog::Target target, const MobProgTypeFlag type) {
+void mprog_percent_check(Char *mob, Char *actor, Object *obj, const MProg::Target target, const MobProgTypeFlag type) {
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
             if (!is_number(mprg.arglist)) {
@@ -842,7 +842,7 @@ void mprog_percent_check(Char *mob, Char *actor, Object *obj, const mprog::Targe
     }
 }
 
-void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const mprog::Target target) {
+void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const MProg::Target target) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Act)) {
         mob->mpact.emplace_back(std::string(buf), ch, obj, target);
     }

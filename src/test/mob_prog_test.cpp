@@ -11,7 +11,7 @@
 #include <catch2/catch.hpp>
 
 TEST_CASE("IfExpr parse_if") {
-    using namespace mprog;
+    using namespace MProg;
     SECTION("empty") {
         auto expr = "";
 
@@ -92,7 +92,7 @@ TEST_CASE("IfExpr parse_if") {
 }
 
 TEST_CASE("mob prog file reading") {
-    using namespace mprog;
+    using namespace MProg;
     test::MemFile orc(R"mob(
 #13000
 orc~

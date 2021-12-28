@@ -262,7 +262,7 @@ void boot_db() {
                 else if (matches(word, "SPECIALS"))
                     load_specials(area_fp);
                 else if (matches(word, "MOBPROGS"))
-                    mprog::load_mobprogs(area_fp);
+                    MProg::load_mobprogs(area_fp);
                 else {
                     bug("Boot_db: bad section name.");
                     exit(1);

@@ -19,7 +19,7 @@ struct Area;
 class ArgParser;
 struct MobIndexData;
 
-namespace mprog {
+namespace MProg {
 
 MobProgTypeFlag mprog_name_to_type(std::string_view name);
 bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mobIndex);
@@ -47,9 +47,9 @@ Target to_target(const Char *vict, const Object *vict_obj);
 void do_mpstat(Char *ch, ArgParser args);
 
 void mprog_wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj,
-                          const mprog::Target target, const MobProgTypeFlag type);
+                          const MProg::Target target, const MobProgTypeFlag type);
 void mprog_percent_check(Char *mob, Char *actor, Object *object, void *vo, int type);
-void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const mprog::Target target);
+void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const MProg::Target target);
 void mprog_bribe_trigger(Char *mob, Char *ch, int amount);
 void mprog_entry_trigger(Char *mob);
 void mprog_give_trigger(Char *mob, Char *ch, Object *obj);
@@ -62,19 +62,19 @@ void mprog_speech_trigger(std::string_view txt, const Char *mob);
 
 class MobProgAct {
 public:
-    MobProgAct(std::string &&act_message_trigger, const Char *ch, const Object *obj, const mprog::Target target)
+    MobProgAct(std::string &&act_message_trigger, const Char *ch, const Object *obj, const MProg::Target target)
         : act_message_trigger_(std::move(act_message_trigger)), ch_(ch), obj_(obj), target_(target) {}
 
     [[nodiscard]] std::string_view act_message_trigger() const { return act_message_trigger_; }
     [[nodiscard]] const Char *character() const { return ch_; }
     [[nodiscard]] const Object *object() const { return obj_; }
-    [[nodiscard]] const mprog::Target target() const { return target_; }
+    [[nodiscard]] const MProg::Target target() const { return target_; }
 
 private:
     const std::string act_message_trigger_;
     const Char *ch_;
     const Object *obj_;
-    const mprog::Target target_;
+    const MProg::Target target_;
 };
 
 struct MobProg {
