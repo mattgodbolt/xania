@@ -41,25 +41,565 @@
 #include <vector>
 
 using namespace std::literals;
-using namespace MProg;
-
-/*
- * Local function prototypes
- */
-
-bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rhs);
-bool mprog_veval(const int lhs, std::string_view opr, const int rhs);
-bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
-                     const MProg::Target target, const Char *rndm);
-void mprog_process_if(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
-                      const MProg::Target target, const Char *rndm, auto &line_it, auto end_it);
-std::string mprog_expand_var(const char c, const Char *mob, const Char *actor, const Object *obj,
-                             const MProg::Target target, const Char *rndm);
-void mprog_process_cmnd(std::string_view cmnd, Char *mob, const Char *actor, const Object *obj,
-                        const MProg::Target target, const Char *rndm);
-void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const MProg::Target target);
 
 namespace MProg {
+
+// Mob Prog implementation internals.
+namespace impl {
+
+bool compare_strings(std::string_view lhs, std::string_view opr, std::string_view rhs) {
+    if (opr == "=="sv)
+        return matches(lhs, rhs);
+    if (opr == "!="sv)
+        return !matches(lhs, rhs);
+    if (opr == "/"sv)
+        return matches_inside(rhs, lhs);
+    if (opr == "!/"sv)
+        return !matches_inside(rhs, lhs);
+
+    bug("Improper MOBprog operator '{}'", opr);
+    return false;
+}
+
+bool compare_ints(const int lhs, std::string_view opr, const int rhs) {
+    if (opr == "=="sv)
+        return lhs == rhs;
+    if (opr == "!="sv)
+        return lhs != rhs;
+    if (opr == ">"sv)
+        return lhs > rhs;
+    if (opr == "<"sv)
+        return lhs < rhs;
+    if (opr == "<="sv)
+        return lhs <= rhs;
+    if (opr == ">="sv)
+        return lhs >= rhs;
+    if (opr == "&"sv)
+        return lhs & rhs;
+    if (opr == "|"sv)
+        return lhs | rhs;
+
+    bug("Improper MOBprog operator '{}'", opr);
+    return false;
+}
+
+/* This function performs the evaluation of the if checks.  It is
+ * here that you can add any ifchecks which you so desire. Hopefully
+ * it is clear from what follows how one would go about adding your
+ * own. The syntax for an if check is: ifchck ( arg ) [opr val]
+ * where the parenthesis are required and the opr and val fields are
+ * optional but if one is there then both must be. The spaces are all
+ * optional. The evaluation of the opr expressions is farmed out
+ * to reduce the redundancy of the mammoth if statement list.
+ */
+bool evaluate_if(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj, const MProg::Target target,
+                 const Char *rndm) {
+    const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
+    const auto *targ_obj =
+        std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
+    const auto opt_ifexpr = IfExpr::parse_if(ifchck);
+    if (!opt_ifexpr) {
+        return false;
+    }
+    const auto ifexpr = *opt_ifexpr;
+    if (matches(ifexpr.function, "rand")) {
+        if (!is_number(ifexpr.arg)) {
+            bug("Mob: {} bad argument to 'rand': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        return number_percent() <= parse_number(ifexpr.arg);
+    }
+    if (matches(ifexpr.function, "ispc")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'ispc': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) { // arg should be "$*" so just get the letter
+        case 'i': return false; // Self
+        case 'n': return actor && actor->is_pc();
+        case 't': return targ_ch && targ_ch->is_pc();
+        case 'r': return rndm && rndm->is_pc();
+        default: bug("Mob: {} bad argument to 'ispc': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "isnpc")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'isnpc': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return true; // Self
+        case 'n': return actor && actor->is_npc();
+        case 't': return targ_ch && targ_ch->is_npc();
+        case 'r': return rndm && rndm->is_npc();
+        default: bug("Mob: {} bad argument to 'isnpc': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "isgood")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'isgood': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->is_good();
+        case 'n': return actor && actor->is_good();
+        case 't': return targ_ch && targ_ch->is_good();
+        case 'r': return rndm && rndm->is_good();
+        default: bug("Mob: {} bad argument to 'isgood': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "isfight")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'isfight': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->fighting;
+        case 'n': return actor && actor->fighting;
+        case 't': return targ_ch && targ_ch->fighting;
+        case 'r': return rndm && rndm->fighting;
+        default: bug("Mob: {} bad argument to 'isfight': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "isimmort")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'isimmort': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->get_trust() > LEVEL_IMMORTAL;
+        case 'n': return actor && actor->get_trust() > LEVEL_IMMORTAL;
+        case 't': return targ_ch && targ_ch->get_trust() > LEVEL_IMMORTAL;
+        case 'r': return rndm && rndm->get_trust() > LEVEL_IMMORTAL;
+        default: bug("Mob: {} bad argument to 'isimmort': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "ischarmed")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'ischarmed': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->is_aff_charm();
+        case 'n': return actor && actor->is_aff_charm();
+        case 't': return targ_ch && targ_ch->is_aff_charm();
+        case 'r': return rndm && rndm->is_aff_charm();
+        default: bug("Mob: {} bad argument to 'ischarmed': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "isfollow")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'isfollow': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->master && mob->master->in_room == mob->in_room;
+        case 'n': return actor && actor->master && actor->master->in_room == actor->in_room;
+        case 't': return targ_ch && targ_ch->master && targ_ch->master->in_room == targ_ch->in_room;
+        case 'r': return rndm && rndm->master && rndm->master->in_room == rndm->in_room;
+        default: bug("Mob: {} bad argument to 'isfollow': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "isaffected")) {
+        if (!is_number(ifexpr.arg)) {
+            bug("Mob: {} bad argument to 'isaffected': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        const auto affect_bit = parse_number(ifexpr.arg);
+        switch (ifexpr.arg[1]) {
+        case 'i': return mob->affected_by & affect_bit;
+        case 'n': return actor && actor->affected_by & affect_bit;
+        case 't': return targ_ch && targ_ch->affected_by & affect_bit;
+        case 'r': return rndm && rndm->affected_by & affect_bit;
+        default: bug("Mob: {} bad argument to 'isaffected': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "hitprcnt")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'hitprcnt': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'hitprcnt': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto percent = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return compare_ints(mob->hit / mob->max_hit, ifexpr.op, percent);
+        case 'n': return actor && compare_ints(actor->hit / actor->max_hit, ifexpr.op, percent);
+        case 't': return targ_ch && compare_ints(targ_ch->hit / targ_ch->max_hit, ifexpr.op, percent);
+        case 'r': return rndm && compare_ints(rndm->hit / rndm->max_hit, ifexpr.op, percent);
+        default: bug("Mob: {} bad argument to 'hitprcnt': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "inroom")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'inroom': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'inroom': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto room_vnum = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return compare_ints(mob->in_room->vnum, ifexpr.op, room_vnum);
+        case 'n': return actor && compare_ints(actor->in_room->vnum, ifexpr.op, room_vnum);
+        case 't': return targ_ch && compare_ints(targ_ch->in_room->vnum, ifexpr.op, room_vnum);
+        case 'r': return rndm && compare_ints(rndm->in_room->vnum, ifexpr.op, room_vnum);
+        default: bug("Mob: {} bad argument to 'inroom': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "sex")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'sex': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'sex': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto sex = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return compare_ints(mob->sex.integer(), ifexpr.op, sex);
+        case 'n': return actor && compare_ints(actor->sex.integer(), ifexpr.op, sex);
+        case 't': return targ_ch && compare_ints(targ_ch->sex.integer(), ifexpr.op, sex);
+        case 'r': return rndm && compare_ints(rndm->sex.integer(), ifexpr.op, sex);
+        default: bug("Mob: {} bad argument to 'sex': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "position")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'position': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'position': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto position = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return compare_ints(mob->position.integer(), ifexpr.op, position);
+        case 'n': return actor && compare_ints(actor->position.integer(), ifexpr.op, position);
+        case 't': return targ_ch && compare_ints(targ_ch->position.integer(), ifexpr.op, position);
+        case 'r': return rndm && compare_ints(rndm->position.integer(), ifexpr.op, position);
+        default: bug("Mob: {} bad argument to 'position': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "level")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'level': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'level': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto level = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return compare_ints(mob->get_trust(), ifexpr.op, level);
+        case 'n': return actor && compare_ints(actor->get_trust(), ifexpr.op, level);
+        case 't': return targ_ch && compare_ints(targ_ch->get_trust(), ifexpr.op, level);
+        case 'r': return rndm && compare_ints(rndm->get_trust(), ifexpr.op, level);
+        default: bug("Mob: {} bad argument to 'level': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "class")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'class': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'class': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto class_num = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return compare_ints(mob->class_num, ifexpr.op, class_num);
+        case 'n': return actor && compare_ints(actor->class_num, ifexpr.op, class_num);
+        case 't': return targ_ch && compare_ints(targ_ch->class_num, ifexpr.op, class_num);
+        case 'r': return rndm && compare_ints(rndm->class_num, ifexpr.op, class_num);
+        default: bug("Mob: {} bad argument to 'class': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "goldamt")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'goldamt': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'goldamt': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto gold = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'i': return compare_ints(mob->gold, ifexpr.op, gold);
+        case 'n': return actor && compare_ints(actor->gold, ifexpr.op, gold);
+        case 't': return targ_ch && compare_ints(targ_ch->gold, ifexpr.op, gold);
+        case 'r': return rndm && compare_ints(rndm->gold, ifexpr.op, gold);
+        default: bug("Mob: {} bad argument to 'goldamt': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "objtype")) {
+        if (ifexpr.arg.length() != 2) {
+            bug("Mob: {} bad argument to 'objtype': {}", mob->mobIndex->vnum, ifexpr.arg);
+            return false;
+        }
+        if (!is_number(ifexpr.operand)) {
+            bug("Mob: {} bad operand to 'objtype': {}", mob->mobIndex->vnum, ifexpr.operand);
+            return false;
+        }
+        const auto obj_type = parse_number(ifexpr.operand);
+        switch (ifexpr.arg[1]) {
+        case 'o': return obj && compare_ints(magic_enum::enum_integer<ObjectType>(obj->type), ifexpr.op, obj_type);
+        case 'p':
+            return targ_obj && compare_ints(magic_enum::enum_integer<ObjectType>(targ_obj->type), ifexpr.op, obj_type);
+        default: bug("Mob: {} bad argument to 'objtype': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    if (matches(ifexpr.function, "name")) {
+        switch (ifexpr.arg[1]) {
+        case 'i': return compare_strings(mob->name, ifexpr.op, ifexpr.operand);
+        case 'n': return actor && compare_strings(actor->name, ifexpr.op, ifexpr.operand);
+        case 't': return targ_ch && compare_strings(targ_ch->name, ifexpr.op, ifexpr.operand);
+        case 'r': return rndm && compare_strings(rndm->name, ifexpr.op, ifexpr.operand);
+        case 'o': return obj && compare_strings(obj->name, ifexpr.op, ifexpr.operand);
+        case 'p': return targ_obj && compare_strings(targ_obj->name, ifexpr.op, ifexpr.operand);
+        default: bug("Mob: {} bad argument to 'name': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
+        }
+    }
+    bug("Mob: {} unknown ifchck: {}", mob->mobIndex->vnum, ifexpr.function);
+    return false;
+}
+
+std::string expand_var(const char c, const Char *mob, const Char *actor, const Object *obj, const MProg::Target target,
+                       const Char *rndm) {
+    const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
+    const auto *targ_obj =
+        std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
+    std::string buf{};
+    switch (c) {
+    case 'i':
+    case 'I': buf = mob->describe(*mob); break;
+    case 'n':
+    case 'N':
+        if (actor)
+            buf = mob->describe(*actor);
+        break;
+    case 't':
+    case 'T':
+        if (targ_ch)
+            buf = mob->describe(*targ_ch);
+        break;
+    case 'r':
+    case 'R':
+        if (rndm)
+            buf = mob->describe(*rndm);
+        break;
+    case 'e':
+        if (actor)
+            buf = subjective(*actor);
+        break;
+    case 'm':
+        if (actor)
+            buf = objective(*actor);
+        break;
+    case 's':
+        if (actor)
+            buf = possessive(*actor);
+        break;
+    case 'E':
+        if (targ_ch)
+            buf = subjective(*targ_ch);
+        break;
+    case 'M':
+        if (targ_ch)
+            buf = objective(*targ_ch);
+        break;
+    case 'S':
+        if (targ_ch)
+            buf = possessive(*targ_ch);
+        break;
+    case 'j': buf = subjective(*mob); break;
+    case 'k': buf = objective(*mob); break;
+    case 'l': buf = possessive(*mob); break;
+    case 'J':
+        if (rndm)
+            buf = subjective(*rndm);
+        break;
+    case 'K':
+        if (rndm)
+            buf = objective(*rndm);
+        break;
+    case 'L':
+        if (rndm)
+            buf = possessive(*rndm);
+        break;
+    case 'o':
+        if (obj)
+            buf = can_see_obj(mob, obj) ? obj->name : "something";
+        break;
+    case 'O':
+        if (obj)
+            buf = can_see_obj(mob, obj) ? obj->short_descr : "something";
+        break;
+    case 'p':
+        if (targ_obj)
+            buf = can_see_obj(mob, targ_obj) ? targ_obj->name : "something";
+        break;
+    case 'P':
+        if (targ_obj)
+            buf = can_see_obj(mob, targ_obj) ? targ_obj->short_descr : "something";
+        break;
+    case 'a':
+        if (obj)
+            switch (obj->name.front()) {
+            case 'a':
+            case 'e':
+            case 'i':
+            case 'o':
+            case 'u': buf = "an"; break;
+            default: buf = "a";
+            }
+        break;
+    case 'A':
+        if (targ_obj)
+            switch (targ_obj->name.front()) {
+            case 'a':
+            case 'e':
+            case 'i':
+            case 'o':
+            case 'u': buf = "an"; break;
+            default: buf = "a";
+            }
+        break;
+    case '$': buf = "$"; break;
+    default: bug("Mob: {} bad $var", mob->mobIndex->vnum); break;
+    }
+    return buf;
+}
+
+void interpret_command(std::string_view cmnd, Char *mob, const Char *actor, const Object *obj,
+                       const MProg::Target target, const Char *rndm) {
+    std::string buf{};
+    bool prev_was_dollar = false;
+    for (auto c : cmnd) {
+        if (!std::exchange(prev_was_dollar, false)) {
+            if (c != '$') {
+                prev_was_dollar = false;
+                buf.push_back(c);
+            } else {
+                prev_was_dollar = true;
+            }
+            continue;
+        }
+        buf += expand_var(c, mob, actor, obj, target, rndm);
+    }
+    ::interpret(mob, buf);
+}
+
+void process_if_block(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
+                      const MProg::Target target, const Char *rndm, auto &line_it, auto end_it) {
+    if (evaluate_if(ifchck, mob, actor, obj, target, rndm)) {
+        while (true) { // ifchck was true, do commands but ignore else to endif
+            if (++line_it == end_it) {
+                bug("Mob: {} unexpected end of input in if block", mob->mobIndex->vnum);
+                return;
+            }
+            ArgParser args{*line_it};
+            if (args.empty()) {
+                bug("Mob: {} missing else or endif", mob->mobIndex->vnum);
+                return;
+            }
+            auto cmnd = args.shift();
+            if (matches(cmnd, "if")) {
+                process_if_block(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
+                continue;
+            }
+            if (matches(cmnd, "endif"))
+                return;
+            if (matches(cmnd, "else")) {
+                // Skip over the commands in this else block.
+                for (;;) {
+                    if (++line_it == end_it) {
+                        bug("Mob: {} unexpected end of input in else block", mob->mobIndex->vnum);
+                        return;
+                    }
+                    ArgParser args{*line_it};
+                    auto cmnd = args.shift();
+                    if (matches(cmnd, "endif"))
+                        return;
+                }
+            }
+            interpret_command(*line_it, mob, actor, obj, target, rndm);
+        }
+    } else {
+        // Skip over the commands in the block until an endif.
+        while (true) {
+            if (++line_it == end_it) {
+                bug("Mob: {} unexpected end of input in if block", mob->mobIndex->vnum);
+                return;
+            }
+            ArgParser args{*line_it};
+            auto cmnd = args.shift();
+            if (matches(cmnd, "endif"))
+                return;
+            if (matches(cmnd, "else"))
+                break;
+        }
+        // Perform the remaining commands up until the next endif
+        while (true) {
+            if (++line_it == end_it) {
+                bug("Mob: {} unexpected end of input in else block", mob->mobIndex->vnum);
+                return;
+            }
+            ArgParser args{*line_it};
+            auto cmnd = args.shift();
+            if (matches(cmnd, "endif"))
+                return;
+            if (matches(cmnd, "if")) {
+                process_if_block(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
+                continue;
+            }
+            if (matches(cmnd, "else")) {
+                bug("Mob: {} found else in an else section", mob->mobIndex->vnum);
+                return;
+            }
+            if (matches(cmnd, "endif"))
+                return;
+            interpret_command(*line_it, mob, actor, obj, target, rndm);
+        }
+    }
+}
+
+Char *random_mortal_in_room(Char *mob) {
+    auto count = 0;
+    for (auto *vch : mob->in_room->people) {
+        if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && can_see(mob, vch)) {
+            if (number_range(0, count++) == 0)
+                return vch;
+        }
+    }
+    return nullptr;
+}
+
+void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const MProg::Target target) {
+    if (mob->is_aff_charm())
+        return;
+    const auto *rndm = impl::random_mortal_in_room(mob);
+    auto end_it = prog.lines.end();
+    for (auto line_it = prog.lines.begin(); line_it != end_it; line_it++) {
+        ArgParser args{*line_it};
+        auto command = args.shift();
+        if (matches(command, "if")) {
+            impl::process_if_block(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
+        } else {
+            impl::interpret_command(*line_it, mob, actor, obj, target, rndm);
+        }
+    }
+}
+
+} // namespace impl
 
 // Parses an if expression taking these forms (the if has already been processed)
 //   func_name(func_arg)
@@ -239,7 +779,7 @@ void load_mobprogs(FILE *fp) {
  *  on a certain percent, or trigger on a keyword or word phrase.
  *  To see how this works, look at the various trigger routines..
  */
-void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const MProg::Target target,
+void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const Target target,
                     const MobProgTypeFlag type) {
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
@@ -247,7 +787,7 @@ void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Ob
             if ((mprg.arglist[0] == 'p') && (std::isspace(mprg.arglist[1]))) {
                 auto prog_phrase = mprg.arglist.substr(2, mprg.arglist.length());
                 if (matches_inside(prog_phrase, arg)) {
-                    mprog_driver(mob, mprg, actor, obj, target);
+                    impl::mprog_driver(mob, mprg, actor, obj, target);
                     break;
                 }
             } else {
@@ -255,7 +795,7 @@ void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Ob
                 auto prog_keywords = ArgParser(mprg.arglist);
                 for (const auto &prog_keyword : prog_keywords) {
                     if (matches_inside(prog_keyword, arg)) {
-                        mprog_driver(mob, mprg, actor, obj, target);
+                        impl::mprog_driver(mob, mprg, actor, obj, target);
                         break;
                     }
                 }
@@ -264,7 +804,7 @@ void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Ob
     }
 }
 
-void percent_check(Char *mob, Char *actor, Object *obj, const MProg::Target target, const MobProgTypeFlag type) {
+void percent_check(Char *mob, Char *actor, Object *obj, const Target target, const MobProgTypeFlag type) {
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
             if (!is_number(mprg.arglist)) {
@@ -272,7 +812,7 @@ void percent_check(Char *mob, Char *actor, Object *obj, const MProg::Target targ
                 continue;
             }
             if (number_percent() < parse_number(mprg.arglist)) {
-                mprog_driver(mob, mprg, actor, obj, target);
+                impl::mprog_driver(mob, mprg, actor, obj, target);
                 if (type != MobProgTypeFlag::Greet && type != MobProgTypeFlag::AllGreet)
                     break;
             }
@@ -297,7 +837,7 @@ void bribe_trigger(Char *mob, Char *ch, int amount) {
                 if (amount >= parse_number(mprg.arglist)) {
                     /* this function previously created a gold object and gave it to ch
                        but there is zero point - the gold transfer is handled in do_give now */
-                    mprog_driver(mob, mprg, ch, nullptr, nullptr);
+                    impl::mprog_driver(mob, mprg, ch, nullptr, nullptr);
                     break;
                 }
             }
@@ -327,7 +867,7 @@ void give_trigger(Char *mob, Char *ch, Object *obj) {
                 auto prog_args = ArgParser(mprg.arglist);
                 const auto first_prog_arg = prog_args.shift();
                 if (matches(obj->name, mprg.arglist) || matches("all", first_prog_arg)) {
-                    mprog_driver(mob, mprg, ch, obj, nullptr);
+                    impl::mprog_driver(mob, mprg, ch, obj, nullptr);
                     break;
                 }
             }
@@ -354,7 +894,7 @@ void hitprcnt_trigger(Char *mob, Char *ch) {
                     continue;
                 }
                 if (100 * mob->hit / mob->max_hit < parse_number(mprg.arglist)) {
-                    mprog_driver(mob, mprg, ch, nullptr, nullptr);
+                    impl::mprog_driver(mob, mprg, ch, nullptr, nullptr);
                     break;
                 }
             }
@@ -374,563 +914,3 @@ void speech_trigger(std::string_view txt, const Char *mob) {
 }
 
 } // namespace mprog
-
-/* These two functions do the basic evaluation of ifcheck operators.
- *  It is important to note that the string operations are not what
- *  you probably expect.  Equality is exact and division is substring.
- *  remember that lhs has been stripped of leading space, but can
- *  still have trailing spaces so be careful when editing since:
- *  "guard" and "guard " are not equal.
- */
-bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rhs) {
-    if (opr == "=="sv)
-        return matches(lhs, rhs);
-    if (opr == "!="sv)
-        return !matches(lhs, rhs);
-    if (opr == "/"sv)
-        return matches_inside(rhs, lhs);
-    if (opr == "!/"sv)
-        return !matches_inside(rhs, lhs);
-
-    bug("Improper MOBprog operator '{}'", opr);
-    return false;
-}
-
-bool mprog_veval(const int lhs, std::string_view opr, const int rhs) {
-    if (opr == "=="sv)
-        return lhs == rhs;
-    if (opr == "!="sv)
-        return lhs != rhs;
-    if (opr == ">"sv)
-        return lhs > rhs;
-    if (opr == "<"sv)
-        return lhs < rhs;
-    if (opr == "<="sv)
-        return lhs <= rhs;
-    if (opr == ">="sv)
-        return lhs >= rhs;
-    if (opr == "&"sv)
-        return lhs & rhs;
-    if (opr == "|"sv)
-        return lhs | rhs;
-
-    bug("Improper MOBprog operator '{}'", opr);
-    return false;
-}
-
-/* This function performs the evaluation of the if checks.  It is
- * here that you can add any ifchecks which you so desire. Hopefully
- * it is clear from what follows how one would go about adding your
- * own. The syntax for an if check is: ifchck ( arg ) [opr val]
- * where the parenthesis are required and the opr and val fields are
- * optional but if one is there then both must be. The spaces are all
- * optional. The evaluation of the opr expressions is farmed out
- * to reduce the redundancy of the mammoth if statement list.
- * If there are errors, then return -1 otherwise return boolean 1,0
- */
-bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
-                     const MProg::Target target, const Char *rndm) {
-    const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
-    const auto *targ_obj =
-        std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
-    const auto opt_ifexpr = IfExpr::parse_if(ifchck);
-    if (!opt_ifexpr) {
-        return false;
-    }
-    const auto ifexpr = *opt_ifexpr;
-    if (matches(ifexpr.function, "rand")) {
-        if (!is_number(ifexpr.arg)) {
-            bug("Mob: {} bad argument to 'rand': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        return number_percent() <= parse_number(ifexpr.arg);
-    }
-    if (matches(ifexpr.function, "ispc")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'ispc': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        switch (ifexpr.arg[1]) { // arg should be "$*" so just get the letter
-        case 'i': return false; // Self
-        case 'n': return actor && actor->is_pc();
-        case 't': return targ_ch && targ_ch->is_pc();
-        case 'r': return rndm && rndm->is_pc();
-        default: bug("Mob: {} bad argument to 'ispc': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "isnpc")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'isnpc': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        switch (ifexpr.arg[1]) {
-        case 'i': return true; // Self
-        case 'n': return actor && actor->is_npc();
-        case 't': return targ_ch && targ_ch->is_npc();
-        case 'r': return rndm && rndm->is_npc();
-        default: bug("Mob: {} bad argument to 'isnpc': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "isgood")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'isgood': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        switch (ifexpr.arg[1]) {
-        case 'i': return mob->is_good();
-        case 'n': return actor && actor->is_good();
-        case 't': return targ_ch && targ_ch->is_good();
-        case 'r': return rndm && rndm->is_good();
-        default: bug("Mob: {} bad argument to 'isgood': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "isfight")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'isfight': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        switch (ifexpr.arg[1]) {
-        case 'i': return mob->fighting;
-        case 'n': return actor && actor->fighting;
-        case 't': return targ_ch && targ_ch->fighting;
-        case 'r': return rndm && rndm->fighting;
-        default: bug("Mob: {} bad argument to 'isfight': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "isimmort")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'isimmort': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        switch (ifexpr.arg[1]) {
-        case 'i': return mob->get_trust() > LEVEL_IMMORTAL;
-        case 'n': return actor && actor->get_trust() > LEVEL_IMMORTAL;
-        case 't': return targ_ch && targ_ch->get_trust() > LEVEL_IMMORTAL;
-        case 'r': return rndm && rndm->get_trust() > LEVEL_IMMORTAL;
-        default: bug("Mob: {} bad argument to 'isimmort': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "ischarmed")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'ischarmed': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        switch (ifexpr.arg[1]) {
-        case 'i': return mob->is_aff_charm();
-        case 'n': return actor && actor->is_aff_charm();
-        case 't': return targ_ch && targ_ch->is_aff_charm();
-        case 'r': return rndm && rndm->is_aff_charm();
-        default: bug("Mob: {} bad argument to 'ischarmed': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "isfollow")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'isfollow': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        switch (ifexpr.arg[1]) {
-        case 'i': return mob->master && mob->master->in_room == mob->in_room;
-        case 'n': return actor && actor->master && actor->master->in_room == actor->in_room;
-        case 't': return targ_ch && targ_ch->master && targ_ch->master->in_room == targ_ch->in_room;
-        case 'r': return rndm && rndm->master && rndm->master->in_room == rndm->in_room;
-        default: bug("Mob: {} bad argument to 'isfollow': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "isaffected")) {
-        if (!is_number(ifexpr.arg)) {
-            bug("Mob: {} bad argument to 'isaffected': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        const auto affect_bit = parse_number(ifexpr.arg);
-        switch (ifexpr.arg[1]) {
-        case 'i': return mob->affected_by & affect_bit;
-        case 'n': return actor && actor->affected_by & affect_bit;
-        case 't': return targ_ch && targ_ch->affected_by & affect_bit;
-        case 'r': return rndm && rndm->affected_by & affect_bit;
-        default: bug("Mob: {} bad argument to 'isaffected': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "hitprcnt")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'hitprcnt': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        if (!is_number(ifexpr.operand)) {
-            bug("Mob: {} bad operand to 'hitprcnt': {}", mob->mobIndex->vnum, ifexpr.operand);
-            return false;
-        }
-        const auto percent = parse_number(ifexpr.operand);
-        switch (ifexpr.arg[1]) {
-        case 'i': return mprog_veval(mob->hit / mob->max_hit, ifexpr.op, percent);
-        case 'n': return actor && mprog_veval(actor->hit / actor->max_hit, ifexpr.op, percent);
-        case 't': return targ_ch && mprog_veval(targ_ch->hit / targ_ch->max_hit, ifexpr.op, percent);
-        case 'r': return rndm && mprog_veval(rndm->hit / rndm->max_hit, ifexpr.op, percent);
-        default: bug("Mob: {} bad argument to 'hitprcnt': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "inroom")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'inroom': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        if (!is_number(ifexpr.operand)) {
-            bug("Mob: {} bad operand to 'inroom': {}", mob->mobIndex->vnum, ifexpr.operand);
-            return false;
-        }
-        const auto room_vnum = parse_number(ifexpr.operand);
-        switch (ifexpr.arg[1]) {
-        case 'i': return mprog_veval(mob->in_room->vnum, ifexpr.op, room_vnum);
-        case 'n': return actor && mprog_veval(actor->in_room->vnum, ifexpr.op, room_vnum);
-        case 't': return targ_ch && mprog_veval(targ_ch->in_room->vnum, ifexpr.op, room_vnum);
-        case 'r': return rndm && mprog_veval(rndm->in_room->vnum, ifexpr.op, room_vnum);
-        default: bug("Mob: {} bad argument to 'inroom': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "sex")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'sex': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        if (!is_number(ifexpr.operand)) {
-            bug("Mob: {} bad operand to 'sex': {}", mob->mobIndex->vnum, ifexpr.operand);
-            return false;
-        }
-        const auto sex = parse_number(ifexpr.operand);
-        switch (ifexpr.arg[1]) {
-        case 'i': return mprog_veval(mob->sex.integer(), ifexpr.op, sex);
-        case 'n': return actor && mprog_veval(actor->sex.integer(), ifexpr.op, sex);
-        case 't': return targ_ch && mprog_veval(targ_ch->sex.integer(), ifexpr.op, sex);
-        case 'r': return rndm && mprog_veval(rndm->sex.integer(), ifexpr.op, sex);
-        default: bug("Mob: {} bad argument to 'sex': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "position")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'position': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        if (!is_number(ifexpr.operand)) {
-            bug("Mob: {} bad operand to 'position': {}", mob->mobIndex->vnum, ifexpr.operand);
-            return false;
-        }
-        const auto position = parse_number(ifexpr.operand);
-        switch (ifexpr.arg[1]) {
-        case 'i': return mprog_veval(mob->position.integer(), ifexpr.op, position);
-        case 'n': return actor && mprog_veval(actor->position.integer(), ifexpr.op, position);
-        case 't': return targ_ch && mprog_veval(targ_ch->position.integer(), ifexpr.op, position);
-        case 'r': return rndm && mprog_veval(rndm->position.integer(), ifexpr.op, position);
-        default: bug("Mob: {} bad argument to 'position': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "level")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'level': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        if (!is_number(ifexpr.operand)) {
-            bug("Mob: {} bad operand to 'level': {}", mob->mobIndex->vnum, ifexpr.operand);
-            return false;
-        }
-        const auto level = parse_number(ifexpr.operand);
-        switch (ifexpr.arg[1]) {
-        case 'i': return mprog_veval(mob->get_trust(), ifexpr.op, level);
-        case 'n': return actor && mprog_veval(actor->get_trust(), ifexpr.op, level);
-        case 't': return targ_ch && mprog_veval(targ_ch->get_trust(), ifexpr.op, level);
-        case 'r': return rndm && mprog_veval(rndm->get_trust(), ifexpr.op, level);
-        default: bug("Mob: {} bad argument to 'level': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "class")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'class': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        if (!is_number(ifexpr.operand)) {
-            bug("Mob: {} bad operand to 'class': {}", mob->mobIndex->vnum, ifexpr.operand);
-            return false;
-        }
-        const auto class_num = parse_number(ifexpr.operand);
-        switch (ifexpr.arg[1]) {
-        case 'i': return mprog_veval(mob->class_num, ifexpr.op, class_num);
-        case 'n': return actor && mprog_veval(actor->class_num, ifexpr.op, class_num);
-        case 't': return targ_ch && mprog_veval(targ_ch->class_num, ifexpr.op, class_num);
-        case 'r': return rndm && mprog_veval(rndm->class_num, ifexpr.op, class_num);
-        default: bug("Mob: {} bad argument to 'class': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "goldamt")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'goldamt': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        if (!is_number(ifexpr.operand)) {
-            bug("Mob: {} bad operand to 'goldamt': {}", mob->mobIndex->vnum, ifexpr.operand);
-            return false;
-        }
-        const auto gold = parse_number(ifexpr.operand);
-        switch (ifexpr.arg[1]) {
-        case 'i': return mprog_veval(mob->gold, ifexpr.op, gold);
-        case 'n': return actor && mprog_veval(actor->gold, ifexpr.op, gold);
-        case 't': return targ_ch && mprog_veval(targ_ch->gold, ifexpr.op, gold);
-        case 'r': return rndm && mprog_veval(rndm->gold, ifexpr.op, gold);
-        default: bug("Mob: {} bad argument to 'goldamt': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "objtype")) {
-        if (ifexpr.arg.length() != 2) {
-            bug("Mob: {} bad argument to 'objtype': {}", mob->mobIndex->vnum, ifexpr.arg);
-            return false;
-        }
-        if (!is_number(ifexpr.operand)) {
-            bug("Mob: {} bad operand to 'objtype': {}", mob->mobIndex->vnum, ifexpr.operand);
-            return false;
-        }
-        const auto obj_type = parse_number(ifexpr.operand);
-        switch (ifexpr.arg[1]) {
-        case 'o': return obj && mprog_veval(magic_enum::enum_integer<ObjectType>(obj->type), ifexpr.op, obj_type);
-        case 'p':
-            return targ_obj && mprog_veval(magic_enum::enum_integer<ObjectType>(targ_obj->type), ifexpr.op, obj_type);
-        default: bug("Mob: {} bad argument to 'objtype': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    if (matches(ifexpr.function, "name")) {
-        switch (ifexpr.arg[1]) {
-        case 'i': return mprog_seval(mob->name, ifexpr.op, ifexpr.operand);
-        case 'n': return actor && mprog_seval(actor->name, ifexpr.op, ifexpr.operand);
-        case 't': return targ_ch && mprog_seval(targ_ch->name, ifexpr.op, ifexpr.operand);
-        case 'r': return rndm && mprog_seval(rndm->name, ifexpr.op, ifexpr.operand);
-        case 'o': return obj && mprog_seval(obj->name, ifexpr.op, ifexpr.operand);
-        case 'p': return targ_obj && mprog_seval(targ_obj->name, ifexpr.op, ifexpr.operand);
-        default: bug("Mob: {} bad argument to 'name': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
-        }
-    }
-    bug("Mob: {} unknown ifchck: {}", mob->mobIndex->vnum, ifexpr.function);
-    return false;
-}
-
-void mprog_process_if(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
-                      const MProg::Target target, const Char *rndm, auto &line_it, auto end_it) {
-    if (mprog_do_ifchck(ifchck, mob, actor, obj, target, rndm)) {
-        while (true) { // ifchck was true, do commands but ignore else to endif
-            if (++line_it == end_it) {
-                bug("Mob: {} unexpected end of input in if block", mob->mobIndex->vnum);
-                return;
-            }
-            ArgParser args{*line_it};
-            if (args.empty()) {
-                bug("Mob: {} missing else or endif", mob->mobIndex->vnum);
-                return;
-            }
-            auto cmnd = args.shift();
-            if (matches(cmnd, "if")) {
-                mprog_process_if(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
-                continue;
-            }
-            if (matches(cmnd, "endif"))
-                return;
-            if (matches(cmnd, "else")) {
-                // Skip over the commands in this else block.
-                for (;;) {
-                    if (++line_it == end_it) {
-                        bug("Mob: {} unexpected end of input in else block", mob->mobIndex->vnum);
-                        return;
-                    }
-                    ArgParser args{*line_it};
-                    auto cmnd = args.shift();
-                    if (matches(cmnd, "endif"))
-                        return;
-                }
-            }
-            mprog_process_cmnd(*line_it, mob, actor, obj, target, rndm);
-        }
-    } else {
-        // Skip over the commands in the block until an endif.
-        while (true) {
-            if (++line_it == end_it) {
-                bug("Mob: {} unexpected end of input in if block", mob->mobIndex->vnum);
-                return;
-            }
-            ArgParser args{*line_it};
-            auto cmnd = args.shift();
-            if (matches(cmnd, "endif"))
-                return;
-            if (matches(cmnd, "else"))
-                break;
-        }
-        // Perform the remaining commands up until the next endif
-        while (true) {
-            if (++line_it == end_it) {
-                bug("Mob: {} unexpected end of input in else block", mob->mobIndex->vnum);
-                return;
-            }
-            ArgParser args{*line_it};
-            auto cmnd = args.shift();
-            if (matches(cmnd, "endif"))
-                return;
-            if (matches(cmnd, "if")) {
-                mprog_process_if(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
-                continue;
-            }
-            if (matches(cmnd, "else")) {
-                bug("Mob: {} found else in an else section", mob->mobIndex->vnum);
-                return;
-            }
-            if (matches(cmnd, "endif"))
-                return;
-            mprog_process_cmnd(*line_it, mob, actor, obj, target, rndm);
-        }
-    }
-}
-
-std::string mprog_expand_var(const char c, const Char *mob, const Char *actor, const Object *obj,
-                             const MProg::Target target, const Char *rndm) {
-    const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
-    const auto *targ_obj =
-        std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
-    std::string buf{};
-    switch (c) {
-    case 'i':
-    case 'I': buf = mob->describe(*mob); break;
-    case 'n':
-    case 'N':
-        if (actor)
-            buf = mob->describe(*actor);
-        break;
-    case 't':
-    case 'T':
-        if (targ_ch)
-            buf = mob->describe(*targ_ch);
-        break;
-    case 'r':
-    case 'R':
-        if (rndm)
-            buf = mob->describe(*rndm);
-        break;
-    case 'e':
-        if (actor)
-            buf = subjective(*actor);
-        break;
-    case 'm':
-        if (actor)
-            buf = objective(*actor);
-        break;
-    case 's':
-        if (actor)
-            buf = possessive(*actor);
-        break;
-    case 'E':
-        if (targ_ch)
-            buf = subjective(*targ_ch);
-        break;
-    case 'M':
-        if (targ_ch)
-            buf = objective(*targ_ch);
-        break;
-    case 'S':
-        if (targ_ch)
-            buf = possessive(*targ_ch);
-        break;
-    case 'j': buf = subjective(*mob); break;
-    case 'k': buf = objective(*mob); break;
-    case 'l': buf = possessive(*mob); break;
-    case 'J':
-        if (rndm)
-            buf = subjective(*rndm);
-        break;
-    case 'K':
-        if (rndm)
-            buf = objective(*rndm);
-        break;
-    case 'L':
-        if (rndm)
-            buf = possessive(*rndm);
-        break;
-    case 'o':
-        if (obj)
-            buf = can_see_obj(mob, obj) ? obj->name : "something";
-        break;
-    case 'O':
-        if (obj)
-            buf = can_see_obj(mob, obj) ? obj->short_descr : "something";
-        break;
-    case 'p':
-        if (targ_obj)
-            buf = can_see_obj(mob, targ_obj) ? targ_obj->name : "something";
-        break;
-    case 'P':
-        if (targ_obj)
-            buf = can_see_obj(mob, targ_obj) ? targ_obj->short_descr : "something";
-        break;
-    case 'a':
-        if (obj)
-            switch (obj->name.front()) {
-            case 'a':
-            case 'e':
-            case 'i':
-            case 'o':
-            case 'u': buf = "an"; break;
-            default: buf = "a";
-            }
-        break;
-    case 'A':
-        if (targ_obj)
-            switch (targ_obj->name.front()) {
-            case 'a':
-            case 'e':
-            case 'i':
-            case 'o':
-            case 'u': buf = "an"; break;
-            default: buf = "a";
-            }
-        break;
-    case '$': buf = "$"; break;
-    default: bug("Mob: {} bad $var", mob->mobIndex->vnum); break;
-    }
-    return buf;
-}
-
-void mprog_process_cmnd(std::string_view cmnd, Char *mob, const Char *actor, const Object *obj,
-                        const MProg::Target target, const Char *rndm) {
-    std::string buf{};
-    bool prev_was_dollar = false;
-    for (auto c : cmnd) {
-        if (!std::exchange(prev_was_dollar, false)) {
-            if (c != '$') {
-                prev_was_dollar = false;
-                buf.push_back(c);
-            } else {
-                prev_was_dollar = true;
-            }
-            continue;
-        }
-        buf += mprog_expand_var(c, mob, actor, obj, target, rndm);
-    }
-    interpret(mob, buf);
-}
-
-Char *random_mortal_in_room(Char *mob) {
-    auto count = 0;
-    for (auto *vch : mob->in_room->people) {
-        if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && can_see(mob, vch)) {
-            if (number_range(0, count++) == 0)
-                return vch;
-        }
-    }
-    return nullptr;
-}
-
-void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const MProg::Target target) {
-    if (mob->is_aff_charm())
-        return;
-    const auto *rndm = random_mortal_in_room(mob);
-    auto end_it = prog.lines.end();
-    for (auto line_it = prog.lines.begin(); line_it != end_it; line_it++) {
-        ArgParser args{*line_it};
-        auto command = args.shift();
-        if (matches(command, "if")) {
-            mprog_process_if(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
-        } else {
-            mprog_process_cmnd(*line_it, mob, actor, obj, target, rndm);
-        }
-    }
-}

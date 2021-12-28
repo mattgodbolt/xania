@@ -42,10 +42,10 @@ struct IfExpr {
 
 Target to_target(const Char *vict, const Object *vict_obj);
 
-void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const MProg::Target target,
+void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const Target target,
                     const MobProgTypeFlag type);
-void percent_check(Char *mob, Char *actor, Object *object, void *vo, int type);
-void act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const MProg::Target target);
+void percent_check(Char *mob, Char *actor, Object *object, const Target target, const MobProgTypeFlag type);
+void act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const Target target);
 void bribe_trigger(Char *mob, Char *ch, int amount);
 void entry_trigger(Char *mob);
 void give_trigger(Char *mob, Char *ch, Object *obj);
