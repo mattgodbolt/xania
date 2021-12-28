@@ -36,8 +36,8 @@ $ sudo apt install git make curl
 # the leading part of your toolchain name in the TOOLCHAIN make variable e.g.
 $ make TOOLCHAIN=mycompilers test
 
-# Alternatively, if you know what you're doing you can invoke cmake directly and pass the --toolchain switch. Take a 
-# look in the Makefile for how cmake gets invoked to generate the build currently.
+# Alternatively, if you know what you're doing you can invoke cmake directly and pass a custom toolchain, (with -DCMAKE_TOOLCHAIN_FILE=
+# or using the --toolchain switch (cmake > 3.21)). Take a look in the Makefile for how cmake gets invoked to generate the build currently.
 ```
 
 

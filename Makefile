@@ -39,7 +39,7 @@ endif
 build: ## Build Xania source
 	PATH=${PATH}:$(CONDA_ROOT)/bin \
 	  $(CMAKE) -S $(TOP_SRC_DIR)/conan -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) \
-	                    --toolchain toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
+	                    -DCMAKE_TOOLCHAIN_FILE=$(TOP_SRC_DIR)/toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
 	$(CMAKE) --build $(BUILD_ROOT)
 
 # Grr older cmakes don't support --install and --prefix
