@@ -609,9 +609,9 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
     static const char *he_she[] = {"it", "he", "she"};
     static const char *him_her[] = {"it", "him", "her"};
     static const char *his_her[] = {"its", "his", "her"};
-    // FIXME cleanup?
-    const Char *vict = std::get_if<const Char *>(&target) ? *std::get_if<const Char *>(&target) : nullptr;
-    const Object *v_obj = std::get_if<const Object *>(&target) ? *std::get_if<const Object *>(&target) : nullptr;
+    const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
+    const auto *targ_obj =
+        std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
 
     *t = '\0';
     switch (ch) {
@@ -644,23 +644,23 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
         break;
 
     case 't':
-        if (vict) {
-            if (can_see(mob, vict))
-                one_argument(vict->name.c_str(), t);
-            if (vict->is_pc())
+        if (targ_ch) {
+            if (can_see(mob, targ_ch))
+                one_argument(targ_ch->name.c_str(), t);
+            if (targ_ch->is_pc())
                 *t = toupper(*t);
         }
         break;
 
     case 'T':
-        if (vict) {
-            if (can_see(mob, vict)) {
-                if (vict->is_npc()) {
-                    strcpy(t, vict->short_descr.c_str());
+        if (targ_ch) {
+            if (can_see(mob, targ_ch)) {
+                if (targ_ch->is_npc()) {
+                    strcpy(t, targ_ch->short_descr.c_str());
                 } else {
-                    strcpy(t, vict->name.c_str());
+                    strcpy(t, targ_ch->name.c_str());
                     strcat(t, " ");
-                    strcat(t, vict->pcdata->title.c_str());
+                    strcat(t, targ_ch->pcdata->title.c_str());
                 }
             } else {
                 strcpy(t, "someone");
@@ -709,18 +709,18 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
         break;
 
     case 'E':
-        if (vict)
-            can_see(mob, vict) ? strcpy(t, he_she[vict->sex.integer()]) : strcpy(t, "someone");
+        if (targ_ch)
+            can_see(mob, targ_ch) ? strcpy(t, he_she[targ_ch->sex.integer()]) : strcpy(t, "someone");
         break;
 
     case 'M':
-        if (vict)
-            can_see(mob, vict) ? strcpy(t, him_her[vict->sex.integer()]) : strcpy(t, "someone");
+        if (targ_ch)
+            can_see(mob, targ_ch) ? strcpy(t, him_her[targ_ch->sex.integer()]) : strcpy(t, "someone");
         break;
 
     case 'S':
-        if (vict)
-            can_see(mob, vict) ? strcpy(t, his_her[vict->sex.integer()]) : strcpy(t, "someone's");
+        if (targ_ch)
+            can_see(mob, targ_ch) ? strcpy(t, his_her[targ_ch->sex.integer()]) : strcpy(t, "someone's");
         break;
 
     case 'j': strcpy(t, he_she[mob->sex.integer()]); break;
@@ -755,13 +755,13 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
         break;
 
     case 'p':
-        if (v_obj)
-            can_see_obj(mob, v_obj) ? one_argument(v_obj->name.c_str(), t) : strcpy(t, "something");
+        if (targ_obj)
+            can_see_obj(mob, targ_obj) ? one_argument(targ_obj->name.c_str(), t) : strcpy(t, "something");
         break;
 
     case 'P':
-        if (v_obj)
-            can_see_obj(mob, v_obj) ? strcpy(t, v_obj->short_descr.c_str()) : strcpy(t, "something");
+        if (targ_obj)
+            can_see_obj(mob, targ_obj) ? strcpy(t, targ_obj->short_descr.c_str()) : strcpy(t, "something");
         break;
 
     case 'a':
@@ -777,8 +777,8 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
         break;
 
     case 'A':
-        if (v_obj)
-            switch (v_obj->name.front()) {
+        if (targ_obj)
+            switch (targ_obj->name.front()) {
             case 'a':
             case 'e':
             case 'i':
