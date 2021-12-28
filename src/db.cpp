@@ -1812,29 +1812,6 @@ int dice(int number, int size) { return knuth_rng.dice(number, size); }
 int interpolate(int level, int value_00, int value_32) { return value_00 + level * (value_32 - value_00) / 32; }
 
 /*
- * Compare strings, case insensitive.
- * Return true if different
- *   (compatibility with historical functions).
- */
-bool str_cmp(const char *astr, const char *bstr) {
-    if (astr == nullptr) {
-        bug("Str_cmp: null astr.");
-        return true;
-    }
-
-    if (bstr == nullptr) {
-        bug("Str_cmp: null bstr.");
-        return true;
-    }
-
-    for (; *astr || *bstr; astr++, bstr++) {
-        if (tolower(*astr) != tolower(*bstr))
-            return true;
-    }
-    return false;
-}
-
-/*
  * Appends text to a system file.
  */
 bool append_file(std::string file, std::string_view text) {

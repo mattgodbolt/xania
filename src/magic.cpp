@@ -612,7 +612,7 @@ void do_cast(Char *ch, ArgParser args) {
         return;
     }
 
-    if (str_cmp(skill_table[sn].name, "ventriloquate"))
+    if (!matches(skill_table[sn].name, "ventriloquate"))
         say_spell(ch, sn);
 
     ch->wait_state(skill_table[sn].beats);

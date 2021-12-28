@@ -544,61 +544,6 @@ bool check_social(Char *ch, std::string_view command, std::string_view argument)
     return true;
 }
 
-/*
- * Pick off one argument from a string and return the rest.
- * Understands quotes.
- */
-const char *one_argument(const char *argument, char *arg_first) {
-    while (isspace(*argument))
-        argument++;
-
-    char cEnd = ' ';
-    if (*argument == '\'' || *argument == '"')
-        cEnd = *argument++;
-
-    while ((*argument != '\0') && (*argument != '\n')) {
-        if (*argument == cEnd) {
-            argument++;
-            break;
-        }
-        *arg_first = tolower(*argument);
-        arg_first++;
-        argument++;
-    }
-    *arg_first = '\0';
-
-    while (isspace(*argument))
-        argument++;
-
-    return argument;
-}
-// TODO(MRG) this duplication is beyond heinous. BUT I want to ensure no new functionality but try and move towards
-// const-correctness and this seems the easiest path.
-char *one_argument(char *argument, char *arg_first) {
-    while (isspace(*argument))
-        argument++;
-
-    char cEnd = ' ';
-    if (*argument == '\'' || *argument == '"')
-        cEnd = *argument++;
-
-    while ((*argument != '\0') && (*argument != '\n')) {
-        if (*argument == cEnd) {
-            argument++;
-            break;
-        }
-        *arg_first = tolower(*argument);
-        arg_first++;
-        argument++;
-    }
-    *arg_first = '\0';
-
-    while (isspace(*argument))
-        argument++;
-
-    return argument;
-}
-
 struct Columniser {
 public:
     explicit Columniser(Char *ch) : ch(ch) { buf[0] = '\0'; }
