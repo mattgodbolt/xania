@@ -24,10 +24,29 @@ namespace MProg {
 bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mobIndex);
 void load_mobprogs(FILE *fp);
 
-// When a mobprog is triggered via an 'act()' call (often using MobProgAct), the caller may have specified an
+// When a mobprog is triggered via an 'act()' call (often using ActTriggerCtx), the caller may have specified an
 // optional target object or target character. These can be referenced within the act format string with $ variables.
 // The target is made available to act_trigger() and the lower level mprog routines using this variant.
 using Target = std::variant<nullptr_t, const Char *, const Object *>;
+
+// Carries context about an act() event that may potentially trigger a mob prog that is
+// configured to be triggered by acts.
+class ActTriggerCtx {
+public:
+    ActTriggerCtx(std::string &&act_message_trigger, const Char *ch, const Object *obj, const Target target)
+        : act_message_trigger_(std::move(act_message_trigger)), ch_(ch), obj_(obj), target_(target) {}
+
+    [[nodiscard]] std::string_view act_message_trigger() const { return act_message_trigger_; }
+    [[nodiscard]] const Char *character() const { return ch_; }
+    [[nodiscard]] const Object *object() const { return obj_; }
+    [[nodiscard]] const Target target() const { return target_; }
+
+private:
+    const std::string act_message_trigger_;
+    const Char *ch_;
+    const Object *obj_;
+    const Target target_;
+};
 
 struct IfExpr {
     std::string_view function;
@@ -57,23 +76,6 @@ void speech_trigger(std::string_view txt, const Char *mob);
 void show_programs(Char *ch, ArgParser args);
 
 }
-
-class MobProgAct {
-public:
-    MobProgAct(std::string &&act_message_trigger, const Char *ch, const Object *obj, const MProg::Target target)
-        : act_message_trigger_(std::move(act_message_trigger)), ch_(ch), obj_(obj), target_(target) {}
-
-    [[nodiscard]] std::string_view act_message_trigger() const { return act_message_trigger_; }
-    [[nodiscard]] const Char *character() const { return ch_; }
-    [[nodiscard]] const Object *object() const { return obj_; }
-    [[nodiscard]] const MProg::Target target() const { return target_; }
-
-private:
-    const std::string act_message_trigger_;
-    const Char *ch_;
-    const Object *obj_;
-    const MProg::Target target_;
-};
 
 struct MobProg {
     const MobProgTypeFlag type;

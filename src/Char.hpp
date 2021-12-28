@@ -32,7 +32,6 @@ struct MobIndexData;
 struct Object;
 struct Room;
 struct PcCustomization;
-struct MobProgAct;
 
 struct LastLoginInfo {
     std::string login_from;
@@ -118,7 +117,7 @@ struct Char {
     Position start_pos{};
     Position default_pos{};
     unsigned long extra_flags[(magic_enum::enum_count<CharExtraFlag>() / 32) + 1]{};
-    std::vector<MobProgAct> mpact{};
+    std::vector<MProg::ActTriggerCtx> mpact{};
 
     Char();
     ~Char();
