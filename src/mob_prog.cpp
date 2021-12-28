@@ -34,6 +34,7 @@
 #include <fmt/format.h>
 
 #include <string>
+#include <vector>
 
 using namespace std::literals;
 
@@ -41,17 +42,16 @@ using namespace std::literals;
  * Local function prototypes
  */
 
-char *mprog_next_command(char *clist);
 bool mprog_seval(std::string_view lhs, std::string_view opr, std::string_view rhs);
 bool mprog_veval(const int lhs, std::string_view opr, const int rhs);
 bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
-                     const mprog::Target target, Char *rndm);
-char *mprog_process_if(std::string_view ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj,
-                       const mprog::Target target, Char *rndm);
+                     const mprog::Target target, const Char *rndm);
+void mprog_process_if(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
+                      const mprog::Target target, const Char *rndm, auto &line_it, auto end_it);
 std::string mprog_expand_var(const char c, const Char *mob, const Char *actor, const Object *obj,
                              const mprog::Target target, const Char *rndm);
 void mprog_process_cmnd(std::string_view cmnd, Char *mob, const Char *actor, const Object *obj,
-                        const mprog::Target target, Char *rndm);
+                        const mprog::Target target, const Char *rndm);
 void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const mprog::Target target);
 
 namespace mprog {
@@ -116,31 +116,6 @@ Target to_target(const Char *ch, const Object *obj) {
 
 }
 
-/***************************************************************************
- * Local function code and brief comments.
- */
-
-/* Used to get sequential lines of a multi line string (separated by "\n\r")
- * Thus its like one_argument(), but a trifle different. It is destructive
- * to the multi line string argument, and thus clist must not be shared.
- */
-char *mprog_next_command(char *clist) {
-
-    if (!clist) {
-        return nullptr;
-    }
-    char *pointer = clist;
-
-    while (*pointer != '\n' && *pointer != '\0')
-        pointer++;
-    if (*pointer == '\n')
-        *pointer++ = '\0';
-    if (*pointer == '\r')
-        *pointer++ = '\0';
-
-    return (pointer);
-}
-
 /* These two functions do the basic evaluation of ifcheck operators.
  *  It is important to note that the string operations are not what
  *  you probably expect.  Equality is exact and division is substring.
@@ -195,7 +170,7 @@ bool mprog_veval(const int lhs, std::string_view opr, const int rhs) {
  * If there are errors, then return -1 otherwise return boolean 1,0
  */
 bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
-                     const mprog::Target target, Char *rndm) {
+                     const mprog::Target target, const Char *rndm) {
     using namespace mprog;
     const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
     const auto *targ_obj =
@@ -471,129 +446,80 @@ bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, cons
         default: bug("Mob: {} bad argument to 'name': {}", mob->mobIndex->vnum, ifexpr.arg); return false;
         }
     }
-
-    /* Ok... all the ifchcks are done, so if we didnt find ours then something
-     * odd happened.  So report the bug and abort the MOBprogram (return error)
-     */
     bug("Mob: {} unknown ifchck: {}", mob->mobIndex->vnum, ifexpr.function);
     return false;
 }
 
-/* Quite a long and arduous function, this guy handles the control
- * flow part of MOBprograms.  Basicially once the driver sees an
- * 'if' attention shifts to here.  While many syntax errors are
- * caught, some will still get through due to the handling of break
- * and errors in the same fashion.  The desire to break out of the
- * recursion without catastrophe in the event of a mis-parse was
- * believed to be high. Thus, if an error is found, it is bugged and
- * the parser acts as though a break were issued and just bails out
- * at that point. I havent tested all the possibilites, so I'm speaking
- * in theory, but it is 'guaranteed' to work on syntactically correct
- * MOBprograms, so if the mud crashes here, check the mob carefully!
- */
-char *mprog_process_if(std::string_view ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj,
-                       const mprog::Target target, Char *rndm) {
-    char buf[MAX_INPUT_LENGTH];
-    char *morebuf = nullptr;
-    char *cmnd = nullptr;
+void mprog_process_if(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj,
+                      const mprog::Target target, const Char *rndm, auto &line_it, auto end_it) {
     if (mprog_do_ifchck(ifchck, mob, actor, obj, target, rndm)) {
-        for (;;) { // ifcheck was true, do commands but ignore else to endif
-            cmnd = com_list;
-            com_list = mprog_next_command(com_list);
-            while (std::isspace(*cmnd))
-                cmnd++;
-            if (*cmnd == '\0') {
+        while (true) { // ifchck was true, do commands but ignore else to endif
+            if (++line_it == end_it) {
+                bug("Mob: {} unexpected end of input in if block", mob->mobIndex->vnum);
+                return;
+            }
+            ArgParser args{*line_it};
+            if (args.empty()) {
                 bug("Mob: {} missing else or endif", mob->mobIndex->vnum);
-                return nullptr;
+                return;
             }
-            morebuf = one_argument(cmnd, buf);
-            if (!str_cmp(buf, "if")) {
-                com_list = mprog_process_if(morebuf, com_list, mob, actor, obj, target, rndm);
-                while (std::isspace(*cmnd))
-                    cmnd++;
-                if (*com_list == '\0')
-                    return nullptr;
-                cmnd = com_list;
-                com_list = mprog_next_command(com_list);
-                morebuf = one_argument(cmnd, buf);
+            auto cmnd = args.shift();
+            if (matches(cmnd, "if")) {
+                mprog_process_if(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
                 continue;
             }
-            if (!str_cmp(buf, "break"))
-                return nullptr;
-            if (!str_cmp(buf, "endif"))
-                return com_list;
-            if (!str_cmp(buf, "else")) {
-                while (str_cmp(buf, "endif")) {
-                    cmnd = com_list;
-                    com_list = mprog_next_command(com_list);
-                    while (std::isspace(*cmnd))
-                        cmnd++;
-                    if (*cmnd == '\0') {
-                        bug("Mob: {} missing endif after else", mob->mobIndex->vnum);
-                        return nullptr;
+            if (matches(cmnd, "endif"))
+                return;
+            if (matches(cmnd, "else")) {
+                // Skip over the commands in this else block.
+                for (;;) {
+                    if (++line_it == end_it) {
+                        bug("Mob: {} unexpected end of input in else block", mob->mobIndex->vnum);
+                        return;
                     }
-                    morebuf = one_argument(cmnd, buf);
+                    ArgParser args{*line_it};
+                    auto cmnd = args.shift();
+                    if (matches(cmnd, "endif"))
+                        return;
                 }
-                return com_list;
             }
-            mprog_process_cmnd(cmnd, mob, actor, obj, target, rndm);
+            mprog_process_cmnd(*line_it, mob, actor, obj, target, rndm);
         }
-    } else { // false ifcheck, find else and do existing commands or quit at endif
-        while ((str_cmp(buf, "else")) && (str_cmp(buf, "endif"))) {
-            cmnd = com_list;
-            com_list = mprog_next_command(com_list);
-            while (std::isspace(*cmnd))
-                cmnd++;
-            if (*cmnd == '\0') {
-                bug("Mob: {} missing an else or endif", mob->mobIndex->vnum);
-                return nullptr;
+    } else {
+        // Skip over the commands in the block until an endif.
+        while (true) {
+            if (++line_it == end_it) {
+                bug("Mob: {} unexpected end of input in if block", mob->mobIndex->vnum);
+                return;
             }
-            morebuf = one_argument(cmnd, buf);
+            ArgParser args{*line_it};
+            auto cmnd = args.shift();
+            if (matches(cmnd, "endif"))
+                return;
+            if (matches(cmnd, "else"))
+                break;
         }
-
-        /* found either an else or an endif.. act accordingly */
-        if (!str_cmp(buf, "endif"))
-            return com_list;
-        cmnd = com_list;
-        com_list = mprog_next_command(com_list);
-        while (std::isspace(*cmnd))
-            cmnd++;
-        if (*cmnd == '\0') {
-            bug("Mob: {} missing endif", mob->mobIndex->vnum);
-            return nullptr;
-        }
-        morebuf = one_argument(cmnd, buf);
-
-        for (;;) { // process the post-else commands until an endif is found.
-            if (!str_cmp(buf, "if")) {
-                com_list = mprog_process_if(morebuf, com_list, mob, actor, obj, target, rndm);
-                while (std::isspace(*cmnd))
-                    cmnd++;
-                if (*com_list == '\0')
-                    return nullptr;
-                cmnd = com_list;
-                com_list = mprog_next_command(com_list);
-                morebuf = one_argument(cmnd, buf);
+        // Perform the remaining commands up until the next endif
+        while (true) {
+            if (++line_it == end_it) {
+                bug("Mob: {} unexpected end of input in else block", mob->mobIndex->vnum);
+                return;
+            }
+            ArgParser args{*line_it};
+            auto cmnd = args.shift();
+            if (matches(cmnd, "endif"))
+                return;
+            if (matches(cmnd, "if")) {
+                mprog_process_if(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
                 continue;
             }
-            if (!str_cmp(buf, "else")) {
+            if (matches(cmnd, "else")) {
                 bug("Mob: {} found else in an else section", mob->mobIndex->vnum);
-                return nullptr;
+                return;
             }
-            if (!str_cmp(buf, "break"))
-                return nullptr;
-            if (!str_cmp(buf, "endif"))
-                return com_list;
-            mprog_process_cmnd(cmnd, mob, actor, obj, target, rndm);
-            cmnd = com_list;
-            com_list = mprog_next_command(com_list);
-            while (std::isspace(*cmnd))
-                cmnd++;
-            if (*cmnd == '\0') {
-                bug("Mob:{} missing endif in else section", mob->mobIndex->vnum);
-                return nullptr;
-            }
-            morebuf = one_argument(cmnd, buf);
+            if (matches(cmnd, "endif"))
+                return;
+            mprog_process_cmnd(*line_it, mob, actor, obj, target, rndm);
         }
     }
 }
@@ -706,7 +632,7 @@ std::string mprog_expand_var(const char c, const Char *mob, const Char *actor, c
 }
 
 void mprog_process_cmnd(std::string_view cmnd, Char *mob, const Char *actor, const Object *obj,
-                        const mprog::Target target, Char *rndm) {
+                        const mprog::Target target, const Char *rndm) {
     std::string buf{};
     bool prev_was_dollar = false;
     for (auto c : cmnd) {
@@ -724,54 +650,33 @@ void mprog_process_cmnd(std::string_view cmnd, Char *mob, const Char *actor, con
     interpret(mob, buf);
 }
 
-/* The main focus of the MOBprograms.  This routine is called
- *  whenever a trigger is successful.  It is responsible for parsing
- *  the command list and figuring out what to do. However, like all
- *  complex procedures, everything is farmed out to the other guys.
- */
-void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const mprog::Target target) {
-
-    char tmpcmndlst[MAX_STRING_LENGTH];
-    char buf[MAX_INPUT_LENGTH];
-    char *morebuf;
-    char *command_list;
-    char *cmnd;
-    Char *rndm = nullptr;
-    int count = 0;
-
-    if (mob->is_aff_charm())
-        return;
-
-    /* get a random visible mortal player who is in the room with the mob */
+Char *random_mortal_in_room(Char *mob) {
+    auto count = 0;
     for (auto *vch : mob->in_room->people) {
         if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && can_see(mob, vch)) {
-            if (number_range(0, count) == 0)
-                rndm = vch;
-            count++;
+            if (number_range(0, count++) == 0)
+                return vch;
         }
     }
-    // Take a copy of the original program because currently the mprog parsing routines
-    // mutate the input.
-    // TODO: this needs to be rewritten to be more string friendly and use things like line_iter().
-    auto com_str = std::string(prog.comlist);
-    strncpy(tmpcmndlst, com_str.c_str(), MAX_STRING_LENGTH - 1);
-    command_list = tmpcmndlst;
-    cmnd = command_list;
-    while (cmnd && *cmnd != '\0') {
-        command_list = mprog_next_command(command_list);
-        morebuf = one_argument(cmnd, buf);
-        if (!str_cmp(buf, "if")) {
-            command_list = mprog_process_if(morebuf, command_list, mob, actor, obj, target, rndm);
-        } else {
-            mprog_process_cmnd(cmnd, mob, actor, obj, target, rndm);
-        }
-        cmnd = command_list;
-    }
+    return nullptr;
 }
 
-/***************************************************************************
- * Global function code and brief comments.
- */
+void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const mprog::Target target) {
+    if (mob->is_aff_charm())
+        return;
+    const auto *rndm = random_mortal_in_room(mob);
+    std::vector<std::string_view> lines = split_lines<std::vector<std::string_view>>(prog.comlist);
+    auto end_it = lines.end();
+    for (auto line_it = lines.begin(); line_it != end_it; line_it++) {
+        ArgParser args{*line_it};
+        auto command = args.shift();
+        if (matches(command, "if")) {
+            mprog_process_if(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
+        } else {
+            mprog_process_cmnd(*line_it, mob, actor, obj, target, rndm);
+        }
+    }
+}
 
 /* The next two routines are the basic trigger types. Either trigger
  *  on a certain percent, or trigger on a keyword or word phrase.
@@ -817,14 +722,7 @@ void mprog_percent_check(Char *mob, Char *actor, Object *obj, const mprog::Targe
         }
     }
 }
-/* The triggers.. These are really basic, and since most appear only
- * once in the code (hmm. i think they all do) it would be more efficient
- * to substitute the code in and make the mprog_xxx_check routines global.
- * However, they are all here in one nice place at the moment to make it
- * easier to see what they look like. If you do substitute them back in,
- * make sure you remember to modify the variable names to the ones in the
- * trigger calls.
- */
+
 void mprog_act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const mprog::Target target) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Act)) {
         mob->mpact.emplace_back(std::string(buf), ch, obj, target);

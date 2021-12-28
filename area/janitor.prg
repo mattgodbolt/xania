@@ -1,14 +1,14 @@
->rand_prog 5~
+>rand_prog 10~
 grumble
 say Litterbugs.
-if rand(20)
+if rand(30)
 	say All I do each day is cleanup other people's messes.
-	if rand(20)
+	if rand(30)
 		say I do not get paid enough.
 	else
-		if rand(20)
+		if rand(30)
 			say Day in.  Day out.  This is all I do 24 hours a day.
-			if rand(10)
+			if rand(30)
 				yell I want a vacation!
 			endif
 		endif
