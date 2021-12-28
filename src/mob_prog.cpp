@@ -23,6 +23,7 @@
 #include "Logging.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
+#include "Pronouns.hpp"
 #include "Room.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
@@ -47,10 +48,10 @@ bool mprog_do_ifchck(std::string_view ifchck, Char *mob, const Char *actor, cons
                      const mprog::Target target, Char *rndm);
 char *mprog_process_if(std::string_view ifchck, char *com_list, Char *mob, const Char *actor, const Object *obj,
                        const mprog::Target target, Char *rndm);
-void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
-                     Char *rndm);
-void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
-                        Char *rndm);
+std::string mprog_expand_var(const char c, const Char *mob, const Char *actor, const Object *obj,
+                             const mprog::Target target, const Char *rndm);
+void mprog_process_cmnd(std::string_view cmnd, Char *mob, const Char *actor, const Object *obj,
+                        const mprog::Target target, Char *rndm);
 void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const mprog::Target target);
 
 namespace mprog {
@@ -597,173 +598,85 @@ char *mprog_process_if(std::string_view ifchck, char *com_list, Char *mob, const
     }
 }
 
-/* This routine handles the variables for command expansion.
- * If you want to add any go right ahead, it should be fairly
- * clear how it is done and they are quite easy to do, so you
- * can be as creative as you want. The only catch is to check
- * that your variables exist before you use them.
- */
-void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
-                     Char *rndm) {
-    // TODO: when `t` is not just a string view, we can more easily use the `Pronouns` stuff.
-    static const char *he_she[] = {"it", "he", "she"};
-    static const char *him_her[] = {"it", "him", "her"};
-    static const char *his_her[] = {"its", "his", "her"};
+std::string mprog_expand_var(const char c, const Char *mob, const Char *actor, const Object *obj,
+                             const mprog::Target target, const Char *rndm) {
     const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
     const auto *targ_obj =
         std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
-
-    *t = '\0';
-    switch (ch) {
-    case 'i': one_argument(mob->name.c_str(), t); break;
-
-    case 'I': strcpy(t, mob->short_descr.c_str()); break;
-
+    std::string buf{};
+    switch (c) {
+    case 'i':
+    case 'I': buf = mob->describe(*mob); break;
     case 'n':
-        if (actor) {
-            if (can_see(mob, actor))
-                one_argument(actor->name.c_str(), t);
-            if (actor->is_pc())
-                *t = toupper(*t);
-        }
-        break;
-
     case 'N':
-        if (actor) {
-            if (can_see(mob, actor)) {
-                if (actor->is_npc()) {
-                    strcpy(t, actor->short_descr.c_str());
-                } else {
-                    strcpy(t, actor->name.c_str());
-                    strcat(t, " ");
-                    strcat(t, actor->pcdata->title.c_str());
-                }
-            } else
-                strcpy(t, "someone");
-        }
+        if (actor)
+            buf = mob->describe(*actor);
         break;
-
     case 't':
-        if (targ_ch) {
-            if (can_see(mob, targ_ch))
-                one_argument(targ_ch->name.c_str(), t);
-            if (targ_ch->is_pc())
-                *t = toupper(*t);
-        }
-        break;
-
     case 'T':
-        if (targ_ch) {
-            if (can_see(mob, targ_ch)) {
-                if (targ_ch->is_npc()) {
-                    strcpy(t, targ_ch->short_descr.c_str());
-                } else {
-                    strcpy(t, targ_ch->name.c_str());
-                    strcat(t, " ");
-                    strcat(t, targ_ch->pcdata->title.c_str());
-                }
-            } else {
-                strcpy(t, "someone");
-            }
-        }
+        if (targ_ch)
+            buf = mob->describe(*targ_ch);
         break;
-
     case 'r':
-        if (rndm) {
-            if (can_see(mob, rndm))
-                one_argument(rndm->name.c_str(), t);
-            if (rndm->is_pc())
-                *t = toupper(*t);
-        }
-        break;
-
     case 'R':
-        if (rndm) {
-            if (can_see(mob, rndm)) {
-                if (rndm->is_npc()) {
-                    strcpy(t, rndm->short_descr.c_str());
-                } else {
-                    strcpy(t, rndm->name.c_str());
-                    strcat(t, " ");
-                    strcat(t, rndm->pcdata->title.c_str());
-                }
-            } else
-                strcpy(t, "someone");
-        }
+        if (rndm)
+            buf = mob->describe(*rndm);
         break;
-
     case 'e':
         if (actor)
-            can_see(mob, actor) ? strcpy(t, he_she[actor->sex.integer()])
-                                : strcpy(t, "someone"); // TODO use Sex::Type and Pronouns stuff...
+            buf = subjective(*actor);
         break;
-
     case 'm':
         if (actor)
-            can_see(mob, actor) ? strcpy(t, him_her[actor->sex.integer()]) : strcpy(t, "someone");
+            buf = objective(*actor);
         break;
-
     case 's':
         if (actor)
-            can_see(mob, actor) ? strcpy(t, his_her[actor->sex.integer()]) : strcpy(t, "someone's");
+            buf = possessive(*actor);
         break;
-
     case 'E':
         if (targ_ch)
-            can_see(mob, targ_ch) ? strcpy(t, he_she[targ_ch->sex.integer()]) : strcpy(t, "someone");
+            buf = subjective(*targ_ch);
         break;
-
     case 'M':
         if (targ_ch)
-            can_see(mob, targ_ch) ? strcpy(t, him_her[targ_ch->sex.integer()]) : strcpy(t, "someone");
+            buf = objective(*targ_ch);
         break;
-
     case 'S':
         if (targ_ch)
-            can_see(mob, targ_ch) ? strcpy(t, his_her[targ_ch->sex.integer()]) : strcpy(t, "someone's");
+            buf = possessive(*targ_ch);
         break;
-
-    case 'j': strcpy(t, he_she[mob->sex.integer()]); break;
-
-    case 'k': strcpy(t, him_her[mob->sex.integer()]); break;
-
-    case 'l': strcpy(t, his_her[mob->sex.integer()]); break;
-
+    case 'j': buf = subjective(*mob); break;
+    case 'k': buf = objective(*mob); break;
+    case 'l': buf = possessive(*mob); break;
     case 'J':
         if (rndm)
-            can_see(mob, rndm) ? strcpy(t, he_she[rndm->sex.integer()]) : strcpy(t, "someone");
+            buf = subjective(*rndm);
         break;
-
     case 'K':
         if (rndm)
-            can_see(mob, rndm) ? strcpy(t, him_her[rndm->sex.integer()]) : strcpy(t, "someone");
+            buf = objective(*rndm);
         break;
-
     case 'L':
         if (rndm)
-            can_see(mob, rndm) ? strcpy(t, his_her[rndm->sex.integer()]) : strcpy(t, "someone's");
+            buf = possessive(*rndm);
         break;
-
     case 'o':
         if (obj)
-            can_see_obj(mob, obj) ? one_argument(obj->name.c_str(), t) : strcpy(t, "something");
+            buf = can_see_obj(mob, obj) ? obj->name : "something";
         break;
-
     case 'O':
         if (obj)
-            can_see_obj(mob, obj) ? strcpy(t, obj->short_descr.c_str()) : strcpy(t, "something");
+            buf = can_see_obj(mob, obj) ? obj->short_descr : "something";
         break;
-
     case 'p':
         if (targ_obj)
-            can_see_obj(mob, targ_obj) ? one_argument(targ_obj->name.c_str(), t) : strcpy(t, "something");
+            buf = can_see_obj(mob, targ_obj) ? targ_obj->name : "something";
         break;
-
     case 'P':
         if (targ_obj)
-            can_see_obj(mob, targ_obj) ? strcpy(t, targ_obj->short_descr.c_str()) : strcpy(t, "something");
+            buf = can_see_obj(mob, targ_obj) ? targ_obj->short_descr : "something";
         break;
-
     case 'a':
         if (obj)
             switch (obj->name.front()) {
@@ -771,11 +684,10 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
             case 'e':
             case 'i':
             case 'o':
-            case 'u': strcpy(t, "an"); break;
-            default: strcpy(t, "a");
+            case 'u': buf = "an"; break;
+            default: buf = "a";
             }
         break;
-
     case 'A':
         if (targ_obj)
             switch (targ_obj->name.front()) {
@@ -783,45 +695,32 @@ void mprog_translate(char ch, char *t, Char *mob, const Char *actor, const Objec
             case 'e':
             case 'i':
             case 'o':
-            case 'u': strcpy(t, "an"); break;
-            default: strcpy(t, "a");
+            case 'u': buf = "an"; break;
+            default: buf = "a";
             }
         break;
-
-    case '$': strcpy(t, "$"); break;
-
+    case '$': buf = "$"; break;
     default: bug("Mob: {} bad $var", mob->mobIndex->vnum); break;
     }
+    return buf;
 }
 
-/* This procedure simply copies the cmnd to a buffer while expanding
- * any variables by calling the translate procedure.  The observant
- * code scrutinizer will notice that this is taken from act()
- */
-void mprog_process_cmnd(char *cmnd, Char *mob, const Char *actor, const Object *obj, const mprog::Target target,
-                        Char *rndm) {
-    char buf[MAX_INPUT_LENGTH];
-    char tmp[MAX_INPUT_LENGTH];
-    char *str;
-    char *i;
-    char *point;
-
-    point = buf;
-    str = cmnd;
-    // TODO Stringification: This is really unsafe, as cmnd can be longer than buf.
-    while (*str != '\0') {
-        if (*str != '$') {
-            *point++ = *str++;
+void mprog_process_cmnd(std::string_view cmnd, Char *mob, const Char *actor, const Object *obj,
+                        const mprog::Target target, Char *rndm) {
+    std::string buf{};
+    bool prev_was_dollar = false;
+    for (auto c : cmnd) {
+        if (!std::exchange(prev_was_dollar, false)) {
+            if (c != '$') {
+                prev_was_dollar = false;
+                buf.push_back(c);
+            } else {
+                prev_was_dollar = true;
+            }
             continue;
         }
-        str++;
-        mprog_translate(*str, tmp, mob, actor, obj, target, rndm);
-        i = tmp;
-        ++str;
-        while ((*point = *i) != '\0')
-            ++point, ++i;
+        buf += mprog_expand_var(c, mob, actor, obj, target, rndm);
     }
-    *point = '\0';
     interpret(mob, buf);
 }
 
