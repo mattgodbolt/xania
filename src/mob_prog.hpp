@@ -11,6 +11,7 @@
 
 #include <optional>
 #include <variant>
+#include <vector>
 
 struct Char;
 struct Object;
@@ -74,5 +75,5 @@ private:
 struct MobProg {
     const MobProgTypeFlag type;
     const std::string arglist;
-    const std::string comlist;
+    const std::vector<std::string> lines;
 };

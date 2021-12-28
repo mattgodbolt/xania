@@ -108,7 +108,7 @@ void do_mpstat(Char *ch, ArgParser args) {
                   victim->alignment, victim->gold, victim->exp);
 
     for (const auto &mprg : victim->mobIndex->mobprogs) {
-        ch->send_line(">{} {}\n\r{}", mprog_type_to_name(mprg.type), mprg.arglist, mprg.comlist);
+        ch->send_line(">{} {}\n\r{}", mprog_type_to_name(mprg.type), mprg.arglist, fmt::join(mprg.lines, "\n\r"));
     }
 }
 

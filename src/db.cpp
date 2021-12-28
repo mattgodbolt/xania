@@ -1891,8 +1891,9 @@ std::optional<MobProg> try_load_one_mob_prog(std::string_view file_name, FILE *p
         return std::nullopt;
     }
     const auto prog_args = fread_string(prog_file);
-    const auto prog_commands = fread_string(prog_file);
-    const auto prog = MobProg{prog_type, prog_args, prog_commands};
+    const auto script = fread_string(prog_file);
+    const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+    const auto prog = MobProg{prog_type, prog_args, std::move(lines)};
     return prog;
 }
 

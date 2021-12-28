@@ -665,9 +665,8 @@ void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Objec
     if (mob->is_aff_charm())
         return;
     const auto *rndm = random_mortal_in_room(mob);
-    std::vector<std::string_view> lines = split_lines<std::vector<std::string_view>>(prog.comlist);
-    auto end_it = lines.end();
-    for (auto line_it = lines.begin(); line_it != end_it; line_it++) {
+    auto end_it = prog.lines.end();
+    for (auto line_it = prog.lines.begin(); line_it != end_it; line_it++) {
         ArgParser args{*line_it};
         auto command = args.shift();
         if (matches(command, "if")) {
