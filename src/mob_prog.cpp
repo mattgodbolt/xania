@@ -599,6 +599,52 @@ void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Objec
     }
 }
 
+MobProgTypeFlag name_to_type(std::string_view name) {
+    if (matches(name, "in_file_prog"))
+        return MobProgTypeFlag::InFile;
+    if (matches(name, "act_prog"))
+        return MobProgTypeFlag::Act;
+    if (matches(name, "speech_prog"))
+        return MobProgTypeFlag::Speech;
+    if (matches(name, "rand_prog"))
+        return MobProgTypeFlag::Random;
+    if (matches(name, "fight_prog"))
+        return MobProgTypeFlag::Fight;
+    if (matches(name, "hitprcnt_prog"))
+        return MobProgTypeFlag::HitPercent;
+    if (matches(name, "death_prog"))
+        return MobProgTypeFlag::Death;
+    if (matches(name, "entry_prog"))
+        return MobProgTypeFlag::Entry;
+    if (matches(name, "greet_prog"))
+        return MobProgTypeFlag::Greet;
+    if (matches(name, "all_greet_prog"))
+        return MobProgTypeFlag::AllGreet;
+    if (matches(name, "give_prog"))
+        return MobProgTypeFlag::Give;
+    if (matches(name, "bribe_prog"))
+        return MobProgTypeFlag::Bribe;
+    return MobProgTypeFlag::Error;
+}
+
+std::string_view type_to_name(const MobProgTypeFlag type) {
+    switch (type) {
+    case MobProgTypeFlag::InFile: return "in_file_prog";
+    case MobProgTypeFlag::Act: return "act_prog";
+    case MobProgTypeFlag::Speech: return "speech_prog";
+    case MobProgTypeFlag::Random: return "rand_prog";
+    case MobProgTypeFlag::Fight: return "fight_prog";
+    case MobProgTypeFlag::HitPercent: return "hitprcnt_prog";
+    case MobProgTypeFlag::Death: return "death_prog";
+    case MobProgTypeFlag::Entry: return "entry_prog";
+    case MobProgTypeFlag::Greet: return "greet_prog";
+    case MobProgTypeFlag::AllGreet: return "all_greet_prog";
+    case MobProgTypeFlag::Give: return "give_prog";
+    case MobProgTypeFlag::Bribe: return "bribe_prog";
+    default: return "ERROR_PROG";
+    }
+}
+
 } // namespace impl
 
 // Parses an if expression taking these forms (the if has already been processed)
@@ -659,41 +705,8 @@ Target to_target(const Char *ch, const Object *obj) {
         return MProg::Target{nullptr};
 }
 
-/* This routine transfers between alpha and numeric forms of the
- *  mob_prog bitvector types. This allows the use of the words in the
- *  mob/script files.
- */
-MobProgTypeFlag mprog_name_to_type(std::string_view name) {
-    if (matches(name, "in_file_prog"))
-        return MobProgTypeFlag::InFile;
-    if (matches(name, "act_prog"))
-        return MobProgTypeFlag::Act;
-    if (matches(name, "speech_prog"))
-        return MobProgTypeFlag::Speech;
-    if (matches(name, "rand_prog"))
-        return MobProgTypeFlag::Random;
-    if (matches(name, "fight_prog"))
-        return MobProgTypeFlag::Fight;
-    if (matches(name, "hitprcnt_prog"))
-        return MobProgTypeFlag::HitPercent;
-    if (matches(name, "death_prog"))
-        return MobProgTypeFlag::Death;
-    if (matches(name, "entry_prog"))
-        return MobProgTypeFlag::Entry;
-    if (matches(name, "greet_prog"))
-        return MobProgTypeFlag::Greet;
-    if (matches(name, "all_greet_prog"))
-        return MobProgTypeFlag::AllGreet;
-    if (matches(name, "give_prog"))
-        return MobProgTypeFlag::Give;
-    if (matches(name, "bribe_prog"))
-        return MobProgTypeFlag::Bribe;
-    return MobProgTypeFlag::Error;
-}
-
 std::optional<MobProg> try_load_one_mob_prog(std::string_view file_name, FILE *prog_file) {
-
-    const auto prog_type = mprog_name_to_type(fread_word(prog_file));
+    const auto prog_type = impl::name_to_type(fread_word(prog_file));
     if (prog_type == MobProgTypeFlag::Error) {
         bug("mobprog {} type error {}", file_name, prog_type);
         return std::nullopt;
@@ -911,6 +924,41 @@ void speech_trigger(std::string_view txt, const Char *mob) {
     for (auto *vmob : mob->in_room->people)
         if (vmob->is_npc() && (check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::Speech)))
             wordlist_check(txt, vmob, mob, nullptr, nullptr, MobProgTypeFlag::Speech);
+}
+
+void show_programs(Char *ch, ArgParser args) {
+    Char *victim;
+    const auto arg = args.shift();
+    if (arg.empty()) {
+        ch->send_line("MobProg stat whom?");
+        return;
+    }
+    if ((victim = get_char_world(ch, arg)) == nullptr) {
+        ch->send_line("They aren't here.");
+        return;
+    }
+    if (victim->is_pc()) {
+        ch->send_line("Only Mobiles can have Programs!");
+        return;
+    }
+    if (!(victim->mobIndex->progtypes)) {
+        ch->send_line("That Mobile has no Programs set.");
+        return;
+    }
+    ch->send_line("Name: {}.  Vnum: {}.", victim->name, victim->mobIndex->vnum);
+
+    ch->send_line(fmt::format("Short description:{}.\n\rLong  description: {}", victim->short_descr,
+                              victim->long_descr.empty() ? "(none)." : victim->long_descr));
+
+    ch->send_line("Hp: {}/{}.  Mana: {}/{}.  Move: {}/{}.", victim->hit, victim->max_hit, victim->mana,
+                  victim->max_mana, victim->move, victim->max_move);
+
+    ch->send_line("Lv: {}.  Class: {}.  Align: {}.   Gold: {}.  Exp: {}.", victim->level, victim->class_num,
+                  victim->alignment, victim->gold, victim->exp);
+
+    for (const auto &mprg : victim->mobIndex->mobprogs) {
+        ch->send_line(">{} {}\n\r{}", impl::type_to_name(mprg.type), mprg.arglist, fmt::join(mprg.lines, "\n\r"));
+    }
 }
 
 } // namespace mprog

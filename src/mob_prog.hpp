@@ -21,7 +21,6 @@ struct MobIndexData;
 
 namespace MProg {
 
-MobProgTypeFlag mprog_name_to_type(std::string_view name);
 bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mobIndex);
 void load_mobprogs(FILE *fp);
 
@@ -55,10 +54,9 @@ void hitprcnt_trigger(Char *mob, Char *ch);
 void death_trigger(Char *mob);
 void random_trigger(Char *mob);
 void speech_trigger(std::string_view txt, const Char *mob);
+void show_programs(Char *ch, ArgParser args);
 
 }
-
-void do_mpstat(Char *ch, ArgParser args);
 
 class MobProgAct {
 public:

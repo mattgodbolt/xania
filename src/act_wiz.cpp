@@ -574,7 +574,7 @@ void do_stat(Char *ch, ArgParser args) {
         return;
     }
     if (matches(arg, "prog")) {
-        do_mpstat(ch, args);
+        MProg::show_programs(ch, args);
         return;
     }
 }

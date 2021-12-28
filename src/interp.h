@@ -149,7 +149,6 @@ extern void do_mpkill(Char *ch, ArgParser args);
 extern void do_mpmload(Char *ch, ArgParser args);
 extern void do_mpoload(Char *ch, ArgParser args);
 extern void do_mppurge(Char *ch, ArgParser args);
-extern void do_mpstat(Char *ch, ArgParser args);
 extern void do_mptransfer(Char *ch, ArgParser args);
 
 extern void do_mset(Char *ch, ArgParser args);
