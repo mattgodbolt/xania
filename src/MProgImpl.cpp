@@ -492,18 +492,19 @@ void interpret_command(std::string_view cmnd, Char *mob, const Char *actor, cons
 }
 
 void process_if_block(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj, const Target target,
-                      const Char *rndm, auto &line_it, auto end_it) {
+                      const Char *rndm, auto &line_it, auto &end_it) {
+    const auto expect_next_line = [&line_it, &end_it, &mob](const auto where) {
+        if (++line_it == end_it) {
+            bug("Mob: #{} Unexpected EOF in {}", mob->mobIndex->vnum, where);
+            return false;
+        }
+        return true;
+    };
     if (evaluate_if(ifchck, mob, actor, obj, target, rndm)) {
         while (true) { // ifchck was true, do commands but ignore else to endif
-            if (++line_it == end_it) {
-                bug("Mob: {} unexpected end of input in if block", mob->mobIndex->vnum);
+            if (!expect_next_line("if success exec block"))
                 return;
-            }
             ArgParser args{*line_it};
-            if (args.empty()) {
-                bug("Mob: {} missing else or endif", mob->mobIndex->vnum);
-                return;
-            }
             auto cmnd = args.shift();
             if (matches(cmnd, "if")) {
                 process_if_block(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
@@ -514,10 +515,8 @@ void process_if_block(std::string_view ifchck, Char *mob, const Char *actor, con
             if (matches(cmnd, "else")) {
                 // Skip over the commands in this else block.
                 for (;;) {
-                    if (++line_it == end_it) {
-                        bug("Mob: {} unexpected end of input in else block", mob->mobIndex->vnum);
+                    if (!expect_next_line("if success skip block"))
                         return;
-                    }
                     ArgParser args{*line_it};
                     auto cmnd = args.shift();
                     if (matches(cmnd, "endif"))
@@ -529,10 +528,8 @@ void process_if_block(std::string_view ifchck, Char *mob, const Char *actor, con
     } else {
         // Skip over the commands in the block until an endif.
         while (true) {
-            if (++line_it == end_it) {
-                bug("Mob: {} unexpected end of input in if block", mob->mobIndex->vnum);
+            if (!expect_next_line("if failure skip block"))
                 return;
-            }
             ArgParser args{*line_it};
             auto cmnd = args.shift();
             if (matches(cmnd, "endif"))
@@ -542,10 +539,8 @@ void process_if_block(std::string_view ifchck, Char *mob, const Char *actor, con
         }
         // Perform the remaining commands up until the next endif
         while (true) {
-            if (++line_it == end_it) {
-                bug("Mob: {} unexpected end of input in else block", mob->mobIndex->vnum);
+            if (!expect_next_line("if failure exec block"))
                 return;
-            }
             ArgParser args{*line_it};
             auto cmnd = args.shift();
             if (matches(cmnd, "endif"))
@@ -580,8 +575,9 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
     if (mob->is_aff_charm())
         return;
     const auto *rndm = impl::random_mortal_in_room(mob);
+    auto line_it = prog.lines.begin();
     auto end_it = prog.lines.end();
-    for (auto line_it = prog.lines.begin(); line_it != end_it; line_it++) {
+    while (true) {
         ArgParser args{*line_it};
         auto command = args.shift();
         if (matches(command, "if")) {
@@ -589,6 +585,10 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
         } else {
             interpret_command(*line_it, mob, actor, obj, target, rndm);
         }
+        // If process_if_block() may have reached the end of input.
+        // As a precaution, check for end of input before accessing the next line too.
+        if (line_it == end_it || ++line_it == end_it)
+            break;
     }
 }
 
