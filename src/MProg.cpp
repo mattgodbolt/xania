@@ -27,7 +27,6 @@
 #include "Room.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
-#include "handler.hpp"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
@@ -36,6 +35,8 @@
 #include <vector>
 
 using namespace std::literals;
+
+[[nodiscard]] extern Char *get_char_world(Char *ch, std::string_view argument);
 
 namespace MProg {
 
@@ -129,11 +130,12 @@ void give_trigger(Char *mob, Char *ch, Object *obj) {
 }
 
 void greet_trigger(Char *mob) {
+    const auto &mob_ref = *mob;
     for (auto *vmob : mob->in_room->people)
-        if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && vmob->is_pos_awake()
+        if (vmob->is_npc() && mob != vmob && vmob->can_see(mob_ref) && !vmob->fighting && vmob->is_pos_awake()
             && check_enum_bit(vmob->mobIndex->progtypes, TypeFlag::Greet))
             impl::exec_with_chance(vmob, mob, nullptr, nullptr, TypeFlag::Greet);
-        else if (vmob->is_npc() && (vmob->fighting == nullptr) && vmob->is_pos_awake()
+        else if (vmob->is_npc() && !vmob->fighting && vmob->is_pos_awake()
                  && check_enum_bit(vmob->mobIndex->progtypes, TypeFlag::AllGreet))
             impl::exec_with_chance(vmob, mob, nullptr, nullptr, TypeFlag::AllGreet);
 }
