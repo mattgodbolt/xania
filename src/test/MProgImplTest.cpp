@@ -3,7 +3,7 @@
 /*  (C) 2021 Xania Development Team                                      */
 /*  See the header to file: merc.h for original code copyrights          */
 /*************************************************************************/
-#include "mob_prog.hpp"
+#include "MProgImpl.hpp"
 
 #include <catch2/catch.hpp>
 

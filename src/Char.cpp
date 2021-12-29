@@ -13,6 +13,7 @@
 #include "DescriptorList.hpp"
 #include "FlagFormat.hpp"
 #include "Logging.hpp"
+#include "MProg.hpp"
 #include "MorphologyFlag.hpp"
 #include "Note.hpp"
 #include "Object.hpp"
@@ -36,7 +37,6 @@
 #include "db.h"
 #include "handler.hpp"
 #include "interp.h"
-#include "mob_prog.hpp"
 #include "skills.hpp"
 #include "string_utils.hpp"
 

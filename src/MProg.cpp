@@ -15,11 +15,11 @@
  *  such installation can be found in INSTALL.  Enjoy...         N'Atas-Ha *
  ***************************************************************************/
 
+#include "MProg.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Logging.hpp"
-#include "MProg.hpp"
 #include "MProgImpl.hpp"
 #include "MProgProgram.hpp"
 #include "MProgTypeFlag.hpp"
