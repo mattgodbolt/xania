@@ -8,8 +8,6 @@ class ArgParser {
     std::string storage_;
     std::string_view remaining_;
 
-    void ltrim();
-
 public:
     // Constructing an ArgParser from a string takes a _copy_ of the underlying string. Any string_views handed out by
     // the various parse functions will be references to the copy inside the parser, and will be valid so long as the
