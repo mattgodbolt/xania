@@ -54,7 +54,7 @@ struct MobIndexData {
     unsigned long parts{};
     BodySize body_size{};
     Material::Type material{}; // TODO: is this actually used in any meaningful way?
-    std::vector<MobProg> mobprogs{};
+    std::vector<MProg::Program> mobprogs{};
     int progtypes{}; /* Used by MOBprogram */
 
     static std::optional<MobIndexData> from_file(FILE *fp);

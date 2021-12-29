@@ -583,7 +583,7 @@ Char *random_mortal_in_room(Char *mob) {
     return nullptr;
 }
 
-void mprog_driver(Char *mob, const MobProg &prog, const Char *actor, const Object *obj, const MProg::Target target) {
+void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Object *obj, const MProg::Target target) {
     if (mob->is_aff_charm())
         return;
     const auto *rndm = impl::random_mortal_in_room(mob);
@@ -705,7 +705,7 @@ Target to_target(const Char *ch, const Object *obj) {
         return MProg::Target{nullptr};
 }
 
-std::optional<MobProg> try_load_one_mob_prog(std::string_view file_name, FILE *prog_file) {
+std::optional<Program> try_load_one_mob_prog(std::string_view file_name, FILE *prog_file) {
     const auto prog_type = impl::name_to_type(fread_word(prog_file));
     if (prog_type == MobProgTypeFlag::Error) {
         bug("mobprog {} type error {}", file_name, prog_type);
@@ -718,7 +718,7 @@ std::optional<MobProg> try_load_one_mob_prog(std::string_view file_name, FILE *p
     const auto prog_args = fread_string(prog_file);
     const auto script = fread_string(prog_file);
     const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
-    const auto prog = MobProg{prog_type, prog_args, std::move(lines)};
+    const auto prog = Program{prog_type, prog_args, std::move(lines)};
     return prog;
 }
 
@@ -930,7 +930,7 @@ void show_programs(Char *ch, ArgParser args) {
     Char *victim;
     const auto arg = args.shift();
     if (arg.empty()) {
-        ch->send_line("MobProg stat whom?");
+        ch->send_line("Show the programs of whom?");
         return;
     }
     if ((victim = get_char_world(ch, arg)) == nullptr) {

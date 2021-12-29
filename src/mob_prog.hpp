@@ -75,10 +75,10 @@ void random_trigger(Char *mob);
 void speech_trigger(std::string_view txt, const Char *mob);
 void show_programs(Char *ch, ArgParser args);
 
-}
-
-struct MobProg {
+struct Program {
     const MobProgTypeFlag type;
     const std::string arglist;
     const std::vector<std::string> lines;
 };
+
+}
