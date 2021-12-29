@@ -8,7 +8,6 @@
 #include <optional>
 #include <string>
 #include <variant>
-#include <vector>
 
 struct Char;
 struct Object;
@@ -44,11 +43,11 @@ private:
     const Target target_;
 };
 
-Target to_target(const Char *vict, const Object *vict_obj);
+// If either a Char or Object are non null, map them to the MProg Target variant.
+Target to_target(const Char *ch, const Object *obj);
 
 void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const Target target,
                     const TypeFlag type);
-void percent_check(Char *mob, Char *actor, Object *object, const Target target, const TypeFlag type);
 void act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const Target target);
 void bribe_trigger(Char *mob, Char *ch, int amount);
 void entry_trigger(Char *mob);

@@ -664,6 +664,22 @@ std::optional<IfExpr> IfExpr::parse_if(std::string_view text) {
     return IfExpr{function, arg, op, text};
 }
 
+void exec_with_chance(Char *mob, Char *actor, Object *obj, const Target target, const TypeFlag type) {
+    for (const auto &mprg : mob->mobIndex->mobprogs) {
+        if (mprg.type == type) {
+            if (!is_number(mprg.arglist)) {
+                bug("exec_with_chance in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
+                continue;
+            }
+            if (number_percent() < parse_number(mprg.arglist)) {
+                mprog_driver(mob, mprg, actor, obj, target);
+                if (type != TypeFlag::Greet && type != TypeFlag::AllGreet)
+                    break;
+            }
+        }
+    }
+}
+
 } // namespace impl
 
 Target to_target(const Char *ch, const Object *obj) {
@@ -704,22 +720,6 @@ void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Ob
     }
 }
 
-void percent_check(Char *mob, Char *actor, Object *obj, const Target target, const TypeFlag type) {
-    for (const auto &mprg : mob->mobIndex->mobprogs) {
-        if (mprg.type == type) {
-            if (!is_number(mprg.arglist)) {
-                bug("percent_check in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
-                continue;
-            }
-            if (number_percent() < parse_number(mprg.arglist)) {
-                impl::mprog_driver(mob, mprg, actor, obj, target);
-                if (type != TypeFlag::Greet && type != TypeFlag::AllGreet)
-                    break;
-            }
-        }
-    }
-}
-
 void act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const MProg::Target target) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Act)) {
         mob->mpact.emplace_back(std::string(buf), ch, obj, target);
@@ -746,18 +746,18 @@ void bribe_trigger(Char *mob, Char *ch, int amount) {
 
 void death_trigger(Char *mob) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Death)) {
-        percent_check(mob, nullptr, nullptr, nullptr, TypeFlag::Death);
+        impl::exec_with_chance(mob, nullptr, nullptr, nullptr, TypeFlag::Death);
     }
 }
 
 void entry_trigger(Char *mob) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Entry))
-        percent_check(mob, nullptr, nullptr, nullptr, TypeFlag::Entry);
+        impl::exec_with_chance(mob, nullptr, nullptr, nullptr, TypeFlag::Entry);
 }
 
 void fight_trigger(Char *mob, Char *ch) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Fight))
-        percent_check(mob, ch, nullptr, nullptr, TypeFlag::Fight);
+        impl::exec_with_chance(mob, ch, nullptr, nullptr, TypeFlag::Fight);
 }
 
 void give_trigger(Char *mob, Char *ch, Object *obj) {
@@ -779,10 +779,10 @@ void greet_trigger(Char *mob) {
     for (auto *vmob : mob->in_room->people)
         if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && vmob->is_pos_awake()
             && check_enum_bit(vmob->mobIndex->progtypes, TypeFlag::Greet))
-            percent_check(vmob, mob, nullptr, nullptr, TypeFlag::Greet);
+            impl::exec_with_chance(vmob, mob, nullptr, nullptr, TypeFlag::Greet);
         else if (vmob->is_npc() && (vmob->fighting == nullptr) && vmob->is_pos_awake()
                  && check_enum_bit(vmob->mobIndex->progtypes, TypeFlag::AllGreet))
-            percent_check(vmob, mob, nullptr, nullptr, TypeFlag::AllGreet);
+            impl::exec_with_chance(vmob, mob, nullptr, nullptr, TypeFlag::AllGreet);
 }
 
 void hitprcnt_trigger(Char *mob, Char *ch) {
@@ -804,7 +804,7 @@ void hitprcnt_trigger(Char *mob, Char *ch) {
 
 void random_trigger(Char *mob) {
     if (check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Random))
-        percent_check(mob, nullptr, nullptr, nullptr, TypeFlag::Random);
+        impl::exec_with_chance(mob, nullptr, nullptr, nullptr, TypeFlag::Random);
 }
 
 void speech_trigger(std::string_view txt, const Char *mob) {
