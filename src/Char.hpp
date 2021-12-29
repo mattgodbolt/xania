@@ -8,6 +8,7 @@
 #include "Constants.hpp"
 #include "Descriptor.hpp"
 #include "Flag.hpp"
+#include "MProgTriggerCtx.hpp"
 #include "Materials.hpp"
 #include "MobIndexData.hpp"
 #include "OffensiveFlag.hpp"
@@ -16,7 +17,6 @@
 #include "Sex.hpp"
 #include "Stats.hpp"
 #include "Types.hpp"
-#include "mob_prog.hpp"
 
 #include <array>
 #include <fmt/core.h>
