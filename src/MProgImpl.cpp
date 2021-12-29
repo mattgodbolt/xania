@@ -31,6 +31,7 @@
 #include "interp.h"
 #include "string_utils.hpp"
 
+#include <optional>
 #include <string>
 
 using namespace std::literals;
@@ -491,71 +492,55 @@ void interpret_command(std::string_view cmnd, Char *mob, const Char *actor, cons
     ::interpret(mob, buf);
 }
 
+// Makes a new ArgParser from an iterator over a string container
+// using the string's string_view to avoid a copy.
+auto parse_string_view(auto line_it) {
+    std::string_view line{*line_it};
+    return ArgParser{line};
+}
+
 void process_if_block(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj, const Target target,
                       const Char *rndm, auto &line_it, auto &end_it) {
-    const auto expect_next_line = [&line_it, &end_it, &mob](const auto where) {
+    const auto expect_next_line = [&line_it, &end_it, &mob](const auto where,
+                                                            const auto more_expected) -> std::optional<ArgParser> {
         if (++line_it == end_it) {
-            bug("Mob: #{} Unexpected EOF in {}", mob->mobIndex->vnum, where);
-            return false;
+            if (more_expected)
+                bug("Mob: #{} Unexpected EOF in {}", mob->mobIndex->vnum, where);
+            return std::nullopt;
         }
-        return true;
+        return parse_string_view(line_it);
     };
     if (evaluate_if(ifchck, mob, actor, obj, target, rndm)) {
-        while (true) { // ifchck was true, do commands but ignore else to endif
-            if (!expect_next_line("if success exec block"))
+        auto skip_until_endif = false;
+        while (auto opt_args = expect_next_line("if success block", skip_until_endif)) {
+            auto cmnd = opt_args->shift();
+            if (matches(cmnd, "endif")) {
                 return;
-            ArgParser args{*line_it};
-            auto cmnd = args.shift();
-            if (matches(cmnd, "if")) {
-                process_if_block(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
-                continue;
-            }
-            if (matches(cmnd, "endif"))
-                return;
-            if (matches(cmnd, "else")) {
-                // Skip over the commands in this else block.
-                for (;;) {
-                    if (!expect_next_line("if success skip block"))
-                        return;
-                    ArgParser args{*line_it};
-                    auto cmnd = args.shift();
-                    if (matches(cmnd, "endif"))
-                        return;
+            } else if (matches(cmnd, "else")) {
+                skip_until_endif = true;
+            } else if (!skip_until_endif) {
+                if (matches(cmnd, "if")) {
+                    process_if_block(opt_args->remaining(), mob, actor, obj, target, rndm, line_it, end_it);
+                } else {
+                    interpret_command(*line_it, mob, actor, obj, target, rndm);
                 }
             }
-            interpret_command(*line_it, mob, actor, obj, target, rndm);
         }
     } else {
-        // Skip over the commands in the block until an endif.
-        while (true) {
-            if (!expect_next_line("if failure skip block"))
+        auto skip_until_else = true;
+        while (auto opt_args = expect_next_line("if failure block", skip_until_else)) {
+            auto cmnd = opt_args->shift();
+            if (matches(cmnd, "endif")) {
                 return;
-            ArgParser args{*line_it};
-            auto cmnd = args.shift();
-            if (matches(cmnd, "endif"))
-                return;
-            if (matches(cmnd, "else"))
-                break;
-        }
-        // Perform the remaining commands up until the next endif
-        while (true) {
-            if (!expect_next_line("if failure exec block"))
-                return;
-            ArgParser args{*line_it};
-            auto cmnd = args.shift();
-            if (matches(cmnd, "endif"))
-                return;
-            if (matches(cmnd, "if")) {
-                process_if_block(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
-                continue;
+            } else if (matches(cmnd, "else")) {
+                skip_until_else = false;
+            } else if (!skip_until_else) {
+                if (matches(cmnd, "if")) {
+                    process_if_block(opt_args->remaining(), mob, actor, obj, target, rndm, line_it, end_it);
+                } else {
+                    interpret_command(*line_it, mob, actor, obj, target, rndm);
+                }
             }
-            if (matches(cmnd, "else")) {
-                bug("Mob: {} found else in an else section", mob->mobIndex->vnum);
-                return;
-            }
-            if (matches(cmnd, "endif"))
-                return;
-            interpret_command(*line_it, mob, actor, obj, target, rndm);
         }
     }
 }
@@ -579,7 +564,7 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
     auto end_it = prog.lines.end();
     // All mobprog scripts are expected to have at least 1 line.
     while (true) {
-        ArgParser args{*line_it};
+        ArgParser args = parse_string_view(line_it);
         auto command = args.shift();
         if (matches(command, "if")) {
             process_if_block(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
