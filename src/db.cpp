@@ -22,6 +22,7 @@
 #include "ExitFlag.hpp"
 #include "Help.hpp"
 #include "Logging.hpp"
+#include "MProgLoader.hpp"
 #include "Materials.hpp"
 #include "MobIndexData.hpp"
 #include "Note.hpp"
@@ -49,7 +50,6 @@
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"
-#include "mob_prog.hpp"
 #include "string_utils.hpp"
 
 #include <range/v3/algorithm/fill.hpp>

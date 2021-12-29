@@ -20,9 +20,6 @@ namespace MProg {
 
 enum class TypeFlag;
 
-bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mobIndex);
-void load_mobprogs(FILE *fp);
-
 // When a mobprog is triggered via an 'act()' call (often using ActTriggerCtx), the caller may have specified an
 // optional target object or target character. These can be referenced within the act format string with $ variables.
 // The target is made available to act_trigger() and the lower level mprog routines using this variant.
