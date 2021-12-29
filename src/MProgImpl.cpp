@@ -501,8 +501,7 @@ auto parse_string_view(auto line_it) {
 
 void process_if_block(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj, const Target target,
                       const Char *rndm, auto &line_it, auto &end_it) {
-    const auto expect_next_line = [&line_it, &end_it, &mob](const auto where,
-                                                            const auto more_expected) -> std::optional<ArgParser> {
+    const auto expect_next_line = [&](const auto where, const auto more_expected) -> std::optional<ArgParser> {
         if (++line_it == end_it) {
             if (more_expected)
                 bug("Mob: #{} Unexpected EOF in {}", mob->mobIndex->vnum, where);
@@ -510,38 +509,28 @@ void process_if_block(std::string_view ifchck, Char *mob, const Char *actor, con
         }
         return parse_string_view(line_it);
     };
+    const auto process_block = [&](const auto where, const auto skip_flag) {
+        auto skipping = skip_flag;
+        while (auto opt_args = expect_next_line(where, skipping)) {
+            auto cmnd = opt_args->shift();
+            if (matches(cmnd, "endif")) {
+                return;
+            } else if (matches(cmnd, "else")) {
+                skipping = !skipping;
+            } else if (!skipping) {
+                if (matches(cmnd, "if")) {
+                    // Recurse into the next if block.
+                    process_if_block(opt_args->remaining(), mob, actor, obj, target, rndm, line_it, end_it);
+                } else {
+                    interpret_command(*line_it, mob, actor, obj, target, rndm);
+                }
+            }
+        }
+    };
     if (evaluate_if(ifchck, mob, actor, obj, target, rndm)) {
-        auto skip_until_endif = false;
-        while (auto opt_args = expect_next_line("if success block", skip_until_endif)) {
-            auto cmnd = opt_args->shift();
-            if (matches(cmnd, "endif")) {
-                return;
-            } else if (matches(cmnd, "else")) {
-                skip_until_endif = true;
-            } else if (!skip_until_endif) {
-                if (matches(cmnd, "if")) {
-                    process_if_block(opt_args->remaining(), mob, actor, obj, target, rndm, line_it, end_it);
-                } else {
-                    interpret_command(*line_it, mob, actor, obj, target, rndm);
-                }
-            }
-        }
+        process_block("if pass block", false);
     } else {
-        auto skip_until_else = true;
-        while (auto opt_args = expect_next_line("if failure block", skip_until_else)) {
-            auto cmnd = opt_args->shift();
-            if (matches(cmnd, "endif")) {
-                return;
-            } else if (matches(cmnd, "else")) {
-                skip_until_else = false;
-            } else if (!skip_until_else) {
-                if (matches(cmnd, "if")) {
-                    process_if_block(opt_args->remaining(), mob, actor, obj, target, rndm, line_it, end_it);
-                } else {
-                    interpret_command(*line_it, mob, actor, obj, target, rndm);
-                }
-            }
-        }
+        process_block("if fail block", true);
     }
 }
 
