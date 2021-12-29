@@ -11,7 +11,7 @@
 #include <catch2/catch.hpp>
 
 TEST_CASE("IfExpr parse_if") {
-    using namespace MProg;
+    using namespace MProg::impl;
     SECTION("empty") {
         auto expr = "";
 

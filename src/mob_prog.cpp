@@ -645,8 +645,6 @@ std::string_view type_to_name(const MobProgTypeFlag type) {
     }
 }
 
-} // namespace impl
-
 // Parses an if expression taking these forms (the if has already been processed)
 //   func_name(func_arg)
 //   func_name(func_arg) operator operand
@@ -695,6 +693,8 @@ std::optional<IfExpr> IfExpr::parse_if(std::string_view text) {
     }
     return IfExpr{function, arg, op, text};
 }
+
+} // namespace impl
 
 Target to_target(const Char *ch, const Object *obj) {
     if (ch)

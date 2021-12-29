@@ -48,16 +48,6 @@ private:
     const Target target_;
 };
 
-struct IfExpr {
-    std::string_view function;
-    std::string_view arg;
-    std::string_view op;
-    std::string_view operand;
-    bool operator==(const IfExpr &other) const = default;
-
-    static std::optional<IfExpr> parse_if(std::string_view text);
-};
-
 Target to_target(const Char *vict, const Object *vict_obj);
 
 void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const Target target,
@@ -81,4 +71,18 @@ struct Program {
     const std::vector<std::string> lines;
 };
 
-}
+namespace impl {
+
+struct IfExpr {
+    std::string_view function;
+    std::string_view arg;
+    std::string_view op;
+    std::string_view operand;
+    bool operator==(const IfExpr &other) const = default;
+
+    static std::optional<IfExpr> parse_if(std::string_view text);
+};
+
+} // namespace impl
+
+} // namespace MProg
