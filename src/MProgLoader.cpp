@@ -63,6 +63,10 @@ std::optional<Program> try_load_one_mob_prog(std::string_view file_name, FILE *p
     const auto prog_args = fread_string(prog_file);
     const auto script = fread_string(prog_file);
     const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+    if (lines.empty()) {
+        bug("mobprog {} contains no script!", file_name);
+        return std::nullopt;
+    }
     const auto prog = Program{prog_type, prog_args, std::move(lines)};
     return prog;
 }

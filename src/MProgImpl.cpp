@@ -577,6 +577,7 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
     const auto *rndm = impl::random_mortal_in_room(mob);
     auto line_it = prog.lines.begin();
     auto end_it = prog.lines.end();
+    // All mobprog scripts are expected to have at least 1 line.
     while (true) {
         ArgParser args{*line_it};
         auto command = args.shift();
