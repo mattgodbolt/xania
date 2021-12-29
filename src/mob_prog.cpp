@@ -23,6 +23,8 @@
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Logging.hpp"
+#include "MProgProgram.hpp"
+#include "MProgTypeFlag.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Pronouns.hpp"

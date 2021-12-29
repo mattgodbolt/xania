@@ -5,11 +5,8 @@
 /*************************************************************************/
 #pragma once
 
-/* Merc-2.2 MOBProgs - Faramir 31/8/1998*/
-
-#include "MobProgTypeFlag.hpp"
-
 #include <optional>
+#include <string>
 #include <variant>
 #include <vector>
 
@@ -21,13 +18,15 @@ struct MobIndexData;
 
 namespace MProg {
 
+enum class TypeFlag;
+
 bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mobIndex);
 void load_mobprogs(FILE *fp);
 
 // When a mobprog is triggered via an 'act()' call (often using ActTriggerCtx), the caller may have specified an
 // optional target object or target character. These can be referenced within the act format string with $ variables.
 // The target is made available to act_trigger() and the lower level mprog routines using this variant.
-using Target = std::variant<nullptr_t, const Char *, const Object *>;
+using Target = std::variant<std::nullptr_t, const Char *, const Object *>;
 
 // Carries context about an act() event that may potentially trigger a mob prog that is
 // configured to be triggered by acts.
@@ -64,12 +63,6 @@ void death_trigger(Char *mob);
 void random_trigger(Char *mob);
 void speech_trigger(std::string_view txt, const Char *mob);
 void show_programs(Char *ch, ArgParser args);
-
-struct Program {
-    const TypeFlag type;
-    const std::string arglist;
-    const std::vector<std::string> lines;
-};
 
 namespace impl {
 

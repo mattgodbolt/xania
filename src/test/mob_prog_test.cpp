@@ -3,6 +3,7 @@
 /*  (C) 2021 Xania Development Team                                      */
 /*  See the header to file: merc.h for original code copyrights          */
 /*************************************************************************/
+#include "MProgTypeFlag.hpp"
 #include "MemFile.hpp"
 #include "MobIndexData.hpp"
 #include "common/BitOps.hpp"

@@ -21,6 +21,7 @@
 #include "Exit.hpp"
 #include "ExitFlag.hpp"
 #include "Logging.hpp"
+#include "MProgTypeFlag.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"

@@ -2,12 +2,12 @@
 
 #include "ArmourClass.hpp"
 #include "Dice.hpp"
+#include "MProgProgram.hpp"
 #include "Materials.hpp"
 #include "Position.hpp"
 #include "Sex.hpp"
 #include "Shop.hpp"
 #include "Types.hpp"
-#include "mob_prog.hpp"
 
 #include <array>
 
