@@ -9,9 +9,11 @@
 
 #include <magic_enum.hpp>
 
+namespace MProg {
+
 // Based on Merc-2.2 MOBProgs.
 // These are bits because in MobIndexData, a mob's template can be flagged as having multiple mob prog types.
-enum class MobProgTypeFlag {
+enum class TypeFlag {
     Error = -1,
     InFile = 0,
     Act = A,
@@ -27,6 +29,6 @@ enum class MobProgTypeFlag {
     Bribe = K
 };
 
-[[nodiscard]] constexpr auto to_int(const MobProgTypeFlag flag) noexcept {
-    return magic_enum::enum_integer<MobProgTypeFlag>(flag);
+[[nodiscard]] constexpr auto to_int(const TypeFlag flag) noexcept { return magic_enum::enum_integer<TypeFlag>(flag); }
+
 }

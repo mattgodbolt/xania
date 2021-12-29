@@ -51,8 +51,8 @@ private:
 Target to_target(const Char *vict, const Object *vict_obj);
 
 void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const Target target,
-                    const MobProgTypeFlag type);
-void percent_check(Char *mob, Char *actor, Object *object, const Target target, const MobProgTypeFlag type);
+                    const TypeFlag type);
+void percent_check(Char *mob, Char *actor, Object *object, const Target target, const TypeFlag type);
 void act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const Target target);
 void bribe_trigger(Char *mob, Char *ch, int amount);
 void entry_trigger(Char *mob);
@@ -66,7 +66,7 @@ void speech_trigger(std::string_view txt, const Char *mob);
 void show_programs(Char *ch, ArgParser args);
 
 struct Program {
-    const MobProgTypeFlag type;
+    const TypeFlag type;
     const std::string arglist;
     const std::vector<std::string> lines;
 };

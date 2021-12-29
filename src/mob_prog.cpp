@@ -599,48 +599,48 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
     }
 }
 
-MobProgTypeFlag name_to_type(std::string_view name) {
+TypeFlag name_to_type(std::string_view name) {
     if (matches(name, "in_file_prog"))
-        return MobProgTypeFlag::InFile;
+        return TypeFlag::InFile;
     if (matches(name, "act_prog"))
-        return MobProgTypeFlag::Act;
+        return TypeFlag::Act;
     if (matches(name, "speech_prog"))
-        return MobProgTypeFlag::Speech;
+        return TypeFlag::Speech;
     if (matches(name, "rand_prog"))
-        return MobProgTypeFlag::Random;
+        return TypeFlag::Random;
     if (matches(name, "fight_prog"))
-        return MobProgTypeFlag::Fight;
+        return TypeFlag::Fight;
     if (matches(name, "hitprcnt_prog"))
-        return MobProgTypeFlag::HitPercent;
+        return TypeFlag::HitPercent;
     if (matches(name, "death_prog"))
-        return MobProgTypeFlag::Death;
+        return TypeFlag::Death;
     if (matches(name, "entry_prog"))
-        return MobProgTypeFlag::Entry;
+        return TypeFlag::Entry;
     if (matches(name, "greet_prog"))
-        return MobProgTypeFlag::Greet;
+        return TypeFlag::Greet;
     if (matches(name, "all_greet_prog"))
-        return MobProgTypeFlag::AllGreet;
+        return TypeFlag::AllGreet;
     if (matches(name, "give_prog"))
-        return MobProgTypeFlag::Give;
+        return TypeFlag::Give;
     if (matches(name, "bribe_prog"))
-        return MobProgTypeFlag::Bribe;
-    return MobProgTypeFlag::Error;
+        return TypeFlag::Bribe;
+    return TypeFlag::Error;
 }
 
-std::string_view type_to_name(const MobProgTypeFlag type) {
+std::string_view type_to_name(const TypeFlag type) {
     switch (type) {
-    case MobProgTypeFlag::InFile: return "in_file_prog";
-    case MobProgTypeFlag::Act: return "act_prog";
-    case MobProgTypeFlag::Speech: return "speech_prog";
-    case MobProgTypeFlag::Random: return "rand_prog";
-    case MobProgTypeFlag::Fight: return "fight_prog";
-    case MobProgTypeFlag::HitPercent: return "hitprcnt_prog";
-    case MobProgTypeFlag::Death: return "death_prog";
-    case MobProgTypeFlag::Entry: return "entry_prog";
-    case MobProgTypeFlag::Greet: return "greet_prog";
-    case MobProgTypeFlag::AllGreet: return "all_greet_prog";
-    case MobProgTypeFlag::Give: return "give_prog";
-    case MobProgTypeFlag::Bribe: return "bribe_prog";
+    case TypeFlag::InFile: return "in_file_prog";
+    case TypeFlag::Act: return "act_prog";
+    case TypeFlag::Speech: return "speech_prog";
+    case TypeFlag::Random: return "rand_prog";
+    case TypeFlag::Fight: return "fight_prog";
+    case TypeFlag::HitPercent: return "hitprcnt_prog";
+    case TypeFlag::Death: return "death_prog";
+    case TypeFlag::Entry: return "entry_prog";
+    case TypeFlag::Greet: return "greet_prog";
+    case TypeFlag::AllGreet: return "all_greet_prog";
+    case TypeFlag::Give: return "give_prog";
+    case TypeFlag::Bribe: return "bribe_prog";
     default: return "ERROR_PROG";
     }
 }
@@ -707,11 +707,11 @@ Target to_target(const Char *ch, const Object *obj) {
 
 std::optional<Program> try_load_one_mob_prog(std::string_view file_name, FILE *prog_file) {
     const auto prog_type = impl::name_to_type(fread_word(prog_file));
-    if (prog_type == MobProgTypeFlag::Error) {
+    if (prog_type == TypeFlag::Error) {
         bug("mobprog {} type error {}", file_name, prog_type);
         return std::nullopt;
     }
-    if (prog_type == MobProgTypeFlag::InFile) {
+    if (prog_type == TypeFlag::InFile) {
         bug("mobprog {} contains a call to file which is not supported yet.", file_name);
         return std::nullopt;
     }
@@ -793,7 +793,7 @@ void load_mobprogs(FILE *fp) {
  *  To see how this works, look at the various trigger routines..
  */
 void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Object *obj, const Target target,
-                    const MobProgTypeFlag type) {
+                    const TypeFlag type) {
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
             // Player message matches the phrase in the program.
@@ -817,7 +817,7 @@ void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Ob
     }
 }
 
-void percent_check(Char *mob, Char *actor, Object *obj, const Target target, const MobProgTypeFlag type) {
+void percent_check(Char *mob, Char *actor, Object *obj, const Target target, const TypeFlag type) {
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
             if (!is_number(mprg.arglist)) {
@@ -826,7 +826,7 @@ void percent_check(Char *mob, Char *actor, Object *obj, const Target target, con
             }
             if (number_percent() < parse_number(mprg.arglist)) {
                 impl::mprog_driver(mob, mprg, actor, obj, target);
-                if (type != MobProgTypeFlag::Greet && type != MobProgTypeFlag::AllGreet)
+                if (type != TypeFlag::Greet && type != TypeFlag::AllGreet)
                     break;
             }
         }
@@ -834,15 +834,15 @@ void percent_check(Char *mob, Char *actor, Object *obj, const Target target, con
 }
 
 void act_trigger(std::string_view buf, Char *mob, const Char *ch, const Object *obj, const MProg::Target target) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Act)) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Act)) {
         mob->mpact.emplace_back(std::string(buf), ch, obj, target);
     }
 }
 
 void bribe_trigger(Char *mob, Char *ch, int amount) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Bribe)) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Bribe)) {
         for (const auto &mprg : mob->mobIndex->mobprogs)
-            if (mprg.type == MobProgTypeFlag::Bribe) {
+            if (mprg.type == TypeFlag::Bribe) {
                 if (!is_number(mprg.arglist)) {
                     bug("bribe_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
                     continue;
@@ -858,25 +858,25 @@ void bribe_trigger(Char *mob, Char *ch, int amount) {
 }
 
 void death_trigger(Char *mob) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Death)) {
-        percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Death);
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Death)) {
+        percent_check(mob, nullptr, nullptr, nullptr, TypeFlag::Death);
     }
 }
 
 void entry_trigger(Char *mob) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Entry))
-        percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Entry);
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Entry))
+        percent_check(mob, nullptr, nullptr, nullptr, TypeFlag::Entry);
 }
 
 void fight_trigger(Char *mob, Char *ch) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Fight))
-        percent_check(mob, ch, nullptr, nullptr, MobProgTypeFlag::Fight);
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Fight))
+        percent_check(mob, ch, nullptr, nullptr, TypeFlag::Fight);
 }
 
 void give_trigger(Char *mob, Char *ch, Object *obj) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Give)) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Give)) {
         for (const auto &mprg : mob->mobIndex->mobprogs) {
-            if (mprg.type == MobProgTypeFlag::Give) {
+            if (mprg.type == TypeFlag::Give) {
                 auto prog_args = ArgParser(mprg.arglist);
                 const auto first_prog_arg = prog_args.shift();
                 if (matches(obj->name, mprg.arglist) || matches("all", first_prog_arg)) {
@@ -891,17 +891,17 @@ void give_trigger(Char *mob, Char *ch, Object *obj) {
 void greet_trigger(Char *mob) {
     for (auto *vmob : mob->in_room->people)
         if (vmob->is_npc() && mob != vmob && can_see(vmob, mob) && (vmob->fighting == nullptr) && vmob->is_pos_awake()
-            && check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::Greet))
-            percent_check(vmob, mob, nullptr, nullptr, MobProgTypeFlag::Greet);
+            && check_enum_bit(vmob->mobIndex->progtypes, TypeFlag::Greet))
+            percent_check(vmob, mob, nullptr, nullptr, TypeFlag::Greet);
         else if (vmob->is_npc() && (vmob->fighting == nullptr) && vmob->is_pos_awake()
-                 && check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::AllGreet))
-            percent_check(vmob, mob, nullptr, nullptr, MobProgTypeFlag::AllGreet);
+                 && check_enum_bit(vmob->mobIndex->progtypes, TypeFlag::AllGreet))
+            percent_check(vmob, mob, nullptr, nullptr, TypeFlag::AllGreet);
 }
 
 void hitprcnt_trigger(Char *mob, Char *ch) {
-    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::HitPercent)) {
+    if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::HitPercent)) {
         for (const auto &mprg : mob->mobIndex->mobprogs) {
-            if (mprg.type == MobProgTypeFlag::HitPercent) {
+            if (mprg.type == TypeFlag::HitPercent) {
                 if (!is_number(mprg.arglist)) {
                     bug("hitprcnt_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
                     continue;
@@ -916,14 +916,14 @@ void hitprcnt_trigger(Char *mob, Char *ch) {
 }
 
 void random_trigger(Char *mob) {
-    if (check_enum_bit(mob->mobIndex->progtypes, MobProgTypeFlag::Random))
-        percent_check(mob, nullptr, nullptr, nullptr, MobProgTypeFlag::Random);
+    if (check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Random))
+        percent_check(mob, nullptr, nullptr, nullptr, TypeFlag::Random);
 }
 
 void speech_trigger(std::string_view txt, const Char *mob) {
     for (auto *vmob : mob->in_room->people)
-        if (vmob->is_npc() && (check_enum_bit(vmob->mobIndex->progtypes, MobProgTypeFlag::Speech)))
-            wordlist_check(txt, vmob, mob, nullptr, nullptr, MobProgTypeFlag::Speech);
+        if (vmob->is_npc() && (check_enum_bit(vmob->mobIndex->progtypes, TypeFlag::Speech)))
+            wordlist_check(txt, vmob, mob, nullptr, nullptr, TypeFlag::Speech);
 }
 
 void show_programs(Char *ch, ArgParser args) {

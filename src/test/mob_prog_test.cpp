@@ -120,8 +120,8 @@ stand stand male 200
         CHECK(result);
         CHECK(mob.mobprogs.size() == 1);
         const auto &prog = mob.mobprogs.at(0);
-        CHECK(prog.type == MobProgTypeFlag::Random);
-        CHECK(check_enum_bit(mob.progtypes, MobProgTypeFlag::Random));
+        CHECK(prog.type == TypeFlag::Random);
+        CHECK(check_enum_bit(mob.progtypes, TypeFlag::Random));
     }
     SECTION("well formed with two progs") {
         test::MemFile test_prog(">rand_prog 50~\n\rif rand(50)\n\r\tdance\n\relse\n\rn\tsing\n\rendif~\n\r>greet_prog "
@@ -131,11 +131,11 @@ stand stand male 200
         CHECK(result);
         CHECK(mob.mobprogs.size() == 2);
         const auto &first = mob.mobprogs.at(0);
-        CHECK(first.type == MobProgTypeFlag::Random);
+        CHECK(first.type == TypeFlag::Random);
         const auto &second = mob.mobprogs.at(1);
-        CHECK(second.type == MobProgTypeFlag::Greet);
-        CHECK(check_enum_bit(mob.progtypes, MobProgTypeFlag::Random));
-        CHECK(check_enum_bit(mob.progtypes, MobProgTypeFlag::Greet));
+        CHECK(second.type == TypeFlag::Greet);
+        CHECK(check_enum_bit(mob.progtypes, TypeFlag::Random));
+        CHECK(check_enum_bit(mob.progtypes, TypeFlag::Greet));
     }
     SECTION("malformed empty") {
         test::MemFile test_prog("");
