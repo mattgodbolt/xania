@@ -23,10 +23,15 @@ CLANG_FORMAT:=$(TOOLS_DIR)/clang-format-$(CLANG_VERSION)
 TOP_SRC_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 SOURCE_FILES:=$(shell find $(TOP_SRC_DIR)/src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name *.hpp)
 
-ifeq ($(shell which ninja),)
-CMAKE_GENERATOR_FLAGS?=
-else
+ifneq ($(shell which ninja),)
 CMAKE_GENERATOR_FLAGS?=-GNinja
+endif
+
+ifeq ($(CMAKE_GENERATOR_FLAGS),-GNinja)
+CMAKE_TOOLCHAIN_OUTPUT:=build.ninja
+else
+CMAKE_TOOLCHAIN_OUTPUT:=Makefile
+override CMAKE_GENERATOR_FLAGS:=-G"Unix Makefiles"
 endif
 
 .%-not-found:
@@ -36,9 +41,7 @@ endif
 	@exit 1
 
 .PHONY: build
-build: ## Build Xania source
-	$(CMAKE) -S $(TOP_SRC_DIR)/conan -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) \
-	                    -DCMAKE_TOOLCHAIN_FILE=$(TOP_SRC_DIR)/toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
+build: $(BUILD_ROOT)/$(CMAKE_TOOLCHAIN_OUTPUT) ## Build Xania source
 	$(CMAKE) --build $(BUILD_ROOT)
 
 # Grr older cmakes don't support --install and --prefix
@@ -71,6 +74,10 @@ stop: dirs  ## Stop Xania
 
 .PHONY: restart
 restart: stop start  ## Restart Xania
+
+$(BUILD_ROOT)/$(CMAKE_TOOLCHAIN_OUTPUT):
+	$(CMAKE) -S $(TOP_SRC_DIR)/conan -B $(BUILD_ROOT) $(CMAKE_GENERATOR_FLAGS) \
+	                    -DCMAKE_TOOLCHAIN_FILE=$(TOP_SRC_DIR)/toolchain/$(TOOLCHAIN).cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)
 
 .PHONY: distclean
 distclean:  ## Clean up everything
