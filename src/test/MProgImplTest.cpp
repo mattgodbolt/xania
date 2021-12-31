@@ -72,18 +72,31 @@ TEST_CASE("IfExpr parse_if") {
         auto result = IfExpr::parse_if(expr);
         CHECK(!result);
     }
-    SECTION("function with arg, op and operand") {
+    SECTION("function with arg, op and number operand") {
         auto expr = "func(arg) > 1";
-        auto expected = IfExpr{"func", "arg", ">", "1"};
+        auto expected = IfExpr{"func", "arg", ">", 1};
 
         auto result = IfExpr::parse_if(expr);
         CHECK(*result == expected);
+        CHECK(std::holds_alternative<const int>(result->operand));
+        CHECK(std::get<const int>(result->operand) == 1);
     }
-    SECTION("function with arg, op and operand ignore extra space") {
+    SECTION("function with arg, op and number operand ignore extra space") {
         auto expr = "func(arg)  >  1 ";
-        auto expected = IfExpr{"func", "arg", ">", "1"};
+        auto expected = IfExpr{"func", "arg", ">", 1};
 
         auto result = IfExpr::parse_if(expr);
         CHECK(*result == expected);
+        CHECK(std::holds_alternative<const int>(result->operand));
+        CHECK(std::get<const int>(result->operand) == 1);
+    }
+    SECTION("function with arg, op and string operand ignore extra space") {
+        auto expr = "func(arg)  ==  text ";
+        auto expected = IfExpr{"func", "arg", "==", "text"};
+
+        auto result = IfExpr::parse_if(expr);
+        CHECK(*result == expected);
+        CHECK(std::holds_alternative<std::string_view>(result->operand));
+        CHECK(std::get<std::string_view>(result->operand) == "text");
     }
 }

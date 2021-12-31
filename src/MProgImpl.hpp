@@ -8,6 +8,7 @@
 #include "MProgTriggerCtx.hpp"
 
 #include <optional>
+#include <variant>
 
 // Internal Mob Prog functions. App code shouldn't need to include this header.
 namespace MProg {
@@ -31,13 +32,15 @@ std::string_view type_to_name(const TypeFlag type);
 // only if a dice roll against the program's probability succeeds.
 void exec_with_chance(Char *mob, Char *actor, Object *obj, const Target target, const TypeFlag type);
 
+using Operand = std::variant<std::string_view, const int>;
+
 // IfExpr provides a view into a parsed if expression. Instances of this must not
 // live beyond the life of the string that was parsed.
 struct IfExpr {
     std::string_view function;
     std::string_view arg;
     std::string_view op;
-    std::string_view operand;
+    Operand operand;
     bool operator==(const IfExpr &other) const = default;
 
     static std::optional<IfExpr> parse_if(std::string_view text);
