@@ -8,6 +8,7 @@
 #include "MProgTriggerCtx.hpp"
 
 #include <optional>
+#include <type_traits>
 #include <variant>
 
 // Internal Mob Prog functions. App code shouldn't need to include this header.
