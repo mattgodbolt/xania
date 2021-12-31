@@ -81,34 +81,33 @@ bool compare_ints(const int lhs, std::string_view opr, const int rhs) {
 template <typename V, typename Cond>
 struct Predicate {
     Predicate(V v, Cond cond) : validate(v), condition(cond) {}
-    bool test(const IfExpr ifexpr, Char *mob, const Char *actor, const Object *obj, const Char *targ_ch,
-              const Object *targ_obj, const Char *rndm) const {
-        return validate(ifexpr, mob) && condition(ifexpr, mob, actor, obj, targ_ch, targ_obj, rndm);
+    bool test(const IfExpr &ifexpr, const ExecutionCtx &ctx) const {
+        return validate(ifexpr, ctx.mob) && condition(ifexpr, ctx);
     }
     typename std::conditional<std::is_function<V>::value, typename std::add_pointer<V>::type, V>::type validate;
     typename std::conditional<std::is_function<Cond>::value, typename std::add_pointer<Cond>::type, Cond>::type
         condition;
 };
 
-const Char *select_char(const char letter, const Char *mob, const Char *actor, const Char *targ_ch, const Char *rndm) {
-    switch (letter) {
+const Char *ExecutionCtx::select_char(const IfExpr &ifexpr) const {
+    switch (ifexpr.arg[1]) {
     case 'i': return mob; // Self
     case 'n': return actor;
-    case 't': return targ_ch;
-    case 'r': return rndm;
+    case 't': return act_targ_char;
+    case 'r': return random;
     default: return nullptr;
     }
 }
 
-const Object *select_obj(const char letter, const Object *obj, const Object *targ_obj) {
-    switch (letter) {
+const Object *ExecutionCtx::select_obj(const IfExpr &ifexpr) const {
+    switch (ifexpr.arg[1]) {
     case 'o': return obj;
-    case 'p': return targ_obj;
+    case 'p': return act_targ_obj;
     default: return nullptr;
     }
 }
 
-bool expect_number_arg(const IfExpr ifexpr, Char *mob) {
+bool expect_number_arg(const IfExpr &ifexpr, Char *mob) {
     if (!is_number(ifexpr.arg)) {
         bug("expect_number_arg: #{} bad argument to '{}': {}", mob->mobIndex->vnum, ifexpr.function, ifexpr.arg);
         return false;
@@ -116,7 +115,7 @@ bool expect_number_arg(const IfExpr ifexpr, Char *mob) {
     return true;
 };
 
-bool expect_dollar_var(const IfExpr ifexpr, Char *mob) {
+bool expect_dollar_var(const IfExpr &ifexpr, Char *mob) {
     if (ifexpr.arg.length() != 2 || ifexpr.arg[0] != '$' || !std::isalpha(ifexpr.arg[1])) {
         bug("expect_dollar_var: #{} function expects a $var specifying a character or object, got: {}",
             mob->mobIndex->vnum, ifexpr.arg);
@@ -125,7 +124,7 @@ bool expect_dollar_var(const IfExpr ifexpr, Char *mob) {
     return true;
 }
 
-bool expect_dollar_var_and_number_operand(const IfExpr ifexpr, Char *mob) {
+bool expect_dollar_var_and_number_operand(const IfExpr &ifexpr, Char *mob) {
     if (expect_dollar_var(ifexpr, mob)) {
         if (std::holds_alternative<const int>(ifexpr.operand))
             return true;
@@ -137,7 +136,7 @@ bool expect_dollar_var_and_number_operand(const IfExpr ifexpr, Char *mob) {
     return false;
 };
 
-bool expect_dollar_var_and_sv_operand(const IfExpr ifexpr, Char *mob) {
+bool expect_dollar_var_and_sv_operand(const IfExpr &ifexpr, Char *mob) {
     if (expect_dollar_var(ifexpr, mob)) {
         if (std::holds_alternative<std::string_view>(ifexpr.operand))
             return true;
@@ -149,120 +148,101 @@ bool expect_dollar_var_and_sv_operand(const IfExpr ifexpr, Char *mob) {
     return false;
 };
 
-bool rand(const IfExpr ifexpr, [[maybe_unused]] Char *mob, [[maybe_unused]] const Char *actor,
-          [[maybe_unused]] const Object *obj, [[maybe_unused]] const Char *targ_ch,
-          [[maybe_unused]] const Object *targ_obj, [[maybe_unused]] const Char *rndm) {
+bool rand(const IfExpr &ifexpr, [[maybe_unused]] const ExecutionCtx &ctx) {
     return number_percent() <= parse_number(ifexpr.arg);
 };
 
-bool ispc(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj, const Char *targ_ch,
-          [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool ispc(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && ch->is_pc();
 }
 
-bool isnpc(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj, const Char *targ_ch,
-           [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool isnpc(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && ch->is_npc();
 }
 
-bool isgood(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj, const Char *targ_ch,
-            [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool isgood(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && ch->is_good();
 }
 
-bool isfight(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj, const Char *targ_ch,
-             [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool isfight(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && ch->fighting;
 }
 
-bool isimmort(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj,
-              const Char *targ_ch, [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool isimmort(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && ch->get_trust() > LEVEL_IMMORTAL;
 }
 
-bool ischarmed(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj,
-               const Char *targ_ch, [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool ischarmed(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && ch->is_aff_charm();
 }
 
-bool isfollow(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj,
-              const Char *targ_ch, [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool isfollow(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && ch->master && ch->master->in_room == ch->in_room;
 }
 
-bool isaffected(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj,
-                const Char *targ_ch, [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool isaffected(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && ch->affected_by & std::get<const int>(ifexpr.operand);
 }
 
-bool hitprcnt(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj,
-              const Char *targ_ch, [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool hitprcnt(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && compare_ints(ch->hit / ch->max_hit, ifexpr.op, std::get<const int>(ifexpr.operand));
 }
 
-bool inroom(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj, const Char *targ_ch,
-            [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool inroom(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && compare_ints(ch->in_room->vnum, ifexpr.op, std::get<const int>(ifexpr.operand));
 }
 
-bool sex(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj, const Char *targ_ch,
-         [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool sex(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && compare_ints(ch->sex.integer(), ifexpr.op, std::get<const int>(ifexpr.operand));
 }
 
-bool position(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj,
-              const Char *targ_ch, [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool position(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && compare_ints(ch->position.integer(), ifexpr.op, std::get<const int>(ifexpr.operand));
 }
 
-bool level(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj, const Char *targ_ch,
-           [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool level(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && compare_ints(ch->level, ifexpr.op, std::get<const int>(ifexpr.operand));
 }
 
-bool class_(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj, const Char *targ_ch,
-            [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool class_(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && compare_ints(ch->class_num, ifexpr.op, std::get<const int>(ifexpr.operand));
 }
 
-bool goldamt(const IfExpr ifexpr, Char *mob, const Char *actor, [[maybe_unused]] const Object *obj, const Char *targ_ch,
-             [[maybe_unused]] const Object *targ_obj, const Char *rndm) {
-    const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm);
+bool goldamt(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *ch = ctx.select_char(ifexpr);
     return ch && compare_ints(ch->gold, ifexpr.op, std::get<const int>(ifexpr.operand));
 }
 
-bool objtype(const IfExpr ifexpr, [[maybe_unused]] Char *mob, [[maybe_unused]] const Char *actor, const Object *obj,
-             [[maybe_unused]] const Char *targ_ch, const Object *targ_obj, [[maybe_unused]] const Char *rndm) {
-    const auto *sobj = select_obj(ifexpr.arg[1], obj, targ_obj);
+bool objtype(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    const auto *sobj = ctx.select_obj(ifexpr);
     return sobj
            && compare_ints(magic_enum::enum_integer<ObjectType>(sobj->type), ifexpr.op,
                            std::get<const int>(ifexpr.operand));
 }
 
-bool name(const IfExpr ifexpr, Char *mob, [[maybe_unused]] const Char *actor, const Object *obj,
-          [[maybe_unused]] const Char *targ_ch, const Object *targ_obj, [[maybe_unused]] const Char *rndm) {
+bool name(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
 
-    if (const auto *ch = select_char(ifexpr.arg[1], mob, actor, targ_ch, rndm)) {
+    if (const auto *ch = ctx.select_char(ifexpr)) {
         return compare_strings(ch->name, ifexpr.op, std::get<std::string_view>(ifexpr.operand));
     }
-    if (const auto *sobj = select_obj(ifexpr.arg[1], obj, targ_obj)) {
+    if (const auto *sobj = ctx.select_obj(ifexpr)) {
         return compare_strings(sobj->name, ifexpr.op, std::get<std::string_view>(ifexpr.operand));
     }
-    bug("Mob: #{} Unrecognized char or obj variable: {}", mob->mobIndex->vnum, ifexpr.arg);
+    bug("Mob: #{} Unrecognized char or obj variable: {}", ctx.mob->mobIndex->vnum, ifexpr.arg);
     return false;
 }
 
@@ -271,7 +251,7 @@ using Cond = decltype(rand);
 
 // Weave together the mob prog predicate functions with their names, along with
 // the validators required by each.
-std::unordered_map<std::string_view, Predicate<Validator, Cond>> predicates({
+const std::unordered_map<std::string_view, Predicate<Validator, Cond>> predicates({
     // clang-format off
     {"rand", {expect_number_arg, rand}},
     {"ispc", {expect_dollar_var, ispc}},
@@ -294,102 +274,95 @@ std::unordered_map<std::string_view, Predicate<Validator, Cond>> predicates({
     // clang-format on
 });
 
-bool evaluate_if(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj, const Target target,
-                 const Char *rndm) {
-    const auto *targ_ch = std::holds_alternative<const Char *>(target) ? std::get<const Char *>(target) : nullptr;
-    const auto *targ_obj = std::holds_alternative<const Object *>(target) ? std::get<const Object *>(target) : nullptr;
+bool evaluate_if(std::string_view ifchck, const ExecutionCtx &ctx) {
     const auto ifexpr = IfExpr::parse_if(ifchck);
     if (!ifexpr) {
         return false;
     }
     if (auto pred = predicates.find(ifexpr->function); pred != predicates.end())
-        return pred->second.test(*ifexpr, mob, actor, obj, targ_ch, targ_obj, rndm);
-    bug("Mob: #{} unknown predicate: {}", mob->mobIndex->vnum, ifexpr->function);
+        return pred->second.test(*ifexpr, ctx);
+    bug("Mob: #{} unknown predicate: {}", ctx.mob->mobIndex->vnum, ifexpr->function);
     return false;
 }
 
-std::string expand_var(const char c, const Char *mob, const Char *actor, const Object *obj, const Target target,
-                       const Char *rndm) {
-    const auto *targ_ch = std::holds_alternative<const Char *>(target) ? *std::get_if<const Char *>(&target) : nullptr;
-    const auto *targ_obj =
-        std::holds_alternative<const Object *>(target) ? *std::get_if<const Object *>(&target) : nullptr;
+std::string expand_var(const char c, const ExecutionCtx &ctx) {
     std::string buf{};
     switch (c) {
     case 'i':
-    case 'I': buf = mob->describe(*mob); break;
+    case 'I': buf = ctx.mob->describe(*ctx.mob); break;
     case 'n':
     case 'N':
-        if (actor)
-            buf = mob->describe(*actor);
+        if (ctx.actor)
+            buf = ctx.mob->describe(*ctx.actor);
         break;
     case 't':
     case 'T':
-        if (targ_ch)
-            buf = mob->describe(*targ_ch);
+        if (ctx.act_targ_char)
+            buf = ctx.mob->describe(*ctx.act_targ_char);
         break;
     case 'r':
     case 'R':
-        if (rndm)
-            buf = mob->describe(*rndm);
+        if (ctx.random)
+            buf = ctx.mob->describe(*ctx.random);
         break;
     case 'e':
-        if (actor)
-            buf = subjective(*actor);
+        if (ctx.actor)
+            buf = subjective(*ctx.actor);
         break;
     case 'm':
-        if (actor)
-            buf = objective(*actor);
+        if (ctx.actor)
+            buf = objective(*ctx.actor);
         break;
     case 's':
-        if (actor)
-            buf = possessive(*actor);
+        if (ctx.actor)
+            buf = possessive(*ctx.actor);
         break;
     case 'E':
-        if (targ_ch)
-            buf = subjective(*targ_ch);
+        if (ctx.act_targ_char)
+            buf = subjective(*ctx.act_targ_char);
         break;
     case 'M':
-        if (targ_ch)
-            buf = objective(*targ_ch);
+        if (ctx.act_targ_char)
+            buf = objective(*ctx.act_targ_char);
         break;
     case 'S':
-        if (targ_ch)
-            buf = possessive(*targ_ch);
+        if (ctx.act_targ_char)
+            buf = possessive(*ctx.act_targ_char);
         break;
-    case 'j': buf = subjective(*mob); break;
-    case 'k': buf = objective(*mob); break;
-    case 'l': buf = possessive(*mob); break;
+    case 'j': buf = subjective(*ctx.mob); break;
+    case 'k': buf = objective(*ctx.mob); break;
+    case 'l': buf = possessive(*ctx.mob); break;
     case 'J':
-        if (rndm)
-            buf = subjective(*rndm);
+        if (ctx.random)
+            buf = subjective(*ctx.random);
         break;
     case 'K':
-        if (rndm)
-            buf = objective(*rndm);
+        if (ctx.random)
+            buf = objective(*ctx.random);
         break;
     case 'L':
-        if (rndm)
-            buf = possessive(*rndm);
+        if (ctx.random)
+            buf = possessive(*ctx.random);
         break;
     case 'o':
-        if (obj)
-            buf = can_see_obj(mob, obj) ? obj->name : "something";
+        if (ctx.obj)
+            buf = can_see_obj(ctx.mob, ctx.obj) ? ctx.obj->name : "something";
         break;
     case 'O':
-        if (obj)
-            buf = can_see_obj(mob, obj) ? obj->short_descr : "something";
+        if (ctx.obj)
+            buf = can_see_obj(ctx.mob, ctx.obj) ? ctx.obj->short_descr : "something";
         break;
     case 'p':
-        if (targ_obj)
-            buf = can_see_obj(mob, targ_obj) ? targ_obj->name : "something";
+        if (ctx.act_targ_obj)
+            buf = can_see_obj(ctx.mob, ctx.act_targ_obj) ? ctx.act_targ_obj->name : "something";
         break;
     case 'P':
-        if (targ_obj)
-            buf = can_see_obj(mob, targ_obj) ? targ_obj->short_descr : "something";
+        if (ctx.act_targ_obj)
+            buf = can_see_obj(ctx.mob, ctx.act_targ_obj) ? ctx.act_targ_obj->short_descr : "something";
         break;
     case 'a':
-        if (obj)
-            switch (obj->name.front()) {
+        if (ctx.obj)
+            switch (ctx.obj->name.front()) {
             case 'a':
             case 'e':
             case 'i':
@@ -399,8 +372,8 @@ std::string expand_var(const char c, const Char *mob, const Char *actor, const O
             }
         break;
     case 'A':
-        if (targ_obj)
-            switch (targ_obj->name.front()) {
+        if (ctx.act_targ_obj)
+            switch (ctx.act_targ_obj->name.front()) {
             case 'a':
             case 'e':
             case 'i':
@@ -410,13 +383,12 @@ std::string expand_var(const char c, const Char *mob, const Char *actor, const O
             }
         break;
     case '$': buf = "$"; break;
-    default: bug("Mob: {} bad $var", mob->mobIndex->vnum); break;
+    default: bug("Mob: {} bad $var", ctx.mob->mobIndex->vnum); break;
     }
     return buf;
 }
 
-void interpret_command(std::string_view cmnd, Char *mob, const Char *actor, const Object *obj, const Target target,
-                       const Char *rndm) {
+void interpret_command(std::string_view cmnd, const ExecutionCtx &ctx) {
     std::string buf{};
     bool prev_was_dollar = false;
     for (auto c : cmnd) {
@@ -429,9 +401,9 @@ void interpret_command(std::string_view cmnd, Char *mob, const Char *actor, cons
             }
             continue;
         }
-        buf += expand_var(c, mob, actor, obj, target, rndm);
+        buf += expand_var(c, ctx);
     }
-    ::interpret(mob, buf);
+    ::interpret(ctx.mob, buf);
 }
 
 // Makes a new ArgParser from an iterator over a string container
@@ -441,12 +413,11 @@ auto parse_string_view(auto line_it) {
     return ArgParser{line};
 }
 
-void process_if_block(std::string_view ifchck, Char *mob, const Char *actor, const Object *obj, const Target target,
-                      const Char *rndm, auto &line_it, auto &end_it) {
+void process_if_block(std::string_view ifchck, const ExecutionCtx &ctx, auto &line_it, auto &end_it) {
     const auto expect_next_line = [&](const auto where, const auto more_expected) -> std::optional<ArgParser> {
         if (++line_it == end_it) {
             if (more_expected)
-                bug("Mob: #{} Unexpected EOF in {}", mob->mobIndex->vnum, where);
+                bug("Mob: #{} Unexpected EOF in {}", ctx.mob->mobIndex->vnum, where);
             return std::nullopt;
         }
         return parse_string_view(line_it);
@@ -462,14 +433,14 @@ void process_if_block(std::string_view ifchck, Char *mob, const Char *actor, con
             } else if (!skipping) {
                 if (matches(cmnd, "if")) {
                     // Recurse into the next if block.
-                    process_if_block(opt_args->remaining(), mob, actor, obj, target, rndm, line_it, end_it);
+                    process_if_block(opt_args->remaining(), ctx, line_it, end_it);
                 } else {
-                    interpret_command(*line_it, mob, actor, obj, target, rndm);
+                    interpret_command(*line_it, ctx);
                 }
             }
         }
     };
-    if (evaluate_if(ifchck, mob, actor, obj, target, rndm)) {
+    if (evaluate_if(ifchck, ctx)) {
         process_block("if pass block", false);
     } else {
         process_block("if fail block", true);
@@ -491,6 +462,11 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
     if (mob->is_aff_charm())
         return;
     const auto *rndm = impl::random_mortal_in_room(mob);
+    const auto *act_targ_ch = std::holds_alternative<const Char *>(target) ? std::get<const Char *>(target) : nullptr;
+    const auto *act_targ_obj =
+        std::holds_alternative<const Object *>(target) ? std::get<const Object *>(target) : nullptr;
+
+    ExecutionCtx ctx{mob, actor, rndm, act_targ_ch, obj, act_targ_obj};
     auto line_it = prog.lines.begin();
     auto end_it = prog.lines.end();
     // All mobprog scripts are expected to have at least 1 line.
@@ -498,9 +474,9 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
         ArgParser args = parse_string_view(line_it);
         auto command = args.shift();
         if (matches(command, "if")) {
-            process_if_block(args.remaining(), mob, actor, obj, target, rndm, line_it, end_it);
+            process_if_block(args.remaining(), ctx, line_it, end_it);
         } else {
-            interpret_command(*line_it, mob, actor, obj, target, rndm);
+            interpret_command(*line_it, ctx);
         }
         // If process_if_block() may have reached the end of input.
         // As a precaution, check for end of input before accessing the next line too.
