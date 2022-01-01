@@ -18,13 +18,14 @@ add_library(xania_lib STATIC ${MudSources})
 target_link_libraries(xania_lib PRIVATE
         crypt
         chat
-        CONAN_PKG::fmt
-        CONAN_PKG::namedtype
+        fmt::fmt
+        #CONAN_PKG::namedtype
         PUBLIC
+        Microsoft.GSL::GSL
         xania_common
-        CONAN_PKG::date
-        CONAN_PKG::range-v3
-        CONAN_PKG::magic_enum
+        date::date
+        range-v3::range-v3
+        magic_enum::magic_enum
 )
 target_compile_options(xania_lib PUBLIC -fconcepts)
 

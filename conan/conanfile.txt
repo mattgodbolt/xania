@@ -11,4 +11,5 @@ magic_enum/0.7.3
 namedtype/20190324
 
 [generators]
-cmake
+cmake_paths
+cmake_find_package

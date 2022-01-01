@@ -24,7 +24,7 @@ jobs:
       - name: install-compiler
         run : sudo apt-get update && sudo apt-get install ninja-build g++-${{ matrix.gcc_version }} -y
       - name: configure
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S . -B cmake-build-${{ matrix.build_type }}
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S ./conan/ -B cmake-build-${{ matrix.build_type }}
       - name: build
         run: cmake --build cmake-build-${{ matrix.build_type }}
       - name: test
@@ -46,7 +46,7 @@ jobs:
             -DBUILD_VERSION="$GITHUB_RUN_NUMBER" \
             -DBUILD_COMMIT_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$GITHUB_SHA" \
             -DBUILD_FULL_VERSION="$GITHUB_RUN_NUMBER $GITHUB_SHA on $GITHUB_REF" \
-            -S . -B cmake-build-release
+            -S ./conan/ -B cmake-build-release
       - name: build
         run: cmake --build cmake-build-release
       - name: package

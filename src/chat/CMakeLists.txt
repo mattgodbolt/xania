@@ -10,6 +10,6 @@ target_include_directories(chat PUBLIC ..)
 target_link_libraries(
     chat
     PRIVATE
-    CONAN_PKG::fmt
-    CONAN_PKG::magic_enum
+    fmt::fmt
+    magic_enum::magic_enum
 )

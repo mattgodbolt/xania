@@ -6,7 +6,7 @@ add_library(xania_common STATIC
         Time.hpp
         BitOps.hpp
         StandardBits.hpp)
-target_link_libraries(xania_common PUBLIC CONAN_PKG::date CONAN_PKG::fmt CONAN_PKG::ms-gsl)
+target_link_libraries(xania_common PUBLIC date::date fmt::fmt Microsoft.GSL::GSL)
 target_include_directories(xania_common PUBLIC ..)
 
 add_subdirectory(test)
