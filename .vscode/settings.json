@@ -9,5 +9,6 @@
     "cmake.configureOnOpen": true,
     "cmake.buildDirectory" : "cmake-build-debug",
     "cmake.installPrefix" : "${workspaceFolder}/install",
+    "cmake.sourceDirectory" : "${workspaceFolder}/conan",
     "editor.acceptSuggestionOnEnter": "off"
 }
