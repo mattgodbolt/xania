@@ -1246,9 +1246,9 @@ void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, co
         return;
 
     const auto arg1_as_obj_ptr =
-        std::holds_alternative<const Object *>(arg1) ? *std::get_if<const Object *>(&arg1) : nullptr;
-    const auto *targ_ch = std::holds_alternative<const Char *>(arg2) ? *std::get_if<const Char *>(&arg2) : nullptr;
-    const auto *targ_obj = std::holds_alternative<const Object *>(arg2) ? *std::get_if<const Object *>(&arg2) : nullptr;
+        std::holds_alternative<const Object *>(arg1) ? std::get<const Object *>(arg1) : nullptr;
+    const auto *targ_ch = std::holds_alternative<const Char *>(arg2) ? std::get<const Char *>(arg2) : nullptr;
+    const auto *targ_obj = std::holds_alternative<const Object *>(arg2) ? std::get<const Object *>(arg2) : nullptr;
     const auto mprog_target = MProg::to_target(targ_ch, targ_obj);
 
     for (auto *to : collect_folks(ch, targ_ch, arg2, type, min_position)) {
