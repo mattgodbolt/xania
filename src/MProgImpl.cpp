@@ -49,9 +49,9 @@ bool compare_strings(std::string_view lhs, std::string_view opr, std::string_vie
     if (opr == "!="sv)
         return !matches(lhs, rhs);
     if (opr == "/"sv)
-        return matches_inside(rhs, lhs);
+        return matches_inside(lhs, rhs);
     if (opr == "!/"sv)
-        return !matches_inside(rhs, lhs);
+        return !matches_inside(lhs, rhs);
 
     bug("Improper MOBprog operator '{}'", opr);
     return false;
@@ -175,7 +175,7 @@ bool isfight(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
 
 bool isimmort(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
-    return ch && ch->get_trust() > LEVEL_IMMORTAL;
+    return ch && ch->is_immortal();
 }
 
 bool ischarmed(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
