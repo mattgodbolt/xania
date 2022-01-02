@@ -11,6 +11,8 @@
 #include <type_traits>
 #include <variant>
 
+class Rng;
+
 // Internal Mob Prog functions. App code shouldn't need to include this header.
 namespace MProg {
 
@@ -32,13 +34,16 @@ struct IfExpr {
     static std::optional<IfExpr> parse_if(std::string_view text);
 };
 
-// Container for characters and objects involved in one execution of a mob prog.
+// Container for characters and objects involved in one execution of a mob prog
+// as well as some other dependencies.
 struct ExecutionCtx {
+
     // Returns the Char referenced by ifexpr's dollar argument, can be null.
     [[nodiscard]] const Char *select_char(const IfExpr &ifexpr) const;
     // Returns the Object referenced by ifexpr's dollar argument, can be null.
     [[nodiscard]] const Object *select_obj(const IfExpr &ifexpr) const;
 
+    Rng &rng;
     // The mob the program is running on
     Char *mob;
     // Typically the player involved when the trigger fired. Nullable.

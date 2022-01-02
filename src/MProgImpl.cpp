@@ -24,6 +24,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "Pronouns.hpp"
+#include "Rng.hpp"
 #include "Room.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
@@ -148,8 +149,8 @@ bool expect_dollar_var_and_sv_operand(const IfExpr &ifexpr, Char *mob) {
     return false;
 };
 
-bool rand(const IfExpr &ifexpr, [[maybe_unused]] const ExecutionCtx &ctx) {
-    return number_percent() <= parse_number(ifexpr.arg);
+bool rand(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
+    return ctx.rng.number_percent() <= parse_number(ifexpr.arg);
 };
 
 bool ispc(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
@@ -466,7 +467,7 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
     const auto *act_targ_obj =
         std::holds_alternative<const Object *>(target) ? std::get<const Object *>(target) : nullptr;
 
-    ExecutionCtx ctx{mob, actor, rndm, act_targ_ch, obj, act_targ_obj};
+    ExecutionCtx ctx{Rng::global_rng(), mob, actor, rndm, act_targ_ch, obj, act_targ_obj};
     auto line_it = prog.lines.begin();
     auto end_it = prog.lines.end();
     // All mobprog scripts are expected to have at least 1 line.
