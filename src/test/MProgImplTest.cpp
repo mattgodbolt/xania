@@ -758,3 +758,46 @@ TEST_CASE("exec with chance") {
         }
     }
 }
+TEST_CASE("random mortal in room") {
+    using namespace MProg;
+    using namespace MProg::impl;
+    Room room1{};
+    auto mob_idx = make_mob_index();
+    auto vic = make_char("vic", room1, &mob_idx);
+    ALLOW_CALL(rng, number_range(0, _)).RETURN(0);
+    SECTION("mortal in same room") {
+        auto bob = make_char("bob", room1, nullptr);
+        auto result = random_mortal_in_room(vic.get(), rng);
+        CHECK(result == bob.get());
+    }
+    SECTION("can't see mortal in same room") {
+        auto bob = make_char("bob", room1, nullptr);
+        set_enum_bit(room1.room_flags, RoomFlag::Dark);
+        auto result = random_mortal_in_room(vic.get(), rng);
+        CHECK(!result);
+    }
+    SECTION("immortal in same room") {
+        auto bob = make_char("bob", room1, nullptr);
+        bob->level = LEVEL_IMMORTAL;
+        auto result = random_mortal_in_room(vic.get(), rng);
+        CHECK(!result);
+    }
+    SECTION("mortal different room") {
+        Room room2{};
+        auto bob = make_char("bob", room2, nullptr);
+        auto result = random_mortal_in_room(vic.get(), rng);
+        CHECK(!result);
+    }
+    SECTION("npc in same room") {
+        auto bob = make_char("bob", room1, &mob_idx);
+        CHECK(bob->is_npc());
+        auto result = random_mortal_in_room(vic.get(), rng);
+        CHECK(!result);
+    }
+    SECTION("mortal in same room but unlucky") {
+        ALLOW_CALL(rng, number_range(0, _)).RETURN(1);
+        auto bob = make_char("bob", room1, nullptr);
+        auto result = random_mortal_in_room(vic.get(), rng);
+        CHECK(!result);
+    }
+}

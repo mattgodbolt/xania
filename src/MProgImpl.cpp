@@ -36,14 +36,13 @@
 #include <string>
 #include <unordered_map>
 
-using namespace std::literals;
-
 namespace MProg {
 
 // Mob Prog implementation internals.
 namespace impl {
 
 bool compare_strings(std::string_view lhs, std::string_view opr, std::string_view rhs) {
+    using namespace std::literals;
     if (opr == "=="sv)
         return matches(lhs, rhs);
     if (opr == "!="sv)
@@ -58,6 +57,7 @@ bool compare_strings(std::string_view lhs, std::string_view opr, std::string_vie
 }
 
 bool compare_ints(const int lhs, std::string_view opr, const int rhs) {
+    using namespace std::literals;
     if (opr == "=="sv)
         return lhs == rhs;
     if (opr == "!="sv)
