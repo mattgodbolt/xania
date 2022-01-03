@@ -150,9 +150,7 @@ bool expect_dollar_var_and_sv_operand(const IfExpr &ifexpr, Char *mob) {
 };
 
 bool rand(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
-    auto pc = ctx.rng.number_percent();
-    fmt::print("*** {}\n", pc);
-    return pc <= parse_number(ifexpr.arg);
+    return ctx.rng.number_percent() <= parse_number(ifexpr.arg);
 };
 
 bool ispc(const IfExpr &ifexpr, const ExecutionCtx &ctx) {

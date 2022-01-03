@@ -19,22 +19,27 @@
 
 #include "MockRng.hpp"
 
+using trompeloeil::_;
+
 namespace {
 
-auto make_char(std::string name, Room &room, MobIndexData &mob_idx) {
+auto make_char(std::string name, Room &room, MobIndexData *mob_idx) {
     auto ch = std::make_unique<Char>();
     ch->name = name;
     ch->short_descr = name + " descr";
     ch->in_room = &room;
-    ch->mobIndex = &mob_idx;
-    set_enum_bit(ch->act, CharActFlag::Npc);
+    if (mob_idx) {
+        ch->mobIndex = mob_idx;
+        set_enum_bit(ch->act, CharActFlag::Npc);
+    }
     // Put it in the Room directly rather than using char_to_room() as that would require other
     // dependencies to be set up.
     room.people.add_back(ch.get());
     return ch;
 };
 
-test::MemFile orcfile(R"mob(
+auto make_mob_index() {
+    test::MemFile orcfile(R"mob(
 #13000
 orc~
 the orc shaman~
@@ -50,7 +55,9 @@ stand stand male 200
 
 #0
 )mob");
-auto orc_idx = *MobIndexData::from_file(orcfile.file());
+    return *MobIndexData::from_file(orcfile.file());
+}
+
 test::MockRng rng{};
 }
 
@@ -216,8 +223,9 @@ TEST_CASE("evaluate if") {
     Room room2{};
     Char vic{};
     Char bob{};
-    vic.mobIndex = &orc_idx;
-    bob.mobIndex = &orc_idx;
+    auto mob_idx = make_mob_index();
+    vic.mobIndex = &mob_idx;
+    bob.mobIndex = &mob_idx;
     Object obj1{};
     ExecutionCtx ctx{rng, &vic, nullptr, nullptr, nullptr, nullptr, nullptr};
     SECTION("malformed ifexpr") {
@@ -438,10 +446,11 @@ TEST_CASE("expand var") {
     using namespace MProg::impl;
     Room room1{};
     Room room2{};
-    auto vic = make_char("vic", room1, orc_idx);
-    auto bob = make_char("bob", room1, orc_idx);
-    auto joe = make_char("joe", room1, orc_idx);
-    auto sid = make_char("sid", room1, orc_idx);
+    auto mob_idx = make_mob_index();
+    auto vic = make_char("vic", room1, &mob_idx);
+    auto bob = make_char("bob", room1, &mob_idx);
+    auto joe = make_char("joe", room1, &mob_idx);
+    auto sid = make_char("sid", room1, &mob_idx);
     Object axe{};
     axe.name = "axe";
     axe.short_descr = "big axe";
@@ -591,8 +600,9 @@ TEST_CASE("expand var") {
 TEST_CASE("interpret command") {
     using namespace MProg::impl;
     Room room{};
-    auto vic = make_char("vic", room, orc_idx);
-    auto bob = make_char("bob", room, orc_idx);
+    auto mob_idx = make_mob_index();
+    auto vic = make_char("vic", room, &mob_idx);
+    auto bob = make_char("bob", room, nullptr);
     // Bob is a player character so we can inspect the output of the command.
     Descriptor bob_desc(0);
     bob->desc = &bob_desc;
@@ -609,13 +619,15 @@ TEST_CASE("mprog driver complete program") {
     using namespace MProg::impl;
     Target target{nullptr};
     Room room{};
-    auto vic = make_char("vic", room, orc_idx);
-    auto bob = make_char("bob", room, orc_idx);
+    auto mob_idx = make_mob_index();
+    auto vic = make_char("vic", room, &mob_idx);
+    auto bob = make_char("bob", room, nullptr);
     // Bob is a player character so we can inspect the output of the command.
     Descriptor bob_desc(0);
     bob->desc = &bob_desc;
     bob_desc.character(bob.get());
     bob->pcdata = std::make_unique<PcData>();
+    ALLOW_CALL(rng, number_range(_, _)).RETURN(10); // for random_mortal_in_room()
     SECTION("program with single if/else and single commands") {
         auto script = R"prg(
         if rand(50)
@@ -656,6 +668,7 @@ TEST_CASE("mprog driver complete program") {
         const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
         Program program{TypeFlag::Greet, "", lines};
         trompeloeil::sequence seq;
+        ALLOW_CALL(rng, number_range(_, _)).RETURN(10).IN_SEQUENCE(seq); // for random_mortal_in_room()
         SECTION("if success-success, thumb bob") {
             REQUIRE_CALL(rng, number_percent()).RETURN(50).IN_SEQUENCE(seq);
             REQUIRE_CALL(rng, number_percent()).RETURN(30).IN_SEQUENCE(seq);
@@ -706,6 +719,42 @@ TEST_CASE("mprog driver complete program") {
             CHECK(bob_desc.buffered_output()
                   == "\n\rVic descr sniffs sadly at the way you are treating them.\n\rVic descr pokes you in the "
                      "ribs.\n\r");
+        }
+    }
+}
+TEST_CASE("exec with chance") {
+    using namespace MProg;
+    using namespace MProg::impl;
+    Target target{nullptr};
+    Room room{};
+    auto mob_idx = make_mob_index();
+    auto script = R"prg(smile $n)prg";
+    const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+    Program program{TypeFlag::Greet, "50", lines};
+    mob_idx.mobprogs.push_back(std::move(program));
+    auto vic = make_char("vic", room, &mob_idx);
+    auto bob = make_char("bob", room, nullptr);
+    // Bob is a player character so we can inspect the output of the command.
+    Descriptor bob_desc(0);
+    bob->desc = &bob_desc;
+    bob_desc.character(bob.get());
+    bob->pcdata = std::make_unique<PcData>();
+    trompeloeil::sequence seq;
+    SECTION("program with single if/else and single commands") {
+        SECTION("if success, program runs") {
+            ALLOW_CALL(rng, number_range(_, _)).RETURN(10).IN_SEQUENCE(seq); // for random_mortal_in_room()
+            REQUIRE_CALL(rng, number_percent()).RETURN(49).IN_SEQUENCE(seq);
+            exec_with_chance(vic.get(), bob.get(), nullptr, target, TypeFlag::Greet, rng);
+            CHECK(bob_desc.buffered_output() == "\n\rVic descr smiles at you.\n\r");
+        }
+        SECTION("if fail, nothing") {
+            REQUIRE_CALL(rng, number_percent()).RETURN(50).IN_SEQUENCE(seq);
+            exec_with_chance(vic.get(), bob.get(), nullptr, target, TypeFlag::Greet, rng);
+            CHECK(bob_desc.buffered_output() == "");
+        }
+        SECTION("if wrong program type, nothing") {
+            exec_with_chance(vic.get(), bob.get(), nullptr, target, TypeFlag::Bribe, rng);
+            CHECK(bob_desc.buffered_output() == "");
         }
     }
 }
