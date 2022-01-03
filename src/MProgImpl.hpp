@@ -65,12 +65,12 @@ bool compare_ints(const int lhs, std::string_view opr, const int rhs);
 bool evaluate_if(std::string_view ifchck, const ExecutionCtx &ctx);
 std::string expand_var(const char c, const ExecutionCtx &ctx);
 void interpret_command(std::string_view cmnd, const ExecutionCtx &ctx);
-Char *random_mortal_in_room(Char *mob);
-void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Object *obj, const Target target);
+Char *random_mortal_in_room(Char *mob, Rng &rng);
+void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Object *obj, const Target target, Rng &rng);
 std::string_view type_to_name(const TypeFlag type);
 // Execute at least one mob prog of the specified type on mob, but
 // only if a dice roll against the program's probability succeeds.
-void exec_with_chance(Char *mob, Char *actor, Object *obj, const Target target, const TypeFlag type);
+void exec_with_chance(Char *mob, Char *actor, Object *obj, const Target target, const TypeFlag type, Rng &rng);
 
 }
 }

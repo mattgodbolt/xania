@@ -437,7 +437,6 @@ TEST_CASE("expand var") {
     using namespace MProg::impl;
     Room room1{};
     Room room2{};
-
     auto vic = make_char("vic", room1, orc_idx);
     auto bob = make_char("bob", room1, orc_idx);
     auto joe = make_char("joe", room1, orc_idx);

@@ -24,6 +24,7 @@
 #include "MProgProgram.hpp"
 #include "MProgTypeFlag.hpp"
 #include "Object.hpp"
+#include "Rng.hpp"
 #include "Room.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
@@ -57,7 +58,7 @@ void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Ob
             if ((mprg.arglist[0] == 'p') && (std::isspace(mprg.arglist[1]))) {
                 auto prog_phrase = mprg.arglist.substr(2, mprg.arglist.length());
                 if (matches_inside(prog_phrase, arg)) {
-                    impl::mprog_driver(mob, mprg, actor, obj, target);
+                    impl::mprog_driver(mob, mprg, actor, obj, target, Rng::global_rng());
                     break;
                 }
             } else {
@@ -65,7 +66,7 @@ void wordlist_check(std::string_view arg, Char *mob, const Char *actor, const Ob
                 auto prog_keywords = ArgParser(mprg.arglist);
                 for (const auto &prog_keyword : prog_keywords) {
                     if (matches_inside(prog_keyword, arg)) {
-                        impl::mprog_driver(mob, mprg, actor, obj, target);
+                        impl::mprog_driver(mob, mprg, actor, obj, target, Rng::global_rng());
                         break;
                     }
                 }
@@ -91,7 +92,7 @@ void bribe_trigger(Char *mob, Char *ch, int amount) {
                 if (amount >= parse_number(mprg.arglist)) {
                     /* this function previously created a gold object and gave it to ch
                        but there is zero point - the gold transfer is handled in do_give now */
-                    impl::mprog_driver(mob, mprg, ch, nullptr, nullptr);
+                    impl::mprog_driver(mob, mprg, ch, nullptr, nullptr, Rng::global_rng());
                     break;
                 }
             }
@@ -100,18 +101,18 @@ void bribe_trigger(Char *mob, Char *ch, int amount) {
 
 void death_trigger(Char *mob) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Death)) {
-        impl::exec_with_chance(mob, nullptr, nullptr, nullptr, TypeFlag::Death);
+        impl::exec_with_chance(mob, nullptr, nullptr, nullptr, TypeFlag::Death, Rng::global_rng());
     }
 }
 
 void entry_trigger(Char *mob) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Entry))
-        impl::exec_with_chance(mob, nullptr, nullptr, nullptr, TypeFlag::Entry);
+        impl::exec_with_chance(mob, nullptr, nullptr, nullptr, TypeFlag::Entry, Rng::global_rng());
 }
 
 void fight_trigger(Char *mob, Char *ch) {
     if (mob->is_npc() && check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Fight))
-        impl::exec_with_chance(mob, ch, nullptr, nullptr, TypeFlag::Fight);
+        impl::exec_with_chance(mob, ch, nullptr, nullptr, TypeFlag::Fight, Rng::global_rng());
 }
 
 void give_trigger(Char *mob, Char *ch, Object *obj) {
@@ -121,7 +122,7 @@ void give_trigger(Char *mob, Char *ch, Object *obj) {
                 auto prog_args = ArgParser(mprg.arglist);
                 const auto first_prog_arg = prog_args.shift();
                 if (matches(obj->name, mprg.arglist) || matches("all", first_prog_arg)) {
-                    impl::mprog_driver(mob, mprg, ch, obj, nullptr);
+                    impl::mprog_driver(mob, mprg, ch, obj, nullptr, Rng::global_rng());
                     break;
                 }
             }
@@ -134,10 +135,10 @@ void greet_trigger(Char *mob) {
     for (auto *vmob : mob->in_room->people)
         if (vmob->is_npc() && mob != vmob && vmob->can_see(mob_ref) && !vmob->fighting && vmob->is_pos_awake()
             && check_enum_bit(vmob->mobIndex->progtypes, TypeFlag::Greet))
-            impl::exec_with_chance(vmob, mob, nullptr, nullptr, TypeFlag::Greet);
+            impl::exec_with_chance(vmob, mob, nullptr, nullptr, TypeFlag::Greet, Rng::global_rng());
         else if (vmob->is_npc() && !vmob->fighting && vmob->is_pos_awake()
                  && check_enum_bit(vmob->mobIndex->progtypes, TypeFlag::AllGreet))
-            impl::exec_with_chance(vmob, mob, nullptr, nullptr, TypeFlag::AllGreet);
+            impl::exec_with_chance(vmob, mob, nullptr, nullptr, TypeFlag::AllGreet, Rng::global_rng());
 }
 
 void hitprcnt_trigger(Char *mob, Char *ch) {
@@ -149,7 +150,7 @@ void hitprcnt_trigger(Char *mob, Char *ch) {
                     continue;
                 }
                 if (100 * mob->hit / mob->max_hit < parse_number(mprg.arglist)) {
-                    impl::mprog_driver(mob, mprg, ch, nullptr, nullptr);
+                    impl::mprog_driver(mob, mprg, ch, nullptr, nullptr, Rng::global_rng());
                     break;
                 }
             }
@@ -159,7 +160,7 @@ void hitprcnt_trigger(Char *mob, Char *ch) {
 
 void random_trigger(Char *mob) {
     if (check_enum_bit(mob->mobIndex->progtypes, TypeFlag::Random))
-        impl::exec_with_chance(mob, nullptr, nullptr, nullptr, TypeFlag::Random);
+        impl::exec_with_chance(mob, nullptr, nullptr, nullptr, TypeFlag::Random, Rng::global_rng());
 }
 
 void speech_trigger(std::string_view txt, const Char *mob) {

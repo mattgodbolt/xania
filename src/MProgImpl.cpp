@@ -448,26 +448,26 @@ void process_if_block(std::string_view ifchck, const ExecutionCtx &ctx, auto &li
     }
 }
 
-Char *random_mortal_in_room(Char *mob) {
+Char *random_mortal_in_room(Char *mob, Rng &rng) {
     auto count = 0;
     for (auto *vch : mob->in_room->people) {
         if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && can_see(mob, vch)) {
-            if (number_range(0, count++) == 0)
+            if (rng.number_range(0, count++) == 0)
                 return vch;
         }
     }
     return nullptr;
 }
 
-void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Object *obj, const Target target) {
+void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Object *obj, const Target target, Rng &rng) {
     if (mob->is_aff_charm())
         return;
-    const auto *rndm = impl::random_mortal_in_room(mob);
+    const auto *rndm = impl::random_mortal_in_room(mob, rng);
     const auto *act_targ_ch = std::holds_alternative<const Char *>(target) ? std::get<const Char *>(target) : nullptr;
     const auto *act_targ_obj =
         std::holds_alternative<const Object *>(target) ? std::get<const Object *>(target) : nullptr;
 
-    ExecutionCtx ctx{Rng::global_rng(), mob, actor, rndm, act_targ_ch, obj, act_targ_obj};
+    ExecutionCtx ctx{rng, mob, actor, rndm, act_targ_ch, obj, act_targ_obj};
     auto line_it = prog.lines.begin();
     auto end_it = prog.lines.end();
     // All mobprog scripts are expected to have at least 1 line.
@@ -565,15 +565,15 @@ std::optional<int> to_operand_num(std::string_view text) {
         return std::nullopt;
 }
 
-void exec_with_chance(Char *mob, Char *actor, Object *obj, const Target target, const TypeFlag type) {
+void exec_with_chance(Char *mob, Char *actor, Object *obj, const Target target, const TypeFlag type, Rng &rng) {
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
             if (!is_number(mprg.arglist)) {
                 bug("exec_with_chance in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
                 continue;
             }
-            if (number_percent() < parse_number(mprg.arglist)) {
-                mprog_driver(mob, mprg, actor, obj, target);
+            if (rng.number_percent() < parse_number(mprg.arglist)) {
+                mprog_driver(mob, mprg, actor, obj, target, rng);
                 if (type != TypeFlag::Greet && type != TypeFlag::AllGreet)
                     break;
             }
