@@ -466,6 +466,9 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
     auto line_it = prog.lines.begin();
     auto end_it = prog.lines.end();
     process_block(ctx, line_it, end_it);
+    if (ctx.frames.size() > 1) {
+        bug("Mob: {} possibly unbalanced if/else/endif", ctx.mob->mobIndex->vnum);
+    }
 }
 
 std::string_view type_to_name(const TypeFlag type) {
