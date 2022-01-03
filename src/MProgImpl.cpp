@@ -150,7 +150,9 @@ bool expect_dollar_var_and_sv_operand(const IfExpr &ifexpr, Char *mob) {
 };
 
 bool rand(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
-    return ctx.rng.number_percent() <= parse_number(ifexpr.arg);
+    auto pc = ctx.rng.number_percent();
+    fmt::print("*** {}\n", pc);
+    return pc <= parse_number(ifexpr.arg);
 };
 
 bool ispc(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
@@ -414,37 +416,32 @@ auto parse_string_view(auto line_it) {
     return ArgParser{line};
 }
 
-void process_if_block(std::string_view ifchck, const ExecutionCtx &ctx, auto &line_it, auto &end_it) {
-    const auto expect_next_line = [&](const auto where, const auto more_expected) -> std::optional<ArgParser> {
-        if (++line_it == end_it) {
-            if (more_expected)
-                bug("Mob: #{} Unexpected EOF in {}", ctx.mob->mobIndex->vnum, where);
+void process_block(ExecutionCtx &ctx, auto &line_it, auto &end_it) {
+    const auto expect_next_line = [&]() -> std::optional<ArgParser> {
+        if (line_it == end_it) {
             return std::nullopt;
         }
         return parse_string_view(line_it);
     };
-    const auto process_block = [&](const auto where, const auto skip_flag) {
-        auto skipping = skip_flag;
-        while (auto opt_args = expect_next_line(where, skipping)) {
-            auto cmnd = opt_args->shift();
-            if (matches(cmnd, "endif")) {
-                return;
-            } else if (matches(cmnd, "else")) {
-                skipping = !skipping;
-            } else if (!skipping) {
-                if (matches(cmnd, "if")) {
-                    // Recurse into the next if block.
-                    process_if_block(opt_args->remaining(), ctx, line_it, end_it);
-                } else {
-                    interpret_command(*line_it, ctx);
-                }
+    while (auto args = expect_next_line()) {
+        auto &current = ctx.frames.top();
+        auto command = args->shift();
+        if (matches(command, "endif")) {
+            ctx.frames.pop();
+        } else if (matches(command, "else")) {
+            if (current.executable) {
+                current.executing = !current.executing;
             }
+        } else if (matches(command, "if")) {
+            const auto exec_next = current.executing && evaluate_if(args->remaining(), ctx);
+            ctx.frames.push({current.executing, exec_next});
+            line_it++;
+            process_block(ctx, line_it, end_it);
+            continue;
+        } else if (current.executing) {
+            interpret_command(*line_it, ctx);
         }
-    };
-    if (evaluate_if(ifchck, ctx)) {
-        process_block("if pass block", false);
-    } else {
-        process_block("if fail block", true);
+        line_it++;
     }
 }
 
@@ -470,20 +467,7 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
     ExecutionCtx ctx{rng, mob, actor, rndm, act_targ_ch, obj, act_targ_obj};
     auto line_it = prog.lines.begin();
     auto end_it = prog.lines.end();
-    // All mobprog scripts are expected to have at least 1 line.
-    while (true) {
-        ArgParser args = parse_string_view(line_it);
-        auto command = args.shift();
-        if (matches(command, "if")) {
-            process_if_block(args.remaining(), ctx, line_it, end_it);
-        } else {
-            interpret_command(*line_it, ctx);
-        }
-        // If process_if_block() may have reached the end of input.
-        // As a precaution, check for end of input before accessing the next line too.
-        if (line_it == end_it || ++line_it == end_it)
-            break;
-    }
+    process_block(ctx, line_it, end_it);
 }
 
 std::string_view type_to_name(const TypeFlag type) {

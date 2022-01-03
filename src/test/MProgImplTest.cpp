@@ -7,13 +7,14 @@
 #include "AffectFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
+#include "MProgTypeFlag.hpp"
 #include "MemFile.hpp"
 #include "MobIndexData.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
 #include "common/BitOps.hpp"
-
+#include "string_utils.hpp"
 #include <catch2/catch.hpp>
 
 #include "MockRng.hpp"
@@ -601,5 +602,110 @@ TEST_CASE("interpret command") {
     SECTION("smile bob") {
         interpret_command("smile $n", ctx);
         CHECK(bob_desc.buffered_output() == "\n\rVic descr smiles at you.\n\r");
+    }
+}
+TEST_CASE("mprog driver complete program") {
+    using namespace MProg;
+    using namespace MProg::impl;
+    Target target{nullptr};
+    Room room{};
+    auto vic = make_char("vic", room, orc_idx);
+    auto bob = make_char("bob", room, orc_idx);
+    // Bob is a player character so we can inspect the output of the command.
+    Descriptor bob_desc(0);
+    bob->desc = &bob_desc;
+    bob_desc.character(bob.get());
+    bob->pcdata = std::make_unique<PcData>();
+    SECTION("program with single if/else and single commands") {
+        auto script = R"prg(
+        if rand(50)
+            smile $n
+        else
+            bonk $n
+        endif
+        )prg";
+        const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+        Program program{TypeFlag::Greet, "", lines};
+        SECTION("if success, smile bob") {
+            REQUIRE_CALL(rng, number_percent()).RETURN(50);
+            mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
+            CHECK(bob_desc.buffered_output() == "\n\rVic descr smiles at you.\n\r");
+        }
+        SECTION("if fail, bonk bob") {
+            REQUIRE_CALL(rng, number_percent()).RETURN(51);
+            mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
+            CHECK(bob_desc.buffered_output() == "\n\rVic descr bonks you on the head for being so foolish.\n\r");
+        }
+    }
+    SECTION("program with nested if/else") {
+        auto script = R"prg(
+        if rand(50)
+            if rand(30)
+                thumb $n
+            else
+                barf $n
+            endif
+        else
+            if rand(25)
+                gibber $n
+            else
+                noogie $n
+            endif
+        endif
+        )prg";
+        const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+        Program program{TypeFlag::Greet, "", lines};
+        trompeloeil::sequence seq;
+        SECTION("if success-success, thumb bob") {
+            REQUIRE_CALL(rng, number_percent()).RETURN(50).IN_SEQUENCE(seq);
+            REQUIRE_CALL(rng, number_percent()).RETURN(30).IN_SEQUENCE(seq);
+            mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
+            CHECK(bob_desc.buffered_output() == "\n\rVic descr's thumb twists up towards you in great sarcasm!\n\r");
+        }
+        SECTION("if success-fail, barf bob") {
+            REQUIRE_CALL(rng, number_percent()).RETURN(50).IN_SEQUENCE(seq);
+            REQUIRE_CALL(rng, number_percent()).RETURN(31).IN_SEQUENCE(seq);
+            mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
+            CHECK(bob_desc.buffered_output() == "\n\rVic descr barfs all over you - how vile!\n\r");
+        }
+        SECTION("if fail-success, gibber bob") {
+            REQUIRE_CALL(rng, number_percent()).RETURN(51).IN_SEQUENCE(seq);
+            REQUIRE_CALL(rng, number_percent()).RETURN(25).IN_SEQUENCE(seq);
+            mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
+            CHECK(bob_desc.buffered_output() == "\n\rVic descr gibbers at you - why ???\n\r");
+        }
+        SECTION("if fail-fail, noogie bob") {
+            REQUIRE_CALL(rng, number_percent()).RETURN(51).IN_SEQUENCE(seq);
+            REQUIRE_CALL(rng, number_percent()).RETURN(26).IN_SEQUENCE(seq);
+            mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
+            CHECK(bob_desc.buffered_output()
+                  == "\n\rOh NO, vic descr grabs you, throws you in a head lock and NOOGIES you!\n\r");
+        }
+    }
+    SECTION("program with single if/else and two commands") {
+        auto script = R"prg(
+        if rand(50)
+            hug $n
+            fart $n
+        else
+            sniff $n
+            poke $n
+        endif
+        )prg";
+        const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+        Program program{TypeFlag::Greet, "", lines};
+        SECTION("if success, hug/fart bob") {
+            REQUIRE_CALL(rng, number_percent()).RETURN(50);
+            mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
+            CHECK(bob_desc.buffered_output()
+                  == "\n\rVic descr hugs you.\n\rVic descr farts in your direction.  You gasp for air.\n\r");
+        }
+        SECTION("if fail, sniff/poke bob") {
+            REQUIRE_CALL(rng, number_percent()).RETURN(51);
+            mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
+            CHECK(bob_desc.buffered_output()
+                  == "\n\rVic descr sniffs sadly at the way you are treating them.\n\rVic descr pokes you in the "
+                     "ribs.\n\r");
+        }
     }
 }

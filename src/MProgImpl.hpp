@@ -6,8 +6,10 @@
 #pragma once
 
 #include "MProgTriggerCtx.hpp"
+#include "Types.hpp"
 
 #include <optional>
+#include <stack>
 #include <type_traits>
 #include <variant>
 
@@ -34,10 +36,24 @@ struct IfExpr {
     static std::optional<IfExpr> parse_if(std::string_view text);
 };
 
-// Container for characters and objects involved in one execution of a mob prog
-// as well as some other dependencies.
+// Track if the current execution frame is executable (inherited from the parent frame)
+// and whether the current frame is executing or skipping commands.
+// The executing flag can change if there's an if/else block.
+struct Frame {
+    bool executable{};
+    bool executing{};
+};
+
+// Container for characters, objects and random number generation involved in one execution of a mob prog
+// as well as the stack of execution frames.
 struct ExecutionCtx {
 
+    ExecutionCtx(Rng &rng, Char *pmob, const Char *pactor, const Char *prandom, const Char *pact_targ_char,
+                 const Object *pobj, const Object *pact_targ_obj)
+        : rng(rng), mob(pmob), actor(pactor), random(prandom), act_targ_char(pact_targ_char), obj(pobj),
+          act_targ_obj(pact_targ_obj) {
+        frames.push({true, true});
+    }
     // Returns the Char referenced by ifexpr's dollar argument, can be null.
     [[nodiscard]] const Char *select_char(const IfExpr &ifexpr) const;
     // Returns the Object referenced by ifexpr's dollar argument, can be null.
@@ -58,6 +74,8 @@ struct ExecutionCtx {
     // This will be populated if the prog was triggered via an act() event and if the act
     // message referenced a target object. Can be different to the 'object' involved. Nullable.
     const Object *act_targ_obj;
+
+    std::stack<Frame> frames{};
 };
 
 bool compare_strings(std::string_view lhs, std::string_view opr, std::string_view rhs);
