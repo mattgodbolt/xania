@@ -154,9 +154,10 @@ void do_mpechoaround(Char *ch, ArgParser args) {
         bug("mpechoaround: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-    auto *victim = get_char_room(ch, args.shift());
+    auto name = args.shift();
+    auto *victim = get_char_room(ch, name);
     if (!victim) {
-        bug("mpechoaround: Victim does not exist from vnum {}.", ch->mobIndex->vnum);
+        bug("mpechoaround: Victim does not exist from vnum {}, arg: {}", ch->mobIndex->vnum, name);
         return;
     }
     act(args.remaining(), ch, nullptr, victim, To::NotVict);
@@ -173,9 +174,10 @@ void do_mpechoat(Char *ch, ArgParser args) {
         bug("mpechoat: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-    auto *victim = get_char_room(ch, args.shift());
+    auto name = args.shift();
+    auto *victim = get_char_room(ch, name);
     if (!victim) {
-        bug("mpechoat: Victim does not exist from vnum {}.", ch->mobIndex->vnum);
+        bug("mpechoat: Victim does not exist from vnum {}, arg: {}", ch->mobIndex->vnum, name);
         return;
     }
     act(args.remaining(), ch, nullptr, victim, To::Vict);

@@ -289,19 +289,28 @@ bool evaluate_if(std::string_view ifchck, const ExecutionCtx &ctx) {
 std::string expand_var(const char c, const ExecutionCtx &ctx) {
     std::string buf{};
     switch (c) {
-    case 'i':
+    case 'i': buf = ctx.mob->name; break;
     case 'I': buf = ctx.mob->describe(*ctx.mob); break;
     case 'n':
+        if (ctx.actor)
+            buf = ctx.actor->name;
+        break;
     case 'N':
         if (ctx.actor)
             buf = ctx.mob->describe(*ctx.actor);
         break;
     case 't':
+        if (ctx.act_targ_char)
+            buf = ctx.act_targ_char->name;
+        break;
     case 'T':
         if (ctx.act_targ_char)
             buf = ctx.mob->describe(*ctx.act_targ_char);
         break;
     case 'r':
+        if (ctx.random)
+            buf = ctx.random->name;
+        break;
     case 'R':
         if (ctx.random)
             buf = ctx.mob->describe(*ctx.random);

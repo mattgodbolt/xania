@@ -6,8 +6,8 @@ if isgood($n)
 	say Good day.
 	smile $n
 else
-	mpechoaround $n $I wonders if $n is among the most wanted.
-	mpechoat $n $I wonders if you are among the most wanted.
+	mpechoaround '$n' $I wonders if $N is among the most wanted.
+	mpechoat '$n' $I wonders if you are among the most wanted.
 endif
 ~
 >rand_prog 20~
@@ -24,7 +24,7 @@ say What is wrong?
 comfort $n 
 ~
 >speech_prog hello hi~
-say Greetings $n!
+say Greetings $N!
 ~
 >act_prog p zaps a~
 if objtype($p) == 25

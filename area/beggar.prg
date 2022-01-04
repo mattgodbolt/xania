@@ -26,11 +26,11 @@ else
 	say I'm bleeding.
 endif
 ~
->death_prog 50~
+>death_prog 75~
 if rand(50)
-	mpechoaround $i $I says 'Now I go to a better place.'
+	mpechoaround '$i' $I says 'Now I go to a better place.'
 else
-	mpechoaround $i $I says 'Forgive me God for I have sinned...'
+	mpechoaround '$i' $I says 'Forgive me God for I have sinned...'
 endif
 ~
 |

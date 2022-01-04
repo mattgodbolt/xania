@@ -460,33 +460,33 @@ TEST_CASE("expand var") {
     ExecutionCtx ctx{rng, vic.get(), bob.get(), joe.get(), sid.get(), &axe, &sword};
     SECTION("char name self $i") {
         auto result = expand_var('i', ctx);
-        CHECK(result == "vic descr");
+        CHECK(result == "vic");
     }
-    SECTION("char name self $I") {
+    SECTION("char descr self $I") {
         auto result = expand_var('I', ctx);
         CHECK(result == "vic descr");
     }
     SECTION("char name actor $n") {
         auto result = expand_var('n', ctx);
-        CHECK(result == "bob descr");
+        CHECK(result == "bob");
     }
-    SECTION("char name actor $N") {
+    SECTION("char descr actor $N") {
         auto result = expand_var('N', ctx);
         CHECK(result == "bob descr");
     }
     SECTION("char name random $r") {
         auto result = expand_var('r', ctx);
-        CHECK(result == "joe descr");
+        CHECK(result == "joe");
     }
-    SECTION("char name random $R") {
+    SECTION("char descr random $R") {
         auto result = expand_var('R', ctx);
         CHECK(result == "joe descr");
     }
     SECTION("char name act target char $t") {
         auto result = expand_var('t', ctx);
-        CHECK(result == "sid descr");
+        CHECK(result == "sid");
     }
-    SECTION("char name act target char $T") {
+    SECTION("char descr act target char $T") {
         auto result = expand_var('T', ctx);
         CHECK(result == "sid descr");
     }
