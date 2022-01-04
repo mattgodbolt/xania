@@ -20,17 +20,22 @@ include(conan.cmake)
 
 find_program(CONAN_CMD conan)
 
+message("Looking for a conan version above ${REQUIRED_CONAN_VERSION}...")
+
 if (CONAN_CMD)
-   # FIXME sadly, the conan macros make the whole cake fail when the version
+   # Sadly, the conan macros make the whole cake fail when the version
    # does not match. This makes it difficult to deal with prior local install
-   # of conan. The test could be enhanced not to crash and fall back on the
-   # conda provided conan binary
-   conan_check(VERSION)
+   # of conan.
+   # Here we trick the macro by giving a lower version that will always be good
+   # (for instance 0.0.0) and then get back the parsed version in the
+   # CMAKE_MATCH_1 variable
+   conan_check(VERSION 0.0.0)
 endif()
 
-if (NOT CONAN_CMD OR NOT "${_CONAN_VERSION_OUTPUT}" STREQUAL "Conan version ${REQUIRED_CONAN_VERSION}")
+if (NOT CONAN_CMD OR "${CMAKE_MATCH_1}" VERSION_LESS "${REQUIRED_CONAN_VERSION}")
+unset(CONAN_CMD CACHE)
 
-message("Updating Conan with Conda")
+message("Conan was not found or is too old; updating with Conda...")
 
 set(TOOLS_DIR ${CMAKE_BINARY_DIR}/.tools/)
 set(CONDA_ROOT ${TOOLS_DIR}/conda-${CONDA_VERSION})
@@ -68,10 +73,18 @@ execute_process(
         COMMAND ${CONDA_ROOT}/bin/pip install conan==${REQUIRED_CONAN_VERSION}
         COMMAND_ERROR_IS_FATAL ANY)
 
+# Force conan detection not using environment (thus using only conda path)
 set(CMAKE_PROGRAM_PATH ${CONDA_ROOT}/bin ${CMAKE_PROGRAM_PATH})
-endif()
+find_program(CONAN_CMD conan REQUIRED
+        NO_CMAKE_ENVIRONMENT_PATH
+        NO_SYSTEM_ENVIRONMENT_PATH
+        NO_CMAKE_SYSTEM_PATH
+        NO_CMAKE_FIND_ROOT_PATH)
 
-include(conan.cmake)
+# paranoid check of conan version
+conan_check(VERSION ${REQUIRED_CONAN_VERSION} REQUIRED)
+
+endif()
 
 # See Makefile - CONAN_VERSION
 
