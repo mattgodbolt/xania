@@ -2542,6 +2542,9 @@ S
 #SHOPS
 18136 1 5 9 19 23 100 50 0 23 Den Master
 0
+#MOBPROGS
+M 18136 guildmaster.prg
+S
 #SPECIALS
 M 18101 spec_thief
 M 18108 spec_guard

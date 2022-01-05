@@ -16421,13 +16421,14 @@ S
 16077      19 26 0 0 0   150 60   0 23     ; Jiestis, food
 16118      0 0 0 0 0     150 75   0 23     ; inn keep
 0
+
+#MOBPROGS
+M 16090 practicer.prg
+M 16100 practicer.prg
+S
+
+
 #SPECIALS
-
-
-
-
-
-
 M 16004  spec_cast_mage
 M 16005  spec_cast_mage
 M 16006  spec_cast_mage

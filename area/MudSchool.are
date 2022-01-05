@@ -678,6 +678,8 @@ have all exits available.
 
 To see the obvious exits in a room, type 'EXITS'.
 
+To look further afar into places nearby type 'SCAN'.
+
 Sometimes doors are closed, or locked, or secret.  Then you have to notice
 clues in the room description, or try going into that direction and seeing
 if you bump into a door.
@@ -2103,10 +2105,13 @@ S
 
 
 #SHOPS
- 3717	 1 15 17 19  0	 100  100	 0 23	; Adept of Goose
+3717	 1 15 17 19  0	 100  100	 0 23	; Adept of Goose
 0
 
-
+#MOBPROGS
+M 3718 furey_acolyte.prg
+M 3719 seth_priest.prg
+S
 
 #SPECIALS
 M  3707 spec_cast_adept

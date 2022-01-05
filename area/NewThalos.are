@@ -7814,6 +7814,14 @@ S
 9599    0  0  0  0  0  100 100         0 23    ; the horse seller
 9600    0  0  0  0  0  100 100         0 23    ; the tanner
 0
+
+#MOBPROGS
+M 9500 guildmaster.prg
+M 9501 guildmaster.prg
+M 9502 guildmaster.prg
+M 9503 guildmaster.prg
+S
+
 #SPECIALS
 
 M 9538 spec_thief

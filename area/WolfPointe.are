@@ -2967,6 +2967,13 @@ S
 10058 0 0 0 0 0 100 0 0 23  ; gypsy
 10060 0 0 0 0 0 100 0 0 23  ; bartender
 0
+#MOBPROGS
+M 10095 guildmaster.prg
+M 10096 guildmaster.prg
+M 10097 guildmaster.prg
+M 10098 guildmaster.prg
+S
+
 #SPECIALS
 M  10059  spec_cast_adept
 S

@@ -4752,6 +4752,10 @@ S
 27024   0 0 0 0 0 110 100 0 23  ; GREASY JOE
 0
 
+#MOBPROGS
+M 27025 guildmaster.prg
+S
+
 #SPECIALS
 
 M 27008 spec_cast_cleric

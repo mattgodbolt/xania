@@ -1878,6 +1878,10 @@ D 0 28041 0 2           Lock illusionary wall inside
 
 S              
 
+#MOBPROGS
+M  28019 guildmaster.prg
+S
+
 #SPECIALS
 M 28005 spec_cast_judge
 M 28006 spec_breath_fire
