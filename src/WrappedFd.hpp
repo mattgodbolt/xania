@@ -27,5 +27,6 @@ public:
     operator FILE *() const noexcept { return fd_; }
 
     static WrappedFd open(const std::string &filename) { return WrappedFd(fopen(filename.c_str(), "r")); }
+    static WrappedFd open_write(const std::string &filename) { return WrappedFd(fopen(filename.c_str(), "w")); }
     static WrappedFd open_append(const std::string &filename) { return WrappedFd(fopen(filename.c_str(), "a+")); }
 };

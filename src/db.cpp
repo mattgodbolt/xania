@@ -52,6 +52,7 @@
 #include "magic.h"
 #include "string_utils.hpp"
 
+#include <fmt/format.h>
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/iterator/operations.hpp>
 #include <range/v3/numeric/accumulate.hpp>
@@ -1676,92 +1677,84 @@ void do_memory(Char *ch) {
     ch->send_line("Rooms   {:5}", rooms.size());
 }
 
+namespace {
+
+bool dump_memory_stats(Char *ch) {
+    if (auto fp = WrappedFd::open_write("mem.dmp")) {
+        constexpr auto mem_format = "{:<9}{:>4} ({:>8} bytes)\n"sv;
+        auto num_pcs = 0;
+        auto aff_count = 0;
+        auto count = 0;
+        fmt::print(fp, mem_format, "MobProt"sv, mob_indexes.size(), mob_indexes.size() * (sizeof(MobIndexData)));
+        for (auto *fch : char_list) {
+            count++;
+            if (fch->pcdata != nullptr)
+                num_pcs++;
+            aff_count += fch->affected.size();
+        }
+
+        fmt::print(fp, mem_format, "Mobs"sv, count, count * (sizeof(MobIndexData)));
+        fmt::print(fp, mem_format, "PcData"sv, num_pcs, num_pcs * (sizeof(PcData)));
+        count = static_cast<int>(ranges::distance(descriptors().all()));
+        fmt::print(fp, mem_format, "Descs"sv, count, count * (sizeof(Descriptor)));
+        aff_count = ranges::accumulate(all_object_indexes() | ranges::views::transform([](const auto &obj_index) {
+                                           return obj_index.affected.size();
+                                       }),
+                                       aff_count);
+        fmt::print(fp, mem_format, "ObjProt"sv, object_indexes.size(), object_indexes.size() * (sizeof(ObjectIndex)));
+        count = 0;
+        for (auto *obj : object_list) {
+            count++;
+            aff_count += obj->affected.size();
+        }
+
+        fmt::print(fp, mem_format, "Objs"sv, count, count * (sizeof(Object)));
+        fmt::print(fp, mem_format, "Affects"sv, aff_count, aff_count * (sizeof(AFFECT_DATA)));
+        fmt::print(fp, mem_format, "Rooms"sv, rooms.size(), rooms.size() * (sizeof(Room)));
+        return true;
+    } else {
+        bug("Unable to open mem.dmp for write, char: {}.", ch->name);
+        return false;
+    }
+}
+
+bool dump_mobile_stats(Char *ch) {
+    if (auto fp = WrappedFd::open_write("mob.dmp")) {
+        fmt::print(fp, "\nMobile Analysis\n");
+        fmt::print(fp, "---------------\n");
+        for (const auto &mob : all_mob_indexes())
+            fmt::print(fp, "#{:<4} {:>3} active {:>3} killed     {}\n", mob.vnum, mob.count, mob.killed,
+                       mob.short_descr);
+        return true;
+    } else {
+        bug("Unable to open mob.dmp for write, char: {}.", ch->name);
+        return false;
+    }
+}
+
+bool dump_object_stats(Char *ch) {
+    if (auto fp = WrappedFd::open_write("obj.dmp")) {
+        fmt::print(fp, "\nObject Analysis\n");
+        fmt::print(fp, "---------------\n");
+        for (const auto &obj_index : all_object_indexes()) {
+            fmt::print(fp, "#{:<4} {:>3} active {:>3} reset      {}\n", obj_index.vnum, obj_index.count,
+                       obj_index.reset_num, obj_index.short_descr);
+        }
+        return true;
+    } else {
+        bug("Unable to open obj.dmp for write, char: {}.", ch->name);
+        return false;
+    }
+}
+
+}
+
 void do_dump(Char *ch) {
-    int count, num_pcs, aff_count;
-    MobIndexData *mobIndex;
-    PcData *pc;
-    ObjectIndex *objIndex;
-    Room *room;
-    Descriptor *d;
-    AFFECT_DATA *af;
-    FILE *fp = fopen("mem.dmp", "w");
-
-    /* report use of data structures */
-
-    num_pcs = 0;
-    aff_count = 0;
-
-    /* mobile prototypes */
-    fprintf(fp, "MobProt	%4lu (%8ld bytes)\n", mob_indexes.size(), mob_indexes.size() * (sizeof(*mobIndex)));
-
-    /* mobs */
-    count = 0;
-    for (auto *fch : char_list) {
-        count++;
-        if (fch->pcdata != nullptr)
-            num_pcs++;
-        aff_count += fch->affected.size();
+    if (dump_memory_stats(ch) && dump_mobile_stats(ch) && dump_object_stats(ch)) {
+        ch->send_line("Dump complete.");
+    } else {
+        ch->send_line("Unable to complete the dump.");
     }
-
-    fprintf(fp, "Mobs	%4d (%8ld bytes)\n", count, count * (sizeof(MobIndexData)));
-
-    /* pcdata */
-    fprintf(fp, "Pcdata	%4d (%8ld bytes)\n", num_pcs, num_pcs * (sizeof(*pc)));
-
-    /* descriptors */
-    count = static_cast<int>(ranges::distance(descriptors().all()));
-
-    fprintf(fp, "Descs	%4d (%8ld bytes)\n", count, count * (sizeof(*d)));
-
-    /* object prototypes */
-    aff_count = ranges::accumulate(all_object_indexes() | ranges::views::transform([](const auto &obj_index) {
-                                       return obj_index.affected.size();
-                                   }),
-                                   aff_count);
-
-    fprintf(fp, "ObjProt	%4ld (%8ld bytes)\n", object_indexes.size(),
-            object_indexes.size() * (sizeof(*objIndex)));
-
-    /* objects */
-    count = 0;
-    for (auto *obj : object_list) {
-        count++;
-        aff_count += obj->affected.size();
-    }
-
-    fprintf(fp, "Objs	%4d (%8ld bytes)\n", count, count * (sizeof(Object)));
-
-    /* affects */
-    fprintf(fp, "Affects	%4d (%8ld bytes)\n", aff_count, aff_count * (sizeof(*af)));
-
-    /* rooms */
-    fprintf(fp, "Rooms	%4lu (%8ld bytes)\n", rooms.size(), rooms.size() * (sizeof(*room)));
-
-    fclose(fp);
-
-    /* start printing out mobile data */
-    fp = fopen("mob.dmp", "w");
-
-    fprintf(fp, "\nMobile Analysis\n");
-    fprintf(fp, "---------------\n");
-    for (const auto &mob : all_mob_indexes())
-        fprintf(fp, "#%-4d %3d active %3d killed     %s\n", mob.vnum, mob.count, mob.killed, mob.short_descr.c_str());
-    fclose(fp);
-
-    /* start printing out object data */
-    fp = fopen("obj.dmp", "w");
-
-    fprintf(fp, "\nObject Analysis\n");
-    fprintf(fp, "---------------\n");
-    for (const auto &obj_index : all_object_indexes()) {
-        fmt::print(fp, "#{:<4} {:3} active {:3} reset      {}\n", obj_index.vnum, obj_index.count, obj_index.reset_num,
-                   obj_index.short_descr);
-    }
-
-    /* close file */
-    fclose(fp);
-
-    ch->send_line("Dump complete");
 }
 
 KnuthRng knuth_rng(0);
