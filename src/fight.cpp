@@ -2301,10 +2301,13 @@ void do_rescue(Char *ch, ArgParser args) {
     }
     auto *victim_fighting = victim->fighting;
     if (!victim_fighting) {
-        ch->send_line("That person is not fighting right now.");
+        ch->send_line("That person isn't fighting right now!");
         return;
     }
-
+    if (victim_fighting->fighting != victim) {
+        ch->send_line("That person doesn't need rescuing right now!");
+        return;
+    }
     ch->wait_state(skill_table[gsn_rescue].beats);
     if (ch->is_pc() && number_percent() > ch->get_skill(gsn_rescue)) {
         ch->send_line("You fail the rescue.");
