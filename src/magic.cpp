@@ -130,11 +130,16 @@ std::pair<int, int> get_direct_dmg_and_level(int level, const std::array<int, Si
 /**
  * During spell casting we need to determine the SpellTarget based on what the caster stated in entity_name
  * and the Target type of the spell.
+ *
+ * The original_args param contains the original arguments provided by the caller which is something we must
+ * pass on through to the underlying spell for spells that perform their own custom targeting, like 'undo spell' or
+ * 'gate'.
+ *
  * Returns an empty optional SpellTarget that wraps the real target, or nullopt if no valid SpellTarget could be
  * created.
  */
 std::optional<SpellTarget> get_casting_spell_target(Char *ch, const int sn, std::string_view entity_name,
-                                                    std::string_view arguments) {
+                                                    std::string_view original_args) {
     Char *victim;
     switch (skill_table[sn].target) {
     default: bug("Do_cast: bad target for sn {}.", sn); return std::nullopt;
@@ -175,7 +180,7 @@ std::optional<SpellTarget> get_casting_spell_target(Char *ch, const int sn, std:
         return SpellTarget(victim);
     case Target::Ignore:
     case Target::CharObject:
-    case Target::CharOther: return SpellTarget(arguments);
+    case Target::CharOther: return SpellTarget(original_args);
 
     case Target::CharSelf:
         if (!entity_name.empty() && !is_name(entity_name, ch->name)) {
@@ -583,6 +588,9 @@ void do_cast(Char *ch, ArgParser args) {
         ch->send_line("You don't know any spells of that name.");
         return;
     }
+    // Copy the remaining arguments because for some spells we must pass them through to
+    // the underlying spell_ routine and as SpellTarget wraps them as a string_view, the object lifetime matters.
+    const auto original_args = std::string(args.remaining());
 
     if (ch->position < skill_table[sn].minimum_position) {
         ch->send_line("You can't concentrate enough.");
@@ -602,8 +610,7 @@ void do_cast(Char *ch, ArgParser args) {
         try_create_potion(ch, sn, mana);
         return;
     }
-    const auto arguments = args.remaining();
-    auto opt_spell_target = get_casting_spell_target(ch, sn, entity_name, arguments);
+    auto opt_spell_target = get_casting_spell_target(ch, sn, entity_name, original_args);
     if (!opt_spell_target) {
         return;
     }
@@ -2350,7 +2357,10 @@ void spell_gate(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     std::string_view arguments = spell_target.getArguments();
     Char *victim;
     bool gate_pet;
-
+    if (arguments.empty()) {
+        ch->send_line("To whom do you wish to gate?");
+        return;
+    }
     if ((victim = get_char_world(ch, arguments)) == nullptr || victim == ch || victim->in_room == nullptr
         || !can_see_room(ch, victim->in_room) || check_enum_bit(victim->in_room->room_flags, RoomFlag::Safe)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Private)

@@ -1577,9 +1577,7 @@ void do_recite(Char *ch, ArgParser args) {
     if (number_percent() >= 20 + get_skill(ch, gsn_scrolls) * 4 / 5) {
         ch->send_line("|rYou mispronounce a syllable.|w");
         check_improve(ch, gsn_scrolls, false, 2);
-    }
-
-    else {
+    } else {
         obj_cast_spell(scroll->value[1], scroll->value[0], ch, victim, obj, target);
         obj_cast_spell(scroll->value[2], scroll->value[0], ch, victim, obj, target);
         obj_cast_spell(scroll->value[3], scroll->value[0], ch, victim, obj, target);
