@@ -3,7 +3,7 @@
 -1 'RACE HELP' 'RACE' 'RACES'~
 |RXania|w has the following races for player characters:
   |CHuman|w    powerful and versatile bipeds
-  |GDwarf|w    good knights and priests, cost 5 creation points (cp)
+  |GDwarf|w    good knights and clerics, cost 5 creation points (cp)
   |BElf|w      good clerics and mages, cost 5 cp
   |WHalf-Elf|w a cross between human and elves, believe it or not! 15 cp
   |REagle|w    agile, humanoid birdlike creatures 10 cp
@@ -24,7 +24,7 @@ For more information, see the help files for each race (i.e. 'help dwarf')
 Dwarves are short, stocky demi-humans, known for foul temper and great
 stamina.  Dwarves have high strength and constitution, but poor dexterity.
 They are not as smart as humans, but are usually wiser due to their long 
-lifespans.  Dwarves make excellent fighters and priests, but are very poor
+lifespans.  Dwarves make excellent fighters and clerics, but are very poor
 mages.  
 
 Dwarves are resistant to magic, poison and disease, but cannot swim, and
@@ -37,7 +37,7 @@ Dwarves cost 5 creation points if uncustomised.
 Elves are slightly taller than humans, but have a much lighter build.  They
 lack the strength and stamina of the other races, but are for more agile,
 both in body and mind.  Elves are pretty good at being mages, but have at
-best fair talent as knights or priests. An elf barbarian would have a hard
+best fair talent as knights or clerics. An elf barbarian would have a hard
 time.
 
 Elves resist charm spells most effectively, due to their magical nature.
@@ -217,8 +217,8 @@ Player character classes in Xania:
 Mage:      Specialists in magic including combat, illusion, protection,
            enchanting and more. Mages receive an intelligence bonus.
 
-Priest:    Specialists in healing, they also deal damage and cast protection
-           and utility spells. Priests receive a bonus to their wisdom.
+Cleric:    Specialists in healing, they also deal damage and cast protection
+           and utility spells. Clerics receive a bonus to their wisdom.
 
 Knight:    The noble fighting class. Experts in weaponry and defensive techniques.
            Knights gain a strength bonus.
@@ -228,7 +228,7 @@ Barbarian: Hardened cut-throat warriors who use hand to hand combat
 
            At later levels, classes can learn spell groups that they don't start
            out with by spending 'train' points.
-See:       help mage, help priest, help knight, help barbarian.
+See:       help mage, help cleric, help knight, help barbarian.
 ~
 
 -1 MAGE 'MAGIC-USER' 'MAGE BASICS' 'MAGE DEFAULT'~
@@ -542,7 +542,7 @@ harm		the most deadly harmful spell
 -1 HEALING~
 The healing spells are used to cure the wounds that adventurers inevitably
 suffer in battle.  For curing other conditions, such as poison, see the
-curative spell group.  Only knights and priests have access to this group.
+curative spell group.  Only knights and clerics have access to this group.
 In order of power, the healing spells are:
 
 cure light	heals minor wounds
