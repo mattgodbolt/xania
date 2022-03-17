@@ -531,17 +531,18 @@ void do_goto(Char *ch, ArgParser args) {
     look_auto(ch);
 }
 
-/* RT to replace the 3 stat commands */
-
 void do_stat(Char *ch, ArgParser args) {
-    const auto arg = args.shift();
-    if (arg.empty()) {
+    const auto show_usage = [&ch]() {
         ch->send_line("Syntax:");
         ch->send_line("  stat obj <name>");
         ch->send_line("  stat mob <name>");
         ch->send_line("  stat room <number>");
         ch->send_line("  stat <skills/spells/info/pracs/affects> <name>");
         ch->send_line("  stat prog <mobprog>");
+    };
+    const auto arg = args.shift();
+    if (arg.empty()) {
+        show_usage();
         return;
     }
 
@@ -582,6 +583,7 @@ void do_stat(Char *ch, ArgParser args) {
         MProg::show_programs(ch, args);
         return;
     }
+    show_usage();
 }
 
 void do_rstat(Char *ch, ArgParser args) {
