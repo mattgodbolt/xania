@@ -408,7 +408,7 @@ std::string apply_prefix(Char *ch, std::string_view command) {
     auto &pc_data = player->pcdata;
     auto begin = command.begin();
     // A command starting with single backslash means execute that command without applying the prefix.
-    if (*begin == '\\') {
+    if (begin && *begin == '\\') {
         begin++;
         // A command starting with double slash means remove the Char's prefix.
         if (*begin == '\\') {

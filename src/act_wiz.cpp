@@ -443,7 +443,7 @@ void do_newlock(Char *ch) {
 
 void do_at(Char *ch, ArgParser args) {
     if (args.empty()) {
-        ch->send_line("At where what?");
+        ch->send_line("Syntax: at <location> <command>");
         return;
     }
     auto *location = find_location(ch, args.shift());
@@ -459,10 +459,15 @@ void do_at(Char *ch, ArgParser args) {
         ch->send_line("That room is private right now.");
         return;
     }
+    auto command = args.remaining();
+    if (command.empty()) {
+        ch->send_line("Syntax: at <location> <command>");
+        return;
+    }
     auto *original = ch->in_room;
     char_from_room(ch);
     char_to_room(ch, location);
-    interpret(ch, args.remaining());
+    interpret(ch, command);
 
     /*
      * See if 'ch' still exists before continuing!
