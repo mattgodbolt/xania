@@ -10,10 +10,10 @@ cmake_minimum_required(VERSION 3.19)
 project(xania-conan)
 
 # Conan version to be used
-set(CONDA_VERSION 4.10.3)
+set(CONDA_VERSION 4.11.0)
 
 # Conda is used to have a minimal environment where to install conan
-set(CONDA_INSTALLER_MD5 8c69f65a4ae27fb41df0fe552b4a8a3b)
+set(CONDA_INSTALLER_MD5 4e2f31e0b2598634c80daa12e4981647)
 set(REQUIRED_CONAN_VERSION 1.46.0)
 
 include(conan.cmake)
