@@ -224,13 +224,13 @@ void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, ush_int nest_le
     if (obj->wear_string != obj->objIndex->wear_string)
         fmt::print(fp, "{} {}~\n", cf::WearString, obj->wear_string);
     if (obj->type != obj->objIndex->type)
-        fmt::print(fp, "{} {}\n", cf::ItemType, obj->type);
+        fmt::print(fp, "{} {}\n", cf::ItemType, magic_enum::enum_integer<ObjectType>(obj->type));
     if (obj->weight != obj->objIndex->weight)
         fmt::print(fp, "{}   {}\n", cf::Weight, obj->weight);
 
     /* variable data */
 
-    fmt::print(fp, "{} {}\n", cf::WearLoc, obj->wear_loc);
+    fmt::print(fp, "{} {}\n", cf::WearLoc, magic_enum::enum_integer<Wear>(obj->wear_loc));
     if (obj->level != 0)
         fmt::print(fp, "{}  {}\n", cf::ObjectLevel, obj->level);
     if (obj->timer != 0)

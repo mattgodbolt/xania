@@ -53,7 +53,7 @@ TypeFlag name_to_type(std::string_view name) {
 std::optional<Program> try_load_one_mob_prog(std::string_view file_name, FILE *prog_file) {
     const auto prog_type = name_to_type(fread_word(prog_file));
     if (prog_type == TypeFlag::Error) {
-        bug("mobprog {} type error {}", file_name, prog_type);
+        bug("mobprog {} type error {}", file_name, magic_enum::enum_name<TypeFlag>(prog_type));
         return std::nullopt;
     }
     if (prog_type == TypeFlag::InFile) {

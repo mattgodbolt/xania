@@ -462,7 +462,8 @@ void enforce_material_vulnerability(Char *ch, Object *obj) {
  */
 void equip_char(Char *ch, Object *obj, const Wear wear) {
     if (get_eq_char(ch, wear) != nullptr) {
-        bug("Equip_char: {} #{} already equipped in slot {}.", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0), wear);
+        bug("Equip_char: {} #{} already equipped in slot {} ({}).", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0),
+            magic_enum::enum_name<Wear>(wear), magic_enum::enum_integer<Wear>(wear));
         return;
     }
 
