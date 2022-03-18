@@ -21,7 +21,7 @@ int main(int argc, const char **argv) {
 
     auto result = cli.parse({argc, argv});
     if (!result) {
-        fmt::print("Error in command line: {}\n", result.errorMessage());
+        fmt::print("Error in command line: {}\n", result.message());
         exit(1);
     } else if (help) {
         fmt::print("{}", cli);

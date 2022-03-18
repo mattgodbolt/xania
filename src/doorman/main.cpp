@@ -30,7 +30,7 @@ int Main(Logger &log, int argc, char *argv[]) {
 
     auto result = cli.parse({argc, argv});
     if (!result) {
-        fmt::print("Error in command line: {}\n", result.errorMessage());
+        fmt::print("Error in command line: {}\n", result.message());
         return 1;
     } else if (help) {
         fmt::print("{}", cli);
