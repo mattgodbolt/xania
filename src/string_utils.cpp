@@ -3,7 +3,7 @@
 #include "ArgParser.hpp"
 
 #include <fmt/format.h>
-#include <gsl/gsl_util>
+#include <gsl/narrow>
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/algorithm/search.hpp>
 #include <range/v3/range/conversion.hpp>

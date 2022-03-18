@@ -57,7 +57,7 @@
 #include <range/v3/iterator/operations.hpp>
 #include <range/v3/numeric/accumulate.hpp>
 
-#include <gsl/gsl_util>
+#include <gsl/narrow>
 #include <range/v3/algorithm/find_if.hpp>
 #include <sys/resource.h>
 

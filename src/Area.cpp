@@ -8,7 +8,7 @@
 #include "VnumRooms.hpp"
 #include "db.h"
 
-#include <gsl/gsl_util>
+#include <gsl/narrow>
 
 Area Area::parse(int area_num, FILE *fp, std::string filename) {
     fread_string(fp); /* filename */
