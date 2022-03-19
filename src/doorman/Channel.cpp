@@ -113,10 +113,10 @@ void Channel::send_connect_packet() {
     if (!mud_.connected())
         return;
 
-    // Have we already been authenticated?
+    // Have we already been authenticated? Note that the packet size == char name length so it's not null terminated.
     if (!auth_char_name_.empty()) {
         connected_ = true;
-        mud_.send_to_mud({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size() + 1), id_->id(), {}},
+        mud_.send_to_mud({PACKET_RECONNECT, static_cast<uint32_t>(auth_char_name_.size()), id_->id(), {}},
                          auth_char_name_.c_str());
         send_info_packet();
         log_.debug("Sent reconnect packet to MUD for {}", auth_char_name_);

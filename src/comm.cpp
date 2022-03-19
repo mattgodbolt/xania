@@ -1008,6 +1008,10 @@ bool validate_player_name(std::string_view name) {
     // 'i' or 'l' (unclear why, but it may have been a spamming incident).
     bool only_il = true;
     for (const char c : name) {
+        // Doorman shouldn't have sent a null char in the player name, even as a null terminator in PACKET_RECONNECT,
+        // but drop out as a precaution.
+        if (!c)
+            break;
         if (!isalpha(c))
             return false;
         if (tolower(c) != 'i' && tolower(c) != 'l')
