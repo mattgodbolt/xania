@@ -476,7 +476,7 @@ int group_lookup(std::string_view name) {
 }
 
 /* recursively adds a group given its number -- uses group_add */
-void gn_add(Char *ch, int gn) {
+void gn_add(Char *ch, const int gn) {
     int i;
 
     ch->pcdata->group_known[gn] = true;
@@ -488,7 +488,7 @@ void gn_add(Char *ch, int gn) {
 }
 
 /* recusively removes a group given its number -- uses group_remove */
-void gn_remove(Char *ch, int gn) {
+void gn_remove(Char *ch, const int gn) {
     int i;
 
     ch->pcdata->group_known[gn] = false;
@@ -501,7 +501,7 @@ void gn_remove(Char *ch, int gn) {
 }
 
 /* use for processing a skill or group for addition  */
-void group_add(Char *ch, const char *name, bool deduct) {
+void group_add(Char *ch, const char *name, const bool deduct) {
     int sn, gn;
 
     if (ch->is_npc()) /* NPCs do not have skills */
@@ -632,43 +632,39 @@ int get_skill_difficulty(Char *ch, int gsn) {
 }
 
 int get_skill_trains(Char *ch, int gsn) {
-    int number;
-    if ((number = get_skill_level(ch, gsn)) >= 60 && (ch->level < 60))
-        /* can't show it */
+    if (get_skill_level(ch, gsn) >= 60 && ch->level < 60)
         return 0;
-
     if (skill_table[gsn].spell_fun != spell_null)
         return 0;
 
     switch (skill_table[gsn].rating[ch->class_num]) {
-    case SkillRatingUnattainable: return 0; /* shouldn't happen */
-    case SkillRatingAttainable: return 10; /* $-) */
+    case SkillRatingUnattainable: return 0; // shouldn't happen
+    case SkillRatingAttainable: return 10;
     case SkillRatingSpecial: return 10;
     }
     return (skill_table[gsn].rating[ch->class_num]);
 }
 
 int get_group_trains(Char *ch, int gsn) {
-    int number;
-    if ((number = get_group_level(ch, gsn)) >= 60 && (ch->level < 60))
-        /* can't show it */
+    if (get_group_level(ch, gsn) >= 60 && ch->level < 60)
         return 0;
-
-    switch (group_table[gsn].rating[ch->class_num]) {
+    const auto rating = group_table[gsn].rating[ch->class_num];
+    switch (rating) {
     case 0: return 0;
-    case -1: return 20; /* $-) */
+    case -1: return 20; // An expensive group for the class to learn.
     case -2:
     case -3: return 0;
     }
-    return (group_table[gsn].rating[ch->class_num]);
+    return rating;
 }
 
 int get_group_level(Char *ch, int gsn) {
-    switch (group_table[gsn].rating[ch->class_num]) {
+    const auto rating = group_table[gsn].rating[ch->class_num];
+    switch (rating) {
     case 0: return 0;
     case -1: return 60;
     case -2:
     case -3: return 0;
-    default: return (group_table[gsn].rating[ch->class_num]);
+    default: return rating;
     }
 }
