@@ -31,6 +31,11 @@
 #include <map>
 
 namespace {
+
+// Char creation points won't grow beyond this cap, which seems to be pretty arbitrary but
+// a character with this many creation points will require a huge amount of exp per level!
+const auto CreationPointsCap = 200;
+
 Char *find_trainer(Room *room) {
     for (auto *trainer : room->people)
         if (trainer->is_npc() && check_enum_bit(trainer->act, CharActFlag::Gain))
@@ -84,7 +89,7 @@ void gain_convert(Char *ch, const Char *trainer) {
     ch->train += 1;
 }
 
-// "gain points" -- convert 2 trains into 1 fewer creatoin points.
+// "gain points" -- convert 2 trains into 1 fewer creation points.
 void gain_points(Char *ch, const Char *trainer) {
     if (ch->train < 2) {
         act("$N tells you 'You are not yet ready.'", ch, nullptr, trainer, To::Char);
@@ -311,18 +316,18 @@ bool parse_customizations(Char *ch, ArgParser args) {
                 ch->send_line("You already know that group!");
                 return true;
             }
-
-            if (get_group_trains(ch, group_num) < 1) {
+            const auto group_trains = get_group_trains(ch, group_num);
+            if (group_trains < 1) {
                 ch->send_line("That group is not available.");
                 return true;
             }
 
             ch->send_line(fmt::format("{} group added", group_table[group_num].name));
             ch->pcdata->customization->group_chosen[group_num] = true;
-            ch->pcdata->customization->points_chosen += get_group_trains(ch, group_num);
+            ch->pcdata->customization->points_chosen += group_trains;
             gn_add(ch, group_num);
-            if (ch->pcdata->points < 200)
-                ch->pcdata->points += get_group_trains(ch, group_num);
+            if (ch->pcdata->points < CreationPointsCap)
+                ch->pcdata->points += group_trains;
             return true;
         }
 
@@ -343,12 +348,13 @@ bool parse_customizations(Char *ch, ArgParser args) {
                 ch->send_line("That skill is not available.");
                 return true;
             }
+            const auto skill_trains = get_skill_trains(ch, skill_num);
             ch->send_line(fmt::format("{} skill added", skill_table[skill_num].name));
             ch->pcdata->customization->skill_chosen[skill_num] = true;
-            ch->pcdata->customization->points_chosen += get_skill_trains(ch, skill_num);
+            ch->pcdata->customization->points_chosen += skill_trains;
             ch->pcdata->learned[skill_num] = 1;
-            if (ch->pcdata->points < 200)
-                ch->pcdata->points += get_skill_trains(ch, skill_num);
+            if (ch->pcdata->points < CreationPointsCap)
+                ch->pcdata->points += skill_trains;
             return true;
         }
 
@@ -365,25 +371,27 @@ bool parse_customizations(Char *ch, ArgParser args) {
 
         const auto group_num = group_lookup(skill_group);
         if (group_num != -1 && ch->pcdata->customization->group_chosen[group_num]) {
+            const auto group_trains = get_group_trains(ch, group_num);
             ch->send_line("Group dropped.");
             ch->pcdata->customization->group_chosen[group_num] = false;
-            ch->pcdata->customization->points_chosen -= get_group_trains(ch, group_num);
+            ch->pcdata->customization->points_chosen -= group_trains;
             gn_remove(ch, group_num);
             for (auto i = 0; i < MAX_GROUP; i++) {
                 if (ch->pcdata->customization->group_chosen[group_num])
                     gn_add(ch, group_num);
             }
-            ch->pcdata->points -= get_group_trains(ch, group_num);
+            ch->pcdata->points -= group_trains;
             return true;
         }
 
         const auto skill_num = skill_lookup(skill_group);
         if (skill_num != -1 && ch->pcdata->customization->skill_chosen[skill_num]) {
+            const auto skill_trains = get_skill_trains(ch, skill_num);
             ch->send_line("Skill dropped.");
             ch->pcdata->customization->skill_chosen[skill_num] = false;
-            ch->pcdata->customization->points_chosen -= get_skill_trains(ch, skill_num);
+            ch->pcdata->customization->points_chosen -= skill_trains;
             ch->pcdata->learned[skill_num] = 0; // NOT ch.get_skill()
-            ch->pcdata->points -= get_skill_trains(ch, skill_num);
+            ch->pcdata->points -= skill_trains;
             return true;
         }
 
@@ -559,7 +567,7 @@ void group_remove(Char *ch, const char *name) {
 // Long ago, the level 60 requirement for SkillRatingAttainable was originally part of the mud's move from
 // being a 60 level mud to 100 levels and with that, we introduced 'cross training'
 // where  a class can learn skills normally only available to other classes.
-int get_skill_level(const Char *ch, int gsn) {
+int get_skill_level(const Char *ch, const int gsn) {
     int level = 0, bonus;
 
     if (ch = ch->player(); !ch)
@@ -598,7 +606,7 @@ int get_skill_level(const Char *ch, int gsn) {
     return level;
 }
 
-int get_skill_difficulty(Char *ch, int gsn) {
+int get_skill_difficulty(Char *ch, const int gsn) {
     int level, hard, bonus;
 
     if ((level = get_skill_level(ch, gsn)) == 0) /* ie you can't gain it ever! */
@@ -631,7 +639,7 @@ int get_skill_difficulty(Char *ch, int gsn) {
     return hard;
 }
 
-int get_skill_trains(Char *ch, int gsn) {
+int get_skill_trains(Char *ch, const int gsn) {
     if (get_skill_level(ch, gsn) >= 60 && ch->level < 60)
         return 0;
     if (skill_table[gsn].spell_fun != spell_null)
@@ -645,7 +653,15 @@ int get_skill_trains(Char *ch, int gsn) {
     return (skill_table[gsn].rating[ch->class_num]);
 }
 
-int get_group_trains(Char *ch, int gsn) {
+// Returns the cost in "creation points" of a skill group for a character.
+// Typically groups will differ in cost for different classes.
+// Returns 0 if the group can't be learned yet.
+//
+// "Creation points" are largely synonymous with "training points" (how many trains it
+// costs the player to learn in-game later on from a guildmaster). Having said that, players
+// can also spend trains on reducing their creation points so that it's quicker to level, but
+// the exchange rate from trains to CP reduction is pretty poor, see gain_points().
+int get_group_trains(Char *ch, const int gsn) {
     if (get_group_level(ch, gsn) >= 60 && ch->level < 60)
         return 0;
     const auto rating = group_table[gsn].rating[ch->class_num];
@@ -658,7 +674,8 @@ int get_group_trains(Char *ch, int gsn) {
     return rating;
 }
 
-int get_group_level(Char *ch, int gsn) {
+// Returns the character level required to learn a skill group.
+int get_group_level(Char *ch, const int gsn) {
     const auto rating = group_table[gsn].rating[ch->class_num];
     switch (rating) {
     case 0: return 0;
