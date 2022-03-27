@@ -420,6 +420,11 @@ void do_follow(Char *ch, ArgParser args) {
         act("$N doesn't seem to want any followers.\n\r", ch, nullptr, victim, To::Char);
         return;
     }
+    // Prevent group changes during combat.
+    if (ch->is_pos_fighting()) {
+        ch->send_line("No way! You are still fighting!");
+        return;
+    }
 
     clear_enum_bit(ch->act, PlayerActFlag::PlrNoFollow);
 
@@ -591,7 +596,16 @@ void do_group(Char *ch, ArgParser args) {
         act("You like your master too much to leave $m!", ch, nullptr, victim, To::Vict);
         return;
     }
-
+    // No group changes in combat, to prevent abuse where a higher level char could drop
+    // group and cause low level chars to get full exp for kills.
+    if (ch->is_pos_fighting()) {
+        ch->send_line("No way! You are still fighting!");
+        return;
+    }
+    if (victim->is_pos_fighting()) {
+        ch->send_line("They're too busy for that right now!");
+        return;
+    }
     if (is_same_group(victim, ch) && ch != victim) {
         victim->leader = nullptr;
         act("$n removes $N from $s group.", ch, nullptr, victim, To::NotVict);
