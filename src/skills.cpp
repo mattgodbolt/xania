@@ -286,6 +286,8 @@ unsigned int exp_per_level(const Char *ch, int points) {
         return expl2;
 }
 
+void refund_group_members(Char *ch, const int group_num) { gn_remove(ch, group_num); }
+
 /* this procedure handles the input parsing for the skill generator */
 bool parse_customizations(Char *ch, ArgParser args) {
     if (args.empty())
@@ -325,6 +327,9 @@ bool parse_customizations(Char *ch, ArgParser args) {
             ch->send_line(fmt::format("{} group added", group_table[group_num].name));
             ch->pcdata->customization->group_chosen[group_num] = true;
             ch->pcdata->customization->points_chosen += group_trains;
+            // Prevent double charging for skills added directly that are now being
+            // added indirectly via a group.
+            refund_group_members(ch, group_num);
             gn_add(ch, group_num);
             if (ch->pcdata->points < CreationPointsCap)
                 ch->pcdata->points += group_trains;
@@ -483,7 +488,7 @@ int group_lookup(std::string_view name) {
     return -1;
 }
 
-/* recursively adds a group given its number -- uses group_add */
+// recursively adds a group given its number
 void gn_add(Char *ch, const int gn) {
     int i;
 
@@ -495,31 +500,23 @@ void gn_add(Char *ch, const int gn) {
     }
 }
 
-/* recusively removes a group given its number -- uses group_remove */
+// recusively removes a group given its number
 void gn_remove(Char *ch, const int gn) {
-    int i;
-
     ch->pcdata->group_known[gn] = false;
-
-    for (i = 0; i < MAX_IN_GROUP; i++) {
+    for (auto i = 0; i < MAX_IN_GROUP; i++) {
         if (group_table[gn].spells[i] == nullptr)
             break;
         group_remove(ch, group_table[gn].spells[i]);
     }
 }
 
-/* use for processing a skill or group for addition  */
+// adds a skill or skill group
 void group_add(Char *ch, const char *name, const bool deduct) {
-    int sn, gn;
-
     if (ch->is_npc()) /* NPCs do not have skills */
         return;
 
-    sn = skill_lookup(name);
-
-    if (sn != -1) {
-        if (ch->pcdata->learned[sn] == 0) /* i.e. not known */
-        {
+    if (const auto sn = skill_lookup(name); sn != -1) {
+        if (!ch->pcdata->learned[sn]) { // not known
             ch->pcdata->learned[sn] = 1;
             if (deduct)
                 ch->pcdata->points += get_skill_trains(ch, sn);
@@ -527,39 +524,33 @@ void group_add(Char *ch, const char *name, const bool deduct) {
         return;
     }
 
-    /* now check groups */
-
-    gn = group_lookup(name);
-
-    if (gn != -1) {
-        if (ch->pcdata->group_known[gn] == false) {
+    if (const auto gn = group_lookup(name); gn != -1) {
+        if (!ch->pcdata->group_known[gn]) {
             ch->pcdata->group_known[gn] = true;
             if (deduct)
                 ch->pcdata->points += get_group_trains(ch, gn);
         }
-        gn_add(ch, gn); /* make sure all skills in the group are known */
+        gn_add(ch, gn); // make sure all skills in the group are known
     }
 }
 
-/* used for processing a skill or group for deletion -- no points back! */
-
+// Unlearns a skill or skill group during char creation.
+// It will recusively unlearn all of the group's member skills and refund
+// their creation points.
 void group_remove(Char *ch, const char *name) {
-    int sn, gn;
-
-    sn = skill_lookup(name);
-
-    if (sn != -1) {
-        ch->pcdata->learned[sn] = 0;
+    if (const auto sn = skill_lookup(name); sn != -1) {
+        if (ch->pcdata->learned[sn]) {
+            ch->pcdata->learned[sn] = 0;
+            ch->pcdata->customization->skill_chosen[sn] = false;
+            ch->pcdata->points = std::clamp(ch->pcdata->points - get_skill_trains(ch, sn), 0, CreationPointsCap);
+        }
         return;
     }
-
-    /* now check groups */
-
-    gn = group_lookup(name);
-
-    if (gn != -1 && ch->pcdata->group_known[gn] == true) {
-        ch->pcdata->group_known[gn] = false;
-        gn_remove(ch, gn); /* be sure to call gn_add on all remaining groups */
+    if (const auto gn = group_lookup(name); gn != -1) {
+        if (ch->pcdata->group_known[gn]) {
+            ch->pcdata->group_known[gn] = false;
+            gn_remove(ch, gn); /* be sure to call gn_add on all remaining groups */
+        }
     }
 }
 
