@@ -425,7 +425,10 @@ void do_follow(Char *ch, ArgParser args) {
         ch->send_line("No way! You are still fighting!");
         return;
     }
-
+    if (victim->master == ch) {
+        ch->send_line("You can't follow someone that's following you!");
+        return;
+    }
     clear_enum_bit(ch->act, PlayerActFlag::PlrNoFollow);
 
     if (ch->master != nullptr)
