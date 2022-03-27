@@ -601,36 +601,33 @@ int get_skill_level(const Char *ch, const int gsn) {
 }
 
 int get_skill_difficulty(Char *ch, const int gsn) {
-    int level, hard, bonus;
-
+    int level;
     if ((level = get_skill_level(ch, gsn)) == 0) /* ie you can't gain it ever! */
         return 0;
-
     if (level > ch->level)
         return 0; /* as you're not high enough level */
-
-    hard = skill_table[gsn].rating[ch->class_num];
-    switch (hard) {
+    int difficulty = skill_table[gsn].rating[ch->class_num];
+    switch (difficulty) {
     case SkillRatingUnattainable: return 0; /* this should never happen as get_skill_level does this */
     case SkillRatingAttainable:
-        hard = 8; /* skills at LevelCrossClassTraining */
+        difficulty = 8; /* skills at LevelCrossClassTraining */
         break;
     case SkillRatingSpecial:
-        hard = 5; /* Assassin group stuff */
+        difficulty = 5; /* Assassin group stuff */
         break;
     }
     /* Check for race skills */
-    for (bonus = 0; bonus < 5; bonus++) {
+    for (auto bonus = 0u; bonus < MAX_PC_RACE_BONUS_SKILLS; bonus++) {
         if (pc_race_table[ch->race].skills[bonus] != nullptr) {
             /* they have a bonus skill or group */
             if (skill_lookup(pc_race_table[ch->race].skills[bonus]) == gsn) {
                 /* ie we have a race-specific skill!! */
-                if (hard > 2)
-                    --hard; /* Make it a bit easier */
+                if (difficulty > 2)
+                    --difficulty; /* Make it a bit easier */
             }
         }
     }
-    return hard;
+    return difficulty;
 }
 
 int get_skill_trains(Char *ch, const int gsn) {

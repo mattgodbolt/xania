@@ -29,7 +29,7 @@ struct pc_race_type /* additional data for pc races */
     char who_name[6];
     sh_int points; /* cost in points of the race */
     sh_int class_mult[MAX_CLASS]; /* exp multiplier for class, * 100 */
-    std::array<const char *, 5> skills{}; /* bonus skills for the race */
+    std::array<const char *, MAX_PC_RACE_BONUS_SKILLS> skills{}; /* bonus skills for the race */
     Stats stats; /* starting stats */
     Stats max_stats; /* maximum stats */
     BodySize body_size;
