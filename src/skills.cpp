@@ -35,6 +35,10 @@ namespace {
 // Char creation points won't grow beyond this cap, which seems to be pretty arbitrary but
 // a character with this many creation points will require a huge amount of exp per level!
 const auto CreationPointsCap = 200;
+// Level at which a character can learn pretty much any skill not previously available.
+const auto LevelCrossClassTraining = 60;
+// A special case for certain skill groups (like "assassin") that can be obtained sooner.
+const auto LevelSpecialClassTraining = 30;
 
 Char *find_trainer(Room *room) {
     for (auto *trainer : room->people)
@@ -349,7 +353,7 @@ bool parse_customizations(Char *ch, ArgParser args) {
                  * added Faramir 7/8/96 to stop people gaining level 60
                  * skills at during generation, with no cp cost either!
                  */
-                || (get_skill_level(ch, skill_num) >= 60)) {
+                || (get_skill_level(ch, skill_num) >= LevelCrossClassTraining)) {
                 ch->send_line("That skill is not available.");
                 return true;
             }
@@ -571,16 +575,15 @@ int get_skill_level(const Char *ch, const int gsn) {
         level = skill_table[gsn].skill_level[ch->class_num];
     }
     if (skill_table[gsn].rating[ch->class_num] == SkillRatingAttainable) {
-        /*  They get it at level sixty */
-        level = 60;
+        level = LevelCrossClassTraining;
     }
     if (skill_table[gsn].rating[ch->class_num] == SkillRatingSpecial) {
-        /*  It's an assassin thing */
+        /*  Hack: It's an assassin thing */
         if (ch->pcdata->group_known[group_lookup("assassin")]) {
-            /*  they have the group so they get the skill at level 30 */
-            level = 30;
+            /*  they have the group so they get the skill at LevelSpecialClassTraining */
+            level = LevelSpecialClassTraining;
         } else /*  They got the skill on its own */
-            level = 60;
+            level = LevelCrossClassTraining;
     }
 
     /* Check stuff because of race */
@@ -589,8 +592,8 @@ int get_skill_level(const Char *ch, const int gsn) {
             /* they have a bonus skill or group */
             if (skill_lookup(pc_race_table[ch->race].skills[bonus]) == gsn) {
                 /* ie we have a race-specific skill!! */
-                if (level > 30)
-                    level = 30; /*obviously*/
+                if (level > LevelSpecialClassTraining)
+                    level = LevelSpecialClassTraining;
             }
         }
     }
@@ -610,7 +613,7 @@ int get_skill_difficulty(Char *ch, const int gsn) {
     switch (hard) {
     case SkillRatingUnattainable: return 0; /* this should never happen as get_skill_level does this */
     case SkillRatingAttainable:
-        hard = 8; /* skills at level 60 */
+        hard = 8; /* skills at LevelCrossClassTraining */
         break;
     case SkillRatingSpecial:
         hard = 5; /* Assassin group stuff */
@@ -631,7 +634,7 @@ int get_skill_difficulty(Char *ch, const int gsn) {
 }
 
 int get_skill_trains(Char *ch, const int gsn) {
-    if (get_skill_level(ch, gsn) >= 60 && ch->level < 60)
+    if (get_skill_level(ch, gsn) >= LevelCrossClassTraining && ch->level < LevelCrossClassTraining)
         return 0;
     if (skill_table[gsn].spell_fun != spell_null)
         return 0;
@@ -653,7 +656,7 @@ int get_skill_trains(Char *ch, const int gsn) {
 // can also spend trains on reducing their creation points so that it's quicker to level, but
 // the exchange rate from trains to CP reduction is pretty poor, see gain_points().
 int get_group_trains(Char *ch, const int gsn) {
-    if (get_group_level(ch, gsn) >= 60 && ch->level < 60)
+    if (get_group_level(ch, gsn) >= LevelCrossClassTraining && ch->level < LevelCrossClassTraining)
         return 0;
     const auto rating = group_table[gsn].rating[ch->class_num];
     switch (rating) {
@@ -670,7 +673,7 @@ int get_group_level(Char *ch, const int gsn) {
     const auto rating = group_table[gsn].rating[ch->class_num];
     switch (rating) {
     case 0: return 0;
-    case -1: return 60;
+    case -1: return LevelCrossClassTraining;
     case -2:
     case -3: return 0;
     default: return rating;
