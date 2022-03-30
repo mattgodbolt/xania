@@ -116,22 +116,8 @@ State thy name and enter the realm of Xania: ~
 Welcome to Xania! See 'help rules' and 'help commands'.
 
 [ Recent Gameplay Updates! ]
-May 9: 
-*   Unique items appearing in equipment lists are tagged with (U).
-Apr 16: 
-*   The 'get all corpse' command, including 'autoloot' mode, no longer
-automatically loots non-droppable or non-removeable objects.
-*   Objects marked as 'no drop' can longer have their 'no drop' status 
-removed by the 'remove curse' spell. The 'damnation' spell no longer sets
-the 'no drop' status too, but it still makes weapons immune from disarm!
-
-Apr 15: Some special and/or powerful objects are now regarded by the Gods
-as unique. You can only possess one instance of a unique item at a time.
-
-Apr 11: Higher level mobiles will now be equipped with objects using
-a chance based calculation. You may have to kill an NPC several times to 
-get all of its loot!
-
+Mar 30:
+*   The old rules about playing with multiple characters have been relaxed.
 |g[Hit return to continue]|w
 ~ 
  
@@ -278,6 +264,8 @@ CRs:
      player back to his/her corpse.|w Don't ever let yourself get the 
      reputation as an Imm who will always do a CR, otherwise the higher
      level mortals might get lazy.
+  -  remind players that they can use the Corpse Summoner in Midgaard and the
+     'hailcorpse' command.
    - |Rreimburse a player if their corpse is lost in a crash|w (hopefully there
      won't be too many of those!).
 
@@ -301,9 +289,10 @@ If!:
      player who is having a quick joke, then that's ok. Play it by ear.
 
 Multi-assisting:
-   - this is forbidden and if you spot it occurring, then approach the said
-     individuals and question them. Be careful, things may not be quite what
-     they seem though; it may well be one player just helping another.
+   - this is OK within reason. Someone playing with 2 or 3 characters is OK.
+     Someone playing with an excessive number of characters is bending the rules
+     and if you spot it occurring, then bring it up with them.
+     It may well be one player just helping another.
 
    - warn cheaters of Deletion penalties then note a level 98+ or to
      an implementor. If that player is caught again, they're in mucho trouble.
@@ -336,13 +325,12 @@ Restrings:
 
 92 COMMANDMENTS LAWS 'GOD RULES' GODS~
 .
-                         **********************
-                         *  |R The Rules of  X |w *
-                         **********************
+                         ******************
+                         * Rules for Gods *
+                         ******************
  
 
                 >>> For Extended Rules read |RHELP XIMM|w <<<
-
 
 1)  Do not kill mortals, do not kill mortals, do not kill mortals.
     This includes transferring/summoning them to aggressive mobs.
@@ -358,24 +346,16 @@ Restrings:
  
 4)  DO NOT kill the shopkeepers for any reason at ALL.
  
-5)  DO NOT use reboot.  <--- Note, simple English.
- 
-6)  Do not give out free equipment.  You don't need to win brownie
+5)  Do not give out free equipment.  You don't need to win brownie
     points with the mortals.  Quest are fine but handing out items
     isn't.
  
-7)  A note on quests: Quests are a good thing, more or less, BUT 
-    do not give out overly extravagant prizes.  Exercise some 
-    common sense here folks.  Do not load items more than 4 levels
-    below their normal level (i.e. no level 5 ogre gauntlets).
- 
-8)  Do not undermine the authority of a higher level god.  If you 
-    see that someone has been frozen or nochannelled do not restore
-    their priveleges.  They are being punished for a reason.
- 
-9)  Do not try to overrule each other.  
- 
-10) Trusted mortals:  Do not use your god powers to help your mortal
+6)  A note on quests: Quests are a good thing, more or less, BUT 
+    do not give out overly extravagant prizes. 
+
+7)  Do not undermine the authority of a higher level god.
+
+8) Trusted mortals:  Do not use your god powers to help your mortal
     character.  If you do, your trust will be taken away.
 
 ~
@@ -408,50 +388,22 @@ But Puff trapped the exception, and grew from naught again!
 ~
 
 -1 RULES~
-These are the rules of |RX|w.  For other matters, use common sense.
+These are some of the basic rules.  For other matters, use common sense.
 * No player stealing or player killing. Period.
 
-* excessive foul language will not be tolerated in Xania, from anyone
+* Excessive foul language will not be tolerated in Xania, from anyone
   (including gods). Punishments range from deletion to NOCHANNELing.
 
-* sexual harassment of any form will not be tolerated, punishable by deletion
-
-* your presence here is a privilege not a right
+* Sexual harassment of any form will not be tolerated, punishable by deletion
  
-* |YAbsolutely no multiassisting! You may have more than one character logged
-    on but do not use them to help each other! If you're caught, you're
-    in BIG trouble.|w
- 
-* no kill stealing.  This means you cannot attack a mob someone else is 
-  fighting, unless they ask you to. Also avoid attacking fleeing mobs.
+* It's OK to have more than one character logged in and you can play with
+  them together. This is mainly so that you can experience more of the game
+  in your own time. But be reasonable and try to limit how much you do this.
+  Play with other people if you can!
 
-* cheating will not be tolerated.  This includes accepting favors from gods
-  and exploiting bugs. If you find a bug, report it, then do not use it.
+* If you think you've found a bug please report it in game or on our Discord.
 ~
 
-
-
-
--1 STORAGE~
-If your character is not logged in during a period of 14 consecutive days,
-it will 'disappear' into storage and will need to be restored by an 
-implementor. 
-
-    On the login screen you will see:
-
-    'Did I hear that right - <name> (Y/N)?' if your character has been
-put into storage. 
-
-To get restored to your former self, write a note to immortal (do 'help note' 
-if you don't know how to) and state the following:
-
-    - character name
-    - character level (approximately)
-    - the approximate date when you last played
-    - your e-mail address (optional - we can mail you and tell you if you've  
-                           been restored or not!) 
-With luck, you'll be back in shape fairly soon afterwards.
-~
 -1 ROM~
 In the  beginning, there was ROM.  (Actually, it was  in February, but
 that's  beside the point)  Then, ROM was updated to  ROM II, and for a
