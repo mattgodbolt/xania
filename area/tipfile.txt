@@ -14,8 +14,13 @@ if you get lost type 'recall' to return to the city of Midgaard.~
 
 type 'practice' to view your current skills and spells.~
 
-type 'train' in a training room to see what characteristics
-     you can improve.~
+type 'train' in a training room to see what characteristics you can improve.~
+
+you can use 'practice' and 'train' at the trainers in Mud School up to level 5.~
+
+to 'train' at level 6+, find the Sailor in Midgaard east of Common Square!~
+
+to 'practice' at level 6+, search for your class guildmaster in Midgaard.~
 
 type 'outfit' to equip yourself with some basic adventuring gear.~
 
@@ -68,4 +73,4 @@ you'll recover more quickly if you 'sleep' or 'rest'.~
 some of the body parts of your slain foes are edible but beware, 
      some are poisonous!~
 
-visit Midgaard's map shop to purchase some excellent maps!~
+visit Melancholy's Maps in Midgaard to purchase some useful maps!~

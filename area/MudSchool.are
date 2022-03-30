@@ -575,6 +575,9 @@ school.  If you have been here before and want to go directly to the arena,
 go south.
 
 A sign warns 'You may not pass these doors once you have passed level 5.'
+
+If you get lost you can return to Mud School using 'recall' or its
+shortcut '/'.  That takes you to Temple Square, then go up!
 ~
 4|8 0
 D5
@@ -2009,10 +2012,13 @@ You see the room you came from, and the room you should go to.
 E
 sign~
 Welcome to Furey's Training Room.  Here you can train your attributes.  To 
-train an attribute, you need enough practices.  To find out how many practice
+train an attribute, you need enough practices.  To find out how many training
 sessions you have, type 'train' while you are in this room.  To train for a 
 specific attribute, type 'train <attr>' where attr is the first 3 letters of
 the attribute you want increased.  Type 'help train' for more information.
+
+After level 5 you will need to visit the Sailor in Midgaard to train, although
+there are other trainers further afield in the lands of Xania too.
 ~
 S
 #3759
@@ -2035,6 +2041,9 @@ sessions you have, type 'practice'.  To practice the specific skill, type
 'practice <skill>', where 'skill' is the skill or spell you wish to practice.
 Practicing increases the amount you know of that skill or spell, up to a
 certain maximum.  When you have practiced all you wish to practice, go west.
+
+After level 5 you will need to visit your class guildmatser in Midgaard to
+practice, although there are other guildmasters elsewhere in Xania too.
 ~
 S
 #3760
