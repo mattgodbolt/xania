@@ -2116,6 +2116,16 @@ Syntax: cast 'fly' <character>
 This spell enables the target character to fly.
 ~
 
+0 FRENZY~
+Syntax: cast 'frenzy' <character>
+
+This spell will send a character into a crazed battle frenzy. They'll be more
+dangerous in melee, but at the same time they will be more vulnerable to
+attack.
+
+The power of frenzy may only be bestowed upon those that your deity favours,
+based on their alignment to good or evil.
+~
 
 0 'GIANT STRENGTH'~
 Syntax: cast 'giant strength' <character>
