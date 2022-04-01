@@ -6,6 +6,8 @@
     "configurations": [
 
 
+
+
     {
         "name": "(gdb) pfu",
         "type": "cppdbg",
@@ -112,6 +114,42 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/install/bin/xania",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [ 
+                { 
+                    "name" : "MUD_DATA_DIR",
+                    "value" : "${workspaceFolder}"
+                },
+                { 
+                    "name" : "MUD_AREA_DIR",
+                    "value" : "${workspaceFolder}/install/area"
+                },
+                { 
+                    "name" : "MUD_HTML_DIR",
+                    "value" : "${workspaceFolder}/install/html"
+                },
+                {
+                    "name" : "MUD_PORT",
+                    "value" : "9000"
+                }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug Doorman",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/install/bin/doorman",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
