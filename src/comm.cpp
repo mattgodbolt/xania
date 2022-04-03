@@ -140,6 +140,22 @@ bool is_being_debugged() {
     return false;
 }
 
+void lobby_maybe_enable_colour(Descriptor *desc) {
+    if (desc->ansi_terminal_detected()) {
+        desc->character()->pcdata->colour = true;
+    }
+}
+
+void lobby_prompt_for_race(Descriptor *desc) {
+    do_help(desc->character(), "selectrace");
+    desc->state(DescriptorState::GetNewRace);
+}
+
+void lobby_prompt_for_class(Descriptor *desc) {
+    do_help(desc->character(), "selectclass");
+    desc->state(DescriptorState::GetNewClass);
+}
+
 // If Doorman didn't detect an ansi terminal ask the user.
 void lobby_prompt_for_ansi(Descriptor *desc) {
     desc->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
@@ -623,8 +639,8 @@ void nanny(Descriptor *d, std::string_view argument) {
         log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
                 ch->is_wizinvis() || ch->is_prowlinvis() ? ch->get_trust() : 0);
 
-        if (d->ansi_terminal_detected()) {
-            ch->pcdata->colour = true;
+        lobby_maybe_enable_colour(d);
+        if (ch->pcdata->colour) {
             lobby_show_motd(d);
         } else {
             lobby_prompt_for_ansi(d);
@@ -679,7 +695,7 @@ void nanny(Descriptor *d, std::string_view argument) {
 
         case 'n':
         case 'N':
-            d->write("Ack! Amateurs! Try typing it in properly: ");
+            d->write("OK, try again: ");
             delete d->character();
             d->character(nullptr);
             d->state(DescriptorState::GetName);
@@ -737,16 +753,8 @@ void nanny(Descriptor *d, std::string_view argument) {
         }
 
         SetEchoState(d, 1);
-        d->write("The following races are available:\n\r  ");
-        for (auto race = 1; race_table[race].name != nullptr; race++) {
-            if (!race_table[race].pc_race)
-                break;
-            d->write(race_table[race].name);
-            d->write(" ");
-        }
-        d->write("\n\r");
-        d->write("What is your race (help for more information)? ");
-        d->state(DescriptorState::GetNewRace);
+        lobby_maybe_enable_colour(d);
+        lobby_prompt_for_race(d);
         break;
 
     case DescriptorState::GetNewRace: {
@@ -763,16 +771,8 @@ void nanny(Descriptor *d, std::string_view argument) {
         }
         auto race = race_lookup(choice);
         if (race == 0 || !race_table[race].pc_race) {
-            d->write("That is not a valid race.\n\r");
-            d->write("The following races are available:\n\r  ");
-            for (race = 1; race_table[race].name != nullptr; race++) {
-                if (!race_table[race].pc_race)
-                    break;
-                d->write(race_table[race].name);
-                d->write(" ");
-            }
-            d->write("\n\r");
-            d->write("What is your race? (help for more information) ");
+            ch->send_line("That is not a valid race.");
+            lobby_prompt_for_race(d);
             break;
         }
 
@@ -796,7 +796,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         ch->pcdata->points = pc_race_table[race].points;
         ch->body_size = pc_race_table[race].body_size;
 
-        d->write("Are you male, female or other (M/F/O)? ");
+        ch->send_to("Are you male, female or other (M/F/O)? ");
         d->state(DescriptorState::GetNewSex);
         break;
     }
@@ -805,20 +805,11 @@ void nanny(Descriptor *d, std::string_view argument) {
             ch->sex = *sex;
             ch->pcdata->true_sex = *sex;
         } else {
-            d->write("Please specify (M)ale, (F)emale or (O)ther. ");
+            ch->send_to("Please specify (M)ale, (F)emale or (O)ther. ");
             return;
         }
-        d->write("Thanks. Personal pronouns can be set using the 'pronouns' command later on.\n");
-        std::string buf = "The following classes are available: ";
-        for (auto i = 0; i < MAX_CLASS; i++) {
-            if (i > 0)
-                buf += ' ';
-            buf += class_table[i].name;
-        }
-        buf += "\n\r";
-        d->write(buf);
-        d->write("What is your class (help for more information)? ");
-        d->state(DescriptorState::GetNewClass);
+        ch->send_line("OK. Personal pronouns can be set later using the |ypronouns|w command.");
+        lobby_prompt_for_class(d);
         break;
     }
     case DescriptorState::GetNewClass: {
@@ -836,12 +827,11 @@ void nanny(Descriptor *d, std::string_view argument) {
         if (const auto chosen_class = class_lookup(choice); chosen_class >= 0) {
             ch->class_num = chosen_class;
             log_string("{}@{} new player.", ch->name, d->host());
-            d->write("\n\r");
-            d->write("You may be good, neutral, or evil.\n\r");
-            d->write("Which alignment (G/N/E)? ");
+            ch->send_line("\n\rYou may be good, neutral, or evil.");
+            ch->send_to("Which alignment (G/N/E)? ");
             d->state(DescriptorState::GetAlignment);
         } else {
-            d->write("That's not a class.\n\rWhat IS your class? ");
+            ch->send_to("That's not a class.\n\rWhat IS your class? ");
             return;
         }
         break;
@@ -855,13 +845,11 @@ void nanny(Descriptor *d, std::string_view argument) {
         case 'e':
         case 'E': ch->alignment = -750; break;
         default:
-            d->write("That's not a valid alignment.\n\r");
-            d->write("Which alignment (G/N/E)? ");
+            ch->send_line("That's not a valid alignment.\n\r");
+            ch->send_to("Which alignment (G/N/E)? ");
             return;
         }
-
-        d->write("\n\r");
-
+        ch->send_line("");
         group_add(ch, "rom basics", false);
         group_add(ch, class_table[ch->class_num].base_group, false);
         ch->pcdata->learned[gsn_recall] = 50;
@@ -890,8 +878,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         case 'N':
             group_add(ch, class_table[ch->class_num].default_group, true);
             d->write("\n\r");
-            if (d->ansi_terminal_detected()) {
-                ch->pcdata->colour = true;
+            if (ch->pcdata->colour) {
                 lobby_show_motd(d);
             } else {
                 lobby_prompt_for_ansi(d);
@@ -908,17 +895,14 @@ void nanny(Descriptor *d, std::string_view argument) {
             ch->send_line("Experience per level: {}", exp_per_level(ch, ch->pcdata->customization->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
-            if (d->ansi_terminal_detected()) {
-                ch->pcdata->colour = true;
+            if (ch->pcdata->colour) {
                 lobby_show_motd(d);
             } else {
                 lobby_prompt_for_ansi(d);
             }
             break;
         }
-        if (!parse_customizations(ch, ArgParser(argument)))
-            ch->send_line("Choice (add, drop, help, info, learned, list, done)?");
-
+        parse_customizations(ch, ArgParser(argument));
         do_help(ch, "menu choice");
         break;
 
@@ -929,7 +913,6 @@ void nanny(Descriptor *d, std::string_view argument) {
         break;
 
     case DescriptorState::ReadMotd:
-        d->write("\n\rWelcome to Xania.  May your stay be eventful.\n\r");
         char_list.add_front(ch);
         d->state(DescriptorState::Playing);
         /* Moog: tell doorman we logged in OK */

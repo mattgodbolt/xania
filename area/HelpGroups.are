@@ -1,5 +1,11 @@
 #HELPS
 
+-1 'SELECTRACE'~
+The following races are available:
+ |CHuman |GDwarf |BElf |WHalf-Elf |REagle |PDragon |GOrc |YHobbit |CMinotaur |WWolf|w
+What is your race (|Yhelp|w for more information)?
+~
+
 -1 'RACE HELP' 'RACE' 'RACES'~
 |RXania|w has the following races for player characters:
   |CHuman|w    powerful and versatile bipeds
@@ -195,7 +201,7 @@ done           exit the character generation process
 ~
 
 -1 'MENU CHOICE'~
-Choice (add, drop, help, info, learned, list, done)?~
+Choice (|Cadd|w, |Bdrop|w, |yhelp|w, |Minfo|w, |Rlearned|w, |Glist|w, |Wdone|w)?~
 
 -1 BASICS~
 The basic skills:
@@ -212,18 +218,24 @@ throw		instinctive co-ordination, can be used with bombs
 for class defaults, check the classes themselves.
 ~
 
+-1 'SELECTCLASS'~
+The following classes are available:
+ |MMage |CCleric |GKnight |RBarbarian|w
+What is your class (|Yhelp|w for more information)?
+~
+
 -1 CLASSES~
 Player character classes in Xania:
-Mage:      Specialists in magic including combat, illusion, protection,
+|MMage|w:      Specialists in magic including combat, illusion, protection,
            enchanting and more. Mages receive an intelligence bonus.
 
-Cleric:    Specialists in healing, they also deal damage and cast protection
+|CCleric|w:    Specialists in healing, they also deal damage and cast protection
            and utility spells. Clerics receive a bonus to their wisdom.
 
-Knight:    The noble fighting class. Experts in weaponry and defensive techniques.
+|GKnight|w:    The noble fighting class. Experts in weaponry and defensive techniques.
            Knights gain a strength bonus.
 
-Barbarian: Hardened cut-throat warriors who use hand to hand combat
+|RBarbarian|w: Hardened cut-throat warriors who use hand to hand combat
            techniques in order to survive. Barbarians have great constitution.
 
            At later levels, classes can learn spell groups that they don't start

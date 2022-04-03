@@ -163,7 +163,7 @@ void list_group_costs(Char *ch, const auto group_filter, const auto skill_filter
         return;
     Columner col3(*ch, 3);
     for (auto i = 0; i < 3; i++) {
-        col3.add(fmt::format("{:<14}{:<10}", "Group", "Points"));
+        col3.add(fmt::format("|c{:<14}|y{:<10}|w", "Group", "Points"));
     }
     for (auto gn = 0; gn < MAX_GROUP; gn++) {
         if (group_table[gn].name == nullptr)
@@ -175,7 +175,7 @@ void list_group_costs(Char *ch, const auto group_filter, const auto skill_filter
     col3.flush();
     ch->send_line("");
     for (auto i = 0; i < 3; i++) {
-        col3.add(fmt::format("{:<14}{:<10}", "Skill", "Points"));
+        col3.add(fmt::format("|g{:<14}|y{:<10}|w", "Skill", "Points"));
     }
     for (auto sn = 0; sn < MAX_SKILL; sn++) {
         if (skill_table[sn].name == nullptr)
@@ -186,8 +186,9 @@ void list_group_costs(Char *ch, const auto group_filter, const auto skill_filter
     }
     col3.flush();
     ch->send_line("");
-    ch->send_line(fmt::format("Creation points: {}", ch->pcdata->points));
-    ch->send_line(fmt::format("Experience per level: {}", exp_per_level(ch, ch->pcdata->customization->points_chosen)));
+    ch->send_line(fmt::format("|WCreation points:|w {}", ch->pcdata->points));
+    ch->send_line(
+        fmt::format("|GExperience per level:|w {}", exp_per_level(ch, ch->pcdata->customization->points_chosen)));
 }
 
 }
@@ -242,6 +243,7 @@ void do_skills(Char *ch) {
 
 // Shows skills, groups and costs in creation points if not yet learned.
 void list_available_group_costs(Char *ch) {
+    ch->send_line("        |G[Skills and Skill Groups Available]|w");
     list_group_costs(
         ch,
         [&ch](const auto gn) { return !ch->pcdata->customization->group_chosen[gn] && !ch->pcdata->group_known[gn]; },
@@ -250,6 +252,7 @@ void list_available_group_costs(Char *ch) {
 
 // Shows skills, groups and costs in creation points if already learned.
 void list_learned_group_costs(Char *ch) {
+    ch->send_line("        |R[Skills and Skill Groups You've Learned]|w");
     list_group_costs(
         ch, [&ch](const auto gn) { return ch->pcdata->customization->group_chosen[gn]; },
         [&ch](const auto sn) { return ch->pcdata->customization->skill_chosen[sn]; });
@@ -440,7 +443,7 @@ void do_groups(Char *ch, ArgParser argument) {
                 col3.add(group_table[gn].name);
             }
         }
-        ch->send_line(fmt::format("Creation points: {}", ch->pcdata->points));
+        ch->send_line(fmt::format("|WCreation points:|w {}", ch->pcdata->points));
         return;
     }
 
