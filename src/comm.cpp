@@ -110,6 +110,11 @@ bool send_to_doorman(const Packet *p, const void *extra) {
 
 namespace {
 
+const auto GoldTaxThreshold = 250000u;
+const auto NewbieWeaponSkillPct = 40u;
+const auto NewbieNumTrains = 3u;
+const auto NewbieNumPracs = 5u;
+
 void SetEchoState(Descriptor *d, int on) {
     Packet p;
     p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
@@ -891,8 +896,8 @@ void nanny(Descriptor *d, std::string_view argument) {
     case DescriptorState::Customize:
         ch->send_line("");
         if (matches(argument, "done")) {
-            ch->send_line("Creation points: {}", ch->pcdata->points);
-            ch->send_line("Experience per level: {}", exp_per_level(ch, ch->pcdata->customization->points_chosen));
+            ch->send_line("|WCreation points|w: {}", ch->pcdata->points);
+            ch->send_line("|GExperience per level|w: {}", exp_per_level(ch, ch->pcdata->customization->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
             if (ch->pcdata->colour) {
@@ -934,14 +939,14 @@ void nanny(Descriptor *d, std::string_view argument) {
             ch->hit = ch->max_hit;
             ch->mana = ch->max_mana;
             ch->move = ch->max_move;
-            ch->train = 3;
-            ch->practice = 5;
+            ch->train = NewbieNumTrains;
+            ch->practice = NewbieNumPracs;
             ch->send_to("the {}", title_table[ch->class_num][ch->level][ch->sex.is_male() ? 0 : 1]);
 
             do_outfit(ch);
             obj_to_char(create_object(get_obj_index(Objects::Map)), ch);
 
-            ch->pcdata->learned[get_weapon_sn(ch)] = 40;
+            ch->pcdata->learned[get_weapon_sn(ch)] = NewbieWeaponSkillPct;
 
             char_to_room(ch, get_room(Rooms::MudschoolEntrance));
             ch->send_line("");
@@ -969,9 +974,9 @@ void nanny(Descriptor *d, std::string_view argument) {
            updated if a player did count */
         max_on = std::max(static_cast<size_t>(ranges::distance(descriptors().all())), max_on);
 
-        if (ch->gold > 250000 && ch->is_mortal()) {
+        if (ch->gold > GoldTaxThreshold && ch->is_mortal()) {
             ch->send_line("You are taxed {} gold to pay for the Mayor's bar.", (ch->gold - 250000) / 2);
-            ch->gold -= (ch->gold - 250000) / 2;
+            ch->gold -= (ch->gold - GoldTaxThreshold) / 2;
         }
 
         if (ch->pet) {
