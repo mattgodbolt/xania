@@ -108,6 +108,8 @@ bool send_to_doorman(const Packet *p, const void *extra) {
     return true;
 }
 
+namespace {
+
 void SetEchoState(Descriptor *d, int on) {
     Packet p;
     p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
@@ -125,7 +127,6 @@ void greet(Descriptor &d) {
     d.write(greeting->text());
 }
 
-namespace {
 bool is_being_debugged() {
     std::ifstream t("/proc/self/status");
     std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
@@ -138,6 +139,27 @@ bool is_being_debugged() {
 
     return false;
 }
+
+// If Doorman didn't detect an ansi terminal ask the user.
+void lobby_prompt_for_ansi(Descriptor *desc) {
+    desc->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
+    desc->state(DescriptorState::GetAnsi);
+}
+
+void lobby_show_motd(Descriptor *desc) {
+    auto *ch = desc->character();
+    if (ch->pcdata->colour) {
+        ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
+    }
+    if (ch->is_immortal()) {
+        do_help(ch, "imotd");
+        desc->state(DescriptorState::ReadIMotd);
+    } else {
+        do_help(ch, "motd");
+        desc->state(DescriptorState::ReadMotd);
+    }
+}
+
 }
 
 /* where we're asked nicely to quit from the outside */
@@ -241,7 +263,7 @@ void handle_doorman_packet(const Packet &p, std::string_view buffer) {
         if (auto *d = descriptors().find_by_channel(p.channel)) {
             auto *data = reinterpret_cast<const InfoData *>(buffer.data());
             d->set_endpoint(data->netaddr, data->port, data->data);
-            log_string("Info from doorman: {} is {}", p.channel, d->host());
+            d->ansi_terminal_detected(data->ansi);
         } else {
             log_string("Unable to associate info with a descriptor ({})", p.channel);
         }
@@ -601,13 +623,13 @@ void nanny(Descriptor *d, std::string_view argument) {
         log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
                 ch->is_wizinvis() || ch->is_prowlinvis() ? ch->get_trust() : 0);
 
-        d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
-        d->state((d->state() == DescriptorState::CircumventPassword) ? DescriptorState::ReadMotd
-                                                                     : DescriptorState::GetAnsi);
-
+        if (d->ansi_terminal_detected()) {
+            ch->pcdata->colour = true;
+            lobby_show_motd(d);
+        } else {
+            lobby_prompt_for_ansi(d);
+        }
         break;
-
-        /* RT code for breaking link */
 
     case DescriptorState::BreakConnect:
         switch (argument[0]) {
@@ -669,43 +691,19 @@ void nanny(Descriptor *d, std::string_view argument) {
 
     case DescriptorState::GetAnsi:
         if (argument.empty()) {
-            if (ch->pcdata->colour) {
-                ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
-            }
-            if (ch->is_immortal()) {
-                do_help(ch, "imotd");
-                d->state(DescriptorState::ReadIMotd);
-            } else {
-                do_help(ch, "motd");
-                d->state(DescriptorState::ReadMotd);
-            }
+            lobby_show_motd(d);
         } else {
             switch (argument[0]) {
             case 'y':
             case 'Y':
                 ch->pcdata->colour = true;
-                ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
-                if (ch->is_immortal()) {
-                    do_help(ch, "imotd");
-                    d->state(DescriptorState::ReadIMotd);
-                } else {
-                    do_help(ch, "motd");
-                    d->state(DescriptorState::ReadMotd);
-                }
+                lobby_show_motd(d);
                 break;
-
             case 'n':
             case 'N':
                 ch->pcdata->colour = false;
-                if (ch->is_immortal()) {
-                    do_help(ch, "imotd");
-                    d->state(DescriptorState::ReadIMotd);
-                } else {
-                    do_help(ch, "motd");
-                    d->state(DescriptorState::ReadMotd);
-                }
+                lobby_show_motd(d);
                 break;
-
             default: d->write("Please type Yes or No press return: "); break;
             }
         }
@@ -892,9 +890,12 @@ void nanny(Descriptor *d, std::string_view argument) {
         case 'N':
             group_add(ch, class_table[ch->class_num].default_group, true);
             d->write("\n\r");
-            d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
-            d->state(DescriptorState::GetAnsi);
-
+            if (d->ansi_terminal_detected()) {
+                ch->pcdata->colour = true;
+                lobby_show_motd(d);
+            } else {
+                lobby_prompt_for_ansi(d);
+            }
             break;
         default: d->write("Please answer (Y/N)? "); return;
         }
@@ -907,8 +908,12 @@ void nanny(Descriptor *d, std::string_view argument) {
             ch->send_line("Experience per level: {}", exp_per_level(ch, ch->pcdata->customization->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
-            d->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
-            d->state(DescriptorState::GetAnsi);
+            if (d->ansi_terminal_detected()) {
+                ch->pcdata->colour = true;
+                lobby_show_motd(d);
+            } else {
+                lobby_prompt_for_ansi(d);
+            }
             break;
         }
         if (!parse_customizations(ch, ArgParser(argument)))

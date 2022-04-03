@@ -2,14 +2,16 @@
 
 #include <arpa/telnet.h>
 
+#include "string_utils.hpp"
 #include <algorithm>
 #include <cstring>
+#include <vector>
 
-static bool supports_ansi(const char *src) {
-    static const char *terms[] = {"xterm", "xterm-colour", "xterm-color", "ansi",      "xterm-ansi",
-                                  "vt100", "vt102",        "vt220",       "terminator"};
-    for (auto &term : terms)
-        if (!strcasecmp(src, term))
+static bool supports_ansi(std::string_view detected_term) {
+    static const std::vector<std::string_view> ansi_terms{"xterm", "mudlet", "ansi",      "vt100",
+                                                          "vt102", "vt220",  "terminator"};
+    for (auto &ansi_term : ansi_terms)
+        if (matches_start(ansi_term, detected_term))
             return true;
     return false;
 }

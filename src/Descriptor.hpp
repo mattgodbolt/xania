@@ -54,6 +54,7 @@ class Descriptor {
     std::unordered_set<Descriptor *> snooping_;
     uint32_t netaddr_{};
     uint16_t port_{};
+    bool ansi_terminal_detected_{};
     bool processing_command_{};
     DescriptorState state_{DescriptorState::GetName};
     Char *character_{};
@@ -82,6 +83,8 @@ public:
     [[nodiscard]] bool is_in_lobby() const noexcept;
     // Returns true if the descriptor has been connected in the lobby (user/pass prompt) too long.
     [[nodiscard]] bool is_lobby_timeout_exceeded() const noexcept;
+    [[nodiscard]] bool ansi_terminal_detected() const noexcept { return ansi_terminal_detected_; }
+    void ansi_terminal_detected(const bool detected) { ansi_terminal_detected_ = detected; }
     void clear_input() { pending_commands_.clear(); }
     void add_command(std::string_view command) { pending_commands_.emplace_back(command); }
     [[nodiscard]] std::optional<std::string> pop_incomm();

@@ -99,9 +99,15 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
 
     SECTION("Should handle sub options") {
         SECTION("terminal types") {
-            SECTION("supporting ansi") {
+            SECTION("supporting ansi xterm") {
                 REQUIRE_CALL(mock, on_terminal_type("xterm", true));
                 tp.add_data(bytes{IAC, SB, TELOPT_TTYPE, TELQUAL_IS, 'x', 't', 'e', 'r', 'm', IAC, SE});
+                CHECK(tp.supports_ansi());
+            }
+            SECTION("supporting ansi mudlet") {
+                REQUIRE_CALL(mock, on_terminal_type("Mudlet v4", true));
+                tp.add_data(
+                    bytes{IAC, SB, TELOPT_TTYPE, TELQUAL_IS, 'M', 'u', 'd', 'l', 'e', 't', ' ', 'v', '4', IAC, SE});
                 CHECK(tp.supports_ansi());
             }
             SECTION("not supporting ansi") {
