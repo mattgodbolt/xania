@@ -9,6 +9,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
+#include "Alignment.hpp"
 #include "Area.hpp"
 #include "AreaList.hpp"
 #include "ArmourClass.hpp"
@@ -1017,7 +1018,7 @@ void describe_armour(Char *ch, const ArmourClass ac_slot, const char *name) {
 const char *get_align_description(int align) {
     static const std::array align_descriptions = {"|Rsatanic", "|Rdemonic", "|Yevil",    "|Ymean",   "|Mneutral",
                                                   "|Gkind",    "|Ggood",    "|Wsaintly", "|Wangelic"};
-    return align_descriptions[std::clamp((align + 1000) * 8 / 2000, 0,
+    return align_descriptions[std::clamp((align + Alignment::Angelic) * 8 / 2000, 0,
                                          static_cast<int>(align_descriptions.size()) - 1)];
 }
 

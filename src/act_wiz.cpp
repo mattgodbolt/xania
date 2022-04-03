@@ -7,6 +7,7 @@
 #include "act_wiz.hpp"
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
+#include "Alignment.hpp"
 #include "Area.hpp"
 #include "ArmourClass.hpp"
 #include "Char.hpp"
@@ -2156,7 +2157,7 @@ void do_mset(Char *ch, ArgParser args) {
         return;
     }
     if (matches_start(field, "align")) {
-        if (!opt_value_num || *opt_value_num < -1000 || *opt_value_num > 1000) {
+        if (!opt_value_num || *opt_value_num < Alignment::Satanic || *opt_value_num > Alignment::Angelic) {
             ch->send_line("Alignment range is -1000 to 1000.");
             return;
         }

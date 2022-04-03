@@ -10,6 +10,7 @@
 #include "magic.h"
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
+#include "Alignment.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "DamageTolerance.hpp"
@@ -1341,7 +1342,7 @@ void spell_exorcise(int sn, int level, Char *ch, const SpellTarget &spell_target
         ch->send_line("Your exorcism turns upon you!");
     }
 
-    ch->alignment = std::min(1000, ch->alignment + 50);
+    ch->alignment = std::min(Alignment::Angelic, static_cast<sh_int>(ch->alignment + 50));
 
     if (victim != ch) {
         act("$n calls forth the wrath of the Gods upon $N!", ch, nullptr, victim, To::NotVict);
@@ -1369,7 +1370,7 @@ void spell_demonfire(int sn, int level, Char *ch, const SpellTarget &spell_targe
         ch->send_line("The demons turn upon you!");
     }
 
-    ch->alignment = std::max(-1000, ch->alignment - 50);
+    ch->alignment = std::max(Alignment::Satanic, static_cast<sh_int>(ch->alignment - 50));
 
     if (victim != ch) {
         act("$n calls forth the demons of Hell upon $N!", ch, nullptr, victim, To::Room);
@@ -1655,7 +1656,7 @@ void spell_remove_alignment(int sn, int level, Char *ch, const SpellTarget &spel
             ch->alignment -= (30 - score);
         if (ch->is_evil())
             ch->alignment += (30 - score);
-        ch->alignment = std::clamp(ch->alignment, static_cast<sh_int>(-1000), 1000_s);
+        ch->alignment = std::clamp(ch->alignment, static_cast<sh_int>(Alignment::Satanic), Alignment::Angelic);
     }
 
     if (score >= 0) {
@@ -2193,7 +2194,7 @@ void spell_energy_drain(int sn, int level, Char *ch, const SpellTarget &spell_ta
         victim->send_line("You feel a momentary chill.");
         return;
     }
-    ch->alignment = std::max(-1000, ch->alignment - 50);
+    ch->alignment = std::max(Alignment::Satanic, static_cast<sh_int>(ch->alignment - 50));
     int dam;
     if (victim->level <= 2) {
         dam = victim->hit + 1;
@@ -2766,17 +2767,17 @@ void spell_know_alignment(int sn, int level, Char *ch, const SpellTarget &spell_
         return;
     const char *msg;
     int ap = victim->alignment;
-    if (ap > 700)
+    if (ap >= Alignment::Saintly)
         msg = "$N has a pure and good aura.";
-    else if (ap > 350)
+    else if (ap >= Alignment::Amiable)
         msg = "$N is of excellent moral character.";
-    else if (ap > 100)
+    else if (ap >= Alignment::Kind)
         msg = "$N is often kind and thoughtful.";
-    else if (ap > -100)
+    else if (ap >= Alignment::Neutral)
         msg = "$N doesn't have a firm moral commitment.";
-    else if (ap > -350)
+    else if (ap >= Alignment::Depraved)
         msg = "$N lies to $S friends.";
-    else if (ap > -700)
+    else if (ap >= Alignment::Demonic)
         msg = "$N is a black-hearted murderer.";
     else
         msg = "$N is the embodiment of pure evil!.";

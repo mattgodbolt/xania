@@ -844,11 +844,11 @@ void nanny(Descriptor *d, std::string_view argument) {
     case DescriptorState::GetAlignment:
         switch (argument[0]) {
         case 'g':
-        case 'G': ch->alignment = 750; break;
+        case 'G': ch->alignment = Alignment::Saintly; break;
         case 'n':
-        case 'N': ch->alignment = 0; break;
+        case 'N': ch->alignment = Alignment::Neutral; break;
         case 'e':
-        case 'E': ch->alignment = -750; break;
+        case 'E': ch->alignment = Alignment::Demonic; break;
         default:
             ch->send_line("That's not a valid alignment.\n\r");
             ch->send_to("Which alignment (G/N/E)? ");

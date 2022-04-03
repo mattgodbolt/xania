@@ -1492,25 +1492,16 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
 
     if (check_enum_bit(victim->act, CharActFlag::NoAlign)) {
         /* no change */
-    }
-
-    else if (align > 500) /* monster is more good than slayer */
-    {
-        change = (align - 500) * base_exp / 500 * base_level / total_levels;
+    } else if (align > Alignment::Good) { /* monster is more good than slayer */
+        change = (align - Alignment::Good) * base_exp / Alignment::Good * base_level / total_levels;
         change = std::max(1, change);
-        gch->alignment = std::max(-1000, gch->alignment - change);
-    }
-
-    else if (align < -500) /* monster is more evil than slayer */
-    {
-        change = (-1 * align - 500) * base_exp / 500 * base_level / total_levels;
+        gch->alignment = std::max(Alignment::Satanic, static_cast<sh_int>(gch->alignment - change));
+    } else if (align < Alignment::Evil) { /* monster is more evil than slayer */
+        change = (-1 * align - Alignment::Evil) * base_exp / Alignment::Good * base_level / total_levels;
         change = std::max(1, change);
-        gch->alignment = std::min(1000, gch->alignment + change);
-    }
-
-    else /* improve this someday */
-    {
-        change = gch->alignment * base_exp / 500 * base_level / total_levels;
+        gch->alignment = std::min(Alignment::Angelic, static_cast<sh_int>(gch->alignment + change));
+    } else { /* improve this someday */
+        change = gch->alignment * base_exp / Alignment::Good * base_level / total_levels;
         gch->alignment -= change;
     }
 
@@ -1520,87 +1511,71 @@ int xp_compute(Char *gch, Char *victim, int total_levels) {
     */
     if (check_enum_bit(victim->act, CharActFlag::NoAlign))
         xp = base_exp;
-
-    else if (gch->alignment > 500) /* for goodie two shoes */
-    {
-        if (victim->alignment < -750)
+    else if (gch->alignment > Alignment::Good) { /* for goodie two shoes */
+        if (victim->alignment < Alignment::Demonic)
             xp = base_exp * 1.25f;
 
-        else if (victim->alignment < -500)
+        else if (victim->alignment < Alignment::Evil)
             xp = base_exp * 1.13f;
 
-        else if (victim->alignment > 750)
+        else if (victim->alignment > Alignment::Saintly)
             xp = base_exp * 0.75f;
 
-        else if (victim->alignment > 500)
+        else if (victim->alignment > Alignment::Good)
             xp = base_exp * 0.85f;
 
-        else if ((victim->alignment > 250))
+        else if ((victim->alignment > Alignment::Kind))
             xp = base_exp * 0.90f;
 
         else
             xp = base_exp;
-    }
-
-    else if (gch->alignment < -500) /* for baddies */
-    {
-        if (victim->alignment > 750)
+    } else if (gch->alignment < Alignment::Evil) { /* for baddies */
+        if (victim->alignment > Alignment::Saintly)
             xp = base_exp * 1.25f;
 
-        else if (victim->alignment > 500)
+        else if (victim->alignment > Alignment::Good)
             xp = base_exp * 1.13f;
 
-        else if (victim->alignment < -750)
+        else if (victim->alignment < Alignment::Demonic)
             xp = base_exp * 0.75f;
 
-        else if (victim->alignment < -500)
+        else if (victim->alignment < Alignment::Evil)
             xp = base_exp * 0.85f;
 
-        else if (victim->alignment < -250)
+        else if (victim->alignment < Alignment::Mean)
             xp = base_exp * 0.90f;
 
         else
             xp = base_exp;
-    }
-
-    else if (gch->alignment > 200) /* a little good */
-    {
-
-        if (victim->alignment < -500)
+    } else if (gch->alignment > Alignment::Amiable) { /* a little good */
+        if (victim->alignment < Alignment::Evil)
             xp = base_exp * 1.17f;
 
-        else if (victim->alignment > 750)
+        else if (victim->alignment > Alignment::Saintly)
             xp = base_exp * 0.75f;
 
-        else if (victim->alignment > 0)
+        else if (victim->alignment > Alignment::Neutral)
             xp = base_exp * 0.90;
 
         else
             xp = base_exp;
-    }
-
-    else if (gch->alignment < -200) /* a little bad */
-    {
-        if (victim->alignment > 500)
+    } else if (gch->alignment < Alignment::Depraved) { /* a little bad */
+        if (victim->alignment > Alignment::Good)
             xp = base_exp * 1.17f;
 
-        else if (victim->alignment < -750)
+        else if (victim->alignment < Alignment::Demonic)
             xp = base_exp * 0.75f;
 
-        else if (victim->alignment < 0)
+        else if (victim->alignment < Alignment::Neutral)
             xp = base_exp * 0.90f;
 
         else
             xp = base_exp;
-    }
-
-    else /* neutral */
-    {
-
-        if (victim->alignment > 500 || victim->alignment < -500)
+    } else { /* neutral */
+        if (victim->alignment > Alignment::Good || victim->alignment < Alignment::Evil)
             xp = base_exp * 1.25f;
 
-        else if (victim->alignment > 200 || victim->alignment < -200)
+        else if (victim->alignment > Alignment::Amiable || victim->alignment < Alignment::Depraved)
             xp = base_exp * 1.13f;
 
         else

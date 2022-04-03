@@ -2,6 +2,7 @@
 
 #include "AFFECT_DATA.hpp"
 #include "AffectList.hpp"
+#include "Alignment.hpp"
 #include "ArmourClass.hpp"
 #include "CharExtraFlag.hpp"
 #include "CharVersion.hpp"
@@ -278,8 +279,8 @@ struct Char {
     }
 
     // Alignment.
-    [[nodiscard]] bool is_good() const noexcept { return alignment >= 350; }
-    [[nodiscard]] bool is_evil() const noexcept { return alignment <= -350; }
+    [[nodiscard]] bool is_good() const noexcept { return alignment >= Alignment::Amiable; }
+    [[nodiscard]] bool is_evil() const noexcept { return alignment <= Alignment::Depraved; }
     [[nodiscard]] bool is_neutral() const noexcept { return !is_good() && !is_evil(); }
 
     // Crime.
