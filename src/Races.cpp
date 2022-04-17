@@ -200,8 +200,8 @@ const struct pc_race_type pc_race_table[] = {
      40,
      {100, 100, 100, 100},
      {"draconian", "transportation", "bash"},
-     {16, 16, 16, 16, 16},
-     {21, 20, 20, 13, 21},
+     {16, 16, 16, 13, 16},
+     {21, 20, 20, 16, 21},
      BodySize::Large},
 
     {"eagle",
