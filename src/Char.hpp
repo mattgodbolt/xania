@@ -118,7 +118,7 @@ struct Char {
     Position start_pos{};
     Position default_pos{};
     unsigned long extra_flags[(magic_enum::enum_count<CharExtraFlag>() / 32) + 1]{};
-    std::vector<MProg::ActTriggerCtx> mpact{};
+    std::vector<MProg::MProgTriggerCtx> mpact{};
 
     Char();
     ~Char();

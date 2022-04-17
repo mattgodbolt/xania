@@ -15,16 +15,16 @@ namespace MProg {
 
 enum class TypeFlag;
 
-// When a mobprog is triggered via an 'act()' call (often using ActTriggerCtx), the caller may have specified an
+// When a mobprog is triggered via an 'act()' call (often using MProgTriggerCtx), the caller may have specified an
 // optional target object or target character. These can be referenced within the act format string with $ variables.
 // The target is made available to act_trigger() and the lower level mprog routines using this variant.
 using Target = std::variant<std::nullptr_t, const Char *, const Object *>;
 
 // Carries context about an act() event that may potentially trigger a mob prog that is
 // configured to be triggered by acts.
-class ActTriggerCtx {
+class MProgTriggerCtx {
 public:
-    ActTriggerCtx(std::string &&act_message_trigger, const Char *ch, const Object *obj, const Target target)
+    MProgTriggerCtx(std::string &&act_message_trigger, const Char *ch, const Object *obj, const Target target)
         : act_message_trigger_(std::move(act_message_trigger)), ch_(ch), obj_(obj), target_(target) {}
 
     [[nodiscard]] std::string_view act_message_trigger() const { return act_message_trigger_; }
