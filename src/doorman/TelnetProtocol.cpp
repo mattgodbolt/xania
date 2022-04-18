@@ -164,9 +164,9 @@ size_t TelnetProtocol::on_command(gsl::span<const byte> command_sequence) {
     case WONT: send_com(DONT, option_code); return 3;
     case DO:
         if (option_code == TELOPT_ECHO) {
-            if (!client_should_echo_) {
+            if (client_should_echo_) {
                 send_com(WILL, TELOPT_ECHO);
-                client_should_echo_ = true;
+                client_should_echo_ = false;
             }
         } else {
             // Doorman doesn't know about any other Telnet options so reply with WONT.
@@ -175,9 +175,9 @@ size_t TelnetProtocol::on_command(gsl::span<const byte> command_sequence) {
         return 3;
     case DONT:
         if (option_code == TELOPT_ECHO) {
-            if (client_should_echo_) {
+            if (!client_should_echo_) {
                 send_com(WONT, TELOPT_ECHO);
-                client_should_echo_ = false;
+                client_should_echo_ = true;
             }
         } else {
             // Doorman doesn't know about any other Telnet options so reply with WONT.

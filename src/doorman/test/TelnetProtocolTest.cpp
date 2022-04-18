@@ -78,9 +78,8 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
     }
 
     SECTION("Should handle DO") {
-        // #301 Don't respond to requests that don't change state.
         SECTION("ignore WILL ECHO if we're already echoing") {
-            FORBID_CALL(mock, send_bytes(match_bytes(bytes{IAC, WILL, TELOPT_ECHO})));
+            REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, WILL, TELOPT_ECHO})));
             tp.add_data(bytes{IAC, DO, TELOPT_ECHO});
         }
         SECTION("handling echo when we're not echoing") {
@@ -88,7 +87,8 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
                 REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, WILL, TELOPT_ECHO})));
                 tp.set_echo(false);
             }
-            REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, WILL, TELOPT_ECHO})));
+            // #301 Don't respond to requests that don't change state.
+            FORBID_CALL(mock, send_bytes(match_bytes(bytes{IAC, WILL, TELOPT_ECHO})));
             tp.add_data(bytes{IAC, DO, TELOPT_ECHO});
         }
         SECTION("ignoring anything else") {
