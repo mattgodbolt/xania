@@ -83,9 +83,12 @@ std::string_view TelnetProtocol::handle_whole_lines(std::string_view data) {
     return data;
 }
 
-void TelnetProtocol::set_echo(bool echo) {
-    send_com(echo ? WONT : WILL, TELOPT_ECHO);
-    echoing_ = echo;
+// This is counter-intuitive, but it means that when terminal echo is undesirable (e.g. password input)
+// send a IAC WILL ECHO to the client. This tells the client that the mud takes over the responsibility for
+// echoing any inputs so that the client should not do it. And vice versa.
+void TelnetProtocol::set_echo(bool client_should_echo) {
+    send_com(client_should_echo ? WONT : WILL, TELOPT_ECHO);
+    client_should_echo_ = client_should_echo;
 }
 
 void TelnetProtocol::send_telopts() {
@@ -160,14 +163,27 @@ size_t TelnetProtocol::on_command(gsl::span<const byte> command_sequence) {
         return 3;
     case WONT: send_com(DONT, option_code); return 3;
     case DO:
-        if (option_code == TELOPT_ECHO && echoing_ == false) {
-            send_com(WILL, TELOPT_ECHO);
+        if (option_code == TELOPT_ECHO) {
+            if (!client_should_echo_) {
+                send_com(WILL, TELOPT_ECHO);
+                client_should_echo_ = true;
+            }
         } else {
+            // Doorman doesn't know about any other Telnet options so reply with WONT.
             send_com(WONT, option_code);
         }
         return 3;
-
-    case DONT: send_com(WONT, option_code); return 3;
+    case DONT:
+        if (option_code == TELOPT_ECHO) {
+            if (client_should_echo_) {
+                send_com(WONT, TELOPT_ECHO);
+                client_should_echo_ = false;
+            }
+        } else {
+            // Doorman doesn't know about any other Telnet options so reply with WONT.
+            send_com(WONT, option_code);
+        }
+        return 3;
     case SB: return on_subcommand(command_sequence);
     }
     throw std::runtime_error("Unexpected internal state");

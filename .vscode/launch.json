@@ -8,6 +8,7 @@
 
 
 
+
     {
         "name": "(gdb) pfu",
         "type": "cppdbg",
@@ -44,11 +45,34 @@
             }
         ]
     },
-        {
+    {
             "name": "(gdb) xania_test",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmake-build-debug/xania/src/test/xania_test",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                { "name" : "MELD_ON_DIFF",
+                    "value" : "1"
+                  }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) doorman_test",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmake-build-debug/xania/src/doorman/test/doorman_test",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

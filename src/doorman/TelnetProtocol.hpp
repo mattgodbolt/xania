@@ -20,7 +20,7 @@ private:
     Handler &handler_;
     std::vector<byte> buffer_;
     bool got_term_ = false;
-    bool echoing_ = true;
+    bool client_should_echo_ = true;
     unsigned int width_ = 80;
     unsigned int height_ = 24;
     bool ansi_ = false;
@@ -42,7 +42,7 @@ public:
 
     [[nodiscard]] size_t buffered_data_size() const { return buffer_.size(); }
     void add_data(gsl::span<const byte> data);
-    void set_echo(bool echo);
+    void set_echo(bool client_should_echo);
 
     [[nodiscard]] bool supports_ansi() const { return ansi_; }
     void send_telopts();
