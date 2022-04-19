@@ -535,11 +535,7 @@ bool process_output(Descriptor *d, bool fPrompt) {
 
         if (check_enum_bit(person->comm, CommFlag::Prompt))
             d->write(colourise_mud_string(ansi, format_prompt(*character, person->pcdata->prompt)));
-        if (d->flush_output()) {
-            return send_go_ahead(d);
-        } else {
-            return false;
-        }
+        return d->flush_output() && send_go_ahead(d);
     } else {
         return d->flush_output();
     }
