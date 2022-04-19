@@ -51,7 +51,10 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
         REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, WILL, TELOPT_ECHO})));
         tp.set_echo(false);
     }
-
+    SECTION("Should send GA") {
+        REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, GA})));
+        tp.send_go_ahead();
+    }
     SECTION("Should handle WILLs") {
         SECTION("handling terminal type") {
             {
@@ -72,7 +75,7 @@ TEST_CASE("Telnet protocol", "[TelnetProtocol]") {
         tp.add_data(bytes{IAC, DONT, TELOPT_BINARY});
     }
 
-    SECTION("Should handle DONTs by saying WONT") {
+    SECTION("Should handle WONTs by saying DONT") {
         REQUIRE_CALL(mock, send_bytes(match_bytes(bytes{IAC, DONT, TELOPT_BINARY})));
         tp.add_data(bytes{IAC, WONT, TELOPT_BINARY});
     }

@@ -127,6 +127,16 @@ void Xania::handle_channel_message(const Packet &p, const std::string &payload, 
             channel.close();
         }
         break;
+    case PACKET_GO_AHEAD:
+        /* A message from the MUD telling us to send Telnet Go Ahead */
+        try {
+            channel.send_go_ahead();
+        } catch (const std::runtime_error &re) {
+            log_.info("[{}] Received error '{}' on write - closing connection", p.channel, re.what());
+            send_close_msg(channel);
+            channel.close();
+        }
+        break;
     case PACKET_AUTHORIZED:
         /* A character has successfully logged in */
         channel.on_auth(payload);

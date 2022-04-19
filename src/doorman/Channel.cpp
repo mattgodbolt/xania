@@ -129,6 +129,8 @@ void Channel::send_connect_packet() {
     sent_reconnect_message_ = false;
 }
 
+void Channel::send_go_ahead() { telnet_.send_go_ahead(); }
+
 int Channel::set_fds(fd_set &input_fds, fd_set &exception_fds) noexcept {
     if (!fd_.is_open())
         return 0;

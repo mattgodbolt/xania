@@ -26,6 +26,7 @@ private:
     bool ansi_ = false;
     char previous_separator_ = 0;
 
+    void send_com(byte a);
     void send_com(byte a, byte b);
     void send_opt(byte a);
 
@@ -46,4 +47,5 @@ public:
 
     [[nodiscard]] bool supports_ansi() const { return ansi_; }
     void send_telopts();
+    void send_go_ahead();
 };

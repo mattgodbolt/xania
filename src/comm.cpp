@@ -115,12 +115,20 @@ const auto NewbieWeaponSkillPct = 40u;
 const auto NewbieNumTrains = 3u;
 const auto NewbieNumPracs = 5u;
 
-void SetEchoState(Descriptor *d, int on) {
+void set_echo_state(Descriptor *d, int on) {
     Packet p;
     p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
     p.channel = d->channel();
     p.nExtra = 0;
     send_to_doorman(&p, nullptr);
+}
+
+bool send_go_ahead(Descriptor *d) {
+    Packet p;
+    p.type = PACKET_GO_AHEAD;
+    p.channel = d->channel();
+    p.nExtra = 0;
+    return send_to_doorman(&p, nullptr);
 }
 
 void greet(Descriptor &d) {
@@ -506,13 +514,10 @@ bool read_from_descriptor(Descriptor *d, std::string_view data) {
  */
 bool process_output(Descriptor *d, bool fPrompt) {
     extern bool merc_down;
-
-    /*
-     * Bust a prompt.
-     */
-    if (!merc_down && d->is_paging())
+    if (!merc_down && d->is_paging()) {
         d->write("[Hit Return to continue]\n\r");
-    else if (fPrompt && !merc_down && d->is_playing()) {
+        return d->flush_output();
+    } else if (fPrompt && !merc_down && d->is_playing()) {
         // Retrieve the pc data for the person associated with this descriptor. The person contains user preferences
         // like prompt, colourisation and comm settings.
         const auto *person = d->person();
@@ -530,9 +535,14 @@ bool process_output(Descriptor *d, bool fPrompt) {
 
         if (check_enum_bit(person->comm, CommFlag::Prompt))
             d->write(colourise_mud_string(ansi, format_prompt(*character, person->pcdata->prompt)));
+        if (d->flush_output()) {
+            return send_go_ahead(d);
+        } else {
+            return false;
+        }
+    } else {
+        return d->flush_output();
     }
-
-    return d->flush_output();
 }
 
 /*
@@ -587,7 +597,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         }
         if (existing_player) {
             d->write("Password: ");
-            SetEchoState(d, 0);
+            set_echo_state(d, 0);
             d->state(DescriptorState::GetOldPassword);
             return;
         } else {
@@ -626,7 +636,7 @@ void nanny(Descriptor *d, std::string_view argument) {
             d->write("Type 'password null <new password>' to fix.\n\r");
         }
 
-        SetEchoState(d, 1);
+        set_echo_state(d, 1);
 
         if ((!ch->is_set_extra(CharExtraFlag::Permit) && (bans.check_ban(d->raw_full_hostname(), BanFlag::Permit)))
             || bans.check_ban(d->raw_full_hostname(), BanFlag::All)) {
@@ -693,7 +703,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         switch (argument[0]) {
         case 'y':
         case 'Y':
-            SetEchoState(d, 0);
+            set_echo_state(d, 0);
             d->write(fmt::format("Welcome new character, to Xania.\n\rThink of a password for {}: ", ch->name));
             d->state(DescriptorState::GetNewPassword);
             break;
@@ -757,7 +767,7 @@ void nanny(Descriptor *d, std::string_view argument) {
             return;
         }
 
-        SetEchoState(d, 1);
+        set_echo_state(d, 1);
         lobby_maybe_enable_colour(d);
         lobby_prompt_for_race(d);
         break;

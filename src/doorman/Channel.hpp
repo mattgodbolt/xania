@@ -32,8 +32,9 @@ class Channel : private TelnetProtocol::Handler {
     std::string auth_char_name_; // name of authorized character
 
     void send_to_client(const void *data, size_t length) const {
-        if (fd_.is_open())
+        if (fd_.is_open()) {
             fd_.write(data, length);
+        }
     }
     void send_info_packet() const;
     void on_data(gsl::span<const byte> incoming_data);
@@ -64,6 +65,7 @@ public:
     void mark_disconnected() noexcept { connected_ = false; }
     void send_to_client(gsl::span<const char> span) const { send_to_client(span.data(), span.size_bytes()); }
     void send_to_client(gsl::span<const byte> span) const { send_to_client(span.data(), span.size_bytes()); }
+    void send_go_ahead();
 
     [[nodiscard]] bool is_closed() const { return !fd_.is_open(); }
 

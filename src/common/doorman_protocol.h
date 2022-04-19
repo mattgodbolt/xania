@@ -33,6 +33,7 @@ typedef enum {
     PACKET_ECHO_ON, /* Turn echo on */
     PACKET_ECHO_OFF, /* Turn echo off */
     PACKET_AUTHORIZED, /* Character has been authorized */
+    PACKET_GO_AHEAD /* Send a Telnet Go Ahead, typically right after issuing the player's prompt text */
 } PacketType;
 
 typedef struct tagInfoData {

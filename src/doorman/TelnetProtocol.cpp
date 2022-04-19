@@ -16,6 +16,12 @@ static bool supports_ansi(std::string_view detected_term) {
     return false;
 }
 
+// For single byte commands like GA (go ahead)
+void TelnetProtocol::send_com(byte a) {
+    const byte buf[] = {IAC, a};
+    handler_.send_bytes(buf);
+}
+
 void TelnetProtocol::send_com(byte a, byte b) {
     const byte buf[] = {IAC, a, b};
     handler_.send_bytes(buf);
@@ -96,6 +102,8 @@ void TelnetProtocol::send_telopts() {
     send_com(DO, TELOPT_NAWS);
     send_com(WONT, TELOPT_ECHO);
 }
+
+void TelnetProtocol::send_go_ahead() { send_com(GA); }
 
 static bool is_two_byte_command(byte b) {
     return b == NOP || b == DM || b == BREAK || b == IP || b == ABORT || b == AYT || b == EC || b == EL || b == GA
