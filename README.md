@@ -11,7 +11,10 @@ We chat about the mud [here](https://discord.gg/Xsstufyt8t). Feel free to drop i
 
 ## Building and running
 
-If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 20.04 and 18.04.
+If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 22.04, 20.04 and 18.04.
+
+It works within **Docker** including when hosted by **Windows Subsystem for Linux**. To learn more about this see
+the Docker-specific [tutorial](docker-dev/README.md)!
 
 It has been reported to work on Fedora 34 and Ubuntu under Windows Subsystem for Linux too.
 
@@ -20,7 +23,7 @@ It has been reported to work on Fedora 34 and Ubuntu under Windows Subsystem for
 Here are the Ubuntu steps for installing some prerequisites:
 
 ```bash
-# Install gcc-11 and g++11...
+# Install gcc-11 and g++11...(both included in Ubuntu 22 by the build-essentials package)
 $ sudo apt install build-essential manpages-dev software-properties-common
 $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 $ sudo apt update && sudo apt install gcc-11 g++-11
@@ -49,6 +52,10 @@ You'll also need a recent version of __cmake__, at least version 3.19 is require
 ```bash
 $ sudo apt install cmake
 ```
+
+On Ubuntu 22 the `cmake` package is present in the main APT repository.
+
+### Build and Run
 
 The build itself downloads and manages many other upstream dependencies such as __conda__ and __conan__
 via the `Makefile`.
