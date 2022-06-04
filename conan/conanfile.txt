@@ -1,5 +1,5 @@
 [requires]
-catch2/2.13.8
+catch2/2.13.9
 fmt/8.1.1
 ms-gsl/4.0.0
 trompeloeil/42
@@ -7,8 +7,7 @@ spdlog/1.10.0
 date/3.0.1
 range-v3/0.11.0
 lyra/1.6.0
-magic_enum/0.7.3
-namedtype/20190324
+magic_enum/0.8.0
 
 [generators]
 cmake_paths
