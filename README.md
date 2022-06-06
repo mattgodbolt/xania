@@ -16,7 +16,7 @@ If you want to build and run Xania locally, you'll need a modern Linux. We test 
 It works within **Docker** including when hosted by **Windows Subsystem for Linux**. To learn more about this see
 the Docker-specific [tutorial](docker-dev/README.md)!
 
-It has been reported to work on Fedora 34 and Ubuntu under Windows Subsystem for Linux too.
+It has been reported to work on Fedora 34 too.
 
 ### g++ and Other Essentials
 
@@ -40,20 +40,19 @@ $ sudo apt install git make curl
 $ make TOOLCHAIN=mycompilers test
 
 # Alternatively, if you know what you're doing you can invoke cmake directly and pass a custom toolchain, (with -DCMAKE_TOOLCHAIN_FILE=
-# or using the --toolchain switch (cmake > 3.21)). Take a look in the Makefile for how cmake gets invoked to generate the build currently.
+# or using the --toolchain switch (cmake >= 3.21)). Take a look in the Makefile for how cmake gets invoked to generate the build currently.
 ```
 
 
 
 ### CMake
 
-You'll also need a recent version of __cmake__, at least version 3.19 is required. One way to do that is to
-[add the __Kitware__ apt repository](https://apt.kitware.com) to your apt sources. After that just run
+You'll also need a recent version of __cmake__. At least version 3.19 is required, 3.21+ preferred. If you're running Ubuntu 18 or 20
+you'll need to [add the __Kitware__ apt repository](https://apt.kitware.com) to your apt sources. On Ubuntu 22 the cmake 
+package is present in the main APT repository.
 ```bash
 $ sudo apt install cmake
 ```
-
-On Ubuntu 22 the `cmake` package is present in the main APT repository.
 
 ### Build and Run
 
