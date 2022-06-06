@@ -273,10 +273,7 @@ struct Char {
     [[nodiscard]] Object *find_worn(std::string_view argument) const;
 
     // Return the name used to describe the char in short text.
-    [[nodiscard]] std::string_view short_name() const noexcept {
-        // TODO the cast to string_view is only needed while name isn't a std::string. remove soon!
-        return is_pc() ? name : std::string_view(short_descr);
-    }
+    [[nodiscard]] std::string_view short_name() const noexcept { return is_pc() ? name : short_descr; }
 
     // Alignment.
     [[nodiscard]] bool is_good() const noexcept { return alignment >= Alignment::Amiable; }
