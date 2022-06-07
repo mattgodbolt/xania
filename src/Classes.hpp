@@ -19,8 +19,8 @@ struct class_type {
     sh_int weapon; /* First weapon                 */
     sh_int guild[MAX_GUILD]; /* Vnum of guild rooms          */
     sh_int skill_adept; /* Maximum skill level          */
-    sh_int thac0_00; /* to hit armour class for level  0 */
-    sh_int thac0_32; /* to hit armour class for for level 32 */
+    sh_int to_hit_ac_level0; /* to hit armour class for level  0 */
+    sh_int to_hit_ac_level32; /* to hit armour class for for level 32 */
     sh_int hp_min; /* Min hp gained on leveling    */
     sh_int hp_max; /* Max hp gained on leveling    */
     sh_int fMana; /* Class gains mana on level    */
