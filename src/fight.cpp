@@ -21,6 +21,7 @@
 #include "Exit.hpp"
 #include "ExitFlag.hpp"
 #include "Format.hpp"
+#include "HitChance.hpp"
 #include "InjuredPart.hpp"
 #include "Logging.hpp"
 #include "MProg.hpp"
@@ -407,93 +408,11 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     }
 }
 
-namespace {
-
-int to_hit_armour_class_level0(const Char *ch) {
-    if (ch->is_npc()) {
-        return -4;
-    } else {
-        return class_table[ch->class_num].to_hit_ac_level0;
-    }
-}
-
-int to_hit_armour_class_level32(const Char *ch) {
-    if (ch->is_npc()) {
-        if (check_enum_bit(ch->act, CharActFlag::Warrior))
-            return -76;
-        else if (check_enum_bit(ch->act, CharActFlag::Thief))
-            return -70;
-        else if (check_enum_bit(ch->act, CharActFlag::Cleric))
-            return -66;
-        else if (check_enum_bit(ch->act, CharActFlag::Mage))
-            return -63;
-        else
-            return -70; // i.e. the same as a mob with Act Thief
-    } else {
-        return class_table[ch->class_num].to_hit_ac_level32;
-    }
-}
-
-int calc_to_hit_armour_class(const Char *ch, const Char *victim, const int weapon_skill, const skill_type *opt_skill) {
-    const auto to_hit_ac_level0 = to_hit_armour_class_level0(ch);
-    const auto to_hit_ac_level32 = to_hit_armour_class_level32(ch);
-    auto to_hit_ac = interpolate(ch->level, to_hit_ac_level0, to_hit_ac_level32);
-    to_hit_ac *= (weapon_skill / 100.f);
-    to_hit_ac -= ch->get_hitroll();
-    // Blindness caused by blind spell or dirt kick reduces your chance of landing a blow
-    if (!can_see(ch, victim))
-        to_hit_ac *= 0.8f;
-    if (Attacks::is_attack_skill(opt_skill, gsn_backstab)) {
-        to_hit_ac -= get_skill(ch, gsn_backstab) / 3;
-    }
-    if (to_hit_ac >= 0) {
-        to_hit_ac = -1;
-    }
-    to_hit_ac = -to_hit_ac;
-    return to_hit_ac;
-}
-
-int calc_victim_armour_class(const Char *victim, const DamageType damage_type) {
-    int victim_ac;
-    switch (damage_type) {
-    case (DamageType::Pierce): victim_ac = victim->get_armour_class(ArmourClass::Pierce); break;
-    case (DamageType::Bash): victim_ac = victim->get_armour_class(ArmourClass::Bash); break;
-    case (DamageType::Slash): victim_ac = victim->get_armour_class(ArmourClass::Slash); break;
-    default: victim_ac = victim->get_armour_class(ArmourClass::Exotic); break;
-    };
-
-    // Victim is more vulnerable if they're stunned or sleeping,
-    // and a little less so if they're resting or sitting.
-    if (victim->is_pos_sleeping() || victim->is_pos_stunned_or_dying())
-        victim_ac *= 0.8f;
-    else if (victim->is_pos_relaxing())
-        victim_ac *= 0.9f;
-
-    if (victim_ac >= 0) {
-        victim_ac = -1;
-    }
-    victim_ac = -victim_ac;
-    return victim_ac;
-}
-
-int calc_hit_chance(const Char *ch, const Char *victim, const int weapon_skill, const skill_type *opt_skill,
-                    const DamageType damage_type) {
-    const auto to_hit_ac = calc_to_hit_armour_class(ch, victim, weapon_skill, opt_skill);
-    const auto victim_ac = calc_victim_armour_class(victim, damage_type);
-    const auto to_hit_ratio = ((float)to_hit_ac / (float)victim_ac) * 100;
-    // Regardless of how strong to_hit_ac is relative to victim ac, there's always a chance to hit or miss.
-    const auto hit_chance = std::clamp(to_hit_ratio, 10.0f, 95.0f);
-    return hit_chance;
-}
-
-}
-
 /*
  * Hit one guy once.
  */
 void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     int dam;
-    int diceroll;
     bool self_hitting = false;
     AFFECT_DATA *af;
 
@@ -534,10 +453,10 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     const auto wielding_skill_num = get_weapon_sn(ch);
     const auto weapon_skill = get_weapon_skill(ch, wielding_skill_num);
-    const auto hit_chance = calc_hit_chance(ch, victim, weapon_skill, opt_skill, damage_type);
-    diceroll = dice(1, 100);
+    const auto hit_chance = HitChance(*ch, *victim, weapon_skill, opt_skill, damage_type).calculate();
+    const auto to_hit_dice = dice(1, 100);
 
-    if (diceroll >= hit_chance) {
+    if (to_hit_dice >= hit_chance) {
         /* Miss. */
         damage(ch, victim, 0, atk_type, damage_type);
         return;
@@ -591,10 +510,10 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
      * Bonuses.
      */
     if (get_skill(ch, gsn_enhanced_damage) > 0) {
-        diceroll = number_percent();
-        if (diceroll <= get_skill(ch, gsn_enhanced_damage)) {
+        const auto damage_bonus_dice = number_percent();
+        if (damage_bonus_dice <= get_skill(ch, gsn_enhanced_damage)) {
             check_improve(ch, gsn_enhanced_damage, true, 6);
-            dam += dam * diceroll / 100;
+            dam += dam * damage_bonus_dice / 100;
         }
     }
 
