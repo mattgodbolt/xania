@@ -643,7 +643,7 @@ void do_get(Char *ch, ArgParser args) {
             /* 'get all' or 'get all.obj' */
             found = false;
             for (auto *obj : ch->in_room->contents) {
-                if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && can_see_obj(ch, obj)) {
+                if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && ch->can_see(*obj)) {
                     found = true;
                     get_obj(ch, obj, nullptr);
                 }
@@ -704,7 +704,7 @@ void do_get(Char *ch, ArgParser args) {
             /* 'get all container' or 'get all.obj container' */
             found = false;
             for (auto *obj : container->contains) {
-                if ((is_all || is_name(arg1, obj->name)) && can_see_obj(ch, obj)) {
+                if ((is_all || is_name(arg1, obj->name)) && ch->can_see(*obj)) {
                     if (container->objIndex->vnum == Objects::Pit && ch->is_mortal()) {
                         ch->send_line("Don't be so greedy!");
                         return;
@@ -810,7 +810,7 @@ void do_put(Char *ch, ArgParser args) {
         /* 'put all container' or 'put all.obj container' */
         auto found = false;
         for (auto *obj : ch->carrying) {
-            if ((is_all || is_name(arg1, obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
+            if ((is_all || is_name(arg1, obj->name)) && ch->can_see(*obj) && obj->wear_loc == Wear::None
                 && obj != container && can_drop_obj(ch, obj)
                 && get_obj_weight(obj) + get_obj_weight(container) <= container->value[0]) {
 
@@ -912,7 +912,7 @@ void do_donate(Char *ch, ArgParser args) {
     } else {
         /* 'put all container' or 'put all.obj container' */
         for (auto *obj : ch->carrying) {
-            if ((is_all || is_name(arg1, obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
+            if ((is_all || is_name(arg1, obj->name)) && ch->can_see(*obj) && obj->wear_loc == Wear::None
                 && can_drop_obj(ch, obj) && obj->timer == 0) {
                 obj->timer = number_range(100, 200);
                 obj_from_char(obj);
@@ -1047,7 +1047,7 @@ void do_drop(Char *ch, ArgParser args) {
         /* 'drop all' or 'drop all.obj' */
         found = false;
         for (auto *obj : ch->carrying) {
-            if ((is_all || is_name(arg, obj->name)) && can_see_obj(ch, obj) && obj->wear_loc == Wear::None
+            if ((is_all || is_name(arg, obj->name)) && ch->can_see(*obj) && obj->wear_loc == Wear::None
                 && can_drop_obj(ch, obj)) {
                 found = true;
                 obj_from_char(obj);
@@ -1412,7 +1412,7 @@ void do_wear(Char *ch, ArgParser args) {
     auto target = args.shift();
     if (matches(target, "all")) {
         for (auto *obj : ch->carrying)
-            if (obj->wear_loc == Wear::None && can_see_obj(ch, obj))
+            if (obj->wear_loc == Wear::None && ch->can_see(*obj))
                 wear_obj(ch, obj, false);
     } else {
         auto *obj = ch->find_in_inventory(target);
@@ -1911,7 +1911,7 @@ void do_buy(Char *ch, ArgParser args) {
         auto *obj = keeper->find_in_inventory(args.shift());
         auto cost = get_cost(keeper, obj, true);
 
-        if (cost <= 0 || !can_see_obj(ch, obj)) {
+        if (cost <= 0 || !ch->can_see(*obj)) {
             act("$n tells you 'I don't sell that -- try 'list''.", keeper, nullptr, ch, To::Vict);
             ch->reply = keeper;
             return;
@@ -2000,7 +2000,7 @@ void do_list(Char *ch, ArgParser args) {
         auto found = false;
         auto cost = 0;
         for (auto *obj : keeper->carrying) {
-            if (obj->wear_loc == Wear::None && can_see_obj(ch, obj) && (cost = get_cost(keeper, obj, true)) > 0
+            if (obj->wear_loc == Wear::None && ch->can_see(*obj) && (cost = get_cost(keeper, obj, true)) > 0
                 && (obj_name.empty() || is_name(obj_name, obj->name))) {
                 if (!found) {
                     found = true;
@@ -2039,7 +2039,7 @@ void do_sell(Char *ch, ArgParser args) {
         return;
     }
 
-    if (!can_see_obj(keeper, obj)) {
+    if (!keeper->can_see(*obj)) {
         act("$n doesn't see what you are offering.", keeper, nullptr, ch, To::Vict);
         return;
     }
@@ -2094,7 +2094,7 @@ void do_value(Char *ch, ArgParser args) {
         ch->reply = keeper;
         return;
     }
-    if (!can_see_obj(keeper, obj)) {
+    if (!keeper->can_see(*obj)) {
         act("$n doesn't see what you are offering.", keeper, nullptr, ch, To::Vict);
         return;
     }

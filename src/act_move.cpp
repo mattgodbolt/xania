@@ -219,7 +219,7 @@ void do_enter(Char *ch, std::string_view argument) {
     }
     in_room = ch->in_room;
     for (auto *obj : ch->in_room->contents) {
-        if (can_see_obj(ch, obj) && (is_name(arg, obj->name))) {
+        if (ch->can_see(*obj) && (is_name(arg, obj->name))) {
             if (++count == number) {
                 if (obj->type == ObjectType::Portal) {
 

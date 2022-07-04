@@ -1140,7 +1140,7 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
         case 'p':
             if (auto arg1_as_obj_ptr = std::get_if<const Object *>(&arg1)) {
                 auto &obj1 = *arg1_as_obj_ptr;
-                buf += can_see_obj(to, obj1) ? obj1->short_descr : "something";
+                buf += to->can_see(*obj1) ? obj1->short_descr : "something";
             } else {
                 bug("$p passed but arg1 was not an object in '{}'", format);
                 buf += "something";
@@ -1150,7 +1150,7 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
         case 'P':
             if (auto arg2_as_obj_ptr = std::get_if<const Object *>(&arg2)) {
                 auto &obj2 = *arg2_as_obj_ptr;
-                buf += can_see_obj(to, obj2) ? obj2->short_descr : "something";
+                buf += to->can_see(*obj2) ? obj2->short_descr : "something";
             } else {
                 bug("$p passed but arg2 was not an object in '{}'", format);
                 buf += "something";

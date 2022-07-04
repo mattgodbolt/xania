@@ -562,7 +562,7 @@ void Char::try_give_item_to(Object *object, Char *victim) {
         return;
     }
 
-    if (!can_see_obj(victim, object)) {
+    if (!victim->can_see(*object)) {
         ::act("$N can't see it.", this, nullptr, victim, To::Char);
         return;
     }

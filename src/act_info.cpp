@@ -131,7 +131,7 @@ void show_list_to_char(const GenericList<Object *> &list, const Char *ch, bool f
 
     // Format the list of objects.
     for (auto *obj : list) {
-        if (obj->wear_loc == Wear::None && can_see_obj(ch, obj)) {
+        if (obj->wear_loc == Wear::None && ch->can_see(*obj)) {
             auto desc = format_obj_to_char(obj, ch, fShort);
             auto combined_same = false;
 
@@ -260,7 +260,7 @@ void show_char_to_char_1(Char *victim, Char *ch) {
 
     bool found = false;
     for (const auto &wear : WearFilter::wearable()) {
-        if (const auto *obj = get_eq_char(victim, wear); obj && can_see_obj(ch, obj)) {
+        if (const auto *obj = get_eq_char(victim, wear); obj && ch->can_see(*obj)) {
             if (!found) {
                 ch->send_line("");
                 act("$N is using:", ch, nullptr, victim, To::Char);
@@ -1329,7 +1329,7 @@ void do_equipment(Char *ch) {
     for (const auto &wear : WearFilter::wearable()) {
         if (const auto *obj = get_eq_char(ch, wear)) {
             ch->send_line("{:<20}{}", wear_string_for(obj, wear),
-                          can_see_obj(ch, obj) ? format_obj_to_char(obj, ch, true) : "something.");
+                          ch->can_see(*obj) ? format_obj_to_char(obj, ch, true) : "something.");
             found = true;
         }
     }
@@ -1341,7 +1341,7 @@ void do_equipment(Char *ch) {
 namespace {
 Object *find_comparable(Char *ch, Object *obj_to_compare_to) {
     for (auto *obj : ch->carrying) {
-        if (obj->wear_loc != Wear::None && can_see_obj(ch, obj) && obj_to_compare_to->type == obj->type
+        if (obj->wear_loc != Wear::None && ch->can_see(*obj) && obj_to_compare_to->type == obj->type
             && (obj_to_compare_to->wear_flags & obj->wear_flags & (~to_int(ObjectWearFlag::Take))) != 0) {
             return obj;
         }

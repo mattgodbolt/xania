@@ -1586,7 +1586,7 @@ void disarm(Char *ch, Char *victim) {
         obj_to_char(obj, victim);
     else {
         obj_to_room(obj, victim->in_room);
-        if (victim->is_npc() && victim->wait == 0 && can_see_obj(victim, obj))
+        if (victim->is_npc() && victim->wait == 0 && victim->can_see(*obj))
             get_obj(victim, obj, nullptr);
     }
 }

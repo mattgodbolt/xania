@@ -2720,7 +2720,7 @@ void do_smite(Char *ch, ArgParser args) {
     if (wielded_obj) {
         obj_from_char(wielded_obj);
         obj_to_room(wielded_obj, victim->in_room);
-        if (victim->is_npc() && victim->wait == 0 && can_see_obj(victim, wielded_obj))
+        if (victim->is_npc() && victim->wait == 0 && victim->can_see(*wielded_obj))
             get_obj(victim, wielded_obj, nullptr);
     }
 }

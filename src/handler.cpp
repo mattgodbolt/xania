@@ -745,7 +745,7 @@ Object *get_obj_list(const Char *ch, std::string_view argument, GenericList<Obje
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
     for (auto *obj : list) {
-        if (can_see_obj(ch, obj) && is_name(arg, obj->name)) {
+        if (ch->can_see(*obj) && is_name(arg, obj->name)) {
             if (++count == number)
                 return obj;
         }
@@ -788,7 +788,7 @@ Object *get_obj_world(Char *ch, std::string_view argument) {
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
     for (auto *obj : object_list) {
-        if (can_see_obj(ch, obj) && is_name(arg, obj->name)) {
+        if (ch->can_see(*obj) && is_name(arg, obj->name)) {
             if (++count == number)
                 return obj;
         }
@@ -890,14 +890,6 @@ bool room_is_private(Room *room) {
 bool can_see_room(const Char *ch, const Room *room) {
     // TODO remove
     return ch->can_see(*room);
-}
-
-/*
- * True if char can see obj.
- */
-bool can_see_obj(const Char *ch, const Object *obj) {
-    // TODO remove
-    return ch->can_see(*obj);
 }
 
 /*

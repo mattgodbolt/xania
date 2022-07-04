@@ -356,19 +356,19 @@ std::string expand_var(const char c, const ExecutionCtx &ctx) {
         break;
     case 'o':
         if (ctx.obj)
-            buf = can_see_obj(ctx.mob, ctx.obj) ? ctx.obj->name : "something";
+            buf = ctx.mob->can_see(*ctx.obj) ? ctx.obj->name : "something";
         break;
     case 'O':
         if (ctx.obj)
-            buf = can_see_obj(ctx.mob, ctx.obj) ? ctx.obj->short_descr : "something";
+            buf = ctx.mob->can_see(*ctx.obj) ? ctx.obj->short_descr : "something";
         break;
     case 'p':
         if (ctx.act_targ_obj)
-            buf = can_see_obj(ctx.mob, ctx.act_targ_obj) ? ctx.act_targ_obj->name : "something";
+            buf = ctx.mob->can_see(*ctx.act_targ_obj) ? ctx.act_targ_obj->name : "something";
         break;
     case 'P':
         if (ctx.act_targ_obj)
-            buf = can_see_obj(ctx.mob, ctx.act_targ_obj) ? ctx.act_targ_obj->short_descr : "something";
+            buf = ctx.mob->can_see(*ctx.act_targ_obj) ? ctx.act_targ_obj->short_descr : "something";
         break;
     case 'a':
         if (ctx.obj)
