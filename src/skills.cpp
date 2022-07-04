@@ -198,7 +198,7 @@ void do_gain(Char *ch, std::string_view argument) {
     if (ch->is_npc())
         return;
     auto *trainer = find_trainer(ch->in_room);
-    if (!trainer || !can_see(ch, trainer)) {
+    if (!trainer || !ch->can_see(*trainer)) {
         ch->send_line("You can't do that here.");
         return;
     }

@@ -166,7 +166,7 @@ void check_assist(Char *ch, Char *victim) {
                     Char *target = nullptr;
                     int number = 0;
                     for (auto *vch : ch->in_room->people) {
-                        if (can_see(rch, vch) && is_same_group(vch, victim) && number_range(0, number) == 0) {
+                        if (rch->can_see(*vch) && is_same_group(vch, victim) && number_range(0, number) == 0) {
                             target = vch;
                             number++;
                         }
@@ -2124,7 +2124,7 @@ void do_backstab(Char *ch, ArgParser args) {
     }
 
     if ((victim->hit < victim->max_hit))
-        if (can_see(victim, ch)) {
+        if (victim->can_see(*ch)) {
             act("$N is hurt and suspicious ... you can't sneak up.", ch, nullptr, victim, To::Char);
             return;
         }

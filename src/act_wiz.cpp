@@ -617,7 +617,7 @@ void do_rstat(Char *ch, ArgParser args) {
 
     ch->send_to("Characters:");
     for (auto *rch : location->people) {
-        if (can_see(ch, rch)) {
+        if (ch->can_see(*rch)) {
             ch->send_to(" ");
             ch->send_to(ArgParser(rch->name).shift());
         }
@@ -703,7 +703,7 @@ void do_ostat(Char *ch, ArgParser args) {
     ch->send_to(fmt::format(
         "In room: {}  In object: {}  Carried by: {}  Wear_loc: {} ({})\n\r",
         obj->in_room == nullptr ? 0 : obj->in_room->vnum, obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
-        obj->carried_by == nullptr ? "(none)" : can_see(ch, obj->carried_by) ? obj->carried_by->name : "someone",
+        obj->carried_by == nullptr ? "(none)" : ch->can_see(*obj->carried_by) ? obj->carried_by->name : "someone",
         magic_enum::enum_name<Wear>(obj->wear_loc), magic_enum::enum_integer(obj->wear_loc)));
 
     ch->send_line("Values: {}", fmt::join(obj->value, " "));
@@ -1118,7 +1118,7 @@ void do_mwhere(Char *ch, ArgParser args) {
     std::string buffer;
     for (auto *victim : char_list) {
         if ((victim->is_npc() && victim->in_room != nullptr && is_name(target, victim->name) && !find_pc)
-            || (victim->is_pc() && find_pc && can_see(ch, victim))) {
+            || (victim->is_pc() && find_pc && ch->can_see(*victim))) {
             found = true;
             number++;
             buffer += fmt::format("{:3} [{:5}] {:<28} [{:5}] {:>20}\n\r", number, find_pc ? 0 : victim->mobIndex->vnum,
@@ -2497,7 +2497,7 @@ void do_sockets(Char *ch, ArgParser args) {
     for (auto &d : descriptors().all()) {
         std::string_view name;
         if (auto *victim = d.character()) {
-            if (!can_see(ch, victim))
+            if (!ch->can_see(*victim))
                 continue;
             if (view_all || is_name(target, d.character()->name) || is_name(target, d.person()->name))
                 name = d.person()->name;

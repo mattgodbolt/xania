@@ -774,7 +774,7 @@ void aggr_update() {
 
 void do_aggressive_sentient(Char *wch, Char *ch) {
     if (check_enum_bit(ch->act, CharActFlag::Sentient) && ch->fighting == nullptr && !ch->is_aff_calm()
-        && ch->is_pos_awake() && !ch->is_aff_charm() && can_see(ch, wch)) {
+        && ch->is_pos_awake() && !ch->is_aff_charm() && ch->can_see(*wch)) {
         if (ch->hit == ch->max_hit && ch->mana == ch->max_mana)
             ch->sentient_victim.clear();
         if (matches(wch->name, ch->sentient_victim)) {
@@ -787,7 +787,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
     if (check_enum_bit(ch->act, CharActFlag::Aggressive) && !check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe)
         && !ch->is_aff_calm() && (ch->fighting == nullptr) // Changed by Moog
         && !ch->is_aff_charm() && ch->is_pos_awake()
-        && !(check_enum_bit(ch->act, CharActFlag::Wimpy) && wch->is_pos_awake()) && can_see(ch, wch)
+        && !(check_enum_bit(ch->act, CharActFlag::Wimpy) && wch->is_pos_awake()) && ch->can_see(*wch)
         && !number_bits(1) == 0) {
 
         /*
@@ -800,7 +800,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
         Char *victim = nullptr;
         for (auto *vch : wch->in_room->people) {
             if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
-                && (!check_enum_bit(ch->act, CharActFlag::Wimpy) || !vch->is_pos_awake()) && can_see(ch, vch)) {
+                && (!check_enum_bit(ch->act, CharActFlag::Wimpy) || !vch->is_pos_awake()) && ch->can_see(*vch)) {
                 if (number_range(0, count) == 0)
                     victim = vch;
                 count++;

@@ -283,7 +283,7 @@ bool spec_cast_adept(Char *ch) {
         return false;
 
     auto *victim = pick_passive_victim(ch, [&](auto *victim) {
-        return can_see(ch, victim) && number_bits(1) == 0 && victim->is_pc() && victim->level < 11;
+        return ch->can_see(*victim) && number_bits(1) == 0 && victim->is_pc() && victim->level < 11;
     });
     if (!victim)
         return false;
@@ -931,7 +931,7 @@ bool spec_thief(Char *ch) {
         return false;
 
     for (auto *victim : ch->in_room->people) {
-        if (victim->is_npc() || victim->level >= LEVEL_IMMORTAL || number_bits(5) != 0 || !can_see(ch, victim))
+        if (victim->is_npc() || victim->level >= LEVEL_IMMORTAL || number_bits(5) != 0 || !ch->can_see(*victim))
             continue;
 
         if (victim->is_pos_awake() && number_range(0, ch->level) == 0) {

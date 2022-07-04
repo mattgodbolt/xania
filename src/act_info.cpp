@@ -241,7 +241,7 @@ void show_char_to_char_0(const Char *victim, const Char *ch) {
 }
 
 void show_char_to_char_1(Char *victim, Char *ch) {
-    if (can_see(victim, ch)) {
+    if (victim->can_see(*ch)) {
         if (ch == victim)
             act("$n looks at $r.", ch);
         else {
@@ -314,7 +314,7 @@ void show_char_to_char(const GenericList<Char *> &list, const Char *ch) {
         if (rch->is_pc() && check_enum_bit(rch->act, PlayerActFlag::PlrWizInvis) && ch->get_trust() < rch->invis_level)
             continue;
 
-        if (can_see(ch, rch)) {
+        if (ch->can_see(*rch)) {
             show_char_to_char_0(rch, ch);
         } else if (room_is_dark(ch->in_room) && rch->is_aff_infrared()) {
             ch->send_line("You see |Rglowing red|w eyes watching |RYOU!|w");
@@ -1191,7 +1191,7 @@ void do_whois(Char *ch, ArgParser args) {
     for (auto &d : descriptors().all_visible_to(*ch)) {
         auto *wch = d.person();
         // TODO: can or should this be part of all_visible_to?
-        if (!can_see(ch, wch))
+        if (!ch->can_see(*wch))
             continue;
 
         if (matches_start(filter, wch->name))
@@ -1287,7 +1287,7 @@ void do_who(Char *ch, ArgParser args) {
         // Check for match against restrictions.
         // Don't use trust as that exposes trusted mortals.
         // added Faramir 13/8/96 because switched imms were visible to all
-        if (!can_see(ch, d.person()))
+        if (!ch->can_see(*d.person()))
             continue;
 
         auto *wch = d.person();
@@ -1436,7 +1436,7 @@ void do_where(Char *ch, ArgParser args) {
         auto name = args.shift();
         for (auto *victim : char_list) {
             if (victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && !victim->is_aff_hide()
-                && !victim->is_aff_sneak() && can_see(ch, victim) && victim != ch && is_name(name, victim->name)) {
+                && !victim->is_aff_sneak() && ch->can_see(*victim) && victim != ch && is_name(name, victim->name)) {
                 found = true;
                 ch->send_line("|W{:<28}|w {}", ch->describe(*victim), victim->in_room->name);
                 break;

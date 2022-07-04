@@ -455,7 +455,7 @@ void process_block(ExecutionCtx &ctx, auto &line_it, auto &end_it) {
 Char *random_mortal_in_room(Char *mob, Rng &rng) {
     auto count = 0;
     for (auto *vch : mob->in_room->people) {
-        if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && can_see(mob, vch)) {
+        if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && mob->can_see(*vch)) {
             if (rng.number_range(0, count++) == 0)
                 return vch;
         }

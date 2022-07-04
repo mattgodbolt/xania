@@ -403,7 +403,7 @@ void do_mpforce(Char *ch, ArgParser args) {
     auto target = args.shift();
     if (matches(target, "all")) {
         for (auto *vch : char_list) {
-            if (vch->in_room == ch->in_room && vch->get_trust() < ch->get_trust() && can_see(ch, vch)) {
+            if (vch->in_room == ch->in_room && vch->get_trust() < ch->get_trust() && ch->can_see(*vch)) {
                 interpret(vch, args.remaining());
             }
         }

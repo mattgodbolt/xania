@@ -691,7 +691,7 @@ Char *get_char_room(Char *ch, std::string_view argument) {
         return ch;
     int count = 0;
     for (auto *rch : ch->in_room->people) {
-        if (!can_see(ch, rch) || !is_name(arg, rch->name))
+        if (!ch->can_see(*rch) || !is_name(arg, rch->name))
             continue;
         if (++count == number)
             return rch;
@@ -890,17 +890,6 @@ bool room_is_private(Room *room) {
 bool can_see_room(const Char *ch, const Room *room) {
     // TODO remove
     return ch->can_see(*room);
-}
-
-bool can_see(const Char *ch, const Char *victim) {
-    /* without this block, poor code involving descriptors would
-       crash the mud - Fara 13/8/96 */
-    // MRG notes, not seen in any logs thus far, candidate for deletion.
-    if (victim == nullptr) {
-        bug("can_see: victim is nullptr");
-        return false;
-    }
-    return ch->can_see(*victim);
 }
 
 /*

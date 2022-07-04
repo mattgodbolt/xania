@@ -118,7 +118,7 @@ void do_clantalk(Char *ch, std::string_view argument) {
             && check_enum_bit(pcclan->channelflags, ClanCommFlag::ChannelOn)
             && !check_enum_bit(victim->comm, CommFlag::Quiet)
             /* || they're an IMM snooping the channels */) {
-            d.character()->send_line("|G<{}> {}|w", can_see(d.character(), ch) ? ch->name : "Someone", argument);
+            d.character()->send_line("|G<{}> {}|w", d.character()->can_see(*ch) ? ch->name : "Someone", argument);
         }
     }
 }

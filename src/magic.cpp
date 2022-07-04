@@ -3717,7 +3717,7 @@ void spell_teleport_object(int sn, int level, Char *ch, const SpellTarget &spell
         return;
     }
 
-    if (!can_see(ch, victim)) {
+    if (!ch->can_see(*victim)) {
         ch->send_line("Teleport to whom?");
         return;
     }

@@ -446,7 +446,7 @@ void add_follower(Char *ch, Char *master) {
     ch->master = master;
     ch->leader = nullptr;
 
-    if (can_see(master, ch))
+    if (master->can_see(*ch))
         act("$n now follows you.", ch, nullptr, master, To::Vict);
 
     act("You now follow $N.", ch, nullptr, master, To::Char);
@@ -463,7 +463,7 @@ void stop_follower(Char *ch) {
         affect_strip(ch, gsn_charm_person);
     }
 
-    if (can_see(ch->master, ch) && ch->in_room != nullptr) {
+    if (ch->master->can_see(*ch) && ch->in_room != nullptr) {
         act("$n stops following you.", ch, nullptr, ch->master, To::Vict);
         act("You stop following $N.", ch, nullptr, ch->master, To::Char);
     }
