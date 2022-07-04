@@ -2196,7 +2196,7 @@ void do_hailcorpse(Char *ch) {
         if (!exit)
             continue;
         auto adjacent_room = exit->u1.to_room;
-        if (!adjacent_room || !can_see_room(ch, adjacent_room))
+        if (!adjacent_room || !ch->can_see(*adjacent_room))
             continue;
 
         if (auto *corpse = find_corpse(ch, adjacent_room->contents)) {

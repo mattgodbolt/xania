@@ -2363,7 +2363,7 @@ void spell_gate(int sn, int level, Char *ch, const SpellTarget &spell_target) {
         return;
     }
     if ((victim = get_char_world(ch, arguments)) == nullptr || victim == ch || victim->in_room == nullptr
-        || !can_see_room(ch, victim->in_room) || check_enum_bit(victim->in_room->room_flags, RoomFlag::Safe)
+        || !ch->can_see(*victim->in_room) || check_enum_bit(victim->in_room->room_flags, RoomFlag::Safe)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Private)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Solitary)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::NoRecall)
@@ -2967,7 +2967,7 @@ void spell_portal(int sn, int level, Char *ch, const SpellTarget &spell_target) 
     (void)sn;
     std::string_view arguments = spell_target.getArguments();
     const auto *victim = get_char_world(ch, arguments);
-    if (!victim || victim == ch || victim->in_room == nullptr || !can_see_room(ch, victim->in_room)
+    if (!victim || victim == ch || victim->in_room == nullptr || !ch->can_see(*victim->in_room)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Safe)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Private)
         || check_enum_bit(victim->in_room->room_flags, RoomFlag::Solitary)
@@ -3343,7 +3343,7 @@ void spell_teleport(int sn, int level, Char *ch, const SpellTarget &spell_target
     for (;;) {
         room = get_room(number_range(0, 65535));
         if (room != nullptr)
-            if (can_see_room(ch, room) && !check_enum_bit(room->room_flags, RoomFlag::Private)
+            if (ch->can_see(*room) && !check_enum_bit(room->room_flags, RoomFlag::Private)
                 && !check_enum_bit(room->room_flags, RoomFlag::Solitary))
                 break;
     }

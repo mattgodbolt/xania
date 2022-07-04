@@ -44,7 +44,7 @@ void tornado_teleport(Char *ch, Char *victim) {
     for (;;) {
         room = get_room(number_range(0, 65535));
         if (room != nullptr)
-            if (can_see_room(ch, room) && !check_enum_bit(room->room_flags, RoomFlag::Private)
+            if (ch->can_see(*room) && !check_enum_bit(room->room_flags, RoomFlag::Private)
                 && !check_enum_bit(room->room_flags, RoomFlag::Solitary))
                 break;
     }

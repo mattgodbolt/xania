@@ -886,12 +886,6 @@ bool room_is_private(Room *room) {
     return false;
 }
 
-/* visibility on a room -- for entering and exits */
-bool can_see_room(const Char *ch, const Room *room) {
-    // TODO remove
-    return ch->can_see(*room);
-}
-
 /*
  * True if char can drop obj.
  */

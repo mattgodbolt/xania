@@ -87,5 +87,4 @@ int get_obj_number(Object *obj);
 int get_obj_weight(Object *obj);
 bool room_is_dark(Room *room);
 bool room_is_private(Room *room);
-bool can_see_room(const Char *ch, const Room *room);
 bool can_drop_obj(Char *ch, Object *obj);

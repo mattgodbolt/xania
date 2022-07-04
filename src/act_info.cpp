@@ -963,8 +963,7 @@ void do_exits(const Char *ch, std::string_view arguments) {
 
     auto found = false;
     for (auto direction : all_directions) {
-        if (const auto &exit = ch->in_room->exits[direction]; exit && exit->u1.to_room
-                                                              && can_see_room(ch, exit->u1.to_room)
+        if (const auto &exit = ch->in_room->exits[direction]; exit && exit->u1.to_room && ch->can_see(*exit->u1.to_room)
                                                               && !check_enum_bit(exit->exit_info, ExitFlag::Closed)) {
             found = true;
             if (is_compact) {
@@ -1686,8 +1685,8 @@ void do_scan(Char *ch) {
             const auto &exit = current_place->exits[direction];
             if (!exit)
                 break;
-            if (current_place = exit->u1.to_room; !current_place || !can_see_room(ch, exit->u1.to_room)
-                                                  || check_enum_bit(exit->exit_info, ExitFlag::Closed))
+            if (current_place = exit->u1.to_room;
+                !current_place || !ch->can_see(*exit->u1.to_room) || check_enum_bit(exit->exit_info, ExitFlag::Closed))
                 break;
             // Eliminate cycles in labyrinthine areas.
             if (std::find(found_rooms.begin(), found_rooms.end(), exit->u1.to_room->vnum) != found_rooms.end())
