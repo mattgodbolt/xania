@@ -15,6 +15,11 @@ RUN \
  apt-get -qq update && \
  DEBIAN_FRONTEND="noninteractive" apt-get -y install neovim
 
+RUN \
+ update-alternatives --install /usr/bin/vim vim $(which nvim) 10 && \
+ update-alternatives --install /usr/bin/vi vi $(which nvim) 10 && \
+ update-alternatives --install /usr/bin/editor editor $(which nvim) 10
+
 RUN locale-gen en_US.UTF-8 && \
     adduser \
         --quiet \
