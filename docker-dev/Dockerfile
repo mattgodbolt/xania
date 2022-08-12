@@ -8,13 +8,12 @@ RUN \
  DEBIAN_FRONTEND="noninteractive" apt-get -y --no-install-recommends install  \
  dialog tzdata sudo locales tmux  wget curl gnupg git-core iputils-ping ssh \
  build-essential software-properties-common cmake ninja-build telnet rlwrap awscli \
- gdb less
+ gdb less ripgrep
 
 RUN \
  add-apt-repository ppa:neovim-ppa/unstable -y && \
  apt-get -qq update && \
  DEBIAN_FRONTEND="noninteractive" apt-get -y install neovim
-
 RUN \
  update-alternatives --install /usr/bin/vim vim $(which nvim) 10 && \
  update-alternatives --install /usr/bin/vi vi $(which nvim) 10 && \
