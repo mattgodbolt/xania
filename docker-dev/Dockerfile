@@ -8,7 +8,7 @@ RUN \
  DEBIAN_FRONTEND="noninteractive" apt-get -y --no-install-recommends install  \
  dialog tzdata sudo locales tmux  wget curl gnupg git-core iputils-ping ssh \
  build-essential software-properties-common cmake ninja-build telnet rlwrap awscli \
- gdb less ripgrep
+ gdb less ripgrep powerline
 
 RUN \
  add-apt-repository ppa:neovim-ppa/unstable -y && \
@@ -21,7 +21,7 @@ RUN \
 
 RUN locale-gen en_US.UTF-8 en_GB.UTF-8 && \
     update-locale LANG=en_US.UTF-8 LANGUAGE=en_US LC_ALL=en_US.UTF-8 && \
-    adduser \ 
+    adduser \
         --quiet \
         --disabled-password \
         --shell /usr/bin/bash \
@@ -36,6 +36,7 @@ export GPG_TTY=$(tty)\n\
 export TERM=xterm-256color\n\
 export LC_ALL=en_US.UTF-8\n\
 export LANG=en_US.UTF-8\n\
+powerline-daemon -q\n\
 ' > /etc/profile.d/terminal.sh
 
 RUN /usr/bin/echo -e '\
