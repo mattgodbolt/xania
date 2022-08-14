@@ -51,4 +51,4 @@ USER mudder
 WORKDIR /home/mudder
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
-ENTRYPOINT ["tmux"]
+ENTRYPOINT ["bash", "--login"]
