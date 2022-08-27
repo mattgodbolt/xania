@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   check-code-format:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v1
       - name: configure
@@ -16,8 +16,8 @@ jobs:
       CXX: g++-${{ matrix.gcc_version }}
     strategy:
       matrix:
-        gcc_version: [ 10, 11 ]
-        os: [ ubuntu-20.04 ]
+        gcc_version: [ 11 ]
+        os: [ ubuntu-22.04 ]
         build_type: [ debug, release ]
     steps:
       - uses: actions/checkout@v1
@@ -32,7 +32,7 @@ jobs:
   deploy-code:
     if: ${{ github.ref_name == 'main' }}
     needs: build-and-test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-11
       CXX: g++-11

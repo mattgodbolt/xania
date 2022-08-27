@@ -11,7 +11,7 @@ We chat about the mud [here](https://discord.gg/Xsstufyt8t). Feel free to drop i
 
 ## Building and running
 
-If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 22.04, 20.04 and 18.04.
+If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 22.04.
 
 It works within **Docker** including when hosted by **Windows Subsystem for Linux**. To learn more about this see
 the Docker-specific [tutorial](docker-dev/README.md)!
