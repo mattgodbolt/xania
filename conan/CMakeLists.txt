@@ -93,6 +93,10 @@ conan_add_remote(NAME conancenter
         URL https://center.conan.io)
 
 conan_cmake_autodetect(CONAN_SETTINGS)
+# Per-dependency settings overrides.
+# The default static lib shipped by catch2 is compiled with std 14 and this is binary incompatible
+# with some of the features our tests use, so force recompilation.
+list(APPEND CONAN_SETTINGS "catch2:compiler.cppstd=20")
 
 conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}
         SETTINGS ${CONAN_SETTINGS}

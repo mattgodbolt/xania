@@ -3,7 +3,8 @@
 
 #include "MemFile.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators_range.hpp>
 
 TEST_CASE("Operators") {
     SECTION("assign from enum and equals") {

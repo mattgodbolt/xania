@@ -2,7 +2,7 @@
 #include "common/BitOps.hpp"
 #include "db.h"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("string loading functions") {
     SECTION("fread_string") {

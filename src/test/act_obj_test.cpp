@@ -8,7 +8,7 @@
 #include "Shop.hpp"
 #include "common/BitOps.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 extern bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj,
                                          GenericList<Object *> &objs_to);

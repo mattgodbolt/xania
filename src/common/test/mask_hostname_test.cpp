@@ -1,6 +1,6 @@
 #include "common/mask_hostname.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("mask hostnames") {
     SECTION("should handle empty hostnames") { CHECK(get_masked_hostname("") == "*** [#5381]"); }

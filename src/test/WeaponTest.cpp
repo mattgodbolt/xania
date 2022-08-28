@@ -5,7 +5,7 @@
 /*************************************************************************/
 #include "Weapon.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("weapon type try from name") {
     SECTION("valid") {

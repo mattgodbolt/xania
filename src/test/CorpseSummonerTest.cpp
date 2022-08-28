@@ -6,7 +6,8 @@
 #include "Room.hpp"
 #include "common/BitOps.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_version_macros.hpp>
 #include <catch2/trompeloeil.hpp>
 
 using trompeloeil::_;

@@ -1,6 +1,6 @@
 #include "nth.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("nth formatting") {
     CHECK(fmt::to_string(nth(1)) == "1st");

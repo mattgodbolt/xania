@@ -9,15 +9,18 @@
 #include "save.hpp"
 #include "string_utils.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators_range.hpp>
+#include <catch2/reporters/catch_reporter_event_listener.hpp>
+#include <catch2/reporters/catch_reporter_registrars.hpp>
 
 using namespace std::literals;
 
 extern void boot_db();
 extern void delete_globals_on_shutdown();
 
-struct LoadTinyMudOnce : Catch::TestEventListenerBase {
-    using TestEventListenerBase::TestEventListenerBase;
+struct LoadTinyMudOnce : Catch::EventListenerBase {
+    using Catch::EventListenerBase::EventListenerBase;
 
     void testRunStarting([[maybe_unused]] Catch::TestRunInfo const &testInfo) override {
         setenv(MUD_AREA_DIR_ENV, TEST_DATA_DIR "/area", 1);

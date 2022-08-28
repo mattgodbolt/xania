@@ -8,7 +8,7 @@
 #include "ObjectType.hpp"
 #include "Target.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <range/v3/algorithm/fill_n.hpp>
 
 namespace {

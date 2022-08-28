@@ -6,7 +6,7 @@
 #include "common/BitOps.hpp"
 #include "lookup.h"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <string_view>
 

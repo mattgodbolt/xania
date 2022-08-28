@@ -23,7 +23,7 @@ find_package(range-v3 REQUIRED)
 find_package(magic_enum REQUIRED)
 find_package(date REQUIRED)
 find_package(Microsoft.GSL REQUIRED)
-find_package(Catch2 REQUIRED)
+find_package(Catch2 3 REQUIRED)
 find_package(trompeloeil REQUIRED)
 find_package(lyra REQUIRED)
 

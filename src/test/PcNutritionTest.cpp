@@ -4,7 +4,7 @@
 #include "Constants.hpp"
 #include "common/BitOps.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("Default nutrition states") {
     SECTION("sober") {

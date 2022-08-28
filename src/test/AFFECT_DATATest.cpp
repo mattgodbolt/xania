@@ -5,7 +5,7 @@
 
 #include "Char.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("AFFECT_DATA") {
     // Horrendous hacks here - gsn_* is only initialised globally once. TODO: remove this hack and make "skillness"

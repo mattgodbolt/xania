@@ -3,7 +3,7 @@ add_executable(common_test ${SOURCE_FILES})
 target_link_libraries(common_test 
                       PRIVATE
                          xania_common
-                         Catch2::Catch2
+                         Catch2::Catch2WithMain
                          trompeloeil::trompeloeil)
 
 target_compile_definitions(common_test PUBLIC CATCH_CONFIG_ENABLE_ALL_STRINGMAKERS TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/test_data")

@@ -6,7 +6,7 @@
 #include "Logging.hpp"
 #include "MemFile.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("bug") {
     SECTION("bug doesn't infinite loop if there are no newlines") {

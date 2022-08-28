@@ -1,6 +1,6 @@
 #include "WeatherData.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("weather data") {
     KnuthRng fake_rng(0xdeadbeef);

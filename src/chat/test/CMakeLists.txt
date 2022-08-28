@@ -1,5 +1,5 @@
 file(GLOB SOURCE_FILES CONFIGURE_DEPENDS *.cpp *.hpp)
 add_executable(chat_test ${SOURCE_FILES})
 target_compile_definitions(chat_test PUBLIC TEST_RESOURCE_DIR="${PROJECT_SOURCE_DIR}/area/")
-target_link_libraries(chat_test PRIVATE chat xania_lib Catch2::Catch2)
+target_link_libraries(chat_test PRIVATE chat xania_lib Catch2::Catch2WithMain)
 add_test(NAME chat_test COMMAND $<TARGET_FILE:chat_test>)

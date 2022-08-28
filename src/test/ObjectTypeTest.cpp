@@ -7,7 +7,7 @@
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <vector>
 
 TEST_CASE("object type name") {

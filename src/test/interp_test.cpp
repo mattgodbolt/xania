@@ -6,7 +6,7 @@
 #include "Char.hpp"
 #include "interp.h"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("apply prefix") {
     Char bob{};

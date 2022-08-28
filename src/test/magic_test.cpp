@@ -6,7 +6,8 @@
 #include "lookup.h"
 #include "magic.h"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators_range.hpp>
 #include <fmt/format.h>
 #include <tuple>
 
