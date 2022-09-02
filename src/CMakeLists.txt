@@ -27,7 +27,7 @@ target_link_libraries(xania_lib PRIVATE
         range-v3::range-v3
         magic_enum::magic_enum
 )
-target_compile_options(xania_lib PUBLIC -fconcepts)
+target_compile_options(xania_lib PUBLIC)
 
 add_executable(xania main.cpp)
 target_link_libraries(xania PRIVATE xania_lib version)
