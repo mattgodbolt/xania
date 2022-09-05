@@ -34,13 +34,16 @@ $ sudo apt install ninja-build
 # And you'll need the following...
 $ sudo apt install git make curl
 
-# Local builds autodetect g++-11 and use it for compilation, but fallback to g++-10. If you want to build with a different compiler
-# create a new cmake toolchain file e.g. "toolchain/mycompilers.cmake" and set the compiler variables in it. Then invoke make specifying
-# the leading part of your toolchain name in the TOOLCHAIN make variable e.g.
+# Local builds autodetect g++-11 and use it for compilation, but fallback to g++-10.
+# clang-14 works too (see later section).  If you want to build with a different compiler
+# create a new cmake toolchain file e.g. "toolchain/mycompilers.cmake" and set the compiler
+# variables in it. Then invoke make specifying the leading part of your toolchain name in 
+# the TOOLCHAIN make variable e.g.
 $ make TOOLCHAIN=mycompilers test
 
-# Alternatively, if you know what you're doing you can invoke cmake directly and pass a custom toolchain, (with -DCMAKE_TOOLCHAIN_FILE=
-# or using the --toolchain switch (cmake >= 3.21)). Take a look in the Makefile for how cmake gets invoked to generate the build currently.
+# Alternatively, if you know what you're doing you can invoke cmake directly and pass a custom 
+# toolchain, (with -DCMAKE_TOOLCHAIN_FILE= or using the --toolchain switch (cmake >= 3.21)). 
+# Take a look in the Makefile for how cmake gets invoked to generate the build currently.
 ```
 
 
@@ -79,6 +82,36 @@ By default a debuggable unoptimized build is run. Use `make BUILD_TYPE=release` 
 ### Stopping and Restart the MUD
 
 To stop Xania, run `make stop`. To restart,  `make restart`.
+
+### Compiling with clang
+
+You may be interested in compiling with `clang`, version 14 is known to work. You may also want to 
+use `clangd` as an LSP for editors like [ neovim ](https://neovim.io)
+and the [ nvim-lspconfig ](https://github.com/neovim/nvim-lspconfig)plugin.
+
+```bash
+# First install the tools:
+$ sudo apt install clang-14 clangd-14
+$ update-alternatives --install /usr/bin/clangd clangd $(which clangd-14) 10
+$ update-alternatives --install /usr/bin/clang clang $(which clang-14) 10
+$ update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-14)
+```
+Build by specifying the toolchain:
+
+```bash
+$ make TOOLCHAIN=clang-14
+```
+When building with clang, it's possible that you may run into compatibility
+problems with versions of libraries in your conan cache. The cache typically resides in `~/.conan`. 
+Removing the problematic libraries from the cache and re-running make is one solution.
+You can selectively nuke cached libraries, for example:
+
+```bash
+# Remove all versions of fmt from the cache
+$ ./cmake-build-debug/.tools/conda-4.12.0/conan remove fmt/* -s -b -f
+# Remove all cached libraries from the cache
+$ ./cmake-build-debug/.tools/conda-4.12.0/conan remove "*" -s -b -f
+```
 
 ### Creating an immortal account
 
@@ -155,6 +188,8 @@ not restart the processes.
 
 A solution is to not run `make start` at all, but instead, execute `./install/bin/doorman` and
 the xania executable directly in another terminal as described above.
+
+For `neovim` users, the [ nvim-gdb ](https://github.com/sakhnik/nvim-gdb)plugin works well.
 
 ### Going "live"
 
