@@ -7,7 +7,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <fmt/format.h>
-#include <ranges>
+#include <range/v3/view/transform.hpp>
 
 TEST_CASE("wear location") {
     SECTION("wearable count") {
@@ -16,10 +16,11 @@ TEST_CASE("wear location") {
         CHECK(count == 19);
     }
     SECTION("wearable") {
-        auto wear_names = fmt::format("{}", fmt::join(WearFilter::wearable() | std::views::transform([](const auto i) {
-                                                          return magic_enum::enum_name<Wear>(i);
-                                                      }),
-                                                      ","));
+        auto wear_names =
+            fmt::format("{}", fmt::join(WearFilter::wearable() | ranges::views::transform([](const auto i) {
+                                            return magic_enum::enum_name<Wear>(i);
+                                        }),
+                                        ","));
         CHECK(wear_names
               == "Light,FingerL,FingerR,Neck1,Neck2,Body,Head,Legs,Feet,Hands,Arms,Shield,About,Waist,WristL,WristR,"
                  "Wield,Hold,Ears");

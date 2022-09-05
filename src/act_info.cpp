@@ -64,7 +64,7 @@ using namespace std::literals;
 namespace {
 
 std::string wear_string_for(const Object *obj, const Wear wear_location) {
-    constexpr std::array<std::string_view, WearFilter::wearable_count()> where_name = {
+    constexpr std::array<std::string_view, WearFilter::wearable_count()> wear_name = {
         "used as light",     "worn on finger",   "worn on finger",
         "worn around neck",  "worn around neck", "worn on body",
         "worn on head",      "worn on legs",     "worn on feet",
@@ -73,7 +73,7 @@ std::string wear_string_for(const Object *obj, const Wear wear_location) {
         "worn around wrist", "wielded",          "held",
         "worn on ears"};
 
-    return fmt::format("<{}>", obj->wear_string.empty() ? where_name[to_int(wear_location)] : obj->wear_string);
+    return fmt::format("<{}>", obj->wear_string.empty() ? wear_name[to_int(wear_location)] : obj->wear_string);
 }
 
 }
