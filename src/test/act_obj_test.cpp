@@ -16,8 +16,6 @@ extern bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Obj
 
 TEST_CASE("unique object enforcement") {
 
-    Char char_from{};
-    Char char_to{};
     ObjectIndex obj_idx{};
     obj_idx.type = ObjectType::Light;
 
@@ -32,6 +30,8 @@ TEST_CASE("unique object enforcement") {
     set_enum_bit(obj_idx.extra_flags, ObjectExtraFlag::Unique);
     existing_obj.extra_flags = obj_idx.extra_flags;
     moving_obj.extra_flags = obj_idx.extra_flags;
+    Char char_from{};
+    Char char_to{};
 
     SECTION("moving to an inventory") {
         SECTION("unique object collides") {
