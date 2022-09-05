@@ -74,7 +74,7 @@ const Social &Socials::random() const noexcept { return socials_.at(number_range
 
 void Socials::show_table(Char *ch) const noexcept {
     Columner col(*ch, 6, 12);
-    ranges::for_each(socials_ | ranges::view::transform([](const auto &s) { return s.name(); }),
+    ranges::for_each(socials_ | ranges::views::transform([](const auto &s) { return s.name(); }),
                      [&col](const auto &name) { col.add(name); });
 }
 

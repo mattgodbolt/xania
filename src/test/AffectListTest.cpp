@@ -23,7 +23,7 @@ TEST_CASE("Affect lists") {
         l.add(mk_test(3));
         l.add(mk_test(4));
         CHECK(l.size() == 4);
-        auto res = l | ranges::view::transform([](const auto &af) { return af.level; }) | ranges::to<std::vector<int>>;
+        auto res = l | ranges::views::transform([](const auto &af) { return af.level; }) | ranges::to<std::vector<int>>;
         CHECK(res == std::vector<int>{4, 3, 2, 1});
     }
     SECTION("should allow add_at_end") {
@@ -32,7 +32,7 @@ TEST_CASE("Affect lists") {
         l.add_at_end(mk_test(3));
         l.add_at_end(mk_test(4));
         CHECK(l.size() == 4);
-        auto res = l | ranges::view::transform([](const auto &af) { return af.level; }) | ranges::to<std::vector<int>>;
+        auto res = l | ranges::views::transform([](const auto &af) { return af.level; }) | ranges::to<std::vector<int>>;
         CHECK(res == std::vector<int>{1, 2, 3, 4});
     }
 }

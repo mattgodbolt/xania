@@ -612,7 +612,7 @@ void do_rstat(Char *ch, ArgParser args) {
 
     if (!location->extra_descr.empty()) {
         ch->send_line("Extra description keywords: '{}'.",
-                      fmt::join(location->extra_descr | ranges::view::transform(&ExtraDescription::keyword), " "));
+                      fmt::join(location->extra_descr | ranges::views::transform(&ExtraDescription::keyword), " "));
     }
 
     ch->send_to("Characters:");
@@ -771,8 +771,8 @@ void do_ostat(Char *ch, ArgParser args) {
 
     if (!obj->extra_descr.empty() || !obj->objIndex->extra_descr.empty()) {
         ch->send_line("Extra description keywords: '{}'",
-                      fmt::join(ranges::view::concat(obj->extra_descr, obj->objIndex->extra_descr)
-                                    | ranges::view::transform(&ExtraDescription::keyword),
+                      fmt::join(ranges::views::concat(obj->extra_descr, obj->objIndex->extra_descr)
+                                    | ranges::views::transform(&ExtraDescription::keyword),
                                 " "));
     }
 

@@ -17,7 +17,7 @@ struct Thing {
 
 TEST_CASE("Generic list") {
     using vi = std::vector<int>;
-    auto ids_of = [](auto &list) { return list | ranges::view::transform(&Thing::id) | ranges::to<std::vector>; };
+    auto ids_of = [](auto &list) { return list | ranges::views::transform(&Thing::id) | ranges::to<std::vector>; };
 
     GenericList<Thing *> four_things;
     Thing first{1};

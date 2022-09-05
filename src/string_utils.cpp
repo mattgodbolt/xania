@@ -57,7 +57,7 @@ std::pair<int, std::string_view> number_argument(std::string_view argument) {
 bool is_vowel(const char c) { return std::find(Vowels.begin(), Vowels.end(), c) != Vowels.end(); }
 
 std::string smash_tilde(std::string_view str) {
-    return str | ranges::view::transform([](char c) { return c == '~' ? '-' : c; }) | ranges::to<std::string>;
+    return str | ranges::views::transform([](char c) { return c == '~' ? '-' : c; }) | ranges::to<std::string>;
 }
 
 std::string replace_strings(std::string message, std::string_view from_str, std::string_view to_str) {
@@ -162,7 +162,7 @@ impl::LineSplitter::Iter impl::LineSplitter::Iter::operator++() noexcept {
 }
 
 std::string lower_case(std::string_view str) {
-    return str | ranges::view::transform(tolower) | ranges::to<std::string>;
+    return str | ranges::views::transform(tolower) | ranges::to<std::string>;
 }
 
 bool has_prefix(std::string_view haystack, std::string_view needle) {
@@ -244,8 +244,8 @@ std::string upper_first_character(std::string_view sv) {
 }
 
 std::string initial_caps_only(std::string_view text) {
-    return ranges::view::concat(text | ranges::view::take(1) | ranges::view::transform(toupper),
-                                text | ranges::view::drop(1) | ranges::view::transform(tolower))
+    return ranges::views::concat(text | ranges::views::take(1) | ranges::views::transform(toupper),
+                                 text | ranges::views::drop(1) | ranges::views::transform(tolower))
            | ranges::to<std::string>;
 }
 
