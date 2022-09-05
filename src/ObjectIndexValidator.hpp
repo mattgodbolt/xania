@@ -8,7 +8,7 @@
 #include <optional>
 #include <string>
 
-class ObjectIndex;
+struct ObjectIndex;
 // An interface for validators that can scrutinise an ObjectIndex after it's
 // been loaded from an area file.
 class ObjectIndexValidator {

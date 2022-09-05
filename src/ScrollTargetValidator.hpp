@@ -11,7 +11,7 @@
 #include <map>
 #include <optional>
 
-class ObjectIndex;
+struct ObjectIndex;
 enum class Target;
 // Scrolls can be assigned up to three spells. This will detect whether the
 // Target types of those spells are nonsensical from a targeting perspective
