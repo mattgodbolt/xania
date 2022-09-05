@@ -788,7 +788,7 @@ void do_aggressive_sentient(Char *wch, Char *ch) {
         && !ch->is_aff_calm() && (ch->fighting == nullptr) // Changed by Moog
         && !ch->is_aff_charm() && ch->is_pos_awake()
         && !(check_enum_bit(ch->act, CharActFlag::Wimpy) && wch->is_pos_awake()) && ch->can_see(*wch)
-        && !number_bits(1) == 0) {
+        && !number_bits(1)) {
 
         /*
          * Ok we have a 'wch' player character and a 'ch' npc aggressor.
