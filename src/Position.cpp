@@ -65,13 +65,13 @@ Position &Position::operator=(const Type rhs) {
     return *this;
 }
 
-bool Position::operator<(const Type rhs) const { return position_ < rhs; }
+bool Position::operator<(Type &rhs) const { return position_ < rhs; }
 
-bool Position::operator<=(const Type rhs) const { return position_ <= rhs; }
+bool Position::operator<=(Type &rhs) const { return position_ <= rhs; }
 
-bool Position::operator==(const Type rhs) const { return position_ == rhs; }
+bool Position::operator==(Type &rhs) const { return position_ == rhs; }
 
-bool Position::operator!=(const Type rhs) const { return position_ != rhs; }
+bool Position::operator!=(Type &rhs) const { return position_ != rhs; }
 
 Position::operator Position::Type() const { return position_; }
 

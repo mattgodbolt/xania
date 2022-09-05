@@ -34,10 +34,10 @@ public:
     [[nodiscard]] std::string_view present_progressive_verb() const;
     [[nodiscard]] std::string_view bad_position_msg() const;
     Position &operator=(const Type rhs);
-    [[nodiscard]] bool operator<(const Type rhs) const;
-    [[nodiscard]] bool operator<=(const Type rhs) const;
-    [[nodiscard]] bool operator==(const Type rhs) const;
-    [[nodiscard]] bool operator!=(const Type rhs) const;
+    [[nodiscard]] bool operator<(Type &rhs) const;
+    [[nodiscard]] bool operator<=(Type &rhs) const;
+    [[nodiscard]] bool operator==(Type &rhs) const;
+    [[nodiscard]] bool operator!=(Type &rhs) const;
     [[nodiscard]] operator Position::Type() const;
 
     [[nodiscard]] static std::optional<Position> try_from_name(std::string_view name);
