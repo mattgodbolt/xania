@@ -3,6 +3,7 @@
 #include "common/Byte.hpp"
 
 #include <gsl/span>
+#include <string_view>
 
 #include <vector>
 

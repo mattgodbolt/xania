@@ -7,6 +7,7 @@
 #include <type_traits>
 #include <utility>
 
+#include <string_view>
 #include <sys/socket.h>
 #include <sys/uio.h>
 #include <unistd.h>

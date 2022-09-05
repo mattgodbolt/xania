@@ -2,6 +2,7 @@
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
+#include <string_view>
 
 #include <arpa/telnet.h>
 #include <catch2/catch_test_macros.hpp>
