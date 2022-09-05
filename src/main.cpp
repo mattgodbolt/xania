@@ -21,42 +21,18 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-/* SIGTRAP on/off */
-bool debug = false;
-extern void report_entity_imbalance();
-
-int main(int argc, char **argv) {
+int main() {
 
     // Init time.
     current_time = Clock::now();
-    bool show_entity_imbalance = false;
     log_string("Xania {} booting...", get_build_full_version());
     const auto &config = Configuration::singleton();
-    /*
-     * Get the UNIX domain file
-     */
-    if (argc > 1) {
-        int num = 1;
-        if (*argv[num] == '-') {
-            num++;
-            debug = true;
-        } else if (*argv[num] == 'L') {
-            num++;
-            show_entity_imbalance = true;
-        }
-    }
     const auto pipe_file = fmt::format(PIPE_FILE, config.port(), getenv("USER") ? getenv("USER") : "unknown");
-    /*
-     * Run the game.
-     */
-
     auto control = init_socket(pipe_file.c_str());
     boot_db();
     const auto ban_count = Bans::singleton().load();
     log_string("{} site bans loaded.", ban_count);
     startchat(config.chat_data_file());
-    if (show_entity_imbalance)
-        report_entity_imbalance();
     load_tipfile();
     log_string("Xania version {} is ready to rock via {}.", get_build_version(), pipe_file);
 

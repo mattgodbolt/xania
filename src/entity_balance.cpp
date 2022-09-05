@@ -29,14 +29,9 @@ void objectbug(std::string_view str, ObjectIndex *obj) {
     log_string("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str);
 }
 
-void mobbug(std::string_view str, MobIndexData *mob) {
-    log_string("mob> {} (#{}): {}", mob->short_descr, mob->vnum, str);
-}
-
-/* report_object, takes an object_index_data obj and a param boot and returns the 'worth' of an
-   object in points.  If boot is non-zero it will also 'BUG' these, along with any other things
-   that could be wrong with the object */
-int report_object(const Object *object, const int boot) {
+/* report_object, takes an object_index_data obj and returns the 'worth' of an
+   object in points. */
+int report_object(const Object *object) {
     int averagedam, allowedaverage;
     ObjectIndex *obj = object->objIndex;
     auto value =
@@ -57,7 +52,7 @@ int report_object(const Object *object, const int boot) {
             && check_enum_bit(obj->wear_flags, ObjectWearFlag::TwoHands))
             allowedaverage += std::max(1, (allowedaverage) / 20);
         averagedam = (obj->value[1] * obj->value[2] + obj->value[1]) / 2;
-        if ((averagedam > allowedaverage) && boot) {
+        if ((averagedam > allowedaverage)) {
             objectbug("average damage too high", obj);
         }
         /* Add to worth for each weapon type */
@@ -78,59 +73,20 @@ int report_object(const Object *object, const int boot) {
     case ObjectType::Scroll:
     case ObjectType::Bomb:
     case ObjectType::Staff:
-        if ((obj->value[4] > (object->level + (std::max(5, obj->level / 10)))) && boot)
+        if ((obj->value[4] > (object->level + (std::max(5, obj->level / 10)))))
             objectbug("level of spell too high", obj);
         break;
 
     default: break;
     }
 
-    if (boot && (worth > ((obj->level / 10) + 1))) {
+    if (worth > ((obj->level / 10) + 1)) {
         objectbug(fmt::format("points too high: has {} points (max should be {})", worth, ((obj->level / 10) + 1)),
                   obj);
     }
     return worth;
 }
 
-/* report_mobile - for checking those not-hard-enough mobs */
-
-void report_mobile(MobIndexData *mob) {
-
-    if ((mob->damage.bonus() + mob->hitroll + ((mob->damage.number() * mob->damage.type()) + mob->damage.number() / 2))
-        < (mob->level * 3 / 2))
-        mobbug("can't do enough damage", mob);
-
-    if ((mob->hit.number() + mob->hit.bonus()) < (mob->level * 30))
-        mobbug("has too few health points", mob);
-}
-
-}
-
-// Report entities that have stats that are imbalanced.
-void report_entity_imbalance() {
-    bug("obj> **********************************************************************");
-    bug("obj> **               Beginning sweep of all object in Xania             **");
-    bug("obj> **********************************************************************");
-
-    for (auto *object : object_list) {
-        report_object(object, 1);
-    }
-
-    bug("obj> **********************************************************************");
-    bug("obj> **                       Object sweep completed                     **");
-    bug("obj> **********************************************************************");
-
-    bug("mob> **********************************************************************");
-    bug("mob> **                       Beginning mobile sweep                     **");
-    bug("mob> **********************************************************************");
-
-    for (auto *mobile : char_list) {
-        report_mobile(mobile->mobIndex);
-    }
-
-    bug("mob> **********************************************************************");
-    bug("mob> **                       Mobile sweep completed                     **");
-    bug("mob> **********************************************************************");
 }
 
 void do_immworth(Char *ch, ArgParser args) {
@@ -140,7 +96,7 @@ void do_immworth(Char *ch, ArgParser args) {
         return;
     }
 
-    const auto worth = report_object(obj, 0);
+    const auto worth = report_object(obj);
     const auto shouldbe = ((obj->level / 10) + 1);
     if (worth == shouldbe) {
         ch->send_line("Object '{}' has {} point(s) - exactly right.", obj->objIndex->short_descr, worth);
