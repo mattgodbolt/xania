@@ -20,6 +20,7 @@ RUN \
  update-alternatives --install /usr/bin/editor editor $(which nvim) 10 && \
  update-alternatives --install /usr/bin/clangd clangd $(which clangd-14) 10 && \
  update-alternatives --install /usr/bin/clang clang $(which clang-14) 10 && \
+ update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-14) 10 && \
  update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-14) 10
 
 RUN locale-gen en_US.UTF-8 en_GB.UTF-8 && \
