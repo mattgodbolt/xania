@@ -46,7 +46,7 @@ Database &Eliza::get_database_by_name(std::string names) {
     auto entry = named_databases_.find(name);
     if (entry != named_databases_.end())
         return entry->second;
-    return databases_[0]; // Default database
+    return databases_.at(0); // Default database
 }
 
 /**
@@ -104,7 +104,7 @@ bool Eliza::load_databases(const std::string &file) {
                     // and moving the locals into it.
                     ensure_database_open(current_db_num, line_count);
                     databases_.emplace(current_db_num, Database{current_keyword_responses, current_linked_database});
-                    register_database_names(current_database_names, databases_[current_db_num]);
+                    register_database_names(current_database_names, databases_.at(current_db_num));
                     current_db_num = -1;
                     current_linked_database = nullptr;
                     break;

@@ -25,7 +25,6 @@ namespace chat {
  */
 class Database {
 public:
-    Database() = default;
     explicit Database(std::vector<KeywordResponses> &keyword_responses, Database *linked_database)
         : keyword_responses_(std::move(keyword_responses)), linked_database_(linked_database) {}
 
