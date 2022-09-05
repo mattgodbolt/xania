@@ -7,7 +7,7 @@
 
 #include <string_view>
 
-class Char;
+struct Char;
 
 void announce(std::string_view buf, const Char *ch);
 void add_follower(Char *ch, Char *master);

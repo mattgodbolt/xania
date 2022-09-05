@@ -8,7 +8,7 @@
 #include <string_view>
 
 class ArgParser;
-class Char;
+struct Char;
 
 bool parse_customizations(Char *ch, ArgParser args);
 void list_available_group_costs(Char *ch);

@@ -1098,7 +1098,7 @@ std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Ac
             continue;
         }
 
-        if (std::holds_alternative<nullptr_t>(arg2) && c >= 'A' && c <= 'Z') {
+        if (std::holds_alternative<std::nullptr_t>(arg2) && c >= 'A' && c <= 'Z') {
             bug("Act: missing arg2 for code {} in format '{}'", c, format);
             continue;
         }

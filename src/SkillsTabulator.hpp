@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-class Char;
+struct Char;
 
 class SkillsTabulator {
 public:

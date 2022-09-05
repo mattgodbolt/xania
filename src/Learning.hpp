@@ -8,7 +8,7 @@
 #include "Types.hpp"
 #include <string>
 
-class Char;
+struct Char;
 class Rng;
 
 // Determines if a character has improved at using a skill.

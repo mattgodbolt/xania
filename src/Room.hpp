@@ -19,7 +19,7 @@
 #include <vector>
 
 struct Object;
-struct Area;
+class Area;
 
 /*
  * Room type.

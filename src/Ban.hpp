@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-class Char;
+struct Char;
 class ArgParser;
 
 enum class BanFlag { Permanent = A, Newbies = B, Permit = C, Prefix = D, Suffix = E, All = F };

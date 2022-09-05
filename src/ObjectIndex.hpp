@@ -14,7 +14,7 @@
 #include <vector>
 
 enum class ObjectType;
-struct Area;
+class Area;
 
 /*
  * Prototype for an object.

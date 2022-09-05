@@ -5,7 +5,7 @@
 /*************************************************************************/
 #pragma once
 
-class Char;
+struct Char;
 class ArgParser;
 
 void unride_char(Char *ch, Char *pet);

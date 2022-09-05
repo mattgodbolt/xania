@@ -9,7 +9,7 @@
 #include <string_view>
 #include <vector>
 
-struct Area;
+class Area;
 
 class HelpList;
 

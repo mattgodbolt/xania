@@ -11,7 +11,7 @@
 #include <ostream>
 #include <string>
 
-class Char;
+struct Char;
 class Rng;
 
 // Each time damage is delivered to a victim it strikes a semi-randomly selected

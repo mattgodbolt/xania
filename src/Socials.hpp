@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-class Char;
+struct Char;
 /*
  * Structure for a social.
  * Every social can have up to 7 different contextual phrases. There's an 8th (char_not_found) but

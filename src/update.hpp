@@ -5,7 +5,7 @@
 /*************************************************************************/
 #pragma once
 
-class Char;
+struct Char;
 
 void advance_level(Char *ch);
 void gain_exp(Char *ch, int gain);

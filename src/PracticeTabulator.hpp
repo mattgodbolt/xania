@@ -4,7 +4,7 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #pragma once
-class Char;
+struct Char;
 
 // for the "practice" and "stat mob prac" commands.
 namespace PracticeTabulator {
