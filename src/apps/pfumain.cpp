@@ -23,6 +23,9 @@ extern void boot_db();
 //   a new saver that writes the pfiles out in a different format e.g. yaml.
 // - It could be enhanced to have cmd line arg to support processing a specific file.
 
+template <>
+struct fmt::formatter<lyra::cli> : ostream_formatter {};
+
 int main(int argc, const char **argv) {
     auto sink = std::make_shared<spdlog::sinks::stdout_color_sink_st>();
     auto logger = spdlog::logger("pfu", sink);

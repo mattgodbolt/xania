@@ -45,6 +45,9 @@ void render_area(FILE *out_file, Area *area) {
     fmt::print(out_file, " }}\n");
 }
 
+template <>
+struct fmt::formatter<lyra::cli> : ostream_formatter {};
+
 int main(int argc, const char **argv) {
     bool help{};
     std::string output;

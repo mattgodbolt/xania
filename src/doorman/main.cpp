@@ -22,6 +22,9 @@
 
 #include <csignal>
 
+template <>
+struct fmt::formatter<lyra::cli> : ostream_formatter {};
+
 int Main(Logger &log, int argc, char *argv[]) {
     bool help = false;
     bool debug = false;

@@ -11,6 +11,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
+template <>
+struct fmt::formatter<lyra::cli> : ostream_formatter {};
+
 int main(int argc, const char **argv) {
     bool help{};
     std::string output;
