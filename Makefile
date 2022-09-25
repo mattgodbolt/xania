@@ -54,12 +54,13 @@ dirs:
 	@mkdir -p gods player system log
 	@PROJ_ROOT=$(CURDIR) ./scripts/validate-symlinks.sh
 
-# ideally would check the sha512 here. TODO: This
 $(CLANG_FORMAT): $(CURL)
 	@mkdir -p $(dir $@)
 	@echo "Installing clang format static binary locally..."
 	$(CURL) $(CURL_OPTIONS) https://github.com/muttleyxd/clang-format-static-binaries/releases/download/master-208096c1/clang-format-$(CLANG_VERSION)_linux-amd64 -o $@
 	@chmod +x $@
+	@echo "25916bad0bd7e2c910bf0121bef8391dbe7bdec3e053d7ee05baeaf04a6a7e1cdda7732eb1a0f281c84ccc6a609970ddb7e64c5f208d4e3ca85aed12d7eab586  .tools/clang-format-14" > $(CLANG_FORMAT).sha512sum
+	@sha512sum -c --quiet $(CLANG_FORMAT).sha512sum
 
 .PHONY: start
 start: install 	  ## Build and start Xania
