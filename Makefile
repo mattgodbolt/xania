@@ -18,7 +18,7 @@ BUILD_TYPE?=debug
 BUILD_ROOT:=$(CURDIR)/cmake-build-$(BUILD_TYPE)
 INSTALL_DIR=$(CURDIR)/install
 TOOLS_DIR=$(CURDIR)/.tools
-CLANG_VERSION?=10
+CLANG_VERSION?=14
 CLANG_FORMAT:=$(TOOLS_DIR)/clang-format-$(CLANG_VERSION)
 TOP_SRC_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 SOURCE_FILES:=$(shell find $(TOP_SRC_DIR)/src -type f -name \*.c -o -name \*.h -o -name \*.cpp -o -name *.hpp)
@@ -58,7 +58,7 @@ dirs:
 $(CLANG_FORMAT): $(CURL)
 	@mkdir -p $(dir $@)
 	@echo "Installing clang format static binary locally..."
-	$(CURL) $(CURL_OPTIONS) https://github.com/muttleyxd/clang-format-static-binaries/releases/download/master-5b56bb49/clang-format-$(CLANG_VERSION)_linux-amd64 -o $@
+	$(CURL) $(CURL_OPTIONS) https://github.com/muttleyxd/clang-format-static-binaries/releases/download/master-208096c1/clang-format-$(CLANG_VERSION)_linux-amd64 -o $@
 	@chmod +x $@
 
 .PHONY: start

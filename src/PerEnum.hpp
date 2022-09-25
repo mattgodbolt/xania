@@ -10,7 +10,7 @@ class PerEnum {
 public:
     constexpr PerEnum() = default;
     template <typename... Args>
-    constexpr PerEnum(Args &&... args) : ts_{std::forward<Args>(args)...} {}
+    constexpr PerEnum(Args &&...args) : ts_{std::forward<Args>(args)...} {}
     constexpr T &operator[](Enum d) { return ts_[static_cast<int>(d)]; }
     constexpr const T &operator[](Enum d) const { return ts_[static_cast<int>(d)]; }
 };

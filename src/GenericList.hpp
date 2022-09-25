@@ -60,7 +60,7 @@ public:
 
     // Construct a list of the given items.
     template <typename... Args>
-    static GenericList of(Args &&... args) {
+    static GenericList of(Args &&...args) {
         GenericList result;
         (result.add_back(args), ...);
         return result;

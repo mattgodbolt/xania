@@ -184,11 +184,10 @@ void Bans::list(Char *ch) {
         const auto ban_flags_ = fmt::format("{}{}{}", check_enum_bit(ban->ban_flags_, BanFlag::Prefix) ? "*" : "",
                                             ban->site_, check_enum_bit(ban->ban_flags_, BanFlag::Suffix) ? "*" : "");
         const auto ban_line = fmt::format("{:>3})  {:<17}    {:<3}  {:<7}  {}", index++, ban_flags_, ban->level_,
-                                          check_enum_bit(ban->ban_flags_, BanFlag::Newbies)
-                                              ? "newbies"
-                                              : check_enum_bit(ban->ban_flags_, BanFlag::Permit)
-                                                    ? "permit"
-                                                    : check_enum_bit(ban->ban_flags_, BanFlag::All) ? "all" : "",
+                                          check_enum_bit(ban->ban_flags_, BanFlag::Newbies)  ? "newbies"
+                                          : check_enum_bit(ban->ban_flags_, BanFlag::Permit) ? "permit"
+                                          : check_enum_bit(ban->ban_flags_, BanFlag::All)    ? "all"
+                                                                                             : "",
                                           check_enum_bit(ban->ban_flags_, BanFlag::Permanent) ? "perm" : "temp");
         ch->send_line(ban_line);
     }

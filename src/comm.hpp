@@ -45,7 +45,7 @@ inline void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg a
 // Support for wacky nullptr format things in older code (e.g. socials and puff use null here as a "don't do this").
 // (see #148). Ideally we'd remove this, but for now...
 template <typename... Args>
-inline void act(const char *format, const Char *ch, Args &&... args) {
+inline void act(const char *format, const Char *ch, Args &&...args) {
     if (format)
         act(std::string_view(format), ch, std::forward<Args>(args)...);
 }

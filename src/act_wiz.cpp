@@ -700,11 +700,13 @@ void do_ostat(Char *ch, ArgParser args) {
 
     ch->send_line("Level: {}  Cost: {}  Condition: {}  Timer: {}", obj->level, obj->cost, obj->condition, obj->timer);
 
-    ch->send_to(fmt::format(
-        "In room: {}  In object: {}  Carried by: {}  Wear_loc: {} ({})\n\r",
-        obj->in_room == nullptr ? 0 : obj->in_room->vnum, obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
-        obj->carried_by == nullptr ? "(none)" : ch->can_see(*obj->carried_by) ? obj->carried_by->name : "someone",
-        magic_enum::enum_name<Wear>(obj->wear_loc), magic_enum::enum_integer(obj->wear_loc)));
+    ch->send_to(fmt::format("In room: {}  In object: {}  Carried by: {}  Wear_loc: {} ({})\n\r",
+                            obj->in_room == nullptr ? 0 : obj->in_room->vnum,
+                            obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
+                            obj->carried_by == nullptr      ? "(none)"
+                            : ch->can_see(*obj->carried_by) ? obj->carried_by->name
+                                                            : "someone",
+                            magic_enum::enum_name<Wear>(obj->wear_loc), magic_enum::enum_integer(obj->wear_loc)));
 
     ch->send_line("Values: {}", fmt::join(obj->value, " "));
 

@@ -744,8 +744,9 @@ void look_in_object(const Char &ch, const Object &obj) {
         }
         const auto &liq_color = liquid->color;
         ch.send_line("It's {} full of a{} {} liquid.",
-                     obj.value[1] < obj.value[0] / 4 ? "less than"
-                                                     : obj.value[1] < 3 * obj.value[0] / 4 ? "about" : "more than",
+                     obj.value[1] < obj.value[0] / 4       ? "less than"
+                     : obj.value[1] < 3 * obj.value[0] / 4 ? "about"
+                                                           : "more than",
                      is_vowel(liq_color[0]) ? "n" : "", liq_color);
         break;
     }

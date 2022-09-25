@@ -88,9 +88,9 @@ void fwrite_char(const Char *ch, FILE *fp) {
     fmt::print(fp, "{} {}\n", cf::LastNote, (int)Clock::to_time_t(ch->last_note));
     fmt::print(fp, "{} {}\n", cf::Scroll, ch->lines);
     fmt::print(fp, "{} {}\n", cf::Room,
-               (ch->in_room == get_room(Rooms::Limbo) && ch->was_in_room != nullptr)
-                   ? ch->was_in_room->vnum
-                   : ch->in_room == nullptr ? Rooms::MidgaardTemple : ch->in_room->vnum);
+               (ch->in_room == get_room(Rooms::Limbo) && ch->was_in_room != nullptr) ? ch->was_in_room->vnum
+               : ch->in_room == nullptr                                              ? Rooms::MidgaardTemple
+                                                                                     : ch->in_room->vnum);
 
     fmt::print(fp, "{}  {} {} {} {} {} {}\n", cf::HitManaMove, ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move,
                ch->max_move);

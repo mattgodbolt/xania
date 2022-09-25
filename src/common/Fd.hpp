@@ -29,7 +29,7 @@ class Fd {
     static iovec iovec_for(std::string_view string) { return {iovec_cast(string.data()), string.size()}; }
 
     template <typename... Args>
-    static std::array<iovec, sizeof...(Args)> iovecs_for(Args &&... args) {
+    static std::array<iovec, sizeof...(Args)> iovecs_for(Args &&...args) {
         return {iovec_for(args)...};
     }
     void read_all(void *data, size_t length) const;
@@ -67,7 +67,7 @@ public:
         write(&t, sizeof(t));
     }
     template <typename... Args>
-    void write_many(Args &&... args) const {
+    void write_many(Args &&...args) const {
         writev(iovecs_for(std::forward<Args>(args)...));
     }
 
