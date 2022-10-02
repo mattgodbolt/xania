@@ -326,7 +326,7 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
                     break;
             }
             if ((pos == 5) || // If we've run out of spaces in the bomb
-                (number_percent() > (get_curr_stat(ch, Stat::Int) * 4)) || // test against int
+                (number_percent() > (ch->curr_stat(Stat::Int) * 4)) || // test against int
                 (number_percent() < bomb_chance[pos])) { // test against the number of spells in the bomb
                 act("You try to add another spell to your bomb but it can't take anymore!!!", ch, nullptr, nullptr,
                     To::Char);

@@ -360,7 +360,7 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         if (!remove_obj(ch, Wear::Wield, fReplace))
             return;
 
-        if (ch->is_pc() && get_obj_weight(obj) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
+        if (ch->is_pc() && get_obj_weight(obj) > str_app[ch->curr_stat(Stat::Str)].wield) {
             ch->send_line("It is too heavy for you to wield.");
             return;
         }

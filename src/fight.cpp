@@ -1117,7 +1117,7 @@ bool check_dodge(Char *ch, Char *victim) {
         return false;
 
     auto chance = victim->get_skill(gsn_dodge) / 3;
-    auto ddex = get_curr_stat(victim, Stat::Dex) - get_curr_stat(ch, Stat::Dex);
+    auto ddex = victim->curr_stat(Stat::Dex) - ch->curr_stat(Stat::Dex);
     chance += ddex;
     chance = std::max(5, chance + victim->level - ch->level);
     if (number_percent() >= chance)
@@ -1734,8 +1734,8 @@ void do_bash(Char *ch, ArgParser args) {
         chance += BodySizes::size_diff(ch->body_size, victim->body_size) * 10;
 
     /* stats */
-    chance += get_curr_stat(ch, Stat::Str);
-    chance -= get_curr_stat(victim, Stat::Dex) * 4 / 3;
+    chance += ch->curr_stat(Stat::Str);
+    chance -= victim->curr_stat(Stat::Dex) * 4 / 3;
 
     /* speed */
     if (check_enum_bit(ch->off_flags, OffensiveFlag::Fast) || ch->is_aff_haste())
@@ -1832,8 +1832,8 @@ void do_dirt(Char *ch, ArgParser args) {
     /* modifiers */
 
     /* dexterity */
-    chance += get_curr_stat(ch, Stat::Dex);
-    chance -= 2 * get_curr_stat(victim, Stat::Dex);
+    chance += ch->curr_stat(Stat::Dex);
+    chance -= 2 * victim->curr_stat(Stat::Dex);
 
     /* speed  */
     if (check_enum_bit(ch->off_flags, OffensiveFlag::Fast) || ch->is_aff_haste())
@@ -1958,8 +1958,8 @@ void do_trip(Char *ch, ArgParser args) {
         chance += BodySizes::size_diff(ch->body_size, victim->body_size) * 10; /* bigger = harder to trip */
 
     /* dex */
-    chance += get_curr_stat(ch, Stat::Dex);
-    chance -= get_curr_stat(victim, Stat::Dex) * 3 / 2;
+    chance += ch->curr_stat(Stat::Dex);
+    chance -= victim->curr_stat(Stat::Dex) * 3 / 2;
 
     /* speed */
     if (check_enum_bit(ch->off_flags, OffensiveFlag::Fast) || ch->is_aff_haste())
@@ -2450,8 +2450,8 @@ void do_disarm(Char *ch) {
     chance += (ch_vict_weapon / 2 - vict_weapon) / 2;
 
     /* dex vs. strength */
-    chance += get_curr_stat(ch, Stat::Dex);
-    chance -= 2 * get_curr_stat(victim, Stat::Str);
+    chance += ch->curr_stat(Stat::Dex);
+    chance -= 2 * victim->curr_stat(Stat::Str);
 
     /* level */
     chance += (ch->level - victim->level) * 2;

@@ -943,9 +943,9 @@ void do_mstat(Char *ch, std::string_view argument) {
     }
 
     ch->send_line("Str: {}({})  Int: {}({})  Wis: {}({})  Dex: {}({})  Con: {}({})", victim->perm_stat[Stat::Str],
-                  get_curr_stat(victim, Stat::Str), victim->perm_stat[Stat::Int], get_curr_stat(victim, Stat::Int),
-                  victim->perm_stat[Stat::Wis], get_curr_stat(victim, Stat::Wis), victim->perm_stat[Stat::Dex],
-                  get_curr_stat(victim, Stat::Dex), victim->perm_stat[Stat::Con], get_curr_stat(victim, Stat::Con));
+                  victim->curr_stat(Stat::Str), victim->perm_stat[Stat::Int], victim->curr_stat(Stat::Int),
+                  victim->perm_stat[Stat::Wis], victim->curr_stat(Stat::Wis), victim->perm_stat[Stat::Dex],
+                  victim->curr_stat(Stat::Dex), victim->perm_stat[Stat::Con], victim->curr_stat(Stat::Con));
 
     ch->send_line("Hp: {}/{}  Mana: {}/{}  Move: {}/{}  Practices: {}", victim->hit, victim->max_hit, victim->mana,
                   victim->max_mana, victim->move, victim->max_move, ch->is_npc() ? 0 : victim->practice);

@@ -48,7 +48,7 @@ bool Learning::init_has_learned(const int difficulty_multiplier) {
         || ch_->pcdata->learned[skill_num_] == 100)
         return false;
     const int skill_difficulty = get_skill_difficulty(ch_, skill_num_);
-    auto difficulty_for_char = 10 * int_app[get_curr_stat(ch_, Stat::Int)].learn;
+    auto difficulty_for_char = 10 * int_app[ch_->curr_stat(Stat::Int)].learn;
     difficulty_for_char /= std::max(1, difficulty_multiplier * skill_difficulty * 4);
     difficulty_for_char += ch_->level;
     if (rng_.number_range(1, 1000) > difficulty_for_char) {

@@ -31,10 +31,10 @@ void char_ride(Char *ch, Char *ridee) {
     af.level = ridee->level;
     af.duration = -1;
     af.location = AffectLocation::Damroll;
-    af.modifier = (ridee->level / 10) + (get_curr_stat(ridee, Stat::Dex) / 8);
+    af.modifier = (ridee->level / 10) + (ridee->curr_stat(Stat::Dex) / 8);
     affect_to_char(ch, af);
     af.location = AffectLocation::Hitroll;
-    af.modifier = -(((ridee->level / 10) + (get_curr_stat(ridee, Stat::Dex) / 8)) / 4);
+    af.modifier = -(((ridee->level / 10) + (ridee->curr_stat(Stat::Dex) / 8)) / 4);
     affect_to_char(ch, af);
 }
 

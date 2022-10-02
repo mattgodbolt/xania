@@ -108,12 +108,12 @@ void advance_level(Char *ch) {
 
     ch->set_title(fmt::format("the {}", title_table[ch->class_num][ch->level][ch->sex.is_male() ? 0 : 1]));
 
-    add_hp = con_app[get_curr_stat(ch, Stat::Con)].hitp
+    add_hp = con_app[ch->curr_stat(Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
 
     add_mana = number_range(
         0, class_table[ch->class_num].fMana * class_table[ch->class_num].fMana
-               * (std::max(0, get_curr_stat(ch, Stat::Wis) - 15) + 2 * std::max(0, get_curr_stat(ch, Stat::Int) - 15)));
+               * (std::max(0, ch->curr_stat(Stat::Wis) - 15) + 2 * std::max(0, ch->curr_stat(Stat::Int) - 15)));
 
     add_mana += 150;
     add_mana /= 300; /* =max (2*int+wis)/10 (10=mage.fMana)*/
@@ -131,8 +131,8 @@ void advance_level(Char *ch) {
 
     /* End of new section. */
 
-    add_move = number_range(1, (get_curr_stat(ch, Stat::Con) + get_curr_stat(ch, Stat::Dex)) / 6);
-    add_prac = wis_app[get_curr_stat(ch, Stat::Wis)].practice;
+    add_move = number_range(1, (ch->curr_stat(Stat::Con) + ch->curr_stat(Stat::Dex)) / 6);
+    add_prac = wis_app[ch->curr_stat(Stat::Wis)].practice;
 
     add_hp = std::max(1, add_hp * 9 / 10);
     add_move = std::max(6, add_move * 9 / 10);
@@ -238,7 +238,7 @@ int hit_gain(Char *ch) {
         }
 
     } else {
-        gain = std::max(3, get_curr_stat(ch, Stat::Con) - 3 + ch->level);
+        gain = std::max(3, ch->curr_stat(Stat::Con) - 3 + ch->level);
         gain += class_table[ch->class_num].hp_max - 10;
         number = number_percent();
         if (number < ch->get_skill(gsn_fast_healing)) {
@@ -289,7 +289,7 @@ int mana_gain(Char *ch) {
         case Position::Type::Fighting: gain /= 3; break;
         }
     } else {
-        gain = (get_curr_stat(ch, Stat::Wis) + get_curr_stat(ch, Stat::Int) + ch->level) / 2;
+        gain = (ch->curr_stat(Stat::Wis) + ch->curr_stat(Stat::Int) + ch->level) / 2;
         number = number_percent();
         if (number < ch->get_skill(gsn_meditation)) {
             gain += number * gain / 100;
@@ -333,8 +333,8 @@ int move_gain(Char *ch) {
         gain = std::max(15_s, ch->level);
 
         switch (ch->position) {
-        case Position::Type::Sleeping: gain += get_curr_stat(ch, Stat::Dex); break;
-        case Position::Type::Resting: gain += get_curr_stat(ch, Stat::Dex) / 2; break;
+        case Position::Type::Sleeping: gain += ch->curr_stat(Stat::Dex); break;
+        case Position::Type::Resting: gain += ch->curr_stat(Stat::Dex) / 2; break;
         default:; // unchanged
         }
 

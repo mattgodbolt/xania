@@ -1070,12 +1070,12 @@ void do_score(Char *ch) {
     }
     ch->send_line("");
 
-    col3.stat_eff("Strength", ch->perm_stat[Stat::Str], get_curr_stat(ch, Stat::Str))
-        .stat_eff("Intelligence", ch->perm_stat[Stat::Int], get_curr_stat(ch, Stat::Int))
-        .stat_eff("Wisdom", ch->perm_stat[Stat::Wis], get_curr_stat(ch, Stat::Wis));
+    col3.stat_eff("Strength", ch->perm_stat[Stat::Str], ch->curr_stat(Stat::Str))
+        .stat_eff("Intelligence", ch->perm_stat[Stat::Int], ch->curr_stat(Stat::Int))
+        .stat_eff("Wisdom", ch->perm_stat[Stat::Wis], ch->curr_stat(Stat::Wis));
 
-    col2.stat_eff("Dexterity", ch->perm_stat[Stat::Dex], get_curr_stat(ch, Stat::Dex))
-        .stat_eff("Constitution", ch->perm_stat[Stat::Con], get_curr_stat(ch, Stat::Con))
+    col2.stat_eff("Dexterity", ch->perm_stat[Stat::Dex], ch->curr_stat(Stat::Dex))
+        .stat_eff("Constitution", ch->perm_stat[Stat::Con], ch->curr_stat(Stat::Con))
         .stat("Practices", ch->practice)
         .stat("Training sessions", ch->train);
 
@@ -1594,9 +1594,9 @@ void do_practice(Char *ch, ArgParser args) {
         } else {
             ch->practice--;
             if (get_skill_trains(ch, sn) < 0) {
-                skill_level += int_app[get_curr_stat(ch, Stat::Int)].learn / 4;
+                skill_level += int_app[ch->curr_stat(Stat::Int)].learn / 4;
             } else {
-                skill_level += int_app[get_curr_stat(ch, Stat::Int)].learn / get_skill_difficulty(ch, sn);
+                skill_level += int_app[ch->curr_stat(Stat::Int)].learn / get_skill_difficulty(ch, sn);
             }
             if (skill_level < adept) {
                 act("You practice $T.", ch, nullptr, skill_table[sn].name, To::Char);

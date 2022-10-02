@@ -138,9 +138,6 @@ int get_age(const Char *ch) {
     return 17 + duration_cast<hours>(ch->total_played()).count() / 20;
 }
 
-/* command for retrieving stats */
-int get_curr_stat(const Char *ch, Stat stat) { return ch->curr_stat(stat); }
-
 /* command for returning max training score */
 int get_max_train(Char *ch, Stat stat) {
     int max;
@@ -168,7 +165,7 @@ int can_carry_n(Char *ch) {
     if (ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Pet))
         return 4;
 
-    return magic_enum::enum_count<Wear>() + 2 * get_curr_stat(ch, Stat::Dex) + ch->level;
+    return magic_enum::enum_count<Wear>() + 2 * ch->curr_stat(Stat::Dex) + ch->level;
 }
 
 /*
@@ -181,7 +178,7 @@ int can_carry_w(Char *ch) {
     if (ch->is_npc() && check_enum_bit(ch->act, CharActFlag::Pet))
         return 1000;
 
-    return str_app[get_curr_stat(ch, Stat::Str)].carry + ch->level * 5 / 2;
+    return str_app[ch->curr_stat(Stat::Str)].carry + ch->level * 5 / 2;
 }
 
 /*
@@ -200,7 +197,7 @@ void affect_modify(Char *ch, const AFFECT_DATA &af, bool fAdd) {
      */
     Object *wield;
     if (ch->is_pc() && (wield = get_eq_char(ch, Wear::Wield)) != nullptr
-        && get_obj_weight(wield) > str_app[get_curr_stat(ch, Stat::Str)].wield) {
+        && get_obj_weight(wield) > str_app[ch->curr_stat(Stat::Str)].wield) {
         static int depth;
 
         if (depth == 0) {
