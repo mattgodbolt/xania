@@ -83,9 +83,6 @@ int class_lookup(std::string_view name) {
     return -1;
 }
 
-/* for returning skill information */
-int get_skill(const Char *ch, int sn) { return ch->get_skill(sn); }
-
 /* for returning weapon information */
 int get_weapon_sn(Char *ch) {
     const Object *wield = get_eq_char(ch, Wear::Wield);

@@ -213,7 +213,7 @@ std::optional<SpellTarget> get_casting_spell_target(Char *ch, const int sn, std:
 std::optional<SpellTarget> get_obj_casting_spell_target(Char *ch, Char *victim, Object *obj, std::string_view arguments,
                                                         const int sn) {
     switch (skill_table[sn].target) {
-    default: bug("Obj_cast_spell: bad target for sn {}.", sn); return std::nullopt; // FIXME?
+    default: bug("Obj_cast_spell: bad target for sn {}.", sn); return std::nullopt;
 
     case Target::Ignore:
     case Target::CharObject:

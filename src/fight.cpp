@@ -275,7 +275,7 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     if (ch->fighting != victim || Attacks::is_attack_skill(opt_skill, gsn_backstab))
         return;
 
-    chance = get_skill(ch, gsn_second_attack) / 2;
+    chance = ch->get_skill(gsn_second_attack) / 2;
     if (number_percent() < chance) {
         one_hit(ch, victim, opt_skill);
         check_improve(ch, gsn_second_attack, true, 5);
@@ -283,7 +283,7 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
             return;
     }
 
-    chance = get_skill(ch, gsn_third_attack) / 4;
+    chance = ch->get_skill(gsn_third_attack) / 4;
     if (number_percent() < chance) {
         one_hit(ch, victim, opt_skill);
         check_improve(ch, gsn_third_attack, true, 6);
@@ -324,7 +324,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     if (ch->fighting != victim || Attacks::is_attack_skill(opt_skill, gsn_backstab))
         return;
 
-    chance = get_skill(ch, gsn_second_attack) / 2;
+    chance = ch->get_skill(gsn_second_attack) / 2;
     if (number_percent() < chance) {
         one_hit(ch, victim, opt_skill);
         if (ch->fighting != victim)
@@ -333,7 +333,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         // NPCs only launch a 3rd attack if their 2nd one succeeded.
         // This reduces the odds of 3 attacks (possibly 4 if they have OffensiveFlag::Fast too)
         // from landing, which can be quite nasty if it happens.
-        chance = get_skill(ch, gsn_third_attack) / 4;
+        chance = ch->get_skill(gsn_third_attack) / 4;
         if (number_percent() < chance) {
             one_hit(ch, victim, opt_skill);
             if (ch->fighting != victim)
@@ -509,9 +509,9 @@ void one_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     /*
      * Bonuses.
      */
-    if (get_skill(ch, gsn_enhanced_damage) > 0) {
+    if (ch->get_skill(gsn_enhanced_damage) > 0) {
         const auto damage_bonus_dice = number_percent();
-        if (damage_bonus_dice <= get_skill(ch, gsn_enhanced_damage)) {
+        if (damage_bonus_dice <= ch->get_skill(gsn_enhanced_damage)) {
             check_improve(ch, gsn_enhanced_damage, true, 6);
             dam += dam * damage_bonus_dice / 100;
         }
@@ -1595,7 +1595,7 @@ void do_berserk(Char *ch) {
     int chance, hp_percent;
     /*    Object *wield = get_eq_char( ch, Wear::Wield );*/
 
-    if ((chance = get_skill(ch, gsn_berserk)) == 0
+    if ((chance = ch->get_skill(gsn_berserk)) == 0
         || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Berserk))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_berserk))) {
         ch->send_line("You turn red in the face, but nothing happens.");
@@ -1677,7 +1677,7 @@ void do_berserk(Char *ch) {
 
 void do_bash(Char *ch, ArgParser args) {
     int chance;
-    if ((chance = get_skill(ch, gsn_bash)) == 0 || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Bash))
+    if ((chance = ch->get_skill(gsn_bash)) == 0 || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Bash))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_bash))) {
         ch->send_line("Bashing? What's that?");
         return;
@@ -1783,7 +1783,7 @@ void do_dirt(Char *ch, ArgParser args) {
     Char *victim;
     int chance;
 
-    if ((chance = get_skill(ch, gsn_dirt)) == 0
+    if ((chance = ch->get_skill(gsn_dirt)) == 0
         || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::KickDirt))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_dirt))) {
         ch->send_line("You get your feet dirty.");
@@ -1901,7 +1901,7 @@ void do_dirt(Char *ch, ArgParser args) {
 void do_trip(Char *ch, ArgParser args) {
     Char *victim;
     int chance;
-    if ((chance = get_skill(ch, gsn_trip)) == 0 || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Trip))
+    if ((chance = ch->get_skill(gsn_trip)) == 0 || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Trip))
         || (ch->is_pc() && ch->level < get_skill_level(ch, gsn_trip))) {
         ch->send_line("Tripping?  What's that?");
         return;
@@ -2347,7 +2347,7 @@ void do_sharpen(Char *ch) {
         return;
     }
 
-    chance = get_skill(ch, gsn_sharpen);
+    chance = ch->get_skill(gsn_sharpen);
     if (number_percent() <= chance) {
         set_enum_bit(weapon->value[4], WeaponFlag::Sharp);
         ch->send_line("You sharpen the weapon to a fine, deadly point.");
@@ -2405,13 +2405,13 @@ void do_disarm(Char *ch) {
 
     hth = 0;
 
-    if ((chance = get_skill(ch, gsn_disarm)) == 0) {
+    if ((chance = ch->get_skill(gsn_disarm)) == 0) {
         ch->send_line("You don't know how to disarm opponents.");
         return;
     }
 
     if (get_eq_char(ch, Wear::Wield) == nullptr
-        && ((hth = get_skill(ch, gsn_hand_to_hand)) == 0
+        && ((hth = ch->get_skill(gsn_hand_to_hand)) == 0
             || (ch->is_npc() && !check_enum_bit(ch->off_flags, OffensiveFlag::Disarm)))) {
         ch->send_line("You must wield a weapon to disarm.");
         return;

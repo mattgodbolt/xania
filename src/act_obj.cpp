@@ -1574,7 +1574,7 @@ void do_recite(Char *ch, ArgParser args) {
     act("$n recites $p.", ch, scroll, nullptr, To::Room);
     act("You recite $p.", ch, scroll, nullptr, To::Char);
 
-    if (number_percent() >= 20 + get_skill(ch, gsn_scrolls) * 4 / 5) {
+    if (number_percent() >= 20 + ch->get_skill(gsn_scrolls) * 4 / 5) {
         ch->send_line("|rYou mispronounce a syllable.|w");
         check_improve(ch, gsn_scrolls, false, 2);
     } else {
@@ -1611,7 +1611,7 @@ void do_brandish(Char *ch) {
     if (staff->value[2] > 0) {
         act("|W$n brandishes $p.|w", ch, staff, nullptr, To::Room);
         act("|WYou brandish $p.|w", ch, staff, nullptr, To::Char);
-        if (ch->level < staff->level || number_percent() >= 20 + get_skill(ch, gsn_staves) * 4 / 5) {
+        if (ch->level < staff->level || number_percent() >= 20 + ch->get_skill(gsn_staves) * 4 / 5) {
             act("|WYou fail to invoke $p.|w", ch, staff, nullptr, To::Char);
             act("|W...and nothing happens.|w", ch);
             check_improve(ch, gsn_staves, false, 2);
@@ -1721,7 +1721,7 @@ void do_zap(Char *ch, ArgParser args) {
             act("$n zaps $P with $p.", ch, wand, obj, To::Room);
             act("You zap $P with $p.", ch, wand, obj, To::Char);
         }
-        if (ch->level < wand->level || number_percent() >= 20 + get_skill(ch, gsn_wands) * 4 / 5) {
+        if (ch->level < wand->level || number_percent() >= 20 + ch->get_skill(gsn_wands) * 4 / 5) {
             act("Your efforts with $p produce only smoke and sparks.", ch, wand, nullptr, To::Char);
             act("$n's efforts with $p produce only smoke and sparks.", ch, wand, nullptr, To::Room);
             check_improve(ch, gsn_wands, false, 2);
