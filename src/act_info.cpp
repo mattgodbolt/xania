@@ -1035,7 +1035,7 @@ void do_score(Char *ch) {
         col2.stat("Level", ch->level);
     else
         col2.kv("Level", "|W{}|w (trust |W{}|w)", ch->level, ch->get_trust());
-    col2.kv("Age", "|W{}|w years (|W{}|w hours)", get_age(ch), duration_cast<hours>(ch->total_played()).count());
+    col2.kv("Age", "|W{}|w years (|W{}|w hours)", ch->get_age(), duration_cast<hours>(ch->total_played()).count());
 
     col2.stat("Race", race_table[ch->race].name)
         .stat("Class", ch->is_npc() ? "mobile" : class_table[ch->class_num].name)

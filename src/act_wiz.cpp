@@ -982,7 +982,7 @@ void do_mstat(Char *ch, std::string_view argument) {
 
     if (victim->is_pc()) {
         using namespace std::chrono;
-        ch->send_line("Age: {}  Played: {}  Last Level: {}  Timer: {}", get_age(victim),
+        ch->send_line("Age: {}  Played: {}  Last Level: {}  Timer: {}", victim->get_age(),
                       duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level, victim->timer);
     }
 

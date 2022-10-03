@@ -98,6 +98,11 @@ bool Char::is_pos_fighting() const { return position == Position::Type::Fighting
 bool Char::is_pos_preoccupied() const { return position < Position::Type::Standing; }
 bool Char::is_pos_standing() const { return position == Position::Type::Standing; }
 
+int Char::get_age() const {
+    using namespace std::chrono;
+    return 17 + duration_cast<hours>(total_played()).count() / 20;
+}
+
 bool Char::has_holylight() const { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrHolyLight); }
 bool Char::is_wizinvis() const { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrWizInvis); }
 bool Char::is_wizinvis_to(const Char &victim) const { return is_wizinvis() && victim.get_trust() < invis_level; }

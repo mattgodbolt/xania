@@ -130,14 +130,6 @@ int get_weapon_skill(Char *ch, int sn) {
     return std::clamp(skill, 0, 100);
 }
 
-/*
- * Retrieve a character's age.
- */
-int get_age(const Char *ch) {
-    using namespace std::chrono;
-    return 17 + duration_cast<hours>(ch->total_played()).count() / 20;
-}
-
 /* command for returning max training score */
 int get_max_train(Char *ch, Stat stat) {
     int max;

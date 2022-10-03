@@ -187,7 +187,7 @@ struct Char {
     [[nodiscard]] bool is_pos_preoccupied() const;
     // Standing ready for action.
     [[nodiscard]] bool is_pos_standing() const;
-
+    [[nodiscard]] int get_age() const;
     // Special states for Gods.
     [[nodiscard]] bool has_holylight() const;
     // Is the player wizinvis/prowl at all, and are they invisible to a particular character?
