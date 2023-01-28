@@ -16,18 +16,20 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsa
 
 enable_testing()
 
-find_package(spdlog REQUIRED)
-find_package(fmt REQUIRED)
-find_package(range-v3 REQUIRED)
-find_package(magic_enum REQUIRED)
-find_package(date REQUIRED)
-find_package(Microsoft.GSL REQUIRED)
-find_package(Catch2 3 REQUIRED)
-find_package(trompeloeil REQUIRED)
-find_package(lyra REQUIRED)
+if (USE_CONAN)
+    include(conan/CMakeLists.txt)
+endif ()
+    find_package(spdlog REQUIRED)
+    find_package(fmt REQUIRED)
+    find_package(range-v3 REQUIRED)
+    find_package(magic_enum REQUIRED)
+    find_package(date REQUIRED)
+    find_package(Microsoft.GSL REQUIRED)
+    find_package(Catch2 3 REQUIRED)
+    find_package(trompeloeil REQUIRED)
+    find_package(lyra REQUIRED)
 
 add_subdirectory(src)
 add_subdirectory(area)
 
 install(DIRECTORY html DESTINATION .)
-

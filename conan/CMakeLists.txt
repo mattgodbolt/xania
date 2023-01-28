@@ -1,22 +1,13 @@
 cmake_minimum_required(VERSION 3.19)
 
-# This CMakeList.txt is a wrapper around the main CMakeList.txt in the xania root
-# directory. It aims to setup a full conan environment to ease the project
-# build. Any conan-setup related thing should happen here in order to keep the
-# top level CMakeList.txt conan agnostic. This eases maintenance as it separate
-# concerns about setup and build itself, and will ease future packaging with
-# standard distro packagers (rpm/deb/...).
-#
-project(xania-conan)
-
 # Conan version to be used
 set(CONDA_VERSION 4.12.0)
 
 # Conda is used to have a minimal environment where to install conan
 set(CONDA_INSTALLER_MD5 7843dd7d0a2c53b0df37ca8189672992)
-set(REQUIRED_CONAN_VERSION 1.52.0)
+set(REQUIRED_CONAN_VERSION 1.53.0)
 
-include(conan.cmake)
+include(${CMAKE_SOURCE_DIR}/conan/conan.cmake)
 
 find_program(CONAN_CMD conan)
 
@@ -98,14 +89,8 @@ conan_cmake_autodetect(CONAN_SETTINGS)
 # with some of the features our tests use, so force recompilation.
 list(APPEND CONAN_SETTINGS "catch2:compiler.cppstd=20")
 
-conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}
+conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}/conan
         SETTINGS ${CONAN_SETTINGS}
         BUILD missing)
 
 include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
-
-enable_testing()
-
-# Now the environment is setup correctly, call the top level CMakeList.txt
-add_subdirectory(${PROJECT_SOURCE_DIR}/.. ${CMAKE_BINARY_DIR}/xania)
-
