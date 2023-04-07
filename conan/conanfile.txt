@@ -7,7 +7,7 @@ spdlog/1.11.0
 date/3.0.1
 range-v3/0.12.0
 lyra/1.6.1
-magic_enum/0.8.1
+magic_enum/0.8.2
 
 [generators]
 cmake_paths
