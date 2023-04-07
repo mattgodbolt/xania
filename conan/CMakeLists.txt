@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.19)
 
 # Conan version to be used
-set(CONDA_VERSION 4.12.0)
+set(CONDA_VERSION 23.1.0-1)
 
 # Conda is used to have a minimal environment where to install conan
-set(CONDA_INSTALLER_MD5 7843dd7d0a2c53b0df37ca8189672992)
+set(CONDA_INSTALLER_SHA256 5dc619babc1d19d6688617966251a38d245cb93d69066ccde9a013e1ebb5bf18)
 set(REQUIRED_CONAN_VERSION 1.59.0)
 
 include(${CMAKE_SOURCE_DIR}/conan/conan.cmake)
@@ -40,7 +40,7 @@ endif()
 if (NOT "${LOCAL_CONDA_INSTALLER_MD5}" STREQUAL "${CONDA_INSTALLER_MD5}")
     message("Downloading conda installer...")
     file(DOWNLOAD https://repo.anaconda.com/miniconda/Miniconda3-py39_${CONDA_VERSION}-Linux-x86_64.sh ${CMAKE_BINARY_DIR}/conda-${CONDA_VERSION}-installer.sh
-            EXPECTED_MD5 ${CONDA_INSTALLER_MD5})
+            EXPECTED_HASH SHA256=${CONDA_INSTALLER_SHA256})
     message("Conda dowloaded")
 endif()
 
