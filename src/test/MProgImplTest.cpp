@@ -743,8 +743,8 @@ TEST_CASE("exec with chance") {
     trompeloeil::sequence seq;
     SECTION("program with single if/else and single commands") {
         SECTION("if success, program runs") {
-            ALLOW_CALL(rng, number_range(_, _)).RETURN(10).IN_SEQUENCE(seq); // for random_mortal_in_room()
             REQUIRE_CALL(rng, number_percent()).RETURN(49).IN_SEQUENCE(seq);
+            ALLOW_CALL(rng, number_range(_, _)).RETURN(10).IN_SEQUENCE(seq); // for random_mortal_in_room()
             exec_with_chance(vic.get(), bob.get(), nullptr, target, TypeFlag::Greet, rng);
             CHECK(bob_desc.buffered_output() == "\n\rVic descr smiles at you.\n\r");
         }
