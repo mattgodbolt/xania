@@ -5,7 +5,7 @@ set(CONDA_VERSION 4.12.0)
 
 # Conda is used to have a minimal environment where to install conan
 set(CONDA_INSTALLER_MD5 7843dd7d0a2c53b0df37ca8189672992)
-set(REQUIRED_CONAN_VERSION 1.54.0)
+set(REQUIRED_CONAN_VERSION 1.59.0)
 
 include(${CMAKE_SOURCE_DIR}/conan/conan.cmake)
 
