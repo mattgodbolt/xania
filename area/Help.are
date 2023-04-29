@@ -1143,9 +1143,17 @@ Syntax: PRACTICE <skill|spell>
 PRACTICE without an argument tells you your current ability level in all
 the skills and spells available to you.  You can check this anywhere.
 
-PRACTICE with an argument practice that skill or spell.  Your learning
-percentage varies from 0% (unlearned) to a some maximum between 80% and 100%,
-depending on your class.  You must be at a guild master to practice.
+PRACTICE with an argument practice that skill or spell.
+
+If the spell name is more than one word, then you must quote the spell name.
+Example:
+   prac 'protection g
+will practice 'protection good' rather than 'protection evil'.  Quoting is
+optional for single-word spells. You can abbreviate the spell name.
+
+Your learning percentage varies from 0% (unlearned) to a some maximum
+between 80% and 100%, depending on your class.  You must be at a
+guild master to practice.
 
 The higher your intelligence, the more you will learn at each practice
 session.  The higher your wisdom, the more practice sessions you will
