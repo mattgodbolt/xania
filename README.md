@@ -35,7 +35,7 @@ $ sudo apt install ninja-build
 $ sudo apt install git make curl
 
 # Local builds autodetect g++-11 and use it for compilation, but fallback to g++-10.
-# clang-14 works too (see later section).  If you want to build with a different compiler
+# clang-15 works too (see later section).  If you want to build with a different compiler
 # create a new cmake toolchain file e.g. "toolchain/mycompilers.cmake" and set the compiler
 # variables in it. Then invoke make specifying the leading part of your toolchain name in 
 # the TOOLCHAIN make variable e.g.
@@ -85,21 +85,22 @@ To stop Xania, run `make stop`. To restart,  `make restart`.
 
 ### Compiling with clang
 
-You may be interested in compiling with `clang`, version 14 is known to work. You may also want to 
+You may be interested in compiling with `clang`, version 15 is known to work. You may also want to 
 use `clangd` as an LSP for editors like [ neovim ](https://neovim.io)
 and the [ nvim-lspconfig ](https://github.com/neovim/nvim-lspconfig)plugin.
 
 ```bash
 # First install the tools:
-$ sudo apt install clang-14 clangd-14
-$ update-alternatives --install /usr/bin/clangd clangd $(which clangd-14) 10
-$ update-alternatives --install /usr/bin/clang clang $(which clang-14) 10
-$ update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-14)
+$ sudo apt install clang-15 clangd-15
+$ update-alternatives --install /usr/bin/clangd clangd $(which clangd-15) 10
+$ update-alternatives --install /usr/bin/clang clang $(which clang-15) 10
+$ update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-15)
+$ update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-15)
 ```
 Build by specifying the toolchain:
 
 ```bash
-$ make TOOLCHAIN=clang-14
+$ make TOOLCHAIN=clang-15
 ```
 When building with clang, it's possible that you may run into compatibility
 problems with versions of libraries in your conan cache. The cache typically resides in `~/.conan`. 
