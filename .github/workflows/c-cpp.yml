@@ -16,7 +16,7 @@ jobs:
       CXX: g++-${{ matrix.gcc_version }}
     strategy:
       matrix:
-        gcc_version: [ 11, 13 ]
+        gcc_version: [ 11, 12, 13 ]
         os: [ ubuntu-22.04 ]
         build_type: [ debug, release ]
     steps:
@@ -34,12 +34,12 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-22.04
     env:
-      CC: gcc-11
-      CXX: g++-11
+      CC: gcc-12
+      CXX: g++-12
     steps:
       - uses: actions/checkout@v1
       - name: install-compiler
-        run : sudo apt-get update && sudo apt-get install ninja-build g++-11 -y
+        run : sudo apt-get update && sudo apt-get install ninja-build g++-12 -y
       - name: configure
         run: |
           cmake -G Ninja -DCMAKE_BUILD_TYPE=release \

@@ -5,10 +5,10 @@ default: install
 help: # with thanks to Ben Rady
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-ifeq ($(shell which g++-11),)
-TOOLCHAIN?=g++-10
-else
+ifeq ($(shell which g++-12),)
 TOOLCHAIN?=g++-11
+else
+TOOLCHAIN?=g++-12
 endif
 
 CMAKE?=$(shell which cmake || echo .cmake-not-found)

@@ -23,10 +23,10 @@ It has been reported to work on Fedora 34 too.
 Here are the Ubuntu steps for installing some prerequisites:
 
 ```bash
-# Install gcc-11 and g++11...(both included in Ubuntu 22 by the build-essentials package)
+# Install gcc-12 and g++-12, version 11 also works.
 $ sudo apt install build-essential manpages-dev software-properties-common
 $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-$ sudo apt update && sudo apt install gcc-11 g++-11
+$ sudo apt update && sudo apt install gcc-12 g++-12
 
 # Optional step: We recommend installing ninja-build as it speeds the builds up significantly.
 $ sudo apt install ninja-build
@@ -34,7 +34,7 @@ $ sudo apt install ninja-build
 # And you'll need the following...
 $ sudo apt install git make curl
 
-# Local builds autodetect g++-11 and use it for compilation, but fallback to g++-10.
+# Local builds autodetect g++-12 and use it for compilation, but fallback to g++-11.
 # clang-15 works too (see later section).  If you want to build with a different compiler
 # create a new cmake toolchain file e.g. "toolchain/mycompilers.cmake" and set the compiler
 # variables in it. Then invoke make specifying the leading part of your toolchain name in 
