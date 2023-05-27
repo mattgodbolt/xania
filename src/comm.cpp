@@ -56,6 +56,7 @@
 #include <fstream>
 #include <netinet/in.h>
 #include <sys/signalfd.h>
+#include <sys/stat.h>
 #include <sys/un.h>
 #include <thread>
 
@@ -186,6 +187,20 @@ void lobby_show_motd(Descriptor *desc) {
     } else {
         do_help(ch, "motd");
         desc->state(DescriptorState::ReadMotd);
+    }
+}
+
+// The final step in the lobby is to save the character. In the meantime, if another new character
+// with the same name was created and saved, this prevents duplication/overwriting.
+bool lobby_char_was_created(Descriptor *desc) {
+    struct stat player_file;
+    if (!stat(filename_for_player(desc->character()->name.c_str()).c_str(), &player_file)) {
+        desc->write("Your character could not be created, please try again.\n\r");
+        desc->close();
+        return false;
+    } else {
+        save_char_obj(desc->character());
+        return true;
     }
 }
 
@@ -888,6 +903,9 @@ void nanny(Descriptor *d, std::string_view argument) {
         case 'n':
         case 'N':
             group_add(ch, class_table[ch->class_num].default_group, true);
+            if (!lobby_char_was_created(d)) {
+                break;
+            }
             d->write("\n\r");
             if (ch->pcdata->colour) {
                 lobby_show_motd(d);
@@ -906,6 +924,9 @@ void nanny(Descriptor *d, std::string_view argument) {
             ch->send_line("|GExperience per level|w: {}", exp_per_level(ch, ch->pcdata->customization->points_chosen));
             if (ch->pcdata->points < 40)
                 ch->train = (40 - ch->pcdata->points + 1) / 2;
+            if (!lobby_char_was_created(d)) {
+                break;
+            }
             if (ch->pcdata->colour) {
                 lobby_show_motd(d);
             } else {
