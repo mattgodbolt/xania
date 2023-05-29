@@ -8,7 +8,7 @@ RUN \
  DEBIAN_FRONTEND="noninteractive" apt-get -y --no-install-recommends install  \
  dialog tzdata sudo locales tmux  wget curl gnupg git-core iputils-ping ssh \
  build-essential software-properties-common cmake ninja-build telnet rlwrap awscli \
- gdb less ripgrep powerline clangd-15 clang-tidy-15 clang-15 clang-tools-15
+ gdb less ripgrep powerline clangd-15 clang-tidy-15 clang-15 clang-tools-15 pip
 
 RUN \
  add-apt-repository ppa:neovim-ppa/unstable -y && \
@@ -50,6 +50,14 @@ bind - split-window -v\n\
 
 RUN --mount=type=secret,id=mudpass \
     echo "mudder:`cat /run/secrets/mudpass`" | chpasswd
+
+ENV NVM_DIR=/usr/local/nvm
+RUN mkdir $NVM_DIR \
+    && curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash \
+    && . $NVM_DIR/nvm.sh \
+    && nvm install node
+RUN . $NVM_DIR/nvm.sh \
+    && npm install -g pyright typescript-language-server typescript
 
 USER mudder
 WORKDIR /home/mudder
