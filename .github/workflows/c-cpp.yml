@@ -16,7 +16,7 @@ jobs:
       CXX: g++-${{ matrix.gcc_version }}
     strategy:
       matrix:
-        gcc_version: [ 11 ]
+        gcc_version: [ 11, 13 ]
         os: [ ubuntu-22.04 ]
         build_type: [ debug, release ]
     steps:
