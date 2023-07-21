@@ -32,8 +32,8 @@ struct fmt::formatter<Dice> {
     template <typename FormatContext>
     auto format(const Dice &dice, FormatContext &ctx) {
         if (dice.bonus())
-            return format_to(ctx.out(), "{}d{}+{}", dice.number(), dice.type(), dice.bonus());
+            return fmt::format_to(ctx.out(), "{}d{}+{}", dice.number(), dice.type(), dice.bonus());
         else
-            return format_to(ctx.out(), "{}d{}", dice.number(), dice.type());
+            return fmt::format_to(ctx.out(), "{}d{}", dice.number(), dice.type());
     }
 };

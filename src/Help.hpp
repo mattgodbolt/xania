@@ -53,7 +53,7 @@ struct fmt::formatter<Help> {
     constexpr auto parse(format_parse_context &ctx) { return ctx.begin(); }
     template <typename FormatContext>
     auto format(const Help &help, FormatContext &ctx) {
-        return format_to(ctx.out(), "Help({}, {}, {}, {})", help.area_name(), help.level(), help.keyword(),
-                         help.text());
+        return fmt::format_to(ctx.out(), "Help({}, {}, {}, {})", help.area_name(), help.level(), help.keyword(),
+                              help.text());
     }
 };

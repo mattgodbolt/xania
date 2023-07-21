@@ -137,7 +137,6 @@ size_t Bans::load() {
     if ((fp = dependencies_.open_read()) == nullptr) {
         return 0;
     }
-    auto count = 0;
     for (;;) {
         auto c = getc(fp);
         if (c == EOF)
@@ -149,7 +148,6 @@ size_t Bans::load() {
         const int level = fread_number(fp);
         const int flags = fread_flag(fp);
         bans_.emplace_back(std::make_unique<const Ban>(name, level, flags));
-        count++;
         fread_to_eol(fp);
     }
     dependencies_.close(fp);

@@ -22,7 +22,7 @@ struct fmt::formatter<impl::Nth<T>> : formatter<T> {
         } else {
             abs_value = static_cast<size_t>(number.value);
         }
-        return format_to(ctx.out(), "{}", impl::suffix_for(abs_value));
+        return fmt::format_to(ctx.out(), "{}", impl::suffix_for(abs_value));
     }
 };
 
