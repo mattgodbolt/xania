@@ -22,17 +22,17 @@ template <typename T, typename OptType = std::optional<T>>
 class GenericList {
 public:
     struct Elem {
-        OptType item;
         mutable size_t count{};
+        OptType item;
         [[nodiscard]] bool removed() const { return !item; }
     };
     using MutIter = Iter<T, GenericList<T>, typename std::list<Elem>::iterator>;
     using ConstIter = Iter<const T, const GenericList<T>, typename std::list<Elem>::const_iterator>;
 
     // Add to the back of the list.
-    T &add_back(T item) { return *list_.emplace_back(Elem{std::move(item), 0}).item; }
+    T &add_back(T item) { return *list_.emplace_back(Elem{0, std::move(item)}).item; }
     // Add to the front of the list.
-    T &add_front(T item) { return *list_.emplace_front(Elem{std::move(item), 0}).item; }
+    T &add_front(T item) { return *list_.emplace_front(Elem{0, std::move(item)}).item; }
 
     // Remove an item. Removes by comparison to T, so comparing Ts must be defined.
     // Returns true if item was successfully removed.
