@@ -148,7 +148,10 @@ public:
         current_ = other.current_;
         return *this;
     }
-    ~Iter() noexcept { decref(); }
+
+    // Disable inlining because with -O2 release builds, when GenericList is used with ranges:: functions,
+    // it can lead to use-after-free errors/warnings.
+    __attribute__((noinline)) ~Iter() noexcept { decref(); }
 
     ElemT &operator*() const noexcept { return *current_->item; }
     ElemT *operator->() const noexcept { return &*current_->item; }

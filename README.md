@@ -11,7 +11,7 @@ We chat about the mud [here](https://discord.gg/Xsstufyt8t). Feel free to drop i
 
 ## Building and running
 
-If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 22.04.
+If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 22.0.4 and Arch Linux.
 
 It works within **Docker** including when hosted by **Windows Subsystem for Linux**. To learn more about this see
 the Docker-specific [tutorial](docker-dev/README.md)!
@@ -23,7 +23,7 @@ It has been reported to work on Fedora 34 too.
 Here are the Ubuntu steps for installing some prerequisites:
 
 ```bash
-# Install gcc-12 and g++-12, version 11 also works.
+# Install gcc-12 and g++-12. Versions 13 and 11 work too!
 $ sudo apt install build-essential manpages-dev software-properties-common
 $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 $ sudo apt update && sudo apt install gcc-12 g++-12
@@ -51,7 +51,7 @@ $ make TOOLCHAIN=mycompilers test
 ### CMake
 
 You'll also need a recent version of __cmake__. At least version 3.19 is required, 3.21+ preferred. If you're running Ubuntu 18 or 20
-you'll need to [add the __Kitware__ apt repository](https://apt.kitware.com) to your apt sources. On Ubuntu 22 the cmake 
+you'll need to [add the __Kitware__ apt repository](https://apt.kitware.com) to your apt sources. On Ubuntu 22 or Arch Linux the cmake 
 package is present in the main APT repository.
 ```bash
 $ sudo apt install cmake
