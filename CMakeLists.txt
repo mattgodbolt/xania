@@ -13,6 +13,7 @@ add_compile_options(-Werror -Wall -Wextra)
 add_compile_options(-g)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=leak -fsanitize=address -fsanitize=undefined ")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG -Wno-error=array-bounds")
 
 enable_testing()
 
