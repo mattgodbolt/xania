@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.19)
+project(xania)
 
 set(BUILD_VERSION "(local build)" CACHE STRING "Build version (build number only)")
 set(BUILD_FULL_VERSION "(local build)" CACHE STRING "Full string of build version (with git info)")
 set(BUILD_COMMIT_URL "https://this.is.a.local.build/1234" CACHE STRING "Full string of git URL to this build")
 
-project(xania)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
