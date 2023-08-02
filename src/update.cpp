@@ -663,7 +663,7 @@ void char_update() {
  * This function is performance sensitive.
  */
 void obj_update() {
-    for (auto *obj : object_list) {
+    for (auto &&obj : object_list) {
         const char *message;
 
         /* go through affects and decrement */
@@ -677,12 +677,12 @@ void obj_update() {
                 } else if (af.duration >= 0) {
                     if (af.type > 0 && skill_table[af.type].msg_off)
                         removed_this_tick_with_msg.emplace(af.type);
-                    affect_remove_obj(obj, af);
+                    affect_remove_obj(obj.get(), af);
                 }
             }
             // Only report wear-offs for those affects who are completely gone.
             for (auto sn : removed_this_tick_with_msg)
-                act(skill_table[sn].msg_off, obj->carried_by, obj, nullptr, To::Char, MobTrig::Yes,
+                act(skill_table[sn].msg_off, obj->carried_by, obj.get(), nullptr, To::Char, MobTrig::Yes,
                     Position::Type::Sleeping);
         }
 
@@ -703,13 +703,13 @@ void obj_update() {
             if ((obj->carried_by->is_npc()) && obj->carried_by->mobIndex->shop)
                 obj->carried_by->gold += obj->cost;
             else
-                act(message, obj->carried_by, obj, nullptr, To::Char);
+                act(message, obj->carried_by, obj.get(), nullptr, To::Char);
         } else if (obj->in_room != nullptr && !obj->in_room->people.empty()) {
             if (!(obj->in_obj && obj->in_obj->objIndex->vnum == Objects::Pit && !obj->in_obj->is_takeable())) {
                 // seems like we pick someone to emote for convenience here...
                 auto *rch = *obj->in_room->people.begin();
-                act(message, rch, obj, nullptr, To::Room);
-                act(message, rch, obj, nullptr, To::Char);
+                act(message, rch, obj.get(), nullptr, To::Room);
+                act(message, rch, obj.get(), nullptr, To::Char);
             }
         }
 
@@ -731,7 +731,7 @@ void obj_update() {
             }
         }
 
-        extract_obj(obj);
+        extract_obj(obj.get());
     }
 }
 

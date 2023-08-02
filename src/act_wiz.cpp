@@ -1753,7 +1753,6 @@ void do_awaken(Char *ch, ArgParser args) {
 }
 
 void do_owhere(Char *ch, ArgParser args) {
-    Object *in_obj;
     bool found = false;
     int number = 0;
     if (args.empty()) {
@@ -1766,13 +1765,14 @@ void do_owhere(Char *ch, ArgParser args) {
         return;
     }
     std::string buffer;
-    for (auto *obj : object_list) {
+    Object *in_obj;
+    for (auto &&obj : object_list) {
         if (!is_name(obj_name, obj->name))
             continue;
 
         found = true;
         number++;
-        for (in_obj = obj; in_obj->in_obj != nullptr; in_obj = in_obj->in_obj)
+        for (in_obj = obj.get(); in_obj->in_obj != nullptr; in_obj = in_obj->in_obj)
             ;
 
         if (in_obj->carried_by != nullptr) {

@@ -2802,7 +2802,7 @@ void spell_locate_object(int sn, int level, Char *ch, const SpellTarget &spell_t
     int number = 0;
     int max_found = ch->is_immortal() ? 200 : 2 * level;
     std::string buffer;
-    for (auto *obj : object_list) {
+    for (auto &&obj : object_list) {
         if (!ch->can_see(*obj) || !is_name(arguments, obj->name) || (ch->is_mortal() && number_percent() > 2 * level)
             || ch->level < obj->level || check_enum_bit(obj->extra_flags, ObjectExtraFlag::NoLocate))
             continue;
@@ -2810,7 +2810,7 @@ void spell_locate_object(int sn, int level, Char *ch, const SpellTarget &spell_t
         found = true;
         number++;
 
-        auto *in_obj = obj;
+        auto *in_obj = obj.get();
         for (; in_obj->in_obj != nullptr; in_obj = in_obj->in_obj)
             ;
 
