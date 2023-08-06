@@ -30,7 +30,7 @@ struct Object {
     GenericList<Object *> contains;
     Object *in_obj{};
     Char *carried_by{};
-    std::vector<ExtraDescription> extra_descr;
+    std::vector<ExtraDescription> extra_descr{};
     AffectList affected{};
     ObjectIndex *objIndex{};
     Room *in_room{};
@@ -53,6 +53,8 @@ struct Object {
     std::array<int, 5> value{};
     Room *destination{};
 
+    Object(ObjectIndex *obj_idx);
+    ~Object();
     [[nodiscard]] std::string type_name() const;
     [[nodiscard]] bool is_holdable() const;
     [[nodiscard]] bool is_takeable() const;

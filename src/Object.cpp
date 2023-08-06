@@ -6,7 +6,10 @@
 #include "Object.hpp"
 #include "Char.hpp"
 #include "FlagFormat.hpp"
+#include "Lights.hpp"
+#include "Logging.hpp"
 #include "ObjectExtraFlag.hpp"
+#include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "ObjectWearFlag.hpp"
 #include "WeaponFlag.hpp"
@@ -14,6 +17,38 @@
 #include "string_utils.hpp"
 
 #include <magic_enum.hpp>
+
+Room *get_room(int vnum);
+
+Object::Object(ObjectIndex *obj_idx)
+    : objIndex(obj_idx), in_room(nullptr), enchanted(false), owner(""), name(obj_idx->name),
+      short_descr(obj_idx->short_descr), description(obj_idx->description), type(obj_idx->type),
+      extra_flags(obj_idx->extra_flags), wear_flags(obj_idx->wear_flags), wear_string(obj_idx->wear_string),
+      wear_loc(Wear::None), weight(obj_idx->weight), cost(obj_idx->cost), level(obj_idx->level),
+      condition(obj_idx->condition), material(obj_idx->material), timer(0), value(obj_idx->value), destination(nullptr)
+
+{
+    switch (type) {
+    case ObjectType::Light:
+        if (value[2] == Lights::ObjectValues::EndlessMarker)
+            value[2] = Lights::ObjectValues::Endless;
+        break;
+    case ObjectType::Portal:
+        // TheMoog 1/10/2k : fixes up portal objects - value[0] of a portal
+        // if non-zero is looked up and then destination set accordingly.
+        if (value[0] != 0) {
+            destination = get_room(value[0]);
+            if (!destination)
+                bug("Couldn't find room index {} for a portal (vnum {})", value[0], objIndex->vnum);
+            value[0] = 0; // Prevent finding the vnum in the obj
+        }
+        break;
+    default: break;
+    }
+    objIndex->count++;
+}
+
+Object::~Object() { objIndex->count--; }
 
 std::string Object::type_name() const { return lower_case(magic_enum::enum_name<ObjectType>(type)); }
 

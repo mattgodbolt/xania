@@ -16,20 +16,11 @@ extern bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Obj
 
 TEST_CASE("unique object enforcement") {
 
-    ObjectIndex obj_idx{};
-    obj_idx.type = ObjectType::Light;
-
-    Object existing_obj{};
-    existing_obj.objIndex = &obj_idx;
-    existing_obj.type = obj_idx.type;
-
-    Object moving_obj{};
-    moving_obj.objIndex = &obj_idx;
-    moving_obj.type = obj_idx.type;
+    ObjectIndex obj_idx{.type{ObjectType::Light}};
     // Default case for most tests: both the existing & moving object instances are flagged unique.
     set_enum_bit(obj_idx.extra_flags, ObjectExtraFlag::Unique);
-    existing_obj.extra_flags = obj_idx.extra_flags;
-    moving_obj.extra_flags = obj_idx.extra_flags;
+    Object existing_obj{&obj_idx};
+    Object moving_obj{&obj_idx};
     Char char_from{};
     Char char_to{};
 
@@ -96,10 +87,8 @@ TEST_CASE("unique object enforcement") {
         }
     }
     SECTION("moving to a container") {
-        ObjectIndex container_idx;
-        container_idx.type = ObjectType::Container;
-        Object container{};
-        container.objIndex = &container_idx;
+        ObjectIndex container_idx{.type{ObjectType::Container}};
+        Object container{&container_idx};
         container.type = container_idx.type;
 
         SECTION("unique object to container collides") {

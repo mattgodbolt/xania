@@ -1190,8 +1190,6 @@ void clone_mobile(Char *parent, Char *clone) {
 
 /*
  * Create an instance of an object.
- * TheMoog 1/10/2k : fixes up portal objects - value[0] of a portal
- * if non-zero is looked up and then destination set accordingly.
  */
 Object *create_object(ObjectIndex *objIndex) {
     if (objIndex == nullptr) {
@@ -1199,76 +1197,9 @@ Object *create_object(ObjectIndex *objIndex) {
         exit(1);
     }
 
-    auto obj = std::make_unique<Object>(); // TODO! make an actual constructor for this!
-    obj->objIndex = objIndex;
-    obj->in_room = nullptr;
-    obj->enchanted = false;
-    obj->level = objIndex->level;
-    obj->wear_loc = Wear::None;
-
-    obj->name = objIndex->name;
-    obj->short_descr = objIndex->short_descr;
-    obj->description = objIndex->description;
-    obj->material = objIndex->material;
-    obj->type = objIndex->type;
-    obj->extra_flags = objIndex->extra_flags;
-    obj->wear_flags = objIndex->wear_flags;
-    obj->wear_string = objIndex->wear_string;
-    obj->value[0] = objIndex->value[0];
-    obj->value[1] = objIndex->value[1];
-    obj->value[2] = objIndex->value[2];
-    obj->value[3] = objIndex->value[3];
-    obj->value[4] = objIndex->value[4];
-    obj->weight = objIndex->weight;
-    obj->cost = objIndex->cost;
-
-    /*
-     * Mess with object properties.
-     */
-    switch (obj->type) {
-    default: bug("Read_object: vnum {} bad type.", objIndex->vnum); break;
-
-    case ObjectType::Light:
-        if (obj->value[2] == 999)
-            obj->value[2] = -1;
-        break;
-    case ObjectType::Treasure:
-    case ObjectType::Furniture:
-    case ObjectType::Trash:
-    case ObjectType::Container:
-    case ObjectType::Drink:
-    case ObjectType::Key:
-    case ObjectType::Food:
-    case ObjectType::Boat:
-    case ObjectType::Npccorpse:
-    case ObjectType::Pccorpse:
-    case ObjectType::Fountain:
-    case ObjectType::Map:
-    case ObjectType::Clothing:
-    case ObjectType::Bomb: break;
-
-    case ObjectType::Portal:
-        if (obj->value[0] != 0) {
-            obj->destination = get_room(obj->value[0]);
-            if (!obj->destination)
-                bug("Couldn't find room index {} for a portal (vnum {})", obj->value[0], objIndex->vnum);
-            obj->value[0] = 0; // Prevents ppl ever finding the vnum in the obj
-        }
-        break;
-
-    case ObjectType::Scroll:
-    case ObjectType::Wand:
-    case ObjectType::Staff:
-    case ObjectType::Weapon:
-    case ObjectType::Armor:
-    case ObjectType::Potion:
-    case ObjectType::Pill:
-    case ObjectType::Money: break;
-    }
-
+    auto obj = std::make_unique<Object>(objIndex);
     auto *raw_obj = obj.get();
     object_list.add_front(std::move(obj));
-    objIndex->count++; // TODO move to constructor
     return raw_obj;
 }
 

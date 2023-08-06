@@ -605,12 +605,9 @@ void extract_obj(Object *obj) {
 
     for (auto *obj_content : obj->contains)
         extract_obj(obj_content);
-    auto objIndex = obj->objIndex;
+    const auto vnum = obj->objIndex->vnum;
     if (!object_list.remove_pointer(obj)) {
-        bug("Extract_obj: obj {} not found.", obj->objIndex->vnum);
-        return;
-    } else {
-        --objIndex->count; // FIXME move to destructor?
+        bug("Extract_obj: obj {} not found.", vnum);
     }
 }
 

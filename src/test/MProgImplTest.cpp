@@ -11,6 +11,7 @@
 #include "MemFile.hpp"
 #include "MobIndexData.hpp"
 #include "Object.hpp"
+#include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
 #include "common/BitOps.hpp"
@@ -227,7 +228,8 @@ TEST_CASE("evaluate if") {
     auto mob_idx = make_mob_index();
     vic.mobIndex = &mob_idx;
     bob.mobIndex = &mob_idx;
-    Object obj1{};
+    ObjectIndex obj_index{};
+    Object obj1{&obj_index};
     ExecutionCtx ctx{rng, &vic, nullptr, nullptr, nullptr, nullptr, nullptr};
     SECTION("malformed ifexpr") {
         FORBID_CALL(rng, number_percent());
@@ -407,8 +409,9 @@ TEST_CASE("execution ctx selectors") {
     Char actor{};
     Char act_targ_char{};
     Char random{};
-    Object obj{};
-    Object act_targ_obj{};
+    ObjectIndex obj_index{};
+    Object obj{&obj_index};
+    Object act_targ_obj{&obj_index};
     ExecutionCtx ctx{rng, &self, &actor, &random, &act_targ_char, &obj, &act_targ_obj};
     SECTION("char select self") {
         auto expr = IfExpr::parse_if("name($i) == ignored");
@@ -452,12 +455,10 @@ TEST_CASE("expand var") {
     auto bob = make_char("bob", room1, &mob_idx);
     auto joe = make_char("joe", room1, &mob_idx);
     auto sid = make_char("sid", room1, &mob_idx);
-    Object axe{};
-    axe.name = "axe";
-    axe.short_descr = "big axe";
-    Object sword{};
-    sword.name = "sword";
-    sword.short_descr = "sharp sword";
+    ObjectIndex axe_idx{.name{"axe"}, .short_descr{"big axe"}};
+    Object axe{&axe_idx};
+    ObjectIndex sword_idx{.name{"sword"}, .short_descr{"sharp sword"}};
+    Object sword{&sword_idx};
     ExecutionCtx ctx{rng, vic.get(), bob.get(), joe.get(), sid.get(), &axe, &sword};
     SECTION("char name self $i") {
         auto result = expand_var('i', ctx);

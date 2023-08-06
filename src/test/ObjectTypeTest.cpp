@@ -11,13 +11,12 @@
 #include <vector>
 
 TEST_CASE("object type name") {
-    Object obj{};
-    obj.type = ObjectType::Armor;
+    ObjectIndex obj_index{.type{ObjectType::Armor}};
+    Object obj{&obj_index};
     SECTION("armor") { CHECK(obj.type_name() == "armor"); }
 }
 TEST_CASE("object index type name") {
-    ObjectIndex obj_index{};
-    obj_index.type = ObjectType::Armor;
+    ObjectIndex obj_index{.type{ObjectType::Armor}};
     SECTION("armor") { CHECK(obj_index.type_name() == "armor"); }
 }
 TEST_CASE("object type try from integer") {
