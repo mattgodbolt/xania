@@ -605,14 +605,10 @@ void extract_obj(Object *obj) {
 
     for (auto *obj_content : obj->contains)
         extract_obj(obj_content);
-
-    if (!object_list.remove(obj)) {
-        bug("Extract_obj: obj {} not found.", obj->objIndex->vnum);
-        return;
+    const auto vnum = obj->objIndex->vnum;
+    if (!object_list.remove_pointer(obj)) {
+        bug("Extract_obj: obj {} not found.", vnum);
     }
-
-    --obj->objIndex->count;
-    delete obj;
 }
 
 std::vector<std::unique_ptr<Char>> chars_to_reap;
@@ -717,9 +713,9 @@ Char *get_mob_by_vnum(sh_int vnum) {
  * Used by area-reset 'P' command.
  */
 Object *get_obj_type(ObjectIndex *objIndex) {
-    for (auto *obj : object_list)
+    for (auto &&obj : object_list)
         if (obj->objIndex == objIndex)
-            return obj;
+            return obj.get();
 
     return nullptr;
 }
@@ -773,10 +769,10 @@ Object *get_obj_world(Char *ch, std::string_view argument) {
 
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
-    for (auto *obj : object_list) {
+    for (auto &&obj : object_list) {
         if (ch->can_see(*obj) && is_name(arg, obj->name)) {
             if (++count == number)
-                return obj;
+                return obj.get();
         }
     }
 

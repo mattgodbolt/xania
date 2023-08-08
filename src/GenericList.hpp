@@ -5,6 +5,7 @@
 #include <utility>
 
 #include <range/v3/algorithm/find.hpp>
+#include <range/v3/algorithm/find_if.hpp>
 
 // A generic, modification-while-iterating-over safe list of objects.
 // This makes it safe to write code like:
@@ -38,6 +39,19 @@ public:
     // Returns true if item was successfully removed.
     bool remove(const T &item) {
         if (auto it = ranges::find(list_, item, &Elem::item); it != list_.end()) {
+            remove_or_tombstone(it);
+            return true;
+        }
+        return false;
+    }
+
+    // Remove an item using its raw pointer. Useful when it's a GenericList of smart pointers.
+    // Returns true if item was successfully removed.
+    template <typename Ptr>
+    bool remove_pointer(const Ptr &raw_ptr) {
+        if (auto it = ranges::find_if(
+                list_, [&raw_ptr](auto const &item) { return item->get() == raw_ptr; }, &Elem::item);
+            it != list_.end()) {
             remove_or_tombstone(it);
             return true;
         }

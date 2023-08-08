@@ -60,6 +60,7 @@
 #include <gsl/narrow>
 #include <range/v3/algorithm/find_if.hpp>
 #include <sys/resource.h>
+#include <utility>
 
 namespace {
 
@@ -92,7 +93,7 @@ SpecialFunc spec_lookup(std::string_view name);
 // Mutable global: modified whenever a new Char is loaded from the database or when a player Char logs in or out.
 GenericList<Char *> char_list;
 // Mutable global: modified whenever a new object is created or destroyed.
-GenericList<Object *> object_list;
+GenericList<std::unique_ptr<Object>> object_list;
 
 // Global skill numbers initialized once on startup.
 sh_int gsn_backstab;
@@ -284,15 +285,13 @@ void boot_db() {
     interp_initialise();
 }
 
-// On shutdown, deletes the Chars & Objects owned by char_list and object_list.
+// On shutdown, deletes the Chars owned by char_list.
+// Objects in object_list are deleted automatically.
 // Note that this doesn't call extract_char(), so it relies on Char's destructor
 // to release any pointers the Char owns.
 void delete_globals_on_shutdown() {
     for (auto *ch : char_list) {
         delete ch;
-    }
-    for (auto *obj : object_list) {
-        delete obj;
     }
 }
 
@@ -1191,88 +1190,17 @@ void clone_mobile(Char *parent, Char *clone) {
 
 /*
  * Create an instance of an object.
- * TheMoog 1/10/2k : fixes up portal objects - value[0] of a portal
- * if non-zero is looked up and then destination set accordingly.
  */
 Object *create_object(ObjectIndex *objIndex) {
-    Object *obj;
-
     if (objIndex == nullptr) {
         bug("Create_object: nullptr objIndex.");
         exit(1);
     }
 
-    obj = new Object; // TODO! make an actual constructor for this!
-    obj->objIndex = objIndex;
-    obj->in_room = nullptr;
-    obj->enchanted = false;
-    obj->level = objIndex->level;
-    obj->wear_loc = Wear::None;
-
-    obj->name = objIndex->name;
-    obj->short_descr = objIndex->short_descr;
-    obj->description = objIndex->description;
-    obj->material = objIndex->material;
-    obj->type = objIndex->type;
-    obj->extra_flags = objIndex->extra_flags;
-    obj->wear_flags = objIndex->wear_flags;
-    obj->wear_string = objIndex->wear_string;
-    obj->value[0] = objIndex->value[0];
-    obj->value[1] = objIndex->value[1];
-    obj->value[2] = objIndex->value[2];
-    obj->value[3] = objIndex->value[3];
-    obj->value[4] = objIndex->value[4];
-    obj->weight = objIndex->weight;
-    obj->cost = objIndex->cost;
-
-    /*
-     * Mess with object properties.
-     */
-    switch (obj->type) {
-    default: bug("Read_object: vnum {} bad type.", objIndex->vnum); break;
-
-    case ObjectType::Light:
-        if (obj->value[2] == 999)
-            obj->value[2] = -1;
-        break;
-    case ObjectType::Treasure:
-    case ObjectType::Furniture:
-    case ObjectType::Trash:
-    case ObjectType::Container:
-    case ObjectType::Drink:
-    case ObjectType::Key:
-    case ObjectType::Food:
-    case ObjectType::Boat:
-    case ObjectType::Npccorpse:
-    case ObjectType::Pccorpse:
-    case ObjectType::Fountain:
-    case ObjectType::Map:
-    case ObjectType::Clothing:
-    case ObjectType::Bomb: break;
-
-    case ObjectType::Portal:
-        if (obj->value[0] != 0) {
-            obj->destination = get_room(obj->value[0]);
-            if (!obj->destination)
-                bug("Couldn't find room index {} for a portal (vnum {})", obj->value[0], objIndex->vnum);
-            obj->value[0] = 0; // Prevents ppl ever finding the vnum in the obj
-        }
-        break;
-
-    case ObjectType::Scroll:
-    case ObjectType::Wand:
-    case ObjectType::Staff:
-    case ObjectType::Weapon:
-    case ObjectType::Armor:
-    case ObjectType::Potion:
-    case ObjectType::Pill:
-    case ObjectType::Money: break;
-    }
-
-    object_list.add_front(obj);
-    objIndex->count++;
-
-    return obj;
+    auto obj = std::make_unique<Object>(objIndex);
+    auto *raw_obj = obj.get();
+    object_list.add_front(std::move(obj));
+    return raw_obj;
 }
 
 /* duplicate an object exactly -- except contents */
@@ -1703,7 +1631,7 @@ bool dump_memory_stats(Char *ch) {
                                        aff_count);
         fmt::print(fp, mem_format, "ObjProt"sv, object_indexes.size(), object_indexes.size() * (sizeof(ObjectIndex)));
         count = 0;
-        for (auto *obj : object_list) {
+        for (auto &&obj : object_list) {
             count++;
             aff_count += obj->affected.size();
         }

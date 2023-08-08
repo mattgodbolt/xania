@@ -581,9 +581,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
     bool fNest = false;
     bool fVnum = false;
     bool first = true; /* used to counter fp offset */
-    bool new_format = false; /* to prevent errors */
     bool make_new = false; /* update object */
-    (void)nest_level_to_obj;
     word = feof(fp) ? cf::End : fread_word(fp);
     if (word == cf::Vnum) {
         const auto vnum = fread_number(fp);
@@ -592,12 +590,8 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
             bug("fread_obj: bad vnum {}.", vnum);
         } else {
             obj = create_object(get_obj_index(vnum));
-            new_format = true;
         }
     }
-
-    if (obj == nullptr) /* either not found or old style */
-        obj = new Object;
 
     fVnum = true;
 
@@ -641,10 +635,6 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
                 extract_obj(obj);
                 return;
             } else {
-                if (!new_format) {
-                    object_list.add_front(obj);
-                    obj->objIndex->count++;
-                }
                 if (make_new) {
                     const auto wear = obj->wear_loc;
                     extract_obj(obj);

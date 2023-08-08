@@ -29,7 +29,7 @@ struct ExtraDescription;
  * Mutable global variables.
  */
 extern GenericList<Char *> char_list;
-extern GenericList<Object *> object_list;
+extern GenericList<std::unique_ptr<Object>> object_list;
 extern bool fBootDb;
 
 // Initializes the in-memory database from the area files.
