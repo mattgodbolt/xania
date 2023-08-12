@@ -235,7 +235,7 @@ void do_mpoload(Char *ch, ArgParser args) {
         bug("mpoload: Bad vnum arg from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-    auto *obj = create_object(obj_index);
+    auto *obj = Object::create(obj_index);
     if (obj->is_takeable()) {
         obj_to_char(obj, ch);
     } else {

@@ -15,9 +15,45 @@
 #include "Room.hpp"
 #include "VnumRooms.hpp"
 #include "Wear.hpp"
+#include "db.h"
 
 #include <catch2/catch_test_macros.hpp>
 #include <vector>
+
+namespace {
+
+unsigned int hum = to_int(ObjectExtraFlag::Hum);
+unsigned int hold = to_int(ObjectWearFlag::Hold);
+
+void validate_object(Object &obj, ObjectIndex &obj_idx) {
+
+    // Although ObjectIndex and Object both have an extra_descr vector, the extra_descr from the template
+    // does not get copied to Object by its constructor.  When a Char looks at an Object, try_get_obj_descr() will
+    // examine both the instance and its template for extended descriptions. The 'set obj ed' imm command can be
+    // used to customize object extended descriptions.
+    CHECK(obj.objIndex == &obj_idx);
+    CHECK(obj.extra_descr.empty());
+    CHECK(obj.affected.empty());
+    CHECK(obj.in_room == nullptr);
+    CHECK_FALSE(obj.enchanted);
+    CHECK(obj.owner == "");
+    CHECK(obj.name == "name");
+    CHECK(obj.short_descr == "short descr");
+    CHECK(obj.description == "description");
+    CHECK(obj.type == ObjectType::Map);
+    CHECK(obj.extra_flags == hum);
+    CHECK(obj.wear_flags == hold);
+    CHECK(obj.wear_string == "wear string");
+    CHECK(obj.wear_loc == Wear::None);
+    CHECK(obj.weight == 12);
+    CHECK(obj.cost == 13);
+    CHECK(obj.level == 1);
+    CHECK(obj.condition == 90);
+    CHECK(obj.material == Material::Type::Paper);
+    CHECK(obj.timer == 0);
+    CHECK(obj.value == std::array{0, 1, 2, 3, 4});
+    CHECK(obj.destination == nullptr);
+}
 
 TEST_CASE("Construction") {
     SECTION("Prototype counter increment and decrement") {
@@ -40,8 +76,6 @@ TEST_CASE("Construction") {
         affect.level = 1;
         AffectList affected;
         affected.add(affect);
-        unsigned int hum = to_int(ObjectExtraFlag::Hum);
-        unsigned int hold = to_int(ObjectWearFlag::Hold);
         ObjectIndex obj_idx{// clang-format off
             .extra_descr{extra_descr},
             .name{"name"},
@@ -63,35 +97,21 @@ TEST_CASE("Construction") {
         }; // clang-format on
         obj_idx.affected.add(affect);
 
-        Object obj{&obj_idx};
-
-        CHECK(obj.objIndex == &obj_idx);
-        // Although ObjectIndex and Object both have an extra_descr vector, the extra_descr from the template
-        // does not get copied to Object by its constructor.  When a Char looks at an Object, try_get_obj_descr() will
-        // examine both the instance and its template for extended descriptions. The 'set obj ed' imm command can be
-        // used to customize object extended descriptions.
-        CHECK(obj.extra_descr.empty());
-        CHECK(obj.affected.empty());
-        CHECK(obj.in_room == nullptr);
-        CHECK_FALSE(obj.enchanted);
-        CHECK(obj.owner == "");
-        CHECK(obj.name == "name");
-        CHECK(obj.short_descr == "short descr");
-        CHECK(obj.description == "description");
-        CHECK(obj.type == ObjectType::Map);
-        CHECK(obj.extra_flags == hum);
-        CHECK(obj.wear_flags == hold);
-        CHECK(obj.wear_string == "wear string");
-        CHECK(obj.wear_loc == Wear::None);
-        CHECK(obj.weight == 12);
-        CHECK(obj.cost == 13);
-        CHECK(obj.level == 1);
-        CHECK(obj.condition == 90);
-        CHECK(obj.material == Material::Type::Paper);
-        CHECK(obj.timer == 0);
-        CHECK(obj.value == std::array{0, 1, 2, 3, 4});
-        CHECK(obj.destination == nullptr);
-    };
+        SECTION("Using Object constructor") {
+            Object obj{&obj_idx};
+            validate_object(obj, obj_idx);
+        }
+        SECTION("Using Object::create") {
+            const auto object_count = object_list.size();
+            Object *obj = Object::create(&obj_idx);
+            validate_object(*obj, obj_idx);
+            CHECK(object_list.size() == object_count + 1);
+        }
+    }
+    SECTION("Object::create with null ObjectIndex") {
+        Object *obj = Object::create(nullptr);
+        CHECK(obj == nullptr);
+    }
     SECTION("Lights") {
         SECTION("endless light") {
             ObjectIndex obj_idx{.type{ObjectType::Light}, .value{0, 0, Lights::ObjectValues::EndlessMarker, 0, 0}};
@@ -118,4 +138,6 @@ TEST_CASE("Construction") {
             CHECK(obj.value[0] == 0);
         }
     }
+}
+
 }

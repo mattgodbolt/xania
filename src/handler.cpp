@@ -755,7 +755,7 @@ Object *get_obj_here(const Char *ch, std::string_view argument) {
 /* Written by Wandera & Death */
 Object *get_object(sh_int vnum) {
     if (ObjectIndex *objIndex = get_obj_index(vnum); objIndex != nullptr) {
-        return create_object(objIndex);
+        return Object::create(objIndex);
     }
     return nullptr;
 }
@@ -789,10 +789,10 @@ Object *create_money(int amount) {
     }
 
     if (amount == 1) {
-        return create_object(get_obj_index(Objects::MoneyOne));
+        return Object::create(get_obj_index(Objects::MoneyOne));
     }
 
-    auto *obj = create_object(get_obj_index(Objects::MoneySome));
+    auto *obj = Object::create(get_obj_index(Objects::MoneySome));
     obj->short_descr = fmt::sprintf(obj->short_descr, amount);
     obj->value[0] = amount;
     obj->cost = amount;

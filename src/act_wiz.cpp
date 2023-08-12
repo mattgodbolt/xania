@@ -120,28 +120,28 @@ void do_outfit(Char *ch) {
     }
 
     if (!get_eq_char(ch, Wear::Light)) {
-        auto *obj = create_object(get_obj_index(Objects::SchoolBanner));
+        auto *obj = Object::create(get_obj_index(Objects::SchoolBanner));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, Wear::Light);
     }
 
     if (!get_eq_char(ch, Wear::Body)) {
-        auto *obj = create_object(get_obj_index(Objects::SchoolVest));
+        auto *obj = Object::create(get_obj_index(Objects::SchoolVest));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, Wear::Body);
     }
 
     if (!get_eq_char(ch, Wear::Shield)) {
-        auto *obj = create_object(get_obj_index(Objects::SchoolShield));
+        auto *obj = Object::create(get_obj_index(Objects::SchoolShield));
         obj->cost = 0;
         obj_to_char(obj, ch);
         equip_char(ch, obj, Wear::Shield);
     }
 
     if (!get_eq_char(ch, Wear::Wield)) {
-        auto *obj = create_object(get_obj_index(class_table[ch->class_num].weapon));
+        auto *obj = Object::create(get_obj_index(class_table[ch->class_num].weapon));
         obj_to_char(obj, ch);
         equip_char(ch, obj, Wear::Wield);
     }
@@ -1259,7 +1259,7 @@ bool obj_check(Char *ch, Object *obj) { return ch->get_trust() >= obj->level; }
 void recursive_clone(Char *ch, Object *obj, Object *clone) {
     for (Object *c_obj : obj->contains) {
         if (obj_check(ch, c_obj)) {
-            Object *t_obj = create_object(c_obj->objIndex);
+            Object *t_obj = Object::create(c_obj->objIndex);
             clone_object(c_obj, t_obj);
             obj_to_obj(t_obj, clone);
             recursive_clone(ch, c_obj, t_obj);
@@ -1292,7 +1292,7 @@ void do_clone(Char *ch, ArgParser args) {
             return;
         }
 
-        auto *clone = create_object(obj->objIndex);
+        auto *clone = Object::create(obj->objIndex);
         clone_object(obj, clone);
         if (obj->carried_by != nullptr)
             obj_to_char(clone, ch);
@@ -1321,7 +1321,7 @@ void do_clone(Char *ch, ArgParser args) {
 
         for (auto *carried : mob->carrying) {
             if (obj_check(ch, carried)) {
-                auto *cloned_obj = create_object(carried->objIndex);
+                auto *cloned_obj = Object::create(carried->objIndex);
                 clone_object(carried, cloned_obj);
                 recursive_clone(ch, carried, cloned_obj);
                 obj_to_char(cloned_obj, cloned_mob);
@@ -1367,7 +1367,7 @@ void do_oload(Char *ch, ArgParser args) {
         ch->send_line("No object has that vnum.");
         return;
     }
-    auto *obj = create_object(obj_index);
+    auto *obj = Object::create(obj_index);
     if (obj->is_takeable())
         obj_to_char(obj, ch);
     else

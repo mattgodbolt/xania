@@ -53,6 +53,8 @@ struct Object {
     std::array<int, 5> value{};
     Room *destination{};
 
+    static Object *create(ObjectIndex *obj_idx);
+
     Object(ObjectIndex *obj_idx);
     ~Object();
     [[nodiscard]] std::string type_name() const;

@@ -913,7 +913,7 @@ void reset_room(Room *room) {
                 continue;
             }
 
-            auto object = create_object(objIndex);
+            auto object = Object::create(objIndex);
             object->cost = 0;
             obj_to_room(object, obj_room);
             break;
@@ -952,7 +952,7 @@ void reset_room(Room *room) {
             }
 
             while (count < reset.arg4) {
-                auto object = create_object(containedObjIndex);
+                auto object = Object::create(containedObjIndex);
                 obj_to_obj(object, containerObj);
                 count++;
                 if (containedObjIndex->count >= limit)
@@ -985,7 +985,7 @@ void reset_room(Room *room) {
             }
 
             if (lastMob->mobIndex->shop) { /* Shop-keeper? */
-                object = create_object(objIndex);
+                object = Object::create(objIndex);
                 set_enum_bit(object->extra_flags, ObjectExtraFlag::Inventory);
             } else {
                 const auto drop_rate = reset.arg2;
@@ -994,7 +994,7 @@ void reset_room(Room *room) {
                     exit(1);
                 }
                 if (number_percent() <= drop_rate) {
-                    object = create_object(objIndex);
+                    object = Object::create(objIndex);
                 } else
                     continue;
             }
@@ -1186,21 +1186,6 @@ void clone_mobile(Char *parent, Char *clone) {
     /* now add the affects */
     for (const auto &af : parent->affected)
         affect_to_char(clone, af);
-}
-
-/*
- * Create an instance of an object.
- */
-Object *create_object(ObjectIndex *objIndex) {
-    if (objIndex == nullptr) {
-        bug("Create_object: nullptr objIndex.");
-        exit(1);
-    }
-
-    auto obj = std::make_unique<Object>(objIndex);
-    auto *raw_obj = obj.get();
-    object_list.add_front(std::move(obj));
-    return raw_obj;
 }
 
 /* duplicate an object exactly -- except contents */

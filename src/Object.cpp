@@ -14,11 +14,23 @@
 #include "ObjectWearFlag.hpp"
 #include "WeaponFlag.hpp"
 #include "common/BitOps.hpp"
+#include "db.h"
 #include "string_utils.hpp"
 
 #include <magic_enum.hpp>
 
 Room *get_room(int vnum);
+
+Object *Object::create(ObjectIndex *obj_idx) {
+    if (obj_idx == nullptr) {
+        bug("Object::create: null ObjectIndex.");
+        return nullptr;
+    }
+    auto obj = std::make_unique<Object>(obj_idx);
+    auto *raw_obj = obj.get();
+    object_list.add_front(std::move(obj));
+    return raw_obj;
+}
 
 Object::Object(ObjectIndex *obj_idx)
     : objIndex(obj_idx), in_room(nullptr), enchanted(false), owner(""), name(obj_idx->name),

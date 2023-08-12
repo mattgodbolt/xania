@@ -40,7 +40,6 @@ void delete_globals_on_shutdown();
 void area_update();
 Char *create_mobile(MobIndexData *mobIndex);
 void clone_mobile(Char *parent, Char *clone);
-Object *create_object(ObjectIndex *objIndex);
 void clone_object(Object *parent, Object *clone);
 ObjectIndex *get_obj_index(int vnum);
 

@@ -589,7 +589,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
         if (get_obj_index(vnum) == nullptr) {
             bug("fread_obj: bad vnum {}.", vnum);
         } else {
-            obj = create_object(get_obj_index(vnum));
+            obj = Object::create(get_obj_index(vnum));
         }
     }
 
@@ -638,7 +638,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
                 if (make_new) {
                     const auto wear = obj->wear_loc;
                     extract_obj(obj);
-                    obj = create_object(obj->objIndex);
+                    obj = Object::create(obj->objIndex);
                     obj->wear_loc = wear;
                 }
                 if (nest_level == 0 || nest_level_to_obj.find(nest_level) == nest_level_to_obj.end())
