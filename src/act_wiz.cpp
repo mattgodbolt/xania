@@ -86,15 +86,6 @@ Room *find_location(Char *ch, std::string_view arg);
 
 namespace {
 
-void equip_char_with(Char *ch, const int vnum, const Wear wear) {
-    if (!get_eq_char(ch, wear)) {
-        auto *obj = Object::create(get_obj_index(vnum));
-        obj->cost = 0;
-        obj_to_char(obj, ch);
-        equip_char(ch, obj, wear);
-    }
-}
-
 // Trust levels for load and clone.
 bool char_can_clone_obj(Char *ch, Object *obj) { return ch->get_trust() >= obj->level; }
 
@@ -133,10 +124,18 @@ void do_outfit(Char *ch) {
         ch->send_line("Find it yourself!");
         return;
     }
-    equip_char_with(ch, Objects::SchoolBanner, Wear::Light);
-    equip_char_with(ch, Objects::SchoolVest, Wear::Body);
-    equip_char_with(ch, Objects::SchoolShield, Wear::Shield);
-    equip_char_with(ch, get_obj_index(class_table[ch->class_num].weapon)->vnum, Wear::Wield);
+    const auto equip_char_with = [&ch](const int vnum, const Wear wear) {
+        if (!get_eq_char(ch, wear)) {
+            auto *obj = Object::create(get_obj_index(vnum));
+            obj->cost = 0;
+            obj_to_char(obj, ch);
+            equip_char(ch, obj, wear);
+        }
+    };
+    equip_char_with(Objects::SchoolBanner, Wear::Light);
+    equip_char_with(Objects::SchoolVest, Wear::Body);
+    equip_char_with(Objects::SchoolShield, Wear::Shield);
+    equip_char_with(get_obj_index(class_table[ch->class_num].weapon)->vnum, Wear::Wield);
     ch->send_line("You have been equipped by {}.", deity_name);
 }
 
