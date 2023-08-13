@@ -54,6 +54,7 @@ struct Object {
     Room *destination{};
 
     static Object *create(ObjectIndex *obj_idx);
+    static Object *clone(const Object *source);
 
     Object(ObjectIndex *obj_idx);
     ~Object();

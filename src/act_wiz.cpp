@@ -1240,20 +1240,20 @@ void do_return(Char *ch) {
     ch->desc->do_return();
 }
 
-// For clone, to insure that cloning goes many levels deep.
-void recursive_clone(Char *ch, Object *obj, Object *clone) {
-    for (Object *c_obj : obj->contains) {
-        if (char_can_clone_obj(ch, c_obj)) {
-            Object *t_obj = Object::create(c_obj->objIndex);
-            clone_object(c_obj, t_obj);
-            obj_to_obj(t_obj, clone);
-            recursive_clone(ch, c_obj, t_obj);
-        }
-    }
-}
-
 // Clone an object. Similar to the load command.
 void do_clone(Char *ch, ArgParser args) {
+    const auto recursive_clone = [&ch](Object *obj, Object *clone) -> void {
+        const auto impl = [&ch](Object *obj, Object *clone, auto &recursive_clone_ref) -> void {
+            for (Object *c_obj : obj->contains) {
+                if (char_can_clone_obj(ch, c_obj)) {
+                    Object *t_obj = Object::clone(c_obj);
+                    obj_to_obj(t_obj, clone);
+                    recursive_clone_ref(c_obj, t_obj, recursive_clone_ref);
+                }
+            }
+        };
+        impl(obj, clone, impl);
+    };
     if (args.empty()) {
         ch->send_line("Clone what?");
         return;
@@ -1276,16 +1276,15 @@ void do_clone(Char *ch, ArgParser args) {
             return;
         }
 
-        auto *clone = Object::create(obj->objIndex);
-        clone_object(obj, clone);
+        auto *cloned_obj = Object::clone(obj);
         if (obj->carried_by != nullptr)
-            obj_to_char(clone, ch);
+            obj_to_char(cloned_obj, ch);
         else
-            obj_to_room(clone, ch->in_room);
-        recursive_clone(ch, obj, clone);
+            obj_to_room(cloned_obj, ch->in_room);
+        recursive_clone(obj, cloned_obj);
 
-        act("$n has created $p.", ch, clone, nullptr, To::Room);
-        act("You clone $p.", ch, clone, nullptr, To::Char);
+        act("$n has created $p.", ch, cloned_obj, nullptr, To::Room);
+        act("You clone $p.", ch, cloned_obj, nullptr, To::Char);
     } else if (mob != nullptr) {
 
         if (mob->is_pc()) {
@@ -1305,9 +1304,8 @@ void do_clone(Char *ch, ArgParser args) {
 
         for (auto *carried : mob->carrying) {
             if (char_can_clone_obj(ch, carried)) {
-                auto *cloned_obj = Object::create(carried->objIndex);
-                clone_object(carried, cloned_obj);
-                recursive_clone(ch, carried, cloned_obj);
+                auto *cloned_obj = Object::clone(carried);
+                recursive_clone(carried, cloned_obj);
                 obj_to_char(cloned_obj, cloned_mob);
                 cloned_obj->wear_loc = carried->wear_loc;
             }

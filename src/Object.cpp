@@ -15,6 +15,7 @@
 #include "WeaponFlag.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
+#include "handler.hpp"
 #include "string_utils.hpp"
 
 #include <magic_enum.hpp>
@@ -30,6 +31,34 @@ Object *Object::create(ObjectIndex *obj_idx) {
     auto *raw_obj = obj.get();
     object_list.add_front(std::move(obj));
     return raw_obj;
+}
+
+Object *Object::clone(const Object *source) {
+    if (!source) {
+        return nullptr;
+    }
+    Object *target = Object::create(source->objIndex);
+    if (!target) {
+        return nullptr;
+    }
+    target->name = source->name;
+    target->short_descr = source->short_descr;
+    target->description = source->description;
+    target->type = source->type;
+    target->extra_flags = source->extra_flags;
+    target->wear_flags = source->wear_flags;
+    target->weight = source->weight;
+    target->cost = source->cost;
+    target->level = source->level;
+    target->condition = source->condition;
+    target->material = source->material;
+    target->timer = source->timer;
+    target->value = source->value;
+    target->enchanted = source->enchanted;
+    target->extra_descr = source->extra_descr;
+    for (auto &af : source->affected)
+        affect_to_obj(target, af);
+    return target;
 }
 
 Object::Object(ObjectIndex *obj_idx)

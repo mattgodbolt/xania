@@ -25,8 +25,37 @@ namespace {
 unsigned int hum = to_int(ObjectExtraFlag::Hum);
 unsigned int hold = to_int(ObjectWearFlag::Hold);
 
-void validate_object(Object &obj, ObjectIndex &obj_idx) {
+ObjectIndex make_obj_idx() {
+    std::vector<ExtraDescription> extra_descr{};
+    extra_descr.emplace_back(ExtraDescription{"key", "val"});
+    AFFECT_DATA affect;
+    affect.level = 1;
+    AffectList affected;
+    affected.add(affect);
+    ObjectIndex obj_idx{// clang-format off
+        .extra_descr{extra_descr},
+        .name{"name"},
+        .short_descr{"short descr"},
+        .description{"description"},
+        .vnum{123},
+        .reset_num{0},
+        .material{Material::Type::Paper},
+        .type{ObjectType::Map},
+        .extra_flags{hum},
+        .wear_flags{hold},
+        .wear_string{"wear string"},
+        .level{1},
+        .condition{90},
+        .count{0},
+        .weight{12},
+        .cost{13},
+        .value{{0, 1, 2, 3, 4}}
+    }; // clang-format on
+    obj_idx.affected.add(affect);
+    return obj_idx;
+}
 
+void validate_object(Object &obj, ObjectIndex &obj_idx) {
     // Although ObjectIndex and Object both have an extra_descr vector, the extra_descr from the template
     // does not get copied to Object by its constructor.  When a Char looks at an Object, try_get_obj_descr() will
     // examine both the instance and its template for extended descriptions. The 'set obj ed' imm command can be
@@ -70,32 +99,7 @@ TEST_CASE("Construction") {
         CHECK(obj_idx2.count == 0);
     }
     SECTION("Prototype fields cloned") {
-        std::vector<ExtraDescription> extra_descr{};
-        extra_descr.emplace_back(ExtraDescription{"key", "val"});
-        AFFECT_DATA affect;
-        affect.level = 1;
-        AffectList affected;
-        affected.add(affect);
-        ObjectIndex obj_idx{// clang-format off
-            .extra_descr{extra_descr},
-            .name{"name"},
-            .short_descr{"short descr"},
-            .description{"description"},
-            .vnum{123},
-            .reset_num{0},
-            .material{Material::Type::Paper},
-            .type{ObjectType::Map},
-            .extra_flags{hum},
-            .wear_flags{hold},
-            .wear_string{"wear string"},
-            .level{1},
-            .condition{90},
-            .count{0},
-            .weight{12},
-            .cost{13},
-            .value{{0, 1, 2, 3, 4}}
-        }; // clang-format on
-        obj_idx.affected.add(affect);
+        ObjectIndex obj_idx = make_obj_idx();
 
         SECTION("Using Object constructor") {
             Object obj{&obj_idx};
@@ -137,6 +141,26 @@ TEST_CASE("Construction") {
             CHECK(obj.destination == nullptr);
             CHECK(obj.value[0] == 0);
         }
+    }
+}
+
+TEST_CASE("Clone") {
+    SECTION("simple") {
+        ObjectIndex obj_idx = make_obj_idx();
+        Object *source = Object::create(&obj_idx);
+        Object *clone = Object::clone(source);
+        validate_object(*clone, obj_idx);
+    }
+    SECTION("container shallow clone") {
+        ObjectIndex obj_idx = make_obj_idx();
+        Object *container = Object::create(&obj_idx);
+        Object *contained = Object::create(&obj_idx);
+        container->contains.add_front(contained);
+
+        Object *clone = Object::clone(container);
+
+        validate_object(*clone, obj_idx);
+        CHECK(clone->contains.empty());
     }
 }
 

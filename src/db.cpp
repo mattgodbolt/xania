@@ -1188,38 +1188,6 @@ void clone_mobile(Char *parent, Char *clone) {
         affect_to_char(clone, af);
 }
 
-/* duplicate an object exactly -- except contents */
-void clone_object(Object *parent, Object *clone) {
-    if (parent == nullptr || clone == nullptr)
-        return;
-
-    /* start fixing the object */
-    clone->name = parent->name;
-    clone->short_descr = parent->short_descr;
-    clone->description = parent->description;
-    clone->type = parent->type;
-    clone->extra_flags = parent->extra_flags;
-    clone->wear_flags = parent->wear_flags;
-    clone->weight = parent->weight;
-    clone->cost = parent->cost;
-    clone->level = parent->level;
-    clone->condition = parent->condition;
-    clone->material = parent->material;
-    clone->timer = parent->timer;
-
-    for (int i = 0; i < 5; i++)
-        clone->value[i] = parent->value[i];
-
-    /* affects */
-    clone->enchanted = parent->enchanted;
-
-    for (auto &af : parent->affected)
-        affect_to_obj(clone, af);
-
-    /* extended desc */
-    clone->extra_descr = parent->extra_descr;
-}
-
 // Translates mob virtual number to its mob index struct.
 MobIndexData *get_mob_index(int vnum) {
     if (auto it = mob_indexes.find(vnum); it != mob_indexes.end())
