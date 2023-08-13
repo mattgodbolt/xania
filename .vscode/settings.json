@@ -14,5 +14,9 @@
     "cmake.buildDirectory" : "${workspaceFolder}/cmake-build-debug",
     "cmake.installPrefix" : "${workspaceFolder}/install",
     "cmake.sourceDirectory" : "${workspaceFolder}",
-    "editor.acceptSuggestionOnEnter": "off"
+    "editor.acceptSuggestionOnEnter": "off",
+    "C_Cpp.default.compileCommands": "cmake-build-debug/compile_commands.json",
+    "clang-tidy.buildPath": "cmake-build-debug",
+    "clang-tidy.compilerArgs": [],
+    "clang-tidy.lintOnSave": false
 }
