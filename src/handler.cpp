@@ -752,14 +752,6 @@ Object *get_obj_here(const Char *ch, std::string_view argument) {
     return nullptr;
 }
 
-/* Written by Wandera & Death */
-Object *get_object(sh_int vnum) {
-    if (ObjectIndex *objIndex = get_obj_index(vnum); objIndex != nullptr) {
-        return Object::create(objIndex);
-    }
-    return nullptr;
-}
-
 /*
  * Find an obj in the world.
  */
