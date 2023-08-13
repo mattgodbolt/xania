@@ -84,6 +84,22 @@ SpecialFunc spec_lookup(std::string_view name);
  */
 Room *find_location(Char *ch, std::string_view arg);
 
+namespace {
+
+void equip_char_with(Char *ch, const int vnum, const Wear wear) {
+    if (!get_eq_char(ch, wear)) {
+        auto *obj = Object::create(get_obj_index(vnum));
+        obj->cost = 0;
+        obj_to_char(obj, ch);
+        equip_char(ch, obj, wear);
+    }
+}
+
+// Trust levels for load and clone.
+bool char_can_clone_obj(Char *ch, Object *obj) { return ch->get_trust() >= obj->level; }
+
+}
+
 /* Permits or denies a player from playing the Mud from a PERMIT banned site */
 void do_permit(Char *ch, ArgParser args) {
     if (ch->is_npc())
@@ -110,19 +126,6 @@ void do_permit(Char *ch, ArgParser args) {
         victim->remove_extra(CharExtraFlag::Permit);
     }
     ch->send_line("PERMIT flag {} for {}.", set_permit ? "set" : "removed", victim->name);
-}
-
-namespace {
-
-void equip_char_with(Char *ch, const int vnum, const Wear wear) {
-    if (!get_eq_char(ch, wear)) {
-        auto *obj = Object::create(get_obj_index(vnum));
-        obj->cost = 0;
-        obj_to_char(obj, ch);
-        equip_char(ch, obj, wear);
-    }
-}
-
 }
 
 void do_outfit(Char *ch) {
@@ -1238,15 +1241,10 @@ void do_return(Char *ch) {
     ch->desc->do_return();
 }
 
-/* trust levels for load and clone */
-/* cut out by Faramir but func retained in case of any
-   calls I don't know about. */
-bool obj_check(Char *ch, Object *obj) { return ch->get_trust() >= obj->level; }
-
-/* for clone, to insure that cloning goes many levels deep */
+// For clone, to insure that cloning goes many levels deep.
 void recursive_clone(Char *ch, Object *obj, Object *clone) {
     for (Object *c_obj : obj->contains) {
-        if (obj_check(ch, c_obj)) {
+        if (char_can_clone_obj(ch, c_obj)) {
             Object *t_obj = Object::create(c_obj->objIndex);
             clone_object(c_obj, t_obj);
             obj_to_obj(t_obj, clone);
@@ -1255,7 +1253,7 @@ void recursive_clone(Char *ch, Object *obj, Object *clone) {
     }
 }
 
-/* command that is similar to load */
+// Clone an object. Similar to the load command.
 void do_clone(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("Clone what?");
@@ -1273,9 +1271,8 @@ void do_clone(Char *ch, ArgParser args) {
         obj = get_obj_here(ch, arg);
     }
 
-    /* clone an object */
     if (obj != nullptr) {
-        if (!obj_check(ch, obj)) {
+        if (!char_can_clone_obj(ch, obj)) {
             ch->send_line("Your powers are not great enough for such a task.");
             return;
         }
@@ -1308,7 +1305,7 @@ void do_clone(Char *ch, ArgParser args) {
         clone_mobile(mob, cloned_mob);
 
         for (auto *carried : mob->carrying) {
-            if (obj_check(ch, carried)) {
+            if (char_can_clone_obj(ch, carried)) {
                 auto *cloned_obj = Object::create(carried->objIndex);
                 clone_object(carried, cloned_obj);
                 recursive_clone(ch, carried, cloned_obj);
@@ -1323,8 +1320,6 @@ void do_clone(Char *ch, ArgParser args) {
         ch->send_line("You don't see that here.");
     }
 }
-
-/* RT to replace the two load commands */
 
 void do_mload(Char *ch, ArgParser args) {
     const auto opt_vnum = args.try_shift_number();
