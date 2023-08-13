@@ -112,40 +112,28 @@ void do_permit(Char *ch, ArgParser args) {
     ch->send_line("PERMIT flag {} for {}.", set_permit ? "set" : "removed", victim->name);
 }
 
-/* equips a character */
+namespace {
+
+void equip_char_with(Char *ch, const int vnum, const Wear wear) {
+    if (!get_eq_char(ch, wear)) {
+        auto *obj = Object::create(get_obj_index(vnum));
+        obj->cost = 0;
+        obj_to_char(obj, ch);
+        equip_char(ch, obj, wear);
+    }
+}
+
+}
+
 void do_outfit(Char *ch) {
     if (ch->level > 5 || ch->is_npc()) {
         ch->send_line("Find it yourself!");
         return;
     }
-
-    if (!get_eq_char(ch, Wear::Light)) {
-        auto *obj = Object::create(get_obj_index(Objects::SchoolBanner));
-        obj->cost = 0;
-        obj_to_char(obj, ch);
-        equip_char(ch, obj, Wear::Light);
-    }
-
-    if (!get_eq_char(ch, Wear::Body)) {
-        auto *obj = Object::create(get_obj_index(Objects::SchoolVest));
-        obj->cost = 0;
-        obj_to_char(obj, ch);
-        equip_char(ch, obj, Wear::Body);
-    }
-
-    if (!get_eq_char(ch, Wear::Shield)) {
-        auto *obj = Object::create(get_obj_index(Objects::SchoolShield));
-        obj->cost = 0;
-        obj_to_char(obj, ch);
-        equip_char(ch, obj, Wear::Shield);
-    }
-
-    if (!get_eq_char(ch, Wear::Wield)) {
-        auto *obj = Object::create(get_obj_index(class_table[ch->class_num].weapon));
-        obj_to_char(obj, ch);
-        equip_char(ch, obj, Wear::Wield);
-    }
-
+    equip_char_with(ch, Objects::SchoolBanner, Wear::Light);
+    equip_char_with(ch, Objects::SchoolVest, Wear::Body);
+    equip_char_with(ch, Objects::SchoolShield, Wear::Shield);
+    equip_char_with(ch, get_obj_index(class_table[ch->class_num].weapon)->vnum, Wear::Wield);
     ch->send_line("You have been equipped by {}.", deity_name);
 }
 
