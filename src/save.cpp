@@ -1,9 +1,9 @@
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
+/*  (C) 1995-2023 Xania Development Team                                 */
 /*  See the header to file: merc.h for original code copyrights          */
 /*                                                                       */
-/*  save.c:  data saving routines                                        */
+/*  save.cpp:  data saving routines                                      */
 /*                                                                       */
 /*************************************************************************/
 
@@ -589,7 +589,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
         if (get_obj_index(vnum) == nullptr) {
             bug("fread_obj: bad vnum {}.", vnum);
         } else {
-            obj = Object::create(get_obj_index(vnum));
+            obj = Object::create(get_obj_index(vnum), object_list);
         }
     }
 
@@ -638,7 +638,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
                 if (make_new) {
                     const auto wear = obj->wear_loc;
                     extract_obj(obj);
-                    obj = Object::create(obj->objIndex);
+                    obj = Object::create(obj->objIndex, object_list);
                     obj->wear_loc = wear;
                 }
                 if (nest_level == 0 || nest_level_to_obj.find(nest_level) == nest_level_to_obj.end())

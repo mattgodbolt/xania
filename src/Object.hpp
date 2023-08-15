@@ -53,8 +53,12 @@ struct Object {
     std::array<int, 5> value{};
     Room *destination{};
 
-    static Object *create(ObjectIndex *obj_idx);
-    static Object *clone(const Object *source);
+    // Create a new Object instance derived from the template ObjectIndex. It is owned by object_list.
+    // Returns a raw pointer to the Object.
+    static Object *create(ObjectIndex *obj_idx, GenericList<std::unique_ptr<Object>> &object_list);
+    // Create a new Object instance derived from the source Object. This is a shallow copy, if it is a container
+    // object then the contents are not cloned.  It is owned by object_list.  Returns a raw pointer to the Object.
+    static Object *clone(const Object *source, GenericList<std::unique_ptr<Object>> &object_list);
 
     Object(ObjectIndex *obj_idx);
     ~Object();

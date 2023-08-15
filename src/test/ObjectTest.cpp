@@ -15,7 +15,6 @@
 #include "Room.hpp"
 #include "VnumRooms.hpp"
 #include "Wear.hpp"
-#include "db.h"
 
 #include <catch2/catch_test_macros.hpp>
 #include <vector>
@@ -106,14 +105,16 @@ TEST_CASE("Construction") {
             validate_object(obj, obj_idx);
         }
         SECTION("Using Object::create") {
+            GenericList<std::unique_ptr<Object>> object_list;
             const auto object_count = object_list.size();
-            Object *obj = Object::create(&obj_idx);
+            Object *obj = Object::create(&obj_idx, object_list);
             validate_object(*obj, obj_idx);
             CHECK(object_list.size() == object_count + 1);
         }
     }
     SECTION("Object::create with null ObjectIndex") {
-        Object *obj = Object::create(nullptr);
+        GenericList<std::unique_ptr<Object>> object_list;
+        Object *obj = Object::create(nullptr, object_list);
         CHECK(obj == nullptr);
     }
     SECTION("Lights") {
@@ -146,18 +147,20 @@ TEST_CASE("Construction") {
 
 TEST_CASE("Clone") {
     SECTION("simple") {
+        GenericList<std::unique_ptr<Object>> object_list;
         ObjectIndex obj_idx = make_obj_idx();
-        Object *source = Object::create(&obj_idx);
-        Object *clone = Object::clone(source);
+        Object *source = Object::create(&obj_idx, object_list);
+        Object *clone = Object::clone(source, object_list);
         validate_object(*clone, obj_idx);
     }
     SECTION("container shallow clone") {
+        GenericList<std::unique_ptr<Object>> object_list;
         ObjectIndex obj_idx = make_obj_idx();
-        Object *container = Object::create(&obj_idx);
-        Object *contained = Object::create(&obj_idx);
+        Object *container = Object::create(&obj_idx, object_list);
+        Object *contained = Object::create(&obj_idx, object_list);
         container->contains.add_front(contained);
 
-        Object *clone = Object::clone(container);
+        Object *clone = Object::clone(container, object_list);
 
         validate_object(*clone, obj_idx);
         CHECK(clone->contains.empty());

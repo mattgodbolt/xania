@@ -1198,7 +1198,7 @@ void make_corpse(Char *ch) {
     Object *corpse{};
     if (ch->is_npc()) {
         name = ch->short_descr;
-        corpse = Object::create(get_obj_index(Objects::NonPlayerCorpse));
+        corpse = Object::create(get_obj_index(Objects::NonPlayerCorpse), object_list);
         corpse->timer = number_range(3, 6);
         if (ch->gold > 0) {
             obj_to_obj(create_money(ch->gold), corpse);
@@ -1207,7 +1207,7 @@ void make_corpse(Char *ch) {
         corpse->cost = 0;
     } else {
         name = ch->name;
-        corpse = Object::create(get_obj_index(Objects::PlayerCorpse));
+        corpse = Object::create(get_obj_index(Objects::PlayerCorpse), object_list);
         corpse->timer = number_range(25, 40);
         clear_enum_bit(ch->act, PlayerActFlag::PlrCanLoot);
         if (!check_enum_bit(ch->act, PlayerActFlag::PlrKiller) && !check_enum_bit(ch->act, PlayerActFlag::PlrThief))
@@ -1281,7 +1281,7 @@ void detach_injured_part(const Char *victim, std::optional<InjuredPart> opt_inju
     }
     if (part.opt_spill_obj_vnum) {
         const auto vnum = part.opt_spill_obj_vnum.value();
-        auto *obj = Object::create(get_obj_index(vnum));
+        auto *obj = Object::create(get_obj_index(vnum), object_list);
         obj->timer = number_range(4, 7);
         obj->short_descr = fmt::sprintf(obj->short_descr, victim->short_name());
         obj->description = fmt::sprintf(obj->description, victim->short_name());

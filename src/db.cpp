@@ -913,7 +913,7 @@ void reset_room(Room *room) {
                 continue;
             }
 
-            auto object = Object::create(objIndex);
+            auto object = Object::create(objIndex, object_list);
             object->cost = 0;
             obj_to_room(object, obj_room);
             break;
@@ -952,7 +952,7 @@ void reset_room(Room *room) {
             }
 
             while (count < reset.arg4) {
-                auto object = Object::create(containedObjIndex);
+                auto object = Object::create(containedObjIndex, object_list);
                 obj_to_obj(object, containerObj);
                 count++;
                 if (containedObjIndex->count >= limit)
@@ -985,7 +985,7 @@ void reset_room(Room *room) {
             }
 
             if (lastMob->mobIndex->shop) { /* Shop-keeper? */
-                object = Object::create(objIndex);
+                object = Object::create(objIndex, object_list);
                 set_enum_bit(object->extra_flags, ObjectExtraFlag::Inventory);
             } else {
                 const auto drop_rate = reset.arg2;
@@ -994,7 +994,7 @@ void reset_room(Room *room) {
                     exit(1);
                 }
                 if (number_percent() <= drop_rate) {
-                    object = Object::create(objIndex);
+                    object = Object::create(objIndex, object_list);
                 } else
                     continue;
             }

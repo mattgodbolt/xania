@@ -781,10 +781,10 @@ Object *create_money(int amount) {
     }
 
     if (amount == 1) {
-        return Object::create(get_obj_index(Objects::MoneyOne));
+        return Object::create(get_obj_index(Objects::MoneyOne), object_list);
     }
 
-    auto *obj = Object::create(get_obj_index(Objects::MoneySome));
+    auto *obj = Object::create(get_obj_index(Objects::MoneySome), object_list);
     obj->short_descr = fmt::sprintf(obj->short_descr, amount);
     obj->value[0] = amount;
     obj->cost = amount;

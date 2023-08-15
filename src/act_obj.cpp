@@ -1958,7 +1958,7 @@ void do_buy(Char *ch, ArgParser args) {
         keeper->gold += cost;
 
         if (check_enum_bit(obj->extra_flags, ObjectExtraFlag::Inventory))
-            obj = Object::create(obj->objIndex);
+            obj = Object::create(obj->objIndex, object_list);
         else
             obj_from_char(obj);
 

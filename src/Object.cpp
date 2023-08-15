@@ -14,7 +14,6 @@
 #include "ObjectWearFlag.hpp"
 #include "WeaponFlag.hpp"
 #include "common/BitOps.hpp"
-#include "db.h"
 #include "handler.hpp"
 #include "string_utils.hpp"
 
@@ -22,7 +21,7 @@
 
 Room *get_room(int vnum);
 
-Object *Object::create(ObjectIndex *obj_idx) {
+Object *Object::create(ObjectIndex *obj_idx, GenericList<std::unique_ptr<Object>> &object_list) {
     if (obj_idx == nullptr) {
         bug("Object::create: null ObjectIndex.");
         return nullptr;
@@ -33,11 +32,11 @@ Object *Object::create(ObjectIndex *obj_idx) {
     return raw_obj;
 }
 
-Object *Object::clone(const Object *source) {
+Object *Object::clone(const Object *source, GenericList<std::unique_ptr<Object>> &object_list) {
     if (!source) {
         return nullptr;
     }
-    Object *target = Object::create(source->objIndex);
+    Object *target = Object::create(source->objIndex, object_list);
     if (!target) {
         return nullptr;
     }

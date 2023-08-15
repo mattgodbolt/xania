@@ -340,7 +340,7 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
             act("You carefully add another spell to your bomb.", ch, nullptr, nullptr, To::Char);
 
         } else {
-            bomb = Object::create(get_obj_index(Objects::Bomb));
+            bomb = Object::create(get_obj_index(Objects::Bomb), object_list);
             bomb->level = ch->level;
             bomb->value[0] = ch->level;
             bomb->value[1] = sn;
@@ -399,7 +399,7 @@ void try_create_scroll(Char *ch, const int sn, const int mana) {
         ch->mana -= (mana * 2);
         ch->gold -= (mana * 100);
 
-        auto *scroll = Object::create(get_obj_index(Objects::Scroll));
+        auto *scroll = Object::create(get_obj_index(Objects::Scroll), object_list);
         scroll->level = ch->level;
         scroll->value[0] = ch->level;
         scroll->value[1] = sn;
@@ -460,7 +460,7 @@ void try_create_potion(Char *ch, const int sn, const int mana) {
         ch->mana -= (mana * 2);
         ch->gold -= (mana * 100);
 
-        auto *potion = Object::create(get_obj_index(Objects::Potion));
+        auto *potion = Object::create(get_obj_index(Objects::Potion), object_list);
         potion->level = ch->level;
         potion->value[0] = ch->level;
         potion->value[1] = sn;
@@ -1134,7 +1134,7 @@ void spell_continual_light(int sn, int level, Char *ch, [[maybe_unused]] const S
     (void)level;
     Object *light;
 
-    light = Object::create(get_obj_index(Objects::LightBall));
+    light = Object::create(get_obj_index(Objects::LightBall), object_list);
     obj_to_room(light, ch->in_room);
     act("$n twiddles $s thumbs and $p appears.", ch, light, nullptr, To::Room);
     act("You twiddle your thumbs and $p appears.", ch, light, nullptr, To::Char);
@@ -1156,7 +1156,7 @@ void spell_control_weather(int sn, int level, Char *ch, const SpellTarget &spell
 
 void spell_create_food(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     (void)sn;
-    Object *mushroom = Object::create(get_obj_index(Objects::Mushroom));
+    Object *mushroom = Object::create(get_obj_index(Objects::Mushroom), object_list);
     mushroom->value[0] = 5 + level;
     obj_to_room(mushroom, ch->in_room);
     act("$p suddenly appears.", ch, mushroom, nullptr, To::Room);
@@ -1165,7 +1165,7 @@ void spell_create_food(int sn, int level, Char *ch, [[maybe_unused]] const Spell
 
 void spell_create_spring(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     (void)sn;
-    Object *spring = Object::create(get_obj_index(Objects::Spring));
+    Object *spring = Object::create(get_obj_index(Objects::Spring), object_list);
     spring->timer = level;
     obj_to_room(spring, ch->in_room);
     act("$p flows from the ground.", ch, spring, nullptr, To::Room);
@@ -2985,7 +2985,7 @@ void spell_portal(int sn, int level, Char *ch, const SpellTarget &spell_target) 
         ch->send_line("You cannot portal from this room.");
         return;
     }
-    auto *source_portal = Object::create(get_obj_index(Objects::Portal));
+    auto *source_portal = Object::create(get_obj_index(Objects::Portal), object_list);
     source_portal->timer = (ch->level / 10);
     source_portal->destination = victim->in_room;
 
@@ -2994,7 +2994,7 @@ void spell_portal(int sn, int level, Char *ch, const SpellTarget &spell_target) 
     obj_to_room(source_portal, ch->in_room);
 
     // Create second portal.
-    auto *dest_portal = Object::create(get_obj_index(Objects::Portal));
+    auto *dest_portal = Object::create(get_obj_index(Objects::Portal), object_list);
     dest_portal->timer = (ch->level / 10);
     dest_portal->destination = ch->in_room;
 
