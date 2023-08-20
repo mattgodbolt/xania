@@ -57,7 +57,7 @@ struct Object {
     ~Object();
     // Create a new Object instance derived from this. This is a shallow copy, if it is a container
     // object then the contents are not cloned. Caller owns the object.
-    std::unique_ptr<Object> clone();
+    [[nodiscard]] std::unique_ptr<Object> clone();
     [[nodiscard]] std::string type_name() const;
     [[nodiscard]] bool is_holdable() const;
     [[nodiscard]] bool is_takeable() const;

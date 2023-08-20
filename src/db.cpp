@@ -83,6 +83,7 @@ std::map<int, MobIndexData> mob_indexes;
 std::map<int, ObjectIndex> object_indexes;
 // Unlike the Mob & Object index maps, Rooms are instances.
 std::map<int, Room> rooms;
+const auto InitialObjectListCapacity = 1400u;
 
 }
 
@@ -220,6 +221,8 @@ void boot_db() {
             perror(area_file.c_str());
             exit(1);
         }
+
+        object_list.reserve(InitialObjectListCapacity);
 
         for (;;) {
             std::string area_name = fread_word(fpList);
