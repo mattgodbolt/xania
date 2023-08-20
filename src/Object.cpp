@@ -21,45 +21,6 @@
 
 Room *get_room(int vnum);
 
-Object *Object::create(ObjectIndex *obj_idx, GenericList<std::unique_ptr<Object>> &object_list) {
-    if (obj_idx == nullptr) {
-        bug("Object::create: null ObjectIndex.");
-        return nullptr;
-    }
-    auto obj = std::make_unique<Object>(obj_idx);
-    auto *raw_obj = obj.get();
-    object_list.add_front(std::move(obj));
-    return raw_obj;
-}
-
-Object *Object::clone(const Object *source, GenericList<std::unique_ptr<Object>> &object_list) {
-    if (!source) {
-        return nullptr;
-    }
-    Object *target = Object::create(source->objIndex, object_list);
-    if (!target) {
-        return nullptr;
-    }
-    target->name = source->name;
-    target->short_descr = source->short_descr;
-    target->description = source->description;
-    target->type = source->type;
-    target->extra_flags = source->extra_flags;
-    target->wear_flags = source->wear_flags;
-    target->weight = source->weight;
-    target->cost = source->cost;
-    target->level = source->level;
-    target->condition = source->condition;
-    target->material = source->material;
-    target->timer = source->timer;
-    target->value = source->value;
-    target->enchanted = source->enchanted;
-    target->extra_descr = source->extra_descr;
-    for (auto &af : source->affected)
-        affect_to_obj(target, af);
-    return target;
-}
-
 Object::Object(ObjectIndex *obj_idx)
     : objIndex(obj_idx), in_room(nullptr), enchanted(false), owner(""), name(obj_idx->name),
       short_descr(obj_idx->short_descr), description(obj_idx->description), type(obj_idx->type),
@@ -89,6 +50,28 @@ Object::Object(ObjectIndex *obj_idx)
 }
 
 Object::~Object() { objIndex->count--; }
+
+std::unique_ptr<Object> Object::clone() {
+    auto obj_uptr = objIndex->create_object();
+    obj_uptr->name = name;
+    obj_uptr->short_descr = short_descr;
+    obj_uptr->description = description;
+    obj_uptr->type = type;
+    obj_uptr->extra_flags = extra_flags;
+    obj_uptr->wear_flags = wear_flags;
+    obj_uptr->weight = weight;
+    obj_uptr->cost = cost;
+    obj_uptr->level = level;
+    obj_uptr->condition = condition;
+    obj_uptr->material = material;
+    obj_uptr->timer = timer;
+    obj_uptr->value = value;
+    obj_uptr->enchanted = enchanted;
+    obj_uptr->extra_descr = extra_descr;
+    for (auto &af : affected)
+        affect_to_obj(obj_uptr.get(), af);
+    return obj_uptr;
+}
 
 std::string Object::type_name() const { return lower_case(magic_enum::enum_name<ObjectType>(type)); }
 

@@ -340,7 +340,9 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
             act("You carefully add another spell to your bomb.", ch, nullptr, nullptr, To::Char);
 
         } else {
-            bomb = Object::create(get_obj_index(Objects::Bomb), object_list);
+            auto obj_uptr = get_obj_index(Objects::Bomb)->create_object();
+            bomb = obj_uptr.get();
+            object_list.add_front(std::move(obj_uptr));
             bomb->level = ch->level;
             bomb->value[0] = ch->level;
             bomb->value[1] = sn;
@@ -399,7 +401,9 @@ void try_create_scroll(Char *ch, const int sn, const int mana) {
         ch->mana -= (mana * 2);
         ch->gold -= (mana * 100);
 
-        auto *scroll = Object::create(get_obj_index(Objects::Scroll), object_list);
+        auto obj_uptr = get_obj_index(Objects::Scroll)->create_object();
+        auto *scroll = obj_uptr.get();
+        object_list.add_front(std::move(obj_uptr));
         scroll->level = ch->level;
         scroll->value[0] = ch->level;
         scroll->value[1] = sn;
@@ -460,7 +464,9 @@ void try_create_potion(Char *ch, const int sn, const int mana) {
         ch->mana -= (mana * 2);
         ch->gold -= (mana * 100);
 
-        auto *potion = Object::create(get_obj_index(Objects::Potion), object_list);
+        auto obj_uptr = get_obj_index(Objects::Potion)->create_object();
+        auto *potion = obj_uptr.get();
+        object_list.add_front(std::move(obj_uptr));
         potion->level = ch->level;
         potion->value[0] = ch->level;
         potion->value[1] = sn;
@@ -1129,12 +1135,11 @@ void spell_colour_spray(int sn, int level, Char *ch, const SpellTarget &spell_ta
     damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Light);
 }
 
-void spell_continual_light(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
-    (void)sn;
-    (void)level;
-    Object *light;
-
-    light = Object::create(get_obj_index(Objects::LightBall), object_list);
+void spell_continual_light([[maybe_unused]] int sn, [[maybe_unused]] int level, Char *ch,
+                           [[maybe_unused]] const SpellTarget &spell_target) {
+    auto obj_uptr = get_obj_index(Objects::LightBall)->create_object();
+    auto *light = obj_uptr.get();
+    object_list.add_front(std::move(obj_uptr));
     obj_to_room(light, ch->in_room);
     act("$n twiddles $s thumbs and $p appears.", ch, light, nullptr, To::Room);
     act("You twiddle your thumbs and $p appears.", ch, light, nullptr, To::Char);
@@ -1154,18 +1159,21 @@ void spell_control_weather(int sn, int level, Char *ch, const SpellTarget &spell
     ch->send_line("As you raise your head, a swirl of energy spirals upward into the heavens.");
 }
 
-void spell_create_food(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
-    (void)sn;
-    Object *mushroom = Object::create(get_obj_index(Objects::Mushroom), object_list);
+void spell_create_food([[maybe_unused]] int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
+    auto obj_uptr = get_obj_index(Objects::Mushroom)->create_object();
+    auto *mushroom = obj_uptr.get();
+    object_list.add_front(std::move(obj_uptr));
     mushroom->value[0] = 5 + level;
     obj_to_room(mushroom, ch->in_room);
     act("$p suddenly appears.", ch, mushroom, nullptr, To::Room);
     act("$p suddenly appears.", ch, mushroom, nullptr, To::Char);
 }
 
-void spell_create_spring(int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
-    (void)sn;
-    Object *spring = Object::create(get_obj_index(Objects::Spring), object_list);
+void spell_create_spring([[maybe_unused]] int sn, int level, Char *ch,
+                         [[maybe_unused]] const SpellTarget &spell_target) {
+    auto obj_uptr = get_obj_index(Objects::Spring)->create_object();
+    auto *spring = obj_uptr.get();
+    object_list.add_front(std::move(obj_uptr));
     spring->timer = level;
     obj_to_room(spring, ch->in_room);
     act("$p flows from the ground.", ch, spring, nullptr, To::Room);
@@ -2963,8 +2971,7 @@ void spell_plague(int sn, int level, Char *ch, const SpellTarget &spell_target) 
     act("$n screams in agony as plague sores erupt from $s skin.", victim);
 }
 
-void spell_portal(int sn, int level, Char *ch, const SpellTarget &spell_target) {
-    (void)sn;
+void spell_portal([[maybe_unused]] int sn, int level, Char *ch, const SpellTarget &spell_target) {
     std::string_view arguments = spell_target.getArguments();
     const auto *victim = get_char_world(ch, arguments);
     if (!victim || victim == ch || victim->in_room == nullptr || !ch->can_see(*victim->in_room)
@@ -2985,23 +2992,18 @@ void spell_portal(int sn, int level, Char *ch, const SpellTarget &spell_target) 
         ch->send_line("You cannot portal from this room.");
         return;
     }
-    auto *source_portal = Object::create(get_obj_index(Objects::Portal), object_list);
-    source_portal->timer = (ch->level / 10);
-    source_portal->destination = victim->in_room;
-
-    // Put portal in current room.
-    source_portal->description = fmt::sprintf(source_portal->description, victim->in_room->name);
-    obj_to_room(source_portal, ch->in_room);
-
-    // Create second portal.
-    auto *dest_portal = Object::create(get_obj_index(Objects::Portal), object_list);
-    dest_portal->timer = (ch->level / 10);
-    dest_portal->destination = ch->in_room;
-
-    /* Put portal, in destination room, for this room */
-    dest_portal->description = fmt::sprintf(dest_portal->description, ch->in_room->name);
-    obj_to_room(dest_portal, victim->in_room);
-
+    const auto make_portal = [duration = ch->level / 10, portal_idx = get_obj_index(Objects::Portal)](Room *from,
+                                                                                                      Room *to) {
+        auto obj_uptr = portal_idx->create_object();
+        auto *portal = obj_uptr.get();
+        object_list.add_front(std::move(obj_uptr));
+        portal->timer = duration;
+        portal->destination = to;
+        portal->description = fmt::sprintf(portal->description, from->name);
+        obj_to_room(portal, from);
+    };
+    make_portal(ch->in_room, victim->in_room);
+    make_portal(victim->in_room, ch->in_room);
     ch->send_line("You wave your hands madly, and create a portal.");
 }
 

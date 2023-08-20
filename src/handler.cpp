@@ -53,9 +53,9 @@
 #include "ride.hpp"
 #include "string_utils.hpp"
 
-#include <range/v3/algorithm/count.hpp>
-
+#include <algorithm>
 #include <magic_enum.hpp>
+#include <range/v3/algorithm/count.hpp>
 #include <range/v3/iterator/operations.hpp>
 
 void spell_poison(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
@@ -774,22 +774,21 @@ Object *get_obj_world(Char *ch, std::string_view argument) {
 /*
  * Create a 'money' obj.
  */
-Object *create_money(int amount) {
-    if (amount <= 0) {
-        bug("Create_money: zero or negative money {}.", amount);
-        amount = 1;
+Object *create_money(const uint amount) {
+    auto make_money = [](const auto vnum) -> Object * {
+        auto obj_uptr = get_obj_index(vnum)->create_object();
+        auto *money = obj_uptr.get();
+        object_list.add_front(std::move(obj_uptr));
+        return money;
+    };
+    const auto create_amount = std::max(1u, amount);
+    auto *money = make_money(amount == 1 ? Objects::MoneyOne : Objects::MoneySome);
+    if (create_amount > 1) {
+        money->short_descr = fmt::sprintf(money->short_descr, create_amount);
+        money->value[0] = create_amount;
+        money->cost = create_amount;
     }
-
-    if (amount == 1) {
-        return Object::create(get_obj_index(Objects::MoneyOne), object_list);
-    }
-
-    auto *obj = Object::create(get_obj_index(Objects::MoneySome), object_list);
-    obj->short_descr = fmt::sprintf(obj->short_descr, amount);
-    obj->value[0] = amount;
-    obj->cost = amount;
-
-    return obj;
+    return money;
 }
 
 /*

@@ -126,7 +126,9 @@ void do_outfit(Char *ch) {
     }
     const auto equip_char_with = [&ch](const int vnum, const Wear wear) {
         if (!get_eq_char(ch, wear)) {
-            auto *obj = Object::create(get_obj_index(vnum), object_list);
+            auto obj_uptr = get_obj_index(vnum)->create_object();
+            auto *obj = obj_uptr.get();
+            object_list.add_front(std::move(obj_uptr));
             obj->cost = 0;
             obj_to_char(obj, ch);
             equip_char(ch, obj, wear);
@@ -1243,12 +1245,14 @@ void do_return(Char *ch) {
 // Clone an object. Similar to the load command.
 void do_clone(Char *ch, ArgParser args) {
     const auto recursive_clone = [&ch](Object *obj, Object *clone) -> void {
-        const auto impl = [&ch](Object *obj, Object *clone, auto &recursive_clone_ref) -> void {
-            for (Object *c_obj : obj->contains) {
-                if (char_can_clone_obj(ch, c_obj)) {
-                    Object *t_obj = Object::clone(c_obj, object_list);
-                    obj_to_obj(t_obj, clone);
-                    recursive_clone_ref(c_obj, t_obj, recursive_clone_ref);
+        const auto impl = [&ch](Object *orig_container, Object *cloned_container, auto &recursive_clone_ref) -> void {
+            for (Object *orig_contained_obj : orig_container->contains) {
+                if (char_can_clone_obj(ch, orig_contained_obj)) {
+                    auto contained_clone_uptr = orig_contained_obj->clone();
+                    auto *contained_clone = contained_clone_uptr.get();
+                    object_list.add_back(std::move(contained_clone_uptr));
+                    obj_to_obj(contained_clone, cloned_container);
+                    recursive_clone_ref(orig_contained_obj, contained_clone, recursive_clone_ref);
                 }
             }
         };
@@ -1276,7 +1280,9 @@ void do_clone(Char *ch, ArgParser args) {
             return;
         }
 
-        auto *cloned_obj = Object::clone(obj, object_list);
+        auto cloned_obj_uptr = obj->clone();
+        auto *cloned_obj = cloned_obj_uptr.get();
+        object_list.add_back(std::move(cloned_obj_uptr));
         if (obj->carried_by != nullptr)
             obj_to_char(cloned_obj, ch);
         else
@@ -1304,7 +1310,9 @@ void do_clone(Char *ch, ArgParser args) {
 
         for (auto *carried : mob->carrying) {
             if (char_can_clone_obj(ch, carried)) {
-                auto *cloned_obj = Object::clone(carried, object_list);
+                auto cloned_obj_uptr = carried->clone();
+                auto *cloned_obj = cloned_obj_uptr.get();
+                object_list.add_back(std::move(cloned_obj_uptr));
                 recursive_clone(carried, cloned_obj);
                 obj_to_char(cloned_obj, cloned_mob);
                 cloned_obj->wear_loc = carried->wear_loc;
@@ -1347,7 +1355,9 @@ void do_oload(Char *ch, ArgParser args) {
         ch->send_line("No object has that vnum.");
         return;
     }
-    auto *obj = Object::create(obj_index, object_list);
+    auto obj_uptr = obj_index->create_object();
+    auto *obj = obj_uptr.get();
+    object_list.add_front(std::move(obj_uptr));
     if (obj->is_takeable())
         obj_to_char(obj, ch);
     else

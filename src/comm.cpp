@@ -971,7 +971,10 @@ void nanny(Descriptor *d, std::string_view argument) {
             ch->send_to("the {}", title_table[ch->class_num][ch->level][ch->sex.is_male() ? 0 : 1]);
 
             do_outfit(ch);
-            obj_to_char(Object::create(get_obj_index(Objects::Map), object_list), ch);
+            auto map_uptr = get_obj_index(Objects::Map)->create_object();
+            auto *map = map_uptr.get();
+            object_list.add_front(std::move(map_uptr));
+            obj_to_char(map, ch);
 
             ch->pcdata->learned[get_weapon_sn(ch)] = NewbieWeaponSkillPct;
 

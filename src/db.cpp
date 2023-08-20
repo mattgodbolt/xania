@@ -913,7 +913,9 @@ void reset_room(Room *room) {
                 continue;
             }
 
-            auto object = Object::create(objIndex, object_list);
+            auto obj_uptr = objIndex->create_object();
+            auto *object = obj_uptr.get();
+            object_list.add_front(std::move(obj_uptr));
             object->cost = 0;
             obj_to_room(object, obj_room);
             break;
@@ -921,15 +923,15 @@ void reset_room(Room *room) {
 
         case ResetPutObjInObj: {
             int limit, count;
-            ObjectIndex *containedObjIndex;
-            ObjectIndex *containerObjIndex;
-            Object *containerObj;
-            if (!(containedObjIndex = get_obj_index(reset.arg1))) {
+            ObjectIndex *contained_obj_idx;
+            ObjectIndex *container_obj_idx;
+            Object *container_obj;
+            if (!(contained_obj_idx = get_obj_index(reset.arg1))) {
                 bug("Reset_room: 'P': bad vnum {}.", reset.arg1);
                 continue;
             }
 
-            if (!(containerObjIndex = get_obj_index(reset.arg3))) {
+            if (!(container_obj_idx = get_obj_index(reset.arg3))) {
                 bug("Reset_room: 'P': bad vnum {}.", reset.arg3);
                 continue;
             }
@@ -945,32 +947,34 @@ void reset_room(Room *room) {
             // The area has players right now, or if the containing object doesn't exist in the world,
             // or if already too many instances of contained object (and without 80% chance of "over spawning"),
             // or if count of contained object within the container's current room exceeds the item-in-room limit.
-            if (room->area->occupied() || (containerObj = get_obj_type(containerObjIndex)) == nullptr
-                || (containedObjIndex->count >= limit && number_range(0, 4) != 0)
-                || (count = count_obj_list(containedObjIndex, containerObj->contains)) > reset.arg4) {
+            if (room->area->occupied() || (container_obj = get_obj_type(container_obj_idx)) == nullptr
+                || (contained_obj_idx->count >= limit && number_range(0, 4) != 0)
+                || (count = count_obj_list(contained_obj_idx, container_obj->contains)) > reset.arg4) {
                 continue;
             }
 
             while (count < reset.arg4) {
-                auto object = Object::create(containedObjIndex, object_list);
-                obj_to_obj(object, containerObj);
+                auto obj_uptr = contained_obj_idx->create_object();
+                auto *contained_obj = obj_uptr.get();
+                object_list.add_front(std::move(obj_uptr));
+                obj_to_obj(contained_obj, container_obj);
                 count++;
-                if (containedObjIndex->count >= limit)
+                if (contained_obj_idx->count >= limit)
                     break;
             }
 
             // Close the container if required.
-            if (containerObj->type == ObjectType::Container) {
-                containerObj->value[1] = containerObj->objIndex->value[1];
+            if (container_obj->type == ObjectType::Container) {
+                container_obj->value[1] = container_obj->objIndex->value[1];
             }
             break;
         }
 
         case ResetGiveObjMob:
         case ResetEquipObjMob: {
-            ObjectIndex *objIndex;
+            ObjectIndex *obj_idx;
             Object *object;
-            if (!(objIndex = get_obj_index(reset.arg1))) {
+            if (!(obj_idx = get_obj_index(reset.arg1))) {
                 bug("Reset_room: 'E' or 'G': bad vnum {}.", reset.arg1);
                 continue;
             }
@@ -985,7 +989,9 @@ void reset_room(Room *room) {
             }
 
             if (lastMob->mobIndex->shop) { /* Shop-keeper? */
-                object = Object::create(objIndex, object_list);
+                auto obj_uptr = obj_idx->create_object();
+                object = obj_uptr.get();
+                object_list.add_front(std::move(obj_uptr));
                 set_enum_bit(object->extra_flags, ObjectExtraFlag::Inventory);
             } else {
                 const auto drop_rate = reset.arg2;
@@ -994,7 +1000,9 @@ void reset_room(Room *room) {
                     exit(1);
                 }
                 if (number_percent() <= drop_rate) {
-                    object = Object::create(objIndex, object_list);
+                    auto obj_uptr = obj_idx->create_object();
+                    object = obj_uptr.get();
+                    object_list.add_front(std::move(obj_uptr));
                 } else
                     continue;
             }

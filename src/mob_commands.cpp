@@ -230,12 +230,14 @@ void do_mpoload(Char *ch, ArgParser args) {
         bug("mpoload: Bad syntax from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-    auto *obj_index = get_obj_index(*opt_vnum);
-    if (!obj_index) {
+    auto *obj_idx = get_obj_index(*opt_vnum);
+    if (!obj_idx) {
         bug("mpoload: Bad vnum arg from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-    auto *obj = Object::create(obj_index, object_list);
+    auto obj_uptr = obj_idx->create_object();
+    auto *obj = obj_uptr.get();
+    object_list.add_front(std::move(obj_uptr));
     if (obj->is_takeable()) {
         obj_to_char(obj, ch);
     } else {

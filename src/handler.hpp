@@ -79,7 +79,7 @@ Object *get_obj_list(const Char *ch, std::string_view argument, GenericList<Obje
 Object *get_obj_wear(Char *ch, const char *argument);
 Object *get_obj_here(const Char *ch, std::string_view argument);
 Object *get_obj_world(Char *ch, std::string_view argument);
-Object *create_money(int amount);
+Object *create_money(const uint amount);
 int get_obj_number(Object *obj);
 int get_obj_weight(Object *obj);
 bool room_is_dark(Room *room);

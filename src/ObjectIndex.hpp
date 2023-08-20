@@ -10,11 +10,13 @@
 #include "Materials.hpp"
 #include "Types.hpp"
 #include <array>
+#include <memory>
 #include <string>
 #include <vector>
 
 enum class ObjectType;
 class Area;
+class Object;
 
 /*
  * Prototype for an object.
@@ -44,4 +46,7 @@ struct ObjectIndex {
 
     // A subset of the object extra attribute checkers available on Object.
     [[nodiscard]] bool is_no_remove() const;
+
+    // Create a new unique pointer to an Object, based on this prototype.
+    [[nodiscard]] std::unique_ptr<Object> create_object();
 };

@@ -1957,9 +1957,11 @@ void do_buy(Char *ch, ArgParser args) {
         ch->gold -= cost;
         keeper->gold += cost;
 
-        if (check_enum_bit(obj->extra_flags, ObjectExtraFlag::Inventory))
-            obj = Object::create(obj->objIndex, object_list);
-        else
+        if (check_enum_bit(obj->extra_flags, ObjectExtraFlag::Inventory)) {
+            auto obj_uptr = obj->objIndex->create_object();
+            obj = obj_uptr.get();
+            object_list.add_front(std::move(obj_uptr));
+        } else
             obj_from_char(obj);
 
         if (obj->timer > 0)
