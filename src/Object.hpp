@@ -54,6 +54,12 @@ struct Object {
     Room *destination{};
 
     Object(ObjectIndex *obj_idx);
+    Object() = delete;
+    Object(Object &) = delete;
+    Object(const Object &) = delete;
+    Object(Object &&) = delete;
+    Object &operator=(const Object &) = delete;
+    Object &operator=(Object &) = delete;
     ~Object();
     // Create a new Object instance derived from this. This is a shallow copy, if it is a container
     // object then the contents are not cloned. Caller owns the object.
