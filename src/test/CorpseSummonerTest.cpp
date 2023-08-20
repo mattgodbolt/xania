@@ -10,6 +10,7 @@
 #include <catch2/catch_version_macros.hpp>
 #include <catch2/trompeloeil.hpp>
 #include <memory>
+#include <vector>
 
 using trompeloeil::_;
 
@@ -29,7 +30,7 @@ struct MockDependencies : public CorpseSummoner::Dependencies {
     MAKE_MOCK2(obj_to_room, void(Object *obj, Room *room), override);
     MAKE_MOCK1(extract_obj, void(Object *obj), override);
     MAKE_MOCK2(affect_to_char, void(Char *ch, const AFFECT_DATA &paf), override);
-    MAKE_MOCK0(object_list, GenericList<std::unique_ptr<Object>> &(), override);
+    MAKE_MOCK0(object_list, std::vector<std::unique_ptr<Object>> &(), override);
     MAKE_CONST_MOCK0(spec_fun_summoner, SpecialFunc(), override);
     MAKE_CONST_MOCK0(weaken_sn, int(), override);
 };
@@ -174,9 +175,9 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("no pc corpse in world") {
         ObjectIndex obj_idx{.type{ObjectType::Weapon}};
-        GenericList<std::unique_ptr<Object>> obj_list;
+        std::vector<std::unique_ptr<Object>> obj_list;
         auto weapon = make_test_obj(&object_room, &obj_idx);
-        obj_list.add_back(std::move(weapon));
+        obj_list.push_back(std::move(weapon));
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
@@ -186,9 +187,9 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("ignore corpse owned by another player") {
         ObjectIndex obj_idx{.short_descr{"corpse of Sinbad"}, .type{ObjectType::Pccorpse}};
-        GenericList<std::unique_ptr<Object>> obj_list;
+        std::vector<std::unique_ptr<Object>> obj_list;
         auto corpse = make_test_obj(&object_room, &obj_idx);
-        obj_list.add_back(std::move(corpse));
+        obj_list.push_back(std::move(corpse));
         player.in_room = &player_room;
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
@@ -199,9 +200,9 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("ignore player's corpse in same room as summoner") {
         ObjectIndex obj_idx{.short_descr{"corpse of Sinbad"}, .type{ObjectType::Pccorpse}};
-        GenericList<std::unique_ptr<Object>> obj_list;
+        std::vector<std::unique_ptr<Object>> obj_list;
         auto corpse = make_test_obj(&player_room, &obj_idx);
-        obj_list.add_back(std::move(corpse));
+        obj_list.push_back(std::move(corpse));
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
@@ -211,10 +212,10 @@ TEST_CASE("get pc corpse world") {
 
     SECTION("found player's corpse") {
         ObjectIndex obj_idx{.short_descr{"corpse of Test"}, .type{ObjectType::Pccorpse}};
-        GenericList<std::unique_ptr<Object>> obj_list;
+        std::vector<std::unique_ptr<Object>> obj_list;
         auto corpse = make_test_obj(&object_room, &obj_idx);
         auto corpse_ptr = corpse.get();
-        obj_list.add_back(std::move(corpse));
+        obj_list.push_back(std::move(corpse));
         REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
@@ -243,10 +244,10 @@ TEST_CASE("summon corpse") {
 
     SECTION("successful summmon") {
         ObjectIndex obj_idx{.short_descr{"corpse of Test"}, .type{ObjectType::Pccorpse}};
-        GenericList<std::unique_ptr<Object>> obj_list;
+        std::vector<std::unique_ptr<Object>> obj_list;
         auto corpse = make_test_obj(&object_room, &obj_idx);
         auto corpse_ptr = corpse.get();
-        obj_list.add_back(std::move(corpse));
+        obj_list.push_back(std::move(corpse));
         trompeloeil::sequence seq;
         REQUIRE_CALL(mock, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob, &catalyst,
                                nullptr, To::Room))
@@ -273,7 +274,7 @@ TEST_CASE("summon corpse") {
     }
 
     SECTION("failed summmon as corpse cannot be found") {
-        GenericList<std::unique_ptr<Object>> obj_list;
+        std::vector<std::unique_ptr<Object>> obj_list;
         trompeloeil::sequence seq;
         REQUIRE_CALL(mock, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob, &catalyst,
                                nullptr, To::Room))

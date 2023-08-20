@@ -4,6 +4,7 @@
 #include "comm.hpp"
 #include "db.h"
 #include <chrono>
+#include <vector>
 
 using namespace std::literals;
 
@@ -22,7 +23,7 @@ public:
         virtual void obj_to_room(Object *, Room *) = 0;
         virtual void extract_obj(Object *) = 0;
         virtual void affect_to_char(Char *, const AFFECT_DATA &paf) = 0;
-        virtual GenericList<std::unique_ptr<Object>> &object_list() = 0;
+        virtual std::vector<std::unique_ptr<Object>> &object_list() = 0;
         virtual SpecialFunc spec_fun_summoner() const = 0;
         virtual int weaken_sn() const = 0;
     };

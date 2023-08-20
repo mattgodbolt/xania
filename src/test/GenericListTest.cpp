@@ -116,37 +116,3 @@ TEST_CASE("Generic list") {
         }
     }
 }
-
-TEST_CASE("Generic list of unique_ptr") {
-    using vi = std::vector<int>;
-    auto to_id = [](auto const &entry) -> int { return entry->id; };
-    auto ids_of = [&to_id](auto &list) { return list | ranges::views::transform(to_id) | ranges::to<std::vector>; };
-
-    GenericList<std::unique_ptr<Thing>> list;
-    auto up0 = std::make_unique<Thing>(9);
-    auto p0 = up0.get();
-    auto up1 = std::make_unique<Thing>(10);
-    auto p1 = up1.get();
-    auto up2 = std::make_unique<Thing>(11);
-    auto p2 = up2.get();
-    list.add_back(std::move(up0));
-    list.add_back(std::move(up1));
-
-    SECTION("remove pointer") {
-        SECTION("first elem") {
-            list.remove_pointer(p0);
-            CHECK(list.debug_count_all_nodes() == 1);
-            CHECK(ids_of(list) == vi{10});
-        }
-        SECTION("second elem") {
-            list.remove_pointer(p1);
-            CHECK(list.debug_count_all_nodes() == 1);
-            CHECK(ids_of(list) == vi{9});
-        }
-        SECTION("not present") {
-            list.remove_pointer(p2);
-            CHECK(list.debug_count_all_nodes() == 2);
-            CHECK(ids_of(list) == vi{9, 10});
-        }
-    }
-}

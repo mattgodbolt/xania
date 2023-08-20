@@ -1960,7 +1960,7 @@ void do_buy(Char *ch, ArgParser args) {
         if (check_enum_bit(obj->extra_flags, ObjectExtraFlag::Inventory)) {
             auto obj_uptr = obj->objIndex->create_object();
             obj = obj_uptr.get();
-            object_list.add_front(std::move(obj_uptr));
+            object_list.push_back(std::move(obj_uptr));
         } else
             obj_from_char(obj);
 

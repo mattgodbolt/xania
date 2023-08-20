@@ -21,6 +21,7 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <vector>
 
 using namespace std::chrono;
 using namespace std::literals;
@@ -136,7 +137,7 @@ public:
     void obj_to_room(Object *obj, Room *room);
     void extract_obj(Object *obj);
     void affect_to_char(Char *ch, const AFFECT_DATA &af);
-    GenericList<std::unique_ptr<Object>> &object_list();
+    std::vector<std::unique_ptr<Object>> &object_list();
     [[nodiscard]] SpecialFunc spec_fun_summoner() const;
     [[nodiscard]] int weaken_sn() const;
 
@@ -171,7 +172,7 @@ void DependenciesImpl::extract_obj(Object *obj) { ::extract_obj(obj); }
 
 void DependenciesImpl::affect_to_char(Char *ch, const AFFECT_DATA &af) { ::affect_to_char(ch, af); }
 
-GenericList<std::unique_ptr<Object>> &DependenciesImpl::object_list() { return ::object_list; }
+std::vector<std::unique_ptr<Object>> &DependenciesImpl::object_list() { return ::object_list; }
 
 SpecialFunc DependenciesImpl::spec_fun_summoner() const { return spec_fun_summoner_; }
 

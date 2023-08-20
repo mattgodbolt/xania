@@ -93,7 +93,7 @@ SpecialFunc spec_lookup(std::string_view name);
 // Mutable global: modified whenever a new Char is loaded from the database or when a player Char logs in or out.
 GenericList<Char *> char_list;
 // Mutable global: modified whenever a new object is created or destroyed.
-GenericList<std::unique_ptr<Object>> object_list;
+std::vector<std::unique_ptr<Object>> object_list;
 
 // Global skill numbers initialized once on startup.
 sh_int gsn_backstab;
@@ -915,7 +915,7 @@ void reset_room(Room *room) {
 
             auto obj_uptr = objIndex->create_object();
             auto *object = obj_uptr.get();
-            object_list.add_front(std::move(obj_uptr));
+            object_list.push_back(std::move(obj_uptr));
             object->cost = 0;
             obj_to_room(object, obj_room);
             break;
@@ -956,7 +956,7 @@ void reset_room(Room *room) {
             while (count < reset.arg4) {
                 auto obj_uptr = contained_obj_idx->create_object();
                 auto *contained_obj = obj_uptr.get();
-                object_list.add_front(std::move(obj_uptr));
+                object_list.push_back(std::move(obj_uptr));
                 obj_to_obj(contained_obj, container_obj);
                 count++;
                 if (contained_obj_idx->count >= limit)
@@ -991,7 +991,7 @@ void reset_room(Room *room) {
             if (lastMob->mobIndex->shop) { /* Shop-keeper? */
                 auto obj_uptr = obj_idx->create_object();
                 object = obj_uptr.get();
-                object_list.add_front(std::move(obj_uptr));
+                object_list.push_back(std::move(obj_uptr));
                 set_enum_bit(object->extra_flags, ObjectExtraFlag::Inventory);
             } else {
                 const auto drop_rate = reset.arg2;
@@ -1002,7 +1002,7 @@ void reset_room(Room *room) {
                 if (number_percent() <= drop_rate) {
                     auto obj_uptr = obj_idx->create_object();
                     object = obj_uptr.get();
-                    object_list.add_front(std::move(obj_uptr));
+                    object_list.push_back(std::move(obj_uptr));
                 } else
                     continue;
             }

@@ -237,7 +237,7 @@ void do_mpoload(Char *ch, ArgParser args) {
     }
     auto obj_uptr = obj_idx->create_object();
     auto *obj = obj_uptr.get();
-    object_list.add_front(std::move(obj_uptr));
+    object_list.push_back(std::move(obj_uptr));
     if (obj->is_takeable()) {
         obj_to_char(obj, ch);
     } else {

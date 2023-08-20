@@ -591,7 +591,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
         } else {
             auto obj_uptr = get_obj_index(vnum)->create_object();
             obj = obj_uptr.get();
-            object_list.add_front(std::move(obj_uptr));
+            object_list.push_back(std::move(obj_uptr));
         }
     }
 
@@ -642,7 +642,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
                     extract_obj(obj);
                     auto obj_uptr = obj->objIndex->create_object();
                     auto *obj = obj_uptr.get();
-                    object_list.add_front(std::move(obj_uptr));
+                    object_list.push_back(std::move(obj_uptr));
                     obj->wear_loc = wear;
                 }
                 if (nest_level == 0 || nest_level_to_obj.find(nest_level) == nest_level_to_obj.end())

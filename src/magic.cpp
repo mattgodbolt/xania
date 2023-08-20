@@ -342,7 +342,7 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
         } else {
             auto obj_uptr = get_obj_index(Objects::Bomb)->create_object();
             bomb = obj_uptr.get();
-            object_list.add_front(std::move(obj_uptr));
+            object_list.push_back(std::move(obj_uptr));
             bomb->level = ch->level;
             bomb->value[0] = ch->level;
             bomb->value[1] = sn;
@@ -403,7 +403,7 @@ void try_create_scroll(Char *ch, const int sn, const int mana) {
 
         auto obj_uptr = get_obj_index(Objects::Scroll)->create_object();
         auto *scroll = obj_uptr.get();
-        object_list.add_front(std::move(obj_uptr));
+        object_list.push_back(std::move(obj_uptr));
         scroll->level = ch->level;
         scroll->value[0] = ch->level;
         scroll->value[1] = sn;
@@ -466,7 +466,7 @@ void try_create_potion(Char *ch, const int sn, const int mana) {
 
         auto obj_uptr = get_obj_index(Objects::Potion)->create_object();
         auto *potion = obj_uptr.get();
-        object_list.add_front(std::move(obj_uptr));
+        object_list.push_back(std::move(obj_uptr));
         potion->level = ch->level;
         potion->value[0] = ch->level;
         potion->value[1] = sn;
@@ -1139,7 +1139,7 @@ void spell_continual_light([[maybe_unused]] int sn, [[maybe_unused]] int level, 
                            [[maybe_unused]] const SpellTarget &spell_target) {
     auto obj_uptr = get_obj_index(Objects::LightBall)->create_object();
     auto *light = obj_uptr.get();
-    object_list.add_front(std::move(obj_uptr));
+    object_list.push_back(std::move(obj_uptr));
     obj_to_room(light, ch->in_room);
     act("$n twiddles $s thumbs and $p appears.", ch, light, nullptr, To::Room);
     act("You twiddle your thumbs and $p appears.", ch, light, nullptr, To::Char);
@@ -1162,7 +1162,7 @@ void spell_control_weather(int sn, int level, Char *ch, const SpellTarget &spell
 void spell_create_food([[maybe_unused]] int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
     auto obj_uptr = get_obj_index(Objects::Mushroom)->create_object();
     auto *mushroom = obj_uptr.get();
-    object_list.add_front(std::move(obj_uptr));
+    object_list.push_back(std::move(obj_uptr));
     mushroom->value[0] = 5 + level;
     obj_to_room(mushroom, ch->in_room);
     act("$p suddenly appears.", ch, mushroom, nullptr, To::Room);
@@ -1173,7 +1173,7 @@ void spell_create_spring([[maybe_unused]] int sn, int level, Char *ch,
                          [[maybe_unused]] const SpellTarget &spell_target) {
     auto obj_uptr = get_obj_index(Objects::Spring)->create_object();
     auto *spring = obj_uptr.get();
-    object_list.add_front(std::move(obj_uptr));
+    object_list.push_back(std::move(obj_uptr));
     spring->timer = level;
     obj_to_room(spring, ch->in_room);
     act("$p flows from the ground.", ch, spring, nullptr, To::Room);
@@ -2996,7 +2996,7 @@ void spell_portal([[maybe_unused]] int sn, int level, Char *ch, const SpellTarge
                                                                                                       Room *to) {
         auto obj_uptr = portal_idx->create_object();
         auto *portal = obj_uptr.get();
-        object_list.add_front(std::move(obj_uptr));
+        object_list.push_back(std::move(obj_uptr));
         portal->timer = duration;
         portal->destination = to;
         portal->description = fmt::sprintf(portal->description, from->name);

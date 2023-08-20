@@ -973,7 +973,7 @@ void nanny(Descriptor *d, std::string_view argument) {
             do_outfit(ch);
             auto map_uptr = get_obj_index(Objects::Map)->create_object();
             auto *map = map_uptr.get();
-            object_list.add_front(std::move(map_uptr));
+            object_list.push_back(std::move(map_uptr));
             obj_to_char(map, ch);
 
             ch->pcdata->learned[get_weapon_sn(ch)] = NewbieWeaponSkillPct;

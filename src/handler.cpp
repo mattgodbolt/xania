@@ -56,6 +56,7 @@
 #include <algorithm>
 #include <magic_enum.hpp>
 #include <range/v3/algorithm/count.hpp>
+#include <range/v3/algorithm/remove_if.hpp>
 #include <range/v3/iterator/operations.hpp>
 
 void spell_poison(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
@@ -605,10 +606,8 @@ void extract_obj(Object *obj) {
 
     for (auto *obj_content : obj->contains)
         extract_obj(obj_content);
-    const auto vnum = obj->objIndex->vnum;
-    if (!object_list.remove_pointer(obj)) {
-        bug("Extract_obj: obj {} not found.", vnum);
-    }
+    object_list.erase(ranges::remove_if(object_list, [&obj](auto &&entry) { return entry.get() == obj; }),
+                      object_list.end());
 }
 
 std::vector<std::unique_ptr<Char>> chars_to_reap;
@@ -619,7 +618,7 @@ void reap_old_chars() { chars_to_reap.clear(); }
  */
 void extract_char(Char *ch, bool delete_from_world) {
     if (ch->in_room == nullptr) {
-        bug("Extract_char: nullptr.");
+        bug("extract_char: nullptr.");
         return;
     }
 
@@ -657,7 +656,7 @@ void extract_char(Char *ch, bool delete_from_world) {
             wch->reply = nullptr;
 
     if (!char_list.remove(ch)) {
-        bug("Extract_char: char not found.");
+        bug("extract_char: char not found.");
         return;
     }
 
@@ -778,7 +777,7 @@ Object *create_money(const uint amount) {
     auto make_money = [](const auto vnum) -> Object * {
         auto obj_uptr = get_obj_index(vnum)->create_object();
         auto *money = obj_uptr.get();
-        object_list.add_front(std::move(obj_uptr));
+        object_list.push_back(std::move(obj_uptr));
         return money;
     };
     const auto create_amount = std::max(1u, amount);

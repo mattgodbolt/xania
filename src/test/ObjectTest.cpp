@@ -15,6 +15,8 @@
 #include "Room.hpp"
 #include "VnumRooms.hpp"
 #include "Wear.hpp"
+#include "db.h"
+#include "handler.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 #include <vector>
@@ -154,6 +156,35 @@ TEST_CASE("Clone") {
 
         validate_object(*clone, obj_idx);
         CHECK(clone->contains.empty());
+    }
+}
+
+TEST_CASE("extract_obj") {
+    SECTION("single") {
+        ObjectIndex obj_idx = make_obj_idx();
+        auto obj_uptr = obj_idx.create_object();
+        auto *obj = obj_uptr.get();
+        object_list.push_back(std::move(obj_uptr));
+        const auto object_list_size = object_list.size();
+
+        extract_obj(obj);
+
+        CHECK(object_list.size() == object_list_size - 1);
+    }
+    SECTION("with contained") {
+        ObjectIndex obj_idx = make_obj_idx();
+        auto container_uptr = obj_idx.create_object();
+        auto *container = container_uptr.get();
+        object_list.push_back(std::move(container_uptr));
+        auto contained_uptr = obj_idx.create_object();
+        auto *contained = contained_uptr.get();
+        object_list.push_back(std::move(contained_uptr));
+        container->contains.add_front(contained);
+        const auto object_list_size = object_list.size();
+
+        extract_obj(container);
+
+        CHECK(object_list.size() == object_list_size - 2);
     }
 }
 

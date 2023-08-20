@@ -20,6 +20,7 @@
 #include <map>
 #include <optional>
 #include <string>
+#include <vector>
 
 struct Object;
 struct ObjectIndex;
@@ -29,7 +30,7 @@ struct ExtraDescription;
  * Mutable global variables.
  */
 extern GenericList<Char *> char_list;
-extern GenericList<std::unique_ptr<Object>> object_list;
+extern std::vector<std::unique_ptr<Object>> object_list;
 extern bool fBootDb;
 
 // Initializes the in-memory database from the area files.
