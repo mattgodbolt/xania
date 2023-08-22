@@ -35,12 +35,12 @@ enum class Worn {
 
 [[nodiscard]] constexpr auto to_int(const Worn wear) noexcept { return magic_enum::enum_integer<Worn>(wear); }
 
-struct WearFilter {
+struct WearbleFilter {
     // Worn locations that are valid slots an object can be equipped in.
     [[nodiscard]] constexpr static auto wearable() noexcept {
         return magic_enum::enum_values<Worn>() | ranges::views::filter([](const auto w) { return w != Worn::None; });
     }
 
     [[nodiscard]] constexpr static auto wearable_count() noexcept { return magic_enum::enum_count<Worn>() - 1; }
-    ~WearFilter() = delete;
+    ~WearbleFilter() = delete;
 };

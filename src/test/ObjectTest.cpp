@@ -74,7 +74,7 @@ void validate_object(Object &obj, ObjectIndex &obj_idx) {
     CHECK(obj.extra_flags == hum);
     CHECK(obj.wear_flags == hold);
     CHECK(obj.wear_string == "wear string");
-    CHECK(obj.wear_loc == Worn::None);
+    CHECK(obj.worn_loc == Worn::None);
     CHECK(obj.weight == 12);
     CHECK(obj.cost == 13);
     CHECK(obj.level == 1);

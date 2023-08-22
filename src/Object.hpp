@@ -43,7 +43,7 @@ struct Object {
     unsigned int extra_flags{};
     unsigned int wear_flags{};
     std::string wear_string;
-    Worn wear_loc{};
+    Worn worn_loc{};
     sh_int weight{};
     int cost{};
     sh_int level{};

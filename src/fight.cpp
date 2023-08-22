@@ -1371,7 +1371,7 @@ void group_gain(Char *ch, Char *victim) {
         gch->send_line(fmt::format("You receive {} experience points.", xp));
         gain_exp(gch, xp);
         for (auto *obj : ch->carrying) {
-            if (obj->wear_loc == Worn::None)
+            if (obj->worn_loc == Worn::None)
                 continue;
 
             if ((obj->is_anti_evil() && ch->is_evil()) || (obj->is_anti_good() && ch->is_good())

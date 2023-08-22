@@ -25,7 +25,7 @@ Object::Object(ObjectIndex *obj_idx)
     : objIndex(obj_idx), in_room(nullptr), enchanted(false), owner(""), name(obj_idx->name),
       short_descr(obj_idx->short_descr), description(obj_idx->description), type(obj_idx->type),
       extra_flags(obj_idx->extra_flags), wear_flags(obj_idx->wear_flags), wear_string(obj_idx->wear_string),
-      wear_loc(Worn::None), weight(obj_idx->weight), cost(obj_idx->cost), level(obj_idx->level),
+      worn_loc(Worn::None), weight(obj_idx->weight), cost(obj_idx->cost), level(obj_idx->level),
       condition(obj_idx->condition), material(obj_idx->material), timer(0), value(obj_idx->value), destination(nullptr)
 
 {

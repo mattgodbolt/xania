@@ -135,7 +135,7 @@ void do_mpjunk(Char *ch, ArgParser args) {
         // mpjunk all,  or mpjunk all.obj
         for (auto *obj : ch->carrying) {
             if (is_all || is_name(obj_name, obj->name)) {
-                if (obj->wear_loc != Worn::None)
+                if (obj->worn_loc != Worn::None)
                     unequip_char(ch, obj);
                 extract_obj(obj);
             }

@@ -1012,10 +1012,10 @@ void reset_room(Room *room) {
 
             obj_to_char(object, lastMob);
             if (reset.command == ResetEquipObjMob) {
-                if (const auto opt_wear_loc = magic_enum::enum_cast<Worn>(reset.arg3)) {
-                    equip_char(lastMob, object, *opt_wear_loc);
+                if (const auto opt_worn_loc = magic_enum::enum_cast<Worn>(reset.arg3)) {
+                    equip_char(lastMob, object, *opt_worn_loc);
                 } else {
-                    bug("Invalid wear location: {} for object #{}", reset.arg3, reset.arg1);
+                    bug("Invalid worn location: {} for object #{}", reset.arg3, reset.arg1);
                 }
             }
             lastMobWasReset = true;

@@ -110,10 +110,10 @@ void split_coins(Char *ch, int amount) {
 /*
  * Remove an object.
  */
-bool remove_obj(Char *ch, const Worn wear, bool fReplace) {
+bool remove_obj(Char *ch, const Worn worn, bool fReplace) {
     Object *obj;
 
-    if ((obj = get_eq_char(ch, wear)) == nullptr)
+    if ((obj = get_eq_char(ch, worn)) == nullptr)
         return true;
 
     if (!fReplace)
@@ -810,7 +810,7 @@ void do_put(Char *ch, ArgParser args) {
         /* 'put all container' or 'put all.obj container' */
         auto found = false;
         for (auto *obj : ch->carrying) {
-            if ((is_all || is_name(arg1, obj->name)) && ch->can_see(*obj) && obj->wear_loc == Worn::None
+            if ((is_all || is_name(arg1, obj->name)) && ch->can_see(*obj) && obj->worn_loc == Worn::None
                 && obj != container && can_drop_obj(ch, obj)
                 && get_obj_weight(obj) + get_obj_weight(container) <= container->value[0]) {
 
@@ -912,7 +912,7 @@ void do_donate(Char *ch, ArgParser args) {
     } else {
         /* 'put all container' or 'put all.obj container' */
         for (auto *obj : ch->carrying) {
-            if ((is_all || is_name(arg1, obj->name)) && ch->can_see(*obj) && obj->wear_loc == Worn::None
+            if ((is_all || is_name(arg1, obj->name)) && ch->can_see(*obj) && obj->worn_loc == Worn::None
                 && can_drop_obj(ch, obj) && obj->timer == 0) {
                 obj->timer = number_range(100, 200);
                 obj_from_char(obj);
@@ -1047,7 +1047,7 @@ void do_drop(Char *ch, ArgParser args) {
         /* 'drop all' or 'drop all.obj' */
         found = false;
         for (auto *obj : ch->carrying) {
-            if ((is_all || is_name(arg, obj->name)) && ch->can_see(*obj) && obj->wear_loc == Worn::None
+            if ((is_all || is_name(arg, obj->name)) && ch->can_see(*obj) && obj->worn_loc == Worn::None
                 && can_drop_obj(ch, obj)) {
                 found = true;
                 obj_from_char(obj);
@@ -1412,7 +1412,7 @@ void do_wear(Char *ch, ArgParser args) {
     auto target = args.shift();
     if (matches(target, "all")) {
         for (auto *obj : ch->carrying)
-            if (obj->wear_loc == Worn::None && ch->can_see(*obj))
+            if (obj->worn_loc == Worn::None && ch->can_see(*obj))
                 wear_obj(ch, obj, false);
     } else {
         auto *obj = ch->find_in_inventory(target);
@@ -1431,7 +1431,7 @@ void do_remove(Char *ch, ArgParser args) {
         return;
     }
     if (auto *obj = ch->find_worn(args.shift())) {
-        remove_obj(ch, obj->wear_loc, true);
+        remove_obj(ch, obj->worn_loc, true);
     } else {
         ch->send_line("You do not have that item.");
     }
@@ -2002,7 +2002,7 @@ void do_list(Char *ch, ArgParser args) {
         auto found = false;
         auto cost = 0;
         for (auto *obj : keeper->carrying) {
-            if (obj->wear_loc == Worn::None && ch->can_see(*obj) && (cost = get_cost(keeper, obj, true)) > 0
+            if (obj->worn_loc == Worn::None && ch->can_see(*obj) && (cost = get_cost(keeper, obj, true)) > 0
                 && (obj_name.empty() || is_name(obj_name, obj->name))) {
                 if (!found) {
                     found = true;

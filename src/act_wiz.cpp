@@ -124,14 +124,14 @@ void do_outfit(Char *ch) {
         ch->send_line("Find it yourself!");
         return;
     }
-    const auto equip_char_with = [&ch](const int vnum, const Worn wear) {
-        if (!get_eq_char(ch, wear)) {
+    const auto equip_char_with = [&ch](const int vnum, const Worn worn) {
+        if (!get_eq_char(ch, worn)) {
             auto obj_uptr = get_obj_index(vnum)->create_object();
             auto *obj = obj_uptr.get();
             object_list.push_back(std::move(obj_uptr));
             obj->cost = 0;
             obj_to_char(obj, ch);
-            equip_char(ch, obj, wear);
+            equip_char(ch, obj, worn);
         }
     };
     equip_char_with(Objects::SchoolBanner, Worn::Light);
@@ -698,7 +698,7 @@ void do_ostat(Char *ch, ArgParser args) {
                             obj->carried_by == nullptr      ? "(none)"
                             : ch->can_see(*obj->carried_by) ? obj->carried_by->name
                                                             : "someone",
-                            magic_enum::enum_name<Worn>(obj->wear_loc), magic_enum::enum_integer(obj->wear_loc)));
+                            magic_enum::enum_name<Worn>(obj->worn_loc), magic_enum::enum_integer(obj->worn_loc)));
 
     ch->send_line("Values: {}", fmt::join(obj->value, " "));
 
@@ -1315,7 +1315,7 @@ void do_clone(Char *ch, ArgParser args) {
                 object_list.push_back(std::move(cloned_obj_uptr));
                 recursive_clone(carried, cloned_obj);
                 obj_to_char(cloned_obj, cloned_mob);
-                cloned_obj->wear_loc = carried->wear_loc;
+                cloned_obj->worn_loc = carried->worn_loc;
             }
         }
         char_to_room(cloned_mob, ch->in_room);

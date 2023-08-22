@@ -11,13 +11,13 @@
 
 TEST_CASE("wear location") {
     SECTION("wearable count") {
-        const auto count = WearFilter::wearable_count();
+        const auto count = WearbleFilter::wearable_count();
 
         CHECK(count == 19);
     }
     SECTION("wearable") {
         auto wear_names =
-            fmt::format("{}", fmt::join(WearFilter::wearable() | ranges::views::transform([](const auto i) {
+            fmt::format("{}", fmt::join(WearbleFilter::wearable() | ranges::views::transform([](const auto i) {
                                             return magic_enum::enum_name<Worn>(i);
                                         }),
                                         ","));

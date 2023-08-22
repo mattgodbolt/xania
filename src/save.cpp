@@ -230,7 +230,7 @@ void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, ush_int nest_le
 
     /* variable data */
 
-    fmt::print(fp, "{} {}\n", cf::WearLoc, magic_enum::enum_integer<Worn>(obj->wear_loc));
+    fmt::print(fp, "{} {}\n", cf::WearLoc, magic_enum::enum_integer<Worn>(obj->worn_loc));
     if (obj->level != 0)
         fmt::print(fp, "{}  {}\n", cf::ObjectLevel, obj->level);
     if (obj->timer != 0)
@@ -638,12 +638,12 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
                 return;
             } else {
                 if (make_new) {
-                    const auto wear = obj->wear_loc;
+                    const auto wear = obj->worn_loc;
                     extract_obj(obj);
                     auto obj_uptr = obj->objIndex->create_object();
                     auto *obj = obj_uptr.get();
                     object_list.push_back(std::move(obj_uptr));
-                    obj->wear_loc = wear;
+                    obj->worn_loc = wear;
                 }
                 if (nest_level == 0 || nest_level_to_obj.find(nest_level) == nest_level_to_obj.end())
                     obj_to_char(obj, ch);
@@ -700,10 +700,10 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
         } else if (word == cf::WearFlags) {
             obj->wear_flags = fread_number(fp);
         } else if (word == cf::WearLoc) {
-            if (const auto opt_wear_loc = magic_enum::enum_cast<Worn>(fread_number(fp))) {
-                obj->wear_loc = *opt_wear_loc;
+            if (const auto opt_worn_loc = magic_enum::enum_cast<Worn>(fread_number(fp))) {
+                obj->worn_loc = *opt_worn_loc;
             } else {
-                bug("fread_obj: bad wear location {}.", word);
+                bug("fread_obj: bad worn location {}.", word);
             }
         } else if (word == cf::Weight) {
             obj->weight = fread_number(fp);

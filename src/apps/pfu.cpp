@@ -102,7 +102,7 @@ void ResetModifiableAttrs::execute(Char &ch) const {
     ch.saving_throw = 0;
     ch.sex = ch.pcdata->true_sex;
     // add back object effects
-    for (const auto &wear : WearFilter::wearable()) {
+    for (const auto &wear : WearbleFilter::wearable()) {
         auto *obj = get_eq_char(&ch, wear);
         if (!obj)
             continue;

@@ -234,7 +234,7 @@ void affect_remove_obj(Object *obj, const AFFECT_DATA &af) {
         return;
     }
 
-    if (obj->carried_by != nullptr && obj->wear_loc != Worn::None)
+    if (obj->carried_by != nullptr && obj->worn_loc != Worn::None)
         affect_modify(obj->carried_by, af, false);
 
     obj->affected.remove(af);
@@ -372,7 +372,7 @@ void obj_from_char(Object *obj) {
         return;
     }
 
-    if (obj->wear_loc != Worn::None)
+    if (obj->worn_loc != Worn::None)
         unequip_char(ch, obj);
 
     if (!ch->carrying.remove(obj))
@@ -386,11 +386,11 @@ void obj_from_char(Object *obj) {
 /*
  * Find the ac value of an obj, including position effect.
  */
-int apply_ac(Object *obj, const Worn wear, const int type) {
+int apply_ac(Object *obj, const Worn worn, const int type) {
     if (obj->type != ObjectType::Armor)
         return 0;
 
-    switch (wear) {
+    switch (worn) {
     case Worn::Body:
     case Worn::Head:
     case Worn::Legs:
@@ -415,15 +415,14 @@ int apply_ac(Object *obj, const Worn wear, const int type) {
 /*
  * Find a piece of eq on a character.
  */
-Object *get_eq_char(Char *ch, const Worn wear) {
+Object *get_eq_char(Char *ch, const Worn worn) {
     if (ch == nullptr)
         return nullptr;
 
     for (auto *obj : ch->carrying) {
-        if (obj->wear_loc == wear)
+        if (obj->worn_loc == worn)
             return obj;
     }
-
     return nullptr;
 }
 
@@ -470,7 +469,7 @@ void equip_char(Char *ch, Object *obj, const Worn wear) {
 
     for (int i = 0; i < 4; i++)
         ch->armor[i] -= apply_ac(obj, wear, i);
-    obj->wear_loc = wear;
+    obj->worn_loc = wear;
 
     if (!obj->enchanted)
         for (auto &af : obj->objIndex->affected)
@@ -486,14 +485,14 @@ void equip_char(Char *ch, Object *obj, const Worn wear) {
  * Unequip a char with an obj.
  */
 void unequip_char(Char *ch, Object *obj) {
-    if (obj->wear_loc == Worn::None) {
+    if (obj->worn_loc == Worn::None) {
         bug("Unequip_char: already unequipped.");
         return;
     }
 
     for (int i = 0; i < 4; i++)
-        ch->armor[i] += apply_ac(obj, obj->wear_loc, i);
-    obj->wear_loc = Worn::None;
+        ch->armor[i] += apply_ac(obj, obj->worn_loc, i);
+    obj->worn_loc = Worn::None;
 
     if (!obj->enchanted)
         for (auto &af : obj->objIndex->affected)
