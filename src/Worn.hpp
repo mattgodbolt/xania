@@ -10,7 +10,7 @@
 #include <range/v3/view/filter.hpp>
 
 // Locations an Object can be worn in, and the None slot meaning the Object isn't worn.
-enum class Wear {
+enum class Worn {
     None = -1,
     Light = 0,
     FingerL = 1,
@@ -33,14 +33,14 @@ enum class Wear {
     Ears = 18
 };
 
-[[nodiscard]] constexpr auto to_int(const Wear wear) noexcept { return magic_enum::enum_integer<Wear>(wear); }
+[[nodiscard]] constexpr auto to_int(const Worn wear) noexcept { return magic_enum::enum_integer<Worn>(wear); }
 
 struct WearFilter {
-    // Wear locations that are valid slots an object can be equipped in.
+    // Worn locations that are valid slots an object can be equipped in.
     [[nodiscard]] constexpr static auto wearable() noexcept {
-        return magic_enum::enum_values<Wear>() | ranges::views::filter([](const auto w) { return w != Wear::None; });
+        return magic_enum::enum_values<Worn>() | ranges::views::filter([](const auto w) { return w != Worn::None; });
     }
 
-    [[nodiscard]] constexpr static auto wearable_count() noexcept { return magic_enum::enum_count<Wear>() - 1; }
+    [[nodiscard]] constexpr static auto wearable_count() noexcept { return magic_enum::enum_count<Worn>() - 1; }
     ~WearFilter() = delete;
 };

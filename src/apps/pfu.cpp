@@ -4,7 +4,7 @@
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "VnumRooms.hpp"
-#include "Wear.hpp"
+#include "Worn.hpp"
 #include "WrappedFd.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"

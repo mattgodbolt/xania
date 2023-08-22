@@ -3,7 +3,7 @@
 /*  (C) 2021 Xania Development Team                                      */
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
-#include "Wear.hpp"
+#include "Worn.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 #include <fmt/format.h>
@@ -18,7 +18,7 @@ TEST_CASE("wear location") {
     SECTION("wearable") {
         auto wear_names =
             fmt::format("{}", fmt::join(WearFilter::wearable() | ranges::views::transform([](const auto i) {
-                                            return magic_enum::enum_name<Wear>(i);
+                                            return magic_enum::enum_name<Worn>(i);
                                         }),
                                         ","));
         CHECK(wear_names

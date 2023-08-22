@@ -35,8 +35,8 @@
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
 #include "WeaponFlag.hpp"
-#include "Wear.hpp"
 #include "WeatherData.hpp"
+#include "Worn.hpp"
 #include "act_comm.hpp"
 #include "act_info.hpp"
 #include "act_wiz.hpp"
@@ -301,7 +301,7 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
         static const int bomb_chance[5] = {0, 0, 20, 35, 70};
         ch->mana -= (mana * 2);
         ch->gold -= (mana * 100);
-        auto *bomb = get_eq_char(ch, Wear::Hold);
+        auto *bomb = get_eq_char(ch, Worn::Hold);
         if (bomb) {
             if (bomb->type != ObjectType::Bomb) {
                 ch->send_line("You must be holding a bomb to add to it.");
@@ -351,7 +351,7 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
             bomb->name = fmt::sprintf(bomb->name, ch->name);
 
             obj_to_char(bomb, ch);
-            equip_char(ch, bomb, Wear::Hold);
+            equip_char(ch, bomb, Worn::Hold);
             act("$n creates $p.", ch, bomb, nullptr, To::Room);
             act("You have created $p.", ch, bomb, nullptr, To::Char);
 
@@ -687,7 +687,7 @@ void spell_acid_wash(int sn, int level, Char *ch, const SpellTarget &spell_targe
         return;
     }
 
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("You do not have that item in your inventory.");
         return;
     }
@@ -1603,7 +1603,7 @@ void spell_remove_invisible(int sn, int level, Char *ch, const SpellTarget &spel
     Object *obj = spell_target.getObject();
     if (!obj)
         return;
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("You have to be carrying it to remove invisible on it!");
         return;
     }
@@ -1641,7 +1641,7 @@ void spell_remove_alignment(int sn, int level, Char *ch, const SpellTarget &spel
     Object *obj = spell_target.getObject();
     if (!obj)
         return;
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("You have to be carrying it to remove alignment on it!");
         return;
     }
@@ -1692,7 +1692,7 @@ void spell_enchant_armor(int sn, int level, Char *ch, const SpellTarget &spell_t
         return;
     }
 
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("The item must be carried to be enchanted.");
         return;
     }
@@ -1824,7 +1824,7 @@ void spell_enchant_weapon(int sn, int level, Char *ch, const SpellTarget &spell_
         return;
     }
 
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("The item must be carried to be enchanted.");
         return;
     }
@@ -2042,7 +2042,7 @@ void spell_vorpal(int sn, int level, Char *ch, const SpellTarget &spell_target) 
         return;
     }
 
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("The item must be carried to be made vorpal.");
         return;
     }
@@ -2068,7 +2068,7 @@ void spell_venom(int sn, int level, Char *ch, const SpellTarget &spell_target) {
         return;
     }
 
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("The item must be carried to be venomed.");
         return;
     }
@@ -2093,7 +2093,7 @@ void spell_black_death(int sn, int level, Char *ch, const SpellTarget &spell_tar
         return;
     }
 
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("The item must be carried to be plagued.");
         return;
     }
@@ -2118,7 +2118,7 @@ void spell_damnation(int sn, int level, Char *ch, const SpellTarget &spell_targe
         return;
     }
 
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("You do not have that item in your inventory.");
         return;
     }
@@ -2145,7 +2145,7 @@ void spell_vampire(int sn, int level, Char *ch, const SpellTarget &spell_target)
         return;
     }
 
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("The item must be carried to be vampiric.");
         return;
     }
@@ -2166,7 +2166,7 @@ void spell_tame_lightning(int sn, int level, Char *ch, const SpellTarget &spell_
         return;
     }
 
-    if (obj->wear_loc != Wear::None) {
+    if (obj->wear_loc != Worn::None) {
         ch->send_line("You do not have that item in your inventory.");
         return;
     }
@@ -3467,15 +3467,15 @@ void spell_acid_breath(int sn, int level, Char *ch, const SpellTarget &spell_tar
             switch (obj_lose->type) {
             case ObjectType::Armor:
                 if (obj_lose->value[0] > 0) {
-                    Wear wear;
+                    Worn wear;
                     act("$p is pitted and etched!", victim, obj_lose, nullptr, To::Char);
-                    if ((wear = obj_lose->wear_loc) != Wear::None)
+                    if ((wear = obj_lose->wear_loc) != Worn::None)
                         for (i = 0; i < 4; i++)
                             victim->armor[i] -= apply_ac(obj_lose, wear, i);
                     for (i = 0; i < 4; i++)
                         obj_lose->value[i] -= 1;
                     obj_lose->cost = 0;
-                    if (wear != Wear::None)
+                    if (wear != Worn::None)
                         for (i = 0; i < 4; i++)
                             victim->armor[i] += apply_ac(obj_lose, wear, i);
                 }

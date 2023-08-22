@@ -28,7 +28,7 @@
 #include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
 #include "ToleranceFlag.hpp"
-#include "Wear.hpp"
+#include "Worn.hpp"
 #include "act_comm.hpp"
 #include "act_obj.hpp"
 #include "act_wiz.hpp"
@@ -331,11 +331,11 @@ Object *Char::find_filtered_obj(std::string_view argument, Func filter) const {
 }
 
 Object *Char::find_in_inventory(std::string_view argument) const {
-    return find_filtered_obj(argument, [](const Object &obj) { return obj.wear_loc == Wear::None; });
+    return find_filtered_obj(argument, [](const Object &obj) { return obj.wear_loc == Worn::None; });
 }
 
 Object *Char::find_worn(std::string_view argument) const {
-    return find_filtered_obj(argument, [](const Object &obj) { return obj.wear_loc != Wear::None; });
+    return find_filtered_obj(argument, [](const Object &obj) { return obj.wear_loc != Worn::None; });
 }
 
 bool Char::can_see(const Object &object) const {
@@ -542,7 +542,7 @@ bool Char::is_thirsty() const noexcept { return is_pc() && !pcdata->thirst.is_sa
 bool Char::is_parched() const noexcept { return is_pc() && pcdata->thirst.is_unhealthy(); }
 
 void Char::try_give_item_to(Object *object, Char *victim) {
-    if (object->wear_loc != Wear::None) {
+    if (object->wear_loc != Worn::None) {
         send_line("You must remove it first.");
         return;
     }

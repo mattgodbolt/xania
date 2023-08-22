@@ -26,7 +26,7 @@ struct skill_type {
     SpellFunc spell_fun; /* Spell function pointer  */
     sh_int *pgsn; /* Pointer to associated gsn    */
     const char *verb; /* Damage message               */
-    const char *msg_off; /* Wear off message for the wearer  */
+    const char *msg_off; /* Worn off message for the wearer  */
     DispelMagicFunc dispel_fun;
     /* If a spell effect can be dispelled or cancelled, set this to contain the
      * message sent to others in the room about a victim */

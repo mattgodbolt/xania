@@ -37,8 +37,8 @@
 #include "VnumMobiles.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
-#include "Wear.hpp"
 #include "WeatherData.hpp"
+#include "Worn.hpp"
 #include "act_comm.hpp"
 #include "act_move.hpp"
 #include "act_obj.hpp"
@@ -530,7 +530,7 @@ void char_update() {
         if (ch->is_pc() && ch->level < LEVEL_IMMORTAL) {
             Object *obj;
 
-            if ((obj = get_eq_char(ch, Wear::Light)) != nullptr && obj->type == ObjectType::Light
+            if ((obj = get_eq_char(ch, Worn::Light)) != nullptr && obj->type == ObjectType::Light
                 && obj->value[2] > 0) {
                 if (--obj->value[2] == 0 && ch->in_room != nullptr) {
                     --ch->in_room->light;

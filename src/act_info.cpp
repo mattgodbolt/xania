@@ -39,8 +39,8 @@
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
 #include "ToleranceFlag.hpp"
-#include "Wear.hpp"
 #include "WeatherData.hpp"
+#include "Worn.hpp"
 #include "act_comm.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
@@ -63,7 +63,7 @@ using namespace std::literals;
 
 namespace {
 
-std::string wear_string_for(const Object *obj, const Wear wear_location) {
+std::string wear_string_for(const Object *obj, const Worn wear_location) {
     constexpr std::array<std::string_view, WearFilter::wearable_count()> wear_name = {
         "used as light",     "worn on finger",   "worn on finger",
         "worn around neck",  "worn around neck", "worn on body",
@@ -131,7 +131,7 @@ void show_list_to_char(const GenericList<Object *> &list, const Char *ch, bool f
 
     // Format the list of objects.
     for (auto *obj : list) {
-        if (obj->wear_loc == Wear::None && ch->can_see(*obj)) {
+        if (obj->wear_loc == Worn::None && ch->can_see(*obj)) {
             auto desc = format_obj_to_char(obj, ch, fShort);
             auto combined_same = false;
 
@@ -1341,7 +1341,7 @@ void do_equipment(Char *ch) {
 namespace {
 Object *find_comparable(Char *ch, Object *obj_to_compare_to) {
     for (auto *obj : ch->carrying) {
-        if (obj->wear_loc != Wear::None && ch->can_see(*obj) && obj_to_compare_to->type == obj->type
+        if (obj->wear_loc != Worn::None && ch->can_see(*obj) && obj_to_compare_to->type == obj->type
             && (obj_to_compare_to->wear_flags & obj->wear_flags & (~to_int(ObjectWearFlag::Take))) != 0) {
             return obj;
         }

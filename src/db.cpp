@@ -41,8 +41,8 @@
 #include "TimeInfoData.hpp"
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
-#include "Wear.hpp"
 #include "WeatherData.hpp"
+#include "Worn.hpp"
 #include "WrappedFd.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
@@ -1012,7 +1012,7 @@ void reset_room(Room *room) {
 
             obj_to_char(object, lastMob);
             if (reset.command == ResetEquipObjMob) {
-                if (const auto opt_wear_loc = magic_enum::enum_cast<Wear>(reset.arg3)) {
+                if (const auto opt_wear_loc = magic_enum::enum_cast<Worn>(reset.arg3)) {
                     equip_char(lastMob, object, *opt_wear_loc);
                 } else {
                     bug("Invalid wear location: {} for object #{}", reset.arg3, reset.arg1);

@@ -39,7 +39,7 @@
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
 #include "WeaponFlag.hpp"
-#include "Wear.hpp"
+#include "Worn.hpp"
 #include "act_info.hpp"
 #include "act_move.hpp"
 #include "act_obj.hpp"
@@ -124,7 +124,7 @@ void do_outfit(Char *ch) {
         ch->send_line("Find it yourself!");
         return;
     }
-    const auto equip_char_with = [&ch](const int vnum, const Wear wear) {
+    const auto equip_char_with = [&ch](const int vnum, const Worn wear) {
         if (!get_eq_char(ch, wear)) {
             auto obj_uptr = get_obj_index(vnum)->create_object();
             auto *obj = obj_uptr.get();
@@ -134,10 +134,10 @@ void do_outfit(Char *ch) {
             equip_char(ch, obj, wear);
         }
     };
-    equip_char_with(Objects::SchoolBanner, Wear::Light);
-    equip_char_with(Objects::SchoolVest, Wear::Body);
-    equip_char_with(Objects::SchoolShield, Wear::Shield);
-    equip_char_with(get_obj_index(class_table[ch->class_num].weapon)->vnum, Wear::Wield);
+    equip_char_with(Objects::SchoolBanner, Worn::Light);
+    equip_char_with(Objects::SchoolVest, Worn::Body);
+    equip_char_with(Objects::SchoolShield, Worn::Shield);
+    equip_char_with(get_obj_index(class_table[ch->class_num].weapon)->vnum, Worn::Wield);
     ch->send_line("You have been equipped by {}.", deity_name);
 }
 
@@ -698,7 +698,7 @@ void do_ostat(Char *ch, ArgParser args) {
                             obj->carried_by == nullptr      ? "(none)"
                             : ch->can_see(*obj->carried_by) ? obj->carried_by->name
                                                             : "someone",
-                            magic_enum::enum_name<Wear>(obj->wear_loc), magic_enum::enum_integer(obj->wear_loc)));
+                            magic_enum::enum_name<Worn>(obj->wear_loc), magic_enum::enum_integer(obj->wear_loc)));
 
     ch->send_line("Values: {}", fmt::join(obj->value, " "));
 
@@ -2693,7 +2693,7 @@ void do_smite(Char *ch, ArgParser args) {
     do_help(victim, smitestring);
     act("|WThe wrath of the Gods has fallen upon you!\n\rYou are blown helplessly from your feet and are stunned!|w",
         ch, nullptr, victim, To::Vict);
-    auto *wielded_obj = get_eq_char(victim, Wear::Wield);
+    auto *wielded_obj = get_eq_char(victim, Worn::Wield);
     if (wielded_obj) {
         act("|R$n has been cast down by the power of $N!\n\rTheir weapon is sent flying!|w", victim, nullptr, ch,
             To::NotVict);

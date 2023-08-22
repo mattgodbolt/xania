@@ -25,7 +25,7 @@
 #include "GenericList.hpp"
 #include "Materials.hpp"
 #include "Types.hpp"
-#include "Wear.hpp"
+#include "Worn.hpp"
 
 #include <string_view>
 
@@ -59,9 +59,9 @@ void char_from_room(Char *ch);
 void char_to_room(Char *ch, Room *room);
 void obj_to_char(Object *obj, Char *ch);
 void obj_from_char(Object *obj);
-int apply_ac(Object *obj, const Wear wear, const int type);
-Object *get_eq_char(Char *ch, const Wear wear);
-void equip_char(Char *ch, Object *obj, const Wear wear);
+int apply_ac(Object *obj, const Worn wear, const int type);
+Object *get_eq_char(Char *ch, const Worn wear);
+void equip_char(Char *ch, Object *obj, const Worn wear);
 void unequip_char(Char *ch, Object *obj);
 int count_obj_list(ObjectIndex *obj, const GenericList<Object *> &list);
 void obj_from_room(Object *obj);
