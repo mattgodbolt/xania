@@ -51,6 +51,7 @@
 #include "update.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
+#include <range/v3/algorithm/find_if.hpp>
 
 #include <csignal>
 #include <fstream>
@@ -1043,23 +1044,32 @@ bool validate_player_name(std::string_view name) {
     return true;
 }
 
+Char *find_link_dead_player_by_name(std::string_view name) {
+    const auto is_link_dead_with_name = [&name](const Char *ch) -> bool {
+        return ch->is_link_dead_pc() && matches(name, ch->name);
+    };
+    if (auto ch = ranges::find_if(char_list, is_link_dead_with_name); ch != char_list.end()) {
+        return *ch;
+    } else {
+        return nullptr;
+    }
+}
+
 /*
  * Look for link-dead player to reconnect.
  */
 bool check_reconnect(Descriptor *d) {
-    for (auto ch : char_list) {
-        if (ch->is_pc() && !ch->desc && matches(d->character()->name, ch->name)) {
-            delete d->character();
-            d->character(ch);
-            ch->desc = d;
-            ch->timer = 0;
-            ch->send_line("Reconnecting.");
-            act("$n has reconnected.", ch);
-            log_new(fmt::format("{}@{} reconnected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
-                    (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
-            d->state(DescriptorState::Playing);
-            return true;
-        }
+    if (Char *ch = find_link_dead_player_by_name(d->character()->name); ch) {
+        delete d->character();
+        d->character(ch);
+        ch->desc = d;
+        ch->timer = 0;
+        ch->send_line("Reconnecting.");
+        act("$n has reconnected.", ch);
+        log_new(fmt::format("{}@{} reconnected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
+                (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
+        d->state(DescriptorState::Playing);
+        return true;
     }
     return false;
 }

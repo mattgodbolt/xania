@@ -245,4 +245,17 @@ TEST_CASE("Character tests", "[Char]") {
             }
         }
     }
+    SECTION("is link dead player") {
+        SECTION("false: npc") {
+            set_enum_bit(bob.act, CharActFlag::Npc);
+            CHECK_FALSE(bob.is_link_dead_pc());
+        }
+        SECTION("false: has descriptor") {
+            Descriptor ch_desc(0);
+            bob.desc = &ch_desc;
+            ch_desc.character(&bob);
+            CHECK_FALSE(bob.is_link_dead_pc());
+        }
+        SECTION("true") { CHECK(bob.is_link_dead_pc()); }
+    }
 }

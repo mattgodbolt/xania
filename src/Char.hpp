@@ -213,6 +213,8 @@ struct Char {
     [[nodiscard]] Char *player() { return desc ? desc->person() : nullptr; }
     [[nodiscard]] bool is_switched() const noexcept { return is_npc() && desc; }
 
+    [[nodiscard]] bool is_link_dead_pc() const { return is_pc() && !desc; }
+
     [[nodiscard]] bool is_immortal() const;
     [[nodiscard]] bool is_mortal() const { return !is_immortal(); }
     // True for max level mortals and for all immortals.
