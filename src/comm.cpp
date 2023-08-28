@@ -80,7 +80,7 @@ void move_active_char_from_limbo(Char *ch);
  * Other local functions (OS-independent).
  */
 bool validate_player_name(std::string_view name);
-bool check_reconnect(Descriptor *d, bool fConn);
+bool check_reconnect(Descriptor *d);
 bool check_playing(Descriptor *d, std::string_view name);
 void nanny(Descriptor *d, std::string_view argument);
 bool process_output(Descriptor *d, bool fPrompt);
@@ -596,15 +596,10 @@ void nanny(Descriptor *d, std::string_view argument) {
             d->close();
             return;
         }
-
-        if (check_reconnect(d, false)) {
-            existing_player = true;
-        } else {
-            if (wizlock && ch->is_mortal()) {
-                d->write("The game is wizlocked.  Try again later - a reboot may be imminent.\n\r");
-                d->close();
-                return;
-            }
+        if (wizlock && ch->is_mortal()) {
+            d->write("The game is wizlocked.  Try again later - a reboot may be imminent.\n\r");
+            d->close();
+            return;
         }
         if (existing_player) {
             d->write("Password: ");
@@ -659,7 +654,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         if (check_playing(d, ch->name))
             return;
 
-        if (check_reconnect(d, true))
+        if (check_reconnect(d))
             return;
 
         log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
@@ -686,7 +681,7 @@ void nanny(Descriptor *d, std::string_view argument) {
 
                 d_old.close();
             }
-            if (check_reconnect(d, true))
+            if (check_reconnect(d))
                 return;
             d->write("Reconnect attempt failed.\n\rName: ");
             if (d->character()) {
@@ -1051,26 +1046,21 @@ bool validate_player_name(std::string_view name) {
 /*
  * Look for link-dead player to reconnect.
  */
-bool check_reconnect(Descriptor *d, bool fConn) {
+bool check_reconnect(Descriptor *d) {
     for (auto ch : char_list) {
-        if (ch->is_pc() && (!fConn || ch->desc == nullptr) && matches(d->character()->name, ch->name)) {
-            if (fConn == false) {
-                d->character()->pcdata->pwd = ch->pcdata->pwd;
-            } else {
-                delete d->character();
-                d->character(ch);
-                ch->desc = d;
-                ch->timer = 0;
-                ch->send_line("Reconnecting.");
-                act("$n has reconnected.", ch);
-                log_new(fmt::format("{}@{} reconnected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
-                        (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
-                d->state(DescriptorState::Playing);
-            }
+        if (ch->is_pc() && !ch->desc && matches(d->character()->name, ch->name)) {
+            delete d->character();
+            d->character(ch);
+            ch->desc = d;
+            ch->timer = 0;
+            ch->send_line("Reconnecting.");
+            act("$n has reconnected.", ch);
+            log_new(fmt::format("{}@{} reconnected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
+                    (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
+            d->state(DescriptorState::Playing);
             return true;
         }
     }
-
     return false;
 }
 
