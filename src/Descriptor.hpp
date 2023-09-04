@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <list>
+#include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -57,6 +58,10 @@ class Descriptor {
     bool ansi_terminal_detected_{};
     bool processing_command_{};
     DescriptorState state_{DescriptorState::GetName};
+    // While a Char is in the lobby phase, Descriptor owns the Char, and that's held here.
+    // Once the Char enters DescriptorState::Playing,
+    // the Char enters the mud world and ownership is handed off. See nanny() and proceed_from_lobby().
+    std::unique_ptr<Char> guest_;
     Char *character_{};
     Char *original_{};
 
@@ -129,9 +134,24 @@ public:
     void processing_command(bool is_processing) noexcept { processing_command_ = is_processing; }
     [[nodiscard]] bool processing_command() const noexcept { return processing_command_; }
 
+    // Take ownership of a Char that has connected and is going through the lobby phase, i.e. not yet in a playing
+    // state.
+    void enter_lobby(std::unique_ptr<Char> guest) noexcept;
+
+    // Put the Descriptor back to the start of the lobby phase and release any previous Char it was associated with.
+    void restart_lobby() noexcept;
+
+    // During the lobby phase, if the Char is reconnecting and they have a Char in the world already,
+    // reconnect that Char with this Descriptor and set them Playing.
+    void reconnect_from_lobby(Char *existing_char) noexcept;
+
+    // Advances the Descriptor from the lobby into Playing state, rescinding ownership of a Char.
+    std::unique_ptr<Char> proceed_from_lobby() noexcept;
+
     [[nodiscard]] Char *character() const noexcept { return character_; }
     void character(Char *character) noexcept { character_ = character; }
     [[nodiscard]] Char *original() const noexcept { return original_; }
+
     // do_ prefix because switch is a C keyword
     void do_switch(Char *victim);
     // do_ prefix because return is a C keyword

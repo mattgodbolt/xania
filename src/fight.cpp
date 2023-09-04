@@ -100,7 +100,8 @@ void lose_level(Char *ch);
  * Called periodically by update_handler.
  */
 void violence_update() {
-    for (auto *ch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *ch = uch.get();
         auto *victim = ch->fighting;
         if (!victim || ch->in_room == nullptr)
             continue;
@@ -809,10 +810,13 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         victim_room_vnum = victim->in_room->vnum;
         raw_kill(victim, injured_part);
 
-        for (auto *mob : char_list)
+        for (auto &&uch : char_list) {
+            auto *mob = uch.get();
             if (mob->is_npc() && check_enum_bit(mob->act, CharActFlag::Sentient)
-                && matches(mob->sentient_victim, victim->name))
+                && matches(mob->sentient_victim, victim->name)) {
                 mob->sentient_victim.clear();
+            }
+        }
         /**
          * If the final blow was a pet or charmed mob, its greedy master gets to autoloot.
          */
@@ -1180,7 +1184,8 @@ void set_fighting(Char *ch, Char *victim) {
  * Stop fights.
  */
 void stop_fighting(Char *ch, bool fBoth) {
-    for (auto *fch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *fch = uch.get();
         if (fch == ch || (fBoth && fch->fighting == ch)) {
             fch->fighting = nullptr;
             fch->position = fch->is_npc() ? ch->default_pos : Position::Type::Standing;

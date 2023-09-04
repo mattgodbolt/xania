@@ -207,10 +207,10 @@ bool spec_DEATH(Char *ch) {
         return false;
     }
 
-    for (auto *victim : char_list) {
+    for (auto &&victim : char_list) {
         if ((((victim->hit * 100) / victim->max_hit) < lowest_percent) && (victim->is_pc())) {
             lowest_percent = ((victim->hit * 100) / victim->max_hit);
-            lowest_person = victim;
+            lowest_person = victim.get();
         }
     }
 
@@ -677,7 +677,7 @@ bool spec_puff(Char *ch) {
          (Thank you, Furey-- I screwed this up many times until I
          learned of your way of doing it)                      */
 
-    for (auto *wch : char_list) {
+    for (auto &&wch : char_list) {
         if (wch->is_npc() || wch->in_room == nullptr)
             continue;
 

@@ -466,8 +466,8 @@ void do_at(Char *ch, ArgParser args) {
      * See if 'ch' still exists before continuing!
      * Handles 'at XXXX quit' case.
      */
-    for (auto *wch : char_list) {
-        if (wch == ch) {
+    for (auto &&wch : char_list) {
+        if (wch.get() == ch) {
             char_from_room(ch);
             char_to_room(ch, original);
             break;
@@ -1110,7 +1110,7 @@ void do_mwhere(Char *ch, ArgParser args) {
     bool found = false;
     int number = 0;
     std::string buffer;
-    for (auto *victim : char_list) {
+    for (auto &&victim : char_list) {
         if ((victim->is_npc() && victim->in_room != nullptr && is_name(target, victim->name) && !find_pc)
             || (victim->is_pc() && find_pc && ch->can_see(*victim))) {
             found = true;
@@ -2537,7 +2537,8 @@ void do_force(Char *ch, ArgParser args) {
             return;
         }
 
-        for (auto *vch : char_list) {
+        for (auto &&uch : char_list) {
+            auto *vch = uch.get();
             if (vch->is_pc() && vch->get_trust() < ch->get_trust()) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
                 interpret(vch, command);
@@ -2549,7 +2550,8 @@ void do_force(Char *ch, ArgParser args) {
             return;
         }
 
-        for (auto *vch : char_list) {
+        for (auto &&uch : char_list) {
+            auto *vch = uch.get();
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level < LEVEL_HERO) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
                 interpret(vch, command);
@@ -2561,7 +2563,8 @@ void do_force(Char *ch, ArgParser args) {
             return;
         }
 
-        for (auto *vch : char_list) {
+        for (auto &&uch : char_list) {
+            auto *vch = uch.get();
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level >= LEVEL_HERO) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
                 interpret(vch, command);

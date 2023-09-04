@@ -160,7 +160,8 @@ void spell_psy_tornado(int sn, int level, Char *ch, const SpellTarget &spell_tar
                 tornado_teleport(ch, victim);
         }
 
-        for (auto *vch : char_list) {
+        for (auto &&uch : char_list) {
+            auto *vch = uch.get();
             if (vch->in_room == nullptr)
                 continue;
             if (vch->in_room == ch->in_room) {

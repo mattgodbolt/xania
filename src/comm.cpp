@@ -212,7 +212,8 @@ void handle_signal_shutdown() {
     log_string("Signal shutdown received");
 
     /* ask everyone to save! */
-    for (auto *vch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *vch = uch.get();
         // vch->d->c check added by TM to avoid crashes when
         // someone hasn't logged in but the mud is shut down
         if (vch->is_pc() && vch->desc && vch->desc->is_playing()) {
@@ -496,9 +497,6 @@ void game_loop_unix(Fd control) {
             descriptors().reap_closed();
         }
 
-        // Now we know all game code has run, reap any dead characters.
-        reap_old_chars();
-
         // Synchronize to a clock.
         using namespace std::chrono;
         using namespace std::literals;
@@ -586,10 +584,9 @@ void nanny(Descriptor *d, std::string_view argument) {
             return;
         }
         auto res = try_load_player(player_name);
-        ch = res.character.release(); // this is where we take ownership of the char
+        ch = res.character.get();
+        d->enter_lobby(std::move(res.character));
         auto existing_player = !res.newly_created;
-        d->character(ch);
-        ch->desc = d;
 
         if (check_enum_bit(ch->act, PlayerActFlag::PlrDeny)) {
             log_string("Denying access to {}@{}.", player_name, d->host());
@@ -685,21 +682,13 @@ void nanny(Descriptor *d, std::string_view argument) {
             if (check_reconnect(d))
                 return;
             d->write("Reconnect attempt failed.\n\rName: ");
-            if (d->character()) {
-                delete d->character();
-                d->character(nullptr);
-            }
-            d->state(DescriptorState::GetName);
+            d->restart_lobby();
             break;
 
         case 'n':
         case 'N':
             d->write("Name: ");
-            if (d->character()) {
-                delete d->character();
-                d->character(nullptr);
-            }
-            d->state(DescriptorState::GetName);
+            d->restart_lobby();
             break;
 
         default: d->write("Please type Y or N? "); break;
@@ -718,9 +707,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         case 'n':
         case 'N':
             d->write("OK, try again: ");
-            delete d->character();
-            d->character(nullptr);
-            d->state(DescriptorState::GetName);
+            d->restart_lobby();
             break;
 
         default: d->write("It's quite simple - type Yes or No: "); break;
@@ -941,8 +928,9 @@ void nanny(Descriptor *d, std::string_view argument) {
         break;
 
     case DescriptorState::ReadMotd:
-        char_list.add_front(ch);
-        d->state(DescriptorState::Playing);
+        // The lobby phase is complete. The "world" takes ownership of the Char. Being on this list and in the playing
+        // state means the Char exists in the world and is processed by the main update loop.
+        char_list.emplace_back(d->proceed_from_lobby());
         /* Moog: tell doorman we logged in OK */
         {
             Packet p;
@@ -1045,11 +1033,11 @@ bool validate_player_name(std::string_view name) {
 }
 
 Char *find_link_dead_player_by_name(std::string_view name) {
-    const auto is_link_dead_with_name = [&name](const Char *ch) -> bool {
+    const auto is_link_dead_with_name = [&name](auto &&ch) -> bool {
         return ch->is_link_dead_pc() && matches(name, ch->name);
     };
-    if (auto ch = ranges::find_if(char_list, is_link_dead_with_name); ch != char_list.end()) {
-        return *ch;
+    if (auto it = ranges::find_if(char_list, is_link_dead_with_name); it != char_list.end()) {
+        return it->get();
     } else {
         return nullptr;
     }
@@ -1060,15 +1048,11 @@ Char *find_link_dead_player_by_name(std::string_view name) {
  */
 bool check_reconnect(Descriptor *d) {
     if (Char *ch = find_link_dead_player_by_name(d->character()->name); ch) {
-        delete d->character();
-        d->character(ch);
-        ch->desc = d;
-        ch->timer = 0;
+        d->reconnect_from_lobby(ch);
         ch->send_line("Reconnecting.");
         act("$n has reconnected.", ch);
         log_new(fmt::format("{}@{} reconnected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
                 (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
-        d->state(DescriptorState::Playing);
         return true;
     }
     return false;

@@ -234,8 +234,9 @@ void Descriptor::close() noexcept {
         if (is_playing() || state_ == DescriptorState::Disconnecting) {
             act("$n has lost $s link.", character_);
             character_->desc = nullptr;
-        } else {
-            delete person();
+        }
+        if (guest_) {
+            guest_.reset();
         }
         character_ = nullptr;
         original_ = nullptr;
@@ -287,3 +288,32 @@ void Descriptor::do_return() {
 }
 
 std::string Descriptor::login_time() const noexcept { return formatted_time(login_time_); }
+
+void Descriptor::enter_lobby(std::unique_ptr<Char> guest) noexcept {
+    guest_ = std::move(guest);
+    guest_->desc = this;
+    character_ = guest_.get();
+}
+
+void Descriptor::restart_lobby() noexcept {
+    state(DescriptorState::GetName);
+    if (guest_) {
+        guest_.reset();
+    }
+    character(nullptr);
+}
+
+void Descriptor::reconnect_from_lobby(Char *existing_char) noexcept {
+    state(DescriptorState::Playing);
+    if (guest_) {
+        guest_.reset();
+    }
+    character(existing_char);
+    existing_char->desc = this;
+    existing_char->timer = 0;
+}
+
+std::unique_ptr<Char> Descriptor::proceed_from_lobby() noexcept {
+    state(DescriptorState::Playing);
+    return std::move(guest_);
+}

@@ -1434,9 +1434,10 @@ void do_where(Char *ch, ArgParser args) {
     } else {
         auto found = false;
         auto name = args.shift();
-        for (auto *victim : char_list) {
+        for (auto &&victim : char_list) {
             if (victim->in_room != nullptr && victim->in_room->area == ch->in_room->area && !victim->is_aff_hide()
-                && !victim->is_aff_sneak() && ch->can_see(*victim) && victim != ch && is_name(name, victim->name)) {
+                && !victim->is_aff_sneak() && ch->can_see(*victim) && victim.get() != ch
+                && is_name(name, victim->name)) {
                 found = true;
                 ch->send_line("|W{:<28}|w {}", ch->describe(*victim), victim->in_room->name);
                 break;

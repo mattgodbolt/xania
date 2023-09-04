@@ -54,5 +54,4 @@ int main(int argc, const char **argv) {
     }
     boot_db();
     pfu::upgrade_players(names, logger);
-    reap_old_chars();
 }

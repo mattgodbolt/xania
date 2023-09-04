@@ -10,7 +10,6 @@
 #pragma once
 
 #include "Constants.hpp"
-#include "GenericList.hpp"
 #include "MobIndexData.hpp"
 #include "ObjectIndex.hpp"
 #include "Room.hpp"
@@ -18,6 +17,7 @@
 #include <range/v3/view/transform.hpp>
 
 #include <map>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
@@ -29,7 +29,7 @@ struct ExtraDescription;
 /*
  * Mutable global variables.
  */
-extern GenericList<Char *> char_list;
+extern std::vector<std::unique_ptr<Char>> char_list;
 extern std::vector<std::unique_ptr<Object>> object_list;
 extern bool fBootDb;
 

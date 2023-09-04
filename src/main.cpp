@@ -42,7 +42,6 @@ int main() {
     send_to_doorman(&pInit, nullptr);
 
     game_loop_unix(std::move(control));
-    delete_globals_on_shutdown();
 
     /*
      * That's all, folks.

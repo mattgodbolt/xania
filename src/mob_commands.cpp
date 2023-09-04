@@ -328,8 +328,8 @@ void do_mpat(Char *ch, ArgParser args) {
      * See if 'ch' still exists before continuing!
      * Handles 'at XXXX quit' case.
      */
-    for (auto *wch : char_list) {
-        if (wch == ch) {
+    for (auto &&wch : char_list) {
+        if (wch.get() == ch) {
             char_from_room(ch);
             char_to_room(ch, original);
             break;
@@ -404,7 +404,8 @@ void do_mpforce(Char *ch, ArgParser args) {
     }
     auto target = args.shift();
     if (matches(target, "all")) {
-        for (auto *vch : char_list) {
+        for (auto &&uch : char_list) {
+            auto *vch = uch.get();
             if (vch->in_room == ch->in_room && vch->get_trust() < ch->get_trust() && ch->can_see(*vch)) {
                 interpret(vch, args.remaining());
             }

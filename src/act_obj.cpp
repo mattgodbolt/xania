@@ -527,9 +527,9 @@ bool can_loot(const Char *ch, const Object *obj) {
         return true;
 
     const Char *owner = nullptr;
-    for (const auto *wch : char_list)
+    for (auto &&wch : char_list)
         if (matches(wch->name, obj->owner))
-            owner = wch;
+            owner = wch.get();
 
     if (owner == nullptr)
         return true;

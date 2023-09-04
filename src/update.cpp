@@ -368,7 +368,8 @@ int move_gain(Char *ch) {
  */
 void mobile_update() {
     /* Examine all mobs. */
-    for (auto *ch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *ch = uch.get();
         if (ch->is_pc() || ch->in_room == nullptr || ch->is_aff_charm())
             continue;
 
@@ -503,7 +504,8 @@ void char_update() {
     if (save_number == save_every_n)
         save_number = 0;
 
-    for (auto *ch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *ch = uch.get();
         if (ch->timer > 30)
             ch_quit = ch;
 
@@ -649,7 +651,8 @@ void char_update() {
      * Autosave and autoquit.
      * Check that these chars still exist.
      */
-    for (auto *ch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *ch = uch.get();
         if (ch->desc != nullptr && ch->desc->channel() % save_every_n == save_number)
             save_char_obj(ch);
 
@@ -751,7 +754,8 @@ void obj_update() {
  */
 void do_aggressive_sentient(Char *, Char *);
 void aggr_update() {
-    for (auto *wch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *wch = uch.get();
         /* MOBProgram Act trigger */
         if (wch->is_npc() && !wch->mpact.empty() && wch->in_room->area->occupied()) {
             for (const auto &mpact : wch->mpact) {

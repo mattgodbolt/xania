@@ -505,7 +505,8 @@ void die_follower(Char *ch) {
 
     ch->leader = nullptr;
 
-    for (auto *fch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *fch = uch.get();
         if (fch->master == ch)
             stop_follower(fch);
         if (fch->leader == ch)
@@ -565,7 +566,8 @@ void do_group(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("{}'s group:", ch->describe(ch->group_leader()));
 
-        for (auto *gch : char_list) {
+        for (auto &&uch : char_list) {
+            auto *gch = uch.get();
             if (is_same_group(gch, ch)) {
                 ch->send_line("[{:3} {}] {:<16} {:4}/{:4} hp {:4}/{:4} mana {:4}/{:4} mv {:5} xp", gch->level,
                               gch->is_npc() ? "Mob" : class_table[gch->class_num].who_name, ch->describe(*gch),
@@ -647,9 +649,12 @@ void do_gtell(Char *ch, std::string_view argument) {
     // Note use of send_line (not act), so gtell works on sleepers.
     ch->send_line("|CYou tell the group '{}|C'|w.", argument);
     auto msg = fmt::format("|C{} tells the group '{}|C'|w.", ch->name, argument);
-    for (auto *gch : char_list)
-        if (is_same_group(gch, ch) && gch != ch)
+    for (auto &&uch : char_list) {
+        auto *gch = uch.get();
+        if (is_same_group(gch, ch) && gch != ch) {
             gch->send_line(msg);
+        }
+    }
 }
 
 /*

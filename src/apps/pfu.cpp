@@ -1,14 +1,11 @@
 #include "pfu.hpp"
 #include "Object.hpp"
-#include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "VnumRooms.hpp"
-#include "Worn.hpp"
 #include "WrappedFd.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
-#include "common/Time.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "save.hpp"
@@ -20,6 +17,7 @@
 #include <range/v3/algorithm/fill.hpp>
 #include <range/v3/view/filter.hpp>
 #include <sstream>
+#include <vector>
 
 namespace pfu {
 
@@ -179,10 +177,12 @@ Char *CharUpgrader::simulate_login() {
     if (auto fp = WrappedFd::open(filename_for_player(name_))) {
         LastLoginInfo last_login;
         // This snippet is very similar to what's in nanny() and try_load_player().
-        Char *ch = new Char();
+        auto ch_uptr = std::make_unique<Char>();
+        auto *ch = ch_uptr.get();
         ch->pcdata = std::make_unique<PcData>();
         load_into_char(*ch, last_login, fp);
-        char_list.add_front(ch);
+        // Takes ownership of the Char unique_ptr.
+        char_list.push_back(std::move(ch_uptr));
         desc_.character(ch);
         ch->desc = &desc_;
         // Retain the original login from & time if possible.

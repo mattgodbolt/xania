@@ -816,7 +816,8 @@ void spell_call_lightning(int sn, int level, Char *ch, [[maybe_unused]] const Sp
     ch->send_line("{}'s lightning strikes your foes!", deity_name);
     act(fmt::format("$n calls {}'s lightning to strike $s foes!", deity_name), ch);
 
-    for (auto *vch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *vch = uch.get();
         if (!vch->in_room)
             continue;
         if (vch->in_room == ch->in_room) {
@@ -1579,7 +1580,8 @@ void spell_earthquake(int sn, int level, Char *ch, [[maybe_unused]] const SpellT
     ch->send_line("The earth trembles beneath your feet!");
     act("$n makes the earth tremble and shiver.", ch);
 
-    for (auto *vch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *vch = uch.get();
         if (vch->in_room == nullptr)
             continue;
         if (vch->in_room == ch->in_room) {

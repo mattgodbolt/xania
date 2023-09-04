@@ -40,9 +40,9 @@ FingerInfo *search_info_cache(const Char *ch) { return search_info_cache(ch->nam
 Char *find_char_by_name(std::string_view name) {
     // Find out if char is logged on (irrespective of whether we can see that char or not - hence I don't use
     // get_char_world, as it only returns chars we can see
-    for (auto *wch : char_list)
+    for (auto &&wch : char_list)
         if (matches(wch->name, name))
-            return wch;
+            return wch.get();
     return nullptr;
 }
 

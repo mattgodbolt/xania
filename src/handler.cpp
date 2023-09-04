@@ -609,9 +609,6 @@ void extract_obj(Object *obj) {
                       object_list.end());
 }
 
-std::vector<std::unique_ptr<Char>> chars_to_reap;
-void reap_old_chars() { chars_to_reap.clear(); }
-
 /*
  * Extract a char from the world.
  */
@@ -650,18 +647,17 @@ void extract_char(Char *ch, bool delete_from_world) {
         do_return(ch);
     }
 
-    for (auto *wch : char_list)
-        if (wch->reply == ch)
+    for (auto &&uch : char_list) {
+        auto *wch = uch.get();
+        if (wch->reply == ch) {
             wch->reply = nullptr;
-
-    if (!char_list.remove(ch)) {
-        bug("extract_char: char not found.");
-        return;
+        }
     }
-
     if (ch->desc)
         ch->desc->character(nullptr);
-    chars_to_reap.emplace_back(ch);
+
+    const auto is_char = [&ch](auto &&entry) { return entry.get() == ch; };
+    char_list.erase(ranges::remove_if(char_list, is_char), char_list.end());
 }
 
 // Find a char in the room.
@@ -687,22 +683,23 @@ Char *get_char_world(Char *ch, std::string_view argument) {
 
     auto &&[number, arg] = number_argument(argument);
     int count = 0;
-    for (auto *wch : char_list) {
+    for (auto &&uch : char_list) {
+        auto *wch = uch.get();
         if (!wch->in_room || !ch->can_see(*wch) || !is_name(arg, wch->name))
             continue;
         if (++count == number)
             return wch;
     }
-
     return nullptr;
 }
 
 /* find a MOB by vnum in the world, returning its Char * */
 Char *get_mob_by_vnum(sh_int vnum) {
-    for (auto *current : char_list)
-        if (current->mobIndex && current->mobIndex->vnum == vnum)
-            return current;
-
+    for (auto &&current : char_list) {
+        if (current->mobIndex && current->mobIndex->vnum == vnum) {
+            return current.get();
+        }
+    }
     return nullptr;
 }
 

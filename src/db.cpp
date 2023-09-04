@@ -91,10 +91,10 @@ const auto InitialObjectListCapacity = 1400u;
 void wiznet_initialise();
 SpecialFunc spec_lookup(std::string_view name);
 
-// Mutable global: modified whenever a new Char is loaded from the database or when a player Char logs in or out.
-GenericList<Char *> char_list;
 // Mutable global: modified whenever a new object is created or destroyed.
 std::vector<std::unique_ptr<Object>> object_list;
+// Mutable global: modified whenever a new Char is loaded from the database or when a player Char logs in or out.
+std::vector<std::unique_ptr<Char>> char_list;
 
 // Global skill numbers initialized once on startup.
 sh_int gsn_backstab;
@@ -286,16 +286,6 @@ void boot_db() {
     note_initialise();
     wiznet_initialise();
     interp_initialise();
-}
-
-// On shutdown, deletes the Chars owned by char_list.
-// Objects in object_list are deleted automatically.
-// Note that this doesn't call extract_char(), so it relies on Char's destructor
-// to release any pointers the Char owns.
-void delete_globals_on_shutdown() {
-    for (auto *ch : char_list) {
-        delete ch;
-    }
 }
 
 /* Snarf an 'area' header line. */
@@ -1050,8 +1040,8 @@ Char *create_mobile(MobIndexData *mobIndex) {
         bug("Create_mobile: nullptr mobIndex.");
         exit(1);
     }
-
-    auto *mob = new Char;
+    auto mob = std::make_unique<Char>();
+    auto *pMob = mob.get();
     mob->mobIndex = mobIndex;
 
     mob->name = mobIndex->player_name;
@@ -1130,10 +1120,10 @@ Char *create_mobile(MobIndexData *mobIndex) {
 
     mob->position = mob->start_pos;
 
-    /* link the mob to the world list */
-    char_list.add_front(mob);
+    // The "world" takes ownership of the Char.
+    char_list.push_back(std::move(mob));
     mobIndex->count++;
-    return mob;
+    return pMob;
 }
 
 /* duplicate a mobile exactly -- except inventory */
@@ -1578,7 +1568,8 @@ bool dump_memory_stats(Char *ch) {
         auto aff_count = 0;
         auto count = 0;
         fmt::print(fp, mem_format, "MobProt"sv, mob_indexes.size(), mob_indexes.size() * (sizeof(MobIndexData)));
-        for (auto *fch : char_list) {
+        for (auto &&uch : char_list) {
+            auto *fch = uch.get();
             count++;
             if (fch->pcdata != nullptr)
                 num_pcs++;
