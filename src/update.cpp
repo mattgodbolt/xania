@@ -55,6 +55,8 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/algorithm/find_if.hpp>
+#include <range/v3/algorithm/remove_if.hpp>
 
 extern size_t max_on;
 
@@ -841,6 +843,33 @@ void count_update() {
     }
 }
 
+/**
+ * Sweeps through owned_entities and erase them if they're present in reapables.
+ * @param owned_entities a vector of unique_ptr to a game entity.
+ * @param reapables a vector of raw pointers to the entity that have been collected awaiting removal from the owning
+ * vectors.
+ */
+template <typename Reapable>
+void collect_garbage(std::vector<std::unique_ptr<Reapable>> &owned_entities, std::vector<Reapable *> &reapables) {
+    if (reapables.empty()) {
+        return;
+    }
+    const auto is_reapable = [&reapables](auto &&uptr) {
+        return ranges::find_if(reapables, [&](auto *reapable) { return reapable == uptr.get(); }) != reapables.end();
+    };
+    owned_entities.erase(ranges::remove_if(owned_entities, is_reapable), owned_entities.end());
+    reapables.clear();
+}
+
+/**
+ * Reap Char before Object because Char depends on Object: its destructor makes calls to extract_obj() in order to
+ * remove objects from its inventory.
+ */
+void collect_all_garbage() {
+    collect_garbage(char_list, reapable_chars);
+    collect_garbage(object_list, reapable_objects);
+}
+
 /*
  * Handle all kinds of updates.
  * Called once per pulse from game loop.
@@ -885,4 +914,6 @@ void update_handler() {
     }
 
     aggr_update();
+
+    collect_all_garbage();
 }

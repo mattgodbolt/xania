@@ -11,3 +11,4 @@ void advance_level(Char *ch);
 void gain_exp(Char *ch, int gain);
 void update_handler();
 bool is_safe_sentient(Char *ch, const Char *victim);
+void collect_all_garbage();

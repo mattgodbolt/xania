@@ -93,8 +93,12 @@ SpecialFunc spec_lookup(std::string_view name);
 
 // Mutable global: modified whenever a new object is created or destroyed.
 std::vector<std::unique_ptr<Object>> object_list;
+// Mutable global: modified by extract_obj() when marking an Object ready for removal from object_list.
+std::vector<Object *> reapable_objects;
 // Mutable global: modified whenever a new Char is loaded from the database or when a player Char logs in or out.
 std::vector<std::unique_ptr<Char>> char_list;
+// Mutable global: modified by extract_char() when marking an Char ready for removal from char_list.
+std::vector<Char *> reapable_chars;
 
 // Global skill numbers initialized once on startup.
 sh_int gsn_backstab;

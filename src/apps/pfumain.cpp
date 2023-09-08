@@ -1,6 +1,7 @@
 #include "common/Configuration.hpp"
 #include "handler.hpp"
 #include "pfu.hpp"
+#include "update.hpp"
 
 #include <fmt/format.h>
 #include <lyra/lyra.hpp>
@@ -54,4 +55,5 @@ int main(int argc, const char **argv) {
     }
     boot_db();
     pfu::upgrade_players(names, logger);
+    collect_all_garbage();
 }

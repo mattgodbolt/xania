@@ -30,7 +30,10 @@ struct ExtraDescription;
  * Mutable global variables.
  */
 extern std::vector<std::unique_ptr<Char>> char_list;
+extern std::vector<Object *> reapable_objects;
 extern std::vector<std::unique_ptr<Object>> object_list;
+extern std::vector<Char *> reapable_chars;
+
 extern bool fBootDb;
 
 // Initializes the in-memory database from the area files.

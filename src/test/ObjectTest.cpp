@@ -165,11 +165,11 @@ TEST_CASE("extract_obj") {
         auto obj_uptr = obj_idx.create_object();
         auto *obj = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
-        const auto object_list_size = object_list.size();
+        const auto reapable_objects_size = reapable_objects.size();
 
         extract_obj(obj);
 
-        CHECK(object_list.size() == object_list_size - 1);
+        CHECK(reapable_objects.size() == reapable_objects_size + 1);
     }
     SECTION("with contained") {
         ObjectIndex obj_idx = make_obj_idx();
@@ -180,11 +180,11 @@ TEST_CASE("extract_obj") {
         auto *contained = contained_uptr.get();
         object_list.push_back(std::move(contained_uptr));
         container->contains.add_front(contained);
-        const auto object_list_size = object_list.size();
+        const auto reapable_objects_size = reapable_objects.size();
 
         extract_obj(container);
 
-        CHECK(object_list.size() == object_list_size - 2);
+        CHECK(reapable_objects.size() == reapable_objects_size + 2);
     }
 }
 

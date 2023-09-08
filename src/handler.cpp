@@ -605,8 +605,7 @@ void extract_obj(Object *obj) {
 
     for (auto *obj_content : obj->contains)
         extract_obj(obj_content);
-    object_list.erase(ranges::remove_if(object_list, [&obj](auto &&entry) { return entry.get() == obj; }),
-                      object_list.end());
+    reapable_objects.push_back(obj); // See collect_all_garbage()
 }
 
 /*
@@ -656,8 +655,7 @@ void extract_char(Char *ch, bool delete_from_world) {
     if (ch->desc)
         ch->desc->character(nullptr);
 
-    const auto is_char = [&ch](auto &&entry) { return entry.get() == ch; };
-    char_list.erase(ranges::remove_if(char_list, is_char), char_list.end());
+    reapable_chars.push_back(ch); // See collect_all_garbage()
 }
 
 // Find a char in the room.

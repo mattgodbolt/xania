@@ -17,6 +17,7 @@
 using namespace std::literals;
 
 extern void boot_db();
+extern void collect_all_garbage();
 
 struct LoadTinyMudOnce : Catch::EventListenerBase {
     using Catch::EventListenerBase::EventListenerBase;
@@ -28,7 +29,7 @@ struct LoadTinyMudOnce : Catch::EventListenerBase {
         setenv(MUD_PORT_ENV, "9000", 1);
         boot_db();
     }
-    void testRunEnded([[maybe_unused]] Catch::TestRunStats const &testRunStats) override {}
+    void testRunEnded([[maybe_unused]] Catch::TestRunStats const &testRunStats) override { collect_all_garbage(); }
 };
 CATCH_REGISTER_LISTENER(LoadTinyMudOnce)
 
