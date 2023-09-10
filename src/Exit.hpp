@@ -11,9 +11,6 @@
 
 struct Room;
 
-/*
- * Exit data.
- */
 struct Exit {
     union {
         Room *to_room;
@@ -24,7 +21,6 @@ struct Exit {
     std::string keyword{};
     std::string description{};
 
-    Exit *next{};
     unsigned int rs_flags{};
     bool is_one_way{};
 };
