@@ -17,6 +17,7 @@
 #include "Worn.hpp"
 #include "db.h"
 #include "handler.hpp"
+#include "update.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 #include <vector>
@@ -159,17 +160,20 @@ TEST_CASE("Clone") {
     }
 }
 
-TEST_CASE("extract_obj") {
+TEST_CASE("extract_obj and collect garbage") {
     SECTION("single") {
         ObjectIndex obj_idx = make_obj_idx();
         auto obj_uptr = obj_idx.create_object();
         auto *obj = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
         const auto reapable_objects_size = reapable_objects.size();
+        const auto object_list_size = object_list.size();
 
         extract_obj(obj);
 
         CHECK(reapable_objects.size() == reapable_objects_size + 1);
+        collect_all_garbage();
+        CHECK(object_list.size() == object_list_size - 1);
     }
     SECTION("with contained") {
         ObjectIndex obj_idx = make_obj_idx();
@@ -181,10 +185,13 @@ TEST_CASE("extract_obj") {
         object_list.push_back(std::move(contained_uptr));
         container->contains.add_front(contained);
         const auto reapable_objects_size = reapable_objects.size();
+        const auto object_list_size = object_list.size();
 
         extract_obj(container);
 
         CHECK(reapable_objects.size() == reapable_objects_size + 2);
+        collect_all_garbage();
+        CHECK(object_list.size() == object_list_size - 2);
     }
 }
 

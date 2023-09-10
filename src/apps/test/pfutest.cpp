@@ -1,8 +1,10 @@
 #include "pfu.hpp"
 #include "common/Configuration.hpp"
+#include "db.h"
 #include "save.hpp"
 #include "test/MemFile.hpp"
 #include "test/fileutils.hpp"
+#include "update.hpp"
 
 #include <date/date.h>
 
@@ -10,10 +12,6 @@
 #include <catch2/generators/catch_generators_range.hpp>
 #include <catch2/reporters/catch_reporter_event_listener.hpp>
 #include <catch2/reporters/catch_reporter_registrars.hpp>
-#include <fmt/format.h>
-
-extern void boot_db();
-extern void collect_all_garbage();
 
 using namespace pfu;
 

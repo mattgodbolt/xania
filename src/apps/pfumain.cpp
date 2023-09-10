@@ -1,5 +1,5 @@
 #include "common/Configuration.hpp"
-#include "handler.hpp"
+#include "db.h"
 #include "pfu.hpp"
 #include "update.hpp"
 
@@ -7,8 +7,6 @@
 #include <lyra/lyra.hpp>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
-
-extern void boot_db();
 
 // pfu - player file upgrade utility for bulk upgrading all player files
 // as part of a release. Especially where the release contains code changes

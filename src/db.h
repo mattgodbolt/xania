@@ -38,8 +38,6 @@ extern bool fBootDb;
 
 // Initializes the in-memory database from the area files.
 void boot_db();
-// On shutdown, deletes the Chars & Objects owned by char_list and object_list.
-void delete_globals_on_shutdown();
 
 void area_update();
 Char *create_mobile(MobIndexData *mobIndex);

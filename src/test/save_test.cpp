@@ -4,10 +4,12 @@
 #include "ObjectType.hpp"
 #include "Room.hpp"
 #include "common/Configuration.hpp"
+#include "db.h"
 #include "fileutils.hpp"
 #include "handler.hpp"
 #include "save.hpp"
 #include "string_utils.hpp"
+#include "update.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_range.hpp>
@@ -15,9 +17,6 @@
 #include <catch2/reporters/catch_reporter_registrars.hpp>
 
 using namespace std::literals;
-
-extern void boot_db();
-extern void collect_all_garbage();
 
 struct LoadTinyMudOnce : Catch::EventListenerBase {
     using Catch::EventListenerBase::EventListenerBase;
