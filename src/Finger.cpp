@@ -48,27 +48,27 @@ FingerInfo read_char_info(std::string_view player_name) {
     FingerInfo info(player_name);
     if (auto fp = WrappedFd::open(filename_for_player(player_name))) {
         for (;;) {
-            const std::string word = lower_case(fread_word(fp));
-            if (feof(fp))
+            const std::string word = lower_case(fread_word(static_cast<FILE *>(fp)));
+            if (feof(static_cast<FILE *>(fp)))
                 break;
             if (word == "end") {
                 return info;
             } else if (word == "extrabits") {
-                const auto line = fread_string(fp);
+                const auto line = fread_string(static_cast<FILE *>(fp));
                 info.i_message = line[to_int(CharExtraFlag::InfoMessage)] == '1';
-                fread_to_eol(fp);
+                fread_to_eol(static_cast<FILE *>(fp));
             } else if (word == "invislevel" || word == "invis") {
-                info.invis_level = fread_number(fp);
+                info.invis_level = fread_number(static_cast<FILE *>(fp));
             } else if (word == "info_message") {
-                info.info_message = fread_string(fp);
+                info.info_message = fread_string(static_cast<FILE *>(fp));
             } else if (word == "lastloginfrom") {
-                info.last_login_from = fread_string(fp);
+                info.last_login_from = fread_string(static_cast<FILE *>(fp));
             } else if (word == "lastloginat") {
-                info.last_login_at = fread_string(fp);
+                info.last_login_at = fread_string(static_cast<FILE *>(fp));
             } else if (word == "name") {
-                info.name = fread_string(fp);
+                info.name = fread_string(static_cast<FILE *>(fp));
             } else {
-                fread_to_eol(fp);
+                fread_to_eol(static_cast<FILE *>(fp));
             }
         }
     } else {

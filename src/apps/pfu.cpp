@@ -180,7 +180,7 @@ Char *CharUpgrader::simulate_login() {
         auto ch_uptr = std::make_unique<Char>();
         auto *ch = ch_uptr.get();
         ch->pcdata = std::make_unique<PcData>();
-        load_into_char(*ch, last_login, fp);
+        load_into_char(*ch, last_login, static_cast<FILE *>(fp));
         // Takes ownership of the Char unique_ptr.
         char_list.push_back(std::move(ch_uptr));
         desc_.character(ch);

@@ -1571,7 +1571,8 @@ bool dump_memory_stats(Char *ch) {
         auto num_pcs = 0;
         auto aff_count = 0;
         auto count = 0;
-        fmt::print(fp, mem_format, "MobProt"sv, mob_indexes.size(), mob_indexes.size() * (sizeof(MobIndexData)));
+        fmt::print(static_cast<FILE *>(fp), mem_format, "MobProt"sv, mob_indexes.size(),
+                   mob_indexes.size() * (sizeof(MobIndexData)));
         for (auto &&uch : char_list) {
             auto *fch = uch.get();
             count++;
@@ -1580,24 +1581,25 @@ bool dump_memory_stats(Char *ch) {
             aff_count += fch->affected.size();
         }
 
-        fmt::print(fp, mem_format, "Mobs"sv, count, count * (sizeof(MobIndexData)));
-        fmt::print(fp, mem_format, "PcData"sv, num_pcs, num_pcs * (sizeof(PcData)));
+        fmt::print(static_cast<FILE *>(fp), mem_format, "Mobs"sv, count, count * (sizeof(MobIndexData)));
+        fmt::print(static_cast<FILE *>(fp), mem_format, "PcData"sv, num_pcs, num_pcs * (sizeof(PcData)));
         count = static_cast<int>(ranges::distance(descriptors().all()));
-        fmt::print(fp, mem_format, "Descs"sv, count, count * (sizeof(Descriptor)));
+        fmt::print(static_cast<FILE *>(fp), mem_format, "Descs"sv, count, count * (sizeof(Descriptor)));
         aff_count = ranges::accumulate(all_object_indexes() | ranges::views::transform([](const auto &obj_index) {
                                            return obj_index.affected.size();
                                        }),
                                        aff_count);
-        fmt::print(fp, mem_format, "ObjProt"sv, object_indexes.size(), object_indexes.size() * (sizeof(ObjectIndex)));
+        fmt::print(static_cast<FILE *>(fp), mem_format, "ObjProt"sv, object_indexes.size(),
+                   object_indexes.size() * (sizeof(ObjectIndex)));
         count = 0;
         for (auto &&obj : object_list) {
             count++;
             aff_count += obj->affected.size();
         }
 
-        fmt::print(fp, mem_format, "Objs"sv, count, count * (sizeof(Object)));
-        fmt::print(fp, mem_format, "Affects"sv, aff_count, aff_count * (sizeof(AFFECT_DATA)));
-        fmt::print(fp, mem_format, "Rooms"sv, rooms.size(), rooms.size() * (sizeof(Room)));
+        fmt::print(static_cast<FILE *>(fp), mem_format, "Objs"sv, count, count * (sizeof(Object)));
+        fmt::print(static_cast<FILE *>(fp), mem_format, "Affects"sv, aff_count, aff_count * (sizeof(AFFECT_DATA)));
+        fmt::print(static_cast<FILE *>(fp), mem_format, "Rooms"sv, rooms.size(), rooms.size() * (sizeof(Room)));
         return true;
     } else {
         bug("Unable to open mem.dmp for write, char: {}.", ch->name);
@@ -1607,11 +1609,11 @@ bool dump_memory_stats(Char *ch) {
 
 bool dump_mobile_stats(Char *ch) {
     if (auto fp = WrappedFd::open_write("mob.dmp")) {
-        fmt::print(fp, "\nMobile Analysis\n");
-        fmt::print(fp, "---------------\n");
+        fmt::print(static_cast<FILE *>(fp), "\nMobile Analysis\n");
+        fmt::print(static_cast<FILE *>(fp), "---------------\n");
         for (const auto &mob : all_mob_indexes())
-            fmt::print(fp, "#{:<4} {:>3} active {:>3} killed     {}\n", mob.vnum, mob.count, mob.killed,
-                       mob.short_descr);
+            fmt::print(static_cast<FILE *>(fp), "#{:<4} {:>3} active {:>3} killed     {}\n", mob.vnum, mob.count,
+                       mob.killed, mob.short_descr);
         return true;
     } else {
         bug("Unable to open mob.dmp for write, char: {}.", ch->name);
@@ -1621,11 +1623,11 @@ bool dump_mobile_stats(Char *ch) {
 
 bool dump_object_stats(Char *ch) {
     if (auto fp = WrappedFd::open_write("obj.dmp")) {
-        fmt::print(fp, "\nObject Analysis\n");
-        fmt::print(fp, "---------------\n");
+        fmt::print(static_cast<FILE *>(fp), "\nObject Analysis\n");
+        fmt::print(static_cast<FILE *>(fp), "---------------\n");
         for (const auto &obj_index : all_object_indexes()) {
-            fmt::print(fp, "#{:<4} {:>3} active {:>3} reset      {}\n", obj_index.vnum, obj_index.count,
-                       obj_index.reset_num, obj_index.short_descr);
+            fmt::print(static_cast<FILE *>(fp), "#{:<4} {:>3} active {:>3} reset      {}\n", obj_index.vnum,
+                       obj_index.count, obj_index.reset_num, obj_index.short_descr);
         }
         return true;
     } else {
@@ -1688,7 +1690,7 @@ int interpolate(int level, int value_00, int value_32) { return value_00 + level
  */
 bool append_file(std::string file, std::string_view text) {
     if (auto fp = WrappedFd::open_append(file)) {
-        fmt::print(fp, "{}", text);
+        fmt::print(static_cast<FILE *>(fp), "{}", text);
         return true;
     } else {
         perror(file.c_str());

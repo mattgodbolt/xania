@@ -122,7 +122,7 @@ void load_mobprogs(FILE *fp) {
                 const auto file_name = fread_word(fp);
                 const auto file_path = fmt::format("{}{}", Configuration::singleton().area_dir(), file_name);
                 if (auto prog_file = WrappedFd::open(file_path)) {
-                    if (!read_program(file_name, prog_file, mob)) {
+                    if (!read_program(file_name, static_cast<FILE *>(prog_file), mob)) {
                         exit(1);
                     }
                     fread_to_eol(fp);
