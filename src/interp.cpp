@@ -23,7 +23,6 @@
 #include "handler.hpp"
 
 #include <fmt/format.h>
-#include <magic_enum.hpp>
 
 #include <functional>
 #include <utility>

@@ -4,7 +4,6 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "InjuredPart.hpp"
-#include "AffectFlag.hpp"
 #include "Attacks.hpp"
 #include "BodyPartFlag.hpp"
 #include "BodySize.hpp"
@@ -16,7 +15,6 @@
 #include "common/BitOps.hpp"
 #include "handler.hpp"
 
-#include <magic_enum.hpp>
 #include <tuple>
 
 namespace {

@@ -7,7 +7,6 @@
 #include "AFFECT_DATA.hpp"
 #include "Char.hpp"
 #include "Logging.hpp"
-#include "MobIndexData.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
@@ -19,7 +18,6 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
-#include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/numeric/accumulate.hpp>
 #include <range/v3/view/transform.hpp>
 

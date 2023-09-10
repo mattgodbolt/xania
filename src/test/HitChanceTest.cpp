@@ -6,7 +6,6 @@
 #include "HitChance.hpp"
 #include "AffectFlag.hpp"
 #include "CharActFlag.hpp"
-#include "Classes.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "handler.hpp"

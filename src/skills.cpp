@@ -21,14 +21,11 @@
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
-#include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
 #include "magic.h"
 #include "string_utils.hpp"
 #include "update.hpp"
-
-#include <map>
 
 namespace {
 

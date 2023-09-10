@@ -2,8 +2,6 @@
 
 #include <fmt/format.h>
 #include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 Configuration::Configuration() {
     area_dir_ = make_path(require_path_env(MUD_AREA_DIR_ENV));

@@ -5,8 +5,6 @@
 /*  Chat bot originally written by Chris Busch in 1993-5, this file is a */
 /*  reimplementation of that work.                                       */
 /*************************************************************************/
-#include <cstdio>
-
 #include "KeywordResponses.hpp"
 
 using namespace chat;

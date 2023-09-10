@@ -10,13 +10,11 @@
 #include "Char.hpp"
 #include "CommandSet.hpp"
 #include "Constants.hpp"
-#include "Descriptor.hpp"
 #include "interp.h"
 
 #include <fmt/format.h>
 
 #include "DescriptorList.hpp"
-#include "comm.hpp"
 
 namespace {
 

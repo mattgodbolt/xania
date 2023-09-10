@@ -5,19 +5,15 @@
 /*************************************************************************/
 #include "MProgImpl.hpp"
 #include "AffectFlag.hpp"
-#include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "MProgTypeFlag.hpp"
 #include "MemFile.hpp"
-#include "MobIndexData.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
-#include "common/BitOps.hpp"
 #include "string_utils.hpp"
 #include <catch2/catch_test_macros.hpp>
-#include <catch2/catch_version_macros.hpp>
 
 #include "MockRng.hpp"
 

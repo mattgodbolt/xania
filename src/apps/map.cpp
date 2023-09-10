@@ -8,7 +8,6 @@
 #include <fmt/ostream.h>
 #include <lyra/lyra.hpp>
 #include <unistd.h>
-#include <unordered_set>
 
 static constexpr PerDirection<std::string_view> compass_pt = {"n", "e", "s", "w", "ne", "sw"};
 static constexpr PerDirection<std::string_view> bidir_name = {"n/s", "e/w", "n/s", "e/w", "u/d", "u/d"};

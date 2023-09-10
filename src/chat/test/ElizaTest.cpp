@@ -6,9 +6,6 @@
 /*  reimplementation of that work.                                       */
 /*************************************************************************/
 #include "chat/Eliza.hpp"
-#include "chat/Database.hpp"
-#include "chat/KeywordResponses.hpp"
-#include <unistd.h>
 
 #include <catch2/catch_test_macros.hpp>
 

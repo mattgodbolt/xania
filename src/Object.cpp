@@ -5,7 +5,6 @@
 /*************************************************************************/
 #include "Object.hpp"
 #include "Char.hpp"
-#include "FlagFormat.hpp"
 #include "Lights.hpp"
 #include "Logging.hpp"
 #include "ObjectExtraFlag.hpp"

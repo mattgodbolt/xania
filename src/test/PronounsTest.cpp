@@ -4,9 +4,7 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Pronouns.hpp"
-#include "ArgParser.hpp"
 #include "Char.hpp"
-#include "Sex.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 

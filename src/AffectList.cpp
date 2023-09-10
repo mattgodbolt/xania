@@ -3,7 +3,6 @@
 #include "Logging.hpp"
 
 #include <range/v3/algorithm/find.hpp>
-#include <range/v3/iterator/operations.hpp>
 
 AFFECT_DATA &AffectList::add(const AFFECT_DATA &aff) { return list_.add_front(aff); }
 

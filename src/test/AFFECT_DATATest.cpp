@@ -1,9 +1,6 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "SkillNumbers.hpp"
-#include "common/BitOps.hpp"
-
-#include "Char.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 

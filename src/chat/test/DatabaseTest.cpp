@@ -6,7 +6,6 @@
 /*  reimplementation of that work.                                       */
 /*************************************************************************/
 #include "chat/Database.hpp"
-#include "chat/KeywordResponses.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 

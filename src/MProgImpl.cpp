@@ -27,8 +27,6 @@
 #include "Rng.hpp"
 #include "Room.hpp"
 #include "common/BitOps.hpp"
-#include "db.h"
-#include "handler.hpp"
 #include "interp.h"
 #include "string_utils.hpp"
 

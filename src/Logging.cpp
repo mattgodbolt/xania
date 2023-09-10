@@ -1,5 +1,4 @@
 #include "Logging.hpp"
-#include "Char.hpp"
 
 #include "DescriptorList.hpp"
 #include "common/Time.hpp"

@@ -7,7 +7,6 @@
 #include "Object.hpp"
 #include "ObjectExtraFlag.hpp"
 #include "ObjectType.hpp"
-#include "ObjectWearFlag.hpp"
 #include "common/BitOps.hpp"
 #include "string_utils.hpp"
 

@@ -18,8 +18,6 @@
 #include "save.hpp"
 #include "string_utils.hpp"
 
-#include <fmt/format.h>
-
 #include <sys/stat.h>
 #include <unordered_map>
 

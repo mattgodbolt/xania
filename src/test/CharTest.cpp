@@ -3,7 +3,6 @@
 #include "CharActFlag.hpp"
 #include "PlayerActFlag.hpp"
 #include "Room.hpp"
-#include "common/BitOps.hpp"
 #include "lookup.h"
 
 #include <catch2/catch_test_macros.hpp>

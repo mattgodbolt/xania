@@ -10,8 +10,6 @@
 #include "OffensiveFlag.hpp"
 #include "ToleranceFlag.hpp"
 
-#include <magic_enum.hpp>
-
 /* race table */
 /* when adding a new PC race ensure that it appears towards the top
    of this list! */

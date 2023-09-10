@@ -1,5 +1,4 @@
 #include "MobIndexData.hpp"
-#include "ArmourClass.hpp"
 #include "Attacks.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
@@ -9,7 +8,6 @@
 
 #include "db.h"
 #include "handler.hpp"
-#include "lookup.h"
 #include "string_utils.hpp"
 
 std::optional<MobIndexData> MobIndexData::from_file(FILE *fp) {

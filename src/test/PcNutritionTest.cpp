@@ -1,7 +1,6 @@
 #include "PcNutrition.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "Constants.hpp"
 #include "common/BitOps.hpp"
 
 #include <catch2/catch_test_macros.hpp>

@@ -6,13 +6,10 @@
 
 #include "Flag.hpp"
 #include "AffectFlag.hpp"
-#include "Constants.hpp"
-#include "FlagFormat.hpp"
 #include "ObjectExtraFlag.hpp"
 #include "ObjectWearFlag.hpp"
 #include "RoomFlag.hpp"
 #include "WeaponFlag.hpp"
-#include "common/StandardBits.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 

@@ -1,10 +1,8 @@
 #include "MobIndexData.hpp"
 #include "Attacks.hpp"
 #include "BodySize.hpp"
-#include "Materials.hpp"
 #include "Races.hpp"
 
-#include "CatchFormatters.hpp"
 #include "string_utils.hpp"
 
 #include <catch2/catch_test_macros.hpp>

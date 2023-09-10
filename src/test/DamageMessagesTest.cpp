@@ -1,6 +1,5 @@
 #include "DamageMessages.hpp"
 #include "Char.hpp"
-#include "DamageType.hpp"
 #include "lookup.h"
 
 #include <catch2/catch_test_macros.hpp>

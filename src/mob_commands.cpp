@@ -18,16 +18,12 @@
  *  such installation can be found in INSTALL.  Enjoy........    N'Atas-Ha *
  ***************************************************************************/
 
-#include "AffectFlag.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
-#include "CharActFlag.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
 #include "Logging.hpp"
-#include "MobIndexData.hpp"
 #include "Object.hpp"
-#include "ObjectWearFlag.hpp"
 #include "Worn.hpp"
 #include "comm.hpp"
 #include "db.h"
