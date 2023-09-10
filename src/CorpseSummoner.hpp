@@ -35,8 +35,6 @@ public:
      */
     void SummonCorpse(Char *player, Char *summoner, Object *catalyst);
 
-    time_t last_advice_time();
-
     void summoner_awaits(Char *ch, const time_t time_secs);
 
     bool check_summoner_preconditions(Char *player, Char *summoner);

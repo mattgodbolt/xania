@@ -65,7 +65,6 @@ int mana_gain(Char *ch);
 int move_gain(Char *ch);
 void mobile_update();
 void weather_update();
-void ord();
 void obj_update();
 void aggr_update();
 

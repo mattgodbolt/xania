@@ -27,18 +27,6 @@
 
 #include <magic_enum.hpp>
 
-// Support function: checks if a string is numeric and in 0<=x<max
-// Returns number or -1 if not
-int numeric_lookup_check(std::string_view name, const int max) {
-    if (!is_number(name))
-        return -1;
-    const auto retVal = parse_number(name);
-    if (retVal >= 0 && retVal < max)
-        return retVal;
-    else
-        return -1;
-}
-
 /*
  * Lookup a skill by name.
  */

@@ -29,8 +29,6 @@ SpecialFunc spec_lookup(std::string_view name);
 
 CorpseSummoner::CorpseSummoner(Dependencies &dependencies) : mud_{dependencies}, last_advice_time_{0} {}
 
-time_t CorpseSummoner::last_advice_time() { return last_advice_time_; }
-
 void CorpseSummoner::summoner_awaits(Char *ch, const time_t time_secs) {
     if (time_secs - last_advice_time_ > 30) {
         last_advice_time_ = time_secs;

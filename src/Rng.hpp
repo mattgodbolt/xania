@@ -30,11 +30,3 @@ public:
     explicit KnuthRng(int seed);
     int number_mm() noexcept override;
 };
-
-class FakeRng final : public Rng {
-    int result_;
-
-public:
-    explicit FakeRng(int result) : result_(result) {}
-    int number_mm() noexcept override { return result_; }
-};

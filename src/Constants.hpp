@@ -9,7 +9,6 @@ static inline constexpr auto PAGELEN = 22;
 // Game parameters.
 // Increase the max'es if you add more of something.
 // Adjust the pulse numbers to suit yourself.
-static inline constexpr auto MAX_SOCIALS = 256;
 static inline constexpr auto MAX_SKILL = 150;
 static inline constexpr auto MAX_GROUP = 30;
 static inline constexpr auto MAX_IN_GROUP = 15;
