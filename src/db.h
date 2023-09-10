@@ -68,7 +68,7 @@ int number_bits(int width);
 int number_mm();
 int dice(int number, int size);
 int interpolate(int level, int value_00, int value_32);
-bool append_file(std::string file, std::string_view text);
+bool append_file(const std::string &file, std::string_view text);
 char fread_letter(FILE *fp);
 int fread_number(FILE *fp);
 int fread_spnumber(FILE *fp);

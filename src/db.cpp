@@ -1688,7 +1688,7 @@ int interpolate(int level, int value_00, int value_32) { return value_00 + level
 /*
  * Appends text to a system file.
  */
-bool append_file(std::string file, std::string_view text) {
+bool append_file(const std::string &file, std::string_view text) {
     if (auto fp = WrappedFd::open_append(file)) {
         fmt::print(static_cast<FILE *>(fp), "{}", text);
         return true;

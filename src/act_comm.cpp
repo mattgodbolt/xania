@@ -303,7 +303,7 @@ std::string format_player_suggestion(const Char *ch, std::string_view raw_sugges
     return fmt::format("[{:5}] {} {}\n\r", ch->in_room ? ch->in_room->vnum : 0, ch->name, raw_suggestion);
 }
 
-void save_player_suggestion(const Char *ch, std::string_view raw_suggestion, std::string file,
+void save_player_suggestion(const Char *ch, std::string_view raw_suggestion, const std::string &file,
                             std::string_view missing_msg, std::string_view success_msg, std::string_view error_msg) {
     if (ch->is_npc()) {
         return;
