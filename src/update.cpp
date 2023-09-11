@@ -104,7 +104,7 @@ void advance_level(Char *ch) {
     using namespace std::chrono;
     ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
-    ch->set_title(fmt::format("the {}", title_table[ch->class_num][ch->level][ch->sex.is_male() ? 0 : 1]));
+    ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
 
     add_hp = con_app[ch->curr_stat(Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);
@@ -163,7 +163,7 @@ void lose_level(Char *ch) {
     using namespace std::chrono;
     ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
 
-    ch->set_title(fmt::format("the {}", title_table[ch->class_num][ch->level][ch->sex.is_male() ? 0 : 1]));
+    ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
 
     add_hp = con_app[ch->max_stat(Stat::Con)].hitp
              + number_range(class_table[ch->class_num].hp_min, class_table[ch->class_num].hp_max);

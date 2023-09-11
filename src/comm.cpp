@@ -952,7 +952,7 @@ void nanny(Descriptor *d, std::string_view argument) {
             ch->move = ch->max_move;
             ch->train = NewbieNumTrains;
             ch->practice = NewbieNumPracs;
-            ch->send_to("the {}", title_table[ch->class_num][ch->level][ch->sex.is_male() ? 0 : 1]);
+            ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
 
             do_outfit(ch);
             auto map_uptr = get_obj_index(Objects::Map)->create_object();

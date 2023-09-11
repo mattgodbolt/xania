@@ -1,498 +1,527 @@
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 2021 Xania Development Team                                      */
+/*  (C) 2023 Xania Development Team                                      */
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Titles.hpp"
-
-const char *title_table[MAX_CLASS][MAX_LEVEL + 1][2] = {{{"Man", "Woman"},
-
-                                                         {"Apprentice of Magic", "Apprentice of Magic"},
-                                                         {"Apprentice of Magic", "Apprentice of Magic"},
-                                                         {"Apprentice of Magic", "Apprentice of Magic"},
-                                                         {"Spell Student", "Spell Student"},
-                                                         {"Spell Student", "Spell Student"},
-
-                                                         {"Spell Student", "Spell Student"},
-                                                         {"Scholar of Magic", "Scholar of Magic"},
-                                                         {"Scholar of Magic", "Scholar of Magic"},
-                                                         {"Scholar of Magic", "Scholar of Magic"},
-                                                         {"Delver in Spells", "Delveress in Spells"},
-
-                                                         {"Delver in Spells", "Delveress in Spells"},
-                                                         {"Delver in Spells", "Delveress in Spells"},
-                                                         {"Medium of Magic", "Medium of Magic"},
-                                                         {"Medium of Magic", "Medium of Magic"},
-                                                         {"Medium of Magic", "Medium of Magic"},
-
-                                                         {"Scribe of Magic", "Scribess of Magic"},
-                                                         {"Scribe of Magic", "Scribess of Magic"},
-                                                         {"Scribe of Magic", "Scribess of Magic"},
-                                                         {"Seer", "Seeress"},
-                                                         {"Seer", "Seeress"},
-
-                                                         {"Seer", "Seeress"},
-                                                         {"Sage", "Sage"},
-                                                         {"Sage", "Sage"},
-                                                         {"Sage", "Sage"},
-                                                         {"Illusionist", "Illusionist"},
-
-                                                         {"Illusionist", "Illusionist"},
-                                                         {"Illusionist", "Illusionist"},
-                                                         {"Abjurer", "Abjuress"},
-                                                         {"Abjurer", "Abjuress"},
-                                                         {"Abjurer", "Abjuress"},
-
-                                                         {"Invoker", "Invoker"},
-                                                         {"Invoker", "Invoker"},
-                                                         {"Invoker", "Invoker"},
-                                                         {"Enchanter", "Enchantress"},
-                                                         {"Enchanter", "Enchantress"},
-
-                                                         {"Enchanter", "Enchantress"},
-                                                         {"Conjurer", "Conjuress"},
-                                                         {"Conjurer", "Conjuress"},
-                                                         {"Conjurer", "Conjuress"},
-                                                         {"Magician", "Witch"},
-
-                                                         {"Magician", "Witch"},
-                                                         {"Magician", "Witch"},
-                                                         {"Creator", "Creator"},
-                                                         {"Creator", "Creator"},
-                                                         {"Creator", "Creator"},
-
-                                                         {"Savant", "Savant"},
-                                                         {"Savant", "Savant"},
-                                                         {"Savant", "Savant"},
-                                                         {"Magus", "Craftess"},
-                                                         {"Magus", "Craftess"},
-
-                                                         {"Magus", "Craftess"},
-                                                         {"Wizard", "Wizard"},
-                                                         {"Wizard", "Wizard"},
-                                                         {"Wizard", "Wizard"},
-                                                         {"Warlock", "War Witch"},
-
-                                                         {"Warlock", "War Witch"},
-                                                         {"Warlock", "War Witch"},
-                                                         {"Sorcerer", "Sorceress"},
-                                                         {"Sorcerer", "Sorceress"},
-                                                         {"Sorcerer", "Sorceress"},
-
-                                                         {"Elder Sorcerer", "Elder Sorceress"},
-                                                         {"Elder Sorcerer", "Elder Sorceress"},
-                                                         {"Elder Sorcerer", "Elder Sorceress"},
-                                                         {"Grand Sorcerer", "Grand Sorceress"},
-                                                         {"Grand Sorcerer", "Grand Sorceress"},
-
-                                                         {"Great Sorcerer", "Great Sorceress"},
-                                                         {"Great Sorcerer", "Great Sorceress"},
-                                                         {"Great Sorcerer", "Great Sorceress"},
-                                                         {"Golem Maker", "Golem Maker"},
-                                                         {"Golem Maker", "Golem Maker"},
-
-                                                         {"Greater Golem Maker", "Greater Golem Maker"},
-                                                         {"Greater Golem Maker", "Greater Golem Maker"},
-                                                         {"Maker of Stones", "Maker of Stones"},
-                                                         {"Maker of Stones", "Maker of Stones"},
-                                                         {"Maker of Potions", "Maker of Potions"},
-
-                                                         {"Maker of Potions", "Maker of Potions"},
-                                                         {"Maker of Scrolls", "Maker of Scrolls"},
-                                                         {"Maker of Scrolls", "Maker of Scrolls"},
-                                                         {"Maker of Wands", "Maker of Wands"},
-                                                         {"Maker of Wands", "Maker of Wands"},
-
-                                                         {"Maker of Staves", "Maker of Staves"},
-                                                         {"Maker of Staves", "Maker of Staves"},
-                                                         {"Demon Summoner", "Demon Summoner"},
-                                                         {"Demon Summoner", "Demon Summoner"},
-                                                         {"Greater Demon Summoner", "Greater Demon Summoner"},
-
-                                                         {"Greater Demon Summoner", "Greater Demon Summoner"},
-                                                         {"Dragon Charmer", "Dragon Charmer"},
-                                                         {"Dragon Charmer", "Dragon Charmer"},
-                                                         {"Greater Dragon Charmer", "Greater Dragon Charmer"},
-                                                         {"Master of all Magic", "Master of all Magic"},
-
-                                                         {"Master Mage", "Master Mage"},
-                                                         {"Avatar of Magic", "Avatar of Magic"},
-                                                         {"Angel of Magic", "Angel of Magic"},
-                                                         {"Demigod of Magic", "Demigoddess of Magic"},
-                                                         {"Immortal of Magic", "Immortal of Magic"},
-
-                                                         {"God of Magic", "Goddess of Magic"},
-                                                         {"Deity of Magic", "Deity of Magic"},
-                                                         {"Supremity of Magic", "Supremity of Magic"},
-                                                         {"Creator", "Creator"},
-                                                         {"Implementor", "Implementress"}},
-
-                                                        {{"Man", "Woman"},
-
-                                                         {"Believer", "Believer"},
-                                                         {"Believer", "Believer"},
-                                                         {"Believer", "Believer"},
-                                                         {"Attendant", "Attendant"},
-                                                         {"Attendant", "Attendant"},
-
-                                                         {"Attendant", "Attendant"},
-                                                         {"Acolyte", "Acolyte"},
-                                                         {"Acolyte", "Acolyte"},
-                                                         {"Acolyte", "Acolyte"},
-                                                         {"Novice", "Novice"},
-
-                                                         {"Novice", "Novice"},
-                                                         {"Novice", "Novice"},
-                                                         {"Missionary", "Missionary"},
-                                                         {"Missionary", "Missionary"},
-                                                         {"Missionary", "Missionary"},
-
-                                                         {"Adept", "Adept"},
-                                                         {"Adept", "Adept"},
-                                                         {"Adept", "Adept"},
-                                                         {"Deacon", "Deaconess"},
-                                                         {"Deacon", "Deaconess"},
-
-                                                         {"Deacon", "Deaconess"},
-                                                         {"Vicar", "Vicaress"},
-                                                         {"Vicar", "Vicaress"},
-                                                         {"Vicar", "Vicaress"},
-                                                         {"Priest", "Priestess"},
-
-                                                         {"Priest", "Priestess"},
-                                                         {"Priest", "Priestess"},
-                                                         {"Priest", "Priestess"},
-                                                         {"Minister", "Lady Minister"},
-                                                         {"Minister", "Lady Minister"},
-
-                                                         {"Minister", "Lady Minister"},
-                                                         {"Canon", "Canon"},
-                                                         {"Canon", "Canon"},
-                                                         {"Canon", "Canon"},
-                                                         {"Levite", "Levitess"},
-
-                                                         {"Levite", "Levitess"},
-                                                         {"Levite", "Levitess"},
-                                                         {"Curate", "Curess"},
-                                                         {"Curate", "Curess"},
-                                                         {"Curate", "Curess"},
-
-                                                         {"Monk", "Nun"},
-                                                         {"Monk", "Nun"},
-                                                         {"Monk", "Nun"},
-                                                         {"Healer", "Healess"},
-                                                         {"Healer", "Healess"},
-
-                                                         {"Healer", "Healess"},
-                                                         {"Chaplain", "Chaplain"},
-                                                         {"Chaplain", "Chaplain"},
-                                                         {"Chaplain", "Chaplain"},
-                                                         {"Expositor", "Expositress"},
-
-                                                         {"Expositor", "Expositress"},
-                                                         {"Expositor", "Expositress"},
-                                                         {"Bishop", "Bishop"},
-                                                         {"Bishop", "Bishop"},
-                                                         {"Bishop", "Bishop"},
-
-                                                         {"Arch Bishop", "Arch Lady of the Church"},
-                                                         {"Arch Bishop", "Arch Lady of the Church"},
-                                                         {"Arch Bishop", "Arch Lady of the Church"},
-                                                         {"Patriarch", "Matriarch"},
-                                                         {"Patriarch", "Matriarch"},
-
-                                                         {"Patriarch", "Matriarch"},
-                                                         {"Elder Patriarch", "Elder Matriarch"},
-                                                         {"Elder Patriarch", "Elder Matriarch"},
-                                                         {"Elder Patriarch", "Elder Matriarch"},
-                                                         {"Grand Patriarch", "Grand Matriarch"},
-
-                                                         {"Grand Patriarch", "Grand Matriarch"},
-                                                         {"Great Patriarch", "Great Matriarch"},
-                                                         {"Great Patriarch", "Great Matriarch"},
-                                                         {"Great Patriarch", "Great Matriarch"},
-                                                         {"Demon Killer", "Demon Killer"},
-
-                                                         {"Demon Killer", "Demon Killer"},
-                                                         {"Demon Killer", "Demon Killer"},
-                                                         {"Greater Demon Killer", "Greater Demon Killer"},
-                                                         {"Greater Demon Killer", "Greater Demon Killer"},
-                                                         {"Greater Demon Killer", "Greater Demon Killer"},
-
-                                                         {"Cardinal of the Sea", "Cardinal of the Sea"},
-                                                         {"Cardinal of the Sea", "Cardinal of the Sea"},
-                                                         {"Cardinal of the Earth", "Cardinal of the Earth"},
-                                                         {"Cardinal of the Earth", "Cardinal of the Earth"},
-                                                         {"Cardinal of the Air", "Cardinal of the Air"},
-
-                                                         {"Cardinal of the Air", "Cardinal of the Air"},
-                                                         {"Cardinal of the Ether", "Cardinal of the Ether"},
-                                                         {"Cardinal of the Ether", "Cardinal of the Ether"},
-                                                         {"Cardinal of the Heavens", "Cardinal of the Heavens"},
-                                                         {"Cardinal of the Heavens", "Cardinal of the Heavens"},
-
-                                                         {"Avatar of an Immortal", "Avatar of an Immortal"},
-                                                         {"Avatar of a Deity", "Avatar of a Deity"},
-                                                         {"Avatar of a Supremity", "Avatar of a Supremity"},
-                                                         {"Avatar of an Implementor", "Avatar of an Implementor"},
-                                                         {"Master of all Divinity", "Mistress of all Divinity"},
-
-                                                         {"Holy Hero", "Holy Heroine"},
-                                                         {"Holy Avatar", "Holy Avatar"},
-                                                         {"Angel", "Angel"},
-                                                         {"Demigod", "Demigoddess"},
-                                                         {"Immortal", "Immortal"},
-
-                                                         {"God", "Goddess"},
-                                                         {"Deity", "Deity"},
-                                                         {"Supreme Master", "Supreme Mistress"},
-                                                         {"Creator", "Creator"},
-                                                         {"Implementor", "Implementress"}},
-
-                                                        {{"Man", "Woman"},
-
-                                                         {"Swordpupil", "Swordpupil"},
-                                                         {"Swordpupil", "Swordpupil"},
-                                                         {"Swordpupil", "Swordpupil"},
-                                                         {"Recruit", "Recruit"},
-                                                         {"Recruit", "Recruit"},
-
-                                                         {"Recruit", "Recruit"},
-                                                         {"Recruit", "Recruit"},
-                                                         {"Sentry", "Sentress"},
-                                                         {"Sentry", "Sentress"},
-                                                         {"Sentry", "Sentress"},
-
-                                                         {"Fighter", "Fighter"},
-                                                         {"Fighter", "Fighter"},
-                                                         {"Fighter", "Fighter"},
-                                                         {"Soldier", "Soldier"},
-                                                         {"Soldier", "Soldier"},
-
-                                                         {"Soldier", "Soldier"},
-                                                         {"Warrior", "Warrior"},
-                                                         {"Warrior", "Warrior"},
-                                                         {"Warrior", "Warrior"},
-                                                         {"Veteran", "Veteran"},
-
-                                                         {"Veteran", "Veteran"},
-                                                         {"Veteran", "Veteran"},
-                                                         {"Swordsman", "Swordswoman"},
-                                                         {"Swordsman", "Swordswoman"},
-                                                         {"Swordsman", "Swordswoman"},
-
-                                                         {"Fencer", "Fenceress"},
-                                                         {"Fencer", "Fenceress"},
-                                                         {"Fencer", "Fenceress"},
-                                                         {"Combatant", "Combatess"},
-                                                         {"Combatant", "Combatess"},
-
-                                                         {"Combatant", "Combatess"},
-                                                         {"Hero", "Heroine"},
-                                                         {"Hero", "Heroine"},
-                                                         {"Hero", "Heroine"},
-                                                         {"Myrmidon", "Myrmidon"},
-
-                                                         {"Myrmidon", "Myrmidon"},
-                                                         {"Swashbuckler", "Swashbuckleress"},
-                                                         {"Swashbuckler", "Swashbuckleress"},
-                                                         {"Swashbuckler", "Swashbuckleress"},
-                                                         {"Mercenary", "Mercenaress"},
-
-                                                         {"Mercenary", "Mercenaress"},
-                                                         {"Mercenary", "Mercenaress"},
-                                                         {"Swordmaster", "Swordmistress"},
-                                                         {"Swordmaster", "Swordmistress"},
-                                                         {"Swordmaster", "Swordmistress"},
-
-                                                         {"Lieutenant", "Lieutenant"},
-                                                         {"Lieutenant", "Lieutenant"},
-                                                         {"Lieutenant", "Lieutenant"},
-                                                         {"Champion", "Lady Champion"},
-                                                         {"Champion", "Lady Champion"},
-
-                                                         {"Champion", "Lady Champion"},
-                                                         {"Dragoon", "Lady Dragoon"},
-                                                         {"Dragoon", "Lady Dragoon"},
-                                                         {"Dragoon", "Lady Dragoon"},
-                                                         {"Cavalier", "Lady Cavalier"},
-
-                                                         {"Cavalier", "Lady Cavalier"},
-                                                         {"Cavalier", "Lady Cavalier"},
-                                                         {"Knight", "Lady Knight"},
-                                                         {"Knight", "Lady Knight"},
-                                                         {"Knight", "Lady Knight"},
-
-                                                         {"Grand Knight", "Grand Knight"},
-                                                         {"Grand Knight", "Grand Knight"},
-                                                         {"Grand Knight", "Grand Knight"},
-                                                         {"Master Knight", "Master Knight"},
-                                                         {"Master Knight", "Master Knight"},
-
-                                                         {"Paladin", "Paladin"},
-                                                         {"Paladin", "Paladin"},
-                                                         {"Grand Paladin", "Grand Paladin"},
-                                                         {"Grand Paladin", "Grand Paladin"},
-                                                         {"Demon Slayer", "Demon Slayer"},
-
-                                                         {"Demon Slayer", "Demon Slayer"},
-                                                         {"Greater Demon Slayer", "Greater Demon Slayer"},
-                                                         {"Greater Demon Slayer", "Greater Demon Slayer"},
-                                                         {"Dragon Slayer", "Dragon Slayer"},
-                                                         {"Dragon Slayer", "Dragon Slayer"},
-
-                                                         {"Greater Dragon Slayer", "Greater Dragon Slayer"},
-                                                         {"Greater Dragon Slayer", "Greater Dragon Slayer"},
-                                                         {"Underlord", "Underlord"},
-                                                         {"Underlord", "Underlord"},
-                                                         {"Overlord", "Overlord"},
-
-                                                         {"Baron of Thunder", "Baroness of Thunder"},
-                                                         {"Baron of Thunder", "Baroness of Thunder"},
-                                                         {"Baron of Storms", "Baroness of Storms"},
-                                                         {"Baron of Storms", "Baroness of Storms"},
-                                                         {"Baron of Lightning", "Baroness of Lightning"},
-
-                                                         {"Baron of Tornadoes", "Baroness of Tornadoes"},
-                                                         {"Baron of Hurricanes", "Baroness of Hurricanes"},
-                                                         {"Baron of Meteors", "Baroness of Meteors"},
-                                                         {"Baron of the Earth", "Baroness of the Earth"},
-                                                         {"Master Warrior", "Master Warrior"},
-
-                                                         {"Knight Hero", "Knight Heroine"},
-                                                         {"Avatar of War", "Avatar of War"},
-                                                         {"Angel of War", "Angel of War"},
-                                                         {"Demigod of War", "Demigoddess of War"},
-                                                         {"Immortal Warlord", "Immortal Warlord"},
-
-                                                         {"God of War", "God of War"},
-                                                         {"Deity of War", "Deity of War"},
-                                                         {"Supreme Master of War", "Supreme Mistress of War"},
-                                                         {"Creator", "Creator"},
-                                                         {"Implementor", "Implementress"}},
-
-                                                        {{"Man", "Woman"},
-
-                                                         {"Axeman", "Axewoman"},
-                                                         {"Axeman", "Axewoman"},
-                                                         {"Axeman", "Axewoman"},
-                                                         {"Rogue", "Rogue"},
-                                                         {"Rogue", "Rogue"},
-
-                                                         {"Rogue", "Rogue"},
-                                                         {"Nomad", "Nomad "},
-                                                         {"Nomad", "Nomad "},
-                                                         {"Nomad", "Nomad "},
-                                                         {"Strongman", "Strongwoman"},
-
-                                                         {"Strongman", "Strongwoman"},
-                                                         {"Strongman", "Strongwoman"},
-                                                         {"Bold", "Bold"},
-                                                         {"Bold", "Bold"},
-                                                         {"Bold", "Bold"},
-
-                                                         {"Renegade", "Renegade"},
-                                                         {"Renegade", "Renegade"},
-                                                         {"Renegade", "Renegade"},
-                                                         {"Cut-throat", "Cut-throat"},
-                                                         {"Cut-throat", "Cut-throat"},
-
-                                                         {"Mighty", "Mighty"},
-                                                         {"Mighty", "Mighty"},
-                                                         {"Mighty", "Mighty"},
-                                                         {"Warrior", "Warrior"},
-                                                         {"Warrior", "Warrior"},
-
-                                                         {"Warrior", "Warrior"},
-                                                         {"Executioner", "Executioner"},
-                                                         {"Executioner", "Executioner"},
-                                                         {"Executioner", "Executioner"},
-                                                         {"Weapons Crafter", "Weapons Crafter"},
-
-                                                         {"Weapons Crafter", "Weapons Crafter"},
-                                                         {"Weapons Crafter", "Weapons Crafter"},
-                                                         {"Weapons Master", "Weapons Mistress"},
-                                                         {"Weapons Master", "Weapons Mistress"},
-                                                         {"Weapons Master", "Weapons Mistress"},
-
-                                                         {"Highwayman", "Highwaywoman"},
-                                                         {"Highwayman", "Highwaywoman"},
-                                                         {"Highwayman", "Highwaywoman"},
-                                                         {"Fearless", "Fearless"},
-                                                         {"Fearless", "Fearless"},
-
-                                                         {"Fearless", "Fearless"},
-                                                         {"Barbarian", "Barbarian"},
-                                                         {"Barbarian", "Barbarian"},
-                                                         {"Barbarian", "Barbarian"},
-                                                         {"Kinsman", "Kinswoman"},
-
-                                                         {"Kinsman", "Kinswoman"},
-                                                         {"Kinsman", "Kinswoman"},
-                                                         {"Provider", "Provider"},
-                                                         {"Provider", "Provider"},
-                                                         {"Provider", "Provider"},
-
-                                                         {"Judicier", "Judicier"},
-                                                         {"Judicier", "Judicier"},
-                                                         {"Judicier", "Judicier"},
-                                                         {"Slayer", "Slayer"},
-                                                         {"Slayer", "Slayer"},
-
-                                                         {"Slayer", "Slayer"},
-                                                         {"Giant Slayer", "Giant Slayer"},
-                                                         {"Giant Slayer", "Giant Slayer"},
-                                                         {"Daemon Slayer", "Daemon Slayer"},
-                                                         {"Daemon Slayer", "Daemon Slayer"},
-
-                                                         {"Wanderer of the Plains", "Wanderer of the Plains"},
-                                                         {"Wanderer of the Plains", "Wanderer of the Plains"},
-                                                         {"Wanderer of the Plains", "Wanderer of the Plains"},
-                                                         {"Wanderer of the Plains", "Wanderer of the Plains"},
-
-                                                         {"Baron of the Plains", "Baroness of the Plains"},
-                                                         {"Baron of the Plains", "Baroness of the Plains"},
-                                                         {"Baron of the Plains", "Baroness of the Plains"},
-                                                         {"Lord of the Plains", "Lady of the Plains"},
-                                                         {"Lord of the Plains", "Lady of the Plains"},
-
-                                                         {"Blade Master", "Blade Mistress"},
-                                                         {"Blade Master", "Blade Mistress"},
-
-                                                         {"Infamous", "Infamous"},
-                                                         {"Infamous", "Infamous"},
-
-                                                         {"Infamous", "Infamous"},
-
-                                                         {"Master of Vision", "Mistress of Vision"},
-                                                         {"Master of Vision", "Mistress of Vision"},
-
-                                                         {"Master of Lore", "Mistress of Lore"},
-                                                         {"Master of Lore", "Mistress of Lore"},
-
-                                                         {"Master of the Hunt", "Mistress of the Hunt"},
-                                                         {"Master of the Hunt", "Mistress of the Hunt"},
-
-                                                         {"Master of the Hunt", "Mistress of the Hunt"},
-                                                         {"Guardian of an Immortal", "Guardian of an Immortal"},
-                                                         {"Guardian of an Implementor", "Guardian of an Implementor"},
-                                                         {"Guardian of an Implementor", "Guardian of an Implementor"},
-                                                         {"Master of the Wild", "Mistress of the Wild"},
-
-                                                         {"King of the Animals", "Queen of the Animals"},
-                                                         {"Guardian of Justice", "Guardian of Justice"},
-                                                         {"Protector of the Planet", "Protector of the Planet"},
-                                                         {"Legend of the Realm", "Legend of the Realm"},
-                                                         {"Barbarian King", "Barbarian Queen"},
-
-                                                         {"Hero of Barbarity", "Heroine of Barbarity"},
-                                                         {"Avatar of Death", "Avatar of Death"},
-                                                         {"Angel of Death", "Angel of Death"},
-                                                         {"Demigod", "Demigoddess"},
-                                                         {"Immortal", "Immortal"},
-
-                                                         {"God of Barbarity", "Goddess of Barbarity"},
-                                                         {"Deity", "Deity"},
-                                                         {"Supreme Master", "Supreme Mistress"},
-                                                         {"Creator", "Creator"},
-                                                         {"Implementor", "Implementress"}}};
+#include "Char.hpp"
+#include "Constants.hpp"
+
+#include <algorithm>
+#include <array>
+
+namespace Titles {
+
+using namespace std::literals;
+
+struct Pair {
+    constexpr Pair(std::string_view male, std::string_view female) : male_(male), female_(female) {}
+    [[nodiscard]] std::string_view title(const Char &ch) const { return ch.sex.is_male() ? male_ : female_; }
+    std::string_view male_;
+    std::string_view female_;
+};
+
+constexpr std::array<std::array<Pair, MAX_LEVEL + 1>, MAX_CLASS> AllTitles = {{
+    {
+        {
+            {"Man"sv, "Woman"sv},
+            {"Apprentice of Magic"sv, "Apprentice of Magic"sv},
+            {"Apprentice of Magic"sv, "Apprentice of Magic"sv},
+            {"Apprentice of Magic"sv, "Apprentice of Magic"sv},
+            {"Spell Student"sv, "Spell Student"sv},
+            {"Spell Student"sv, "Spell Student"sv},
+
+            {"Spell Student"sv, "Spell Student"sv},
+            {"Scholar of Magic"sv, "Scholar of Magic"sv},
+            {"Scholar of Magic"sv, "Scholar of Magic"sv},
+            {"Scholar of Magic"sv, "Scholar of Magic"sv},
+            {"Delver in Spells"sv, "Delveress in Spells"sv},
+
+            {"Delver in Spells"sv, "Delveress in Spells"sv},
+            {"Delver in Spells"sv, "Delveress in Spells"sv},
+            {"Medium of Magic"sv, "Medium of Magic"sv},
+            {"Medium of Magic"sv, "Medium of Magic"sv},
+            {"Medium of Magic"sv, "Medium of Magic"sv},
+
+            {"Scribe of Magic"sv, "Scribess of Magic"sv},
+            {"Scribe of Magic"sv, "Scribess of Magic"sv},
+            {"Scribe of Magic"sv, "Scribess of Magic"sv},
+            {"Seer"sv, "Seeress"sv},
+            {"Seer"sv, "Seeress"sv},
+
+            {"Seer"sv, "Seeress"sv},
+            {"Sage"sv, "Sage"sv},
+            {"Sage"sv, "Sage"sv},
+            {"Sage"sv, "Sage"sv},
+            {"Illusionist"sv, "Illusionist"sv},
+
+            {"Illusionist"sv, "Illusionist"sv},
+            {"Illusionist"sv, "Illusionist"sv},
+            {"Abjurer"sv, "Abjuress"sv},
+            {"Abjurer"sv, "Abjuress"sv},
+            {"Abjurer"sv, "Abjuress"sv},
+
+            {"Invoker"sv, "Invoker"sv},
+            {"Invoker"sv, "Invoker"sv},
+            {"Invoker"sv, "Invoker"sv},
+            {"Enchanter"sv, "Enchantress"sv},
+            {"Enchanter"sv, "Enchantress"sv},
+
+            {"Enchanter"sv, "Enchantress"sv},
+            {"Conjurer"sv, "Conjuress"sv},
+            {"Conjurer"sv, "Conjuress"sv},
+            {"Conjurer"sv, "Conjuress"sv},
+            {"Magician"sv, "Witch"sv},
+
+            {"Magician"sv, "Witch"sv},
+            {"Magician"sv, "Witch"sv},
+            {"Creator"sv, "Creator"sv},
+            {"Creator"sv, "Creator"sv},
+            {"Creator"sv, "Creator"sv},
+
+            {"Savant"sv, "Savant"sv},
+            {"Savant"sv, "Savant"sv},
+            {"Savant"sv, "Savant"sv},
+            {"Magus"sv, "Craftess"sv},
+            {"Magus"sv, "Craftess"sv},
+
+            {"Magus"sv, "Craftess"sv},
+            {"Wizard"sv, "Wizard"sv},
+            {"Wizard"sv, "Wizard"sv},
+            {"Wizard"sv, "Wizard"sv},
+            {"Warlock"sv, "War Witch"sv},
+
+            {"Warlock"sv, "War Witch"sv},
+            {"Warlock"sv, "War Witch"sv},
+            {"Sorcerer"sv, "Sorceress"sv},
+            {"Sorcerer"sv, "Sorceress"sv},
+            {"Sorcerer"sv, "Sorceress"sv},
+
+            {"Elder Sorcerer"sv, "Elder Sorceress"sv},
+            {"Elder Sorcerer"sv, "Elder Sorceress"sv},
+            {"Elder Sorcerer"sv, "Elder Sorceress"sv},
+            {"Grand Sorcerer"sv, "Grand Sorceress"sv},
+            {"Grand Sorcerer"sv, "Grand Sorceress"sv},
+
+            {"Great Sorcerer"sv, "Great Sorceress"sv},
+            {"Great Sorcerer"sv, "Great Sorceress"sv},
+            {"Great Sorcerer"sv, "Great Sorceress"sv},
+            {"Golem Maker"sv, "Golem Maker"sv},
+            {"Golem Maker"sv, "Golem Maker"sv},
+
+            {"Greater Golem Maker"sv, "Greater Golem Maker"sv},
+            {"Greater Golem Maker"sv, "Greater Golem Maker"sv},
+            {"Maker of Stones"sv, "Maker of Stones"sv},
+            {"Maker of Stones"sv, "Maker of Stones"sv},
+            {"Maker of Potions"sv, "Maker of Potions"sv},
+
+            {"Maker of Potions"sv, "Maker of Potions"sv},
+            {"Maker of Scrolls"sv, "Maker of Scrolls"sv},
+            {"Maker of Scrolls"sv, "Maker of Scrolls"sv},
+            {"Maker of Wands"sv, "Maker of Wands"sv},
+            {"Maker of Wands"sv, "Maker of Wands"sv},
+
+            {"Maker of Staves"sv, "Maker of Staves"sv},
+            {"Maker of Staves"sv, "Maker of Staves"sv},
+            {"Demon Summoner"sv, "Demon Summoner"sv},
+            {"Demon Summoner"sv, "Demon Summoner"sv},
+            {"Greater Demon Summoner"sv, "Greater Demon Summoner"sv},
+
+            {"Greater Demon Summoner"sv, "Greater Demon Summoner"sv},
+            {"Dragon Charmer"sv, "Dragon Charmer"sv},
+            {"Dragon Charmer"sv, "Dragon Charmer"sv},
+            {"Greater Dragon Charmer"sv, "Greater Dragon Charmer"sv},
+            {"Master of all Magic"sv, "Master of all Magic"sv},
+
+            {"Master Mage"sv, "Master Mage"sv},
+            {"Avatar of Magic"sv, "Avatar of Magic"sv},
+            {"Angel of Magic"sv, "Angel of Magic"sv},
+            {"Demigod of Magic"sv, "Demigoddess of Magic"sv},
+            {"Immortal of Magic"sv, "Immortal of Magic"sv},
+
+            {"God of Magic"sv, "Goddess of Magic"sv},
+            {"Deity of Magic"sv, "Deity of Magic"sv},
+            {"Supremity of Magic"sv, "Supremity of Magic"sv},
+            {"Creator"sv, "Creator"sv},
+            {"Implementor"sv, "Implementress"sv},
+        },
+    },
+    {
+        {
+            {"Man"sv, "Woman"sv},
+            {"Believer"sv, "Believer"sv},
+            {"Believer"sv, "Believer"sv},
+            {"Believer"sv, "Believer"sv},
+            {"Attendant"sv, "Attendant"sv},
+            {"Attendant"sv, "Attendant"sv},
+
+            {"Attendant"sv, "Attendant"sv},
+            {"Acolyte"sv, "Acolyte"sv},
+            {"Acolyte"sv, "Acolyte"sv},
+            {"Acolyte"sv, "Acolyte"sv},
+            {"Novice"sv, "Novice"sv},
+
+            {"Novice"sv, "Novice"sv},
+            {"Novice"sv, "Novice"sv},
+            {"Missionary"sv, "Missionary"sv},
+            {"Missionary"sv, "Missionary"sv},
+            {"Missionary"sv, "Missionary"sv},
+
+            {"Adept"sv, "Adept"sv},
+            {"Adept"sv, "Adept"sv},
+            {"Adept"sv, "Adept"sv},
+            {"Deacon"sv, "Deaconess"sv},
+            {"Deacon"sv, "Deaconess"sv},
+
+            {"Deacon"sv, "Deaconess"sv},
+            {"Vicar"sv, "Vicaress"sv},
+            {"Vicar"sv, "Vicaress"sv},
+            {"Vicar"sv, "Vicaress"sv},
+            {"Priest"sv, "Priestess"sv},
+
+            {"Priest"sv, "Priestess"sv},
+            {"Priest"sv, "Priestess"sv},
+            {"Priest"sv, "Priestess"sv},
+            {"Minister"sv, "Lady Minister"sv},
+            {"Minister"sv, "Lady Minister"sv},
+
+            {"Minister"sv, "Lady Minister"sv},
+            {"Canon"sv, "Canon"sv},
+            {"Canon"sv, "Canon"sv},
+            {"Canon"sv, "Canon"sv},
+            {"Levite"sv, "Levitess"sv},
+
+            {"Levite"sv, "Levitess"sv},
+            {"Levite"sv, "Levitess"sv},
+            {"Curate"sv, "Curess"sv},
+            {"Curate"sv, "Curess"sv},
+            {"Curate"sv, "Curess"sv},
+
+            {"Monk"sv, "Nun"sv},
+            {"Monk"sv, "Nun"sv},
+            {"Monk"sv, "Nun"sv},
+            {"Healer"sv, "Healess"sv},
+            {"Healer"sv, "Healess"sv},
+
+            {"Healer"sv, "Healess"sv},
+            {"Chaplain"sv, "Chaplain"sv},
+            {"Chaplain"sv, "Chaplain"sv},
+            {"Chaplain"sv, "Chaplain"sv},
+            {"Expositor"sv, "Expositress"sv},
+
+            {"Expositor"sv, "Expositress"sv},
+            {"Expositor"sv, "Expositress"sv},
+            {"Bishop"sv, "Bishop"sv},
+            {"Bishop"sv, "Bishop"sv},
+            {"Bishop"sv, "Bishop"sv},
+
+            {"Arch Bishop"sv, "Arch Lady of the Church"sv},
+            {"Arch Bishop"sv, "Arch Lady of the Church"sv},
+            {"Arch Bishop"sv, "Arch Lady of the Church"sv},
+            {"Patriarch"sv, "Matriarch"sv},
+            {"Patriarch"sv, "Matriarch"sv},
+
+            {"Patriarch"sv, "Matriarch"sv},
+            {"Elder Patriarch"sv, "Elder Matriarch"sv},
+            {"Elder Patriarch"sv, "Elder Matriarch"sv},
+            {"Elder Patriarch"sv, "Elder Matriarch"sv},
+            {"Grand Patriarch"sv, "Grand Matriarch"sv},
+
+            {"Grand Patriarch"sv, "Grand Matriarch"sv},
+            {"Great Patriarch"sv, "Great Matriarch"sv},
+            {"Great Patriarch"sv, "Great Matriarch"sv},
+            {"Great Patriarch"sv, "Great Matriarch"sv},
+            {"Demon Killer"sv, "Demon Killer"sv},
+
+            {"Demon Killer"sv, "Demon Killer"sv},
+            {"Demon Killer"sv, "Demon Killer"sv},
+            {"Greater Demon Killer"sv, "Greater Demon Killer"sv},
+            {"Greater Demon Killer"sv, "Greater Demon Killer"sv},
+            {"Greater Demon Killer"sv, "Greater Demon Killer"sv},
+
+            {"Cardinal of the Sea"sv, "Cardinal of the Sea"sv},
+            {"Cardinal of the Sea"sv, "Cardinal of the Sea"sv},
+            {"Cardinal of the Earth"sv, "Cardinal of the Earth"sv},
+            {"Cardinal of the Earth"sv, "Cardinal of the Earth"sv},
+            {"Cardinal of the Air"sv, "Cardinal of the Air"sv},
+
+            {"Cardinal of the Air"sv, "Cardinal of the Air"sv},
+            {"Cardinal of the Ether"sv, "Cardinal of the Ether"sv},
+            {"Cardinal of the Ether"sv, "Cardinal of the Ether"sv},
+            {"Cardinal of the Heavens"sv, "Cardinal of the Heavens"sv},
+            {"Cardinal of the Heavens"sv, "Cardinal of the Heavens"sv},
+
+            {"Avatar of an Immortal"sv, "Avatar of an Immortal"sv},
+            {"Avatar of a Deity"sv, "Avatar of a Deity"sv},
+            {"Avatar of a Supremity"sv, "Avatar of a Supremity"sv},
+            {"Avatar of an Implementor"sv, "Avatar of an Implementor"sv},
+            {"Master of all Divinity"sv, "Mistress of all Divinity"sv},
+
+            {"Holy Hero"sv, "Holy Heroine"sv},
+            {"Holy Avatar"sv, "Holy Avatar"sv},
+            {"Angel"sv, "Angel"sv},
+            {"Demigod"sv, "Demigoddess"sv},
+            {"Immortal"sv, "Immortal"sv},
+
+            {"God"sv, "Goddess"sv},
+            {"Deity"sv, "Deity"sv},
+            {"Supreme Master"sv, "Supreme Mistress"sv},
+            {"Creator"sv, "Creator"sv},
+            {"Implementor"sv, "Implementress"sv},
+        },
+    },
+    {
+        {
+            {"Man"sv, "Woman"sv},
+            {"Swordpupil"sv, "Swordpupil"sv},
+            {"Swordpupil"sv, "Swordpupil"sv},
+            {"Swordpupil"sv, "Swordpupil"sv},
+            {"Recruit"sv, "Recruit"sv},
+            {"Recruit"sv, "Recruit"sv},
+
+            {"Recruit"sv, "Recruit"sv},
+            {"Recruit"sv, "Recruit"sv},
+            {"Sentry"sv, "Sentress"sv},
+            {"Sentry"sv, "Sentress"sv},
+            {"Sentry"sv, "Sentress"sv},
+
+            {"Fighter"sv, "Fighter"sv},
+            {"Fighter"sv, "Fighter"sv},
+            {"Fighter"sv, "Fighter"sv},
+            {"Soldier"sv, "Soldier"sv},
+            {"Soldier"sv, "Soldier"sv},
+
+            {"Soldier"sv, "Soldier"sv},
+            {"Warrior"sv, "Warrior"sv},
+            {"Warrior"sv, "Warrior"sv},
+            {"Warrior"sv, "Warrior"sv},
+            {"Veteran"sv, "Veteran"sv},
+
+            {"Veteran"sv, "Veteran"sv},
+            {"Veteran"sv, "Veteran"sv},
+            {"Swordsman"sv, "Swordswoman"sv},
+            {"Swordsman"sv, "Swordswoman"sv},
+            {"Swordsman"sv, "Swordswoman"sv},
+
+            {"Fencer"sv, "Fenceress"sv},
+            {"Fencer"sv, "Fenceress"sv},
+            {"Fencer"sv, "Fenceress"sv},
+            {"Combatant"sv, "Combatess"sv},
+            {"Combatant"sv, "Combatess"sv},
+
+            {"Combatant"sv, "Combatess"sv},
+            {"Hero"sv, "Heroine"sv},
+            {"Hero"sv, "Heroine"sv},
+            {"Hero"sv, "Heroine"sv},
+            {"Myrmidon"sv, "Myrmidon"sv},
+
+            {"Myrmidon"sv, "Myrmidon"sv},
+            {"Swashbuckler"sv, "Swashbuckleress"sv},
+            {"Swashbuckler"sv, "Swashbuckleress"sv},
+            {"Swashbuckler"sv, "Swashbuckleress"sv},
+            {"Mercenary"sv, "Mercenaress"sv},
+
+            {"Mercenary"sv, "Mercenaress"sv},
+            {"Mercenary"sv, "Mercenaress"sv},
+            {"Swordmaster"sv, "Swordmistress"sv},
+            {"Swordmaster"sv, "Swordmistress"sv},
+            {"Swordmaster"sv, "Swordmistress"sv},
+
+            {"Lieutenant"sv, "Lieutenant"sv},
+            {"Lieutenant"sv, "Lieutenant"sv},
+            {"Lieutenant"sv, "Lieutenant"sv},
+            {"Champion"sv, "Lady Champion"sv},
+            {"Champion"sv, "Lady Champion"sv},
+
+            {"Champion"sv, "Lady Champion"sv},
+            {"Dragoon"sv, "Lady Dragoon"sv},
+            {"Dragoon"sv, "Lady Dragoon"sv},
+            {"Dragoon"sv, "Lady Dragoon"sv},
+            {"Cavalier"sv, "Lady Cavalier"sv},
+
+            {"Cavalier"sv, "Lady Cavalier"sv},
+            {"Cavalier"sv, "Lady Cavalier"sv},
+            {"Knight"sv, "Lady Knight"sv},
+            {"Knight"sv, "Lady Knight"sv},
+            {"Knight"sv, "Lady Knight"sv},
+
+            {"Grand Knight"sv, "Grand Knight"sv},
+            {"Grand Knight"sv, "Grand Knight"sv},
+            {"Grand Knight"sv, "Grand Knight"sv},
+            {"Master Knight"sv, "Master Knight"sv},
+            {"Master Knight"sv, "Master Knight"sv},
+
+            {"Paladin"sv, "Paladin"sv},
+            {"Paladin"sv, "Paladin"sv},
+            {"Grand Paladin"sv, "Grand Paladin"sv},
+            {"Grand Paladin"sv, "Grand Paladin"sv},
+            {"Demon Slayer"sv, "Demon Slayer"sv},
+
+            {"Demon Slayer"sv, "Demon Slayer"sv},
+            {"Greater Demon Slayer"sv, "Greater Demon Slayer"sv},
+            {"Greater Demon Slayer"sv, "Greater Demon Slayer"sv},
+            {"Dragon Slayer"sv, "Dragon Slayer"sv},
+            {"Dragon Slayer"sv, "Dragon Slayer"sv},
+
+            {"Greater Dragon Slayer"sv, "Greater Dragon Slayer"sv},
+            {"Greater Dragon Slayer"sv, "Greater Dragon Slayer"sv},
+            {"Underlord"sv, "Underlord"sv},
+            {"Underlord"sv, "Underlord"sv},
+            {"Overlord"sv, "Overlord"sv},
+
+            {"Baron of Thunder"sv, "Baroness of Thunder"sv},
+            {"Baron of Thunder"sv, "Baroness of Thunder"sv},
+            {"Baron of Storms"sv, "Baroness of Storms"sv},
+            {"Baron of Storms"sv, "Baroness of Storms"sv},
+            {"Baron of Lightning"sv, "Baroness of Lightning"sv},
+
+            {"Baron of Tornadoes"sv, "Baroness of Tornadoes"sv},
+            {"Baron of Hurricanes"sv, "Baroness of Hurricanes"sv},
+            {"Baron of Meteors"sv, "Baroness of Meteors"sv},
+            {"Baron of the Earth"sv, "Baroness of the Earth"sv},
+            {"Master Warrior"sv, "Master Warrior"sv},
+
+            {"Knight Hero"sv, "Knight Heroine"sv},
+            {"Avatar of War"sv, "Avatar of War"sv},
+            {"Angel of War"sv, "Angel of War"sv},
+            {"Demigod of War"sv, "Demigoddess of War"sv},
+            {"Immortal Warlord"sv, "Immortal Warlord"sv},
+
+            {"God of War"sv, "God of War"sv},
+            {"Deity of War"sv, "Deity of War"sv},
+            {"Supreme Master of War"sv, "Supreme Mistress of War"sv},
+            {"Creator"sv, "Creator"sv},
+            {"Implementor"sv, "Implementress"sv},
+        },
+    },
+    {
+        {{"Man"sv, "Woman"sv},
+         {"Axeman"sv, "Axewoman"sv},
+         {"Axeman"sv, "Axewoman"sv},
+         {"Axeman"sv, "Axewoman"sv},
+         {"Rogue"sv, "Rogue"sv},
+         {"Rogue"sv, "Rogue"sv},
+
+         {"Rogue"sv, "Rogue"sv},
+         {"Nomad"sv, "Nomad "sv},
+         {"Nomad"sv, "Nomad "sv},
+         {"Nomad"sv, "Nomad "sv},
+         {"Strongman"sv, "Strongwoman"sv},
+
+         {"Strongman"sv, "Strongwoman"sv},
+         {"Strongman"sv, "Strongwoman"sv},
+         {"Bold"sv, "Bold"sv},
+         {"Bold"sv, "Bold"sv},
+         {"Bold"sv, "Bold"sv},
+
+         {"Renegade"sv, "Renegade"sv},
+         {"Renegade"sv, "Renegade"sv},
+         {"Renegade"sv, "Renegade"sv},
+         {"Cut-throat"sv, "Cut-throat"sv},
+         {"Cut-throat"sv, "Cut-throat"sv},
+
+         {"Mighty"sv, "Mighty"sv},
+         {"Mighty"sv, "Mighty"sv},
+         {"Mighty"sv, "Mighty"sv},
+         {"Warrior"sv, "Warrior"sv},
+         {"Warrior"sv, "Warrior"sv},
+
+         {"Warrior"sv, "Warrior"sv},
+         {"Executioner"sv, "Executioner"sv},
+         {"Executioner"sv, "Executioner"sv},
+         {"Executioner"sv, "Executioner"sv},
+         {"Weapons Crafter"sv, "Weapons Crafter"sv},
+
+         {"Weapons Crafter"sv, "Weapons Crafter"sv},
+         {"Weapons Crafter"sv, "Weapons Crafter"sv},
+         {"Weapons Master"sv, "Weapons Mistress"sv},
+         {"Weapons Master"sv, "Weapons Mistress"sv},
+         {"Weapons Master"sv, "Weapons Mistress"sv},
+
+         {"Highwayman"sv, "Highwaywoman"sv},
+         {"Highwayman"sv, "Highwaywoman"sv},
+         {"Highwayman"sv, "Highwaywoman"sv},
+         {"Fearless"sv, "Fearless"sv},
+         {"Fearless"sv, "Fearless"sv},
+
+         {"Fearless"sv, "Fearless"sv},
+         {"Barbarian"sv, "Barbarian"sv},
+         {"Barbarian"sv, "Barbarian"sv},
+         {"Barbarian"sv, "Barbarian"sv},
+         {"Kinsman"sv, "Kinswoman"sv},
+
+         {"Kinsman"sv, "Kinswoman"sv},
+         {"Kinsman"sv, "Kinswoman"sv},
+         {"Provider"sv, "Provider"sv},
+         {"Provider"sv, "Provider"sv},
+         {"Provider"sv, "Provider"sv},
+
+         {"Judicier"sv, "Judicier"sv},
+         {"Judicier"sv, "Judicier"sv},
+         {"Judicier"sv, "Judicier"sv},
+         {"Slayer"sv, "Slayer"sv},
+         {"Slayer"sv, "Slayer"sv},
+
+         {"Slayer"sv, "Slayer"sv},
+         {"Giant Slayer"sv, "Giant Slayer"sv},
+         {"Giant Slayer"sv, "Giant Slayer"sv},
+         {"Daemon Slayer"sv, "Daemon Slayer"sv},
+         {"Daemon Slayer"sv, "Daemon Slayer"sv},
+
+         {"Wanderer of the Plains"sv, "Wanderer of the Plains"sv},
+         {"Wanderer of the Plains"sv, "Wanderer of the Plains"sv},
+         {"Wanderer of the Plains"sv, "Wanderer of the Plains"sv},
+         {"Wanderer of the Plains"sv, "Wanderer of the Plains"sv},
+         {"Wanderer of the Plains"sv, "Wanderer of the Plains"sv},
+
+         {"Baron of the Plains"sv, "Baroness of the Plains"sv},
+         {"Baron of the Plains"sv, "Baroness of the Plains"sv},
+         {"Baron of the Plains"sv, "Baroness of the Plains"sv},
+         {"Lord of the Plains"sv, "Lady of the Plains"sv},
+         {"Lord of the Plains"sv, "Lady of the Plains"sv},
+
+         {"Blade Master"sv, "Blade Mistress"sv},
+         {"Blade Master"sv, "Blade Mistress"sv},
+         {"Infamous"sv, "Infamous"sv},
+         {"Infamous"sv, "Infamous"sv},
+         {"Infamous"sv, "Infamous"sv},
+
+         {"Master of Vision"sv, "Mistress of Vision"sv},
+         {"Master of Vision"sv, "Mistress of Vision"sv},
+         {"Master of Lore"sv, "Mistress of Lore"sv},
+         {"Master of Lore"sv, "Mistress of Lore"sv},
+         {"Master of the Hunt"sv, "Mistress of the Hunt"sv},
+
+         {"Master of the Hunt"sv, "Mistress of the Hunt"sv},
+         {"Guardian of an Immortal"sv, "Guardian of an Immortal"sv},
+         {"Guardian of an Implementor"sv, "Guardian of an Implementor"sv},
+         {"Guardian of an Implementor"sv, "Guardian of an Implementor"sv},
+         {"Master of the Wild"sv, "Mistress of the Wild"sv},
+
+         {"King of the Animals"sv, "Queen of the Animals"sv},
+         {"Guardian of Justice"sv, "Guardian of Justice"sv},
+         {"Protector of the Planet"sv, "Protector of the Planet"sv},
+         {"Legend of the Realm"sv, "Legend of the Realm"sv},
+         {"Barbarian King"sv, "Barbarian Queen"sv},
+
+         {"Hero of Barbarity"sv, "Heroine of Barbarity"sv},
+         {"Avatar of Death"sv, "Avatar of Death"sv},
+         {"Angel of Death"sv, "Angel of Death"sv},
+         {"Demigod"sv, "Demigoddess"sv},
+         {"Immortal"sv, "Immortal"sv},
+
+         {"God of Barbarity"sv, "Goddess of Barbarity"sv},
+         {"Deity"sv, "Deity"sv},
+         {"Supreme Master"sv, "Supreme Mistress"sv},
+         {"Creator"sv, "Creator"sv},
+         {"Implementor"sv, "Implementress"sv}},
+    },
+}};
+
+std::string_view default_title(const Char &ch) {
+    const auto class_idx = std::clamp(ch.class_num, 0_s, static_cast<sh_int>(MAX_CLASS));
+    const auto clamped_level = std::clamp(ch.level, 1_s, static_cast<sh_int>(MAX_LEVEL));
+    return AllTitles[class_idx][clamped_level].title(ch);
+}
+
+}
