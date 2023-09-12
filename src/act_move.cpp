@@ -49,6 +49,41 @@ using namespace std::literals;
 
 constexpr PerSectorType<int> movement_loss{1, 2, 2, 3, 4, 6, 4, 1, 6, 10, 6};
 
+namespace {
+
+// Performs an action on the reverse side of an Exit, if the Exit leads back to the origin room.
+void update_reverse_exit(const Room *room, const auto &direction, const auto exit_action) {
+    auto &exit = room->exits[direction];
+    if (Room *to_room = exit->u1.to_room) {
+        if (auto &exit_rev = to_room->exits[reverse(direction)]; exit_rev && exit_rev->u1.to_room == room) {
+            exit_action(to_room, exit_rev);
+        }
+    }
+}
+
+Char *find_trainer(Room *room) {
+    for (auto *mob : room->people) {
+        if (mob->is_npc() && check_enum_bit(mob->act, CharActFlag::Train))
+            return mob;
+    }
+    return nullptr;
+}
+
+bool is_inaccessible_guild_room(const sh_int to_room_vnum, const sh_int class_num) {
+    for (auto iClass = 0; iClass < MAX_CLASS; iClass++) {
+        if (iClass == class_num) {
+            continue;
+        }
+        for (const auto guild_room_vnum : class_table[iClass].guild_room_vnums) {
+            if (to_room_vnum == guild_room_vnum) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+} // namespace
+
 void move_char(Char *ch, Direction direction) {
     auto *in_room = ch->in_room;
     const auto &exit = in_room->exits[direction];
@@ -88,16 +123,9 @@ void move_char(Char *ch, Direction direction) {
     }
 
     if (ch->is_pc()) {
-        int iClass, iGuild;
-        int move;
-
-        for (iClass = 0; iClass < MAX_CLASS; iClass++) {
-            for (iGuild = 0; iGuild < MAX_GUILD_ROOMS; iGuild++) {
-                if (iClass != ch->class_num && to_room->vnum == class_table[iClass].guild_room_vnums[iGuild]) {
-                    ch->send_line("You aren't allowed in there.");
-                    return;
-                }
-            }
+        if (is_inaccessible_guild_room(to_room->vnum, ch->class_num)) {
+            ch->send_line("You aren't allowed in there.");
+            return;
         }
 
         /* added Faramir 25/6/96 to stop non-clan members walking into room */
@@ -125,8 +153,7 @@ void move_char(Char *ch, Direction direction) {
             return;
         }
 
-        move = movement_loss[in_room->sector_type] + movement_loss[to_room->sector_type];
-
+        auto move = movement_loss[in_room->sector_type] + movement_loss[to_room->sector_type];
         move /= 2; /* i.e. the average */
 
         if (ch->riding == nullptr) {
@@ -243,15 +270,9 @@ void do_enter(Char *ch, std::string_view argument) {
                     }
 
                     if (ch->is_pc()) {
-                        int iClass, iGuild;
-                        for (iClass = 0; iClass < MAX_CLASS; iClass++) {
-                            for (iGuild = 0; iGuild < MAX_GUILD_ROOMS; iGuild++) {
-                                if (iClass != ch->class_num
-                                    && to_room->vnum == class_table[iClass].guild_room_vnums[iGuild]) {
-                                    ch->send_line("You aren't allowed in there.");
-                                    return;
-                                }
-                            }
+                        if (is_inaccessible_guild_room(to_room->vnum, ch->class_num)) {
+                            ch->send_line("You aren't allowed in there.");
+                            return;
                         }
 
                         if (ch->is_mortal()) {
@@ -382,19 +403,6 @@ std::optional<Direction> find_door(Char *ch, std::string_view arg) {
     }
     act("I see no $T here.", ch, nullptr, arg, To::Char);
     return {};
-}
-
-namespace {
-
-// Performs an action on the reverse side of an Exit, if the Exit leads back to the origin room.
-void update_reverse_exit(const Room *room, const auto &direction, const auto exit_action) {
-    auto &exit = room->exits[direction];
-    if (Room *to_room = exit->u1.to_room) {
-        if (auto &exit_rev = to_room->exits[reverse(direction)]; exit_rev && exit_rev->u1.to_room == room) {
-            exit_action(to_room, exit_rev);
-        }
-    }
-}
 }
 
 void do_open(Char *ch, ArgParser args) {
@@ -1024,16 +1032,6 @@ void do_recall(Char *ch, ArgParser args) {
         // We construct a new argparser here as the one we have has been modified to shift the arg off.
         do_recall(ch->pet, ArgParser(destination));
     }
-}
-
-namespace {
-Char *find_trainer(Room *room) {
-    for (auto *mob : room->people) {
-        if (mob->is_npc() && check_enum_bit(mob->act, CharActFlag::Train))
-            return mob;
-    }
-    return nullptr;
-}
 }
 
 void do_train(Char *ch, ArgParser args) {

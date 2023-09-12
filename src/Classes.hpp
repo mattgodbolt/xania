@@ -8,6 +8,7 @@
 #include "Stats.hpp"
 #include "Types.hpp"
 
+#include <array>
 #include <string_view>
 
 /*
@@ -18,7 +19,7 @@ struct class_type {
     std::string_view who_name;
     Stat primary_stat;
     sh_int first_weapon_vnum;
-    sh_int guild_room_vnums[MAX_GUILD_ROOMS];
+    std::array<sh_int, MAX_GUILD_ROOMS> guild_room_vnums;
     sh_int adept_skill_rating;
     sh_int to_hit_ac_level0; // to hit armour class for level
     sh_int to_hit_ac_level32; // to hit armour class for level 32
