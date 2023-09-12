@@ -797,7 +797,7 @@ void nanny(Descriptor *d, std::string_view argument) {
 
         /* add skills */
         for (auto i = 0; i < MAX_PC_RACE_BONUS_SKILLS; i++) {
-            if (pc_race_table[race].skills[i] == nullptr)
+            if (pc_race_table[race].skills[i].empty())
                 break;
             group_add(ch, pc_race_table[race].skills[i], false);
         }

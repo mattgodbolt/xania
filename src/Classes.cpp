@@ -8,11 +8,13 @@
 #include "Stats.hpp"
 #include "VnumObjects.hpp"
 
+using namespace std::literals;
+
 /*
  * Class table.
  */
-const struct class_type class_table[MAX_CLASS] = {{"mage",
-                                                   "Mag",
+const struct class_type class_table[MAX_CLASS] = {{"mage"sv,
+                                                   "Mag"sv,
                                                    Stat::Int,
                                                    Objects::SchoolDagger,
                                                    {3018, 9618, 10074},
@@ -22,11 +24,11 @@ const struct class_type class_table[MAX_CLASS] = {{"mage",
                                                    6,
                                                    8,
                                                    10,
-                                                   "mage basics",
-                                                   "mage default"},
+                                                   "mage basics"sv,
+                                                   "mage default"sv},
 
-                                                  {"cleric",
-                                                   "Cle",
+                                                  {"cleric"sv,
+                                                   "Cle"sv,
                                                    Stat::Wis,
                                                    Objects::SchoolMace,
                                                    {3003, 9619, 10114},
@@ -36,11 +38,11 @@ const struct class_type class_table[MAX_CLASS] = {{"mage",
                                                    7,
                                                    10,
                                                    8,
-                                                   "cleric basics",
-                                                   "cleric default"},
+                                                   "cleric basics"sv,
+                                                   "cleric default"sv},
 
-                                                  {"knight",
-                                                   "Kni",
+                                                  {"knight"sv,
+                                                   "Kni"sv,
                                                    Stat::Str,
                                                    Objects::SchoolSword,
                                                    {3028, 9639, 10086},
@@ -50,11 +52,11 @@ const struct class_type class_table[MAX_CLASS] = {{"mage",
                                                    10,
                                                    14,
                                                    6,
-                                                   "knight basics",
-                                                   "knight default"},
+                                                   "knight basics"sv,
+                                                   "knight default"sv},
 
-                                                  {"barbarian",
-                                                   "Bar",
+                                                  {"barbarian"sv,
+                                                   "Bar"sv,
                                                    Stat::Con,
                                                    Objects::SchoolAxe,
                                                    {3022, 9633, 10073},
@@ -64,5 +66,5 @@ const struct class_type class_table[MAX_CLASS] = {{"mage",
                                                    13,
                                                    17,
                                                    3,
-                                                   "barbarian basics",
-                                                   "barbarian default"}};
+                                                   "barbarian basics"sv,
+                                                   "barbarian default"sv}};

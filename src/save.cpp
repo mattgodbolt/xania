@@ -958,8 +958,8 @@ LoadCharObjResult try_load_player(std::string_view player_name) {
         ch->body_size = pc_race_table[ch->race].body_size;
         ch->attack_type = Attacks::index_of("punch");
 
-        for (auto *group : pc_race_table[ch->race].skills) {
-            if (!group)
+        for (std::string_view group : pc_race_table[ch->race].skills) {
+            if (group.empty())
                 break;
             group_add(ch, group, false);
         }

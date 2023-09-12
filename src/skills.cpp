@@ -515,7 +515,7 @@ void gn_remove(Char *ch, const int gn) {
 }
 
 // adds a skill or skill group
-void group_add(Char *ch, const char *name, const bool deduct) {
+void group_add(Char *ch, std::string_view name, const bool deduct) {
     if (ch->is_npc()) /* NPCs do not have skills */
         return;
 
@@ -587,8 +587,8 @@ int get_skill_level(const Char *ch, const int gsn) {
     }
 
     /* Check stuff because of race */
-    for (bonus = 0; bonus < 5; bonus++) {
-        if (pc_race_table[ch->race].skills[bonus] != nullptr) {
+    for (bonus = 0; bonus < MAX_PC_RACE_BONUS_SKILLS; bonus++) {
+        if (!pc_race_table[ch->race].skills[bonus].empty()) {
             /* they have a bonus skill or group */
             if (skill_lookup(pc_race_table[ch->race].skills[bonus]) == gsn) {
                 /* ie we have a race-specific skill!! */
@@ -618,7 +618,7 @@ int get_skill_difficulty(Char *ch, const int gsn) {
     }
     /* Check for race skills */
     for (auto bonus = 0u; bonus < MAX_PC_RACE_BONUS_SKILLS; bonus++) {
-        if (pc_race_table[ch->race].skills[bonus] != nullptr) {
+        if (!pc_race_table[ch->race].skills[bonus].empty()) {
             /* they have a bonus skill or group */
             if (skill_lookup(pc_race_table[ch->race].skills[bonus]) == gsn) {
                 /* ie we have a race-specific skill!! */

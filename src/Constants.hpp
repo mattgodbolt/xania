@@ -13,6 +13,7 @@ static inline constexpr auto MAX_SKILL = 150;
 static inline constexpr auto MAX_GROUP = 30;
 static inline constexpr auto MAX_IN_GROUP = 15;
 static inline constexpr auto MAX_CLASS = 4;
+static inline constexpr auto MAX_GUILD_ROOMS = 3;
 static inline constexpr auto MAX_PC_RACE = 12;
 static inline constexpr auto MAX_PC_RACE_BONUS_SKILLS = 5;
 static inline constexpr auto MAX_LEVEL = 100;

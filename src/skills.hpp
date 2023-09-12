@@ -17,7 +17,7 @@ void check_improve(Char *ch, const int skill_num, const bool success, const int 
 int group_lookup(std::string_view name);
 void gn_add(Char *ch, const int gn);
 void gn_remove(Char *ch, const int gn);
-void group_add(Char *ch, const char *name, const bool deduct);
+void group_add(Char *ch, std::string_view name, const bool deduct);
 void group_remove(Char *ch, const char *name);
 int get_skill_level(const Char *ch, const int gsn);
 int get_skill_difficulty(Char *ch, const int gsn);
