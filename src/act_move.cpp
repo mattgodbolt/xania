@@ -93,7 +93,7 @@ void move_char(Char *ch, Direction direction) {
 
         for (iClass = 0; iClass < MAX_CLASS; iClass++) {
             for (iGuild = 0; iGuild < MAX_GUILD; iGuild++) {
-                if (iClass != ch->class_num && to_room->vnum == class_table[iClass].guild[iGuild]) {
+                if (iClass != ch->class_num && to_room->vnum == class_table[iClass].guild_room_vnums[iGuild]) {
                     ch->send_line("You aren't allowed in there.");
                     return;
                 }
@@ -246,7 +246,8 @@ void do_enter(Char *ch, std::string_view argument) {
                         int iClass, iGuild;
                         for (iClass = 0; iClass < MAX_CLASS; iClass++) {
                             for (iGuild = 0; iGuild < MAX_GUILD; iGuild++) {
-                                if (iClass != ch->class_num && to_room->vnum == class_table[iClass].guild[iGuild]) {
+                                if (iClass != ch->class_num
+                                    && to_room->vnum == class_table[iClass].guild_room_vnums[iGuild]) {
                                     ch->send_line("You aren't allowed in there.");
                                     return;
                                 }

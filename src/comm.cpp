@@ -860,7 +860,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         }
         ch->send_line("");
         group_add(ch, "rom basics", false);
-        group_add(ch, class_table[ch->class_num].base_group, false);
+        group_add(ch, class_table[ch->class_num].base_skill_group, false);
         ch->pcdata->learned[gsn_recall] = 50;
         ch->send_line("Customizing your character allows for a wider range of skills,  If you're new");
         ch->send_line("to the game we recommend skipping customization for now.");
@@ -885,7 +885,7 @@ void nanny(Descriptor *d, std::string_view argument) {
             break;
         case 'n':
         case 'N':
-            group_add(ch, class_table[ch->class_num].default_group, true);
+            group_add(ch, class_table[ch->class_num].default_skill_group, true);
             if (!lobby_char_was_created(d)) {
                 break;
             }
@@ -943,7 +943,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         if (ch->level == 0) {
 
             if (ch->race != race_lookup("dragon"))
-                ch->perm_stat[class_table[ch->class_num].attr_prime] += 3;
+                ch->perm_stat[class_table[ch->class_num].primary_stat] += 3;
 
             ch->level = 1;
             ch->exp = exp_per_level(ch, ch->pcdata->points);

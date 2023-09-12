@@ -137,7 +137,7 @@ void do_outfit(Char *ch) {
     equip_char_with(Objects::SchoolBanner, Worn::Light);
     equip_char_with(Objects::SchoolVest, Worn::Body);
     equip_char_with(Objects::SchoolShield, Worn::Shield);
-    equip_char_with(get_obj_index(class_table[ch->class_num].weapon)->vnum, Worn::Wield);
+    equip_char_with(get_obj_index(class_table[ch->class_num].first_weapon_vnum)->vnum, Worn::Wield);
     ch->send_line("You have been equipped by {}.", deity_name);
 }
 

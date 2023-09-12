@@ -1588,7 +1588,7 @@ void do_practice(Char *ch, ArgParser args) {
             return;
         }
 
-        auto adept = ch->is_npc() ? 100 : class_table[ch->class_num].skill_adept;
+        auto adept = ch->is_npc() ? 100 : class_table[ch->class_num].adept_skill_rating;
 
         if (skill_level >= adept) {
             ch->send_line("You are already learned at {}.", skill_table[sn].name);

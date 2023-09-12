@@ -13,19 +13,19 @@
  */
 static constexpr inline auto MAX_GUILD = 3;
 struct class_type {
-    const char *name; /* the full name of the class */
-    char who_name[4]; /* Three-letter name for 'who'  */
-    Stat attr_prime; /* Prime attribute              */
-    sh_int weapon; /* First weapon                 */
-    sh_int guild[MAX_GUILD]; /* Vnum of guild rooms          */
-    sh_int skill_adept; /* Maximum skill level          */
-    sh_int to_hit_ac_level0; /* to hit armour class for level  0 */
-    sh_int to_hit_ac_level32; /* to hit armour class for for level 32 */
-    sh_int hp_min; /* Min hp gained on leveling    */
-    sh_int hp_max; /* Max hp gained on leveling    */
-    sh_int fMana; /* Class gains mana on level    */
-    const char *base_group; /* base skills gained           */
-    const char *default_group; /* default skills gained        */
+    const char *name;
+    char who_name[4];
+    Stat primary_stat;
+    sh_int first_weapon_vnum;
+    sh_int guild_room_vnums[MAX_GUILD];
+    sh_int adept_skill_rating;
+    sh_int to_hit_ac_level0; // to hit armour class for level
+    sh_int to_hit_ac_level32; // to hit armour class for level 32
+    sh_int min_hp_gain_on_level;
+    sh_int max_hp_gain_on_level;
+    sh_int mana_gain_on_level_factor;
+    const char *base_skill_group;
+    const char *default_skill_group;
 };
 
 extern const struct class_type class_table[];

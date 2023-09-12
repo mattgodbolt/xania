@@ -195,7 +195,7 @@ sh_int Char::max_stat(Stat stat) const {
     if (is_npc() || level > LEVEL_IMMORTAL)
         return MaxStatValue;
 
-    return std::min(pc_race_table[race].max_stats[stat] + (class_table[class_num].attr_prime == stat ? 6 : 4),
+    return std::min(pc_race_table[race].max_stats[stat] + (class_table[class_num].primary_stat == stat ? 6 : 4),
                     MaxStatValue);
 }
 
