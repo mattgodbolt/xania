@@ -44,7 +44,7 @@ TEST_CASE("apply prefix") {
         SECTION("one backslash, no command, char has no prefix") {
             const auto cmd = apply_prefix(&bob, "\\");
 
-            CHECK(cmd == "");
+            CHECK(cmd.empty());
         }
         SECTION("one backslash, command, char has no prefix") {
             const auto cmd = apply_prefix(&bob, "\\north");
@@ -54,7 +54,7 @@ TEST_CASE("apply prefix") {
         SECTION("two backslashes, no command, char has no prefix") {
             const auto cmd = apply_prefix(&bob, "\\\\");
 
-            CHECK(cmd == "");
+            CHECK(cmd.empty());
             CHECK(bob_desc.buffered_output() == "\n\r(no prefix to remove)\n\r");
         }
         SECTION("two backslashes, command, char has a prefix") {

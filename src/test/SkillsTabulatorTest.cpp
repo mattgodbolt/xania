@@ -78,7 +78,7 @@ TEST_CASE("skills tabulator") {
         const auto result = tabulator.tabulate();
 
         CHECK(!result);
-        CHECK(vic_desc.buffered_output() == "");
+        CHECK(vic_desc.buffered_output().empty());
     }
     SECTION("tabulate one learned spell") {
         bob.pcdata->learned[skill_lookup("chill touch")] = 100;

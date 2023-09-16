@@ -115,7 +115,7 @@ TEST_CASE("AFFECT_DATA") {
             SECTION("skills") {
                 auto skill = AFFECT_DATA{gsn_sneak, 80, 0, AffectLocation::None, 0, to_int(AffectFlag::Sneak)};
                 // Similar to above, concise message for effects like sneak and ride.
-                CHECK(skill.describe_char_effect(false) == "");
+                CHECK(skill.describe_char_effect(false).empty());
                 CHECK(skill.describe_char_effect(true) == " modifies none by 0 with bits |Csneak|w, level 80");
             }
         }

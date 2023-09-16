@@ -4,11 +4,8 @@
 #include "common/BitOps.hpp"
 #include "lookup.h"
 #include <catch2/catch_test_macros.hpp>
-#include <catch2/catch_version_macros.hpp>
 
 #include "MockRng.hpp"
-
-using trompeloeil::_;
 
 TEST_CASE("learning") {
     Char bob{};
@@ -16,6 +13,7 @@ TEST_CASE("learning") {
     const auto dagger = skill_lookup("dagger");
     test::MockRng rng;
     SECTION("pc") {
+        using trompeloeil::_;
         Descriptor bob_desc(0);
         bob.desc = &bob_desc;
         bob_desc.character(&bob);
@@ -115,6 +113,7 @@ TEST_CASE("learning") {
         }
     }
     SECTION("npc") {
+        using trompeloeil::_;
         set_enum_bit(bob.act, CharActFlag::Npc);
         SECTION("never learns") {
             FORBID_CALL(rng, number_range(_, _));

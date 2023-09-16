@@ -13,19 +13,19 @@ namespace {
 
 class TestDependencies : public Bans::Dependencies {
 public:
-    TestDependencies(test::MemFile &file) : file_(file) {}
-    FILE *open_read() {
+    explicit TestDependencies(test::MemFile &file) : file_(file) {}
+    FILE *open_read() override {
         file_.rewind();
         return file_.file();
     }
-    FILE *open_write() {
+    FILE *open_write() override {
         file_.truncate();
         return file_.file();
     }
     // Don't close the MemFile, it'll be closed on destruction.
-    void close([[maybe_unused]] FILE *fp) {}
+    void close([[maybe_unused]] FILE *fp) override {}
     // Unlink for MemFile is nonsensical.
-    void unlink() {}
+    void unlink() override {}
 
 private:
     test::MemFile &file_;

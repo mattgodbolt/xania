@@ -21,7 +21,7 @@ using trompeloeil::_;
 
 namespace {
 
-auto make_char(std::string name, Room &room, MobIndexData *mob_idx) {
+auto make_char(const std::string &name, Room &room, MobIndexData *mob_idx) {
     auto ch = std::make_unique<Char>();
     ch->name = name;
     ch->short_descr = name + " descr";
@@ -563,7 +563,7 @@ TEST_CASE("expand var") {
         CHECK(result == "sharp sword");
     }
     SECTION("object article primary, vowel $a") {
-        for (auto name_with_vowel : std::array<std::string, 5>{"ax", "ex", "ix", "ox", "ux"}) {
+        for (auto &name_with_vowel : std::array<std::string, 5>{"ax", "ex", "ix", "ox", "ux"}) {
             axe.name = name_with_vowel;
             auto result = expand_var('a', ctx);
             CHECK(result == "an");
@@ -575,7 +575,7 @@ TEST_CASE("expand var") {
         CHECK(result == "a");
     }
     SECTION("object article act target, vowel $A") {
-        for (auto name_with_vowel : std::array<std::string, 5>{"ax", "ex", "ix", "ox", "ux"}) {
+        for (auto &name_with_vowel : std::array<std::string, 5>{"ax", "ex", "ix", "ox", "ux"}) {
             sword.name = name_with_vowel;
             auto result = expand_var('A', ctx);
             CHECK(result == "an");
@@ -592,7 +592,7 @@ TEST_CASE("expand var") {
     }
     SECTION("unrecognised var") {
         auto result = expand_var('x', ctx);
-        CHECK(result == "");
+        CHECK(result.empty());
     }
 }
 TEST_CASE("interpret command") {
@@ -634,7 +634,7 @@ TEST_CASE("mprog driver complete program") {
             bonk $n
         endif
         )prg";
-        const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+        const auto lines = split_lines<std::vector<std::string>>(script);
         Program program{TypeFlag::Greet, "", lines};
         SECTION("if success, smile bob") {
             REQUIRE_CALL(rng, number_percent()).RETURN(50);
@@ -663,7 +663,7 @@ TEST_CASE("mprog driver complete program") {
             endif
         endif
         )prg";
-        const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+        const auto lines = split_lines<std::vector<std::string>>(script);
         Program program{TypeFlag::Greet, "", lines};
         trompeloeil::sequence seq;
         ALLOW_CALL(rng, number_range(_, _)).RETURN(10).IN_SEQUENCE(seq); // for random_mortal_in_room()
@@ -703,7 +703,7 @@ TEST_CASE("mprog driver complete program") {
             poke $n
         endif
         )prg";
-        const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+        const auto lines = split_lines<std::vector<std::string>>(script);
         Program program{TypeFlag::Greet, "", lines};
         SECTION("if success, hug/fart bob") {
             REQUIRE_CALL(rng, number_percent()).RETURN(50);
@@ -727,7 +727,7 @@ TEST_CASE("exec with chance") {
     Room room{};
     auto mob_idx = make_mob_index();
     auto script = R"prg(smile $n)prg";
-    const std::vector<std::string> lines = split_lines<std::vector<std::string>>(script);
+    const auto lines = split_lines<std::vector<std::string>>(script);
     Program program{TypeFlag::Greet, "50", lines};
     mob_idx.mobprogs.push_back(std::move(program));
     auto vic = make_char("vic", room, &mob_idx);
@@ -748,11 +748,11 @@ TEST_CASE("exec with chance") {
         SECTION("if fail, nothing") {
             REQUIRE_CALL(rng, number_percent()).RETURN(50).IN_SEQUENCE(seq);
             exec_with_chance(vic.get(), bob.get(), nullptr, target, TypeFlag::Greet, rng);
-            CHECK(bob_desc.buffered_output() == "");
+            CHECK(bob_desc.buffered_output().empty());
         }
         SECTION("if wrong program type, nothing") {
             exec_with_chance(vic.get(), bob.get(), nullptr, target, TypeFlag::Bribe, rng);
-            CHECK(bob_desc.buffered_output() == "");
+            CHECK(bob_desc.buffered_output().empty());
         }
     }
 }

@@ -12,7 +12,7 @@ TEST_CASE("Affect lists") {
         CHECK(l.empty());
         CHECK(l.size() == 0);
     }
-    auto mk_test = [](int i) {
+    auto mk_test = [](sh_int i) {
         AFFECT_DATA ad;
         ad.level = i;
         return ad;

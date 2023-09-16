@@ -39,18 +39,18 @@ ObjectIndex make_obj_idx() {
         .name{"name"},
         .short_descr{"short descr"},
         .description{"description"},
-        .vnum{123},
-        .reset_num{0},
-        .material{Material::Type::Paper},
-        .type{ObjectType::Map},
-        .extra_flags{hum},
-        .wear_flags{hold},
+        .vnum=123,
+        .reset_num=0,
+        .material=Material::Type::Paper,
+        .type=ObjectType::Map,
+        .extra_flags=hum,
+        .wear_flags=hold,
         .wear_string{"wear string"},
-        .level{1},
-        .condition{90},
-        .count{0},
-        .weight{12},
-        .cost{13},
+        .level=1,
+        .condition=90,
+        .count=0,
+        .weight=12,
+        .cost=13,
         .value{{0, 1, 2, 3, 4}}
     }; // clang-format on
     obj_idx.affected.add(affect);
@@ -114,25 +114,25 @@ TEST_CASE("Construction") {
     }
     SECTION("Lights") {
         SECTION("endless light") {
-            ObjectIndex obj_idx{.type{ObjectType::Light}, .value{0, 0, Lights::ObjectValues::EndlessMarker, 0, 0}};
+            ObjectIndex obj_idx{.type = ObjectType::Light, .value{0, 0, Lights::ObjectValues::EndlessMarker, 0, 0}};
             Object obj{&obj_idx};
             CHECK(obj.value[2] == Lights::ObjectValues::Endless);
         }
         SECTION("transient light") {
-            ObjectIndex obj_idx{.type{ObjectType::Light}, .value{0, 0, 1, 0, 0}};
+            ObjectIndex obj_idx{.type = ObjectType::Light, .value{0, 0, 1, 0, 0}};
             Object obj{&obj_idx};
             CHECK(obj.value[2] == 1);
         }
     }
     SECTION("Portals") {
         SECTION("with destination") {
-            ObjectIndex obj_idx{.type{ObjectType::Portal}, .value{Rooms::Limbo, 0, 0, 0, 0}};
+            ObjectIndex obj_idx{.type = ObjectType::Portal, .value{Rooms::Limbo, 0, 0, 0, 0}};
             Object obj{&obj_idx};
             CHECK(obj.destination->vnum == 2);
             CHECK(obj.value[0] == 0);
         }
         SECTION("without destination") {
-            ObjectIndex obj_idx{.type{ObjectType::Portal}, .value{0, 0, 0, 0, 0}};
+            ObjectIndex obj_idx{.type = ObjectType::Portal, .value{0, 0, 0, 0, 0}};
             Object obj{&obj_idx};
             CHECK(obj.destination == nullptr);
             CHECK(obj.value[0] == 0);

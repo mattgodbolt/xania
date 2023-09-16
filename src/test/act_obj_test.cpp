@@ -16,7 +16,7 @@ extern bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Obj
 
 TEST_CASE("unique object enforcement") {
 
-    ObjectIndex obj_idx{.type{ObjectType::Light}};
+    ObjectIndex obj_idx{.type = ObjectType::Light};
     // Default case for most tests: both the existing & moving object instances are flagged unique.
     set_enum_bit(obj_idx.extra_flags, ObjectExtraFlag::Unique);
     Object existing_obj{&obj_idx};
@@ -71,7 +71,7 @@ TEST_CASE("unique object enforcement") {
             REQUIRE(opt_char_to_idx);
             Shop shop{};
             char_to.mobIndex = &opt_char_to_idx.value();
-            char_to.mobIndex->shop = std::move(shop);
+            char_to.mobIndex->shop = shop;
             set_enum_bit(char_to.act, CharActFlag::Npc);
             char_to.carrying.add_back(&existing_obj);
 
@@ -87,7 +87,7 @@ TEST_CASE("unique object enforcement") {
         }
     }
     SECTION("moving to a container") {
-        ObjectIndex container_idx{.type{ObjectType::Container}};
+        ObjectIndex container_idx{.type = ObjectType::Container};
         Object container{&container_idx};
         container.type = container_idx.type;
 

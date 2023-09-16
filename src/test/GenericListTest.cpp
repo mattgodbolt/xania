@@ -40,7 +40,7 @@ TEST_CASE("Generic list") {
         GenericList<Thing *> empty;
         CHECK(ranges::distance(empty) == 0);
         CHECK(begin(empty) == end(empty));
-        CHECK(ids_of(empty) == vi{});
+        CHECK(ids_of(empty).empty());
         CHECK(empty.size() == 0);
         CHECK(empty.empty());
     }

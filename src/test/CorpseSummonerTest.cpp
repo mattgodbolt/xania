@@ -12,9 +12,9 @@
 #include <memory>
 #include <vector>
 
-using trompeloeil::_;
-
 namespace {
+
+using trompeloeil::_;
 
 struct MockDependencies : public CorpseSummoner::Dependencies {
 
@@ -114,7 +114,7 @@ TEST_CASE("is catalyst valid") {
     SECTION("catalyst is below level range") {
         player.level = 12;
         set_enum_bit(catalyst.extra_flags, ObjectExtraFlag::SummonCorpse);
-        catalyst.level = player.level - 10;
+        catalyst.level = player.level - 10_s;
 
         auto msg = summoner.is_catalyst_invalid(&player, &catalyst);
 
@@ -124,7 +124,7 @@ TEST_CASE("is catalyst valid") {
     SECTION("catalyst is valid") {
         player.level = 12;
         set_enum_bit(catalyst.extra_flags, ObjectExtraFlag::SummonCorpse);
-        catalyst.level = player.level - 9;
+        catalyst.level = player.level - 9_s;
 
         auto msg = summoner.is_catalyst_invalid(&player, &catalyst);
 
@@ -157,7 +157,7 @@ TEST_CASE("check catalyst") {
     SECTION("with valid catalyst") {
         player.level = 12;
         set_enum_bit(catalyst.extra_flags, ObjectExtraFlag::SummonCorpse);
-        catalyst.level = player.level - 9;
+        catalyst.level = player.level - 9_s;
         FORBID_CALL(mock, obj_from_char(&catalyst));
 
         CHECK(summoner.check_catalyst(&player, &mob, &catalyst));
@@ -174,7 +174,7 @@ TEST_CASE("get pc corpse world") {
     auto tests_corpse_desc{"corpse of Test"};
 
     SECTION("no pc corpse in world") {
-        ObjectIndex obj_idx{.type{ObjectType::Weapon}};
+        ObjectIndex obj_idx{.type = ObjectType::Weapon};
         std::vector<std::unique_ptr<Object>> obj_list;
         auto weapon = make_test_obj(&object_room, &obj_idx);
         obj_list.push_back(std::move(weapon));
@@ -186,7 +186,7 @@ TEST_CASE("get pc corpse world") {
     }
 
     SECTION("ignore corpse owned by another player") {
-        ObjectIndex obj_idx{.short_descr{"corpse of Sinbad"}, .type{ObjectType::Pccorpse}};
+        ObjectIndex obj_idx{.short_descr{"corpse of Sinbad"}, .type = ObjectType::Pccorpse};
         std::vector<std::unique_ptr<Object>> obj_list;
         auto corpse = make_test_obj(&object_room, &obj_idx);
         obj_list.push_back(std::move(corpse));
@@ -199,7 +199,7 @@ TEST_CASE("get pc corpse world") {
     }
 
     SECTION("ignore player's corpse in same room as summoner") {
-        ObjectIndex obj_idx{.short_descr{"corpse of Sinbad"}, .type{ObjectType::Pccorpse}};
+        ObjectIndex obj_idx{.short_descr{"corpse of Sinbad"}, .type = ObjectType::Pccorpse};
         std::vector<std::unique_ptr<Object>> obj_list;
         auto corpse = make_test_obj(&player_room, &obj_idx);
         obj_list.push_back(std::move(corpse));
@@ -211,7 +211,7 @@ TEST_CASE("get pc corpse world") {
     }
 
     SECTION("found player's corpse") {
-        ObjectIndex obj_idx{.short_descr{"corpse of Test"}, .type{ObjectType::Pccorpse}};
+        ObjectIndex obj_idx{.short_descr{"corpse of Test"}, .type = ObjectType::Pccorpse};
         std::vector<std::unique_ptr<Object>> obj_list;
         auto corpse = make_test_obj(&object_room, &obj_idx);
         auto corpse_ptr = corpse.get();
@@ -237,13 +237,13 @@ TEST_CASE("summon corpse") {
     player.in_room = &player_room;
     Char mob{};
     mob.in_room = &player_room;
-    ObjectIndex obj_index{.level{12}};
+    ObjectIndex obj_index{.level = 12};
     Object catalyst{&obj_index};
     set_enum_bit(catalyst.extra_flags, ObjectExtraFlag::SummonCorpse);
     const auto weaken_sn{68};
 
     SECTION("successful summmon") {
-        ObjectIndex obj_idx{.short_descr{"corpse of Test"}, .type{ObjectType::Pccorpse}};
+        ObjectIndex obj_idx{.short_descr{"corpse of Test"}, .type = ObjectType::Pccorpse};
         std::vector<std::unique_ptr<Object>> obj_list;
         auto corpse = make_test_obj(&object_room, &obj_idx);
         auto corpse_ptr = corpse.get();

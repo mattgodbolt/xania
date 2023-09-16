@@ -50,10 +50,10 @@ TEST_CASE("pronouns for") {
     }
     SECTION("male custom") {
         player.sex = Sex::male();
-        player.pcdata.get()->pronouns.possessive = "zer";
-        player.pcdata.get()->pronouns.objective = "hir";
-        player.pcdata.get()->pronouns.subjective = "ze";
-        player.pcdata.get()->pronouns.reflexive = "hirself";
+        player.pcdata->pronouns.possessive = "zer";
+        player.pcdata->pronouns.objective = "hir";
+        player.pcdata->pronouns.subjective = "ze";
+        player.pcdata->pronouns.reflexive = "hirself";
         const auto custom = pronouns_for(player).first;
         auto expected_cust = std::tie(exp_customized.possessive, exp_customized.objective, exp_customized.subjective,
                                       exp_customized.reflexive);
@@ -85,10 +85,10 @@ TEST_CASE("pronoun shortcuts") {
     }
     SECTION("custom") {
         player.sex = Sex::male();
-        player.pcdata.get()->pronouns.possessive = "zer";
-        player.pcdata.get()->pronouns.objective = "hir";
-        player.pcdata.get()->pronouns.subjective = "ze";
-        player.pcdata.get()->pronouns.reflexive = "hirself";
+        player.pcdata->pronouns.possessive = "zer";
+        player.pcdata->pronouns.objective = "hir";
+        player.pcdata->pronouns.subjective = "ze";
+        player.pcdata->pronouns.reflexive = "hirself";
         SECTION("possessive") {
             const auto &result = possessive(player);
             REQUIRE("zer" == result);

@@ -41,9 +41,9 @@ TEST_CASE("hit chance") {
         REQUIRE(victim.curr_stat(Stat::Dex) == 13);
         REQUIRE(attacker.curr_stat(Stat::Str) == 13);
         SECTION("attacker: L1 default armour; victim L1 default armour, defensive dex bonuses") {
-            int dex_bonus;
+            sh_int dex_bonus;
             int expected_chance;
-            std::tie(dex_bonus, expected_chance) = GENERATE(table<int, int>({
+            std::tie(dex_bonus, expected_chance) = GENERATE(table<sh_int, int>({
                 make_tuple(0, 95),
                 make_tuple(1, 95),
                 make_tuple(2, 18),
@@ -60,10 +60,10 @@ TEST_CASE("hit chance") {
             }
         }
         SECTION("attacker: L1 default armour; victim L1 default armour, prone skips dex bonus") {
-            int dex_bonus;
+            sh_int dex_bonus;
             int expected_chance;
             victim.position = Position::Type::Sleeping;
-            std::tie(dex_bonus, expected_chance) = GENERATE(table<int, int>({
+            std::tie(dex_bonus, expected_chance) = GENERATE(table<sh_int, int>({
                 make_tuple(0, 95),
                 make_tuple(6, 95),
             }));
@@ -76,9 +76,9 @@ TEST_CASE("hit chance") {
         }
 
         SECTION("attacker: L1 default armour; victim L1 bonus armour") {
-            int armour_bonus; // lower == better
+            sh_int armour_bonus; // lower == better
             int expected_chance;
-            std::tie(armour_bonus, expected_chance) = GENERATE(table<int, int>({
+            std::tie(armour_bonus, expected_chance) = GENERATE(table<sh_int, int>({
                 make_tuple(1, 95),   make_tuple(0, 95),   make_tuple(-1, 95),  make_tuple(-2, 95),  make_tuple(-3, 66),
                 make_tuple(-4, 50),  make_tuple(-5, 40),  make_tuple(-6, 33),  make_tuple(-7, 28),  make_tuple(-8, 25),
                 make_tuple(-9, 22),  make_tuple(-10, 20), make_tuple(-11, 18), make_tuple(-12, 16), make_tuple(-13, 15),
@@ -95,9 +95,9 @@ TEST_CASE("hit chance") {
 
         SECTION("attacker: L1 default armour; victim L1, sleeping position") {
             victim.position = Position::Type::Sleeping;
-            int armour_bonus; // lower == better
+            sh_int armour_bonus; // lower == better
             int expected_chance;
-            std::tie(armour_bonus, expected_chance) = GENERATE(table<int, int>({
+            std::tie(armour_bonus, expected_chance) = GENERATE(table<sh_int, int>({
                 make_tuple(1, 95),
                 make_tuple(0, 95),
                 make_tuple(-1, 95),
@@ -122,9 +122,9 @@ TEST_CASE("hit chance") {
         }
         SECTION("attacker: L1 default armour; victim L1, resting position") {
             victim.position = Position::Type::Resting;
-            int armour_bonus; // lower == better
+            sh_int armour_bonus; // lower == better
             int expected_chance;
-            std::tie(armour_bonus, expected_chance) = GENERATE(table<int, int>({
+            std::tie(armour_bonus, expected_chance) = GENERATE(table<sh_int, int>({
                 make_tuple(1, 95),
                 make_tuple(0, 95),
                 make_tuple(-1, 95),
@@ -179,11 +179,11 @@ TEST_CASE("hit chance") {
         }
 
         SECTION("attacker: L1 default armour, str increases hitroll; victim L1 default armour") {
-            int str_bonus;
+            sh_int str_bonus;
             int expected_chance;
             // Boost the victim dex so that their chance of avoiding means we can test a lower chance range.
             victim.mod_stat[Stat::Dex] = 3;
-            std::tie(str_bonus, expected_chance) = GENERATE(table<int, int>({
+            std::tie(str_bonus, expected_chance) = GENERATE(table<sh_int, int>({
                 make_tuple(0, 12),
                 make_tuple(1, 12),
                 make_tuple(2, 18),

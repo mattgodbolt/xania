@@ -95,7 +95,7 @@ TEST_CASE("login time format parsing") {
         REQUIRE(!parsed);
     }
     SECTION("empty timestamp ignored") {
-        std::string last_login = "";
+        std::string last_login;
         auto parsed = try_parse_login_at(last_login);
 
         REQUIRE(!parsed);

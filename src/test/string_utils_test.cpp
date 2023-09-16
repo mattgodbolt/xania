@@ -76,7 +76,7 @@ TEST_CASE("string_util tests") {
 
     SECTION("trims leading whitespace") {
         SECTION("should not trim non-whitespace") {
-            CHECK(ltrim("") == "");
+            CHECK(ltrim("").empty());
             CHECK(ltrim("monkey") == "monkey");
             CHECK(ltrim("monkey  ") == "monkey  ");
         }
@@ -87,15 +87,15 @@ TEST_CASE("string_util tests") {
             CHECK(ltrim(" \t\nbadger") == "badger");
         }
         SECTION("should work with entirely whitespace") {
-            CHECK(ltrim("   ") == "");
-            CHECK(ltrim(" \n\n\r") == "");
-            CHECK(ltrim("\t\t") == "");
+            CHECK(ltrim("   ").empty());
+            CHECK(ltrim(" \n\n\r").empty());
+            CHECK(ltrim("\t\t").empty());
         }
     }
 
     SECTION("trims leading and trailing whitespace") {
         SECTION("should not trim non-whitespace") {
-            CHECK(trim("") == "");
+            CHECK(trim("").empty());
             CHECK(trim("monkey") == "monkey");
         }
         SECTION("should trim actual whitespace") {
@@ -105,21 +105,21 @@ TEST_CASE("string_util tests") {
             CHECK(trim(" \t\nbadger\t\n") == "badger");
         }
         SECTION("should work with entirely whitespace") {
-            CHECK(trim("   ") == "");
-            CHECK(trim(" \n\n\r") == "");
-            CHECK(trim("\t\t") == "");
+            CHECK(trim("   ").empty());
+            CHECK(trim(" \n\n\r").empty());
+            CHECK(trim("\t\t").empty());
         }
     }
 
     SECTION("reduce spaces") {
         SECTION("no spaces") {
-            CHECK(reduce_spaces("") == "");
+            CHECK(reduce_spaces("").empty());
             CHECK(reduce_spaces("dog") == "dog");
         }
         SECTION("all spaces") {
-            CHECK(reduce_spaces(" ") == "");
-            CHECK(reduce_spaces("  ") == "");
-            CHECK(reduce_spaces("\t ") == "");
+            CHECK(reduce_spaces(" ").empty());
+            CHECK(reduce_spaces("  ").empty());
+            CHECK(reduce_spaces("\t ").empty());
         }
         SECTION("skip leading space") {
             CHECK(reduce_spaces("   dog") == "dog");
@@ -137,7 +137,7 @@ TEST_CASE("string_util tests") {
     }
 
     SECTION("smashes tildes") {
-        CHECK(smash_tilde("") == "");
+        CHECK(smash_tilde("").empty());
         CHECK(smash_tilde("moose") == "moose");
         CHECK(smash_tilde("m~~se") == "m--se");
     }
@@ -151,7 +151,7 @@ TEST_CASE("string_util tests") {
             CHECK(replace_strings("Hello $t$t ", "$t", "world") == "Hello worldworld ");
         }
         SECTION("should replace with empty to_str") {
-            CHECK(replace_strings("$t", "$t", "") == "");
+            CHECK(replace_strings("$t", "$t", "").empty());
             CHECK(replace_strings("Hello $t", "$t", "") == "Hello ");
         }
         SECTION("should not modify unmatched parts") {
@@ -162,19 +162,19 @@ TEST_CASE("string_util tests") {
     }
 
     SECTION("removes last lines") {
-        SECTION("should preserve empty line") { CHECK(remove_last_line("") == ""); }
+        SECTION("should preserve empty line") { CHECK(remove_last_line("").empty()); }
         SECTION("should trim tiny non-terminated") {
-            CHECK(remove_last_line("a") == "");
-            CHECK(remove_last_line("ab") == "");
-            CHECK(remove_last_line("abc") == "");
+            CHECK(remove_last_line("a").empty());
+            CHECK(remove_last_line("ab").empty());
+            CHECK(remove_last_line("abc").empty());
         }
         SECTION("should trim tiny terrminated") {
-            CHECK(remove_last_line("\n\r") == "");
+            CHECK(remove_last_line("\n\r").empty());
             CHECK(remove_last_line("\n\r\n\r") == "\n\r");
-            CHECK(remove_last_line("a\n\r") == "");
+            CHECK(remove_last_line("a\n\r").empty());
         }
-        SECTION("should trim long non-terminated") { CHECK(remove_last_line("This is a longer line") == ""); }
-        SECTION("should trim single line") { CHECK(remove_last_line("This is a single line\n\r") == ""); }
+        SECTION("should trim long non-terminated") { CHECK(remove_last_line("This is a longer line").empty()); }
+        SECTION("should trim single line") { CHECK(remove_last_line("This is a single line\n\r").empty()); }
         SECTION("should trim last complete line") {
             CHECK(remove_last_line("This is a line\n\rThis is the second line\n\rAnd the last\n\r")
                   == "This is a line\n\rThis is the second line\n\r");
@@ -191,8 +191,8 @@ TEST_CASE("string_util tests") {
             CHECK(sanitise_input("  I am a fish  ") == "  I am a fish  ");
         }
         SECTION("strips trailing CRLF") { CHECK(sanitise_input("Some string   \r\n") == "Some string   "); }
-        SECTION("handles empty strings") { CHECK(sanitise_input("") == ""); }
-        SECTION("handles empty strings that are just non-printing") { CHECK(sanitise_input("\n\r\t") == ""); }
+        SECTION("handles empty strings") { CHECK(sanitise_input("").empty()); }
+        SECTION("handles empty strings that are just non-printing") { CHECK(sanitise_input("\n\r\t").empty()); }
         SECTION("removes non-printing") { CHECK(sanitise_input("arg\tl\u00ffe") == "argle"); }
         SECTION("removes backspaces") { CHECK(sanitise_input("TheMa\boog sucks\b\b\b\b\b\b") == "TheMoog"); }
         SECTION("removes backspaces after non-printing") { CHECK(sanitise_input("Oops\xff\b!") == "Oops!"); }
@@ -229,7 +229,7 @@ TEST_CASE("string_util tests") {
     }
 
     SECTION("upper case first char") {
-        SECTION("should handle empty") { CHECK(upper_first_character("") == ""); }
+        SECTION("should handle empty") { CHECK(upper_first_character("").empty()); }
         SECTION("should handle already upper") { CHECK(upper_first_character("Hello") == "Hello"); }
         SECTION("should handle already upper") { CHECK(upper_first_character("|rHello") == "|rHello"); }
         SECTION("should upper case") { CHECK(upper_first_character("hello") == "Hello"); }
@@ -253,8 +253,8 @@ TEST_CASE("string_util tests") {
             CHECK(colourise_mud_string(true, "A normal piece of text") == "A normal piece of text");
         }
         SECTION("should handle empty text") {
-            CHECK(colourise_mud_string(false, "") == "");
-            CHECK(colourise_mud_string(true, "") == "");
+            CHECK(colourise_mud_string(false, "").empty());
+            CHECK(colourise_mud_string(true, "").empty());
         }
         SECTION("should handle control codes") {
             CHECK(colourise_mud_string(false, "|Rred|Ggreen|Bblue|rred|ggreen|bblue") == "redgreenblueredgreenblue");
@@ -385,7 +385,7 @@ TEST_CASE("string_util tests") {
         CHECK(initial_caps_only("a monkey") == "A monkey");
         CHECK(initial_caps_only("A MONKEY") == "A monkey");
         CHECK(initial_caps_only("a MonkeY") == "A monkey");
-        CHECK(initial_caps_only("") == "");
+        CHECK(initial_caps_only("").empty());
         CHECK(initial_caps_only("a") == "A");
         CHECK(initial_caps_only("A") == "A");
     }

@@ -44,7 +44,7 @@ TEST_CASE("Character tests", "[Char]") {
             SECTION("no flags set") {
                 const auto result = bob.format_extra_flags();
 
-                CHECK(result == "");
+                CHECK(result.empty());
             }
             SECTION("all extra flags set") {
                 for (auto i = 0; i < 3; i++)
@@ -63,8 +63,9 @@ TEST_CASE("Character tests", "[Char]") {
             }
             SECTION("all flags set") {
                 const auto all_on = std::string(64u, '1');
-                for (auto i = 0; i < 3; i++)
-                    bob.extra_flags[i] = ~(0ul);
+                for (auto &extra_flag : bob.extra_flags) {
+                    extra_flag = ~(0ul);
+                }
                 const auto result = bob.serialize_extra_flags();
 
                 CHECK(result == all_on);

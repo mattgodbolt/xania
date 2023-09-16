@@ -90,13 +90,13 @@ TEST_CASE("social load") {
 
         REQUIRE(opt_social);
         CHECK(opt_social->name() == "empty");
-        CHECK(opt_social->char_no_arg() == "");
-        CHECK(opt_social->others_no_arg() == "");
-        CHECK(opt_social->char_found() == "");
-        CHECK(opt_social->others_found() == "");
-        CHECK(opt_social->vict_found() == "");
-        CHECK(opt_social->char_auto() == "");
-        CHECK(opt_social->others_auto() == "");
+        CHECK(opt_social->char_no_arg().empty());
+        CHECK(opt_social->others_no_arg().empty());
+        CHECK(opt_social->char_found().empty());
+        CHECK(opt_social->others_found().empty());
+        CHECK(opt_social->vict_found().empty());
+        CHECK(opt_social->char_auto().empty());
+        CHECK(opt_social->others_auto().empty());
     }
     SECTION("unterminated social") {
         test::MemFile text(malformed);
