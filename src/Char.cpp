@@ -418,15 +418,15 @@ bool Char::is_player_killer() const noexcept { return is_pc() && check_enum_bit(
 bool Char::is_player_thief() const noexcept { return is_pc() && check_enum_bit(act, PlayerActFlag::PlrThief); }
 
 bool Char::is_set_extra(const CharExtraFlag flag) const noexcept {
-    const auto index = to_int(flag);
-    return is_pc() && extra_flags[index / 32u] & (1u << (index & 31u));
+    const auto flag_int = to_int(flag);
+    return is_pc() && check_bit(extra_flags, 1ul << flag_int);
 }
 
 void Char::set_extra(const CharExtraFlag flag) noexcept {
     if (is_npc())
         return;
-    const auto index = to_int(flag);
-    extra_flags[index / 32u] |= (1u << (index & 31u));
+    const auto flag_int = to_int(flag);
+    set_bit(extra_flags, 1ul << flag_int);
 }
 
 bool Char::toggle_extra(const CharExtraFlag flag) noexcept {
@@ -441,7 +441,8 @@ bool Char::toggle_extra(const CharExtraFlag flag) noexcept {
 void Char::remove_extra(const CharExtraFlag flag) noexcept {
     if (is_npc())
         return;
-    extra_flags[to_int(flag) / 32] &= ~(1u << (to_int(flag) & 31u));
+    const auto flag_int = to_int(flag);
+    clear_bit(extra_flags, 1ul << flag_int);
 }
 
 int Char::get_hitroll() const noexcept { return hitroll + str_app[curr_stat(Stat::Str)].tohit; }

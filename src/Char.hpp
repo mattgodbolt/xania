@@ -117,7 +117,7 @@ struct Char {
     sh_int attack_type{}; // attack_table index.
     Position start_pos{};
     Position default_pos{};
-    unsigned long extra_flags[(magic_enum::enum_count<CharExtraFlag>() / 32) + 1]{};
+    unsigned long extra_flags{};
     std::vector<MProg::MProgTriggerCtx> mpact{};
 
     Char();

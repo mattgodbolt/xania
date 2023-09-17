@@ -47,9 +47,7 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result.empty());
             }
             SECTION("all extra flags set") {
-                for (auto &flag : bob.extra_flags) {
-                    set_all_bits(flag);
-                }
+                set_all_bits(bob.extra_flags);
                 const auto result = bob.format_extra_flags();
 
                 CHECK(result == "wnet wn_debug wn_mort wn_imm wn_bug permit wn_tick info_mes tip_wiz tip_adv");
@@ -64,9 +62,7 @@ TEST_CASE("Character tests", "[Char]") {
             }
             SECTION("all flags set") {
                 const auto all_on = std::string(64u, '1');
-                for (auto &flag : bob.extra_flags) {
-                    set_all_bits(flag);
-                }
+                set_all_bits(bob.extra_flags);
                 const auto result = bob.serialize_extra_flags();
 
                 CHECK(result == all_on);
