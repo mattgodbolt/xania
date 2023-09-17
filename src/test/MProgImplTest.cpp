@@ -6,6 +6,7 @@
 #include "MProgImpl.hpp"
 #include "AffectFlag.hpp"
 #include "CharActFlag.hpp"
+#include "Class.hpp"
 #include "MProgTypeFlag.hpp"
 #include "MemFile.hpp"
 #include "Object.hpp"
@@ -332,22 +333,16 @@ TEST_CASE("evaluate if") {
         vic.level = 1;
         CHECK(evaluate_if("level($i) < 2", ctx));
     }
-    SECTION("class eq") {
-        vic.class_num = 0;
-        CHECK(evaluate_if("class($i) == 0", ctx));
-    }
+    SECTION("class eq") { CHECK(evaluate_if("class($i) == 0", ctx)); }
     SECTION("class neq") {
-        vic.class_num = 1;
+        vic.class_type = Class::by_name("knight");
         CHECK(evaluate_if("class($i) != 0", ctx));
     }
     SECTION("class gt") {
-        vic.class_num = 1;
+        vic.class_type = Class::by_name("knight");
         CHECK(evaluate_if("class($i) > 0", ctx));
     }
-    SECTION("class lt") {
-        vic.class_num = 0;
-        CHECK(evaluate_if("class($i) < 1", ctx));
-    }
+    SECTION("class lt") { CHECK(evaluate_if("class($i) < 1", ctx)); }
     SECTION("goldamt eq") {
         vic.gold = 0;
         CHECK(evaluate_if("goldamt($i) == 0", ctx));

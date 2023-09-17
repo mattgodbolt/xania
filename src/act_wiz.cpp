@@ -12,13 +12,12 @@
 #include "ArmourClass.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "Classes.hpp"
+#include "Class.hpp"
 #include "Columner.hpp"
 #include "CommFlag.hpp"
 #include "DamageType.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
-#include "Exit.hpp"
 #include "FlagFormat.hpp"
 #include "Logging.hpp"
 #include "MProg.hpp"
@@ -34,7 +33,6 @@
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "SkillsTabulator.hpp"
-#include "TimeInfoData.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
@@ -43,16 +41,13 @@
 #include "act_info.hpp"
 #include "act_move.hpp"
 #include "act_obj.hpp"
-#include "challenge.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
-#include "common/Configuration.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
 #include "interp.h"
 #include "lookup.h"
-#include "magic.h"
 #include "ride.hpp"
 #include "save.hpp"
 #include "skills.hpp"
@@ -137,7 +132,7 @@ void do_outfit(Char *ch) {
     equip_char_with(Objects::SchoolBanner, Worn::Light);
     equip_char_with(Objects::SchoolVest, Worn::Body);
     equip_char_with(Objects::SchoolShield, Worn::Shield);
-    equip_char_with(get_obj_index(class_table[ch->class_num].first_weapon_vnum)->vnum, Worn::Wield);
+    equip_char_with(get_obj_index(ch->class_type->first_weapon_vnum)->vnum, Worn::Wield);
     ch->send_line("You have been equipped by {}.", deity_name);
 }
 
@@ -943,8 +938,7 @@ void do_mstat(Char *ch, std::string_view argument) {
                   victim->max_mana, victim->move, victim->max_move, ch->is_npc() ? 0 : victim->practice);
 
     ch->send_line("Lv: {}  Class: {}  Align: {}  Gold: {}d  Exp: {}", victim->level,
-                  victim->is_npc() ? "mobile" : class_table[victim->class_num].name, victim->alignment, victim->gold,
-                  victim->exp);
+                  victim->is_npc() ? "mobile" : victim->class_type->name, victim->alignment, victim->gold, victim->exp);
 
     ch->send_line("Armor: pierce: {}  bash: {}  slash: {}  magic: {}", victim->get_armour_class(ArmourClass::Pierce),
                   victim->get_armour_class(ArmourClass::Bash), victim->get_armour_class(ArmourClass::Slash),
@@ -2067,19 +2061,12 @@ void do_mset(Char *ch, ArgParser args) {
             ch->send_line("Mobiles have no class.");
             return;
         }
-        const auto class_num = class_lookup(value_str);
-        if (class_num == -1) {
-            std::string buf{"Possible classes are: "};
-            // TODO: use ranges & fmt, and maybe put it in a Classes class.
-            for (size_t c = 0; c < MAX_CLASS; c++) {
-                if (c > 0)
-                    buf += " ";
-                buf += class_table[c].name;
-            }
-            ch->send_line(buf);
+        if (const auto *class_type = Class::by_name(value_str); class_type) {
+            victim->class_type = class_type;
+        } else {
+            ch->send_line("Available classes: {}", Class::names_csv());
             return;
         }
-        victim->class_num = class_num;
         return;
     }
     if (matches_start(field, "level")) {

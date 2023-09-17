@@ -41,7 +41,6 @@ struct Room;
 void extract_char(Char *ch, bool delete_from_world);
 [[nodiscard]] int race_lookup(std::string_view name);
 
-int class_lookup(std::string_view name);
 int get_weapon_sn(Char *ch);
 int get_weapon_skill(Char *ch, int sn);
 int get_max_train(Char *ch, Stat stat);

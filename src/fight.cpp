@@ -13,7 +13,7 @@
 #include "ArmourClass.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
-#include "Classes.hpp"
+#include "Class.hpp"
 #include "CommFlag.hpp"
 #include "DamageMessages.hpp"
 #include "DamageTolerance.hpp"

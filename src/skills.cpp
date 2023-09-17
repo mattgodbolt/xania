@@ -10,6 +10,7 @@
 #include "skills.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
+#include "Class.hpp"
 #include "Columner.hpp"
 #include "Learning.hpp"
 #include "Logging.hpp"
@@ -266,7 +267,7 @@ unsigned int exp_per_level(const Char *ch, int points) {
     inc = 500;
 
     if (points < 40)
-        return 1000 * pc_race_table[ch->race].class_mult[ch->class_num] / 100;
+        return 1000 * pc_race_table[ch->race].class_mult[ch->class_type->id] / 100;
 
     /* processing */
     points -= 40;
@@ -282,7 +283,7 @@ unsigned int exp_per_level(const Char *ch, int points) {
     }
 
     expl += points * inc / 10;
-    expl2 = expl * pc_race_table[ch->race].class_mult[ch->class_num] / 100;
+    expl2 = expl * pc_race_table[ch->race].class_mult[ch->class_type->id] / 100;
 
     if (expl2 > 65500)
         return 65500;
@@ -570,14 +571,14 @@ int get_skill_level(const Char *ch, const int gsn) {
 
     /* First we work out which level they'd get it at because of their class */
 
-    if (skill_table[gsn].rating[ch->class_num] > SkillRatingUnattainable) {
+    if (skill_table[gsn].rating[ch->class_type->id] > SkillRatingUnattainable) {
         /*  They *can* get it at level xxxx */
-        level = skill_table[gsn].skill_level[ch->class_num];
+        level = skill_table[gsn].skill_level[ch->class_type->id];
     }
-    if (skill_table[gsn].rating[ch->class_num] == SkillRatingAttainable) {
+    if (skill_table[gsn].rating[ch->class_type->id] == SkillRatingAttainable) {
         level = LevelCrossClassTraining;
     }
-    if (skill_table[gsn].rating[ch->class_num] == SkillRatingSpecial) {
+    if (skill_table[gsn].rating[ch->class_type->id] == SkillRatingSpecial) {
         /*  Hack: It's an assassin thing */
         if (ch->pcdata->group_known[group_lookup("assassin")]) {
             /*  they have the group so they get the skill at LevelSpecialClassTraining */
@@ -606,7 +607,7 @@ int get_skill_difficulty(Char *ch, const int gsn) {
         return 0;
     if (level > ch->level)
         return 0; /* as you're not high enough level */
-    int difficulty = skill_table[gsn].rating[ch->class_num];
+    int difficulty = skill_table[gsn].rating[ch->class_type->id];
     switch (difficulty) {
     case SkillRatingUnattainable: return 0; /* this should never happen as get_skill_level does this */
     case SkillRatingAttainable:
@@ -636,12 +637,12 @@ int get_skill_trains(Char *ch, const int gsn) {
     if (skill_table[gsn].spell_fun != spell_null)
         return 0;
 
-    switch (skill_table[gsn].rating[ch->class_num]) {
+    switch (skill_table[gsn].rating[ch->class_type->id]) {
     case SkillRatingUnattainable: return 0; // shouldn't happen
     case SkillRatingAttainable: return 10;
     case SkillRatingSpecial: return 10;
     }
-    return (skill_table[gsn].rating[ch->class_num]);
+    return (skill_table[gsn].rating[ch->class_type->id]);
 }
 
 // Returns the cost in "creation points" of a skill group for a character.
@@ -655,7 +656,7 @@ int get_skill_trains(Char *ch, const int gsn) {
 int get_group_trains(Char *ch, const int gsn) {
     if (get_group_level(ch, gsn) >= LevelCrossClassTraining && ch->level < LevelCrossClassTraining)
         return 0;
-    const auto rating = group_table[gsn].rating[ch->class_num];
+    const auto rating = group_table[gsn].rating[ch->class_type->id];
     switch (rating) {
     case 0: return 0;
     case -1: return 20; // An expensive group for the class to learn.
@@ -667,7 +668,7 @@ int get_group_trains(Char *ch, const int gsn) {
 
 // Returns the character level required to learn a skill group.
 int get_group_level(Char *ch, const int gsn) {
-    const auto rating = group_table[gsn].rating[ch->class_num];
+    const auto rating = group_table[gsn].rating[ch->class_type->id];
     switch (rating) {
     case 0: return 0;
     case -1: return LevelCrossClassTraining;

@@ -7,7 +7,7 @@
 #include "Attacks.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "Classes.hpp"
+#include "Class.hpp"
 #include "SkillNumbers.hpp"
 #include "common/BitOps.hpp"
 
@@ -82,7 +82,7 @@ int HitChance::to_hit_armour_class_level0() const {
     if (attacker_.is_npc()) {
         return NpcToHitAC0;
     } else {
-        return class_table[attacker_.class_num].to_hit_ac_level0;
+        return attacker_.class_type->to_hit_ac_level0;
     }
 }
 
@@ -99,6 +99,6 @@ int HitChance::to_hit_armour_class_level32() const {
         else
             return NpcThiefToHitAC32; // historically, NPCs without a class act flag hit like a thief
     } else {
-        return class_table[attacker_.class_num].to_hit_ac_level32;
+        return attacker_.class_type->to_hit_ac_level32;
     }
 }

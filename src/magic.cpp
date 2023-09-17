@@ -13,6 +13,7 @@
 #include "Alignment.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
+#include "Class.hpp"
 #include "DamageTolerance.hpp"
 #include "DamageType.hpp"
 #include "FlagFormat.hpp"
@@ -269,7 +270,7 @@ void casting_may_provoke_victim(Char *ch, const SpellTarget &spell_target, const
 
 /* MG's rather more dubious bomb-making routine */
 void try_create_bomb(Char *ch, const int sn, const int mana) {
-    if (ch->class_num != 0) {
+    if (ch->class_type != Class::mage()) {
         ch->send_line("You're more than likely gonna kill yourself!");
         return;
     }
@@ -363,7 +364,7 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
 
 /* MG's scribing command ... */
 void try_create_scroll(Char *ch, const int sn, const int mana) {
-    if ((ch->class_num != 0) && (ch->class_num != 1)) {
+    if ((ch->class_type != Class::mage()) && (ch->class_type != Class::cleric())) {
         ch->send_line("You can't scribe! You can't read or write!");
         return;
     }
@@ -425,7 +426,7 @@ void try_create_scroll(Char *ch, const int sn, const int mana) {
 
 /* MG's brewing command ... */
 void try_create_potion(Char *ch, const int sn, const int mana) {
-    if ((ch->class_num != 0) && (ch->class_num != 1)) {
+    if ((ch->class_type != Class::mage()) && (ch->class_type != Class::cleric())) {
         ch->send_line("You can't make potions! You don't know how!");
         return;
     }
@@ -530,7 +531,7 @@ void say_spell(Char *ch, const int sn) {
     const auto messages = casting_messages(sn);
     for (auto *rch : ch->in_room->people) {
         if (rch != ch)
-            act(ch->class_num == rch->class_num ? messages.first : messages.second, ch, nullptr, rch, To::Vict);
+            act(ch->class_type == rch->class_type ? messages.first : messages.second, ch, nullptr, rch, To::Vict);
     }
 }
 

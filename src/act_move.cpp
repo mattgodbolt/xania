@@ -12,7 +12,7 @@
 #include "AffectFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "Classes.hpp"
+#include "Class.hpp"
 #include "ContainerFlag.hpp"
 #include "Exit.hpp"
 #include "ExitFlag.hpp"
@@ -69,12 +69,12 @@ Char *find_trainer(Room *room) {
     return nullptr;
 }
 
-bool is_inaccessible_guild_room(const sh_int to_room_vnum, const sh_int class_num) {
-    for (auto iClass = 0; iClass < MAX_CLASS; iClass++) {
-        if (iClass == class_num) {
+bool is_inaccessible_guild_room(const Char &ch, const sh_int to_room_vnum) {
+    for (auto &class_type : Class::table()) {
+        if (ch.class_type == class_type) {
             continue;
         }
-        for (const auto guild_room_vnum : class_table[iClass].guild_room_vnums) {
+        for (const auto guild_room_vnum : class_type->guild_room_vnums) {
             if (to_room_vnum == guild_room_vnum) {
                 return true;
             }
@@ -123,7 +123,7 @@ void move_char(Char *ch, Direction direction) {
     }
 
     if (ch->is_pc()) {
-        if (is_inaccessible_guild_room(to_room->vnum, ch->class_num)) {
+        if (is_inaccessible_guild_room(*ch, to_room->vnum)) {
             ch->send_line("You aren't allowed in there.");
             return;
         }
@@ -270,7 +270,7 @@ void do_enter(Char *ch, std::string_view argument) {
                     }
 
                     if (ch->is_pc()) {
-                        if (is_inaccessible_guild_room(to_room->vnum, ch->class_num)) {
+                        if (is_inaccessible_guild_room(*ch, to_room->vnum)) {
                             ch->send_line("You aren't allowed in there.");
                             return;
                         }

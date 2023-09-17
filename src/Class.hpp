@@ -11,10 +11,9 @@
 #include <array>
 #include <string_view>
 
-/*
- * Per-class stuff.
- */
-struct class_type {
+// Constants for player character classes.
+struct Class {
+    sh_int id;
     std::string_view name;
     std::string_view who_name;
     Stat primary_stat;
@@ -28,6 +27,13 @@ struct class_type {
     sh_int mana_gain_on_level_factor;
     std::string_view base_skill_group;
     std::string_view default_skill_group;
-};
 
-extern const struct class_type class_table[];
+    [[nodiscard]] static const Class *by_id(sh_int index);
+    [[nodiscard]] static const Class *by_name(std::string_view name);
+    [[nodiscard]] static std::string names_csv();
+    [[nodiscard]] static const Class *mage();
+    [[nodiscard]] static const Class *cleric();
+    [[nodiscard]] static const Class *knight();
+    [[nodiscard]] static const Class *barbarian();
+    [[nodiscard]] static const std::array<Class const *, MAX_CLASS> &table();
+};

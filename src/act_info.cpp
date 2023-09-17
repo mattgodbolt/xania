@@ -15,7 +15,7 @@
 #include "ArmourClass.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "Classes.hpp"
+#include "Class.hpp"
 #include "Columner.hpp"
 #include "CommFlag.hpp"
 #include "ContainerFlag.hpp"
@@ -1038,7 +1038,7 @@ void do_score(Char *ch) {
     col2.kv("Age", "|W{}|w years (|W{}|w hours)", ch->get_age(), duration_cast<hours>(ch->total_played()).count());
 
     col2.stat("Race", race_table[ch->race].name)
-        .stat("Class", ch->is_npc() ? "mobile" : class_table[ch->class_num].name)
+        .stat("Class", ch->is_npc() ? "mobile" : ch->class_type->name)
         .stat("Sex", ch->sex.name())
         .stat("Position", ch->position.short_description())
         .stat_of("Items", ch->carry_number, can_carry_n(ch))
@@ -1157,7 +1157,7 @@ std::string_view who_class_name_of(const Char &wch) {
     case MAX_LEVEL - 7: return "ANG"sv;
     case MAX_LEVEL - 8: return "AVA"sv;
     }
-    return class_table[wch.class_num].who_name;
+    return wch.class_type->who_name;
 }
 
 std::string_view who_race_name_of(const Char &wch) {
@@ -1210,16 +1210,14 @@ void do_whois(Char *ch, ArgParser args) {
  * New 'who' command originally by Alander of Rivers of Mud.
  */
 void do_who(Char *ch, ArgParser args) {
-    int iClass;
     int iRace;
     int iLevelLower = 0;
     int iLevelUpper = MAX_LEVEL;
     int nNumber;
     int nMatch;
-    bool rgfClass[MAX_CLASS]{};
     bool rgfRace[MAX_PC_RACE]{};
     std::unordered_set<const Clan *> rgfClan;
-    bool fClassRestrict = false;
+    Class const *class_filter{};
     bool fRaceRestrict = false;
     bool fClanRestrict = false;
     bool fImmortalOnly = false;
@@ -1246,8 +1244,8 @@ void do_who(Char *ch, ArgParser args) {
             if (arg[0] == 'i') {
                 fImmortalOnly = true;
             } else {
-                iClass = class_lookup(arg);
-                if (iClass == -1) {
+                class_filter = Class::by_name(arg);
+                if (!class_filter) {
                     iRace = race_lookup(arg);
                     if (iRace == 0 || iRace >= MAX_PC_RACE) {
                         /* Check if clan exists */
@@ -1270,9 +1268,6 @@ void do_who(Char *ch, ArgParser args) {
                         fRaceRestrict = true;
                         rgfRace[iRace] = true;
                     }
-                } else {
-                    fClassRestrict = true;
-                    rgfClass[iClass] = true;
                 }
             }
         }
@@ -1292,7 +1287,7 @@ void do_who(Char *ch, ArgParser args) {
 
         auto *wch = d.person();
         if (wch->level < iLevelLower || wch->level > iLevelUpper || (fImmortalOnly && wch->level < LEVEL_HERO)
-            || (fClassRestrict && !rgfClass[wch->class_num]) || (fRaceRestrict && !rgfRace[wch->race]))
+            || (class_filter && wch->class_type != class_filter) || (fRaceRestrict && !rgfRace[wch->race]))
             continue;
         if (fClanRestrict) {
             if (!wch->clan() || rgfClan.count(wch->clan()) == 0)
@@ -1588,7 +1583,7 @@ void do_practice(Char *ch, ArgParser args) {
             return;
         }
 
-        auto adept = ch->is_npc() ? 100 : class_table[ch->class_num].adept_skill_rating;
+        auto adept = ch->is_npc() ? 100 : ch->class_type->adept_skill_rating;
 
         if (skill_level >= adept) {
             ch->send_line("You are already learned at {}.", skill_table[sn].name);

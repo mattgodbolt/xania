@@ -14,7 +14,7 @@
 #include "BodyPartFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "Classes.hpp"
+#include "Class.hpp"
 #include "CommFlag.hpp"
 #include "DamageTolerance.hpp"
 #include "DamageType.hpp"
@@ -75,15 +75,6 @@ int race_lookup(std::string_view name) {
     return 0;
 }
 
-/* returns class number */
-int class_lookup(std::string_view name) {
-    for (size_t class_num = 0; class_num < MAX_CLASS; class_num++) {
-        if (matches_start(name, class_table[class_num].name))
-            return class_num;
-    }
-    return -1;
-}
-
 /* for returning weapon information */
 int get_weapon_sn(Char *ch) {
     const Object *wield = get_eq_char(ch, Worn::Wield);
@@ -139,7 +130,7 @@ int get_max_train(Char *ch, Stat stat) {
         return MaxStatValue;
 
     max = pc_race_table[ch->race].max_stats[stat];
-    if (class_table[ch->class_num].primary_stat == stat)
+    if (ch->class_type->primary_stat == stat)
         /* if (ch->race == race_lookup("human"))
             max += 3;
          else*/

@@ -12,7 +12,7 @@
 #include "ArgParser.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "Classes.hpp"
+#include "Class.hpp"
 #include "CommFlag.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
@@ -293,8 +293,8 @@ void do_pose(Char *ch) {
     level = std::min(ch->level, static_cast<sh_int>(sizeof(pose_table) / sizeof(pose_table[0]) - 1));
     pose = number_range(0, level);
 
-    act(pose_table[pose].message[2 * ch->class_num + 0], ch, nullptr, nullptr, To::Char);
-    act(pose_table[pose].message[2 * ch->class_num + 1], ch);
+    act(pose_table[pose].message[2 * ch->class_type->id + 0], ch, nullptr, nullptr, To::Char);
+    act(pose_table[pose].message[2 * ch->class_type->id + 1], ch);
 }
 
 namespace {
@@ -570,8 +570,8 @@ void do_group(Char *ch, ArgParser args) {
             auto *gch = uch.get();
             if (is_same_group(gch, ch)) {
                 ch->send_line("[{:3} {}] {:<16} {:4}/{:4} hp {:4}/{:4} mana {:4}/{:4} mv {:5} xp", gch->level,
-                              gch->is_npc() ? "Mob" : class_table[gch->class_num].who_name, ch->describe(*gch),
-                              gch->hit, gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
+                              gch->is_npc() ? "Mob" : gch->class_type->who_name, ch->describe(*gch), gch->hit,
+                              gch->max_hit, gch->mana, gch->max_mana, gch->move, gch->max_move, gch->exp);
             }
         }
         return;

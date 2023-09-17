@@ -13,7 +13,7 @@
 #include "Area.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
-#include "Classes.hpp"
+#include "Class.hpp"
 #include "DamageTolerance.hpp"
 #include "DamageType.hpp"
 #include "Descriptor.hpp"
@@ -107,16 +107,15 @@ void advance_level(Char *ch) {
     ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
 
     add_hp = con_app[ch->curr_stat(Stat::Con)].hitp
-             + number_range(class_table[ch->class_num].min_hp_gain_on_level,
-                            class_table[ch->class_num].max_hp_gain_on_level);
+             + number_range(ch->class_type->min_hp_gain_on_level, ch->class_type->max_hp_gain_on_level);
 
     add_mana = number_range(
-        0, class_table[ch->class_num].mana_gain_on_level_factor * class_table[ch->class_num].mana_gain_on_level_factor
+        0, ch->class_type->mana_gain_on_level_factor * ch->class_type->mana_gain_on_level_factor
                * (std::max(0, ch->curr_stat(Stat::Wis) - 15) + 2 * std::max(0, ch->curr_stat(Stat::Int) - 15)));
 
     add_mana += 150;
     add_mana /= 300; /* =max (2*int+wis)/10 (10=mage.mana_gain_on_level_factor)*/
-    add_mana += class_table[ch->class_num].mana_gain_on_level_factor / 2;
+    add_mana += ch->class_type->mana_gain_on_level_factor / 2;
     /* thanx oshea for mana alg.
        For mage (25,25) gives 5 5%,   6-14 10%,   15 5%
          cleric         gives 4 7.8%, 5- 9 15.6%, 10 9%
@@ -167,10 +166,9 @@ void lose_level(Char *ch) {
     ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
 
     add_hp = con_app[ch->max_stat(Stat::Con)].hitp
-             + number_range(class_table[ch->class_num].min_hp_gain_on_level,
-                            class_table[ch->class_num].max_hp_gain_on_level);
+             + number_range(ch->class_type->min_hp_gain_on_level, ch->class_type->max_hp_gain_on_level);
     add_mana = (number_range(2, (2 * ch->max_stat(Stat::Int) + ch->max_stat(Stat::Wis)) / 5)
-                * class_table[ch->class_num].mana_gain_on_level_factor)
+                * ch->class_type->mana_gain_on_level_factor)
                / 10;
     add_move = number_range(1, (ch->max_stat(Stat::Con) + ch->max_stat(Stat::Dex)) / 6);
     add_prac = -(wis_app[ch->max_stat(Stat::Wis)].practice);
@@ -239,7 +237,7 @@ int hit_gain(Char *ch) {
 
     } else {
         gain = std::max(3, ch->curr_stat(Stat::Con) - 3 + ch->level);
-        gain += class_table[ch->class_num].max_hp_gain_on_level - 10;
+        gain += ch->class_type->max_hp_gain_on_level - 10;
         number = number_percent();
         if (number < ch->get_skill(gsn_fast_healing)) {
             gain += number * gain / 100;
@@ -296,7 +294,7 @@ int mana_gain(Char *ch) {
             if (ch->mana < ch->max_mana)
                 check_improve(ch, gsn_meditation, true, 8);
         }
-        gain = (gain * class_table[ch->class_num].mana_gain_on_level_factor) / 7;
+        gain = (gain * ch->class_type->mana_gain_on_level_factor) / 7;
 
         switch (ch->position) {
         case Position::Type::Sleeping: break;

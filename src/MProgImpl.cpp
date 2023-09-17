@@ -18,6 +18,7 @@
 #include "MProgImpl.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
+#include "Class.hpp"
 #include "Logging.hpp"
 #include "MProgProgram.hpp"
 #include "MProgTypeFlag.hpp"
@@ -218,7 +219,7 @@ bool level(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
 
 bool class_(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
-    return ch && compare_ints(ch->class_num, ifexpr.op, std::get<const int>(ifexpr.operand));
+    return ch && compare_ints(ch->class_type->id, ifexpr.op, std::get<const int>(ifexpr.operand));
 }
 
 bool goldamt(const IfExpr &ifexpr, const ExecutionCtx &ctx) {

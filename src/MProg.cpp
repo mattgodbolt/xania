@@ -18,6 +18,7 @@
 #include "MProg.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
+#include "Class.hpp"
 #include "Logging.hpp"
 #include "MProgImpl.hpp"
 #include "MProgTypeFlag.hpp"
@@ -193,7 +194,7 @@ void show_programs(Char *ch, ArgParser args) {
     ch->send_line("Hp: {}/{}.  Mana: {}/{}.  Move: {}/{}.", victim->hit, victim->max_hit, victim->mana,
                   victim->max_mana, victim->move, victim->max_move);
 
-    ch->send_line("Lv: {}.  Class: {}.  Align: {}.   Gold: {}.  Exp: {}.", victim->level, victim->class_num,
+    ch->send_line("Lv: {}.  Class: {}.  Align: {}.   Gold: {}.  Exp: {}.", victim->level, victim->class_type->name,
                   victim->alignment, victim->gold, victim->exp);
 
     for (const auto &mprg : victim->mobIndex->mobprogs) {

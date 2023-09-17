@@ -33,6 +33,7 @@ struct MobIndexData;
 struct Object;
 struct Room;
 struct PcCustomization;
+struct Class;
 
 struct LastLoginInfo {
     std::string login_from;
@@ -67,7 +68,7 @@ struct Char {
     std::string description;
     std::string sentient_victim;
     Sex sex;
-    sh_int class_num{};
+    Class const *class_type;
     sh_int race{};
     sh_int level{};
     sh_int trust{};
