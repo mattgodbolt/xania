@@ -22,6 +22,11 @@ inline bool set_bit(F &flag, const B bit) noexcept {
     return flag |= bit;
 }
 
+template <typename F>
+inline void set_all_bits(F &flag) noexcept {
+    flag = ~(static_cast<F>(0));
+}
+
 template <typename F, typename B>
 inline bool set_enum_bit(F &flag, const B bit) noexcept {
     return flag |= magic_enum::enum_integer<B>(bit);

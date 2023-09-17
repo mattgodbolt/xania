@@ -47,8 +47,9 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result.empty());
             }
             SECTION("all extra flags set") {
-                for (auto i = 0; i < 3; i++)
-                    bob.extra_flags[i] = ~(0ul);
+                for (auto &flag : bob.extra_flags) {
+                    set_all_bits(flag);
+                }
                 const auto result = bob.format_extra_flags();
 
                 CHECK(result == "wnet wn_debug wn_mort wn_imm wn_bug permit wn_tick info_mes tip_wiz tip_adv");
@@ -63,8 +64,8 @@ TEST_CASE("Character tests", "[Char]") {
             }
             SECTION("all flags set") {
                 const auto all_on = std::string(64u, '1');
-                for (auto &extra_flag : bob.extra_flags) {
-                    extra_flag = ~(0ul);
+                for (auto &flag : bob.extra_flags) {
+                    set_all_bits(flag);
                 }
                 const auto result = bob.serialize_extra_flags();
 
@@ -78,7 +79,7 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result == "none");
             }
             SECTION("npc all act flags set") {
-                bob.act = ~(0ul);
+                set_all_bits(bob.act);
                 const auto result = bob.format_act_flags();
 
                 CHECK(result
@@ -87,7 +88,7 @@ TEST_CASE("Character tests", "[Char]") {
                          "rideable|w");
             }
             SECTION("pc all act flags set") {
-                bob.act = ~(0ul);
+                set_all_bits(bob.act);
                 clear_enum_bit(bob.act, PlayerActFlag::PlrNpc);
                 const auto result = bob.format_act_flags();
 
@@ -103,7 +104,7 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result == "none");
             }
             SECTION("all comm flags set") {
-                bob.comm = ~(0ul);
+                set_all_bits(bob.comm);
                 const auto result = bob.format_comm_flags();
 
                 CHECK(result
@@ -119,7 +120,7 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result == "none");
             }
             SECTION("all offensive flags set") {
-                bob.off_flags = ~(0ul);
+                set_all_bits(bob.off_flags);
                 const auto result = bob.format_offensive_flags();
 
                 CHECK(result
@@ -135,7 +136,7 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result == "none");
             }
             SECTION("all immune flags set") {
-                bob.imm_flags = ~(0ul);
+                set_all_bits(bob.imm_flags);
                 const auto result = bob.format_immune_flags();
 
                 CHECK(result
@@ -150,7 +151,7 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result == "none");
             }
             SECTION("all resist flags set") {
-                bob.res_flags = ~(0ul);
+                set_all_bits(bob.res_flags);
                 const auto result = bob.format_resist_flags();
 
                 CHECK(result
@@ -165,7 +166,7 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result == "none");
             }
             SECTION("all vuln flags set") {
-                bob.vuln_flags = ~(0ul);
+                set_all_bits(bob.vuln_flags);
                 const auto result = bob.format_vuln_flags();
 
                 CHECK(result
@@ -180,7 +181,7 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result == "none");
             }
             SECTION("all morphology flags set") {
-                bob.morphology = ~(0ul);
+                set_all_bits(bob.morphology);
                 const auto result = bob.format_morphology_flags();
 
                 CHECK(result
@@ -196,7 +197,7 @@ TEST_CASE("Character tests", "[Char]") {
                 CHECK(result == "none");
             }
             SECTION("all body part flags set") {
-                bob.parts = ~(0ul);
+                set_all_bits(bob.parts);
                 const auto result = bob.format_body_part_flags();
 
                 CHECK(result
