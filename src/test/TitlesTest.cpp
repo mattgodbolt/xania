@@ -13,6 +13,7 @@
 
 TEST_CASE("default title") {
     Char player{};
+    player.pcdata = std::make_unique<PcData>();
     using std::make_tuple;
     using namespace std::literals;
     sh_int level;
@@ -49,7 +50,7 @@ TEST_CASE("default title") {
     SECTION("expected for class/level/sex combo") {
         player.sex = sex;
         player.level = level;
-        player.class_type = class_type;
+        player.pcdata->class_type = class_type;
         CHECK(Titles::default_title(player) == expected_title);
     }
 }

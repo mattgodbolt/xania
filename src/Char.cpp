@@ -195,7 +195,8 @@ sh_int Char::max_stat(Stat stat) const {
     if (is_npc() || level > LEVEL_IMMORTAL)
         return MaxStatValue;
 
-    return std::min(pc_race_table[race].max_stats[stat] + (class_type->primary_stat == stat ? 6 : 4), MaxStatValue);
+    return std::min(pc_race_table[race].max_stats[stat] + (pcdata->class_type->primary_stat == stat ? 6 : 4),
+                    MaxStatValue);
 }
 
 sh_int Char::get_armour_class(const ArmourClass ac_slot) const {
@@ -380,7 +381,7 @@ bool Char::can_see(const Room &room) const {
 
 int Char::num_active_ = 0;
 
-Char::Char() : name{}, class_type{Class::mage()}, logon(current_time), position(Position::Type::Standing) {
+Char::Char() : name{}, logon(current_time), position(Position::Type::Standing) {
     ranges::fill(armor, -1); // #216 -1 armour is the new normal
     ranges::fill(perm_stat, 13);
     ++num_active_;

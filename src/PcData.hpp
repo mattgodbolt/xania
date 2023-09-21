@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Class.hpp"
 #include "Constants.hpp"
 #include "PcCustomization.hpp"
 #include "PcNutrition.hpp"
@@ -12,6 +13,7 @@
 #include <string>
 
 struct PcData {
+    Class const *class_type{Class::mage()};
     std::string pwd;
     std::string bamfin;
     std::string bamfout;

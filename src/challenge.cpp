@@ -172,8 +172,8 @@ void do_accept(Char *ch) {
     challengee->send_line("|CYou have been challenged to a duel to the death by |G{}.", challenger->name);
 
     challengee->send_to(fmt::format("|c{}'s stats are: level:{} class:{} race:{} alignment:{}.\n\r", challenger->name,
-                                    challenger->level, challenger->class_type->name, race_table[challenger->race].name,
-                                    challenger->alignment));
+                                    challenger->level, challenger->pcdata->class_type->name,
+                                    race_table[challenger->race].name, challenger->alignment));
     challengee->send_to("|cType |paccept |cor |grefuse.\n\r|w");
     imm = ch;
     imm_name = imm->name;

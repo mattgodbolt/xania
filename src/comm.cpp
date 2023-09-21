@@ -834,7 +834,7 @@ void nanny(Descriptor *d, std::string_view argument) {
             break;
         }
         if (const auto *chosen_class = Class::by_name(choice); chosen_class) {
-            ch->class_type = chosen_class;
+            ch->pcdata->class_type = chosen_class;
             log_string("{}@{} new player.", ch->name, d->host());
             ch->send_line("\n\rYou may be good, neutral, or evil.");
             ch->send_to("Which alignment (G/N/E)? ");
@@ -860,7 +860,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         }
         ch->send_line("");
         group_add(ch, "rom basics", false);
-        group_add(ch, ch->class_type->base_skill_group, false);
+        group_add(ch, ch->pcdata->class_type->base_skill_group, false);
         ch->pcdata->learned[gsn_recall] = 50;
         ch->send_line("Customizing your character allows for a wider range of skills,  If you're new");
         ch->send_line("to the game we recommend skipping customization for now.");
@@ -885,7 +885,7 @@ void nanny(Descriptor *d, std::string_view argument) {
             break;
         case 'n':
         case 'N':
-            group_add(ch, ch->class_type->default_skill_group, true);
+            group_add(ch, ch->pcdata->class_type->default_skill_group, true);
             if (!lobby_char_was_created(d)) {
                 break;
             }
@@ -943,7 +943,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         if (ch->level == 0) {
 
             if (ch->race != race_lookup("dragon"))
-                ch->perm_stat[ch->class_type->primary_stat] += 3;
+                ch->perm_stat[ch->pcdata->class_type->primary_stat] += 3;
 
             ch->level = 1;
             ch->exp = exp_per_level(ch, ch->pcdata->points);

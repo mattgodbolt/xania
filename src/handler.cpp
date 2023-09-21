@@ -130,7 +130,7 @@ int get_max_train(Char *ch, Stat stat) {
         return MaxStatValue;
 
     max = pc_race_table[ch->race].max_stats[stat];
-    if (ch->class_type->primary_stat == stat)
+    if (ch->pcdata->class_type->primary_stat == stat)
         /* if (ch->race == race_lookup("human"))
             max += 3;
          else*/

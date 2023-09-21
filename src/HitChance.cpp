@@ -82,7 +82,7 @@ int HitChance::to_hit_armour_class_level0() const {
     if (attacker_.is_npc()) {
         return NpcToHitAC0;
     } else {
-        return attacker_.class_type->to_hit_ac_level0;
+        return attacker_.pcdata->class_type->to_hit_ac_level0;
     }
 }
 
@@ -99,6 +99,6 @@ int HitChance::to_hit_armour_class_level32() const {
         else
             return NpcThiefToHitAC32; // historically, NPCs without a class act flag hit like a thief
     } else {
-        return attacker_.class_type->to_hit_ac_level32;
+        return attacker_.pcdata->class_type->to_hit_ac_level32;
     }
 }

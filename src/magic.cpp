@@ -270,7 +270,7 @@ void casting_may_provoke_victim(Char *ch, const SpellTarget &spell_target, const
 
 /* MG's rather more dubious bomb-making routine */
 void try_create_bomb(Char *ch, const int sn, const int mana) {
-    if (ch->class_type != Class::mage()) {
+    if (!ch->pcdata || ch->pcdata->class_type != Class::mage()) {
         ch->send_line("You're more than likely gonna kill yourself!");
         return;
     }
@@ -364,7 +364,7 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
 
 /* MG's scribing command ... */
 void try_create_scroll(Char *ch, const int sn, const int mana) {
-    if ((ch->class_type != Class::mage()) && (ch->class_type != Class::cleric())) {
+    if (!ch->pcdata || ((ch->pcdata->class_type != Class::mage()) && (ch->pcdata->class_type != Class::cleric()))) {
         ch->send_line("You can't scribe! You can't read or write!");
         return;
     }
@@ -426,7 +426,7 @@ void try_create_scroll(Char *ch, const int sn, const int mana) {
 
 /* MG's brewing command ... */
 void try_create_potion(Char *ch, const int sn, const int mana) {
-    if ((ch->class_type != Class::mage()) && (ch->class_type != Class::cleric())) {
+    if (!ch->pcdata || ((ch->pcdata->class_type != Class::mage()) && (ch->pcdata->class_type != Class::cleric()))) {
         ch->send_line("You can't make potions! You don't know how!");
         return;
     }
@@ -530,8 +530,9 @@ std::pair<std::string, std::string> casting_messages(const int sn) {
 void say_spell(Char *ch, const int sn) {
     const auto messages = casting_messages(sn);
     for (auto *rch : ch->in_room->people) {
-        if (rch != ch)
-            act(ch->class_type == rch->class_type ? messages.first : messages.second, ch, nullptr, rch, To::Vict);
+        if (rch != ch && ch->pcdata && rch->pcdata)
+            act(ch->pcdata->class_type == rch->pcdata->class_type ? messages.first : messages.second, ch, nullptr, rch,
+                To::Vict);
     }
 }
 

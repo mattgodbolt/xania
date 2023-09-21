@@ -520,7 +520,7 @@ constexpr std::array<std::array<Pair, MAX_LEVEL + 1>, MAX_CLASS> AllTitles = {{
 }};
 
 std::string_view default_title(const Char &ch) {
-    const auto class_idx = std::clamp(ch.class_type->id, 0_s, static_cast<sh_int>(MAX_CLASS));
+    const auto class_idx = std::clamp(ch.pcdata->class_type->id, 0_s, static_cast<sh_int>(MAX_CLASS));
     const auto clamped_level = std::clamp(ch.level, 1_s, static_cast<sh_int>(MAX_LEVEL));
     return AllTitles[class_idx][clamped_level].title(ch);
 }

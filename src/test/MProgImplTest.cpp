@@ -30,6 +30,8 @@ auto make_char(const std::string &name, Room &room, MobIndexData *mob_idx) {
     if (mob_idx) {
         ch->mobIndex = mob_idx;
         set_enum_bit(ch->act, CharActFlag::Npc);
+    } else {
+        ch->pcdata = std::make_unique<PcData>();
     }
     // Put it in the Room directly rather than using char_to_room() as that would require other
     // dependencies to be set up.
@@ -220,14 +222,12 @@ TEST_CASE("evaluate if") {
     using namespace MProg::impl;
     Room room1{};
     Room room2{};
-    Char vic{};
-    Char bob{};
     auto mob_idx = make_mob_index();
-    vic.mobIndex = &mob_idx;
-    bob.mobIndex = &mob_idx;
+    auto vic = make_char("vic", room1, nullptr);
+    auto bob = make_char("bob", room1, &mob_idx);
     ObjectIndex obj_index{};
     Object obj1{&obj_index};
-    ExecutionCtx ctx{rng, &vic, nullptr, nullptr, nullptr, nullptr, nullptr};
+    ExecutionCtx ctx{rng, vic.get(), nullptr, nullptr, nullptr, nullptr, nullptr};
     SECTION("malformed ifexpr") {
         FORBID_CALL(rng, number_percent());
         CHECK(!evaluate_if("rand", ctx));
@@ -242,121 +242,121 @@ TEST_CASE("evaluate if") {
     }
     SECTION("ispc") { CHECK(evaluate_if("ispc($i)", ctx)); }
     SECTION("not ispc") {
-        set_enum_bit(vic.act, CharActFlag::Npc);
+        set_enum_bit(vic->act, CharActFlag::Npc);
         CHECK(!evaluate_if("ispc($i)", ctx));
     }
     SECTION("isnpc") {
-        set_enum_bit(vic.act, CharActFlag::Npc);
+        set_enum_bit(vic->act, CharActFlag::Npc);
         CHECK(evaluate_if("isnpc($i)", ctx));
     }
     SECTION("not isnpc") { CHECK(!evaluate_if("isnpc($i)", ctx)); }
     SECTION("isgood") {
-        vic.alignment = 350;
+        vic->alignment = 350;
         CHECK(evaluate_if("isgood($i)", ctx));
     }
     SECTION("not isgood") {
-        vic.alignment = 349;
+        vic->alignment = 349;
         CHECK(!evaluate_if("isgood($i)", ctx));
     }
     SECTION("isfight") {
-        vic.fighting = &bob;
+        vic->fighting = bob.get();
         CHECK(evaluate_if("isfight($i)", ctx));
     }
     SECTION("not isfight") { CHECK(!evaluate_if("isfight($i)", ctx)); }
     SECTION("isimmort") {
-        vic.level = LEVEL_IMMORTAL;
+        vic->level = LEVEL_IMMORTAL;
         CHECK(evaluate_if("isimmort($i)", ctx));
     }
     SECTION("not isimmort") {
-        vic.level = LEVEL_IMMORTAL - 1;
+        vic->level = LEVEL_IMMORTAL - 1;
         CHECK(!evaluate_if("isimmort($i)", ctx));
     }
     SECTION("ischarm") {
-        set_enum_bit(vic.affected_by, AffectFlag::Charm);
+        set_enum_bit(vic->affected_by, AffectFlag::Charm);
         CHECK(evaluate_if("ischarmed($i)", ctx));
     }
     SECTION("not ischarm") { CHECK(!evaluate_if("ischarmed($i)", ctx)); }
     SECTION("isfollow") {
-        vic.master = &bob;
-        vic.in_room = &room1;
-        bob.in_room = &room1;
+        vic->master = bob.get();
+        vic->in_room = &room1;
+        bob->in_room = &room1;
         CHECK(evaluate_if("isfollow($i)", ctx));
     }
     SECTION("not isfollow, master other room") {
-        vic.master = &bob;
-        vic.in_room = &room1;
-        bob.in_room = &room2;
+        vic->master = bob.get();
+        vic->in_room = &room1;
+        bob->in_room = &room2;
         CHECK(!evaluate_if("isfollow($i)", ctx));
     }
     SECTION("not isfollow, no master") { CHECK(!evaluate_if("isfollow($i)", ctx)); }
     SECTION("sex eq") {
-        vic.sex = Sex::male();
+        vic->sex = Sex::male();
         CHECK(evaluate_if("sex($i) == 1", ctx));
     }
     SECTION("not sex eq") {
-        vic.sex = Sex::male();
+        vic->sex = Sex::male();
         CHECK(!evaluate_if("sex($i) == 0", ctx));
     }
     SECTION("sex neq") {
-        vic.sex = Sex::male();
+        vic->sex = Sex::male();
         CHECK(evaluate_if("sex($i) != 0", ctx));
     }
     SECTION("not sex neq") {
-        vic.sex = Sex::male();
+        vic->sex = Sex::male();
         CHECK(!evaluate_if("sex($i) != 1", ctx));
     }
     SECTION("position eq") {
-        vic.position = Position::Type::Standing;
+        vic->position = Position::Type::Standing;
         CHECK(evaluate_if("position($i) == 8", ctx));
     }
     SECTION("position neq") {
-        vic.position = Position::Type::Dead;
+        vic->position = Position::Type::Dead;
         CHECK(!evaluate_if("position($i) == 8", ctx));
     }
     SECTION("position gt") {
-        vic.position = Position::Type::Incap;
+        vic->position = Position::Type::Incap;
         CHECK(evaluate_if("position($i) > 0", ctx));
     }
     SECTION("level eq") {
-        vic.level = 1;
+        vic->level = 1;
         CHECK(evaluate_if("level($i) == 1", ctx));
     }
     SECTION("level neq") {
-        vic.level = 2;
+        vic->level = 2;
         CHECK(evaluate_if("level($i) != 1", ctx));
     }
     SECTION("level gt") {
-        vic.level = 2;
+        vic->level = 2;
         CHECK(evaluate_if("level($i) > 1", ctx));
     }
     SECTION("level lt") {
-        vic.level = 1;
+        vic->level = 1;
         CHECK(evaluate_if("level($i) < 2", ctx));
     }
     SECTION("class eq") { CHECK(evaluate_if("class($i) == 0", ctx)); }
     SECTION("class neq") {
-        vic.class_type = Class::by_name("knight");
+        vic->pcdata->class_type = Class::by_name("knight");
         CHECK(evaluate_if("class($i) != 0", ctx));
     }
     SECTION("class gt") {
-        vic.class_type = Class::by_name("knight");
+        vic->pcdata->class_type = Class::by_name("knight");
         CHECK(evaluate_if("class($i) > 0", ctx));
     }
     SECTION("class lt") { CHECK(evaluate_if("class($i) < 1", ctx)); }
     SECTION("goldamt eq") {
-        vic.gold = 0;
+        vic->gold = 0;
         CHECK(evaluate_if("goldamt($i) == 0", ctx));
     }
     SECTION("goldamt neq") {
-        vic.gold = 1;
+        vic->gold = 1;
         CHECK(evaluate_if("goldamt($i) != 0", ctx));
     }
     SECTION("goldamt gt") {
-        vic.gold = 1;
+        vic->gold = 1;
         CHECK(evaluate_if("goldamt($i) > 0", ctx));
     }
     SECTION("goldamt lt") {
-        vic.gold = 0;
+        vic->gold = 0;
         CHECK(evaluate_if("goldamt($i) < 1", ctx));
     }
     SECTION("objtype eq") {
@@ -372,12 +372,12 @@ TEST_CASE("evaluate if") {
         CHECK(!evaluate_if("objtype($p) == 2", ctx));
     }
     SECTION("name eq") {
-        vic.name = "vic";
+        vic->name = "vic";
         CHECK(evaluate_if("name($i) == vic", ctx));
         CHECK(!evaluate_if("name($i) == bob", ctx));
     }
     SECTION("name neq") {
-        vic.name = "vic";
+        vic->name = "vic";
         CHECK(evaluate_if("name($i) != bob", ctx));
         CHECK(!evaluate_if("name($i) != vic", ctx));
     }

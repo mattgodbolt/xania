@@ -132,7 +132,7 @@ void do_outfit(Char *ch) {
     equip_char_with(Objects::SchoolBanner, Worn::Light);
     equip_char_with(Objects::SchoolVest, Worn::Body);
     equip_char_with(Objects::SchoolShield, Worn::Shield);
-    equip_char_with(get_obj_index(ch->class_type->first_weapon_vnum)->vnum, Worn::Wield);
+    equip_char_with(get_obj_index(ch->pcdata->class_type->first_weapon_vnum)->vnum, Worn::Wield);
     ch->send_line("You have been equipped by {}.", deity_name);
 }
 
@@ -938,7 +938,8 @@ void do_mstat(Char *ch, std::string_view argument) {
                   victim->max_mana, victim->move, victim->max_move, ch->is_npc() ? 0 : victim->practice);
 
     ch->send_line("Lv: {}  Class: {}  Align: {}  Gold: {}d  Exp: {}", victim->level,
-                  victim->is_npc() ? "mobile" : victim->class_type->name, victim->alignment, victim->gold, victim->exp);
+                  victim->is_npc() ? "mobile" : victim->pcdata->class_type->name, victim->alignment, victim->gold,
+                  victim->exp);
 
     ch->send_line("Armor: pierce: {}  bash: {}  slash: {}  magic: {}", victim->get_armour_class(ArmourClass::Pierce),
                   victim->get_armour_class(ArmourClass::Bash), victim->get_armour_class(ArmourClass::Slash),
@@ -2062,7 +2063,7 @@ void do_mset(Char *ch, ArgParser args) {
             return;
         }
         if (const auto *class_type = Class::by_name(value_str); class_type) {
-            victim->class_type = class_type;
+            victim->pcdata->class_type = class_type;
         } else {
             ch->send_line("Available classes: {}", Class::names_csv());
             return;

@@ -1038,7 +1038,7 @@ void do_score(Char *ch) {
     col2.kv("Age", "|W{}|w years (|W{}|w hours)", ch->get_age(), duration_cast<hours>(ch->total_played()).count());
 
     col2.stat("Race", race_table[ch->race].name)
-        .stat("Class", ch->is_npc() ? "mobile" : ch->class_type->name)
+        .stat("Class", ch->is_npc() ? "mobile" : ch->pcdata->class_type->name)
         .stat("Sex", ch->sex.name())
         .stat("Position", ch->position.short_description())
         .stat_of("Items", ch->carry_number, can_carry_n(ch))
@@ -1157,7 +1157,7 @@ std::string_view who_class_name_of(const Char &wch) {
     case MAX_LEVEL - 7: return "ANG"sv;
     case MAX_LEVEL - 8: return "AVA"sv;
     }
-    return wch.class_type->who_name;
+    return wch.pcdata->class_type->who_name;
 }
 
 std::string_view who_race_name_of(const Char &wch) {
@@ -1287,7 +1287,7 @@ void do_who(Char *ch, ArgParser args) {
 
         auto *wch = d.person();
         if (wch->level < iLevelLower || wch->level > iLevelUpper || (fImmortalOnly && wch->level < LEVEL_HERO)
-            || (class_filter && wch->class_type != class_filter) || (fRaceRestrict && !rgfRace[wch->race]))
+            || (class_filter && wch->pcdata->class_type != class_filter) || (fRaceRestrict && !rgfRace[wch->race]))
             continue;
         if (fClanRestrict) {
             if (!wch->clan() || rgfClan.count(wch->clan()) == 0)
@@ -1583,7 +1583,7 @@ void do_practice(Char *ch, ArgParser args) {
             return;
         }
 
-        auto adept = ch->is_npc() ? 100 : ch->class_type->adept_skill_rating;
+        auto adept = ch->is_npc() ? 100 : ch->pcdata->class_type->adept_skill_rating;
 
         if (skill_level >= adept) {
             ch->send_line("You are already learned at {}.", skill_table[sn].name);

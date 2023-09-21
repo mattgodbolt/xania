@@ -71,7 +71,7 @@ Char *find_trainer(Room *room) {
 
 bool is_inaccessible_guild_room(const Char &ch, const sh_int to_room_vnum) {
     for (auto &class_type : Class::table()) {
-        if (ch.class_type == class_type) {
+        if (ch.pcdata->class_type == class_type) {
             continue;
         }
         for (const auto guild_room_vnum : class_type->guild_room_vnums) {

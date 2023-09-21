@@ -219,7 +219,8 @@ bool level(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
 
 bool class_(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
-    return ch && compare_ints(ch->class_type->id, ifexpr.op, std::get<const int>(ifexpr.operand));
+    return ch && ch->is_pc()
+           && compare_ints(ch->pcdata->class_type->id, ifexpr.op, std::get<const int>(ifexpr.operand));
 }
 
 bool goldamt(const IfExpr &ifexpr, const ExecutionCtx &ctx) {

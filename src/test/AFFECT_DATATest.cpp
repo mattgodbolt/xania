@@ -23,7 +23,8 @@ TEST_CASE("AFFECT_DATA") {
         CHECK(af.bitvector == 0);
     }
     SECTION("should apply and unapply to a character") {
-        Char ch;
+        Char ch{};
+        ch.pcdata = std::make_unique<PcData>();
         AFFECT_DATA af;
         SECTION("affect bits") {
             ch.affected_by = to_int(AffectFlag::DarkVision);

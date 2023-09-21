@@ -75,7 +75,7 @@ void fwrite_char(const Char *ch, FILE *fp) {
         fmt::print(fp, "{} {}~\n", cf::Description, ch->description);
     fmt::print(fp, "{} {}~\n", cf::Race, pc_race_table[ch->race].name);
     fmt::print(fp, "{}  {}\n", cf::Sex, ch->sex.integer());
-    fmt::print(fp, "{}  {}\n", cf::Class, ch->class_type->id);
+    fmt::print(fp, "{}  {}\n", cf::Class, ch->pcdata->class_type->id);
     fmt::print(fp, "{} {}\n", cf::Level, ch->level);
     if (auto *pc_clan = ch->pc_clan()) {
         fmt::print(fp, "{} {}\n", cf::Clan, (int)pc_clan->clan.clanchar);
@@ -412,10 +412,10 @@ void fread_char(Char *ch, LastLoginInfo &last_login, FILE *fp) {
         } else if (word == cf::Class) {
             const auto class_id = fread_number(fp);
             if (const auto *class_type = Class::by_id(class_id); class_type) {
-                ch->class_type = class_type;
+                ch->pcdata->class_type = class_type;
             } else {
                 bug("fread_char: unable to find class by id {}, using mage as fallback", class_id);
-                ch->class_type = Class::mage();
+                ch->pcdata->class_type = Class::mage();
             }
         } else if (word == cf::ClanLevel) {
             if (ch->pc_clan()) {

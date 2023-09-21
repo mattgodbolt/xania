@@ -6,7 +6,6 @@
 #include "HitChance.hpp"
 #include "AffectFlag.hpp"
 #include "CharActFlag.hpp"
-#include "Class.hpp"
 #include "Room.hpp"
 #include "SkillNumbers.hpp"
 #include "handler.hpp"
@@ -24,10 +23,11 @@ TEST_CASE("hit chance") {
     Room room{};
     Char attacker{};
     Char victim{};
-    attacker.pcdata = std::make_unique<PcData>();
     const auto mage = Class::by_name("mage");
-    attacker.class_type = mage;
-    victim.class_type = mage;
+    attacker.pcdata = std::make_unique<PcData>();
+    attacker.pcdata->class_type = mage;
+    victim.pcdata = std::make_unique<PcData>();
+    victim.pcdata->class_type = mage;
     const auto human = race_lookup("human");
     attacker.race = human;
     victim.race = human;

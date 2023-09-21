@@ -68,7 +68,6 @@ struct Char {
     std::string description;
     std::string sentient_victim;
     Sex sex;
-    Class const *class_type;
     sh_int race{};
     sh_int level{};
     sh_int trust{};
