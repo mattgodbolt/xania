@@ -754,6 +754,10 @@ void do_aggressive_sentient(Char *, Char *);
 void aggr_update() {
     for (auto &&uch : char_list) {
         auto *wch = uch.get();
+        // Skip mobs that are no longer in the world, they're pending garbage collection.
+        if (!wch || !wch->in_room) {
+            continue;
+        }
         /* MOBProgram Act trigger */
         if (wch->is_npc() && !wch->mpact.empty() && wch->in_room->area->occupied()) {
             for (const auto &mpact : wch->mpact) {
