@@ -862,7 +862,7 @@ bool spec_mayor(Char *ch) {
 
     if (ch->fighting != nullptr)
         return spec_cast_cleric(ch);
-    if (!move || ch->is_pos_stunned_or_dying())
+    if (!move || ch->is_pos_stunned_or_dying() || !ch->in_room)
         return false;
 
     switch (path[pos]) {

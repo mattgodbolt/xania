@@ -84,7 +84,7 @@ uint32_t save_number = 0;
  */
 
 bool is_safe_sentient(Char *ch, const Char *victim) {
-    if (ch->in_room == nullptr)
+    if (!ch->in_room)
         return false;
     if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe)) {
         ch->yell(fmt::format("|WIf it weren't for the law, you'd be dead meat {}!!!|w", victim->name));
@@ -150,7 +150,7 @@ void advance_level(Char *ch) {
 
     ch->send_line("Your gain is: {}/{} hp, {}/{} m, {}/{} mv {}/{} prac.", add_hp, ch->max_hit, add_mana, ch->max_mana,
                   add_move, ch->max_move, add_prac, ch->practice);
-    log_string("### {} has made a level in room {}", ch->name, ch->in_room->vnum);
+    log_string("### {} has made a level in room {}", ch->name, (ch->in_room ? ch->in_room->vnum : 0));
     announce(fmt::format("|W### |P{}|W has made a level!!!|w", ch->name), ch);
 }
 
@@ -368,7 +368,7 @@ void mobile_update() {
     /* Examine all mobs. */
     for (auto &&uch : char_list) {
         auto *ch = uch.get();
-        if (ch->is_pc() || ch->in_room == nullptr || ch->is_aff_charm())
+        if (ch->is_pc() || !ch->in_room || ch->is_aff_charm())
             continue;
 
         if (ch->in_room->area->empty_since_last_reset() && !check_enum_bit(ch->act, CharActFlag::UpdateAlways))
@@ -532,12 +532,12 @@ void char_update() {
 
             if ((obj = get_eq_char(ch, Worn::Light)) != nullptr && obj->type == ObjectType::Light
                 && obj->value[2] > 0) {
-                if (--obj->value[2] == 0 && ch->in_room != nullptr) {
+                if (--obj->value[2] == 0 && ch->in_room) {
                     --ch->in_room->light;
                     act("$p goes out.", ch, obj, nullptr, To::Room);
                     act("$p flickers and goes out.", ch, obj, nullptr, To::Char);
                     extract_obj(obj);
-                } else if (obj->value[2] <= 5 && ch->in_room != nullptr)
+                } else if (obj->value[2] <= 5 && ch->in_room)
                     act("$p flickers.", ch, obj, nullptr, To::Char);
             }
 
@@ -591,7 +591,7 @@ void char_update() {
         if (ch->is_affected_by(gsn_plague) && ch != nullptr) {
             int save, dam;
 
-            if (ch->in_room == nullptr)
+            if (!ch->in_room)
                 return;
 
             act("$n writhes in agony as plague sores erupt from $s skin.", ch);

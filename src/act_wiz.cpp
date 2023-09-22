@@ -359,7 +359,7 @@ void do_transfer(Char *ch, ArgParser args) {
     if (matches(whom, "all")) {
         for (auto &victim :
              descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
-            if (victim.in_room != nullptr)
+            if (victim.in_room)
                 do_transfer(ch, ArgParser(fmt::format("{} {}", victim.name, where)));
         }
         return;
@@ -388,7 +388,7 @@ void do_transfer(Char *ch, ArgParser args) {
 }
 
 void transfer(const Char *imm, Char *victim, Room *location) {
-    if (victim->in_room == nullptr) {
+    if (!victim->in_room) {
         imm->send_line("They are in limbo.");
         return;
     }
@@ -577,7 +577,7 @@ void do_stat(Char *ch, ArgParser args) {
 void do_rstat(Char *ch, ArgParser args) {
     const auto argument = args.shift();
     auto *location = argument.empty() ? ch->in_room : find_location(ch, argument);
-    if (location == nullptr) {
+    if (!location) {
         ch->send_line("No such location.");
         return;
     }
@@ -688,9 +688,8 @@ void do_ostat(Char *ch, ArgParser args) {
     ch->send_line("Level: {}  Cost: {}  Condition: {}  Timer: {}", obj->level, obj->cost, obj->condition, obj->timer);
 
     ch->send_to(fmt::format("In room: {}  In object: {}  Carried by: {}  Wear_loc: {} ({})\n\r",
-                            obj->in_room == nullptr ? 0 : obj->in_room->vnum,
-                            obj->in_obj == nullptr ? "(none)" : obj->in_obj->short_descr,
-                            obj->carried_by == nullptr      ? "(none)"
+                            !obj->in_room ? 0 : obj->in_room->vnum, !obj->in_obj ? "(none)" : obj->in_obj->short_descr,
+                            !obj->carried_by                ? "(none)"
                             : ch->can_see(*obj->carried_by) ? obj->carried_by->name
                                                             : "someone",
                             magic_enum::enum_name<Worn>(obj->worn_loc), magic_enum::enum_integer(obj->worn_loc)));
@@ -923,7 +922,7 @@ void do_mstat(Char *ch, std::string_view argument) {
 
     ch->send_line("Vnum: {}  Format: {}  Race: {}  Sex: {}  Room: {}", victim->is_npc() ? victim->mobIndex->vnum : 0,
                   victim->is_npc() ? "npc" : "pc", race_table[victim->race].name, victim->sex.name(),
-                  victim->in_room == nullptr ? 0 : victim->in_room->vnum);
+                  !victim->in_room ? 0 : victim->in_room->vnum);
 
     if (victim->is_npc()) {
         ch->send_line("Count: {}  Killed: {}", victim->mobIndex->count, victim->mobIndex->killed);

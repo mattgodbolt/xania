@@ -363,7 +363,7 @@ void do_duel(Char *ch, ArgParser args) {
         ch->send_line("|cYou are not in a challenge to duel.|w");
         return;
     }
-    if (ch->in_room->vnum != Rooms::ChallengeArena) {
+    if (!ch->in_room || ch->in_room->vnum != Rooms::ChallengeArena) {
         ch->send_line("|cYou must be in the challenge arena to duel.|w");
         return;
     }
@@ -505,7 +505,7 @@ void do_flee_check(Char *ch) {
 int fighting_duel(Char *ch, Char *victim) {
     if (!challenge_fighting)
         return false;
-    if (ch->in_room->vnum != Rooms::ChallengeArena)
+    if (!ch->in_room || ch->in_room->vnum != Rooms::ChallengeArena)
         return false;
     if ((ch != challenger) && (ch != challengee))
         return false;
@@ -517,7 +517,7 @@ int fighting_duel(Char *ch, Char *victim) {
 int in_duel(const Char *ch) {
     if (!challenge_fighting)
         return false;
-    if (ch->in_room->vnum != Rooms::ChallengeArena)
+    if (!ch->in_room || ch->in_room->vnum != Rooms::ChallengeArena)
         return false;
     return ch == challenger || ch == challengee;
 }

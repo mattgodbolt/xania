@@ -86,6 +86,9 @@ bool is_inaccessible_guild_room(const Char &ch, const sh_int to_room_vnum) {
 
 void move_char(Char *ch, Direction direction) {
     auto *in_room = ch->in_room;
+    if (!in_room) {
+        return;
+    }
     const auto &exit = in_room->exits[direction];
     auto *to_room = exit ? exit->u1.to_room : nullptr;
     if (!exit || !to_room || !ch->can_see(*to_room)) {
@@ -237,14 +240,16 @@ void move_char(Char *ch, Direction direction) {
 }
 
 void do_enter(Char *ch, std::string_view argument) {
-    Room *to_room, *in_room;
+    Room *to_room;
     int count = 0;
     auto &&[number, arg] = number_argument(argument);
     if (ch->riding) {
         ch->send_line("Before entering a portal you must dismount.");
         return;
     }
-    in_room = ch->in_room;
+    if (!ch->in_room) {
+        return;
+    }
     for (auto *obj : ch->in_room->contents) {
         if (ch->can_see(*obj) && (is_name(arg, obj->name))) {
             if (++count == number) {
@@ -284,7 +289,7 @@ void do_enter(Char *ch, std::string_view argument) {
                             }
                         }
 
-                        if (in_room->sector_type == SectorType::Air || to_room->sector_type == SectorType::Air) {
+                        if (ch->in_room->sector_type == SectorType::Air || to_room->sector_type == SectorType::Air) {
                             if ((!ch->is_aff_fly() && ch->is_mortal())
                                 && !(ch->riding != nullptr && ch->riding->is_aff_fly())) {
                                 ch->send_line("You can't fly.");
@@ -292,7 +297,7 @@ void do_enter(Char *ch, std::string_view argument) {
                             }
                         }
 
-                        if ((in_room->sector_type == SectorType::NonSwimmableWater
+                        if ((ch->in_room->sector_type == SectorType::NonSwimmableWater
                              || to_room->sector_type == SectorType::NonSwimmableWater)
                             && !ch->is_aff_fly() && !(ch->riding != nullptr && ch->riding->is_aff_fly())
                             && !ch->has_boat()) {
@@ -307,10 +312,10 @@ void do_enter(Char *ch, std::string_view argument) {
                     act("$n has arrived through a portal.", ch);
                     look_auto(ch);
 
-                    if (in_room == to_room) /* no circular follows */
+                    if (ch->in_room == to_room) /* no circular follows */
                         return;
 
-                    for (auto *fch : in_room->people) {
+                    for (auto *fch : ch->in_room->people) {
                         if (fch->master == ch && fch->is_aff_charm() && fch->is_pos_preoccupied())
                             do_stand(fch);
 
@@ -326,7 +331,7 @@ void do_enter(Char *ch, std::string_view argument) {
                             act("You follow $N.", fch, nullptr, ch, To::Char);
                             fch->in_room->light++; /* allows follower in dark to enter */
                             do_enter(fch, argument);
-                            in_room->light--;
+                            ch->in_room->light--;
                         }
                     }
 
@@ -381,6 +386,9 @@ void do_down(Char *ch) {
 }
 
 std::optional<Direction> find_door(Char *ch, std::string_view arg) {
+    if (!ch->in_room) {
+        return {};
+    }
     if (auto direction = try_parse_direction(arg)) {
         const auto &exit = ch->in_room->exits[*direction];
         if (!exit) {

@@ -186,6 +186,9 @@ bool spec_phil(Char *ch) {
 
     /* Check for known people in this, and neighbouring, rooms */
     room = ch->in_room;
+    if (!room) {
+        return false;
+    }
     findInterestingChar(room, &follow, &interest);
     for (auto direction : all_directions) {
         if (const auto &exit = room->exits[direction])

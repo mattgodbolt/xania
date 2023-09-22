@@ -261,16 +261,13 @@ void affect_join(Char *ch, const AFFECT_DATA &af) {
  * Move a char out of a room.
  */
 void char_from_room(Char *ch) {
-    Object *obj;
-
-    if (ch->in_room == nullptr) {
-        bug("Char_from_room: nullptr.");
+    if (!ch->in_room) {
+        bug("char_from_room: null room, ch: {} #{}", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0));
         return;
     }
-
     if (ch->is_pc())
         ch->in_room->area->player_left();
-
+    Object *obj;
     if ((obj = get_eq_char(ch, Worn::Light)) != nullptr && obj->type == ObjectType::Light && obj->value[2] != 0
         && ch->in_room->light > 0)
         --ch->in_room->light;
@@ -287,8 +284,8 @@ void char_from_room(Char *ch) {
  * Move a char into a room.
  */
 void char_to_room(Char *ch, Room *room) {
-    if (room == nullptr) {
-        bug("Char_to_room: nullptr.");
+    if (!room) {
+        bug("char_to_room: null room, ch: {} #{}", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0));
         return;
     }
 
@@ -533,6 +530,10 @@ bool check_sub_issue(Object *obj, Char *ch) {
  * Move an obj into a room.
  */
 void obj_to_room(Object *obj, Room *room) {
+    if (!room) {
+        bug("obj_to_room: null room, obj: {} #{}", obj->name, obj->objIndex->vnum);
+        return;
+    }
     room->contents.add_front(obj);
     obj->in_room = room;
     obj->carried_by = nullptr;
@@ -603,8 +604,8 @@ void extract_obj(Object *obj) {
  * Extract a char from the world.
  */
 void extract_char(Char *ch, bool delete_from_world) {
-    if (ch->in_room == nullptr) {
-        bug("extract_char: nullptr.");
+    if (!ch->in_room) {
+        bug("extract_char: null room, ch: {} #{}", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0));
         return;
     }
 
@@ -810,7 +811,7 @@ int get_obj_weight(Object *obj) {
  * True if room is dark.
  */
 bool room_is_dark(Room *room) {
-    if (room->light > 0)
+    if (!room || room->light > 0)
         return false;
 
     if (check_enum_bit(room->room_flags, RoomFlag::Dark))
@@ -829,6 +830,9 @@ bool room_is_dark(Room *room) {
  * True if room is private.
  */
 bool room_is_private(Room *room) {
+    if (!room) {
+        return true;
+    }
     auto count = ranges::distance(room->people);
 
     if (check_enum_bit(room->room_flags, RoomFlag::Private) && count >= 2)

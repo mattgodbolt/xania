@@ -44,7 +44,7 @@ Room *find_location(Char *ch, std::string_view arg);
 
 void do_mpasound(Char *ch, std::string_view argument) {
 
-    if (ch->is_pc()) {
+    if (ch->is_pc() || !ch->in_room) {
         ch->send_line("Huh?");
         return;
     }
@@ -198,7 +198,7 @@ void do_mpecho(Char *ch, std::string_view argument) {
 are loaded into inventory. */
 
 void do_mpmload(Char *ch, ArgParser args) {
-    if (ch->is_pc()) {
+    if (ch->is_pc() || !ch->in_room) {
         ch->send_line("Huh?");
         return;
     }
@@ -217,7 +217,7 @@ void do_mpmload(Char *ch, ArgParser args) {
 }
 
 void do_mpoload(Char *ch, ArgParser args) {
-    if (ch->is_pc()) {
+    if (ch->is_pc() || !ch->in_room) {
         ch->send_line("Huh?");
         return;
     }
@@ -247,7 +247,7 @@ void do_mpoload(Char *ch, ArgParser args) {
    otherwise ugly stuff will happen */
 
 void do_mppurge(Char *ch, ArgParser args) {
-    if (ch->is_pc()) {
+    if (ch->is_pc() || !ch->in_room) {
         ch->send_line("Huh?");
         return;
     }
@@ -303,7 +303,7 @@ void do_mpgoto(Char *ch, ArgParser args) {
 /* lets the mobile do a command at another location. Very useful */
 
 void do_mpat(Char *ch, ArgParser args) {
-    if (ch->is_pc()) {
+    if (ch->is_pc() || !ch->in_room) {
         ch->send_line("Huh?");
         return;
     }
@@ -390,7 +390,7 @@ void do_mptransfer(Char *ch, ArgParser args) {
    and the all argument only affects those in the room with the mobile */
 
 void do_mpforce(Char *ch, ArgParser args) {
-    if (ch->is_pc()) {
+    if (ch->is_pc() || !ch->in_room) {
         ch->send_line("Huh?");
         return;
     }

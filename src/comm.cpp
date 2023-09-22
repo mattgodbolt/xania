@@ -1188,6 +1188,9 @@ bool act_to_person(const Char *person, const Position::Type min_position) {
 std::vector<const Char *> folks_in_room(const Room *room, const Char *ch, const Char *vch, const To &type,
                                         const Position::Type min_position) {
     std::vector<const Char *> result;
+    if (!room) {
+        return result;
+    }
     for (auto *person : room->people) {
         if (!act_to_person(person, min_position))
             continue;
@@ -1331,7 +1334,7 @@ std::string format_one_prompt_part(char c, const Char &ch) {
         return "";
     case 'r':
         if (ch.is_immortal())
-            return ch.in_room->name;
+            return ch.in_room ? ch.in_room->name : "";
         break;
     case 'W':
         if (ch.is_immortal())
@@ -1344,11 +1347,11 @@ std::string format_one_prompt_part(char c, const Char &ch) {
         break;
     case 'R':
         if (ch.is_immortal())
-            return fmt::format("{}", ch.in_room->vnum);
+            return fmt::format("{}", ch.in_room ? ch.in_room->vnum : 0);
         break;
     case 'z':
         if (ch.is_immortal())
-            return ch.in_room->area->short_name();
+            return ch.in_room ? ch.in_room->area->short_name() : "";
         break;
     case 'n': return "\n\r";
     case 't': {

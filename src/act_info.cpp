@@ -845,7 +845,7 @@ void look_direction(const Char &ch, Direction direction) {
 }
 
 bool check_look(Char *ch) {
-    if (ch->desc == nullptr)
+    if (!ch->desc || !ch->in_room)
         return false;
 
     if (ch->is_pos_stunned_or_dying()) {
@@ -956,6 +956,9 @@ void do_examine(Char *ch, ArgParser args) {
  */
 void do_exits(const Char *ch, std::string_view arguments) {
 
+    if (!ch->in_room) {
+        return;
+    }
     const auto is_compact = matches(arguments, "auto");
     if (!check_blind(ch))
         return;
@@ -1411,6 +1414,12 @@ void do_compare(Char *ch, ArgParser args) {
 void do_credits(Char *ch) { do_help(ch, "diku"); }
 
 void do_where(Char *ch, ArgParser args) {
+    if (!ch->in_room) {
+        // Technically a player running 'where' should always find themselves in a Room before this point
+        // even if they were timing out and had drifted into limbo.
+        ch->send_line("You're completely lost!");
+        return;
+    }
     if (args.empty()) {
         ch->send_line("|cYou are in {}\n\rPlayers near you:|w", ch->in_room->area->short_name());
         auto found = false;

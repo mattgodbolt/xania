@@ -2156,7 +2156,9 @@ void do_flee(Char *ch) {
     Room *now_in;
     Char *victim;
     int attempt;
-
+    if (!ch->in_room) {
+        return;
+    }
     if ((victim = ch->fighting) == nullptr) {
         if (ch->is_pos_fighting())
             ch->position = Position::Type::Standing;

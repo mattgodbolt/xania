@@ -185,7 +185,7 @@ CorpseSummoner corpse_summoner(dependencies);
  * these in the Necropolis, but there could be more in future.
  */
 bool spec_summoner(Char *ch) {
-    if (ch->is_pos_preoccupied() || ch->in_room->vnum != Rooms::MidgaardNecropolis)
+    if (ch->is_pos_preoccupied() || !ch->in_room || ch->in_room->vnum != Rooms::MidgaardNecropolis)
         return false;
     corpse_summoner.summoner_awaits(ch, system_clock::to_time_t(current_time));
     return true;
