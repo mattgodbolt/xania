@@ -3003,7 +3003,7 @@ void spell_portal([[maybe_unused]] int sn, int level, Char *ch, const SpellTarge
         object_list.push_back(std::move(obj_uptr));
         portal->timer = duration;
         portal->destination = to;
-        portal->description = fmt::sprintf(portal->description, from->name);
+        portal->description = fmt::sprintf(portal->description, to->name);
         obj_to_room(portal, from);
     };
     make_portal(ch->in_room, victim->in_room);
