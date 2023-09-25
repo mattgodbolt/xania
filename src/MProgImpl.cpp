@@ -107,18 +107,21 @@ const Object *ExecutionCtx::select_obj(const IfExpr &ifexpr) const {
     }
 }
 
+int get_vnum(const Char *mob) { return (mob->mobIndex ? mob->mobIndex->vnum : 0); };
+
 bool expect_number_arg(const IfExpr &ifexpr, Char *mob) {
     if (!is_number(ifexpr.arg)) {
-        bug("expect_number_arg: #{} bad argument to '{}': {}", mob->mobIndex->vnum, ifexpr.function, ifexpr.arg);
+        bug("expect_number_arg: #{} {} bad argument to '{}': {}", get_vnum(mob), mob->name, ifexpr.function,
+            ifexpr.arg);
         return false;
     }
     return true;
-};
+}
 
 bool expect_dollar_var(const IfExpr &ifexpr, Char *mob) {
     if (ifexpr.arg.length() != 2 || ifexpr.arg[0] != '$' || !std::isalpha(ifexpr.arg[1])) {
-        bug("expect_dollar_var: #{} function expects a $var specifying a character or object, got: {}",
-            mob->mobIndex->vnum, ifexpr.arg);
+        bug("expect_dollar_var: #{} {} function expects a $var specifying a character or object, got: {}",
+            get_vnum(mob), mob->name, ifexpr.arg);
         return false;
     }
     return true;
@@ -129,28 +132,28 @@ bool expect_dollar_var_and_number_operand(const IfExpr &ifexpr, Char *mob) {
         if (std::holds_alternative<const int>(ifexpr.operand))
             return true;
         else {
-            bug("expect_dollar_var_and_number_operand: #{} expected a number operand", mob->mobIndex->vnum);
+            bug("expect_dollar_var_and_number_operand: #{} {} expected a number operand", get_vnum(mob), mob->name);
             return false;
         }
     }
     return false;
-};
+}
 
 bool expect_dollar_var_and_sv_operand(const IfExpr &ifexpr, Char *mob) {
     if (expect_dollar_var(ifexpr, mob)) {
         if (std::holds_alternative<std::string_view>(ifexpr.operand))
             return true;
         else {
-            bug("expect_dollar_var_and_sv_operand: #{} expected a string view operand", mob->mobIndex->vnum);
+            bug("expect_dollar_var_and_sv_operand: #{} {} expected a string view operand", get_vnum(mob), mob->name);
             return false;
         }
     }
     return false;
-};
+}
 
 bool rand(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     return ctx.rng.number_percent() <= parse_number(ifexpr.arg);
-};
+}
 
 bool ispc(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
