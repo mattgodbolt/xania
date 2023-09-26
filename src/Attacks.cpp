@@ -6,9 +6,11 @@
 #include "Attacks.hpp"
 #include "DamageType.hpp"
 #include "SkillTables.hpp"
+#include "Visitor.hpp"
 #include "string_utils.hpp"
 
 #include <range/v3/algorithm/find_if.hpp>
+#include <variant>
 
 namespace Attacks {
 
@@ -90,11 +92,12 @@ bool is_attack_skill(const skill_type *opt_skill, const sh_int skill_num) {
 bool is_attack_skill(const AttackType atk_type, const sh_int skill_num) {
     if (skill_num < 0 || skill_num >= MAX_SKILL) {
         return false;
-    } else if (const auto attack_skill = std::get_if<const skill_type *>(&atk_type)) {
-        return is_attack_skill(*attack_skill, skill_num);
-    } else {
-        return false;
     }
+    const auto maybe_attack_skill_ = [&](const skill_type *attack_skill) -> bool {
+        return is_attack_skill(attack_skill, skill_num);
+    };
+    const auto never_otherwise = [](const attack_type *) -> bool { return false; };
+    return std::visit(Visitor{maybe_attack_skill_, never_otherwise}, atk_type);
 }
 
 }
