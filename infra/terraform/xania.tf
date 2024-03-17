@@ -153,23 +153,18 @@ resource "aws_iam_policy" "xania-backup" {
 
 resource "aws_s3_bucket" "xania" {
   bucket = "mud.xania.org"
-  acl = "private"
   tags = {
     Site = "mud.xania.org"
   }
-  lifecycle_rule {
-    id = "backups_to_cold"
-    enabled = true
-    prefix = "backups"
-    transition {
-      days = 30
-      storage_class = "STANDARD_IA"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "xania-backup" {
+  bucket = aws_s3_bucket.xania.bucket
+  rule {
+    id = "backups_to_cold_then_delete"
+    filter {
+      prefix = "backups"
     }
-  }
-  lifecycle_rule {
-    id = "releases_to_cold_then_delete"
-    enabled = true
-    prefix = "releases"
     transition {
       days = 30
       storage_class = "STANDARD_IA"
@@ -177,6 +172,21 @@ resource "aws_s3_bucket" "xania" {
     expiration {
       days = 120
     }
+    status = "Enabled"
+  }
+  rule {
+    id = "releases_to_cold_then_delete"
+    filter {
+      prefix = "releases"
+    }
+    transition {
+      days = 30
+      storage_class = "STANDARD_IA"
+    }
+    expiration {
+      days = 120
+    }
+    status = "Enabled"
   }
 
 }
