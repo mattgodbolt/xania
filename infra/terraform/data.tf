@@ -1,7 +1,7 @@
-data "aws_acm_certificate" "godbolt-org" {
-  domain      = "*.xania.org"
-  most_recent = true
-}
+# data "aws_acm_certificate" "xania-org" {
+#   domain      = "*.xania.org"
+#   most_recent = true
+# }
 
 data "aws_iam_policy_document" "InstanceAssumeRolePolicy" {
   statement {

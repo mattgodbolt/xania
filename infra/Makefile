@@ -6,7 +6,7 @@ help: # with thanks to Ben Rady
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 PACKER_VERSION:=1.6.0
-TERRAFORM_VERSION:=0.12.28
+TERRAFORM_VERSION:=1.7.4
 
 APPS_DIR=$(CURDIR)/.apps
 TERRAFORM=$(APPS_DIR)/terraform-${TERRAFORM_VERSION}/terraform
@@ -29,7 +29,7 @@ $(PACKER):
 	unzip $(APPS_DIR)/packer-$(PACKER_VERSION).zip -d $(dir $(PACKER))
 
 $(TERRAFORM).init: $(TERRAFORM) terraform/main.tf
-	$(TERRAFORM) init terraform
+	$(TERRAFORM) -chdir=terraform init
 	touch $@
 
 .PHONY: terraform-init
@@ -37,7 +37,7 @@ terraform-init: $(TERRAFORM).init
 
 .PHONY: terraform
 terraform: terraform-init $(TERRAFORM)  ## Apply any pending infrastructure changes
-	$(TERRAFORM) apply terraform
+	$(TERRAFORM) -chdir=terraform apply
 
 PACKER_CONFIG=$(APPS_DIR)/packer-config.json
 
