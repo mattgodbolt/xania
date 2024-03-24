@@ -234,6 +234,20 @@ resource "aws_iam_role_policy_attachment" "xania_attach_policy" {
   policy_arn = aws_iam_policy.xania-backup.arn
 }
 
+# The zone is owned by matt's own infrastructure, so just bring it in here.
+data "aws_route53_zone" "xania" {
+  name         = "xania.org."
+}
+
+resource "aws_route53_record" "mud" {
+  zone_id = data.aws_route53_zone.xania.zone_id
+  name = "mud"
+  type = "A"
+  records = [aws_instance.XaniaNode.public_ip]
+  ttl = 3600
+}
+
+
 resource "aws_instance" "XaniaNode" {
   ami                  = "ami-00a9f96ddda13edad"
   instance_type        = "t3a.small"
