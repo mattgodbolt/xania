@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-aws s3 sync s3://mud.xania.org/ssh_users /tmp/ssh_users
+aws s3 sync s3://mud2.xania.org/ssh_users /tmp/ssh_users
 for user_path in /tmp/ssh_users/*; do
   USERNAME=$(basename $user_path)
   if ! id "${USERNAME}" >/dev/null 2>&1; then

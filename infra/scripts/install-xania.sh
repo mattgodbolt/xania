@@ -16,4 +16,4 @@ if [[ -d xania-$VERSION ]]; then
   exit 1
 fi
 
-curl -sL "$(aws s3 presign s3://mud.xania.org/releases/xania-$VERSION.tar.xz)" | tar Jxf -
+curl -sL "$(aws s3 presign s3://mud2.xania.org/releases/xania-$VERSION.tar.xz)" | tar Jxf -

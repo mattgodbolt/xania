@@ -10,7 +10,7 @@ fi
 crontab <xania/infra/scripts/crontab.xania
 mkdir -p ~/releases ~/data/player ~/data/system ~/data/gods ~/data/log
 
-aws s3 sync s3://mud.xania.org/player/ ~/data/player/
+aws s3 sync s3://mud2.xania.org/player/ ~/data/player/
 
 # workaround some sudo nonsense (maybe should go in bashrc?)
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
