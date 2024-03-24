@@ -236,20 +236,20 @@ resource "aws_iam_role_policy_attachment" "xania_attach_policy" {
 
 # The zone is owned by matt's own infrastructure, so just bring it in here.
 data "aws_route53_zone" "xania" {
-  name         = "xania.org."
+  name = "xania.org."
 }
 
 resource "aws_route53_record" "mud" {
   zone_id = data.aws_route53_zone.xania.zone_id
-  name = "mud"
-  type = "A"
+  name    = "mud"
+  type    = "A"
   records = [aws_instance.XaniaNode.public_ip]
-  ttl = 3600
+  ttl     = 3600
 }
 
 
 resource "aws_instance" "XaniaNode" {
-  ami                  = "ami-00a9f96ddda13edad"
+  ami                  = "ami-00a9f96ddda13edad" # now "ami-0eeac7f737cc7f986", but can't update without replacing the node
   instance_type        = "t3a.small"
   iam_instance_profile = aws_iam_instance_profile.xania.name
   monitoring           = false
