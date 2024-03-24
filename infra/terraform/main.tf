@@ -1,13 +1,15 @@
 provider "aws" {
-  region  = "us-east-1"
+  region  = "us-east-2"
+  profile = "xania"
 }
 
 terraform {
   required_version = "~> 1.7"
   backend "s3" {
-    bucket = "terraform.godbolt.org"
-    key    = "xania.tfstate"
-    region = "us-east-1"
+    bucket  = "terraform.xania.org"
+    key     = "xania.tfstate"
+    region  = "us-east-2"
+    profile = "xania"
   }
   required_providers {
     aws = {
