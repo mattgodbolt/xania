@@ -19,15 +19,15 @@ sudo --login -u xania "$(pwd)/setup-xania.sh"
 loginctl enable-linger xania
 
 # Configure email
-SMTP_PASS=$(aws ssm get-parameter --name /admin/smtp_pass | jq -r .Parameter.Value)
+SMTP_USER=$(aws ssm get-parameter --name smtp_user | jq -r .Parameter.Value)
+SMTP_PASS=$(aws ssm get-parameter --name smtp_password | jq -r .Parameter.Value)
 cat >/etc/ssmtp/ssmtp.conf <<EOF
 root=postmaster
-mailhub=email-smtp.us-east-1.amazonaws.com
+mailhub=email-smtp.us-east-2.amazonaws.com:587
 hostname=xania.org
 FromLineOverride=NO
-AuthUser=AKIAJZWPG4D3SSK45LJA
+AuthUser=${SMTP_USER}
 AuthPass=${SMTP_PASS}
-UseTLS=YES
 UseSTARTTLS=YES
 EOF
 cat >/etc/ssmtp/revaliases <<EOF
