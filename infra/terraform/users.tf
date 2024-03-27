@@ -27,6 +27,19 @@ data "aws_iam_policy_document" "admin" {
       "*"
     ]
   }
+
+  statement {
+    actions = ["iam:ListUsers"]
+    resources = [
+    "arn:aws:iam::*:*"]
+  }
+
+  statement {
+    actions = ["iam:*AccessKey*"]
+    resources = [
+      "arn:aws:iam::*:user/$${aws:username}"
+    ]
+  }
 }
 
 resource "aws_iam_group_policy" "admin" {
