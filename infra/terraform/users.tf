@@ -21,6 +21,7 @@ data "aws_iam_policy_document" "admin" {
   statement {
     actions = [
       "ec2:*",
+      "iam:ListVirtualMFADevices",
     ]
 
     resources = [
@@ -35,7 +36,22 @@ data "aws_iam_policy_document" "admin" {
   }
 
   statement {
-    actions = ["iam:*AccessKey*"]
+    actions = ["iam:CreateVirtualMFADevice"]
+    resources = [
+    "arn:aws:iam::*:mfa/*"]
+  }
+
+  statement {
+    actions = [
+      "iam:*AccessKey*",
+      "iam:DeactivateMFADevice",
+      "iam:EnableMFADevice",
+      "iam:GetUser",
+      "iam:GetMFADevice",
+      "iam:ListMFADevices",
+      "iam:ResyncMFADevice"
+
+    ]
     resources = [
       "arn:aws:iam::*:user/$${aws:username}"
     ]
