@@ -2,6 +2,10 @@ resource "aws_iam_user" "faramir" {
   name = "faramir"
 }
 
+resource "aws_iam_user" "themoog" {
+  name = "themoog"
+}
+
 resource "aws_iam_group" "admin" {
   name = "xania-admin"
 }
@@ -18,10 +22,25 @@ data "aws_iam_policy_document" "admin" {
     ]
   }
 
+  // For convenience in the web UI at least allow listing 
+  // (NB leaks matt's personal bucket names but yolo)
+  statement {
+    actions = [
+      "s3:ListBuckets",
+      "s3:ListAllMyBuckets"
+    ]
+
+    resources = [
+      "*"
+    ]
+  }
+
   statement {
     actions = [
       "ec2:*",
+      "iam:GetAccountSummary",
       "iam:ListVirtualMFADevices",
+      "iam:ListAccountAliases",
     ]
 
     resources = [
@@ -62,4 +81,10 @@ resource "aws_iam_group_policy" "admin" {
   name   = "xania-admins"
   group  = aws_iam_group.admin.name
   policy = data.aws_iam_policy_document.admin.json
+}
+
+resource "aws_iam_group_membership" "admins" {
+  name  = "xania-admins"
+  users = ["faramir", "themoog"]
+  group = aws_iam_group.admin.name
 }
