@@ -11,7 +11,7 @@ We chat about the mud [here](https://discord.gg/Xsstufyt8t). Feel free to drop i
 
 ## Building and running
 
-If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 22.0.4 and Arch Linux.
+If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 24.0.4 and Arch Linux.
 
 It works within **Docker** including when hosted by **Windows Subsystem for Linux**. To learn more about this see
 the Docker-specific [tutorial](docker-dev/README.md)!
@@ -23,10 +23,9 @@ It has been reported to work on Fedora 34 too.
 Here are the Ubuntu steps for installing some prerequisites:
 
 ```bash
-# Install gcc-12 and g++-12. Versions 13 and 11 work too!
+# Install gcc-13 and g++-13.
 $ sudo apt install build-essential manpages-dev software-properties-common
 $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-$ sudo apt update && sudo apt install gcc-12 g++-12
 
 # Optional step: We recommend installing ninja-build as it speeds the builds up significantly.
 $ sudo apt install ninja-build
@@ -34,7 +33,7 @@ $ sudo apt install ninja-build
 # And you'll need the following...
 $ sudo apt install git make curl
 
-# Local builds autodetect g++-12 and use it for compilation, but fallback to g++-11.
+# Local builds autodetect g++-13 and use it for compilation, but fallback to g++-12.
 # clang-15 works too (see later section).  If you want to build with a different compiler
 # create a new cmake toolchain file e.g. "toolchain/mycompilers.cmake" and set the compiler
 # variables in it. Then invoke make specifying the leading part of your toolchain name in 
@@ -50,9 +49,8 @@ $ make TOOLCHAIN=mycompilers test
 
 ### CMake
 
-You'll also need a recent version of __cmake__. At least version 3.19 is required, 3.21+ preferred. If you're running Ubuntu 18 or 20
-you'll need to [add the __Kitware__ apt repository](https://apt.kitware.com) to your apt sources. On Ubuntu 22 or Arch Linux the cmake 
-package is present in the main APT repository.
+You'll also need a recent version of __cmake__. At least version 3.19 is required, 3.21+ preferred. 
+On Ubuntu 22 or later and Arch, the cmake package is present in the main repository.
 ```bash
 $ sudo apt install cmake
 ```
