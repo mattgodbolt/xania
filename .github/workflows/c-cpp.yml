@@ -18,7 +18,7 @@ jobs:
       matrix:
         gcc_version: [ 13 ]
         os: [ ubuntu-24.04 ]
-        build_type: [ debug, release ]
+        build_type: [ Debug, Release ]
     steps:
       - uses: actions/checkout@v1
       - name: install-compiler
@@ -42,15 +42,15 @@ jobs:
         run : sudo apt-get update && sudo apt-get install ninja-build g++-13 -y
       - name: configure
         run: |
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=release \
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release \
             -DBUILD_VERSION="$GITHUB_RUN_NUMBER" \
             -DBUILD_COMMIT_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$GITHUB_SHA" \
             -DBUILD_FULL_VERSION="$GITHUB_RUN_NUMBER $GITHUB_SHA on $GITHUB_REF" \
-            -DUSE_CONAN=TRUE -B cmake-build-release
+            -DUSE_CONAN=TRUE -B cmake-build-Release
       - name: build
-        run: cmake --build cmake-build-release
+        run: cmake --build cmake-build-Release
       - name: package
-        run: cmake --install cmake-build-release --prefix cmake-build-install
+        run: cmake --install cmake-build-Release --prefix cmake-build-install
       - name: tarball # TODO probably branch name here?
         run: tar Jcvf xania-$GITHUB_RUN_NUMBER.tar.xz --transform "s|^cmake-build-install|./xania-$GITHUB_RUN_NUMBER|" cmake-build-install
       - name: Upload file to bucket
@@ -58,7 +58,7 @@ jobs:
         uses: zdurham/s3-upload-github-action@master
         env:
           FILE: xania-${{ github.run_number }}.tar.xz
-          AWS_REGION: 'us-east-1'
+          AWS_REGION: 'us-east-2'
           S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           S3_KEY: releases/xania-${{ github.run_number }}.tar.xz
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

@@ -1,15 +1,14 @@
 [requires]
 catch2/3.3.2
-fmt/10.0.0
+fmt/11.1.3
 ms-gsl/4.0.0
 trompeloeil/43
-spdlog/1.11.0
+spdlog/1.15.1
 date/3.0.1
 range-v3/0.12.0
 lyra/1.6.1
 magic_enum/0.8.2
 
 [generators]
-cmake_paths
-cmake_find_package
+CMakeDeps
 

@@ -1,29 +1,19 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.28)
+include(${CMAKE_SOURCE_DIR}/conan/conan_provider.cmake)
 
 # Conan version to be used
 set(CONDA_VERSION 23.1.0-1)
 
 # Conda is used to have a minimal environment where to install conan
 set(CONDA_INSTALLER_SHA256 5dc619babc1d19d6688617966251a38d245cb93d69066ccde9a013e1ebb5bf18)
-set(REQUIRED_CONAN_VERSION 1.60.1)
+set(REQUIRED_CONAN_VERSION 2.14.0)
 
-include(${CMAKE_SOURCE_DIR}/conan/conan.cmake)
 
 find_program(CONAN_CMD conan)
 
 message("Looking for a conan version above ${REQUIRED_CONAN_VERSION}...")
 
-if (CONAN_CMD)
-   # Sadly, the conan macros make the whole cake fail when the version
-   # does not match. This makes it difficult to deal with prior local install
-   # of conan.
-   # Here we trick the macro by giving a lower version that will always be good
-   # (for instance 0.0.0) and then get back the parsed version in the
-   # CMAKE_MATCH_1 variable
-   conan_check(VERSION 0.0.0)
-endif()
-
-if (NOT CONAN_CMD OR "${CMAKE_MATCH_1}" VERSION_LESS "${REQUIRED_CONAN_VERSION}")
+if (NOT CONAN_CMD)
 unset(CONAN_CMD CACHE)
 
 message("Conan was not found or is too old; updating with Conda...")
@@ -72,25 +62,10 @@ find_program(CONAN_CMD conan REQUIRED
         NO_CMAKE_SYSTEM_PATH
         NO_CMAKE_FIND_ROOT_PATH)
 
-# paranoid check of conan version
-conan_check(VERSION ${REQUIRED_CONAN_VERSION} REQUIRED)
-
 endif()
 
-# See Makefile - CONAN_VERSION
-
-conan_add_remote(NAME conancenter
-        INDEX 0
-        URL https://center.conan.io)
-
-conan_cmake_autodetect(CONAN_SETTINGS)
 # Per-dependency settings overrides.
 # The default static lib shipped by catch2 is compiled with std 14 and this is binary incompatible
 # with some of the features our tests use, so force recompilation.
 list(APPEND CONAN_SETTINGS "catch2:compiler.cppstd=20")
 
-conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}/conan
-        SETTINGS ${CONAN_SETTINGS}
-        BUILD missing)
-
-include(${CMAKE_BINARY_DIR}/conan_paths.cmake)

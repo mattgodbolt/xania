@@ -14,7 +14,7 @@ endif
 CMAKE?=$(shell which cmake || echo .cmake-not-found)
 CURL?=$(shell which curl || echo .curl-not-found)
 CURL_OPTIONS:=-sL --fail -m 120 --connect-timeout 3 --retry 3 --retry-max-time 360
-BUILD_TYPE?=debug
+BUILD_TYPE?=Debug
 BUILD_ROOT:=$(CURDIR)/cmake-build-$(BUILD_TYPE)
 INSTALL_DIR=$(CURDIR)/install
 TOOLS_DIR=$(CURDIR)/.tools

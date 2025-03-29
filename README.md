@@ -49,7 +49,8 @@ $ make TOOLCHAIN=mycompilers test
 
 ### CMake
 
-You'll also need a recent version of __cmake__. At least version 3.19 is required, 3.21+ preferred. 
+You'll also need a recent version of __cmake__. The build is configured to require at least version 3.28,
+although older versions may work.
 On Ubuntu 22 or later and Arch, the cmake package is present in the main repository.
 ```bash
 $ sudo apt install cmake
@@ -107,9 +108,9 @@ You can selectively nuke cached libraries, for example:
 
 ```bash
 # Remove all versions of fmt from the cache
-$ ./cmake-build-debug/.tools/conda-4.12.0/conan remove fmt/* -s -b -f
+$ ./cmake-build-Debug/.tools/conda-23.1.0-1/bin/conan remove -c fmt/*
 # Remove all cached libraries from the cache
-$ ./cmake-build-debug/.tools/conda-4.12.0/conan remove "*" -s -b -f
+$ ./cmake-build-Debug/.tools/conda-23.1.0-1/bin/conan remove -c "*"
 ```
 
 ### Creating an immortal account

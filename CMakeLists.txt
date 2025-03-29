@@ -1,4 +1,7 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.28)
+if (USE_CONAN)
+    list(APPEND CMAKE_PROJECT_TOP_LEVEL_INCLUDES ${CMAKE_SOURCE_DIR}/conan/CMakeLists.txt)
+endif ()
 project(xania)
 
 set(BUILD_VERSION "(local build)" CACHE STRING "Build version (build number only)")
@@ -16,10 +19,6 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsa
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG -Wno-error=array-bounds")
 
 enable_testing()
-
-if (USE_CONAN)
-    include(conan/CMakeLists.txt)
-endif ()
 
 find_package(spdlog REQUIRED)
 find_package(fmt REQUIRED)
