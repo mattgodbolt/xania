@@ -2,7 +2,7 @@
 catch2/3.8.0
 fmt/11.1.3
 ms-gsl/4.1.0
-trompeloeil/43
+trompeloeil/49
 spdlog/1.15.1
 date/3.0.1
 range-v3/0.12.0
