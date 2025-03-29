@@ -8,7 +8,7 @@
 #include "Flag.hpp"
 #include "common/StandardBits.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 // ACT bits for players.
 // IMPORTANT: These bits are flipped on Char.act just as the

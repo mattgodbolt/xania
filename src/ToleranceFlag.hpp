@@ -8,7 +8,7 @@
 #include "Flag.hpp"
 #include "common/StandardBits.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 // Character damage tolerance bits (immunity, resistance, vulnerability).
 enum class ToleranceFlag : unsigned long {

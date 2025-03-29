@@ -10,7 +10,7 @@
 #include "common/BitOps.hpp"
 #include "string_utils.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 #include <memory>
 
 std::string ObjectIndex::type_name() const { return lower_case(magic_enum::enum_name<ObjectType>(type)); }

@@ -55,7 +55,7 @@
 
 #include <fmt/chrono.h>
 #include <fmt/format.h>
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 #include <range/v3/algorithm/find_if.hpp>
 #include <range/v3/iterator/operations.hpp>
 

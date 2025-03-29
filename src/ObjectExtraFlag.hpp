@@ -8,7 +8,7 @@
 
 #include "common/StandardBits.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 enum class ObjectExtraFlag : unsigned int {
     Glow = A,

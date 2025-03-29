@@ -7,7 +7,7 @@
 
 #include "common/StandardBits.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 enum class ClanCommFlag : unsigned int { ChannelOn = A, ChannelRevoked = B };
 

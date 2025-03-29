@@ -7,7 +7,7 @@ spdlog/1.15.1
 date/3.0.3
 range-v3/0.12.0
 lyra/1.6.1
-magic_enum/0.8.2
+magic_enum/0.9.7
 
 [generators]
 CMakeDeps

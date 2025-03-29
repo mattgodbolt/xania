@@ -9,7 +9,7 @@
 #include "Flag.hpp"
 #include "common/StandardBits.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 /*
  * Character act bits.
  * Used in #MOBILES section of area files.

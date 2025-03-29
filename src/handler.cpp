@@ -54,7 +54,7 @@
 #include "string_utils.hpp"
 
 #include <algorithm>
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 #include <range/v3/algorithm/count.hpp>
 #include <range/v3/algorithm/remove_if.hpp>
 #include <range/v3/iterator/operations.hpp>

@@ -7,7 +7,7 @@
 
 #include "common/StandardBits.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 // Bits for for container flags (value[1]).
 enum class ContainerFlag : unsigned int { Closeable = A, PickProof = B, Closed = C, Locked = D };

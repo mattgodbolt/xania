@@ -7,7 +7,7 @@
 #include "Types.hpp"
 
 #include <array>
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 #include <string_view>
 
 struct Liquid {

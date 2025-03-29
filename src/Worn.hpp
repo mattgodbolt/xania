@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 #include <range/v3/view/filter.hpp>
 
 // Locations an Object can be worn in, and the None slot meaning the Object isn't worn.

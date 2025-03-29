@@ -25,7 +25,7 @@
 #include "db.h"
 #include "string_utils.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 /*
  * Lookup a skill by name.

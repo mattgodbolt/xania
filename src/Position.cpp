@@ -7,7 +7,7 @@
 #include "Logging.hpp"
 #include "string_utils.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 #include <optional>
 
 using namespace std::literals;

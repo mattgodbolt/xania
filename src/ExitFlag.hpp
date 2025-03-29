@@ -7,7 +7,7 @@
 
 #include "common/StandardBits.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 enum class ExitFlag : unsigned int {
     // Bits for Room Exits.

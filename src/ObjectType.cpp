@@ -8,7 +8,7 @@
 #include "lookup.h"
 #include "string_utils.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 namespace ObjectTypes {
 

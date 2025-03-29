@@ -5,7 +5,7 @@
 /*************************************************************************/
 #pragma once
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 // The Char Extra flags feature was originally used to store binary state of
 // various character settings. It reserved 64 bits and encoded their

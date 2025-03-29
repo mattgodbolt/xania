@@ -9,7 +9,7 @@
 #include "FlagFormat.hpp"
 #include "common/StandardBits.hpp"
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 /*
  * Bits for 'affected_by'.

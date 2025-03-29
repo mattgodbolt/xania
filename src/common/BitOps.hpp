@@ -5,7 +5,7 @@
 /*************************************************************************/
 #pragma once
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 template <typename F, typename B>
 inline bool check_bit(const F flag, const B bit) noexcept {
