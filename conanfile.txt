@@ -1,5 +1,5 @@
 [requires]
-catch2/3.3.2
+catch2/3.8.0
 fmt/11.1.3
 ms-gsl/4.0.0
 trompeloeil/43
