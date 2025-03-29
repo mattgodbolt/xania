@@ -1,6 +1,6 @@
 [requires]
 catch2/3.3.2
-fmt/9.1.0
+fmt/10.0.0
 ms-gsl/4.0.0
 trompeloeil/43
 spdlog/1.11.0

@@ -13,6 +13,7 @@
 #include "common/BitOps.hpp"
 
 #include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <range/v3/algorithm/find_if.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>

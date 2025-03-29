@@ -11,4 +11,4 @@ using Seconds = std::chrono::seconds;
 using Minutes = std::chrono::minutes;
 using date::operator<<;
 
-inline auto formatted_time(Time time) { return fmt::format("{:%Y-%m-%d %H:%M:%S}Z", fmt::gmtime(time)); }
+inline auto formatted_time(const Time time) { return fmt::format("{:%Y-%m-%d %H:%M:%S}Z", fmt::gmtime(time)); }

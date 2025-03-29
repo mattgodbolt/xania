@@ -250,13 +250,13 @@ struct Char {
     void send_to(std::string_view txt) const;
     template <typename... Args>
     void send_to(fmt::string_view txt, Args &&...args) const {
-        return send_to(fmt::vformat(txt, fmt::make_format_args(args...)));
+        return send_to(fmt::format(fmt::runtime(txt), args...));
     }
     // Send a line to this character's user (if they have one).
     void send_line(std::string_view txt) const { return send_to("{}\n\r", txt); }
     template <typename... Args>
     void send_line(fmt::string_view txt, Args &&...args) const {
-        return send_to(fmt::vformat(txt, fmt::make_format_args(args...)) + "\n\r");
+        return send_to(fmt::format(fmt::runtime(txt), args...) + "\n\r");
     }
 
     // Page text to this character's user (if they have one).

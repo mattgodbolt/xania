@@ -30,7 +30,7 @@ template <>
 struct fmt::formatter<Dice> {
     constexpr auto parse(format_parse_context &ctx) { return ctx.begin(); }
     template <typename FormatContext>
-    auto format(const Dice &dice, FormatContext &ctx) {
+    auto format(const Dice &dice, FormatContext &ctx) const {
         if (dice.bonus())
             return fmt::format_to(ctx.out(), "{}d{}+{}", dice.number(), dice.type(), dice.bonus());
         else

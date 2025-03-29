@@ -30,6 +30,7 @@
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
+#include <fmt/ranges.h>
 
 #include <string>
 

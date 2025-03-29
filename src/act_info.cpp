@@ -397,7 +397,7 @@ struct fmt::formatter<OnOff> {
     constexpr auto parse(format_parse_context &ctx) { return ctx.begin(); }
 
     template <typename FormatContext>
-    auto format(const OnOff &onoff, FormatContext &ctx) {
+    auto format(const OnOff &onoff, FormatContext &ctx) const {
         return fmt::format_to(ctx.out(), fmt::runtime(onoff.b ? "|RON|w" : "|ROFF|w"));
     }
 };
@@ -1723,11 +1723,10 @@ void do_scan(Char *ch) {
 
 void do_alist(Char *ch) {
     auto format_str = "{:3} {:29} {:<5}-{:>5} {:12}\n\r"sv;
-    auto buffer = fmt::vformat(format_str, fmt::make_format_args("Num", "Area Name", "Lvnum", "Uvnum", "Filename"));
+    auto buffer = fmt::format(fmt::runtime(format_str), "Num", "Area Name", "Lvnum", "Uvnum", "Filename");
     for (auto &pArea : AreaList::singleton())
-        buffer +=
-            fmt::vformat(format_str, fmt::make_format_args(pArea->num(), pArea->short_name(), pArea->lowest_vnum(),
-                                                           pArea->highest_vnum(), pArea->filename()));
+        buffer += fmt::format(fmt::runtime(format_str), pArea->num(), pArea->short_name(), pArea->lowest_vnum(),
+                              pArea->highest_vnum(), pArea->filename());
     ch->page_to(buffer);
 }
 

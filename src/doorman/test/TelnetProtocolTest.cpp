@@ -2,6 +2,7 @@
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
+#include <fmt/ranges.h>
 #include <string_view>
 
 #include <arpa/telnet.h>

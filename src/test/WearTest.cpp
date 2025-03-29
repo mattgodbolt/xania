@@ -7,6 +7,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <range/v3/view/transform.hpp>
 
 TEST_CASE("wear location") {

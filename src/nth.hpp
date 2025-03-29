@@ -14,7 +14,7 @@ std::string_view suffix_for(size_t value);
 template <typename T>
 struct fmt::formatter<impl::Nth<T>> : formatter<T> {
     template <typename FormatContext>
-    auto format(const impl::Nth<T> &number, FormatContext &ctx) {
+    auto format(const impl::Nth<T> &number, FormatContext &ctx) const {
         formatter<T>::format(number.value, ctx);
         size_t abs_value;
         if constexpr (std::is_signed_v<T>) {
@@ -28,7 +28,7 @@ struct fmt::formatter<impl::Nth<T>> : formatter<T> {
 
 // Wrap a value-type integral value so that it outputs as nth. e.g. "3rd", "45th", "2nd".
 template <typename T>
-auto nth(T t) {
+auto nth(const T t) {
     static_assert(std::is_arithmetic_v<T>);
     return impl::Nth<T>{t};
 }

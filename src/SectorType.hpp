@@ -34,7 +34,7 @@ std::string_view to_string(SectorType type);
 template <>
 struct fmt::formatter<SectorType> : public formatter<std::string_view> {
     template <typename FormatContext>
-    auto format(SectorType sector_type, FormatContext &ctx) {
+    auto format(SectorType sector_type, FormatContext &ctx) const {
         return formatter<std::string_view>::format(to_string(sector_type), ctx);
     }
 };
