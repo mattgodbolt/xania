@@ -34,7 +34,7 @@ $ sudo apt install ninja-build
 $ sudo apt install git make curl
 
 # Local builds autodetect g++-13 and use it for compilation, but fallback to g++-12.
-# clang-15 works too (see later section).  If you want to build with a different compiler
+# clang-19 works too (see later section).  If you want to build with a different compiler
 # create a new cmake toolchain file e.g. "toolchain/mycompilers.cmake" and set the compiler
 # variables in it. Then invoke make specifying the leading part of your toolchain name in 
 # the TOOLCHAIN make variable e.g.
@@ -84,22 +84,23 @@ To stop Xania, run `make stop`. To restart,  `make restart`.
 
 ### Compiling with clang
 
-You may be interested in compiling with `clang`, version 15 is known to work. You may also want to 
-use `clangd` as an LSP for editors like [ neovim ](https://neovim.io)
+You may be interested in compiling with `clang`. The project builds cleanly with clang 19 and has been tested in the
+past with versions going back to 15.
+You may also want to use `clangd` as an LSP for editors like [ neovim ](https://neovim.io)
 and the [ nvim-lspconfig ](https://github.com/neovim/nvim-lspconfig)plugin.
 
 ```bash
 # First install the tools:
-$ sudo apt install clang-15 clangd-15
-$ update-alternatives --install /usr/bin/clangd clangd $(which clangd-15) 10
-$ update-alternatives --install /usr/bin/clang clang $(which clang-15) 10
-$ update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-15)
-$ update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-15)
+$ sudo apt install clang-19 clangd-19
+$ update-alternatives --install /usr/bin/clangd clangd $(which clangd-19) 10
+$ update-alternatives --install /usr/bin/clang clang $(which clang-19) 10
+$ update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-19)
+$ update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-19)
 ```
 Build by specifying the toolchain:
 
 ```bash
-$ make TOOLCHAIN=clang-15
+$ make TOOLCHAIN=clang-19
 ```
 When building with clang, it's possible that you may run into compatibility
 problems with versions of libraries in your conan cache. The cache typically resides in `~/.conan`. 
@@ -108,9 +109,9 @@ You can selectively nuke cached libraries, for example:
 
 ```bash
 # Remove all versions of fmt from the cache
-$ ./cmake-build-Debug/.tools/conda-23.1.0-1/bin/conan remove -c fmt/*
+$ ./cmake-build-Debug/.tools/conda-25.1.1-2/bin/conan remove -c fmt/*
 # Remove all cached libraries from the cache
-$ ./cmake-build-Debug/.tools/conda-23.1.0-1/bin/conan remove -c "*"
+$ ./cmake-build-Debug/.tools/conda-25.1.1-2/bin/conan remove -c "*"
 ```
 
 ### Creating an immortal account
