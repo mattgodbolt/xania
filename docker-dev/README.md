@@ -3,9 +3,11 @@ Developing the Mud with Docker & Visual Studio Code
 
 ## Intro
 
-This README was written by Faramir in May 2022 and it's aimed at people who are interested in using a Docker container to build, run and debug the mud. It was written with an emphasis on running the Docker container on a **Windows** box rather than Linux or Mac, although it should work fine there too, just ignore/substite mention of things like Power Shell for the *nix equivalent :)
+This README was written by Faramir in May 2022, last updated in April 2025. It's aimed at people who are interested in using a Docker container to build, run and debug the mud. It was written with an emphasis on running the Docker container on a **Windows** box rather than Linux or Mac, although it should work fine there too, just ignore/substite mention of things like Power Shell for the *nix equivalent :)
 
-The container layers a moderate number of tools on top of the *Ubuntu 22* base image. It's possible some important tools are missing, you're free to customize it as needed, and/or get in touch on Discord.
+If you're running Windows, you don't have to use Docker to build the mud. You can take the simpler path of using Windows Subsystem for Linux (WSL) directly. The downside to that is that you won't get VS Code's nice integration with Docker containers, but that won't matter if you're comfy using an editor like Vim or Emacs.
+
+The container layers a moderate number of tools on top of the *Ubuntu 24* base image. It's possible some important tools are missing, you're free to customize it as needed, and/or get in touch on Discord.
 
 *Please be careful!* -- Don't put any important credentials into the image itself and publish the image to an untrusted image registry!
 
@@ -66,7 +68,7 @@ This is my preferred way of doing it because it's really simple and being able t
 ```bash
 docker run --rm -it -v mudhut:/home/mudder mud:latest
 ```
-You'll be in a `bash` terminal managed by a `tmux` session. You can spin up multiple tmux windows with `ctrl-b c`,  and switch between them with `ctrl-b n`. See more tmux shortcuts [here](https://tmuxcheatsheet.com/).
+Fire up `tmux` if you want to multiplex the terminal. You can spin up multiple tmux windows with `ctrl-b c`,  and switch between them with `ctrl-b n`. See more tmux shortcuts [here](https://tmuxcheatsheet.com/).
 
 
 Now you can attach VS Code.  In its _Docker_ sidebar you will see `mud:latest` under the *CONTAINERS* section. Right click and _Attach Visual Studio Code_.  This will open a new VS Code window and the file navigator will be centered on `mudder`'s home directory. Plus VS Code will have a terminal panel ready for you to use.

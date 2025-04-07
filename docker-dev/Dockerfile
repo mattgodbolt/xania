@@ -1,4 +1,4 @@
-# A Dockerfile that creates a fairly cut down Ubuntu 22 image that can be
+# A Dockerfile that creates a fairly cut down Ubuntu 24 image that can be
 # used to build, run and debug the mud and its related tools. 
 # See README.md in this directory.
 FROM ubuntu:latest
@@ -7,8 +7,8 @@ RUN \
  apt-get -qq update && \
  DEBIAN_FRONTEND="noninteractive" apt-get -y --no-install-recommends install  \
  dialog tzdata sudo locales tmux  wget curl gnupg git-core iputils-ping ssh \
- build-essential software-properties-common cmake ninja-build telnet rlwrap awscli \
- gdb less ripgrep powerline clangd-15 clang-tidy-15 clang-15 clang-tools-15 pip
+ build-essential software-properties-common cmake ninja-build telnet rlwrap \
+ gdb less ripgrep powerline clangd-19 clang-tidy-19 clang-19 clang-tools-19 pip
 
 RUN \
  add-apt-repository ppa:neovim-ppa/unstable -y && \
@@ -18,10 +18,10 @@ RUN \
  update-alternatives --install /usr/bin/vim vim $(which nvim) 10 && \
  update-alternatives --install /usr/bin/vi vi $(which nvim) 10 && \
  update-alternatives --install /usr/bin/editor editor $(which nvim) 10 && \
- update-alternatives --install /usr/bin/clangd clangd $(which clangd-15) 10 && \
- update-alternatives --install /usr/bin/clang clang $(which clang-15) 10 && \
- update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-15) 10 && \
- update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-15) 10
+ update-alternatives --install /usr/bin/clangd clangd $(which clangd-19) 10 && \
+ update-alternatives --install /usr/bin/clang clang $(which clang-19) 10 && \
+ update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-19) 10 && \
+ update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-19) 10
 
 RUN locale-gen en_US.UTF-8 en_GB.UTF-8 && \
     update-locale LANG=en_US.UTF-8 LANGUAGE=en_US LC_ALL=en_US.UTF-8 && \
