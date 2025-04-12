@@ -2157,60 +2157,6 @@ void do_throw(Char *ch, ArgParser args) {
     multi_hit(ch, victim);
 }
 
-/* hailcorpse for getting out of sticky situations ooeer --Fara */
-namespace {
-Object *find_corpse(Char *ch, GenericList<Object *> &list) {
-    for (auto *current_obj : list)
-        if (current_obj->type == ObjectType::Pccorpse && matches_inside(ch->name, current_obj->short_descr))
-            return current_obj;
-    return nullptr;
-}
-}
-void do_hailcorpse(Char *ch) {
-    if (ch->is_switched()) {
-        ch->send_line("You cannot hail NPC corpses.");
-        return;
-    }
-
-    if (ch->is_immortal()) {
-        ch->send_line("Those who cannot be slain may not pray for the return of their corpse.");
-        return;
-    }
-
-    act("$n falls to $s knees and incants a garbled verse.", ch, nullptr, ch, To::Room);
-    ch->send_line("You incant the sacred verse of Necrosis and are overcome with nausea.");
-
-    /* make them wait a bit, help prevent abuse */
-    ch->wait_state(25);
-
-    /* first thing is to check the ch room to see if it's already here */
-    if (find_corpse(ch, ch->in_room->contents)) {
-        act("$n's corpse glows momentarily!", ch);
-        ch->send_line("Your corpse appears to be in the room already!");
-        return;
-    }
-    /* if not here then check all the rooms adjacent to this one */
-    for (auto direction : all_directions) {
-        const auto &exit = ch->in_room->exits[direction];
-        if (!exit)
-            continue;
-        auto adjacent_room = exit->u1.to_room;
-        if (!adjacent_room || !ch->can_see(*adjacent_room))
-            continue;
-
-        if (auto *corpse = find_corpse(ch, adjacent_room->contents)) {
-            obj_from_room(corpse);
-            obj_to_room(corpse, ch->in_room);
-            act("The corpse of $n materialises and floats gently before you!", ch);
-            act("Your corpse materialises through a dark portal and floats to your feet!", ch, nullptr, nullptr,
-                To::Char);
-            return;
-        }
-    }
-    act("$n's prayers for assistance are ignored by the Gods.", ch);
-    act("Your prayers for assistance are ignored. Your corpse cannot be found.", ch, nullptr, nullptr, To::Char);
-}
-
 bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj, Object *obj_to) {
     GenericList<Object *> objs_to;
     objs_to.add_back(obj_to);

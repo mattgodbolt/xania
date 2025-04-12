@@ -86,7 +86,6 @@ Also help on: |cDAMAGE DEATH EXPERIENCE XNEWS XANIA TICK WIZLIST CLAN ISCA|w
 -1 XNEWS XNEWS1 CHANGES~
 |W
 (XNEWS1)        |PSee also: help xnews2 and xnews3|W                 (XNEWS1)|w
-18/12/00	hailcorpse command added.
 14/10/00	Areas command improved, and whazzup social added.
 23/4/00		Lots of changes that we've been saving up for:
 		* Highlighted 'You have become better at' and 'xxx screams
@@ -120,9 +119,7 @@ Also help on: |cDAMAGE DEATH EXPERIENCE XNEWS XANIA TICK WIZLIST CLAN ISCA|w
 22/8/96         Shadow Council of Mephistopheles clan comes out of hiding.
 21/8/96         Many bug fixes, minor area tweaks and the grand Iscarian magi
                 cracks down on illegal magical practices.
-2/7/96          Mobile intelligence now reaches new heights, using 
-                C.Busch's mudchat - try talking to the mobiles!
-30/6/96         'Pour' command and advanced flagging and buffering routines 
+30/6/96         'Pour' command and advanced flagging and buffering routines
                 added.
 29/6/96         News bases implemented by TheMoog.
 28/6/96         Improved site banning/access restrictions.
@@ -228,7 +225,7 @@ Also help on: |cDAMAGE DEATH EXPERIENCE XNEWS XANIA TICK WIZLIST CLAN ISCA|w
 ~
 
 0 ADDRESS~
-Xania is hibernating at the moment, sorry!
+Xania can be found at mud.xania.org, port 9000!
 ~
 
 0 FINGER~
@@ -408,14 +405,6 @@ Certain mobiles on the MUD are smarter than others. A mob with this
 intelligence, when attacked, will remember who the attacker was and will seek
 revenge for a certain period of time......Beware of the those with an IQ
 which is greater than their shoe size :) .
-
-2/7/96: mobiles will now talk to you using a variety of responses! This is
-        based on the early artificial intelligence program called 'Eliza'.
-        The merc mud version was ported in C++ by C.Busch. The Xania mudchat
-        database has been refined somewhat! If you have suggestions as to
-        how certain mobs might talk to players, then make your suggestions
-        in a note to immortal or leave a message in the Ideas news/mail
-        system.
 ~
 
 0 PET PETS~
@@ -2485,25 +2474,6 @@ about useful commands and facts about the MUD.  The current version
 of the Tip Wizard is aimed at players who are new to the game although
 an 'advanced' version may also become available later.  Typing 'tips'
 by itself toggles the current setting.
-~
-
-0 HAILCORPSE HC~
-
-Syntax:
-	hailcorpse
-	hc
-
-The Gods of Xania bestowed the powers of Necromantic Restoration upon
-several Iscarian High Clerics long ago. Today, traces of these powers remain
-in all citizens of Xania in the guise of a divine skill known
-as hailcorpse.
-
-In the unfortunate event of being slain, travel to a location very
-near to where your corpse lies. Then incant the Sacred Verses of
-Necrosis and your corpse will be summoned. Use caution as incanting
-the Sacred Verses of Necrosis can take some time, leaving you exposed
-to hazards. You can hail your corpse if it has become trapped in a
-particularly dangerous place.
 ~
 
 0 PRONOUNS~

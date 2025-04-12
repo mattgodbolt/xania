@@ -227,9 +227,6 @@ void interp_initialise() {
     add_command("fill", do_fill, Position::Type::Resting);
     add_command("pour", do_pour, Position::Type::Resting);
     add_command("give", do_give, Position::Type::Resting);
-    /* hailcorpse and shortcut */
-    add_command("hailcorpse", do_hailcorpse, Position::Type::Standing);
-    add_command("hc", do_hailcorpse, Position::Type::Standing);
     add_command("heal", do_heal, Position::Type::Resting);
     add_command("hold", do_wear, Position::Type::Resting);
     add_command("list", do_list, Position::Type::Resting);

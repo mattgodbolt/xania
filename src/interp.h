@@ -114,7 +114,6 @@ extern void do_gratz(Char *ch, std::string_view argument);
 extern void do_group(Char *ch, ArgParser args);
 extern void do_groups(Char *ch, ArgParser args);
 extern void do_gtell(Char *ch, std::string_view argument);
-extern void do_hailcorpse(Char *ch);
 extern void do_headbutt(Char *ch, ArgParser args);
 extern void do_heal(Char *ch, ArgParser args);
 extern void do_help(Char *ch, std::string_view argument);
