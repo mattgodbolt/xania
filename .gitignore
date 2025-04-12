@@ -8,3 +8,5 @@
 .tools
 .vscode/.ropeproject
 /.cache
+.idea/editor.xml
+
