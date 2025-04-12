@@ -71,10 +71,16 @@ void aggr_update();
 /* Added by Rohan to reset the count every day */
 void count_update();
 int count_updated = 0;
-
 /* used for saving */
 static const uint32_t save_every_n = 30u;
 uint32_t save_number = 0;
+
+namespace {
+
+static constexpr sh_int MaxIdleTicks = 30;
+static constexpr sh_int MinIdleTicksUntilLimbo = 12;
+
+}
 
 /*
  * ch - the sentient mob
@@ -465,7 +471,7 @@ void move_active_char_from_limbo(Char *ch) {
  * If a chars is idle, move it into the "limbo" room along with its pets.
  */
 void move_idle_char_to_limbo(Char *ch) {
-    if (++ch->idle_timer_ticks >= 12) {
+    if (++ch->idle_timer_ticks >= MinIdleTicksUntilLimbo) {
         if (ch->was_in_room == nullptr && ch->in_room != nullptr) {
             ch->was_in_room = ch->in_room;
             if (ch->fighting != nullptr)
@@ -504,7 +510,7 @@ void char_update() {
 
     for (auto &&uch : char_list) {
         auto *ch = uch.get();
-        if (ch->idle_timer_ticks > 30)
+        if (ch->idle_timer_ticks > MaxIdleTicks)
             ch_quit = ch;
 
         if (ch->position >= Position::Type::Stunned) {
