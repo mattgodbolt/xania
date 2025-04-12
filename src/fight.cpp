@@ -633,11 +633,6 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         if (!victim->is_pos_stunned_or_dying()) {
             if (victim->fighting == nullptr)
                 set_fighting(victim, ch);
-            if (victim->idle_timer_ticks <= 4)
-                victim->position = Position::Type::Fighting;
-        }
-
-        if (!victim->is_pos_stunned_or_dying()) {
             if (ch->fighting == nullptr)
                 set_fighting(ch, victim);
 
