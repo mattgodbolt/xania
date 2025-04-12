@@ -8,7 +8,6 @@
 #include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "Tip.hpp"
-#include "chat/chatlink.h"
 #include "comm.hpp"
 #include "common/Configuration.hpp"
 #include "common/doorman_protocol.h"
@@ -28,7 +27,6 @@ int main() {
     boot_db();
     const auto ban_count = Bans::singleton().load();
     log_string("{} site bans loaded.", ban_count);
-    startchat(config.chat_data_file());
     load_tipfile();
     log_string("Xania version {} is ready to rock via {}.", get_build_version(), pipe_file);
 

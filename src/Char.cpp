@@ -40,7 +40,6 @@
 #include "skills.hpp"
 #include "string_utils.hpp"
 
-#include <chat/chatlink.h>
 #include <fmt/format.h>
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/algorithm/count_if.hpp>
@@ -409,7 +408,6 @@ void Char::yell(std::string_view exclamation) const {
 void Char::say(std::string_view message) {
     ::act("$n|w says '$T|w'", this, nullptr, message, To::Room);
     ::act("You say '$T|w'", this, nullptr, message, To::Char);
-    chatperformtoroom(message, this);
     MProg::speech_trigger(message, this);
 }
 

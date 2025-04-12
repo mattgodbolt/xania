@@ -23,7 +23,6 @@
 #include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
 #include "challenge.hpp"
-#include "chat/chatlink.h"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
@@ -136,7 +135,6 @@ void tell_to(Char *ch, Char *victim, std::string_view text) {
         act("|CYou tell $N '$t|C'|w", ch, text, victim, To::Char, MobTrig::Yes, Position::Type::Dead);
         act("|C$n tells you '$t|C'|w", ch, text, victim, To::Vict, MobTrig::Yes, Position::Type::Dead);
         victim->reply = ch;
-        chatperform(victim, ch, text);
     }
 }
 
@@ -183,7 +181,6 @@ void do_emote(Char *ch, std::string_view argument) {
         ch->set_not_afk();
         act("$n $T", ch, nullptr, argument, To::Room);
         act("$n $T", ch, nullptr, argument, To::Char);
-        chatperformtoroom(argument, ch);
     }
 }
 
@@ -669,39 +666,4 @@ bool is_same_group(const Char *ach, const Char *bch) {
     if (bch->leader != nullptr)
         bch = bch->leader;
     return ach == bch;
-}
-
-/**
- * Trigger the Eliza chat engine. Can cause an NPC to say something back to the player.
- * to_npc: the NPC that received the chat/social message.
- * from_player: the player that sent it.
- */
-void chatperform(Char *to_npc, Char *from_player, std::string_view msg) {
-    if (to_npc->is_pc() || (from_player != nullptr && from_player->is_npc()))
-        return; /* failsafe */
-    std::string reply = dochat(from_player ? from_player->name : "you", msg, to_npc->name);
-    switch (reply[0]) {
-    case '\0': break;
-    case '"': /* say message */ to_npc->say(reply.substr(1)); break;
-    case ':': /* do emote */ do_emote(to_npc, reply.substr(1)); break;
-    case '!': /* do command */ interpret(to_npc, reply.substr(1)); break;
-    default: /* say or tell */
-        if (!from_player) {
-            to_npc->say(reply);
-        } else {
-            act("$N tells you '$t'.", from_player, reply, to_npc, To::Char);
-            from_player->reply = to_npc;
-        }
-    }
-}
-
-void chatperformtoroom(std::string_view text, Char *ch) {
-    if (ch->is_npc())
-        return;
-
-    for (auto *vch : ch->in_room->people)
-        if (vch->is_npc() && check_enum_bit(vch->mobIndex->act, CharActFlag::Talkative) && vch->is_pos_awake()) {
-            if (number_percent() > 66) /* less spammy - Fara */
-                chatperform(vch, ch, text);
-        }
 }

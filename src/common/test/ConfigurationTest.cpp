@@ -51,11 +51,6 @@ TEST_CASE("Configuration initialized") {
 
         REQUIRE(file == TEST_DATA_DIR "/area/tipfile.txt");
     }
-    SECTION("chat data file") {
-        auto file = config.chat_data_file();
-
-        REQUIRE(file == TEST_DATA_DIR "/area/chat.data");
-    }
     SECTION("ban file") {
         auto file = config.ban_file();
 

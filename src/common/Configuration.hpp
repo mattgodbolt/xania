@@ -24,7 +24,6 @@ public:
     [[nodiscard]] std::string gods_dir() const;
     [[nodiscard]] std::string area_file() const;
     [[nodiscard]] std::string tip_file() const;
-    [[nodiscard]] std::string chat_data_file() const;
     [[nodiscard]] std::string ban_file() const;
     [[nodiscard]] std::string bug_file() const;
     [[nodiscard]] std::string typo_file() const;
@@ -45,7 +44,6 @@ private:
     std::string system_dir_;
     std::string gods_dir_;
     std::string data_dir_;
-    std::string chat_data_file_;
 
     std::string area_file_;
     std::string tip_file_;

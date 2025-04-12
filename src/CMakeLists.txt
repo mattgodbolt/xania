@@ -5,7 +5,6 @@ target_include_directories(version INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/generat
 
 add_subdirectory(common)
 add_subdirectory(doorman)
-add_subdirectory(chat)
 add_subdirectory(test)
 add_subdirectory(apps)
 
@@ -17,9 +16,7 @@ add_library(xania_lib STATIC ${MudSources})
 
 target_link_libraries(xania_lib PRIVATE
         crypt
-        chat
         fmt::fmt
-        #CONAN_PKG::namedtype
         PUBLIC
         Microsoft.GSL::GSL
         xania_common

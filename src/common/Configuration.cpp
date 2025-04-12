@@ -12,7 +12,6 @@ Configuration::Configuration() {
     gods_dir_ = data_dir_ + "gods/";
     area_file_ = area_dir_ + "area.lst";
     tip_file_ = area_dir_ + "tipfile.txt";
-    chat_data_file_ = area_dir_ + "chat.data";
     ban_file_ = system_dir_ + "ban.lst";
     bug_file_ = system_dir_ + "bugs.txt";
     typo_file_ = system_dir_ + "typos.txt";
@@ -28,7 +27,6 @@ std::string Configuration::system_dir() const { return system_dir_; }
 std::string Configuration::gods_dir() const { return gods_dir_; }
 std::string Configuration::area_file() const { return area_file_; }
 std::string Configuration::tip_file() const { return tip_file_; }
-std::string Configuration::chat_data_file() const { return chat_data_file_; }
 std::string Configuration::ban_file() const { return ban_file_; }
 std::string Configuration::bug_file() const { return bug_file_; }
 std::string Configuration::typo_file() const { return typo_file_; }
