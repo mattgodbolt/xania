@@ -57,167 +57,273 @@
 
 extern size_t max_on;
 
-/*
- * Local functions.
- */
-int hit_gain(Char *ch);
-int mana_gain(Char *ch);
-int move_gain(Char *ch);
-void mobile_update();
-void weather_update();
-void obj_update();
-void aggr_update();
-
-/* Added by Rohan to reset the count every day */
-void count_update();
-int count_updated = 0;
-/* used for saving */
-static const uint32_t save_every_n = 30u;
-uint32_t save_number = 0;
-
 namespace {
 
+ush_int player_count_update_day = 0;
+static const uint32_t save_every_n = 30u;
+uint32_t save_number = 0;
 static constexpr sh_int MaxIdleTicks = 30;
 static constexpr sh_int MinIdleTicksUntilLimbo = 12;
 
+void do_aggressive_sentient(Char *wch, Char *ch) {
+    if (check_enum_bit(ch->act, CharActFlag::Sentient) && ch->fighting == nullptr && !ch->is_aff_calm()
+        && ch->is_pos_awake() && !ch->is_aff_charm() && ch->can_see(*wch)) {
+        if (ch->hit == ch->max_hit && ch->mana == ch->max_mana)
+            ch->sentient_victim.clear();
+        if (matches(wch->name, ch->sentient_victim)) {
+            if (is_safe_sentient(ch, wch))
+                return;
+            ch->yell(fmt::format("|WAha! I never forget a face, prepare to die {}!!!|w", wch->name));
+            multi_hit(ch, wch);
+        }
+    }
+    if (check_enum_bit(ch->act, CharActFlag::Aggressive) && !check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe)
+        && !ch->is_aff_calm() && (ch->fighting == nullptr) // Changed by Moog
+        && !ch->is_aff_charm() && ch->is_pos_awake()
+        && !(check_enum_bit(ch->act, CharActFlag::Wimpy) && wch->is_pos_awake()) && ch->can_see(*wch)
+        && !number_bits(1)) {
+
+        /*
+         * Ok we have a 'wch' player character and a 'ch' npc aggressor.
+         * Now make the aggressor fight a RANDOM pc victim in the room,
+         *   giving each 'vch' an equal chance of selection.
+         */
+
+        int count = 0;
+        Char *victim = nullptr;
+        for (auto *vch : wch->in_room->people) {
+            if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
+                && (!check_enum_bit(ch->act, CharActFlag::Wimpy) || !vch->is_pos_awake()) && ch->can_see(*vch)) {
+                if (number_range(0, count) == 0)
+                    victim = vch;
+                count++;
+            }
+        }
+
+        if (victim != nullptr)
+            multi_hit(ch, victim);
+    }
 }
 
 /*
- * ch - the sentient mob
- * victim - the hapless victim
- *  this func added to prevent the spam which was occuring when a sentient
- * mob encountered his foe in a safe room --fara
+ * Update all objs.
+ * This function is performance sensitive.
  */
+void obj_update() {
+    for (auto &&obj : object_list) {
+        const char *message;
 
-bool is_safe_sentient(Char *ch, const Char *victim) {
-    if (!ch->in_room)
-        return false;
-    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe)) {
-        ch->yell(fmt::format("|WIf it weren't for the law, you'd be dead meat {}!!!|w", victim->name));
-        ch->sentient_victim.clear();
-        return true;
+        /* go through affects and decrement */
+        if (!obj->affected.empty()) {
+            std::unordered_set<int> removed_this_tick_with_msg;
+            for (auto &af : obj->affected) {
+                if (af.duration > 0) {
+                    af.duration--;
+                    if (number_range(0, 4) == 0 && af.level > 0)
+                        af.level--; /* spell strength fades with time */
+                } else if (af.duration >= 0) {
+                    if (af.type > 0 && skill_table[af.type].msg_off)
+                        removed_this_tick_with_msg.emplace(af.type);
+                    affect_remove_obj(obj.get(), af);
+                }
+            }
+            // Only report wear-offs for those affects who are completely gone.
+            for (auto sn : removed_this_tick_with_msg)
+                act(skill_table[sn].msg_off, obj->carried_by, obj.get(), nullptr, To::Char, MobTrig::Yes,
+                    Position::Type::Sleeping);
+        }
+
+        if (obj->decay_timer_ticks <= 0 || --obj->decay_timer_ticks > 0)
+            continue;
+
+        switch (obj->type) {
+        default: message = "$p crumbles into dust."; break;
+        case ObjectType::Fountain: message = "$p dries up."; break;
+        case ObjectType::Npccorpse: message = "$p decays into dust."; break;
+        case ObjectType::Pccorpse: message = "$p decays into dust."; break;
+        case ObjectType::Food: message = "$p decomposes."; break;
+        case ObjectType::Potion: message = "$p has evaporated from disuse."; break;
+        case ObjectType::Portal: message = "$p shimmers and fades away."; break;
+        }
+
+        if (obj->carried_by != nullptr) {
+            if ((obj->carried_by->is_npc()) && obj->carried_by->mobIndex->shop)
+                obj->carried_by->gold += obj->cost;
+            else
+                act(message, obj->carried_by, obj.get(), nullptr, To::Char);
+        } else if (obj->in_room != nullptr && !obj->in_room->people.empty()) {
+            if (!(obj->in_obj && obj->in_obj->objIndex->vnum == Objects::Pit && !obj->in_obj->is_takeable())) {
+                // seems like we pick someone to emote for convenience here...
+                auto *rch = *obj->in_room->people.begin();
+                act(message, rch, obj.get(), nullptr, To::Room);
+                act(message, rch, obj.get(), nullptr, To::Char);
+            }
+        }
+
+        if (obj->type == ObjectType::Pccorpse && !obj->contains.empty()) { /* save the contents */
+            for (auto *t_obj : obj->contains) {
+                obj_from_obj(t_obj);
+
+                if (obj->in_obj) /* in another object */
+                    obj_to_obj(t_obj, obj->in_obj);
+
+                if (obj->carried_by) /* carried */
+                    obj_to_char(t_obj, obj->carried_by);
+
+                if (obj->in_room == nullptr) /* destroy it */
+                    extract_obj(t_obj);
+
+                else /* to a room */
+                    obj_to_room(t_obj, obj->in_room);
+            }
+        }
+
+        extract_obj(obj.get());
     }
-    return false;
 }
 
-/* Advancement stuff. */
-void advance_level(Char *ch) {
-    int add_hp;
-    int add_mana;
-    int add_move;
-    int add_prac;
+/*
+ * Aggress.
+ *
+ * for each mortal PC
+ *     for each mob in room
+ *         aggress on some random PC
+ *
+ * This function takes 25% to 35% of ALL Merc cpu time.
+ * Unfortunately, checking on each PC move is too tricky,
+ *   because we don't the mob to just attack the first PC
+ *   who leads the party into the room.
+ *
+ * -- Furey
+ */
+void aggr_update() {
+    for (auto &&uch : char_list) {
+        auto *wch = uch.get();
+        // Skip mobs that are no longer in the world, they're pending garbage collection.
+        if (!wch || !wch->in_room) {
+            continue;
+        }
+        /* MOBProgram Act trigger */
+        if (wch->is_npc() && !wch->mpact.empty() && wch->in_room->area->occupied()) {
+            for (const auto &mpact : wch->mpact) {
+                MProg::wordlist_check(mpact.act_message_trigger(), wch, mpact.character(), mpact.object(),
+                                      mpact.target(), MProg::TypeFlag::Act);
+            }
+            wch->mpact.clear();
+        }
 
-    using namespace std::chrono;
-    ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
+        if (wch->is_npc() || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr
+            || wch->in_room->area->empty_since_last_reset())
+            continue;
 
-    ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
-
-    add_hp = con_app[ch->curr_stat(Stat::Con)].hitp
-             + number_range(ch->pcdata->class_type->min_hp_gain_on_level, ch->pcdata->class_type->max_hp_gain_on_level);
-
-    add_mana = number_range(
-        0, ch->pcdata->class_type->mana_gain_on_level_factor * ch->pcdata->class_type->mana_gain_on_level_factor
-               * (std::max(0, ch->curr_stat(Stat::Wis) - 15) + 2 * std::max(0, ch->curr_stat(Stat::Int) - 15)));
-
-    add_mana += 150;
-    add_mana /= 300; /* =max (2*int+wis)/10 (10=mage.mana_gain_on_level_factor)*/
-    add_mana += ch->pcdata->class_type->mana_gain_on_level_factor / 2;
-    /* thanx oshea for mana alg.
-       For mage (25,25) gives 5 5%,   6-14 10%,   15 5%
-         cleric         gives 4 7.8%, 5- 9 15.6%, 10 9%
-         knight         gives 2 20%,  3- 4 40%,    5 1/900!
-      barbarian         gives 1 56%,               2 44%   */
-
-    /* I think that knight might want to have his mana_gain_on_level_factor increase to say
-       6 which would increase his average mana gain by just over 1.
-       Bear in mind this are all for 25 int and wis!  They all go down
-       to 100% for the first column with 15 int and wis.  */
-
-    /* End of new section. */
-
-    add_move = number_range(1, (ch->curr_stat(Stat::Con) + ch->curr_stat(Stat::Dex)) / 6);
-    add_prac = wis_app[ch->curr_stat(Stat::Wis)].practice;
-
-    add_hp = std::max(1, add_hp * 9 / 10);
-    add_move = std::max(6, add_move * 9 / 10);
-
-    ch->max_hit += add_hp;
-    ch->max_mana += add_mana;
-    ch->max_move += add_move;
-    ch->practice += add_prac;
-    ch->train += 1;
-
-    ch->pcdata->perm_hit += add_hp;
-    ch->pcdata->perm_mana += add_mana;
-    ch->pcdata->perm_move += add_move;
-
-    if (ch->is_pc())
-        clear_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
-
-    ch->send_line("Your gain is: {}/{} hp, {}/{} m, {}/{} mv {}/{} prac.", add_hp, ch->max_hit, add_mana, ch->max_mana,
-                  add_move, ch->max_move, add_prac, ch->practice);
-    log_string("### {} has made a level in room {}", ch->name, (ch->in_room ? ch->in_room->vnum : 0));
-    announce(fmt::format("|W### |P{}|W has made a level!!!|w", ch->name), ch);
+        for (auto *ch : wch->in_room->people) {
+            if (ch->is_npc())
+                do_aggressive_sentient(wch, ch);
+        }
+    }
 }
 
-void lose_level(Char *ch) {
-    int add_hp;
-    int add_mana;
-    int add_move;
-    int add_prac;
-
-    using namespace std::chrono;
-    ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
-
-    ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
-
-    add_hp = con_app[ch->max_stat(Stat::Con)].hitp
-             + number_range(ch->pcdata->class_type->min_hp_gain_on_level, ch->pcdata->class_type->max_hp_gain_on_level);
-    add_mana = (number_range(2, (2 * ch->max_stat(Stat::Int) + ch->max_stat(Stat::Wis)) / 5)
-                * ch->pcdata->class_type->mana_gain_on_level_factor)
-               / 10;
-    add_move = number_range(1, (ch->max_stat(Stat::Con) + ch->max_stat(Stat::Dex)) / 6);
-    add_prac = -(wis_app[ch->max_stat(Stat::Wis)].practice);
-
-    add_hp = add_hp * 9 / 10;
-    add_mana = add_mana * 9 / 10;
-    add_move = add_move * 9 / 10;
-
-    add_hp = -(std::max(1, add_hp));
-    add_mana = -(std::max(1, add_mana));
-    add_move = -(std::max(6, add_move));
-
-    /* I negate the additives! Death */
-
-    ch->max_hit += add_hp;
-    ch->max_mana += add_mana;
-    ch->max_move += add_move;
-    ch->practice += add_prac;
-    ch->train -= 1;
-
-    ch->pcdata->perm_hit += add_hp;
-    ch->pcdata->perm_mana += add_mana;
-    ch->pcdata->perm_move += add_move;
-
-    if (ch->is_pc())
-        clear_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
-
-    ch->send_line("Your gain is: {}/{} hp, {}/{} m, {}/{} mv {}/{} prac.", add_hp, ch->max_hit, add_mana, ch->max_mana,
-                  add_move, ch->max_move, add_prac, ch->practice);
-    announce(fmt::format("|W### |P{}|W has lost a level!!!|w", ch->name), ch);
-}
-
-void gain_exp(Char *ch, int gain) {
-    if (ch->is_npc() || ch->level >= LEVEL_HERO)
+/* This function resets the player count every day */
+void count_update() {
+    struct tm *cur_time;
+    int current_day;
+    auto as_tt = Clock::to_time_t(current_time);
+    cur_time = localtime(&as_tt);
+    current_day = cur_time->tm_mday;
+    /* Initialise count_updated if this first time called */
+    if (player_count_update_day == 0) {
+        player_count_update_day = current_day;
         return;
+    } else {
+        /* Has the day changed? */
+        if (player_count_update_day == current_day)
+            return;
+        /* Day has changed, reset max_on to 0 and change count_updated
+           to current_day, log it also */
+        else {
+            max_on = 0;
+            player_count_update_day = current_day;
+            log_string("The player counter has been reset.");
+        }
+    }
+}
 
-    ch->exp = std::max(static_cast<long>(exp_per_level(ch, ch->pcdata->points)), ch->exp + gain);
-    if (gain >= 0) {
-        while ((ch->level < LEVEL_HERO)
-               && ((ch->exp) >= ((int)exp_per_level(ch, ch->pcdata->points) * (ch->level + 1)))) {
-            ch->send_line("|WYou raise a level!!|w");
-            ch->level += 1;
-            advance_level(ch);
+/*
+ * Mob autonomous action.
+ * This function takes 25% to 35% of ALL Merc cpu time.
+ * -- Furey
+ */
+void mobile_update() {
+    /* Examine all mobs. */
+    for (auto &&uch : char_list) {
+        auto *ch = uch.get();
+        if (ch->is_pc() || !ch->in_room || ch->is_aff_charm())
+            continue;
+
+        if (ch->in_room->area->empty_since_last_reset() && !check_enum_bit(ch->act, CharActFlag::UpdateAlways))
+            continue;
+
+        /* Examine call for special procedure */
+        if (ch->spec_fun) {
+            if ((*ch->spec_fun)(ch))
+                continue;
+        }
+
+        /* That's all for sleeping / busy monster, and empty zones */
+        if (ch->is_pos_preoccupied())
+            continue;
+
+        if (ch->in_room->area->occupied()) {
+            MProg::random_trigger(ch);
+            /* If ch dies or changes
+               position due to it's random
+               trigger continue - Kahn */
+            if (ch->is_pos_preoccupied())
+                continue;
+        }
+        /* Scavenge */
+        if (check_enum_bit(ch->act, CharActFlag::Scavenger) && !ch->in_room->contents.empty() && number_bits(6) == 0) {
+            int max = 1;
+            Object *obj_best{};
+            for (auto *obj : ch->in_room->contents) {
+                if (obj->is_takeable() && can_loot(ch, obj) && obj->cost > max && obj->cost > 0) {
+                    obj_best = obj;
+                    max = obj->cost;
+                }
+            }
+
+            if (obj_best) {
+                obj_from_room(obj_best);
+                obj_to_char(obj_best, ch);
+                act("$n gets $p.", ch, obj_best, nullptr, To::Room);
+                do_wear(ch, ArgParser("all"));
+            }
+        }
+
+        /* Wander */
+        auto opt_direction = try_cast_direction(number_bits(5));
+        if (!check_enum_bit(ch->act, CharActFlag::Sentinel) && number_bits(4) == 0 && opt_direction) {
+            const auto &exit = ch->in_room->exits[*opt_direction];
+            if (exit && exit->u1.to_room != nullptr && !check_enum_bit(exit->exit_info, ExitFlag::Closed)
+                && !check_enum_bit(exit->u1.to_room->room_flags, RoomFlag::NoMob)
+                && (!check_enum_bit(ch->act, CharActFlag::StayArea) || exit->u1.to_room->area == ch->in_room->area)) {
+                move_char(ch, *opt_direction);
+            }
+        }
+    }
+}
+/*
+ * Update the weather.
+ */
+void weather_update() {
+    time_info.advance();
+    auto weather_before = weather_info;
+    weather_info.update(Rng::global_rng(), time_info);
+
+    if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
+        for (auto &d : descriptors().playing()) {
+            if (d.character()->is_outside() && d.character()->is_pos_awake())
+                d.character()->send_to(update_msg);
         }
     }
 }
@@ -365,82 +471,144 @@ int move_gain(Char *ch) {
     return std::min(gain, ch->max_move - ch->move);
 }
 
-/*
- * Mob autonomous action.
- * This function takes 25% to 35% of ALL Merc cpu time.
- * -- Furey
- */
-void mobile_update() {
-    /* Examine all mobs. */
-    for (auto &&uch : char_list) {
-        auto *ch = uch.get();
-        if (ch->is_pc() || !ch->in_room || ch->is_aff_charm())
-            continue;
-
-        if (ch->in_room->area->empty_since_last_reset() && !check_enum_bit(ch->act, CharActFlag::UpdateAlways))
-            continue;
-
-        /* Examine call for special procedure */
-        if (ch->spec_fun) {
-            if ((*ch->spec_fun)(ch))
-                continue;
-        }
-
-        /* That's all for sleeping / busy monster, and empty zones */
-        if (ch->is_pos_preoccupied())
-            continue;
-
-        if (ch->in_room->area->occupied()) {
-            MProg::random_trigger(ch);
-            /* If ch dies or changes
-               position due to it's random
-               trigger continue - Kahn */
-            if (ch->is_pos_preoccupied())
-                continue;
-        }
-        /* Scavenge */
-        if (check_enum_bit(ch->act, CharActFlag::Scavenger) && !ch->in_room->contents.empty() && number_bits(6) == 0) {
-            int max = 1;
-            Object *obj_best{};
-            for (auto *obj : ch->in_room->contents) {
-                if (obj->is_takeable() && can_loot(ch, obj) && obj->cost > max && obj->cost > 0) {
-                    obj_best = obj;
-                    max = obj->cost;
-                }
-            }
-
-            if (obj_best) {
-                obj_from_room(obj_best);
-                obj_to_char(obj_best, ch);
-                act("$n gets $p.", ch, obj_best, nullptr, To::Room);
-                do_wear(ch, ArgParser("all"));
-            }
-        }
-
-        /* Wander */
-        auto opt_direction = try_cast_direction(number_bits(5));
-        if (!check_enum_bit(ch->act, CharActFlag::Sentinel) && number_bits(4) == 0 && opt_direction) {
-            const auto &exit = ch->in_room->exits[*opt_direction];
-            if (exit && exit->u1.to_room != nullptr && !check_enum_bit(exit->exit_info, ExitFlag::Closed)
-                && !check_enum_bit(exit->u1.to_room->room_flags, RoomFlag::NoMob)
-                && (!check_enum_bit(ch->act, CharActFlag::StayArea) || exit->u1.to_room->area == ch->in_room->area)) {
-                move_char(ch, *opt_direction);
-            }
-        }
-    }
 }
-/*
- * Update the weather.
- */
-void weather_update() {
-    time_info.advance();
-    auto weather_before = weather_info;
-    weather_info.update(Rng::global_rng(), time_info);
 
-    if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
-        for (auto &d : descriptors().playing()) {
-            if (d.character()->is_outside() && d.character()->is_pos_awake())
-                d.character()->send_to(update_msg);
+/*
+ * ch - the sentient mob
+ * victim - the hapless victim
+ *  this func added to prevent the spam which was occuring when a sentient
+ * mob encountered his foe in a safe room --fara
+ */
+
+bool is_safe_sentient(Char *ch, const Char *victim) {
+    if (!ch->in_room)
+        return false;
+    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe)) {
+        ch->yell(fmt::format("|WIf it weren't for the law, you'd be dead meat {}!!!|w", victim->name));
+        ch->sentient_victim.clear();
+        return true;
+    }
+    return false;
+}
+
+/* Advancement stuff. */
+void advance_level(Char *ch) {
+    int add_hp;
+    int add_mana;
+    int add_move;
+    int add_prac;
+
+    using namespace std::chrono;
+    ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
+
+    ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
+
+    add_hp = con_app[ch->curr_stat(Stat::Con)].hitp
+             + number_range(ch->pcdata->class_type->min_hp_gain_on_level, ch->pcdata->class_type->max_hp_gain_on_level);
+
+    add_mana = number_range(
+        0, ch->pcdata->class_type->mana_gain_on_level_factor * ch->pcdata->class_type->mana_gain_on_level_factor
+               * (std::max(0, ch->curr_stat(Stat::Wis) - 15) + 2 * std::max(0, ch->curr_stat(Stat::Int) - 15)));
+
+    add_mana += 150;
+    add_mana /= 300; /* =max (2*int+wis)/10 (10=mage.mana_gain_on_level_factor)*/
+    add_mana += ch->pcdata->class_type->mana_gain_on_level_factor / 2;
+    /* thanx oshea for mana alg.
+       For mage (25,25) gives 5 5%,   6-14 10%,   15 5%
+         cleric         gives 4 7.8%, 5- 9 15.6%, 10 9%
+         knight         gives 2 20%,  3- 4 40%,    5 1/900!
+      barbarian         gives 1 56%,               2 44%   */
+
+    /* I think that knight might want to have his mana_gain_on_level_factor increase to say
+       6 which would increase his average mana gain by just over 1.
+       Bear in mind this are all for 25 int and wis!  They all go down
+       to 100% for the first column with 15 int and wis.  */
+
+    /* End of new section. */
+
+    add_move = number_range(1, (ch->curr_stat(Stat::Con) + ch->curr_stat(Stat::Dex)) / 6);
+    add_prac = wis_app[ch->curr_stat(Stat::Wis)].practice;
+
+    add_hp = std::max(1, add_hp * 9 / 10);
+    add_move = std::max(6, add_move * 9 / 10);
+
+    ch->max_hit += add_hp;
+    ch->max_mana += add_mana;
+    ch->max_move += add_move;
+    ch->practice += add_prac;
+    ch->train += 1;
+
+    ch->pcdata->perm_hit += add_hp;
+    ch->pcdata->perm_mana += add_mana;
+    ch->pcdata->perm_move += add_move;
+
+    if (ch->is_pc())
+        clear_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
+
+    ch->send_line("Your gain is: {}/{} hp, {}/{} m, {}/{} mv {}/{} prac.", add_hp, ch->max_hit, add_mana, ch->max_mana,
+                  add_move, ch->max_move, add_prac, ch->practice);
+    log_string("### {} has made a level in room {}", ch->name, (ch->in_room ? ch->in_room->vnum : 0));
+    announce(fmt::format("|W### |P{}|W has made a level!!!|w", ch->name), ch);
+}
+
+void lose_level(Char *ch) {
+    int add_hp;
+    int add_mana;
+    int add_move;
+    int add_prac;
+
+    using namespace std::chrono;
+    ch->pcdata->last_level = (int)duration_cast<hours>(ch->total_played()).count();
+
+    ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
+
+    add_hp = con_app[ch->max_stat(Stat::Con)].hitp
+             + number_range(ch->pcdata->class_type->min_hp_gain_on_level, ch->pcdata->class_type->max_hp_gain_on_level);
+    add_mana = (number_range(2, (2 * ch->max_stat(Stat::Int) + ch->max_stat(Stat::Wis)) / 5)
+                * ch->pcdata->class_type->mana_gain_on_level_factor)
+               / 10;
+    add_move = number_range(1, (ch->max_stat(Stat::Con) + ch->max_stat(Stat::Dex)) / 6);
+    add_prac = -(wis_app[ch->max_stat(Stat::Wis)].practice);
+
+    add_hp = add_hp * 9 / 10;
+    add_mana = add_mana * 9 / 10;
+    add_move = add_move * 9 / 10;
+
+    add_hp = -(std::max(1, add_hp));
+    add_mana = -(std::max(1, add_mana));
+    add_move = -(std::max(6, add_move));
+
+    /* I negate the additives! Death */
+
+    ch->max_hit += add_hp;
+    ch->max_mana += add_mana;
+    ch->max_move += add_move;
+    ch->practice += add_prac;
+    ch->train -= 1;
+
+    ch->pcdata->perm_hit += add_hp;
+    ch->pcdata->perm_mana += add_mana;
+    ch->pcdata->perm_move += add_move;
+
+    if (ch->is_pc())
+        clear_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
+
+    ch->send_line("Your gain is: {}/{} hp, {}/{} m, {}/{} mv {}/{} prac.", add_hp, ch->max_hit, add_mana, ch->max_mana,
+                  add_move, ch->max_move, add_prac, ch->practice);
+    announce(fmt::format("|W### |P{}|W has lost a level!!!|w", ch->name), ch);
+}
+
+void gain_exp(Char *ch, int gain) {
+    if (ch->is_npc() || ch->level >= LEVEL_HERO)
+        return;
+
+    ch->exp = std::max(static_cast<long>(exp_per_level(ch, ch->pcdata->points)), ch->exp + gain);
+    if (gain >= 0) {
+        while ((ch->level < LEVEL_HERO)
+               && ((ch->exp) >= ((int)exp_per_level(ch, ch->pcdata->points) * (ch->level + 1)))) {
+            ch->send_line("|WYou raise a level!!|w");
+            ch->level += 1;
+            advance_level(ch);
         }
     }
 }
@@ -662,190 +830,6 @@ void char_update() {
 
         if (ch == ch_quit)
             do_quit(ch);
-    }
-}
-
-/*
- * Update all objs.
- * This function is performance sensitive.
- */
-void obj_update() {
-    for (auto &&obj : object_list) {
-        const char *message;
-
-        /* go through affects and decrement */
-        if (!obj->affected.empty()) {
-            std::unordered_set<int> removed_this_tick_with_msg;
-            for (auto &af : obj->affected) {
-                if (af.duration > 0) {
-                    af.duration--;
-                    if (number_range(0, 4) == 0 && af.level > 0)
-                        af.level--; /* spell strength fades with time */
-                } else if (af.duration >= 0) {
-                    if (af.type > 0 && skill_table[af.type].msg_off)
-                        removed_this_tick_with_msg.emplace(af.type);
-                    affect_remove_obj(obj.get(), af);
-                }
-            }
-            // Only report wear-offs for those affects who are completely gone.
-            for (auto sn : removed_this_tick_with_msg)
-                act(skill_table[sn].msg_off, obj->carried_by, obj.get(), nullptr, To::Char, MobTrig::Yes,
-                    Position::Type::Sleeping);
-        }
-
-        if (obj->decay_timer_ticks <= 0 || --obj->decay_timer_ticks > 0)
-            continue;
-
-        switch (obj->type) {
-        default: message = "$p crumbles into dust."; break;
-        case ObjectType::Fountain: message = "$p dries up."; break;
-        case ObjectType::Npccorpse: message = "$p decays into dust."; break;
-        case ObjectType::Pccorpse: message = "$p decays into dust."; break;
-        case ObjectType::Food: message = "$p decomposes."; break;
-        case ObjectType::Potion: message = "$p has evaporated from disuse."; break;
-        case ObjectType::Portal: message = "$p shimmers and fades away."; break;
-        }
-
-        if (obj->carried_by != nullptr) {
-            if ((obj->carried_by->is_npc()) && obj->carried_by->mobIndex->shop)
-                obj->carried_by->gold += obj->cost;
-            else
-                act(message, obj->carried_by, obj.get(), nullptr, To::Char);
-        } else if (obj->in_room != nullptr && !obj->in_room->people.empty()) {
-            if (!(obj->in_obj && obj->in_obj->objIndex->vnum == Objects::Pit && !obj->in_obj->is_takeable())) {
-                // seems like we pick someone to emote for convenience here...
-                auto *rch = *obj->in_room->people.begin();
-                act(message, rch, obj.get(), nullptr, To::Room);
-                act(message, rch, obj.get(), nullptr, To::Char);
-            }
-        }
-
-        if (obj->type == ObjectType::Pccorpse && !obj->contains.empty()) { /* save the contents */
-            for (auto *t_obj : obj->contains) {
-                obj_from_obj(t_obj);
-
-                if (obj->in_obj) /* in another object */
-                    obj_to_obj(t_obj, obj->in_obj);
-
-                if (obj->carried_by) /* carried */
-                    obj_to_char(t_obj, obj->carried_by);
-
-                if (obj->in_room == nullptr) /* destroy it */
-                    extract_obj(t_obj);
-
-                else /* to a room */
-                    obj_to_room(t_obj, obj->in_room);
-            }
-        }
-
-        extract_obj(obj.get());
-    }
-}
-
-/*
- * Aggress.
- *
- * for each mortal PC
- *     for each mob in room
- *         aggress on some random PC
- *
- * This function takes 25% to 35% of ALL Merc cpu time.
- * Unfortunately, checking on each PC move is too tricky,
- *   because we don't the mob to just attack the first PC
- *   who leads the party into the room.
- *
- * -- Furey
- */
-void do_aggressive_sentient(Char *, Char *);
-void aggr_update() {
-    for (auto &&uch : char_list) {
-        auto *wch = uch.get();
-        // Skip mobs that are no longer in the world, they're pending garbage collection.
-        if (!wch || !wch->in_room) {
-            continue;
-        }
-        /* MOBProgram Act trigger */
-        if (wch->is_npc() && !wch->mpact.empty() && wch->in_room->area->occupied()) {
-            for (const auto &mpact : wch->mpact) {
-                MProg::wordlist_check(mpact.act_message_trigger(), wch, mpact.character(), mpact.object(),
-                                      mpact.target(), MProg::TypeFlag::Act);
-            }
-            wch->mpact.clear();
-        }
-
-        if (wch->is_npc() || wch->level >= LEVEL_IMMORTAL || wch->in_room == nullptr
-            || wch->in_room->area->empty_since_last_reset())
-            continue;
-
-        for (auto *ch : wch->in_room->people) {
-            if (ch->is_npc())
-                do_aggressive_sentient(wch, ch);
-        }
-    }
-}
-
-void do_aggressive_sentient(Char *wch, Char *ch) {
-    if (check_enum_bit(ch->act, CharActFlag::Sentient) && ch->fighting == nullptr && !ch->is_aff_calm()
-        && ch->is_pos_awake() && !ch->is_aff_charm() && ch->can_see(*wch)) {
-        if (ch->hit == ch->max_hit && ch->mana == ch->max_mana)
-            ch->sentient_victim.clear();
-        if (matches(wch->name, ch->sentient_victim)) {
-            if (is_safe_sentient(ch, wch))
-                return;
-            ch->yell(fmt::format("|WAha! I never forget a face, prepare to die {}!!!|w", wch->name));
-            multi_hit(ch, wch);
-        }
-    }
-    if (check_enum_bit(ch->act, CharActFlag::Aggressive) && !check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe)
-        && !ch->is_aff_calm() && (ch->fighting == nullptr) // Changed by Moog
-        && !ch->is_aff_charm() && ch->is_pos_awake()
-        && !(check_enum_bit(ch->act, CharActFlag::Wimpy) && wch->is_pos_awake()) && ch->can_see(*wch)
-        && !number_bits(1)) {
-
-        /*
-         * Ok we have a 'wch' player character and a 'ch' npc aggressor.
-         * Now make the aggressor fight a RANDOM pc victim in the room,
-         *   giving each 'vch' an equal chance of selection.
-         */
-
-        int count = 0;
-        Char *victim = nullptr;
-        for (auto *vch : wch->in_room->people) {
-            if (vch->is_pc() && vch->level < LEVEL_IMMORTAL && ch->level >= vch->level - 5
-                && (!check_enum_bit(ch->act, CharActFlag::Wimpy) || !vch->is_pos_awake()) && ch->can_see(*vch)) {
-                if (number_range(0, count) == 0)
-                    victim = vch;
-                count++;
-            }
-        }
-
-        if (victim != nullptr)
-            multi_hit(ch, victim);
-    }
-}
-
-/* This function resets the player count every day */
-void count_update() {
-    struct tm *cur_time;
-    int current_day;
-    auto as_tt = Clock::to_time_t(current_time);
-    cur_time = localtime(&as_tt);
-    current_day = cur_time->tm_mday;
-    /* Initialise count_updated if this first time called */
-    if (count_updated == 0) {
-        count_updated = current_day;
-        return;
-    } else {
-        /* Has the day changed? */
-        if (count_updated == current_day)
-            return;
-        /* Day has changed, reset max_on to 0 and change count_updated
-           to current_day, log it also */
-        else {
-            max_on = 0;
-            count_updated = current_day;
-            log_string("The player counter has been reset.");
-        }
     }
 }
 
