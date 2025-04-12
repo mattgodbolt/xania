@@ -575,8 +575,8 @@ void get_obj(Char *ch, Object *obj, Object *container) {
             return;
         }
 
-        if (container->objIndex->vnum == Objects::Pit && !container->is_takeable() && obj->timer)
-            obj->timer = 0;
+        if (container->objIndex->vnum == Objects::Pit && !container->is_takeable() && obj->decay_timer_ticks)
+            obj->decay_timer_ticks = 0;
         act("You get $p from $P.", ch, obj, container, To::Char);
         act("$n gets $p from $P.", ch, obj, container, To::Room);
         obj_from_obj(obj);
@@ -792,11 +792,11 @@ void do_put(Char *ch, ArgParser args) {
         }
 
         if (container->objIndex->vnum == Objects::Pit && !container->is_takeable()) {
-            if (obj->timer) {
+            if (obj->decay_timer_ticks) {
                 ch->send_line("Only permanent items may go in the pit.");
                 return;
             } else
-                obj->timer = number_range(100, 200);
+                obj->decay_timer_ticks = number_range(100, 200);
         }
 
         obj_from_char(obj);
@@ -817,10 +817,10 @@ void do_put(Char *ch, ArgParser args) {
                     continue;
                 }
                 if (container->objIndex->vnum == Objects::Pit) {
-                    if (obj->timer)
+                    if (obj->decay_timer_ticks)
                         continue;
                     else
-                        obj->timer = number_range(100, 200);
+                        obj->decay_timer_ticks = number_range(100, 200);
                 }
 
                 obj_from_char(obj);
@@ -887,12 +887,12 @@ void do_donate(Char *ch, ArgParser args) {
             return;
         }
 
-        if (obj->timer) {
+        if (obj->decay_timer_ticks) {
             ch->send_line("That would just get torn apart by the psychic vortices.");
             return;
         }
 
-        obj->timer = number_range(100, 200);
+        obj->decay_timer_ticks = number_range(100, 200);
 
         /* move the item, and echo the relevant message to witnesses */
         obj_from_char(obj);
@@ -910,8 +910,8 @@ void do_donate(Char *ch, ArgParser args) {
         /* 'put all container' or 'put all.obj container' */
         for (auto *obj : ch->carrying) {
             if ((is_all || is_name(arg1, obj->name)) && ch->can_see(*obj) && obj->worn_loc == Worn::None
-                && can_drop_obj(ch, obj) && obj->timer == 0) {
-                obj->timer = number_range(100, 200);
+                && can_drop_obj(ch, obj) && obj->decay_timer_ticks == 0) {
+                obj->decay_timer_ticks = number_range(100, 200);
                 obj_from_char(obj);
                 obj_to_obj(obj, pit);
                 act("$p disappears in a whirl of psychic flux.", ch, obj, nullptr, To::Char);
@@ -1961,8 +1961,8 @@ void do_buy(Char *ch, ArgParser args) {
         } else
             obj_from_char(obj);
 
-        if (obj->timer > 0)
-            obj->timer = 0;
+        if (obj->decay_timer_ticks > 0)
+            obj->decay_timer_ticks = 0;
         obj_to_char(obj, ch);
         if (cost < obj->cost)
             obj->cost = cost;
@@ -2044,7 +2044,7 @@ void do_sell(Char *ch, ArgParser args) {
     }
     auto cost = get_cost(keeper, obj, false);
     /* won't buy rotting goods */
-    if (obj->timer || cost <= 0) {
+    if (obj->decay_timer_ticks || cost <= 0) {
         act("$n looks uninterested in $p.", keeper, obj, ch, To::Vict);
         return;
     }
@@ -2074,7 +2074,7 @@ void do_sell(Char *ch, ArgParser args) {
         extract_obj(obj);
     } else {
         obj_from_char(obj);
-        obj->timer = number_range(200, 400);
+        obj->decay_timer_ticks = number_range(200, 400);
         obj_to_char(obj, keeper);
     }
 }

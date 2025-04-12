@@ -318,7 +318,7 @@ void handle_doorman_packet(const Packet &p, std::string_view buffer) {
     case PACKET_MESSAGE:
         if (auto *d = descriptors().find_by_channel(p.channel)) {
             if (d->character() != nullptr)
-                d->character()->timer = 0;
+                d->character()->idle_timer_ticks = 0;
             read_from_descriptor(d, buffer);
         } else {
             log_string("Unable to associate message with a descriptor ({})", p.channel);

@@ -448,7 +448,7 @@ void move_active_char_from_limbo(Char *ch) {
         || ch->in_room != get_room(Rooms::Limbo))
         return;
 
-    ch->timer = 0;
+    ch->idle_timer_ticks = 0;
     char_from_room(ch);
     char_to_room(ch, ch->was_in_room);
     ch->was_in_room = nullptr;
@@ -465,7 +465,7 @@ void move_active_char_from_limbo(Char *ch) {
  * If a chars is idle, move it into the "limbo" room along with its pets.
  */
 void move_idle_char_to_limbo(Char *ch) {
-    if (++ch->timer >= 12) {
+    if (++ch->idle_timer_ticks >= 12) {
         if (ch->was_in_room == nullptr && ch->in_room != nullptr) {
             ch->was_in_room = ch->in_room;
             if (ch->fighting != nullptr)
@@ -504,7 +504,7 @@ void char_update() {
 
     for (auto &&uch : char_list) {
         auto *ch = uch.get();
-        if (ch->timer > 30)
+        if (ch->idle_timer_ticks > 30)
             ch_quit = ch;
 
         if (ch->position >= Position::Type::Stunned) {
@@ -542,7 +542,7 @@ void char_update() {
             }
 
             if (ch->is_immortal())
-                ch->timer = 0;
+                ch->idle_timer_ticks = 0;
 
             move_idle_char_to_limbo(ch);
             ch->delta_inebriation(-1);
@@ -687,7 +687,7 @@ void obj_update() {
                     Position::Type::Sleeping);
         }
 
-        if (obj->timer <= 0 || --obj->timer > 0)
+        if (obj->decay_timer_ticks <= 0 || --obj->decay_timer_ticks > 0)
             continue;
 
         switch (obj->type) {

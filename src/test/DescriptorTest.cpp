@@ -49,7 +49,7 @@ TEST_CASE("Descriptor tests") {
     SECTION("reconnect from lobby") {
         auto uch = std::make_unique<Char>();
         auto ch = uch.get();
-        ch->timer = 1;
+        ch->idle_timer_ticks = 1;
 
         desc.reconnect_from_lobby(ch);
 
@@ -58,6 +58,6 @@ TEST_CASE("Descriptor tests") {
         CHECK(ch->desc == &desc);
         CHECK(desc.state() == DescriptorState::Playing);
         CHECK(desc.is_playing());
-        CHECK(ch->timer == 0);
+        CHECK(ch->idle_timer_ticks == 0);
     }
 }

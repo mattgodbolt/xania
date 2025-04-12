@@ -310,7 +310,7 @@ void Descriptor::reconnect_from_lobby(Char *existing_char) noexcept {
     }
     character(existing_char);
     existing_char->desc = this;
-    existing_char->timer = 0;
+    existing_char->idle_timer_ticks = 0;
 }
 
 std::unique_ptr<Char> Descriptor::proceed_from_lobby() noexcept {

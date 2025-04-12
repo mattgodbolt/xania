@@ -685,7 +685,8 @@ void do_ostat(Char *ch, ArgParser args) {
 
     ch->send_line("Number: {}/{}  Weight: {}/{}", 1, get_obj_number(obj), obj->weight, get_obj_weight(obj));
 
-    ch->send_line("Level: {}  Cost: {}  Condition: {}  Timer: {}", obj->level, obj->cost, obj->condition, obj->timer);
+    ch->send_line("Level: {}  Cost: {}  Condition: {}  Decay Ticks: {}", obj->level, obj->cost, obj->condition,
+                  obj->decay_timer_ticks);
 
     ch->send_to(fmt::format("In room: {}  In object: {}  Carried by: {}  Wear_loc: {} ({})\n\r",
                             !obj->in_room ? 0 : obj->in_room->vnum, !obj->in_obj ? "(none)" : obj->in_obj->short_descr,
@@ -968,8 +969,9 @@ void do_mstat(Char *ch, std::string_view argument) {
 
     if (victim->is_pc()) {
         using namespace std::chrono;
-        ch->send_line("Age: {}  Played: {}  Last Level: {}  Timer: {}", victim->get_age(),
-                      duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level, victim->timer);
+        ch->send_line("Age: {}  Played: {}  Last Level: {}  Idle Ticks: {}", victim->get_age(),
+                      duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level,
+                      victim->idle_timer_ticks);
     }
 
     ch->send_line("Act: {}", victim->format_act_flags());
@@ -2412,7 +2414,7 @@ void do_oset(Char *ch, ArgParser args) {
             ch->send_line("Timer range is 0 to 250.");
             return;
         }
-        obj->timer = *opt_value_num;
+        obj->decay_timer_ticks = *opt_value_num;
         return;
     }
 

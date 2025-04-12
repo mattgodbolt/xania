@@ -234,8 +234,8 @@ void fwrite_one_obj(const Char *ch, const Object *obj, FILE *fp, ush_int nest_le
     fmt::print(fp, "{} {}\n", cf::WearLoc, magic_enum::enum_integer<Worn>(obj->worn_loc));
     if (obj->level != 0)
         fmt::print(fp, "{}  {}\n", cf::ObjectLevel, obj->level);
-    if (obj->timer != 0)
-        fmt::print(fp, "{} {}\n", cf::Time, obj->timer);
+    if (obj->decay_timer_ticks != 0)
+        fmt::print(fp, "{} {}\n", cf::Time, obj->decay_timer_ticks);
     fmt::print(fp, "{} {}\n", cf::Cost, obj->cost);
     if (obj->value[0] != obj->objIndex->value[0] || obj->value[1] != obj->objIndex->value[1]
         || obj->value[2] != obj->objIndex->value[2] || obj->value[3] != obj->objIndex->value[3]
@@ -691,7 +691,7 @@ void fread_obj(Char *ch, FILE *fp, ObjectNestMap &nest_level_to_obj) {
                 obj->value[iValue] = sn;
             }
         } else if (word == cf::Time) {
-            obj->timer = fread_number(fp);
+            obj->decay_timer_ticks = fread_number(fp);
         } else if (word == cf::Val) {
             obj->value[0] = fread_number(fp);
             obj->value[1] = fread_number(fp);

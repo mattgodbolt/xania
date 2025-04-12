@@ -1177,7 +1177,7 @@ void spell_create_spring([[maybe_unused]] int sn, int level, Char *ch,
     auto obj_uptr = get_obj_index(Objects::Spring)->create_object();
     auto *spring = obj_uptr.get();
     object_list.push_back(std::move(obj_uptr));
-    spring->timer = level;
+    spring->decay_timer_ticks = level;
     obj_to_room(spring, ch->in_room);
     act("$p flows from the ground.", ch, spring, nullptr, To::Room);
     act("$p flows from the ground.", ch, spring, nullptr, To::Char);
@@ -3001,7 +3001,7 @@ void spell_portal([[maybe_unused]] int sn, int level, Char *ch, const SpellTarge
         auto obj_uptr = portal_idx->create_object();
         auto *portal = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
-        portal->timer = duration;
+        portal->decay_timer_ticks = duration;
         portal->destination = to;
         portal->description = fmt::sprintf(portal->description, to->name);
         obj_to_room(portal, from);

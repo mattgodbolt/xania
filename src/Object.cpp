@@ -25,7 +25,8 @@ Object::Object(ObjectIndex *obj_idx)
       short_descr(obj_idx->short_descr), description(obj_idx->description), type(obj_idx->type),
       extra_flags(obj_idx->extra_flags), wear_flags(obj_idx->wear_flags), wear_string(obj_idx->wear_string),
       worn_loc(Worn::None), weight(obj_idx->weight), cost(obj_idx->cost), level(obj_idx->level),
-      condition(obj_idx->condition), material(obj_idx->material), timer(0), value(obj_idx->value), destination(nullptr)
+      condition(obj_idx->condition), material(obj_idx->material), decay_timer_ticks(0), value(obj_idx->value),
+      destination(nullptr)
 
 {
     switch (type) {
@@ -63,7 +64,7 @@ std::unique_ptr<Object> Object::clone() {
     obj_uptr->level = level;
     obj_uptr->condition = condition;
     obj_uptr->material = material;
-    obj_uptr->timer = timer;
+    obj_uptr->decay_timer_ticks = decay_timer_ticks;
     obj_uptr->value = value;
     obj_uptr->enchanted = enchanted;
     obj_uptr->extra_descr = extra_descr;

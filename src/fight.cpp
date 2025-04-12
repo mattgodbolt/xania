@@ -633,7 +633,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         if (!victim->is_pos_stunned_or_dying()) {
             if (victim->fighting == nullptr)
                 set_fighting(victim, ch);
-            if (victim->timer <= 4)
+            if (victim->idle_timer_ticks <= 4)
                 victim->position = Position::Type::Fighting;
         }
 
@@ -1206,7 +1206,7 @@ void make_corpse(Char *ch) {
         auto obj_uptr = get_obj_index(Objects::NonPlayerCorpse)->create_object();
         corpse = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
-        corpse->timer = number_range(3, 6);
+        corpse->decay_timer_ticks = number_range(3, 6);
         if (ch->gold > 0) {
             obj_to_obj(create_money(ch->gold), corpse);
             ch->gold = 0;
@@ -1217,7 +1217,7 @@ void make_corpse(Char *ch) {
         auto obj_uptr = get_obj_index(Objects::PlayerCorpse)->create_object();
         corpse = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
-        corpse->timer = number_range(25, 40);
+        corpse->decay_timer_ticks = number_range(25, 40);
         clear_enum_bit(ch->act, PlayerActFlag::PlrCanLoot);
         if (!check_enum_bit(ch->act, PlayerActFlag::PlrKiller) && !check_enum_bit(ch->act, PlayerActFlag::PlrThief))
             corpse->owner = ch->name;
@@ -1232,11 +1232,11 @@ void make_corpse(Char *ch) {
     for (auto *obj : ch->carrying) {
         obj_from_char(obj);
         if (obj->type == ObjectType::Potion)
-            obj->timer = number_range(500, 1000);
+            obj->decay_timer_ticks = number_range(500, 1000);
         if (obj->type == ObjectType::Scroll)
-            obj->timer = number_range(1000, 2500);
+            obj->decay_timer_ticks = number_range(1000, 2500);
         if (check_enum_bit(obj->extra_flags, ObjectExtraFlag::RotDeath))
-            obj->timer = number_range(5, 10);
+            obj->decay_timer_ticks = number_range(5, 10);
         clear_enum_bit(obj->extra_flags, ObjectExtraFlag::VisDeath);
         clear_enum_bit(obj->extra_flags, ObjectExtraFlag::RotDeath);
 
@@ -1293,7 +1293,7 @@ void detach_injured_part(const Char *victim, std::optional<InjuredPart> opt_inju
         auto obj_uptr = get_obj_index(vnum)->create_object();
         auto *obj = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
-        obj->timer = number_range(4, 7);
+        obj->decay_timer_ticks = number_range(4, 7);
         obj->short_descr = fmt::sprintf(obj->short_descr, victim->short_name());
         obj->description = fmt::sprintf(obj->description, victim->short_name());
 

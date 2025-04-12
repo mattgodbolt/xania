@@ -81,7 +81,7 @@ void validate_object(Object &obj, ObjectIndex &obj_idx) {
     CHECK(obj.level == 1);
     CHECK(obj.condition == 90);
     CHECK(obj.material == Material::Type::Paper);
-    CHECK(obj.timer == 0);
+    CHECK(obj.decay_timer_ticks == 0);
     CHECK(obj.value == std::array{0, 1, 2, 3, 4});
     CHECK(obj.destination == nullptr);
 }

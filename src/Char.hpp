@@ -75,7 +75,7 @@ struct Char {
     int lines{PAGELEN}; /* for the pager */
     Time logon{};
     Time last_note{Time::min()};
-    sh_int timer{};
+    sh_int idle_timer_ticks{};
     sh_int wait{};
     sh_int hit{20};
     sh_int max_hit{20};

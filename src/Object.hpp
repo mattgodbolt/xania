@@ -49,7 +49,7 @@ struct Object {
     sh_int level{};
     sh_int condition{};
     Material::Type material{};
-    sh_int timer{};
+    sh_int decay_timer_ticks{};
     std::array<int, 5> value{};
     Room *destination{};
 
