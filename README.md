@@ -109,9 +109,9 @@ You can selectively nuke cached libraries, for example:
 
 ```bash
 # Remove all versions of fmt from the cache
-$ ./cmake-build-Debug/.tools/conda-25.1.1-2/bin/conan remove -c fmt/*
+$ ./cmake-build-debug/.tools/conda-25.1.1-2/bin/conan remove -c fmt/*
 # Remove all cached libraries from the cache
-$ ./cmake-build-Debug/.tools/conda-25.1.1-2/bin/conan remove -c "*"
+$ ./cmake-build-debug/.tools/conda-25.1.1-2/bin/conan remove -c "*"
 ```
 
 ### Creating an immortal account
