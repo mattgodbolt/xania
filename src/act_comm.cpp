@@ -357,6 +357,7 @@ void do_quit(Char *ch) {
         ch->send_line("|RYou're not DEAD yet.|w");
         return;
     }
+    Duels::terminate_duel(ch, std::nullopt, "Your duel came to an end as your opponent quit.");
     ch->send_line("|WYou quit reality for the game.|w");
     act("|W$n has left reality for the game.|w", ch);
     log_string("{} has quit.", ch->name);

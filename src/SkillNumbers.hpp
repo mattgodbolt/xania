@@ -35,6 +35,7 @@ extern sh_int gsn_mass_invis;
 extern sh_int gsn_plague;
 extern sh_int gsn_poison;
 extern sh_int gsn_sleep;
+extern sh_int gsn_strife_duelist;
 
 extern sh_int gsn_axe;
 extern sh_int gsn_dagger;

@@ -269,6 +269,7 @@ void interp_initialise() {
     add_command("trip", do_trip, Position::Type::Fighting);
 
     /* Miscellaneous commands. */
+    add_command("dt", do_dt, Position::Type::Standing);
     add_command("follow", do_follow, Position::Type::Resting);
     add_command("gain", do_gain, Position::Type::Standing);
     add_command("groups", do_groups, Position::Type::Sleeping);

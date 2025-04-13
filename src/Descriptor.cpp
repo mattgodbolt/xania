@@ -224,6 +224,7 @@ void Descriptor::close() noexcept {
     stop_snooping();
 
     if (character_) {
+        Duels::terminate_duel(character_, std::nullopt, "Your duel came to an end as your opponent disconnected.");
         log_new(fmt::format("Closing link to {}.", character_->name).c_str(), CharExtraFlag::WiznetDebug,
                 (check_enum_bit(character_->act, PlayerActFlag::PlrWizInvis)
                  || check_enum_bit(character_->act, PlayerActFlag::PlrProwl))

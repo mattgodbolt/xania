@@ -2,6 +2,7 @@
 
 #include "Class.hpp"
 #include "Constants.hpp"
+#include "Duel.hpp"
 #include "PcCustomization.hpp"
 #include "PcNutrition.hpp"
 #include "Pronouns.hpp"
@@ -44,4 +45,6 @@ struct PcData {
     Pronouns pronouns;
     // Populated when a new player character is being created.
     std::optional<PcCustomization> customization{};
+    // Set when a player is invited to duel, unset when the duel ends.
+    std::optional<Duels::Duel> duel{};
 };

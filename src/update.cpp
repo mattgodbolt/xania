@@ -643,6 +643,7 @@ void move_idle_char_to_limbo(Char *ch) {
             ch->was_in_room = ch->in_room;
             if (ch->fighting != nullptr)
                 stop_fighting(ch, true);
+            Duels::terminate_duel(ch, std::nullopt, "Your duel ended as your opponent disappeared into the void.");
             act("$n disappears into the void.", ch);
             ch->send_line("You disappear into the void.");
             if (ch->level > 1)
@@ -701,8 +702,8 @@ void char_update() {
             update_pos(ch);
 
         if (ch->is_pc() && ch->level < LEVEL_IMMORTAL) {
+            Duels::check_duel_timeout(ch);
             Object *obj;
-
             if ((obj = get_eq_char(ch, Worn::Light)) != nullptr && obj->type == ObjectType::Light
                 && obj->value[2] > 0) {
                 if (--obj->value[2] == 0 && ch->in_room) {

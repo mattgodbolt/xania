@@ -125,6 +125,7 @@ sh_int gsn_mass_invis;
 sh_int gsn_poison;
 sh_int gsn_plague;
 sh_int gsn_sleep;
+sh_int gsn_strife_duelist;
 
 sh_int gsn_axe;
 sh_int gsn_dagger;

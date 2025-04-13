@@ -969,6 +969,9 @@ void do_mstat(Char *ch, std::string_view argument) {
         ch->send_line("Age: {}  Played: {}  Last Level: {}  Idle Ticks: {}", victim->get_age(),
                       duration_cast<hours>(victim->total_played()).count(), victim->pcdata->last_level,
                       victim->idle_timer_ticks);
+        if (const auto maybe_duelling = Duels::get_duel_rival_name(victim); maybe_duelling) {
+            ch->send_line("Duelling: {}", *maybe_duelling);
+        }
     }
 
     ch->send_line("Act: {}", victim->format_act_flags());

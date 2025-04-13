@@ -3281,6 +3281,23 @@ void spell_stone_skin(int sn, int level, Char *ch, const SpellTarget &spell_targ
     victim->send_line("Your skin turns to stone.");
 }
 
+// Strife of the Duelist is applied to a pair of players when they begin to duel.
+void spell_strife_duelist(int sn, int level, [[maybe_unused]] Char *ch, const SpellTarget &spell_target) {
+    Char *victim = spell_target.getChar();
+    if (!victim)
+        return;
+    if (const auto curr_affect = find_affect(victim, sn); curr_affect) {
+        affect_strip(victim, sn);
+    }
+    AFFECT_DATA af;
+    af.type = sn;
+    af.level = level;
+    af.duration = Duels::DuelTimeoutTicks;
+    af.bitvector = to_int(AffectFlag::Curse);
+    affect_to_char(victim, af);
+    victim->send_line("You feel vulnerable.");
+}
+
 /*
  * improved by Faramir 7/8/96 because of various silly
  * summonings, like shopkeepers into Midgaard, thieves to the pit etc

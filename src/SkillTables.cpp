@@ -1952,6 +1952,23 @@ const struct skill_type skill_table[MAX_SKILL] = {
         {53, 53, 53, 53},
         {0, 0, 0, 0},
     },
+    {
+        "strife of the duelist",
+        spell_strife_duelist,
+        &gsn_strife_duelist,
+        "strife of the duelist",
+        "You feel more peaceful.",
+        nullptr,
+        "$n looks more peaceful.",
+        0,
+        Target::Ignore,
+        Position::Type::Fighting,
+        SkillSlot(0),
+        0,
+        0,
+        {20, 20, 20, 20},
+        {0, 0, 0, 0},
+    },
 
     /* combat and weapons skills */
 

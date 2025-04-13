@@ -109,6 +109,7 @@ void spell_shocking_grasp(int spell_num, int level, Char *ch, const SpellTarget 
 void spell_shield(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
 void spell_sleep(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
 void spell_stone_skin(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
+void spell_strife_duelist(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
 void spell_summon(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
 void spell_tame_lightning(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
 void spell_teleport(int spell_num, int level, Char *ch, const SpellTarget &spell_target);

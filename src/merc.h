@@ -17,7 +17,7 @@
 
 /*************************************************************************/
 /*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2021 Xania Development Team                                 */
+/*  (C) 1995-2025 Xania Development Team                                 */
 /*                                                                       */
 /*  merc.h was originally the core header file but it has been broken    */
 /*  up and now exists only to capture the original license terms         */

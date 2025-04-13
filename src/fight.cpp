@@ -760,6 +760,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         group_gain(ch, victim);
 
         if (victim->is_pc()) {
+            const auto duel_in_progress = Duels::is_duel_in_progress(ch, victim);
             auto exp_level = exp_per_level(victim, victim->pcdata->points);
             auto exp_total = (victim->level * exp_level);
 
@@ -777,14 +778,16 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
             /*
              * Apply the death penalty.
              */
-            if (victim->level >= 26) {
-                if (victim->exp - EXP_LOSS_ON_DEATH < exp_total) {
-                    victim->send_line("You lose a level!!  ");
-                    victim->level -= 1;
-                    lose_level(victim);
+            if (!duel_in_progress) {
+                if (victim->level >= 26) {
+                    if (victim->exp - EXP_LOSS_ON_DEATH < exp_total) {
+                        victim->send_line("You lose a level!!  ");
+                        victim->level -= 1;
+                        lose_level(victim);
+                    }
                 }
+                gain_exp(victim, -EXP_LOSS_ON_DEATH);
             }
-            gain_exp(victim, -EXP_LOSS_ON_DEATH);
         } else {
 
             if (victim->level >= (ch->level + 30)) {
@@ -793,7 +796,7 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
             }
         }
         victim_room_vnum = victim->in_room->vnum;
-        raw_kill(victim, injured_part);
+        raw_kill(ch, victim, injured_part);
 
         for (auto &&uch : char_list) {
             auto *mob = uch.get();
@@ -868,6 +871,8 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
     return true;
 }
 
+bool is_safe_room(const Char *ch) { return check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe); }
+
 bool is_safe(Char *ch, Char *victim) {
     /* no killing in shops hack */
     if (victim->is_npc() && victim->mobIndex->shop) {
@@ -883,7 +888,7 @@ bool is_safe(Char *ch, Char *victim) {
     }
 
     /* no fighting in safe rooms */
-    if (check_enum_bit(ch->in_room->room_flags, RoomFlag::Safe)) {
+    if (is_safe_room(ch)) {
         ch->send_line("Not in this room.");
         return true;
     }
@@ -916,8 +921,7 @@ bool is_safe(Char *ch, Char *victim) {
             return true;
         }
 
-        /* no player killing */
-        if (victim->is_pc()) {
+        if (victim->is_pc() && !Duels::is_duel_in_progress(ch, victim)) {
             ch->send_line("Sorry, player killing is not permitted.");
             return true;
         }
@@ -1031,8 +1035,8 @@ void check_killer(Char *ch, Char *victim) {
      * So is being immortal (Alander's idea).
      * And current killers stay as they are.
      */
-    if (ch->is_npc() || ch == victim || ch->level >= LEVEL_IMMORTAL
-        || check_enum_bit(ch->act, PlayerActFlag::PlrKiller))
+    if (ch->is_npc() || ch == victim || ch->level >= LEVEL_IMMORTAL || check_enum_bit(ch->act, PlayerActFlag::PlrKiller)
+        || Duels::is_duel_in_progress(ch, victim))
         return;
 
     ch->send_line("*** You are now a KILLER!! ***");
@@ -1293,14 +1297,15 @@ void detach_injured_part(const Char *victim, std::optional<InjuredPart> opt_inju
     }
 }
 
-void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
+void raw_kill(Char *ch, Char *victim, std::optional<InjuredPart> opt_injured_part) {
     stop_fighting(victim, true);
     MProg::death_trigger(victim);
     death_cry(victim);
     detach_injured_part(victim, opt_injured_part);
+    const auto duel_in_progress = Duels::is_duel_in_progress(ch, victim);
 
-    // if (!in_duel(victim))
-    make_corpse(victim);
+    if (!duel_in_progress)
+        make_corpse(victim);
 
     if (victim->is_npc()) {
         victim->mobIndex->killed++;
@@ -1308,22 +1313,24 @@ void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
         return;
     }
 
-    // if (!in_duel(victim))
-    extract_char(victim, false);
+    if (!duel_in_progress)
+        extract_char(victim, false);
     for (auto &af : victim->affected)
         affect_remove(victim, af);
     victim->affected_by = race_table[victim->race].aff;
-    // if (!in_duel(victim))
-    victim->armor.fill(-1);
+    if (!duel_in_progress)
+        victim->armor.fill(-1);
     victim->position = Position::Type::Resting;
     victim->hit = std::max(1_s, victim->hit);
     victim->mana = std::max(1_s, victim->mana);
     victim->move = std::max(1_s, victim->move);
     /* RT added to prevent infinite deaths */
-    if (false) {
+    if (!duel_in_progress) {
         clear_enum_bit(victim->act, PlayerActFlag::PlrKiller);
         clear_enum_bit(victim->act, PlayerActFlag::PlrThief);
         clear_enum_bit(victim->act, PlayerActFlag::PlrBoughtPet);
+    } else {
+        Duels::terminate_duel(victim, "Alas, you have been defeated!", "Congratulations, you are victorious!");
     }
     /*  save_char_obj( victim ); */
 }
@@ -1997,7 +2004,7 @@ void do_kill(Char *ch, ArgParser args) {
         return;
     }
 
-    if (victim->is_pc()) {
+    if (victim->is_pc() && !Duels::is_duel_in_progress(ch, victim)) {
         if (!check_enum_bit(victim->act, PlayerActFlag::PlrKiller)
             && !check_enum_bit(victim->act, PlayerActFlag::PlrThief)) {
             ch->send_line("You must MURDER a player.");
@@ -2487,5 +2494,5 @@ void do_slay(Char *ch, ArgParser args) {
     act("You slay $M in cold blood!", ch, nullptr, victim, To::Char);
     act("$n slays you in cold blood!", ch, nullptr, victim, To::Vict);
     act("$n slays $N in cold blood!", ch, nullptr, victim, To::NotVict);
-    raw_kill(victim, std::nullopt);
+    raw_kill(ch, victim, std::nullopt);
 }
