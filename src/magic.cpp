@@ -255,7 +255,7 @@ std::optional<SpellTarget> get_obj_casting_spell_target(Char *ch, Char *victim, 
 void casting_may_provoke_victim(Char *ch, const SpellTarget &spell_target, const int sn) {
     if (skill_table[sn].target == Target::CharOffensive && spell_target.getChar() != ch
         && spell_target.getChar()->master != ch
-        && (spell_target.getChar()->is_npc() /*|| fighting_duel(ch, spell_target.getChar())*/)) {
+        && (spell_target.getChar()->is_npc() || Duels::is_duel_in_progress(ch, spell_target.getChar()))) {
         if (ch && ch->in_room) {
             for (auto *vch : ch->in_room->people) {
                 if (spell_target.getChar() == vch && spell_target.getChar()->fighting == nullptr) {
@@ -2210,8 +2210,9 @@ void spell_energy_drain(int sn, int level, Char *ch, const SpellTarget &spell_ta
     if (victim->level <= 2) {
         dam = victim->hit + 1;
     } else {
-        // if (victim->in_room->vnum != Rooms::ChallengeArena)
-        gain_exp(victim, 0 - 2.5 * number_range(level / 2, 3 * level / 2));
+        if (!Duels::is_duel_in_progress(ch, victim)) {
+            gain_exp(victim, 0 - 2.5 * number_range(level / 2, 3 * level / 2));
+        }
         victim->mana /= 2;
         victim->move /= 2;
         dam = dice(1, level);
@@ -3479,7 +3480,7 @@ void spell_acid_breath(int sn, int level, Char *ch, const SpellTarget &spell_tar
     int hpch;
     int i;
 
-    if (number_percent() < 2 * level && !saves_spell(level, victim) /*&& ch->in_room->vnum != Rooms::ChallengeArena*/) {
+    if (number_percent() < 2 * level && !saves_spell(level, victim) && !Duels::is_duel_in_progress(ch, victim)) {
         for (auto *obj_lose : victim->carrying) {
             if (number_bits(2) != 0)
                 continue;
@@ -3543,7 +3544,7 @@ void spell_fire_breath(int sn, int level, Char *ch, const SpellTarget &spell_tar
     int dam;
     int hpch;
 
-    if (number_percent() < 2 * level && !saves_spell(level, victim) /*&& ch->in_room->vnum != Rooms::ChallengeArena*/) {
+    if (number_percent() < 2 * level && !saves_spell(level, victim) && !Duels::is_duel_in_progress(ch, victim)) {
         for (auto *obj_lose : victim->carrying) {
             const char *msg;
 
@@ -3598,8 +3599,7 @@ void spell_frost_breath(int sn, int level, Char *ch, const SpellTarget &spell_ta
     Char *victim = spell_target.getChar();
     if (!victim)
         return;
-    if (number_percent() < 2 * level
-        && !saves_spell(level, victim) /* && ch->in_room->vnum != Rooms::ChallengeArena*/) {
+    if (number_percent() < 2 * level && !saves_spell(level, victim) && !Duels::is_duel_in_progress(ch, victim)) {
         for (auto *obj_lose : victim->carrying) {
             const char *msg;
 

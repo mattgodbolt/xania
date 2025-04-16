@@ -2285,7 +2285,7 @@ void do_headbutt(Char *ch, ArgParser args) {
         ch->send_line("You cannot headbutt whilst mounted.");
         return;
     }
-    if (victim->is_pc() /* && !fighting_duel(ch, victim) */) {
+    if (victim->is_pc() && !Duels::is_duel_in_progress(ch, victim)) {
         ch->send_line("You can only legally headbutt a player if you are duelling with them.");
         return;
     }
