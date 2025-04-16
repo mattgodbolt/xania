@@ -159,8 +159,7 @@ std::optional<std::string_view> get_duel_rival_name(const Char *ch) {
 
 }
 
-// zzz rename
-void do_dt(Char *ch, ArgParser args) {
+void do_duel(Char *ch, ArgParser args) {
     if (is_safe_room(ch)) {
         ch->send_line("Duels aren't permitted here.");
         return;

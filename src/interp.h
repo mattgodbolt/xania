@@ -89,7 +89,6 @@ extern void do_down(Char *ch);
 extern void do_drink(Char *ch, ArgParser args);
 extern void do_drop(Char *ch, ArgParser args);
 extern void do_duel(Char *ch, ArgParser args);
-extern void do_dt(Char *ch, ArgParser args); // zzz rename
 extern void do_dump(Char *ch);
 extern void do_east(Char *ch);
 extern void do_eat(Char *ch, ArgParser args);
