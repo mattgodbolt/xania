@@ -4,7 +4,6 @@
 #include "Logging.hpp"
 #include "PlayerActFlag.hpp"
 #include "TimeInfoData.hpp"
-#include "challenge.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "common/mask_hostname.hpp"
@@ -225,7 +224,6 @@ void Descriptor::close() noexcept {
     stop_snooping();
 
     if (character_) {
-        do_chal_canc(character_);
         log_new(fmt::format("Closing link to {}.", character_->name).c_str(), CharExtraFlag::WiznetDebug,
                 (check_enum_bit(character_->act, PlayerActFlag::PlrWizInvis)
                  || check_enum_bit(character_->act, PlayerActFlag::PlrProwl))

@@ -6216,62 +6216,6 @@ The bar is to the south of you.
 ~
 0 -1 3357
 S
-#30011
-The Combat Room~
-You stand in the centre of a large circular room. There are exits in all
-directions. The walls are made of tough grey stone, the floor is covered
-with a thin layer of sand and in some places blood.
-This place looks old, like it has stood here for centuries.
-Are you ready to fight and maybe die in such a place?
-~
-N 10
-D0
-A stone arch.
-~
-~
-0 -1 -3001
-D1
-A stone arch.
-~
-~
-0 -1 -3001
-D2
-A stone arch.
-~
-~
-0 -1 -3001
-D3
-A stone arch.
-~
-~
-0 -1 -3001
-D4
-A stone arch.
-~
-~
-0 -1 -3001
-D5
-A stone arch.
-~
-~
-0 -1 -3001
-S
-#30012
-The preparation room~
-You are in a plain but comfortable room. A large fire burns to the south.
-In the centre of the room is a table. Upon the table is some bread and water.
-Take your ease, eat and drink. You must be fit to fight.
-
-Be calm, you are quite safe. Now you must prepare for your duel.
-When you are ready walk north into the Combat room.
-~
-KN 0
-D0
-A shimmering magical portal.
-~
-~
-0 -1 -30011
-S
 #3356
 A Room in the Pub~
   This part of the pub is filled with dancing and singing.  A wandering
@@ -6836,9 +6780,6 @@ G 1 3392 100    dull shard
 G 1 3391 100    minor shard
 G 1 3390 100    lesser shard
 O 0 3399 -1 3360      Summoning Stone in the necropolis
-*
-O 0 3011 -1 30012     Put bread safe room
-O 0 3135 -1 30012     Put water safe room
 S
 #SHOPS
  3000  2  3  4 10  0  105  15  0 23 ; The Wizard

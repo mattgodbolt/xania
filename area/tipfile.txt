@@ -52,8 +52,8 @@ the 'note' command allows you read and post notes to other players.~
 
 to see players and creatures nearby, type 'where' or 'scan'.~
 
-you cannot kill other players on Xania but you can duel with them
-     when you reach level 20. See 'help challenge'.~
+once you reach level 20, you can duel with other players.
+     See 'help duel'.~
 
 type 'finger <player name>' to see if a player has been on
      Xania recently. Use 'setinfo' to record info about yourself.~

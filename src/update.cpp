@@ -39,7 +39,6 @@
 #include "act_comm.hpp"
 #include "act_move.hpp"
 #include "act_obj.hpp"
-#include "challenge.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
@@ -896,8 +895,6 @@ void update_handler() {
         obj_update();
         /*Rohan: update player counter if necessary */
         count_update();
-        /*Rohan's challenge safety net*/
-        do_chal_tick();
 
         /* tip wizard */
         tip_players();

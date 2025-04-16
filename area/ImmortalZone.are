@@ -354,11 +354,6 @@ wise to venture upward into the realm of the gods.  But it seems so calm
 and peaceful here that it would be a shame to leave...
 ~
 0 1
-D0
-The viewing gallery.
-~
-~
-0 -1 1222
 D4
 The Rainbow Bridge stretches ahead before you.
 ~
@@ -550,18 +545,6 @@ Bifrost, the Rainbow Bridge leads down to the Temple of Isca.
 ~
 ~
 0 -1 1220
-S
-#1222
-The viewing gallery~
-You stand on a high balcony. Below you is the combat room, from here 
-you can see all that goes on below during the duels.
-~
-0 1
-D2
-Head of the rainbow bridge.
-~
-~
-0 -1 1215
 S
 
 #1263

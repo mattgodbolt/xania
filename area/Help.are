@@ -77,7 +77,7 @@ list buy sell value                 emote pose auto channels
 COMBAT                              OTHER |w
 kill flee kick rescue disarm        ! save quit colour
 backstab cast wimpy consider        practice train
-challenge duel showdef noloot                     
+duel showdef noloot
 
 For more help, type 'help <topic>' for any command, skill, or spell.
 Also help on: |cDAMAGE DEATH EXPERIENCE XNEWS XANIA TICK WIZLIST CLAN ISCA|w
@@ -290,91 +290,43 @@ attempt to summon your corpse for price. You can find him in the
 necropolis underneath the Temple of Isca.
 ~
 
+0 DUEL~
+Syntax: duel <character>
 
+The duel command may be used to initiate a duel between you and another
+player if you are at least level 20. Rivals must be within 10 levels of you
+and they must be standing in the same room. Duels can take place anywhere
+except major cities and sanctuaries.
 
+If challenged, you may accept the invitation by responding with
+'duel <player>'. Invitations expire after a minute.
 
-92 IMMCHALLENGE~
-Challenge is a mild form of PKILL; think of it as player duelling rather than
-player killing. It permits players to fight in the combat arena. In order for
-the fight to go ahead, an immortal of level 95+ must be available to supervise
-and the players must be over level 20.
+Once a duel has been accepted, the 'kill' command must be used to start the
+fight. If there is no victor within about five minutes, the Gods
+will call time on the melee and it will be a draw.
 
-If a player challenges another, you will be prompted on the immortal channel.
-It is the choice of a level 95+ immortal whether they undertake supervision
-or not. Your |Woptions|w will be given to you when a challenge is made. Only
-permit the challenge to go ahead if the circumstances are fair and the
-intentions of the duellists genuine, i.e. don't permit it if someone
-is challenging merely to irritate or intimidate someone.
+There is no experience penalty or equipment loss upon losing a duel.
+Duellists are permitted to flee from the scene and turn it into into a pursuit!
+If they can evade their rival for long enough, it will be a draw.
+Duellists will be afflicted by a minor curse but this will wear off quickly.
 
-When the challenge has been accepted by both players, you will type |cready|w.
-The players will then be prompted to type ready too and this will trigger the
-players to be automatically |Wtransferred|w to the preparation room. Restore
-the duellists and let them spell up there and then. It is your discretion
-whether you restore them for a second time or not.
-
-You can stop the duel at any time by typing 'cancel'. Advise the players to
-recall before they type ready if they have a pet, this way they know exactly
-where the pet will be after the duel.
-
-It is up to you to make sure that use of challenge doesn't cause bad vibes
-between players; something which PKILL can do quite easily. Both you and
-the players should maintain good MUD etiquette, e.g. if one disarms the other
-and takes the weapon during the duel, he should return it after! As the
-controlling Imm, you are responsible for the smooth running of any duels.
-
-Duelling might be included as part of a quest but remember that for events
-such as this, a certain level of fairness must be maintained i.e. don't have
-players who are 20 levels apart fighting each other.
-See also: |Whelp challenge|w, |Chelp duel|w and |Phelp pkill|w
-~
-
-0 CHALLENGE~
-Syntax: challenge <character>
-        on line help is given when you are challenged
-
-The challenge command may be used to initiate a duel between you and another
-player, given that you are above level 20. If you are challenged yourself,
-you will be presented with the basic details of the challenger and you will
-have a time limit within which you will be able to |Waccept|w the challenge.
-
-You will be given guidance about turning down, accepting and preparing for
-a duel by the immortals of Xania when you are challenged.
-
-|WDuels can be viewed|w by other players if they go to the Midgaard viewing
-gallery which overlooks the Combat arena.
-
-See also: |Whelp pkill|w and |Chelp duel|w
+See also: |Whelp pkill|w
 ~
 
 0 PKILL 'PLAYER KILL'~
 
-Although |Wchallenge|w is a form of |Wplayer killing|w it is not as extreme
-as seen on other MUDS. Challenge is a way of testing your combat prowess
+Although |Wduelling|w is a form of |Wplayer killing|w it is not as extreme
+as seen on other MUDS. Duelling is a way of testing your combat prowess
 against another player and if you lose, |Ryou will not be penalised in terms
 of your experience or levels|w and you will lose none of your equipment.
-For this reason, think of challenge as player kill refined into player
-duelling.
 
 Please don't abuse this feature by, for example, being spiteful towards
 a player you may have killed. |WPKILL|w on some MUDS tends to make them very
 nasty places, and on Xania the Immortals do not wish such unpleasantness to
 exist.
 
-See also: |Whelp duel|w and |Chelp challenge|w
+See also: |Whelp duel|w
 ~
-
-0 DUEL~
-Syntax: duel <character>
-
-You will use this after you have prepared (i.e. 'spelled up') in the
-preparation room. It will start a fight to the death. You will lose a duel
-if you flee or if you are killed. If you are killed, you will be transferred
-to the temple altar as if you had been killed under normal circumstances.
-The victor can then walk safely out of the duelling pit.
-
-See also: |Whelp pkill|w and |Chelp challenge|w
-~
-
 
 0 EXPERIENCE LEVEL XP~
 Your character advances in power by gaining experience. You need a varying
@@ -571,8 +523,7 @@ if you're not already in combat.
 Alternatively, you can start a fight by using one of your combat skills 
 or a spell that harms the mobile.
 
-KILL cannot be used to attack other players. For that, see `help challenge`
-and `help duel`.
+KILL can only be used to attack other players when duelling, see `help duel`.
 ~
 
 0 FLEE~

@@ -27,7 +27,6 @@
 #include "VnumRooms.hpp"
 #include "act_info.hpp"
 #include "act_wiz.hpp"
-#include "challenge.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
@@ -349,41 +348,17 @@ void do_enter(Char *ch, std::string_view argument) {
     ch->send_line("You can't see that here.");
 }
 
-void do_north(Char *ch) {
-    if (ch->in_room->vnum == Rooms::ChallengeArena)
-        do_room_check(ch);
-    move_char(ch, Direction::North);
-}
+void do_north(Char *ch) { move_char(ch, Direction::North); }
 
-void do_east(Char *ch) {
-    if (ch->in_room->vnum == Rooms::ChallengeArena)
-        do_room_check(ch);
-    move_char(ch, Direction::East);
-}
+void do_east(Char *ch) { move_char(ch, Direction::East); }
 
-void do_south(Char *ch) {
-    if (ch->in_room->vnum == Rooms::ChallengeArena)
-        do_room_check(ch);
-    move_char(ch, Direction::South);
-}
+void do_south(Char *ch) { move_char(ch, Direction::South); }
 
-void do_west(Char *ch) {
-    if (ch->in_room->vnum == Rooms::ChallengeArena)
-        do_room_check(ch);
-    move_char(ch, Direction::West);
-}
+void do_west(Char *ch) { move_char(ch, Direction::West); }
 
-void do_up(Char *ch) {
-    if (ch->in_room->vnum == Rooms::ChallengeArena)
-        do_room_check(ch);
-    move_char(ch, Direction::Up);
-}
+void do_up(Char *ch) { move_char(ch, Direction::Up); }
 
-void do_down(Char *ch) {
-    if (ch->in_room->vnum == Rooms::ChallengeArena)
-        do_room_check(ch);
-    move_char(ch, Direction::Down);
-}
+void do_down(Char *ch) { move_char(ch, Direction::Down); }
 
 std::optional<Direction> find_door(Char *ch, std::string_view arg) {
     if (!ch->in_room) {

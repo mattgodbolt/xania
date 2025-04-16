@@ -22,7 +22,6 @@
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
-#include "challenge.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
@@ -358,7 +357,6 @@ void do_quit(Char *ch) {
         ch->send_line("|RYou're not DEAD yet.|w");
         return;
     }
-    do_chal_canc(ch);
     ch->send_line("|WYou quit reality for the game.|w");
     act("|W$n has left reality for the game.|w", ch);
     log_string("{} has quit.", ch->name);

@@ -269,11 +269,6 @@ void interp_initialise() {
     add_command("trip", do_trip, Position::Type::Fighting);
 
     /* Miscellaneous commands. */
-    /* Rohan's bit of wizadry! */
-    add_command("accept", do_accept, Position::Type::Standing);
-    add_command("cancel", do_cancel_chal, Position::Type::Standing);
-    add_command("challenge", do_challenge, Position::Type::Standing);
-    add_command("duel", do_duel, Position::Type::Standing);
     add_command("follow", do_follow, Position::Type::Resting);
     add_command("gain", do_gain, Position::Type::Standing);
     add_command("groups", do_groups, Position::Type::Sleeping);
@@ -281,9 +276,7 @@ void interp_initialise() {
     add_command("enter", do_enter, Position::Type::Standing, 0, CommandLogLevel::Never, false);
     add_command("qui", do_qui, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
     add_command("quit", do_quit);
-    add_command("ready", do_ready, Position::Type::Standing);
     add_command("recall", do_recall, Position::Type::Fighting);
-    add_command("refuse", do_refuse, Position::Type::Standing);
     add_command("/", do_recall, Position::Type::Fighting, 0, CommandLogLevel::Normal, false);
     add_command("save", do_save);
     add_command("sleep", do_sleep, Position::Type::Sleeping);

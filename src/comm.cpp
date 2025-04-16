@@ -37,7 +37,6 @@
 #include "VnumRooms.hpp"
 #include "act_comm.hpp"
 #include "act_info.hpp"
-#include "challenge.hpp"
 #include "common/BitOps.hpp"
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
@@ -1240,15 +1239,6 @@ std::vector<const Char *> collect_folks(const Char *ch, const Char *targ_ch, Act
     }
 
     auto result = folks_in_room(room, ch, targ_ch, type, min_position);
-
-    // If we're sending messages to the challenge arena...
-    if (room->vnum == Rooms::ChallengeArena) {
-        // also include all the folks in the viewing gallery with the appropriate position. We assume the victim
-        // is not somehow in the viewing gallery.
-        auto viewing = folks_in_room(get_room(Rooms::ChallengeGallery), ch, targ_ch, type, min_position);
-        result.insert(result.end(), viewing.begin(), viewing.end());
-    }
-
     return result;
 }
 

@@ -111,11 +111,6 @@ void spell_psy_tornado(int sn, int level, Char *ch, const SpellTarget &spell_tar
     if (is_safe(ch, victim))
         return;
 
-    if (ch->in_room->vnum == Rooms::ChallengeArena) {
-        ch->send_line("Not in the challenge room.");
-        return;
-    }
-
     if (ch->mana < (ch->max_mana - 100)) {
         ch->send_line("This powerful spell requires all of your psychic powers.");
         return;

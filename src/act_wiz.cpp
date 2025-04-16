@@ -292,10 +292,7 @@ void do_recho(Char *ch, std::string_view argument) {
     }
 
     for (auto &victim : descriptors().playing() | DescriptorFilter::same_room(*ch) | DescriptorFilter::to_character()) {
-        victim.send_to(fmt::format(
-            "{}{}\n\r",
-            victim.get_trust() >= ch->get_trust() && ch->in_room->vnum != Rooms::ChallengeGallery ? "local> " : "",
-            argument));
+        victim.send_to(fmt::format("{}{}\n\r", victim.get_trust() >= ch->get_trust() ? "local> " : "", argument));
     }
 }
 

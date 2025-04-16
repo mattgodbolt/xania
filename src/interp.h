@@ -64,7 +64,6 @@ extern void do_brief(Char *ch);
 extern void do_bug(Char *ch, std::string_view argument);
 extern void do_buy(Char *ch, ArgParser args);
 extern void do_cast(Char *ch, ArgParser args);
-extern void do_challenge(Char *ch, ArgParser args);
 extern void do_cancel_chal(Char *ch, ArgParser args);
 extern void do_changes(Char *ch);
 extern void do_channels(const Char *ch);

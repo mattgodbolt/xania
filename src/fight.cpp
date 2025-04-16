@@ -49,7 +49,6 @@
 #include "act_move.hpp"
 #include "act_obj.hpp"
 #include "act_wiz.hpp"
-#include "challenge.hpp"
 #include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
@@ -261,11 +260,6 @@ void multi_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
     }
 
     one_hit(ch, victim, opt_skill);
-
-    if (ch->in_room != nullptr && victim->in_room != nullptr && ch->in_room->vnum == Rooms::ChallengeArena
-        && victim->in_room->vnum == Rooms::ChallengeArena) {
-        act(describe_fight_condition(*victim), ch, nullptr, victim, To::NotVict);
-    }
 
     if (ch->fighting != victim)
         return;
@@ -589,7 +583,6 @@ void loot_and_sacrifice_corpse(Char *looter, Char *victim, sh_int victim_room_vn
  * and spell effects.
  */
 bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_type, const DamageType damage_type) {
-    int temp;
     Object *wield;
     AFFECT_DATA *octarineFire;
     bool immune;
@@ -769,9 +762,6 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         if (victim->is_pc()) {
             auto exp_level = exp_per_level(victim, victim->pcdata->points);
             auto exp_total = (victim->level * exp_level);
-            temp = do_check_chal(victim);
-            if (temp == 1)
-                return true;
 
             log_string("{} killed by {} at {}", victim->name, ch->short_name(), victim->in_room->vnum);
             announce(fmt::format("|P###|w Sadly, {} was killed by {}.", victim->name, ch->short_name()), victim);
@@ -927,7 +917,7 @@ bool is_safe(Char *ch, Char *victim) {
         }
 
         /* no player killing */
-        if (victim->is_pc() && !fighting_duel(ch, victim)) {
+        if (victim->is_pc()) {
             ch->send_line("Sorry, player killing is not permitted.");
             return true;
         }
@@ -1041,8 +1031,8 @@ void check_killer(Char *ch, Char *victim) {
      * So is being immortal (Alander's idea).
      * And current killers stay as they are.
      */
-    if (ch->is_npc() || ch == victim || ch->level >= LEVEL_IMMORTAL || check_enum_bit(ch->act, PlayerActFlag::PlrKiller)
-        || fighting_duel(ch, victim))
+    if (ch->is_npc() || ch == victim || ch->level >= LEVEL_IMMORTAL
+        || check_enum_bit(ch->act, PlayerActFlag::PlrKiller))
         return;
 
     ch->send_line("*** You are now a KILLER!! ***");
@@ -1309,8 +1299,8 @@ void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
     death_cry(victim);
     detach_injured_part(victim, opt_injured_part);
 
-    if (!in_duel(victim))
-        make_corpse(victim);
+    // if (!in_duel(victim))
+    make_corpse(victim);
 
     if (victim->is_npc()) {
         victim->mobIndex->killed++;
@@ -1318,19 +1308,19 @@ void raw_kill(Char *victim, std::optional<InjuredPart> opt_injured_part) {
         return;
     }
 
-    if (!in_duel(victim))
-        extract_char(victim, false);
+    // if (!in_duel(victim))
+    extract_char(victim, false);
     for (auto &af : victim->affected)
         affect_remove(victim, af);
     victim->affected_by = race_table[victim->race].aff;
-    if (!in_duel(victim))
-        victim->armor.fill(-1);
+    // if (!in_duel(victim))
+    victim->armor.fill(-1);
     victim->position = Position::Type::Resting;
     victim->hit = std::max(1_s, victim->hit);
     victim->mana = std::max(1_s, victim->mana);
     victim->move = std::max(1_s, victim->move);
     /* RT added to prevent infinite deaths */
-    if (!in_duel(victim)) {
+    if (false) {
         clear_enum_bit(victim->act, PlayerActFlag::PlrKiller);
         clear_enum_bit(victim->act, PlayerActFlag::PlrThief);
         clear_enum_bit(victim->act, PlayerActFlag::PlrBoughtPet);
@@ -1760,10 +1750,7 @@ void do_bash(Char *ch, ArgParser args) {
         act("$n sends $N sprawling with a powerful bash.", ch, nullptr, victim, To::NotVict);
         check_improve(ch, gsn_bash, true, 1);
 
-        if (fighting_duel(ch, victim))
-            victim->wait_state(2 * PULSE_VIOLENCE);
-        else
-            victim->wait_state(3 * PULSE_VIOLENCE);
+        victim->wait_state(3 * PULSE_VIOLENCE);
         ch->wait_state(skill_table[gsn_bash].beats);
         victim->position = Position::Type::Resting;
         damage(ch, victim, number_range(2, calc_max_bash_damage(ch->body_size, chance)), &skill_table[gsn_bash],
@@ -2190,7 +2177,6 @@ void do_flee(Char *ch) {
         }
 
         stop_fighting(ch, true);
-        do_flee_check(ch);
         return;
     }
 
@@ -2292,7 +2278,7 @@ void do_headbutt(Char *ch, ArgParser args) {
         ch->send_line("You cannot headbutt whilst mounted.");
         return;
     }
-    if (victim->is_pc() && !fighting_duel(ch, victim)) {
+    if (victim->is_pc() /* && !fighting_duel(ch, victim) */) {
         ch->send_line("You can only legally headbutt a player if you are duelling with them.");
         return;
     }
