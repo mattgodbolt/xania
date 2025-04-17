@@ -132,6 +132,14 @@ void check_duel_timeout(Char *ch) {
     }
     // If the rivals are dueling, they only have DuelTimeoutTicks to decide the winner.
     if (is_duel_in_progress(ch, duel->rival)) {
+        // Passing false to stop_fighting() because it is possible that aggressive NPCs in the same room as the duelist
+        // may also be attacking them and should continue to after the duel ends.
+        if (ch->fighting == duel->rival) {
+            stop_fighting(ch, false);
+        }
+        if (duel->rival->fighting == ch) {
+            stop_fighting(duel->rival, false);
+        }
         terminate_duel(ch, duel_expired, duel_expired);
     } else {
         // Invitation phase has expired.
