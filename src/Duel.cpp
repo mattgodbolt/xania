@@ -82,6 +82,12 @@ bool is_duel_accepted(const Char &ch) {
 }
 
 void issue_or_accept_invitation(Char *challenger, Char *challengee) {
+    auto &challenger_duel = challenger->pcdata->duel;
+    if (challenger_duel && !challenger_duel->is_accepted() && challenger_duel->rival != challengee) {
+        challenger->send_line("You've already challenged {}. You can only duel one player at a time.",
+                              challenger_duel->rival->name);
+        return;
+    }
     auto &challengee_duel = challengee->pcdata->duel;
     if (challengee_duel) {
         // If the challengee already invited the challenger to duel, accept the invitation.
