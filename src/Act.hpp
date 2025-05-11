@@ -1,12 +1,8 @@
 #pragma once
 
-#include "Descriptor.hpp"
 #include "MobTrig.hpp"
 #include "Position.hpp"
-#include "common/Fd.hpp"
-#include "common/doorman_protocol.h"
 
-#include <cstddef>
 #include <string_view>
 #include <variant>
 
@@ -14,16 +10,9 @@ struct Char;
 struct Object;
 struct Room;
 
-const auto MinPasswordLen = 5;
+// Functions that act out events in a room. The 'To' types act as a filter, targeting specific types of character,
+// for whom the message text will make sense.
 
-void game_loop_unix(Fd control);
-Fd init_socket(const char *file);
-
-void page_to_char(const char *txt, Char *ch);
-
-/*
- * TO types for act.
- */
 enum class To { Room, NotVict, Vict, Char, GivenRoom };
 
 using Act1Arg = std::variant<std::nullptr_t, const Object *, std::string_view>;
@@ -49,6 +38,3 @@ inline void act(const char *format, const Char *ch, Args &&...args) {
     if (format)
         act(std::string_view(format), ch, std::forward<Args>(args)...);
 }
-
-bool send_to_doorman(const Packet *p, const void *extra);
-std::string format_prompt(const Char &ch, std::string_view prompt);

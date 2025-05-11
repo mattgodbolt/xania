@@ -7,15 +7,15 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Act.hpp"
 #include "Char.hpp"
 #include "CommFlag.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
-#include "comm.hpp"
+#include "Interpreter.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "handler.hpp"
-#include "interp.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
@@ -82,7 +82,7 @@ void do_clantalk(Char *ch, std::string_view argument) {
 
     /* Next check to see if a CLAN_HERO or CLAN_LEADER is on first */
 
-    auto playing = descriptors().playing();
+    auto playing = ch->mud_.descriptors().playing();
     if (ranges::find_if(playing,
                         [&](const Descriptor &d) {
                             const auto *victim = d.person();
@@ -111,7 +111,7 @@ void do_clantalk(Char *ch, std::string_view argument) {
     }
 
     /* Right here we go - tell all members of the clan the message */
-    for (auto &d : descriptors().playing()) {
+    for (auto &d : ch->mud_.descriptors().playing()) {
         auto *victim = d.person();
         const auto *pcclan = victim->pc_clan();
         if (pcclan && pcclan->clan.clanchar == orig_clan->clan.clanchar
@@ -263,7 +263,7 @@ void do_clanwho(Char *ch) {
 
     ch->send_line("|gCharacter name     |c|||g Clan level|w");
     ch->send_line("|c-------------------+-------------------------------|w");
-    for (auto &d : descriptors().all_visible_to(*ch)) {
+    for (auto &d : ch->mud_.descriptors().all_visible_to(*ch)) {
         auto *wch = d.person();
         if (wch->clan() && wch->clan()->clanchar == ch->clan()->clanchar) {
             ch->send_line("{:19}|c|||w {}", wch->name, wch->pc_clan()->level_name());

@@ -107,7 +107,7 @@ AFFECT_DATA::Value AFFECT_DATA::worth() const noexcept {
     return {};
 }
 
-std::string_view name(AffectLocation location) {
+std::string_view name(AffectLocation location, const Logger &logger) {
     switch (location) {
     case AffectLocation::None: return "none"sv;
     case AffectLocation::Str: return "strength"sv;
@@ -136,33 +136,33 @@ std::string_view name(AffectLocation location) {
     case AffectLocation::Weight: return "weight"sv;
     }
 
-    bug("Affect_location_name: unknown location {}.", static_cast<int>(location));
+    logger.bug("Affect_location_name: unknown location {}.", static_cast<int>(location));
     return "(unknown)"sv;
 }
 
-std::string AFFECT_DATA::describe_item_effect(bool for_imm) const {
+std::string AFFECT_DATA::describe_item_effect(bool for_imm, const Logger &logger) const {
     if (for_imm) {
-        return fmt::format("{} by {} with bits {}, level {}", name(location), modifier, AffectFlags::format(bitvector),
-                           level);
+        return fmt::format("{} by {} with bits {}, level {}", name(location, logger), modifier,
+                           AffectFlags::format(bitvector), level);
     } else {
-        return fmt::format("{} by {}", name(location), modifier);
+        return fmt::format("{} by {}", name(location, logger), modifier);
     }
 }
-std::string AFFECT_DATA::describe_char_effect(bool for_imm) const {
+std::string AFFECT_DATA::describe_char_effect(bool for_imm, const Logger &logger) const {
     if (for_imm) { // for imm commands like 'stat mob' and 'stat affects', display all the details.
         if (is_skill())
-            return fmt::format(" modifies {} by {} with bits {}, level {}", name(location), modifier,
+            return fmt::format(" modifies {} by {} with bits {}, level {}", name(location, logger), modifier,
                                AffectFlags::format(bitvector), level);
         else
-            return fmt::format(" modifies {} by {} for {} hours with bits {}, level {}", name(location), modifier,
-                               duration, AffectFlags::format(bitvector), level);
+            return fmt::format(" modifies {} by {} for {} hours with bits {}, level {}", name(location, logger),
+                               modifier, duration, AffectFlags::format(bitvector), level);
     } else {
         if (is_skill())
             return "";
         else if (location == AffectLocation::None)
             return fmt::format(" for {} hours", duration);
         else
-            return fmt::format(" modifies {} by {} for {} hours", name(location), modifier, duration);
+            return fmt::format(" modifies {} by {} for {} hours", name(location, logger), modifier, duration);
     }
 }
 

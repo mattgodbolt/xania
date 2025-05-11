@@ -5,6 +5,8 @@
 /*************************************************************************/
 #pragma once
 
+#include "Logging.hpp"
+
 #include <magic_enum/magic_enum.hpp>
 #include <optional>
 #include <vector>
@@ -43,7 +45,7 @@ namespace ObjectTypes {
 [[nodiscard]] std::optional<ObjectType> try_from_integer(const int num);
 // Lookup an item type by its type name or type number.
 // Returns a default type if no match is found, which is a bug.
-[[nodiscard]] ObjectType lookup_with_default(std::string_view name);
+[[nodiscard]] ObjectType lookup_with_default(std::string_view name, const Logger &logger);
 [[nodiscard]] std::optional<ObjectType> try_lookup(std::string_view name);
 // Returns all the object type enum names in lower case.
 [[nodiscard]] std::vector<std::string> sorted_type_names();

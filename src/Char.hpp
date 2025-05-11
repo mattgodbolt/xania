@@ -8,11 +8,10 @@
 #include "CharVersion.hpp"
 #include "Constants.hpp"
 #include "Descriptor.hpp"
-#include "Flag.hpp"
 #include "MProgTriggerCtx.hpp"
 #include "Materials.hpp"
 #include "MobIndexData.hpp"
-#include "OffensiveFlag.hpp"
+#include "Mud.hpp"
 #include "PcData.hpp"
 #include "Position.hpp"
 #include "Sex.hpp"
@@ -44,6 +43,7 @@ struct LastLoginInfo {
  * One character (PC or NPC).
  */
 struct Char {
+    Mud &mud_;
     Char *master{};
     Char *leader{};
     Char *fighting{};
@@ -73,7 +73,12 @@ struct Char {
     sh_int trust{};
     Seconds played{};
     int lines{PAGELEN}; /* for the pager */
-    Time logon{};
+    // The login_time for a player Char can be different to their Descriptor.login_time_. Normally they will be the
+    // same. However, if the player loses connection temporarily their Char object will remain in the game until it
+    // times out. If the player reconnects before then, they will have a brand new Descriptor with a login_time_ set to
+    // 'now'. Descriptor.login_time_ is used for things like lobby timeouts, and serves a different purpose to
+    // Char.login_time.
+    Time login_time;
     Time last_note{Time::min()};
     sh_int idle_timer_ticks{};
     sh_int wait{};
@@ -120,7 +125,10 @@ struct Char {
     unsigned long extra_flags{};
     std::vector<MProg::MProgTriggerCtx> mpact{};
 
-    Char();
+    // Accepts a login time so that all callers can pass the Mud's current time explicitly, rather than having the
+    // constructor invoke mud.current_time(), which complicates tests/mocks. It uses a default value to simplify things
+    // for tests that don't care about login time. But all production sites are expected to pass the current time.
+    Char(Mud &mud_, Time login_at = Clock::now());
     ~Char();
     Char(const Char &) = delete;
     Char &operator=(const Char &) = delete;
@@ -290,8 +298,6 @@ struct Char {
     void yell(std::string_view exclamation) const;
     // Say something.
     void say(std::string_view message);
-
-    [[nodiscard]] static int num_active() { return num_active_; }
 
     // Extra bits.
     [[nodiscard]] bool is_set_extra(const CharExtraFlag flag) const noexcept;

@@ -9,21 +9,25 @@
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "handler.hpp"
-#include "lookup.h"
 
 #include <catch2/catch_test_macros.hpp>
+
+#include "MockMud.hpp"
 
 namespace {
 void set_form(Char &ch, std::string_view race_name, const BodySize body_size) {
     ch.race = race_lookup(race_name);
     ch.body_size = body_size;
 }
+
+test::MockMud mock_mud{};
+
 }
 
 TEST_CASE("injured part creation") {
-    Char ch{};
+    Char ch{mock_mud};
     set_form(ch, "human", BodySize::Medium);
-    Char victim{};
+    Char victim{mock_mud};
     set_form(victim, "human", BodySize::Medium);
     AttackType atk_type = Attacks::at(1); // slice
     KnuthRng rng(0xdeadbaff); // a magic number that'll consistently select the body parts below.

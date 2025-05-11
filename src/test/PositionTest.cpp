@@ -1,10 +1,21 @@
 #include "Position.hpp"
 #include "Char.hpp"
+#include "DescriptorList.hpp"
 
 #include "MemFile.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_range.hpp>
+
+#include "MockMud.hpp"
+
+namespace {
+
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
+}
 
 TEST_CASE("Operators") {
     SECTION("assign from enum and equals") {
@@ -132,6 +143,7 @@ TEST_CASE("accessors") {
     }
 }
 TEST_CASE("factories") {
+    ALLOW_CALL(mock_mud, descriptors()).LR_RETURN(descriptors);
     SECTION("try from name substring") {
         const auto opt_pos = Position::try_from_name("sleep");
 
@@ -158,34 +170,34 @@ TEST_CASE("factories") {
     SECTION("from word ok") {
         test::MemFile file("sleeping ");
 
-        const auto pos = Position::read_from_word(file.file());
+        const auto pos = Position::read_from_word(file.file(), logger);
 
         CHECK(pos == Position::Type::Sleeping);
     }
     SECTION("from word failure default") {
         test::MemFile file("slleeping ");
 
-        const auto pos = Position::read_from_word(file.file());
+        const auto pos = Position::read_from_word(file.file(), logger);
 
         CHECK(pos == Position::Type::Standing);
     }
     SECTION("from number ok") {
         test::MemFile file("7 ");
 
-        const auto pos = Position::read_from_number(file.file());
+        const auto pos = Position::read_from_number(file.file(), logger);
 
         CHECK(pos == Position::Type::Fighting);
     }
     SECTION("from number failure default") {
         test::MemFile file("9 ");
 
-        const auto pos = Position::read_from_number(file.file());
+        const auto pos = Position::read_from_number(file.file(), logger);
 
         CHECK(pos == Position::Type::Standing);
     }
 }
 TEST_CASE("Char position accessors") {
-    Char ch{};
+    Char ch{mock_mud};
     SECTION("is pos dead") {
         ch.position = Position(Position::Type::Dead);
 

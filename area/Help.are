@@ -1636,7 +1636,6 @@ Poofin and poofout only show to characters who can see you.
 
 95 LOG SNOOP~
 Syntax: log   <character>
-	log   all
 	snoop <character>
 
 Log <character> causes all of a character's commands to be logged into
@@ -1646,9 +1645,6 @@ by mail to Alander.
 
 Certain commands (Password) are protected against log.  Conversely, certain
 commands (especially immortal commands) are always logged.
-
-Log all logs all character commands.  It is a server-wide toggle; it does not
-persist across reboots. Please do not use this unless you tell Alander.
 
 Snoop shows you a copy of all the input and output going to a character.
 The character must have an open channel.  You may snoop more than one

@@ -49,7 +49,7 @@ int skill_lookup(std::string_view name) {
  * Lookup a skill by slot number.
  * Used for object loading.
  */
-int slot_lookup(int slot) {
+int slot_lookup(const int slot, const Logger &logger) {
     extern bool fBootDb;
     int sn;
 
@@ -62,7 +62,7 @@ int slot_lookup(int slot) {
     }
 
     if (fBootDb) {
-        bug("Slot_lookup: bad slot {}.", slot);
+        logger.bug("Slot_lookup: bad slot {}.", slot);
         abort();
     }
 

@@ -4,13 +4,13 @@
 /*  See the header to file: merc.h for original code copyrights         */
 /************************************************************************/
 
+#include "Act.hpp"
 #include "Area.hpp"
 #include "Char.hpp"
+#include "Interpreter.hpp"
 #include "Room.hpp"
 #include "SkillTables.hpp"
-#include "comm.hpp"
 #include "db.h"
-#include "interp.h"
 #include "lookup.h"
 #include "string_utils.hpp"
 
@@ -132,12 +132,12 @@ void concordius_patrols(Char *ch) {
         auto &pers_emote = conc_personal_emotes[random % conc_personal_emotes.size()];
         auto msg =
             fmt::format("{} {}", victim->is_good() ? pers_emote.good_msg : pers_emote.not_good_msg, victim->name);
-        interpret(ch, msg);
+        ch->mud_.interpreter().interpret(ch, msg);
         break;
     }
     // After socialising in the room, continue with patrol route.
     if (matches(ch->in_room->area->short_name(), "Midgaard") && patrol_pause++ % 3 == 2) {
-        interpret(ch, patrol_directions[patrol_index++ % patrol_directions.size()]);
+        ch->mud_.interpreter().interpret(ch, patrol_directions[patrol_index++ % patrol_directions.size()]);
     }
 }
 
@@ -177,7 +177,7 @@ void concordius_fights(Char *ch) {
 
 void aquila_patrols(Char *ch) {
     if (!ch->master) {
-        interpret(ch, "follow Concordius"sv);
+        ch->mud_.interpreter().interpret(ch, "follow Concordius"sv);
     }
     uint random = number_range(0, 100);
     if (random > 90) {

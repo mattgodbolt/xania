@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include "Constants.hpp"
 #include "MobIndexData.hpp"
 #include "ObjectIndex.hpp"
 #include "Room.hpp"
@@ -25,25 +24,27 @@
 struct Object;
 struct ObjectIndex;
 struct ExtraDescription;
+struct Mud;
 
 /*
  * Mutable global variables.
+ * TODO kill
  */
 extern std::vector<std::unique_ptr<Char>> char_list;
 extern std::vector<Object *> reapable_objects;
 extern std::vector<std::unique_ptr<Object>> object_list;
 extern std::vector<Char *> reapable_chars;
 
-extern bool fBootDb;
+extern bool fBootDb; // TODO kill
 
 // Initializes the in-memory database from the area files.
-void boot_db();
+void boot_db(Mud &mud);
 
 void area_update();
-Char *create_mobile(MobIndexData *mobIndex);
+Char *create_mobile(MobIndexData *mobIndex, Mud &mud);
 void clone_mobile(Char *parent, Char *clone);
 void clone_object(Object *parent, Object *clone);
-ObjectIndex *get_obj_index(int vnum);
+ObjectIndex *get_obj_index(int vnum, const Logger &logger);
 
 const std::map<int, ObjectIndex> &all_object_index_pairs();
 
@@ -58,7 +59,7 @@ inline auto all_rooms() {
     return all_room_pairs() | ranges::views::transform([](const auto &p) -> const Room & { return p.second; });
 }
 
-Room *get_room(int vnum);
+Room *get_room(int vnum, const Logger &logger);
 std::optional<std::string> try_fread_word(FILE *fp);
 std::string fread_word(FILE *fp);
 int number_fuzzy(int number);
@@ -70,17 +71,17 @@ int dice(int number, int size);
 int interpolate(int level, int value_00, int value_32);
 bool append_file(const std::string &file, std::string_view text);
 char fread_letter(FILE *fp);
-int fread_number(FILE *fp);
-int fread_spnumber(FILE *fp);
-std::optional<int> try_fread_spnumber(FILE *fp);
-long fread_flag(FILE *fp);
+int fread_number(FILE *fp, const Logger &logger);
+int fread_spnumber(FILE *fp, const Logger &logger);
+std::optional<int> try_fread_spnumber(FILE *fp, const Logger &logger);
+long fread_flag(FILE *fp, const Logger &logger);
 std::string fread_string(FILE *fp);
 void fread_to_eol(FILE *fp);
 std::string fread_string_eol(FILE *fp);
-void reset_room(Room *room);
+void reset_room(Room *room, Mud &mud);
 
-MobIndexData *get_mob_index(int vnum);
-void add_mob_index(MobIndexData mob_index_data);
+MobIndexData *get_mob_index(int vnum, const Logger &logger);
+void add_mob_index(MobIndexData mob_index_data, const Logger &logger);
 
 const std::map<int, MobIndexData> &all_mob_index_pairs();
 

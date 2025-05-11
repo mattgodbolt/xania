@@ -85,7 +85,8 @@ void bribe_trigger(Char *mob, Char *ch, int amount) {
         for (const auto &mprg : mob->mobIndex->mobprogs)
             if (mprg.type == TypeFlag::Bribe) {
                 if (!is_number(mprg.arglist)) {
-                    bug("bribe_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
+                    mob->mud_.logger().bug("bribe_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum,
+                                           mprg.arglist);
                     continue;
                 }
                 if (amount >= parse_number(mprg.arglist)) {
@@ -145,7 +146,8 @@ void hitprcnt_trigger(Char *mob, Char *ch) {
         for (const auto &mprg : mob->mobIndex->mobprogs) {
             if (mprg.type == TypeFlag::HitPercent) {
                 if (!is_number(mprg.arglist)) {
-                    bug("hitprcnt_trigger in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
+                    mob->mud_.logger().bug("hitprcnt_trigger in mob #{} expected number argument: {}",
+                                           mob->mobIndex->vnum, mprg.arglist);
                     continue;
                 }
                 if (100 * mob->hit / mob->max_hit < parse_number(mprg.arglist)) {

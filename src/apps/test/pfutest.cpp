@@ -1,4 +1,5 @@
 #include "pfu.hpp"
+#include "MudImpl.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
 #include "save.hpp"
@@ -17,6 +18,7 @@ using namespace pfu;
 
 namespace {
 spdlog::logger logger = spdlog::logger("pfutest");
+std::unique_ptr<Mud> mud;
 }
 
 struct LoadTinyMudOnce : Catch::EventListenerBase {
@@ -27,7 +29,8 @@ struct LoadTinyMudOnce : Catch::EventListenerBase {
         setenv(MUD_DATA_DIR_ENV, TEST_DATA_DIR "/data", 1);
         setenv(MUD_HTML_DIR_ENV, TEST_DATA_DIR "/html", 1);
         setenv(MUD_PORT_ENV, "9000", 1);
-        boot_db();
+        mud = std::make_unique<MudImpl>();
+        boot_db(*mud.get());
     }
     void testRunEnded([[maybe_unused]] Catch::TestRunStats const &testRunStats) override { collect_all_garbage(); }
 };
@@ -59,10 +62,9 @@ TEST_CASE("upgrade player") {
         test::MemFile god_file;
         test::MemFile player_file;
         const CharSaver saver;
-        auto result =
-            upgrade_player("Versionfour", all_tasks, logger, [&god_file, &player_file, &saver](const Char &ch) {
-                saver.save(ch, god_file.file(), player_file.file());
-            });
+        auto result = upgrade_player(
+            *mud.get(), "Versionfour", all_tasks, logger,
+            [&god_file, &player_file, &saver](const Char &ch) { saver.save(ch, god_file.file(), player_file.file()); });
         REQUIRE(result == true);
         SECTION("upgraded file matches expected") {
             auto expected = test::read_whole_file(player_dir + "/expected-upgrades/Versionfour");
@@ -104,7 +106,7 @@ TEST_CASE("login time format parsing") {
 
 TEST_CASE("required tasks") {
     ResetModifiableAttrs task(CharVersion::Five);
-    Char ch;
+    Char ch(*mud);
     SECTION("required") {
         ch.version = CharVersion::Four;
         auto required = task.is_required(ch);

@@ -4,24 +4,26 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Area.hpp"
+#include "Mud.hpp"
 #include "Room.hpp"
 #include "VnumRooms.hpp"
 #include "db.h"
 
 #include <gsl/narrow>
 
-Area Area::parse(int area_num, FILE *fp, std::string filename) {
+Area Area::parse(int area_num, FILE *fp, std::string filename, Mud &mud) {
+    const Logger &logger = mud.logger();
     fread_string(fp); /* filename */
 
-    Area result;
+    Area result{mud};
     result.short_name_ = fread_string(fp);
     result.description_ = fread_string(fp);
     int scanRet = sscanf(result.description_.c_str(), "{%d %d}", &result.min_level_, &result.max_level_);
     if (scanRet != 2) {
         result.all_levels_ = true;
     }
-    result.lowest_vnum_ = fread_number(fp);
-    result.highest_vnum_ = fread_number(fp);
+    result.lowest_vnum_ = fread_number(fp, logger);
+    result.highest_vnum_ = fread_number(fp, logger);
     result.num_ = area_num;
     result.filename_ = std::move(filename);
 
@@ -78,12 +80,12 @@ void Area::update() {
 
 void Area::reset() {
     for (auto vnum = lowest_vnum_; vnum <= highest_vnum_; vnum++) {
-        if (auto *room = get_room(vnum))
-            reset_room(room);
+        if (auto *room = get_room(vnum, mud_.logger()))
+            reset_room(room, mud_);
     }
     age_ = gsl::narrow_cast<ush_int>(number_range(0, 3));
 
-    if (auto room = get_room(Rooms::MudschoolEntrance); room != nullptr && room->area == this)
+    if (auto room = get_room(Rooms::MudschoolEntrance, mud_.logger()); room != nullptr && room->area == this)
         age_ = RoomResetAgeUnoccupiedArea;
     else if (num_players_ == 0)
         empty_since_last_reset_ = true;

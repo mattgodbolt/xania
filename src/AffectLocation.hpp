@@ -2,6 +2,8 @@
 
 #include <string_view>
 
+struct Logger;
+
 // Apply types (for affects).
 // Used in #OBJECTS, so value is important.
 enum class AffectLocation {
@@ -32,4 +34,4 @@ enum class AffectLocation {
     SavingSpell = 24,
 };
 
-[[nodiscard]] std::string_view name(AffectLocation location);
+[[nodiscard]] std::string_view name(AffectLocation location, const Logger &logger);

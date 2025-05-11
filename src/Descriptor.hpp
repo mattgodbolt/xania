@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Mud.hpp"
 #include "common/Time.hpp"
 
 #include <cstdint>
@@ -43,12 +44,12 @@ const char *short_name_of(DescriptorState state);
 class Descriptor {
     static constexpr size_t MaxInbufBacklog = 50u;
     uint32_t channel_{};
+    const Mud &mud_;
     std::list<std::string> pending_commands_;
     bool is_spammer_warned_{};
     std::string last_command_;
     std::string raw_host_{"unknown"};
     std::string masked_host_{"unknown"};
-    Time login_time_;
     std::string outbuf_;
     std::list<std::string> page_outbuf_;
     std::unordered_set<Descriptor *> snoop_by_;
@@ -64,11 +65,12 @@ class Descriptor {
     std::unique_ptr<Char> guest_;
     Char *character_{};
     Char *original_{};
+    Time login_time_;
 
     [[nodiscard]] std::optional<std::string> pop_raw();
 
 public:
-    explicit Descriptor(uint32_t descriptor);
+    explicit Descriptor(uint32_t descriptor, Mud &mud);
     ~Descriptor();
 
     // Descriptors are referenced everywhere; prevent accidental copying or moving that would invalidate others'

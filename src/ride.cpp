@@ -4,17 +4,17 @@
 /*  See the header to file: merc.h for original code copyrights          */
 /*************************************************************************/
 #include "ride.hpp"
+#include "Act.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "DamageType.hpp"
+#include "Interpreter.hpp"
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "skills.hpp"
 
 namespace {

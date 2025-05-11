@@ -9,17 +9,25 @@
 
 #include <string_view>
 
+#include "MockMud.hpp"
+
 using namespace std::literals;
+
+namespace {
+
+test::MockMud mock_mud{};
+
+}
 
 TEST_CASE("Character tests", "[Char]") {
     Room some_room;
-    Char bob;
+    Char bob{mock_mud};
     bob.in_room = &some_room;
     bob.name = "Bob";
     bob.description = "Bob the blacksmith";
 
     SECTION("should describe correctly") {
-        Char other;
+        Char other{mock_mud};
         other.in_room = &some_room;
         other.name = "Other";
         other.description = "Other the other char";
@@ -36,7 +44,7 @@ TEST_CASE("Character tests", "[Char]") {
         }
     }
     SECTION("flags") {
-        Descriptor ch_desc(0);
+        Descriptor ch_desc{0, mock_mud};
         bob.desc = &ch_desc;
         ch_desc.character(&bob);
         bob.pcdata = std::make_unique<PcData>();
@@ -209,7 +217,7 @@ TEST_CASE("Character tests", "[Char]") {
         }
         SECTION("pc") {
             bob.level = 1;
-            Descriptor ch_desc(0);
+            Descriptor ch_desc{0, mock_mud};
             bob.desc = &ch_desc;
             ch_desc.character(&bob);
             bob.pcdata = std::make_unique<PcData>();
@@ -248,7 +256,7 @@ TEST_CASE("Character tests", "[Char]") {
             CHECK_FALSE(bob.is_link_dead_pc());
         }
         SECTION("false: has descriptor") {
-            Descriptor ch_desc(0);
+            Descriptor ch_desc{0, mock_mud};
             bob.desc = &ch_desc;
             ch_desc.character(&bob);
             CHECK_FALSE(bob.is_link_dead_pc());

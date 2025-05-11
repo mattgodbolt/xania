@@ -1,5 +1,6 @@
 #include "Char.hpp"
 #include "MemFile.hpp"
+#include "MudImpl.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
@@ -18,6 +19,10 @@
 
 using namespace std::literals;
 
+namespace {
+std::unique_ptr<Mud> mud;
+}
+
 struct LoadTinyMudOnce : Catch::EventListenerBase {
     using Catch::EventListenerBase::EventListenerBase;
 
@@ -26,15 +31,18 @@ struct LoadTinyMudOnce : Catch::EventListenerBase {
         setenv(MUD_DATA_DIR_ENV, TEST_DATA_DIR, 1);
         setenv(MUD_HTML_DIR_ENV, TEST_DATA_DIR, 1);
         setenv(MUD_PORT_ENV, "9000", 1);
-        boot_db();
+        mud = std::make_unique<MudImpl>();
+        boot_db(*mud.get());
     }
+
     void testRunEnded([[maybe_unused]] Catch::TestRunStats const &testRunStats) override { collect_all_garbage(); }
 };
+
 CATCH_REGISTER_LISTENER(LoadTinyMudOnce)
 
 TEST_CASE("loading and saving player files") {
     SECTION("should be able to load a char") {
-        auto res = try_load_player("Khirsah");
+        auto res = try_load_player(*mud, "Khirsah");
         CHECK(!res.newly_created);
         REQUIRE(res.character);
         auto *ch = res.character.get();
@@ -43,7 +51,7 @@ TEST_CASE("loading and saving player files") {
         CHECK(ch->in_room->vnum == 30005);
     }
     SECTION("should create a new char") {
-        auto res = try_load_player("Noobie");
+        auto res = try_load_player(*mud, "Noobie");
         CHECK(res.newly_created);
         REQUIRE(res.character);
         auto *ch = res.character.get();
@@ -53,7 +61,7 @@ TEST_CASE("loading and saving player files") {
     }
     SECTION("should roundtrip characters") {
         auto name = GENERATE("Khirsah"s, "TheMoog"s);
-        auto res = try_load_player(name);
+        auto res = try_load_player(*mud, name);
         auto *ch = res.character.get();
         test::MemFile mem_file;
         save_char_obj(ch, mem_file.file());

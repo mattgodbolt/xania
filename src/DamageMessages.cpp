@@ -7,7 +7,6 @@
 #include "Attacks.hpp"
 #include "Char.hpp"
 #include "DamageType.hpp"
-#include "Logging.hpp"
 #include "SkillTables.hpp"
 
 #include <algorithm>
@@ -228,7 +227,6 @@ std::optional<std::string_view> get_attack_verb(const DamageContext &context) {
     } else if (const auto attack_skill = std::get_if<const skill_type *>(&context.atk_type)) {
         return (*attack_skill)->verb;
     } else {
-        bug("dam_message: bad attack type, using default attack verb");
         return Attacks::at(0)->verb;
     }
 }

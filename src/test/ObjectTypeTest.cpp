@@ -4,15 +4,27 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "ObjectType.hpp"
+
+#include "DescriptorList.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 #include <vector>
 
+#include "MockMud.hpp"
+
+namespace {
+
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
+}
+
 TEST_CASE("object type name") {
     ObjectIndex obj_index{.type = ObjectType::Armor};
-    Object obj{&obj_index};
+    Object obj{&obj_index, logger};
     SECTION("armor") { CHECK(obj.type_name() == "armor"); }
 }
 TEST_CASE("object index type name") {
@@ -32,13 +44,14 @@ TEST_CASE("object type try from integer") {
     }
 }
 TEST_CASE("object type lookup with default") {
+    ALLOW_CALL(mock_mud, descriptors()).LR_RETURN(descriptors);
     SECTION("valid") {
-        const auto result = ObjectTypes::lookup_with_default("armor");
+        const auto result = ObjectTypes::lookup_with_default("armor", logger);
 
         CHECK(result == ObjectType::Armor);
     }
     SECTION("invalid and defaulted") {
-        const auto result = ObjectTypes::lookup_with_default("armorr");
+        const auto result = ObjectTypes::lookup_with_default("armorr", logger);
 
         CHECK(result == ObjectType::Light);
     }

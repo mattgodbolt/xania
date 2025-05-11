@@ -5,6 +5,8 @@
 /*************************************************************************/
 #pragma once
 
+#include "Logging.hpp"
+
 #include <string_view>
 
 struct MobIndexData;
@@ -12,7 +14,7 @@ struct MobIndexData;
 namespace MProg {
 
 // Loads all mob progs found in a #MOBPROGS section of an area file.
-void load_mobprogs(FILE *fp);
-bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mobIndex);
+void load_mobprogs(FILE *fp, const Logger &logger);
+bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mobIndex, const Logger &logger);
 
 }

@@ -13,7 +13,7 @@
 using namespace std::literals;
 
 std::string fread_word(FILE *fp);
-extern int fread_number(FILE *fp);
+extern int fread_number(FILE *fp, const Logger &logger);
 
 namespace {
 
@@ -90,24 +90,24 @@ std::optional<Position> Position::try_from_name(std::string_view name) {
 
 // Reads the next word from a file stream and converts it into a Position, or the default Position if the
 // word can't be parsed.
-Position Position::read_from_word(FILE *fp) {
+Position Position::read_from_word(FILE *fp, const Logger &logger) {
     const auto raw_pos = fread_word(fp);
     if (const auto opt_pos = Position::try_from_name(raw_pos)) {
         return *opt_pos;
     } else {
-        bug("Unrecognized position: {}, using default.", raw_pos);
+        logger.bug("Unrecognized position: {}, using default.", raw_pos);
         return Position();
     }
 }
 
 // Reads the next number from a file stream and converts it into a Position, or the default Position if the
 // word can't be parsed.
-Position Position::read_from_number(FILE *fp) {
-    const auto raw_pos = fread_number(fp);
+Position Position::read_from_number(FILE *fp, const Logger &logger) {
+    const auto raw_pos = fread_number(fp, logger);
     if (const auto opt_pos = magic_enum::enum_cast<Position::Type>(raw_pos)) {
         return Position(*opt_pos);
     } else {
-        bug("Unrecognized position: {}, using default.", raw_pos);
+        logger.bug("Unrecognized position: {}, using default.", raw_pos);
         return Position();
     }
 }

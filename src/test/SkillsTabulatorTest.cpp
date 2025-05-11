@@ -9,15 +9,23 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "MockMud.hpp"
+
+namespace {
+
+test::MockMud mock_mud{};
+
+}
+
 TEST_CASE("skills tabulator") {
-    Char vic{};
-    Descriptor vic_desc(0);
+    Char vic{mock_mud};
+    Descriptor vic_desc{0, mock_mud};
     vic.desc = &vic_desc;
     vic_desc.character(&vic);
     vic.pcdata = std::make_unique<PcData>();
 
-    Char bob{};
-    Descriptor bob_desc(1);
+    Char bob{mock_mud};
+    Descriptor bob_desc{1, mock_mud};
     bob.desc = &bob_desc;
     bob_desc.character(&bob);
     bob.pcdata = std::make_unique<PcData>();

@@ -5,9 +5,12 @@
 /*************************************************************************/
 #include "Ban.hpp"
 #include "Char.hpp"
+#include "DescriptorList.hpp"
 #include "MemFile.hpp"
 
 #include <catch2/catch_test_macros.hpp>
+
+#include "MockMud.hpp"
 
 namespace {
 
@@ -48,11 +51,15 @@ void assert_ban_site_success(const Descriptor &desc, const bool result, test::Me
     assert_ban_site_result(desc, result, true, "\n\rBans updated.\n\r", file, expected_file_body);
 }
 
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
 }
 
 TEST_CASE("bans") {
-    Char admin{};
-    Descriptor admin_desc(0);
+    Char admin{mock_mud};
+    Descriptor admin_desc{0, mock_mud};
     admin.desc = &admin_desc;
     admin_desc.character(&admin);
     admin.pcdata = std::make_unique<PcData>();
@@ -78,19 +85,19 @@ straylight.net 95 AF
             TestDependencies dependencies(initially_empty_file);
             Bans bans(dependencies);
 
-            CHECK(bans.load() == 0);
+            CHECK(bans.load(logger) == 0);
         }
         SECTION("1 ban") {
             TestDependencies dependencies(one_ban_file);
             Bans bans(dependencies);
 
-            CHECK(bans.load() == 1);
+            CHECK(bans.load(logger) == 1);
         }
         SECTION("2 bans") {
             TestDependencies dependencies(two_bans_file);
             Bans bans(dependencies);
 
-            CHECK(bans.load() == 2);
+            CHECK(bans.load(logger) == 2);
         }
     }
     SECTION("ban site") {
@@ -144,7 +151,7 @@ straylight.net 95 AF
             TestDependencies dependencies(one_ban_file);
             Bans bans(dependencies);
             ArgParser args("localhost all");
-            bans.load();
+            bans.load(logger);
 
             const auto result = bans.ban_site(&admin, args, false);
 
@@ -156,7 +163,7 @@ straylight.net 95 AF
             TestDependencies dependencies(one_ban_file);
             Bans bans(dependencies);
             ArgParser args("localhost all");
-            bans.load();
+            bans.load(logger);
             // Reduce admin level to test the level check.
             admin.level = 99;
 
@@ -178,7 +185,7 @@ straylight.net 95 AF
     SECTION("add with no site lists existing") {
         TestDependencies dependencies(two_bans_file);
         Bans bans(dependencies);
-        bans.load();
+        bans.load(logger);
         ArgParser args("");
 
         const auto result = bans.ban_site(&admin, args, false);
@@ -192,7 +199,7 @@ straylight.net 95 AF
         SECTION("allow index 1") {
             TestDependencies dependencies(two_bans_file);
             Bans bans(dependencies);
-            bans.load();
+            bans.load(logger);
             ArgParser args("1");
 
             const auto result = bans.allow_site(&admin, args);
@@ -205,7 +212,7 @@ straylight.net 95 AF
         SECTION("allow index out of range") {
             TestDependencies dependencies(two_bans_file);
             Bans bans(dependencies);
-            bans.load();
+            bans.load(logger);
             ArgParser args("2");
 
             const auto result = bans.allow_site(&admin, args);
@@ -218,7 +225,7 @@ straylight.net 95 AF
         SECTION("allow invalid index") {
             TestDependencies dependencies(two_bans_file);
             Bans bans(dependencies);
-            bans.load();
+            bans.load(logger);
             ArgParser args("localhost"); // allow requires an index, not a hostname
 
             const auto result = bans.allow_site(&admin, args);
@@ -231,7 +238,7 @@ straylight.net 95 AF
         SECTION("not banned") {
             TestDependencies dependencies(one_ban_file);
             Bans bans(dependencies);
-            CHECK(bans.load() == 1);
+            CHECK(bans.load(logger) == 1);
 
             const auto result = bans.check_ban("desiderata.net", BanFlag::All);
 
@@ -240,7 +247,7 @@ straylight.net 95 AF
         SECTION("case insensitive") {
             TestDependencies dependencies(one_ban_file);
             Bans bans(dependencies);
-            CHECK(bans.load() == 1);
+            CHECK(bans.load(logger) == 1);
 
             const auto result = bans.check_ban("LOCALHOST", BanFlag::All);
 
@@ -249,7 +256,7 @@ straylight.net 95 AF
         SECTION("newbies, but not all, or either") {
             TestDependencies dependencies(one_ban_newbies_file);
             Bans bans(dependencies);
-            CHECK(bans.load() == 1);
+            CHECK(bans.load(logger) == 1);
 
             const auto all_result = bans.check_ban("localhost", BanFlag::All);
 
@@ -266,7 +273,7 @@ straylight.net 95 AF
         SECTION("by site prefix") {
             TestDependencies dependencies(one_ban_wild_prefix_file);
             Bans bans(dependencies);
-            CHECK(bans.load() == 1);
+            CHECK(bans.load(logger) == 1);
 
             const auto result = bans.check_ban("ashpool.straylight.net", BanFlag::All);
 
@@ -275,7 +282,7 @@ straylight.net 95 AF
         SECTION("not by site prefix") {
             TestDependencies dependencies(one_ban_wild_prefix_file);
             Bans bans(dependencies);
-            CHECK(bans.load() == 1);
+            CHECK(bans.load(logger) == 1);
 
             const auto result = bans.check_ban("straylight.net.bogus", BanFlag::All);
 
@@ -284,7 +291,7 @@ straylight.net 95 AF
         SECTION("by site suffix") {
             TestDependencies dependencies(one_ban_wild_suffix_file);
             Bans bans(dependencies);
-            CHECK(bans.load() == 1);
+            CHECK(bans.load(logger) == 1);
 
             const auto result = bans.check_ban("localhost", BanFlag::All);
 
@@ -294,7 +301,7 @@ straylight.net 95 AF
             TestDependencies dependencies(one_ban_file);
             Bans bans(dependencies);
             ArgParser args("0");
-            CHECK(bans.load() == 1);
+            CHECK(bans.load(logger) == 1);
 
             const auto allow_result = bans.allow_site(&admin, args);
 
@@ -307,7 +314,7 @@ straylight.net 95 AF
         SECTION("permitted players only") {
             TestDependencies dependencies(one_ban_permitted_file);
             Bans bans(dependencies);
-            CHECK(bans.load() == 1);
+            CHECK(bans.load(logger) == 1);
 
             const auto all_result = bans.check_ban("localhost", BanFlag::All);
 

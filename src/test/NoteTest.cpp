@@ -1,26 +1,35 @@
 #include "Note.hpp"
 
 #include "Char.hpp"
+#include "DescriptorList.hpp"
 #include "MemFile.hpp"
 
 #include "catch2/catch_test_macros.hpp"
+
+#include "MockMud.hpp"
 
 using namespace std::literals;
 
 namespace {
 std::string crlfify(const std::string &s) { return replace_strings(s, "\n", "\n\r"); }
+
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+const auto now = Clock::now();
+
 }
 
 TEST_CASE("Note handling") {
     // Annoyingly we can't "move" Chars even for testing, so we have to set them up here and not use a function.
-    Char ian;
+    Char ian{mock_mud};
     ian.name = "ian";
-    Char bob;
+    Char bob{mock_mud};
     bob.name = "bob";
-    Char brian;
+    Char brian{mock_mud};
     brian.name = "brian";
     brian.level = 100;
-    Char jenny;
+    Char jenny{mock_mud};
     jenny.name = "jenny";
 
     SECTION("should find players on the to line") {
@@ -67,7 +76,7 @@ This is line one
 This is line two
 ~
 )");
-        auto note = Note::from_file(file.file());
+        auto note = Note::from_file(file.file(), logger);
         CHECK(note.is_to(bob));
         CHECK(note.sent_by(ian));
         CHECK(note.date() == "2020-12-31 16:08:13");
@@ -77,7 +86,7 @@ This is line two
     SECTION("should throw on junk data") {
         auto file = test::MemFile(R"(Sender Ian~
 Oh no this broke!@313)");
-        CHECK_THROWS(Note::from_file(file.file()));
+        CHECK_THROWS(Note::from_file(file.file(), logger));
     }
     SECTION("should save and load back in") {
         auto save_file = test::MemFile();
@@ -89,7 +98,7 @@ Oh no this broke!@313)");
         note.add_line("I was petrified");
         note.save(save_file.file());
         save_file.rewind();
-        auto loaded = Note::from_file(save_file.file());
+        auto loaded = Note::from_file(save_file.file(), logger);
         CHECK(loaded.to_list() == note.to_list());
         CHECK(loaded.subject() == note.subject());
         CHECK(loaded.text() == note.text());
@@ -110,9 +119,9 @@ Oh no this broke!@313)");
 }
 
 TEST_CASE("Note list handling") {
-    Char bob;
+    Char bob{mock_mud};
     bob.name = "bob";
-    Char jenny;
+    Char jenny{mock_mud};
     jenny.name = "jenny";
 
     Notes notes;
@@ -191,9 +200,11 @@ TEST_CASE("Note list handling") {
 TEST_CASE("Note command handling") {
     // Pretty nasty way of hacking out something that looks enough like a PC to write tests.
     // Ideally we'd extract a lot more interfaces and test using mocks.
-    Char jenny;
+    ALLOW_CALL(mock_mud, descriptors()).LR_RETURN(descriptors);
+    ALLOW_CALL(mock_mud, current_time()).RETURN(now);
+    Char jenny{mock_mud};
     jenny.name = "jenny";
-    Descriptor jenny_desc(0);
+    Descriptor jenny_desc{0, mock_mud};
     jenny.desc = &jenny_desc;
     jenny.pcdata = std::make_unique<PcData>();
     jenny_desc.character(&jenny);

@@ -1,10 +1,17 @@
 #include "DamageMessages.hpp"
 #include "Char.hpp"
-#include "lookup.h"
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_range.hpp>
 #include <tuple>
+
+#include "MockMud.hpp"
+
+namespace {
+
+test::MockMud mock_mud{};
+
+}
 
 TEST_CASE("impact verbs") {
     SECTION("expected impact verbs") {
@@ -71,9 +78,9 @@ TEST_CASE("impact verbs") {
     }
 }
 TEST_CASE("damage messages") {
-    Char ch{};
+    Char ch{mock_mud};
     ch.level = 2;
-    Char victim{};
+    Char victim{mock_mud};
     victim.level = 2;
     victim.max_hit = 100; // So that the damage amounts are also their proportion.
     AttackType atk_type;
@@ -208,9 +215,9 @@ TEST_CASE("damage messages") {
 
 // Extends the tests above to include the damage amount which appears for players level 20+
 TEST_CASE("damage messages with damage amount") {
-    Char ch{};
+    Char ch{mock_mud};
     ch.level = 20;
-    Char victim{};
+    Char victim{mock_mud};
     victim.level = 20;
     victim.max_hit = 100;
     AttackType atk_type;

@@ -27,6 +27,7 @@
 #include "Types.hpp"
 #include "Worn.hpp"
 
+#include "apps/pfu.hpp"
 #include <string_view>
 
 struct Char;
@@ -77,7 +78,7 @@ Object *get_obj_list(const Char *ch, std::string_view argument, GenericList<Obje
 Object *get_obj_wear(Char *ch, const char *argument);
 Object *get_obj_here(const Char *ch, std::string_view argument);
 Object *get_obj_world(Char *ch, std::string_view argument);
-Object *create_money(const uint amount);
+Object *create_money(const uint amount, const Logger &logger);
 int get_obj_number(Object *obj);
 int get_obj_weight(Object *obj);
 bool room_is_dark(Room *room);

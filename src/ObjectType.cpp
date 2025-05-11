@@ -28,11 +28,11 @@ std::optional<ObjectType> lookup_impl(std::string_view name) {
     return magic_enum::enum_cast<ObjectType>(num);
 }
 
-ObjectType lookup_with_default(std::string_view name) {
+ObjectType lookup_with_default(std::string_view name, const Logger &logger) {
     if (const auto opt_type = lookup_impl(name)) {
         return *opt_type;
     }
-    bug("Unknown item type '{}' - defaulting!", name);
+    logger.bug("Unknown item type '{}' - defaulting!", name);
     return ObjectType::Light;
 }
 

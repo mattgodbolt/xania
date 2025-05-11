@@ -21,10 +21,12 @@
 #include "Exit.hpp"
 #include "ExitFlag.hpp"
 #include "Help.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "MProgLoader.hpp"
 #include "Materials.hpp"
 #include "MobIndexData.hpp"
+#include "Mud.hpp"
 #include "Note.hpp"
 #include "Object.hpp"
 #include "ObjectExtraFlag.hpp"
@@ -35,11 +37,8 @@
 #include "RoomFlag.hpp"
 #include "ScrollTargetValidator.hpp"
 #include "Shop.hpp"
-#include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "Socials.hpp"
-#include "TimeInfoData.hpp"
-#include "VnumRooms.hpp"
 #include "Weapon.hpp"
 #include "WeatherData.hpp"
 #include "Worn.hpp"
@@ -47,18 +46,15 @@
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "lookup.h"
 #include "magic.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
 #include <range/v3/algorithm/fill.hpp>
-#include <range/v3/iterator/operations.hpp>
 #include <range/v3/numeric/accumulate.hpp>
 
 #include <gsl/narrow>
-#include <range/v3/algorithm/find_if.hpp>
 #include <sys/resource.h>
 #include <utility>
 
@@ -169,20 +165,16 @@ bool fBootDb;
 static bool area_header_found;
 
 /* Local booting procedures. */
-void init_mm();
-void load_area(FILE *fp, const std::string &area_name);
-void load_helps(FILE *fp);
-void load_mobiles(FILE *fp);
-void load_objects(FILE *fp);
-
-void load_resets(FILE *fp);
-
-void load_rooms(FILE *fp);
-
-void load_shops(FILE *fp);
-void load_specials(FILE *fp);
-
-void map_exit_destinations();
+void init_mm(Time current_time);
+void load_area(FILE *fp, const std::string &area_name, Mud &mud);
+void load_helps(FILE *fp, const Logger &logger);
+void load_mobiles(FILE *fp, const Logger &logger);
+void load_objects(FILE *fp, const Logger &logger);
+void load_resets(FILE *fp, const Logger &logger);
+void load_rooms(FILE *fp, const Logger &logger);
+void load_shops(FILE *fp, const Logger &logger);
+void load_specials(FILE *fp, const Logger &logger);
+void map_exit_destinations(const Logger &logger);
 
 /* RT max open files fix */
 
@@ -195,17 +187,16 @@ void maxfilelimit() {
 }
 
 /* Big mama top level function. */
-void boot_db() {
+void boot_db(Mud &mud) {
 
+    const Logger &logger = mud.logger();
     /* open file fix */
     maxfilelimit();
     fBootDb = true;
     /* Init random number generator. */
-    init_mm();
+    init_mm(mud.current_time());
 
-    // Set time and weather.
-    time_info = TimeInfoData(Clock::now());
-    weather_info = WeatherData(Rng::global_rng(), time_info);
+    weather_info = WeatherData(Rng::global_rng(), mud.current_tick());
 
     /* Assign gsn's for skills which have them. */
     {
@@ -247,34 +238,34 @@ void boot_db() {
             BugAreaFileContext context(area_name, area_fp);
             for (;;) {
                 if (fread_letter(area_fp) != '#') {
-                    bug("Boot_db: # not found.");
+                    logger.bug("Boot_db: # not found.");
                     exit(1);
                 }
                 const auto word = fread_word(area_fp);
                 if (word[0] == '$')
                     break;
                 else if (matches(word, "AREA"))
-                    load_area(area_fp, area_name);
+                    load_area(area_fp, area_name, mud);
                 else if (matches(word, "HELPS"))
-                    load_helps(area_fp);
+                    load_helps(area_fp, logger);
                 else if (matches(word, "MOBILES"))
-                    load_mobiles(area_fp);
+                    load_mobiles(area_fp, logger);
                 else if (matches(word, "OBJECTS"))
-                    load_objects(area_fp);
+                    load_objects(area_fp, logger);
                 else if (matches(word, "RESETS"))
-                    load_resets(area_fp);
+                    load_resets(area_fp, logger);
                 else if (matches(word, "ROOMS"))
-                    load_rooms(area_fp);
+                    load_rooms(area_fp, logger);
                 else if (matches(word, "SHOPS"))
-                    load_shops(area_fp);
+                    load_shops(area_fp, logger);
                 else if (matches(word, "SOCIALS"))
-                    Socials::singleton().load(area_fp);
+                    Socials::singleton().load(area_fp, logger);
                 else if (matches(word, "SPECIALS"))
-                    load_specials(area_fp);
+                    load_specials(area_fp, logger);
                 else if (matches(word, "MOBPROGS"))
-                    MProg::load_mobprogs(area_fp);
+                    MProg::load_mobprogs(area_fp, logger);
                 else {
-                    bug("Boot_db: bad section name.");
+                    logger.bug("Boot_db: bad section name.");
                     exit(1);
                 }
             }
@@ -284,19 +275,18 @@ void boot_db() {
         }
         fclose(fpList);
     }
-    map_exit_destinations();
+    map_exit_destinations(logger);
     fBootDb = false;
     AreaList::singleton().sort();
     area_update();
-    note_initialise();
+    note_initialise(mud.current_time(), logger);
     wiznet_initialise();
-    interp_initialise();
 }
 
 /* Snarf an 'area' header line. */
-void load_area(FILE *fp, const std::string &area_name) {
+void load_area(FILE *fp, const std::string &area_name, Mud &mud) {
     auto &area_list = AreaList::singleton();
-    auto area_obj = Area::parse(gsl::narrow<int>(area_list.count()), fp, area_name);
+    auto area_obj = Area::parse(gsl::narrow<int>(area_list.count()), fp, area_name, mud);
 
     AreaList::singleton().add(std::make_unique<Area>(std::move(area_obj)));
 
@@ -304,19 +294,19 @@ void load_area(FILE *fp, const std::string &area_name) {
 }
 
 /* Snarf a help section. */
-void load_helps(FILE *fp) {
-    while (auto help = Help::load(fp, area_header_found ? AreaList::singleton().back() : nullptr))
+void load_helps(FILE *fp, const Logger &logger) {
+    while (auto help = Help::load(fp, area_header_found ? AreaList::singleton().back() : nullptr, logger))
         HelpList::singleton().add(std::move(*help));
 }
 
-void load_resets(FILE *fp) {
+void load_resets(FILE *fp, const Logger &logger) {
     Room *room;
     int iLastRoom = 0;
     int iLastObj = 0;
 
     auto area_last = AreaList::singleton().back();
     if (area_last == nullptr) {
-        bug("Load_resets: no #AREA seen yet.");
+        logger.bug("Load_resets: no #AREA seen yet.");
         exit(1);
     }
 
@@ -331,53 +321,53 @@ void load_resets(FILE *fp) {
         }
 
         const auto command = letter;
-        /* if_flag */ fread_number(fp);
-        const sh_int arg1 = fread_number(fp);
-        const sh_int arg2 = fread_number(fp);
-        const sh_int arg3 = (letter == ResetGiveObjMob || letter == ResetRandomizeExits) ? 0 : fread_number(fp);
-        const sh_int arg4 = (letter == ResetPutObjInObj || letter == ResetMobInRoom) ? fread_number(fp) : 0;
+        /* if_flag */ fread_number(fp, logger);
+        const sh_int arg1 = fread_number(fp, logger);
+        const sh_int arg2 = fread_number(fp, logger);
+        const sh_int arg3 = (letter == ResetGiveObjMob || letter == ResetRandomizeExits) ? 0 : fread_number(fp, logger);
+        const sh_int arg4 = (letter == ResetPutObjInObj || letter == ResetMobInRoom) ? fread_number(fp, logger) : 0;
         fread_to_eol(fp);
         const auto reset = ResetData{command, arg1, arg2, arg3, arg4};
 
         /* Don't validate now, do it after all area's have been loaded */
         /* Stuff to add reset to the correct room */
         switch (letter) {
-        default: bug("Load_resets: bad command '{}'.", letter); exit(1);
+        default: logger.bug("Load_resets: bad command '{}'.", letter); exit(1);
         case ResetMobInRoom:
-            if ((room = get_room(reset.arg3))) {
+            if ((room = get_room(reset.arg3, logger))) {
                 room->resets.push_back(std::move(reset));
                 iLastRoom = reset.arg3;
             }
             break;
         case ResetObjInRoom:
-            if ((room = get_room(reset.arg3))) {
+            if ((room = get_room(reset.arg3, logger))) {
                 room->resets.push_back(std::move(reset));
                 iLastObj = reset.arg3;
             }
             break;
         case ResetPutObjInObj:
-            if ((room = get_room(iLastObj)))
+            if ((room = get_room(iLastObj, logger)))
                 room->resets.push_back(std::move(reset));
             break;
         case ResetGiveObjMob:
         case ResetEquipObjMob:
-            if ((room = get_room(iLastRoom))) {
+            if ((room = get_room(iLastRoom, logger))) {
                 room->resets.push_back(std::move(reset));
                 iLastObj = iLastRoom;
             }
             break;
         case ResetExitFlags: {
-            room = get_room(reset.arg1);
+            room = get_room(reset.arg1, logger);
             auto opt_direction = try_cast_direction(reset.arg2);
 
             if (!opt_direction || !room || !room->exits[*opt_direction]
                 || !check_enum_bit(room->exits[*opt_direction]->rs_flags, ExitFlag::IsDoor)) {
-                bug("Load_resets: 'D': exit {} not door.", reset.arg2);
+                logger.bug("Load_resets: 'D': exit {} not door.", reset.arg2);
                 exit(1);
             }
             auto &exit = room->exits[*opt_direction];
             switch (reset.arg3) {
-            default: bug("Load_resets: 'D': bad 'locks': {}.", reset.arg3);
+            default: logger.bug("Load_resets: 'D': bad 'locks': {}.", reset.arg3);
             case 0: break;
             case 1: set_enum_bit(exit->rs_flags, ExitFlag::Closed); break;
             case 2: {
@@ -390,11 +380,11 @@ void load_resets(FILE *fp) {
         }
         case ResetRandomizeExits:
             if (reset.arg2 < 0 || reset.arg2 > static_cast<int>(all_directions.size())) {
-                bug("Load_resets: 'R': bad exit {}.", reset.arg2);
+                logger.bug("Load_resets: 'R': bad exit {}.", reset.arg2);
                 exit(1);
             }
 
-            if ((room = get_room(reset.arg1)))
+            if ((room = get_room(reset.arg1, logger)))
                 room->resets.push_back(std::move(reset));
 
             break;
@@ -403,21 +393,21 @@ void load_resets(FILE *fp) {
 }
 
 /* Snarf a room section. */
-void load_rooms(FILE *fp) {
+void load_rooms(FILE *fp, const Logger &logger) {
 
     auto area_last = AreaList::singleton().back();
     if (area_last == nullptr) {
-        bug("load_rooms: no #AREA seen yet.");
+        logger.bug("load_rooms: no #AREA seen yet.");
         exit(1);
     }
 
     for (;;) {
         char letter = fread_letter(fp);
         if (letter != '#') {
-            bug("load_rooms: # not found.");
+            logger.bug("load_rooms: # not found.");
             exit(1);
         }
-        sh_int vnum = fread_number(fp);
+        sh_int vnum = fread_number(fp, logger);
         if (vnum == 0)
             break;
         Room room;
@@ -425,15 +415,15 @@ void load_rooms(FILE *fp) {
         room.vnum = vnum;
         room.name = fread_string(fp);
         room.description = fread_string(fp);
-        room.room_flags = fread_flag(fp);
+        room.room_flags = fread_flag(fp, logger);
         /* horrible hack */
         if (3000 <= vnum && vnum < 3400)
             set_enum_bit(room.room_flags, RoomFlag::Law);
-        int sector_value = fread_number(fp);
+        int sector_value = fread_number(fp, logger);
         if (auto sector_type = try_get_sector_type(sector_value)) {
             room.sector_type = *sector_type;
         } else {
-            bug("Invalid sector type {}, defaulted to {}", sector_value, room.sector_type);
+            logger.bug("Invalid sector type {}, defaulted to {}", sector_value, room.sector_type);
         }
 
         for (;;) {
@@ -445,18 +435,18 @@ void load_rooms(FILE *fp) {
             if (letter == 'D') {
                 Exit exit;
                 int locks;
-                auto opt_direction = try_cast_direction(fread_number(fp));
+                auto opt_direction = try_cast_direction(fread_number(fp, logger));
                 if (!opt_direction) {
-                    bug("load_rooms: vnum {} has bad door number.", vnum);
+                    logger.bug("load_rooms: vnum {} has bad door number.", vnum);
                     ::exit(1);
                 }
 
                 exit.description = fread_string(fp);
                 exit.keyword = fread_string(fp);
                 exit.exit_info = 0;
-                locks = fread_number(fp);
-                exit.key = fread_number(fp);
-                auto exit_vnum = fread_number(fp);
+                locks = fread_number(fp, logger);
+                exit.key = fread_number(fp, logger);
+                auto exit_vnum = fread_number(fp, logger);
                 /* If an exit's destination room vnum is negative, it can be a cosmetic-only
                  * exit (-1), otherwise it's a one-way exit.
                  * fix_exits() ignores one-way exits that don't have a return path.
@@ -487,29 +477,29 @@ void load_rooms(FILE *fp) {
                 auto description = fread_string(fp);
                 room.extra_descr.emplace_back(ExtraDescription{keyword, description});
             } else {
-                bug("load_rooms: vnum {} has unrecognized instruction '{}'.", vnum, letter);
+                logger.bug("load_rooms: vnum {} has unrecognized instruction '{}'.", vnum, letter);
                 exit(1);
             }
         }
         if (!rooms.try_emplace(vnum, std::move(room)).second) {
-            bug("load_rooms: vnum {} duplicated.", vnum);
+            logger.bug("load_rooms: vnum {} duplicated.", vnum);
             exit(1);
         }
     }
 }
 
 /* Snarf a shop section. */
-void load_shops(FILE *fp) {
+void load_shops(FILE *fp, const Logger &logger) {
     for (;;) {
         MobIndexData *mobIndex;
         uint iTrade;
-        auto shopkeeper_vnum = fread_number(fp);
+        auto shopkeeper_vnum = fread_number(fp, logger);
         if (shopkeeper_vnum == 0)
             break;
         Shop shop;
         shop.keeper = shopkeeper_vnum;
         for (iTrade = 0; iTrade < MaxTrade; iTrade++) {
-            const auto raw_obj_type = fread_number(fp);
+            const auto raw_obj_type = fread_number(fp, logger);
             if (const auto opt_obj_type = ObjectTypes::try_from_integer(raw_obj_type)) {
                 shop.buy_type[iTrade] = *opt_obj_type;
             }
@@ -517,34 +507,34 @@ void load_shops(FILE *fp) {
             // The typical case is that the shopkeeper is configured to not buy anything and you can use zero to
             // state that.
         }
-        shop.profit_buy = fread_number(fp);
-        shop.profit_sell = fread_number(fp);
-        shop.open_hour = fread_number(fp);
-        shop.close_hour = fread_number(fp);
+        shop.profit_buy = fread_number(fp, logger);
+        shop.profit_sell = fread_number(fp, logger);
+        shop.open_hour = fread_number(fp, logger);
+        shop.close_hour = fread_number(fp, logger);
         fread_to_eol(fp);
-        mobIndex = get_mob_index(shop.keeper);
+        mobIndex = get_mob_index(shop.keeper, logger);
         mobIndex->shop = std::move(shop);
     }
 }
 
 /* Snarf spec proc declarations. */
-void load_specials(FILE *fp) {
+void load_specials(FILE *fp, const Logger &logger) {
     for (;;) {
         MobIndexData *mobIndex;
         char letter;
 
         switch (letter = fread_letter(fp)) {
-        default: bug("Load_specials: letter '{}' not *, M or S.", letter); exit(1);
+        default: logger.bug("Load_specials: letter '{}' not *, M or S.", letter); exit(1);
 
         case 'S': return;
 
         case '*': break;
 
         case 'M':
-            mobIndex = get_mob_index(fread_number(fp));
+            mobIndex = get_mob_index(fread_number(fp, logger), logger);
             mobIndex->spec_fun = spec_lookup(fread_word(fp));
             if (mobIndex->spec_fun == 0) {
-                bug("Load_specials: 'M': vnum {}.", mobIndex->vnum);
+                logger.bug("Load_specials: 'M': vnum {}.", mobIndex->vnum);
                 exit(1);
             }
             break;
@@ -563,31 +553,31 @@ void assign_area_vnum(int vnum) { AreaList::singleton().back()->define_vnum(vnum
 /*
  * Snarf a mob section.  new style
  */
-void load_mobiles(FILE *fp) {
+void load_mobiles(FILE *fp, const Logger &logger) {
     auto area_last = AreaList::singleton().back();
     if (!area_last) {
-        bug("Load_mobiles: no #AREA seen yet!");
+        logger.bug("Load_mobiles: no #AREA seen yet!");
         exit(1);
     }
     for (;;) {
-        auto maybe_mob = MobIndexData::from_file(fp);
+        auto maybe_mob = MobIndexData::from_file(fp, logger);
         if (!maybe_mob)
             break;
 
         assign_area_vnum(maybe_mob->vnum);
-        add_mob_index(std::move(*maybe_mob));
+        add_mob_index(std::move(*maybe_mob), logger);
     }
 }
 
 /*
  * Snarf an obj section. new style
  */
-void load_objects(FILE *fp) {
+void load_objects(FILE *fp, const Logger &logger) {
     char temp; /* Used for Death's Wear Strings bit */
 
     auto area_last = AreaList::singleton().back();
     if (!area_last) {
-        bug("Load_objects: no #AREA section found yet!");
+        logger.bug("Load_objects: no #AREA section found yet!");
         exit(1);
     }
     const auto validators = std::array<std::unique_ptr<const ObjectIndexValidator>, 1>{
@@ -595,10 +585,10 @@ void load_objects(FILE *fp) {
     for (;;) {
         char letter = fread_letter(fp);
         if (letter != '#') {
-            bug("Load_objects: # not found.");
+            logger.bug("Load_objects: # not found.");
             exit(1);
         }
-        sh_int vnum = fread_number(fp);
+        sh_int vnum = fread_number(fp, logger);
         if (vnum == 0)
             break;
         ObjectIndex obj_index;
@@ -613,19 +603,20 @@ void load_objects(FILE *fp) {
         obj_index.short_descr = lower_case_articles(fread_string(fp));
         obj_index.description = fread_string(fp);
         if (obj_index.description.empty()) {
-            bug("Load_objects: empty long description in object {}.", vnum);
+            logger.bug("Load_objects: empty long description in object {}.", vnum);
         }
 
         obj_index.material = Material::lookup_with_default(fread_string(fp))->material;
-        obj_index.type = ObjectTypes::lookup_with_default(fread_word(fp));
-        obj_index.extra_flags = fread_flag(fp);
+        obj_index.type = ObjectTypes::lookup_with_default(fread_word(fp), logger);
+        obj_index.extra_flags = fread_flag(fp, logger);
 
         if (obj_index.is_no_remove() && obj_index.type != ObjectType::Weapon) {
-            bug("Only weapons are meant to have ObjectExtraFlag::NoRemove: {} {}", obj_index.vnum, obj_index.name);
+            logger.bug("Only weapons are meant to have ObjectExtraFlag::NoRemove: {} {}", obj_index.vnum,
+                       obj_index.name);
             exit(1);
         }
 
-        obj_index.wear_flags = fread_flag(fp);
+        obj_index.wear_flags = fread_flag(fp, logger);
 
         temp = fread_letter(fp);
         if (temp == ',') {
@@ -640,76 +631,77 @@ void load_objects(FILE *fp) {
             if (const auto opt_weapon_type = Weapons::try_from_name(raw_weapon_type)) {
                 obj_index.value[0] = magic_enum::enum_integer<Weapon>(*opt_weapon_type);
             } else {
-                bug("Invalid weapon type {} in object: {} {}", raw_weapon_type, obj_index.vnum, obj_index.short_descr);
+                logger.bug("Invalid weapon type {} in object: {} {}", raw_weapon_type, obj_index.vnum,
+                           obj_index.short_descr);
                 obj_index.value[0] = 0;
             }
-            obj_index.value[1] = fread_number(fp);
-            obj_index.value[2] = fread_number(fp);
+            obj_index.value[1] = fread_number(fp, logger);
+            obj_index.value[2] = fread_number(fp, logger);
             const auto attack_name = fread_word(fp);
             const auto attack_index = Attacks::index_of(attack_name);
             if (attack_index < 0) {
-                bug("Invalid attack type {} in object: {} {}, defaulting to hit", attack_name, obj_index.vnum,
-                    obj_index.short_descr);
+                logger.bug("Invalid attack type {} in object: {} {}, defaulting to hit", attack_name, obj_index.vnum,
+                           obj_index.short_descr);
                 obj_index.value[3] = Attacks::index_of("hit");
             } else {
                 obj_index.value[3] = attack_index;
             }
-            obj_index.value[4] = fread_flag(fp);
+            obj_index.value[4] = fread_flag(fp, logger);
             break;
         }
         case ObjectType::Container:
-            obj_index.value[0] = fread_number(fp);
-            obj_index.value[1] = fread_flag(fp);
-            obj_index.value[2] = fread_number(fp);
-            obj_index.value[3] = fread_number(fp);
-            obj_index.value[4] = fread_number(fp);
+            obj_index.value[0] = fread_number(fp, logger);
+            obj_index.value[1] = fread_flag(fp, logger);
+            obj_index.value[2] = fread_number(fp, logger);
+            obj_index.value[3] = fread_number(fp, logger);
+            obj_index.value[4] = fread_number(fp, logger);
             break;
         case ObjectType::Drink:
         case ObjectType::Fountain: {
-            obj_index.value[0] = fread_number(fp);
-            obj_index.value[1] = fread_number(fp);
+            obj_index.value[0] = fread_number(fp, logger);
+            obj_index.value[1] = fread_number(fp, logger);
             const auto raw_liquid = fread_word(fp);
             if (const auto *liquid = Liquid::try_lookup(raw_liquid)) {
                 obj_index.value[2] = magic_enum::enum_integer<Liquid::Type>(liquid->liquid);
             } else {
-                bug("Invalid liquid {} in object: {} {}, defaulting.", raw_liquid, obj_index.vnum,
-                    obj_index.short_descr);
+                logger.bug("Invalid liquid {} in object: {} {}, defaulting.", raw_liquid, obj_index.vnum,
+                           obj_index.short_descr);
                 obj_index.value[2] = 0;
             }
-            obj_index.value[3] = fread_number(fp);
-            obj_index.value[4] = fread_number(fp);
+            obj_index.value[3] = fread_number(fp, logger);
+            obj_index.value[4] = fread_number(fp, logger);
             break;
         }
         case ObjectType::Wand:
         case ObjectType::Staff:
-            obj_index.value[0] = fread_number(fp);
-            obj_index.value[1] = fread_number(fp);
-            obj_index.value[2] = fread_number(fp);
-            obj_index.value[3] = fread_spnumber(fp);
-            obj_index.value[4] = fread_number(fp);
+            obj_index.value[0] = fread_number(fp, logger);
+            obj_index.value[1] = fread_number(fp, logger);
+            obj_index.value[2] = fread_number(fp, logger);
+            obj_index.value[3] = fread_spnumber(fp, logger);
+            obj_index.value[4] = fread_number(fp, logger);
             break;
         case ObjectType::Potion:
         case ObjectType::Pill:
         case ObjectType::Scroll:
         case ObjectType::Bomb:
-            obj_index.value[0] = fread_number(fp);
-            obj_index.value[1] = fread_spnumber(fp);
-            obj_index.value[2] = fread_spnumber(fp);
-            obj_index.value[3] = fread_spnumber(fp);
-            obj_index.value[4] = fread_spnumber(fp);
+            obj_index.value[0] = fread_number(fp, logger);
+            obj_index.value[1] = fread_spnumber(fp, logger);
+            obj_index.value[2] = fread_spnumber(fp, logger);
+            obj_index.value[3] = fread_spnumber(fp, logger);
+            obj_index.value[4] = fread_spnumber(fp, logger);
             break;
         default:
-            obj_index.value[0] = fread_flag(fp);
-            obj_index.value[1] = fread_flag(fp);
-            obj_index.value[2] = fread_flag(fp);
-            obj_index.value[3] = fread_flag(fp);
-            obj_index.value[4] = fread_flag(fp);
+            obj_index.value[0] = fread_flag(fp, logger);
+            obj_index.value[1] = fread_flag(fp, logger);
+            obj_index.value[2] = fread_flag(fp, logger);
+            obj_index.value[3] = fread_flag(fp, logger);
+            obj_index.value[4] = fread_flag(fp, logger);
             break;
         }
 
-        obj_index.level = fread_number(fp);
-        obj_index.weight = fread_number(fp);
-        obj_index.cost = fread_number(fp);
+        obj_index.level = fread_number(fp, logger);
+        obj_index.weight = fread_number(fp, logger);
+        obj_index.cost = fread_number(fp, logger);
 
         /* condition */
         letter = fread_letter(fp);
@@ -734,8 +726,8 @@ void load_objects(FILE *fp) {
                 af.type = -1;
                 af.level = obj_index.level;
                 af.duration = -1;
-                af.location = static_cast<AffectLocation>(fread_number(fp));
-                af.modifier = fread_number(fp);
+                af.location = static_cast<AffectLocation>(fread_number(fp, logger));
+                af.modifier = fread_number(fp, logger);
                 obj_index.affected.add(af);
             }
 
@@ -756,28 +748,28 @@ void load_objects(FILE *fp) {
          */
         switch (obj_index.type) {
         case ObjectType::Bomb:
-            obj_index.value[4] = slot_lookup(obj_index.value[4]);
+            obj_index.value[4] = slot_lookup(obj_index.value[4], logger);
             // fall through
         case ObjectType::Pill:
         case ObjectType::Potion:
         case ObjectType::Scroll:
-            obj_index.value[1] = slot_lookup(obj_index.value[1]);
-            obj_index.value[2] = slot_lookup(obj_index.value[2]);
-            obj_index.value[3] = slot_lookup(obj_index.value[3]);
+            obj_index.value[1] = slot_lookup(obj_index.value[1], logger);
+            obj_index.value[2] = slot_lookup(obj_index.value[2], logger);
+            obj_index.value[3] = slot_lookup(obj_index.value[3], logger);
             break;
 
         case ObjectType::Staff:
-        case ObjectType::Wand: obj_index.value[3] = slot_lookup(obj_index.value[3]); break;
+        case ObjectType::Wand: obj_index.value[3] = slot_lookup(obj_index.value[3], logger); break;
         default:;
         }
         for (auto &&validator : validators) {
             if (const auto result = validator->validate(obj_index); result.error_message) {
-                bug(*result.error_message);
+                logger.bug(*result.error_message);
                 exit(1);
             }
         }
         if (!object_indexes.try_emplace(vnum, std::move(obj_index)).second) {
-            bug("load_objects: vnum {} duplicated.", vnum);
+            logger.bug("load_objects: vnum {} duplicated.", vnum);
             exit(1);
         }
         assign_area_vnum(vnum);
@@ -789,7 +781,7 @@ void load_objects(FILE *fp) {
  * Has to be done after all rooms are read in.
  * Check for bad reverse exits.
  */
-void map_exit_destinations() {
+void map_exit_destinations(const Logger &logger) {
 
     const auto mutable_rooms = []() {
         return rooms | ranges::views::transform([](auto &p) -> Room & { return p.second; });
@@ -798,11 +790,11 @@ void map_exit_destinations() {
         bool fexit = false;
         for (auto direction : all_directions) {
             if (auto &exit = room.exits[direction]; exit) {
-                if (exit->u1.vnum <= 0 || get_room(exit->u1.vnum) == nullptr)
+                if (exit->u1.vnum <= 0 || get_room(exit->u1.vnum, logger) == nullptr)
                     exit->u1.to_room = nullptr;
                 else {
                     fexit = true;
-                    auto to_room = get_room(exit->u1.vnum);
+                    auto to_room = get_room(exit->u1.vnum, logger);
                     exit->u1.to_room = to_room;
                 }
             }
@@ -818,9 +810,9 @@ void map_exit_destinations() {
             if (Room *to_room = exit->u1.to_room) {
                 if (auto &exit_rev = to_room->exits[reverse(direction)];
                     exit_rev && exit_rev->u1.to_room->vnum != room.vnum && !exit->is_one_way) {
-                    bug("Fix_exits: {} -> {}:{} -> {}.", room.vnum, static_cast<int>(direction), to_room->vnum,
-                        static_cast<int>(reverse(direction)),
-                        (exit_rev->u1.to_room == nullptr) ? 0 : exit_rev->u1.to_room->vnum);
+                    logger.bug("Fix_exits: {} -> {}:{} -> {}.", room.vnum, static_cast<int>(direction), to_room->vnum,
+                               static_cast<int>(reverse(direction)),
+                               (exit_rev->u1.to_room == nullptr) ? 0 : exit_rev->u1.to_room->vnum);
                 }
             }
         }
@@ -835,12 +827,12 @@ void area_update() {
 /*
  * Reset one room.
  */
-void reset_room(Room *room) {
+void reset_room(Room *room, Mud &mud) {
     Char *lastMob = nullptr;
     bool lastMobWasReset = false;
     if (!room)
         return;
-
+    const Logger &logger = mud.logger();
     for (auto exit_dir : all_directions) {
         if (auto &exit = room->exits[exit_dir]; exit) {
             exit->exit_info = exit->rs_flags;
@@ -854,12 +846,12 @@ void reset_room(Room *room) {
 
     for (const auto &reset : room->resets) {
         switch (reset.command) {
-        default: bug("Reset_room: bad command {}.", reset.command); break;
+        default: logger.bug("Reset_room: bad command {}.", reset.command); break;
 
         case ResetMobInRoom: {
             MobIndexData *mobIndex;
-            if (!(mobIndex = get_mob_index(reset.arg1))) {
-                bug("Reset_room: 'M': bad vnum {}.", reset.arg1);
+            if (!(mobIndex = get_mob_index(reset.arg1, logger))) {
+                logger.bug("Reset_room: 'M': bad vnum {}.", reset.arg1);
                 continue;
             }
             if (mobIndex->count >= reset.arg2) {
@@ -880,11 +872,11 @@ void reset_room(Room *room) {
             if (count >= reset.arg4)
                 continue;
 
-            auto *mob = create_mobile(mobIndex);
+            auto *mob = create_mobile(mobIndex, mud);
 
             // Pet shop mobiles get CharActFlag::Pet set.
             Room *previousRoom;
-            previousRoom = get_room(room->vnum - 1);
+            previousRoom = get_room(room->vnum - 1, logger);
             if (previousRoom && check_enum_bit(previousRoom->room_flags, RoomFlag::PetShop))
                 set_enum_bit(mob->act, CharActFlag::Pet);
 
@@ -897,13 +889,13 @@ void reset_room(Room *room) {
         case ResetObjInRoom: {
             ObjectIndex *objIndex;
             Room *obj_room;
-            if (!(objIndex = get_obj_index(reset.arg1))) {
-                bug("Reset_room: 'O': bad vnum {}.", reset.arg1);
+            if (!(objIndex = get_obj_index(reset.arg1, logger))) {
+                logger.bug("Reset_room: 'O': bad vnum {}.", reset.arg1);
                 continue;
             }
 
-            if (!(obj_room = get_room(reset.arg3))) {
-                bug("Reset_room: 'O': bad vnum {}.", reset.arg3);
+            if (!(obj_room = get_room(reset.arg3, logger))) {
+                logger.bug("Reset_room: 'O': bad vnum {}.", reset.arg3);
                 continue;
             }
 
@@ -911,7 +903,7 @@ void reset_room(Room *room) {
                 continue;
             }
 
-            auto obj_uptr = objIndex->create_object();
+            auto obj_uptr = objIndex->create_object(logger);
             auto *object = obj_uptr.get();
             object_list.push_back(std::move(obj_uptr));
             object->cost = 0;
@@ -924,13 +916,13 @@ void reset_room(Room *room) {
             ObjectIndex *contained_obj_idx;
             ObjectIndex *container_obj_idx;
             Object *container_obj;
-            if (!(contained_obj_idx = get_obj_index(reset.arg1))) {
-                bug("Reset_room: 'P': bad vnum {}.", reset.arg1);
+            if (!(contained_obj_idx = get_obj_index(reset.arg1, logger))) {
+                logger.bug("Reset_room: 'P': bad vnum {}.", reset.arg1);
                 continue;
             }
 
-            if (!(container_obj_idx = get_obj_index(reset.arg3))) {
-                bug("Reset_room: 'P': bad vnum {}.", reset.arg3);
+            if (!(container_obj_idx = get_obj_index(reset.arg3, logger))) {
+                logger.bug("Reset_room: 'P': bad vnum {}.", reset.arg3);
                 continue;
             }
 
@@ -952,7 +944,7 @@ void reset_room(Room *room) {
             }
 
             while (count < reset.arg4) {
-                auto obj_uptr = contained_obj_idx->create_object();
+                auto obj_uptr = contained_obj_idx->create_object(logger);
                 auto *contained_obj = obj_uptr.get();
                 object_list.push_back(std::move(obj_uptr));
                 obj_to_obj(contained_obj, container_obj);
@@ -972,8 +964,8 @@ void reset_room(Room *room) {
         case ResetEquipObjMob: {
             ObjectIndex *obj_idx;
             Object *object;
-            if (!(obj_idx = get_obj_index(reset.arg1))) {
-                bug("Reset_room: 'E' or 'G': bad vnum {}.", reset.arg1);
+            if (!(obj_idx = get_obj_index(reset.arg1, logger))) {
+                logger.bug("Reset_room: 'E' or 'G': bad vnum {}.", reset.arg1);
                 continue;
             }
 
@@ -981,24 +973,24 @@ void reset_room(Room *room) {
                 continue;
 
             if (!lastMob) {
-                bug("Reset_room: 'E' or 'G': null mob for vnum {}.", reset.arg1);
+                logger.bug("Reset_room: 'E' or 'G': null mob for vnum {}.", reset.arg1);
                 lastMobWasReset = false;
                 continue;
             }
 
             if (lastMob->mobIndex->shop) { /* Shop-keeper? */
-                auto obj_uptr = obj_idx->create_object();
+                auto obj_uptr = obj_idx->create_object(logger);
                 object = obj_uptr.get();
                 object_list.push_back(std::move(obj_uptr));
                 set_enum_bit(object->extra_flags, ObjectExtraFlag::Inventory);
             } else {
                 const auto drop_rate = reset.arg2;
                 if (drop_rate <= 0 || drop_rate > 100) {
-                    bug("Invalid object drop rate: {} for object #{}", drop_rate, reset.arg1);
+                    logger.bug("Invalid object drop rate: {} for object #{}", drop_rate, reset.arg1);
                     exit(1);
                 }
                 if (number_percent() <= drop_rate) {
-                    auto obj_uptr = obj_idx->create_object();
+                    auto obj_uptr = obj_idx->create_object(logger);
                     object = obj_uptr.get();
                     object_list.push_back(std::move(obj_uptr));
                 } else
@@ -1010,7 +1002,7 @@ void reset_room(Room *room) {
                 if (const auto opt_worn_loc = magic_enum::enum_cast<Worn>(reset.arg3)) {
                     equip_char(lastMob, object, *opt_worn_loc);
                 } else {
-                    bug("Invalid worn location: {} for object #{}", reset.arg3, reset.arg1);
+                    logger.bug("Invalid worn location: {} for object #{}", reset.arg3, reset.arg1);
                 }
             }
             lastMobWasReset = true;
@@ -1021,8 +1013,8 @@ void reset_room(Room *room) {
 
         case ResetRandomizeExits: {
             Room *exit_room;
-            if (!(exit_room = get_room(reset.arg1))) {
-                bug("Reset_room: 'R': bad vnum {}.", reset.arg1);
+            if (!(exit_room = get_room(reset.arg1, logger))) {
+                logger.bug("Reset_room: 'R': bad vnum {}.", reset.arg1);
                 continue;
             }
 
@@ -1040,12 +1032,12 @@ void reset_room(Room *room) {
 /*
  * Create an instance of a mobile.
  */
-Char *create_mobile(MobIndexData *mobIndex) {
+Char *create_mobile(MobIndexData *mobIndex, Mud &mud) {
     if (mobIndex == nullptr) {
-        bug("Create_mobile: nullptr mobIndex.");
+        mud.logger().bug("Create_mobile: nullptr mobIndex.");
         exit(1);
     }
-    auto mob = std::make_unique<Char>();
+    auto mob = std::make_unique<Char>(mud, mud.current_time());
     auto *pMob = mob.get();
     mob->mobIndex = mobIndex;
 
@@ -1194,21 +1186,21 @@ void clone_mobile(Char *parent, Char *clone) {
 }
 
 // Translates mob virtual number to its mob index struct.
-MobIndexData *get_mob_index(int vnum) {
+MobIndexData *get_mob_index(int vnum, const Logger &logger) {
     if (auto it = mob_indexes.find(vnum); it != mob_indexes.end())
         return &it->second;
-    if (fBootDb) {
-        bug("Get_mob_index: bad vnum {}.", vnum);
+    if (fBootDb) { // TODO kill
+        logger.bug("Get_mob_index: bad vnum {}.", vnum);
         exit(1);
     }
     return nullptr;
 }
 
 // Adds a new mob.
-void add_mob_index(MobIndexData mob_index_data) {
+void add_mob_index(MobIndexData mob_index_data, const Logger &logger) {
     auto vnum = mob_index_data.vnum;
     if (!mob_indexes.try_emplace(vnum, std::move(mob_index_data)).second) {
-        bug("Load_mobiles: vnum {} duplicated.", vnum);
+        logger.bug("Load_mobiles: vnum {} duplicated.", vnum);
         exit(1);
     }
 }
@@ -1222,12 +1214,12 @@ const std::map<int, Room> &all_room_pairs() { return rooms; }
 /*
  * Translates mob virtual number to its obj index struct.
  */
-ObjectIndex *get_obj_index(int vnum) {
+ObjectIndex *get_obj_index(int vnum, const Logger &logger) {
     const auto it = object_indexes.find(vnum);
     if (it != object_indexes.end()) {
         return &it->second;
     } else if (fBootDb) {
-        bug("get_obj_index: bad vnum {}.", vnum);
+        logger.bug("get_obj_index: bad vnum {}.", vnum);
         exit(1);
     }
     return nullptr;
@@ -1236,12 +1228,12 @@ ObjectIndex *get_obj_index(int vnum) {
 /*
  * Translates room virtual number to its Room.
  */
-Room *get_room(int vnum) {
+Room *get_room(int vnum, const Logger &logger) {
     const auto it = rooms.find(vnum);
     if (it != rooms.end()) {
         return &it->second;
     } else if (fBootDb) {
-        bug("get_room: bad vnum {}.", vnum);
+        logger.bug("get_room: bad vnum {}.", vnum);
         exit(1);
     }
     return nullptr;
@@ -1273,7 +1265,7 @@ char fread_letter(FILE *fp) {
 /*
  * Read a number from a file.
  */
-int fread_number(FILE *fp) {
+int fread_number(FILE *fp, const Logger &logger) {
     int number;
     bool sign;
     char c;
@@ -1293,7 +1285,7 @@ int fread_number(FILE *fp) {
     }
 
     if (!isdigit(c)) {
-        bug("Fread_number: bad format.");
+        logger.bug("Fread_number: bad format.");
         exit(1);
     }
 
@@ -1306,7 +1298,7 @@ int fread_number(FILE *fp) {
         number = 0 - number;
 
     if (c == '|')
-        number += fread_number(fp);
+        number += fread_number(fp, logger);
     else if (c != ' ')
         ungetc(c, fp);
 
@@ -1316,19 +1308,19 @@ int fread_number(FILE *fp) {
 /*
  * Parse a skill/spell slot number, or its tilde terminated name, from a file.
  */
-std::optional<int> try_fread_spnumber(FILE *fp) {
+std::optional<int> try_fread_spnumber(FILE *fp, const Logger &logger) {
     int number = 0;
     skip_ws(fp);
     char c = getc(fp);
     if (!isdigit(c)) {
         if (c == '\'' || c == '"') {
-            bug("fread_spnumber: quoted spell names not allowed, use spellname~ instead");
+            logger.bug("fread_spnumber: quoted spell names not allowed, use spellname~ instead");
             return std::nullopt;
         }
         ungetc(c, fp);
         const auto spell_name = fread_string(fp);
         if ((number = skill_lookup(spell_name)) <= 0) {
-            bug("fread_spnumber: bad spell.");
+            logger.bug("fread_spnumber: bad spell.");
             return std::nullopt;
         }
         return skill_table[number].slot;
@@ -1343,27 +1335,26 @@ std::optional<int> try_fread_spnumber(FILE *fp) {
     return number;
 }
 
-int fread_spnumber(FILE *fp) {
-    if (const auto opt_spnumber = try_fread_spnumber(fp)) {
+int fread_spnumber(FILE *fp, const Logger &logger) {
+    if (const auto opt_spnumber = try_fread_spnumber(fp, logger)) {
         return *opt_spnumber;
-    } else {
-        exit(1);
     }
+    exit(1);
 }
 
 // Note: not all flags are possible here - we return a 'long' (32 bits), but
 // allow to decode up to 52 bits ('z'). This makes no sense.
-long flag_convert(char letter) {
+long flag_convert(char letter, const Logger &logger) {
     if ('A' <= letter && letter <= 'Z') {
         return 1 << int(letter - 'A');
     } else if ('a' <= letter && letter <= 'z') {
         return 1 << (26 + int(letter - 'a'));
     }
-    bug("illegal char '{}' in flag_convert", letter);
+    logger.bug("illegal char '{}' in flag_convert", letter);
     return 0;
 }
 
-long fread_flag(FILE *fp) {
+long fread_flag(FILE *fp, const Logger &logger) {
     char c;
 
     do {
@@ -1375,7 +1366,7 @@ long fread_flag(FILE *fp) {
     if (!isdigit(c)) {
         while (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z')) {
             const char lastc = c;
-            number += flag_convert(c);
+            number += flag_convert(c, logger);
             do {
                 c = getc(fp);
             } while (c == lastc); /* bug fix for Ozydoc crap by TheMoog */
@@ -1388,7 +1379,7 @@ long fread_flag(FILE *fp) {
     }
 
     if (c == '|') {
-        number += fread_flag(fp);
+        number += fread_flag(fp, logger);
     } else {
         if (c != ' ')
             ungetc(c, fp);
@@ -1403,7 +1394,7 @@ std::string fread_string(FILE *fp) {
         auto c = fgetc(fp);
         switch (c) {
         default: result += static_cast<char>(c); break;
-        case EOF: bug("fread_string: EOF"); return result;
+        case EOF: return result;
 
         case '\n': result += "\n\r"; break;
         case '\r': break;
@@ -1420,7 +1411,7 @@ std::string fread_string_eol(FILE *fp) {
         auto c = fgetc(fp);
         switch (c) {
         default: result += static_cast<char>(c); break;
-        case EOF: bug("fread_string_eol: EOF"); return result;
+        case EOF: return result;
 
         case '\n': return result;
         }
@@ -1466,7 +1457,6 @@ std::optional<std::string> try_fread_word(FILE *fp) {
         }
         word.push_back(static_cast<char>(letter));
     }
-    bug("fread_word: unterminated word.");
     return std::nullopt;
 }
 
@@ -1557,8 +1547,8 @@ void do_memory(Char *ch) {
     ch->send_line("Areas   {:5}", AreaList::singleton().count());
     ch->send_line("Helps   {:5}", HelpList::singleton().count());
     ch->send_line("Socials {:5}", Socials::singleton().count());
-    ch->send_line("Mobs    {:5}", mob_indexes.size());
-    ch->send_line("Chars   {:5}", Char::num_active());
+    ch->send_line("Mobs    {:5}", mob_indexes.size()); // TODO globals should be part of a Universe class
+    ch->send_line("Chars   {:5}", char_list.size());
     ch->send_line("Objs    {:5}", object_indexes.size());
     ch->send_line("Rooms   {:5}", rooms.size());
 }
@@ -1583,7 +1573,7 @@ bool dump_memory_stats(Char *ch) {
 
         fmt::print(static_cast<FILE *>(fp), mem_format, "Mobs"sv, count, count * (sizeof(MobIndexData)));
         fmt::print(static_cast<FILE *>(fp), mem_format, "PcData"sv, num_pcs, num_pcs * (sizeof(PcData)));
-        count = static_cast<int>(ranges::distance(descriptors().all()));
+        count = static_cast<int>(ranges::distance(ch->mud_.descriptors().all()));
         fmt::print(static_cast<FILE *>(fp), mem_format, "Descs"sv, count, count * (sizeof(Descriptor)));
         aff_count = ranges::accumulate(all_object_indexes() | ranges::views::transform([](const auto &obj_index) {
                                            return obj_index.affected.size();
@@ -1602,7 +1592,7 @@ bool dump_memory_stats(Char *ch) {
         fmt::print(static_cast<FILE *>(fp), mem_format, "Rooms"sv, rooms.size(), rooms.size() * (sizeof(Room)));
         return true;
     } else {
-        bug("Unable to open mem.dmp for write, char: {}.", ch->name);
+        ch->mud_.logger().bug("Unable to open mem.dmp for write, char: {}.", ch->name);
         return false;
     }
 }
@@ -1616,7 +1606,7 @@ bool dump_mobile_stats(Char *ch) {
                        mob.killed, mob.short_descr);
         return true;
     } else {
-        bug("Unable to open mob.dmp for write, char: {}.", ch->name);
+        ch->mud_.logger().bug("Unable to open mob.dmp for write, char: {}.", ch->name);
         return false;
     }
 }
@@ -1631,7 +1621,7 @@ bool dump_object_stats(Char *ch) {
         }
         return true;
     } else {
-        bug("Unable to open obj.dmp for write, char: {}.", ch->name);
+        ch->mud_.logger().bug("Unable to open obj.dmp for write, char: {}.", ch->name);
         return false;
     }
 }
@@ -1668,7 +1658,8 @@ int number_percent() { return knuth_rng.number_percent(); }
 
 int number_bits(int width) { return knuth_rng.number_bits(width); }
 
-void init_mm() {
+// TODO move this
+void init_mm(const Time current_time) {
     knuth_rng = KnuthRng((int)Clock::to_time_t(current_time));
     Rng::set_global_rng(knuth_rng);
 }

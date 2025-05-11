@@ -6,7 +6,6 @@
 #include "Object.hpp"
 #include "Char.hpp"
 #include "Lights.hpp"
-#include "Logging.hpp"
 #include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
@@ -18,15 +17,15 @@
 
 #include <magic_enum/magic_enum.hpp>
 
-Room *get_room(int vnum);
+Room *get_room(int vnum, const Logger &logger);
 
-Object::Object(ObjectIndex *obj_idx)
-    : objIndex(obj_idx), in_room(nullptr), enchanted(false), owner(""), name(obj_idx->name),
-      short_descr(obj_idx->short_descr), description(obj_idx->description), type(obj_idx->type),
-      extra_flags(obj_idx->extra_flags), wear_flags(obj_idx->wear_flags), wear_string(obj_idx->wear_string),
-      worn_loc(Worn::None), weight(obj_idx->weight), cost(obj_idx->cost), level(obj_idx->level),
-      condition(obj_idx->condition), material(obj_idx->material), decay_timer_ticks(0), value(obj_idx->value),
-      destination(nullptr)
+// TODO: should there be a factory method in Mud/Universe?
+Object::Object(ObjectIndex *obj_idx, const Logger &logger)
+    : logger_{logger}, objIndex(obj_idx), owner(""), name(obj_idx->name), short_descr(obj_idx->short_descr),
+      description(obj_idx->description), type(obj_idx->type), extra_flags(obj_idx->extra_flags),
+      wear_flags(obj_idx->wear_flags), wear_string(obj_idx->wear_string), worn_loc(Worn::None), weight(obj_idx->weight),
+      cost(obj_idx->cost), level(obj_idx->level), condition(obj_idx->condition), material(obj_idx->material),
+      value(obj_idx->value)
 
 {
     switch (type) {
@@ -38,10 +37,10 @@ Object::Object(ObjectIndex *obj_idx)
         // TheMoog 1/10/2k : fixes up portal objects - value[0] of a portal
         // if non-zero is looked up and then destination set accordingly.
         if (value[0] != 0) {
-            destination = get_room(value[0]);
-            if (!destination)
-                bug("Couldn't find room index {} for a portal (vnum {})", value[0], objIndex->vnum);
-            value[0] = 0; // Prevent finding the vnum in the obj
+            destination = get_room(value[0], logger);
+            if (!destination) {
+                value[0] = 0; // Prevent finding the vnum in the obj
+            }
         }
         break;
     default: break;
@@ -52,7 +51,7 @@ Object::Object(ObjectIndex *obj_idx)
 Object::~Object() { objIndex->count--; }
 
 std::unique_ptr<Object> Object::clone() {
-    auto obj_uptr = objIndex->create_object();
+    auto obj_uptr = objIndex->create_object(logger_);
     obj_uptr->name = name;
     obj_uptr->short_descr = short_descr;
     obj_uptr->description = description;

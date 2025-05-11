@@ -11,14 +11,14 @@
    direct questions or comments to rtaylor@cie-2.uoregon.edu
    any use of this code must include this header */
 
+#include "Act.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
+#include "Interpreter.hpp"
 #include "Room.hpp"
 #include "SpellTarget.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
-#include "interp.h"
 #include "lookup.h"
 #include "magic.h"
 #include "string_utils.hpp"

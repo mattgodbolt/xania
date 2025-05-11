@@ -11,7 +11,6 @@ class TimeInfoData {
     unsigned int year_{};
 
 public:
-    TimeInfoData() = default; // TODO: remove when we get rid of the global
     explicit TimeInfoData(Time now);
     explicit TimeInfoData(int hour, int day, int month, int year);
 
@@ -30,9 +29,6 @@ public:
 
     [[nodiscard]] std::string describe() const noexcept;
 
+    // This is advanced by the main loop every PULSE_TICK.
     void advance();
 };
-
-extern TimeInfoData time_info;
-extern const Time boot_time;
-extern Time current_time;

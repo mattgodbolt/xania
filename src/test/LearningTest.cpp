@@ -5,16 +5,23 @@
 #include "lookup.h"
 #include <catch2/catch_test_macros.hpp>
 
+#include "MockMud.hpp"
 #include "MockRng.hpp"
 
+namespace {
+
+test::MockMud mock_mud{};
+
+}
+
 TEST_CASE("learning") {
-    Char bob{};
+    Char bob{mock_mud};
     bob.level = 1;
     const auto dagger = skill_lookup("dagger");
     test::MockRng rng;
     SECTION("pc") {
         using trompeloeil::_;
-        Descriptor bob_desc(0);
+        Descriptor bob_desc{0, mock_mud};
         bob.desc = &bob_desc;
         bob_desc.character(&bob);
         bob.pcdata = std::make_unique<PcData>();

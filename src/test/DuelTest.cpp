@@ -5,16 +5,23 @@
 /*************************************************************************/
 #include "AffectFlag.hpp"
 #include "CharActFlag.hpp"
+#include "DescriptorList.hpp"
 #include "MemFile.hpp"
 #include "Room.hpp"
 #include <catch2/catch_test_macros.hpp>
+
+#include "MockMud.hpp"
 
 extern void do_duel(Char *ch, ArgParser args);
 
 namespace {
 
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
 auto make_char(const std::string &name, Room &room, MobIndexData *mob_idx) {
-    auto ch = std::make_unique<Char>();
+    auto ch = std::make_unique<Char>(mock_mud);
     ch->name = name;
     ch->short_descr = name + " descr";
     ch->in_room = &room;
@@ -53,21 +60,22 @@ stand stand male 200
 
 #0
 )mob");
-    return *MobIndexData::from_file(orcfile.file());
+    return *MobIndexData::from_file(orcfile.file(), logger);
 }
 
 }
 
 TEST_CASE("do_duel") {
+    ALLOW_CALL(mock_mud, logger()).LR_RETURN(logger);
     Room room{};
     auto player0 = make_char("vic", room, nullptr);
-    Descriptor player0_desc(0);
+    Descriptor player0_desc{0, mock_mud};
     set_descriptor(player0.get(), &player0_desc);
     auto player1 = make_char("bob", room, nullptr);
-    Descriptor player1_desc(1);
+    Descriptor player1_desc{1, mock_mud};
     set_descriptor(player1.get(), &player1_desc);
     auto player2 = make_char("sid", room, nullptr);
-    Descriptor player2_desc(2);
+    Descriptor player2_desc{2, mock_mud};
     set_descriptor(player2.get(), &player2_desc);
 
     SECTION("no target") {
@@ -120,7 +128,7 @@ TEST_CASE("do_duel") {
         auto mob_idx = make_mob_index();
         auto switched_player = make_char("switched", room, &mob_idx);
         switched_player->pcdata = std::make_unique<PcData>();
-        Descriptor switched_desc(1);
+        Descriptor switched_desc{1, mock_mud};
         set_descriptor(switched_player.get(), &switched_desc);
         ArgParser args("vic");
 

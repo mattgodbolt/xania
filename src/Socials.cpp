@@ -14,7 +14,7 @@
 #include <range/v3/algorithm/lower_bound.hpp>
 #include <range/v3/view/transform.hpp>
 
-std::optional<Social> Social::load(FILE *fp) {
+std::optional<Social> Social::load(FILE *fp, const Logger &logger) {
     const auto next_phrase = [](auto *fp) -> std::string {
         const auto phrase = fread_string_eol(fp);
         // The phrase can be empty, indicated by $ in which case the social is empty and won't be used.
@@ -38,7 +38,7 @@ std::optional<Social> Social::load(FILE *fp) {
     const auto others_auto{next_phrase(fp)};
     const auto terminator{next_phrase(fp)};
     if (terminator != "#") {
-        bug("loading socials: expected social terminator (#) but instead got {}", terminator);
+        logger.bug("loading socials: expected social terminator (#) but instead got {}", terminator);
         return std::nullopt;
     }
     return Social{name, char_no_arg, others_no_arg, char_found, others_found, vict_found, char_auto, others_auto};
@@ -56,9 +56,9 @@ const Social *Socials::find(std::string_view name) const noexcept {
 }
 
 // Load the socials file into the socials_ vector and sort them by name.
-void Socials::load(FILE *fp) {
+void Socials::load(FILE *fp, const Logger &logger) {
     for (;;) {
-        if (const auto opt_social = Social::load(fp)) {
+        if (const auto opt_social = Social::load(fp, logger)) {
             socials_.push_back(std::move(*opt_social));
         } else {
             const auto social_name = [](const Social &s) { return s.name(); };

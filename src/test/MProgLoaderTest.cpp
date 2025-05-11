@@ -4,6 +4,8 @@
 /*  See the header to file: merc.h for original code copyrights          */
 /*************************************************************************/
 #include "MProgLoader.hpp"
+
+#include "DescriptorList.hpp"
 #include "MProgTypeFlag.hpp"
 #include "MemFile.hpp"
 #include "MobIndexData.hpp"
@@ -11,8 +13,19 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "MockMud.hpp"
+
+namespace {
+
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
+}
+
 TEST_CASE("mob prog file reading") {
     using namespace MProg;
+    ALLOW_CALL(mock_mud, descriptors()).LR_RETURN(descriptors);
     test::MemFile orc(R"mob(
 #13000
 orc~
@@ -29,13 +42,13 @@ stand stand male 200
 
 #0
 )mob");
-    auto opt_mob = MobIndexData::from_file(orc.file());
+    auto opt_mob = MobIndexData::from_file(orc.file(), logger);
     CHECK(opt_mob);
     auto mob = *opt_mob;
     CHECK(mob.progtypes == 0);
     SECTION("well formed with one prog") {
         test::MemFile test_prog(">rand_prog 50~\n\rif rand(50)\n\r\tdance\n\relse\n\rn\tsing\n\rendif~\n\r|\n\r");
-        auto result = read_program("test.prg", test_prog.file(), &mob);
+        auto result = read_program("test.prg", test_prog.file(), &mob, logger);
 
         CHECK(result);
         CHECK(mob.mobprogs.size() == 1);
@@ -46,7 +59,7 @@ stand stand male 200
     SECTION("well formed with two progs") {
         test::MemFile test_prog(">rand_prog 50~\n\rif rand(50)\n\r\tdance\n\relse\n\rn\tsing\n\rendif~\n\r>greet_prog "
                                 "50~\n\rwave~\n\r|\n\r");
-        auto result = read_program("test.prg", test_prog.file(), &mob);
+        auto result = read_program("test.prg", test_prog.file(), &mob, logger);
 
         CHECK(result);
         CHECK(mob.mobprogs.size() == 2);
@@ -59,21 +72,21 @@ stand stand male 200
     }
     SECTION("malformed empty") {
         test::MemFile test_prog("");
-        auto result = read_program("test.prg", test_prog.file(), &mob);
+        auto result = read_program("test.prg", test_prog.file(), &mob, logger);
 
         CHECK(!result);
         CHECK(mob.mobprogs.empty());
     }
     SECTION("malformed type error") {
         test::MemFile test_prog(">foo_prog 50~\n\rwave\n\r~\n\r|\n\r");
-        auto result = read_program("test.prg", test_prog.file(), &mob);
+        auto result = read_program("test.prg", test_prog.file(), &mob, logger);
 
         CHECK(!result);
         CHECK(mob.mobprogs.empty());
     }
     SECTION("malformed missing terminator") {
         test::MemFile test_prog(">foo_prog 50~\n\rwave\n\r~\n\r");
-        auto result = read_program("test.prg", test_prog.file(), &mob);
+        auto result = read_program("test.prg", test_prog.file(), &mob, logger);
 
         CHECK(!result);
         CHECK(mob.mobprogs.empty());

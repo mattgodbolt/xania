@@ -11,6 +11,7 @@
 
 #include "ArgParser.hpp"
 #include "CommandSet.hpp"
+#include "Logging.hpp"
 #include "common/Time.hpp"
 
 #include <functional>
@@ -51,7 +52,7 @@ public:
     void remove_line();
 
     void save(FILE *file) const;
-    static Note from_file(FILE *file);
+    static Note from_file(FILE *file, const Logger &logger);
 };
 
 class Notes {
@@ -82,7 +83,7 @@ private:
 public:
     explicit NoteHandler(OnChangeFunc on_change_func);
     void add_for_testing(Note note) { notes_.add(std::move(note)); }
-    void read_from(FILE *fp);
+    void read_from(FILE *fp, Time current_time, const Logger &logger);
     void write_to(FILE *fp);
     void on_command(Char &ch, ArgParser args);
     [[nodiscard]] int num_unread(const Char &ch) const { return notes_.num_unread(ch); }
@@ -107,4 +108,4 @@ private:
 };
 
 void do_note(Char *ch, std::string_view argument);
-void note_initialise();
+void note_initialise(Time current_time, const Logger &logger);

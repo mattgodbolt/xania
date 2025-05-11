@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Act.hpp"
 #include "Char.hpp"
-#include "comm.hpp"
 #include "db.h"
 #include <chrono>
 #include <vector>

@@ -17,4 +17,6 @@ std::string ObjectIndex::type_name() const { return lower_case(magic_enum::enum_
 
 bool ObjectIndex::is_no_remove() const { return check_enum_bit(extra_flags, ObjectExtraFlag::NoRemove); }
 
-std::unique_ptr<Object> ObjectIndex::create_object() { return std::make_unique<Object>(this); }
+std::unique_ptr<Object> ObjectIndex::create_object(const Logger &logger) {
+    return std::make_unique<Object>(this, logger);
+}

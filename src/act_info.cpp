@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "Alignment.hpp"
 #include "Area.hpp"
@@ -24,6 +25,7 @@
 #include "Exit.hpp"
 #include "ExitFlag.hpp"
 #include "Help.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
 #include "Object.hpp"
@@ -42,12 +44,10 @@
 #include "WeatherData.hpp"
 #include "Worn.hpp"
 #include "act_comm.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "lookup.h"
 #include "save.hpp"
 #include "skills.hpp"
@@ -77,8 +77,6 @@ std::string worn_string_for(const Object *obj, const Worn worn) {
 }
 
 }
-/* for do_count */
-size_t max_on = 0;
 
 /*
  * Local functions.
@@ -95,7 +93,7 @@ std::string format_obj_to_char(const Object *obj, const Char *ch, bool fShort) {
     std::string desc = fShort ? obj->short_descr : obj->description;
     if (desc.empty()) {
         desc = "This object has no description. Please inform the IMP.";
-        bug("Object {} has no description", obj->objIndex->vnum);
+        ch->mud_.logger().bug("Object {} has no description", obj->objIndex->vnum);
     }
     if (obj->is_unique())
         buf += "(U) ";
@@ -277,6 +275,10 @@ void show_char_to_char_1(Char *victim, Char *ch) {
         show_list_to_char(victim->carrying, ch, true, true);
     }
 }
+
+void do_commands(Char *ch) { ch->mud_.interpreter().show_player_commands(ch); }
+
+void do_wizhelp(Char *ch) { ch->mud_.interpreter().show_immortal_commands(ch); }
 
 void do_peek(Char *ch, ArgParser args) {
     if (!ch->desc)
@@ -738,8 +740,8 @@ void look_in_object(const Char &ch, const Object &obj) {
         }
         const auto *liquid = Liquid::get_by_index(obj.value[2]);
         if (!liquid) {
-            bug("{} attempted to look in a drink containing an unknown liquid: {} {} -> {}", ch.name,
-                obj.objIndex->vnum, obj.short_descr, obj.value[2]);
+            ch.mud_.logger().bug("{} attempted to look in a drink containing an unknown liquid: {} {} -> {}", ch.name,
+                                 obj.objIndex->vnum, obj.short_descr, obj.value[2]);
             return;
         }
         const auto &liq_color = liquid->color;
@@ -1117,13 +1119,13 @@ void do_affected(Char *ch) {
     }
     for (auto &af : ch->affected)
         ch->send_line("|C{}|w: '{}'{}.", af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
-                      ch->level >= 20 ? af.describe_char_effect() : "");
+                      ch->level >= 20 ? af.describe_char_effect(false, ch->mud_.logger()) : "");
 }
 
 void do_time(Char *ch) {
-    ch->send_line(time_info.describe());
-    ch->send_line("Xania started up at {}Z.", formatted_time(boot_time));
-    ch->send_line("The system time is {}Z.", formatted_time(current_time));
+    ch->send_line(ch->mud_.current_tick().describe());
+    ch->send_line("Xania started up at {}Z.", formatted_time(ch->mud_.boot_time()));
+    ch->send_line("The system time is {}Z.", formatted_time(ch->mud_.current_time()));
 }
 
 void do_weather(Char *ch) {
@@ -1191,7 +1193,7 @@ void do_whois(Char *ch, ArgParser args) {
 
     std::string output;
     auto filter = args.shift();
-    for (auto &d : descriptors().all_visible_to(*ch)) {
+    for (auto &d : ch->mud_.descriptors().all_visible_to(*ch)) {
         auto *wch = d.person();
         // TODO: can or should this be part of all_visible_to?
         if (!ch->can_see(*wch))
@@ -1213,17 +1215,17 @@ void do_whois(Char *ch, ArgParser args) {
  * New 'who' command originally by Alander of Rivers of Mud.
  */
 void do_who(Char *ch, ArgParser args) {
-    int iRace;
-    int iLevelLower = 0;
-    int iLevelUpper = MAX_LEVEL;
+    int race_idx;
+    int level_lower = 0;
+    int level_upper = MAX_LEVEL;
     int nNumber;
     int nMatch;
-    bool rgfRace[MAX_PC_RACE]{};
-    std::unordered_set<const Clan *> rgfClan;
+    bool races[MAX_PC_RACE]{};
+    std::unordered_set<const Clan *> clans;
     Class const *class_filter{};
-    bool fRaceRestrict = false;
-    bool fClanRestrict = false;
-    bool fImmortalOnly = false;
+    bool race_restrict = false;
+    bool clan_restrict = false;
+    bool immortal_only = false;
     /*
      * Parse arguments.
      */
@@ -1235,8 +1237,8 @@ void do_who(Char *ch, ArgParser args) {
 
         if (is_number(arg)) {
             switch (++nNumber) {
-            case 1: iLevelLower = parse_number(arg); break;
-            case 2: iLevelUpper = parse_number(arg); break;
+            case 1: level_lower = parse_number(arg); break;
+            case 2: level_upper = parse_number(arg); break;
             default: ch->send_line("Only two level numbers allowed."); return;
             }
         } else {
@@ -1245,12 +1247,12 @@ void do_who(Char *ch, ArgParser args) {
              * Look for classes to turn on.
              */
             if (arg[0] == 'i') {
-                fImmortalOnly = true;
+                immortal_only = true;
             } else {
                 class_filter = Class::by_name(arg);
                 if (!class_filter) {
-                    iRace = race_lookup(arg);
-                    if (iRace == 0 || iRace >= MAX_PC_RACE) {
+                    race_idx = race_lookup(arg);
+                    if (race_idx == 0 || race_idx >= MAX_PC_RACE) {
                         /* Check if clan exists */
                         const Clan *clan_ptr = nullptr; // TODO this could be much better phrased
                         for (auto &clan : clantable) {
@@ -1264,12 +1266,12 @@ void do_who(Char *ch, ArgParser args) {
                         } else
                         /* It DID match! */
                         {
-                            fClanRestrict = true;
-                            rgfClan.emplace(clan_ptr);
+                            clan_restrict = true;
+                            clans.emplace(clan_ptr);
                         }
                     } else {
-                        fRaceRestrict = true;
-                        rgfRace[iRace] = true;
+                        race_restrict = true;
+                        races[race_idx] = true;
                     }
                 }
             }
@@ -1281,7 +1283,7 @@ void do_who(Char *ch, ArgParser args) {
      */
     nMatch = 0;
     std::string output;
-    for (auto &d : descriptors().all_visible_to(*ch)) {
+    for (auto &d : ch->mud_.descriptors().all_visible_to(*ch)) {
         // Check for match against restrictions.
         // Don't use trust as that exposes trusted mortals.
         // added Faramir 13/8/96 because switched imms were visible to all
@@ -1289,11 +1291,11 @@ void do_who(Char *ch, ArgParser args) {
             continue;
 
         auto *wch = d.person();
-        if (wch->level < iLevelLower || wch->level > iLevelUpper || (fImmortalOnly && wch->level < LEVEL_HERO)
-            || (class_filter && wch->pcdata->class_type != class_filter) || (fRaceRestrict && !rgfRace[wch->race]))
+        if (wch->level < level_lower || wch->level > level_upper || (immortal_only && wch->level < LEVEL_HERO)
+            || (class_filter && wch->pcdata->class_type != class_filter) || (race_restrict && !races[wch->race]))
             continue;
-        if (fClanRestrict) {
-            if (!wch->clan() || rgfClan.count(wch->clan()) == 0)
+        if (clan_restrict) {
+            if (!wch->clan() || clans.count(wch->clan()) == 0)
                 continue;
         }
 
@@ -1307,13 +1309,12 @@ void do_who(Char *ch, ArgParser args) {
 }
 
 void do_count(Char *ch) {
-    auto count = static_cast<size_t>(ranges::distance(descriptors().all_visible_to(*ch)));
-    max_on = std::max(count, max_on);
-
+    const size_t count = static_cast<size_t>(ranges::distance(ch->mud_.descriptors().all_visible_to(*ch)));
+    const auto max_on = std::max(count, ch->mud_.max_players_today());
     if (max_on == count)
         ch->send_line("There are {} characters on, the most so far today.", count);
     else
-        ch->send_line("There are {} characters on, the most son today was {}.", count, max_on);
+        ch->send_line("There are {} characters on, the most on today was {}.", count, max_on);
 }
 
 void do_inventory(Char *ch) {
@@ -1423,7 +1424,7 @@ void do_where(Char *ch, ArgParser args) {
     if (args.empty()) {
         ch->send_line("|cYou are in {}\n\rPlayers near you:|w", ch->in_room->area->short_name());
         auto found = false;
-        for (auto &victim : descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch)
+        for (auto &victim : ch->mud_.descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch)
                                 | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
             if (victim.is_pc()) {
                 found = true;
@@ -1498,7 +1499,6 @@ void do_consider(Char *ch, ArgParser args) {
 
 void set_prompt(Char *ch, std::string_view prompt) {
     if (ch->is_npc()) {
-        bug("Set_prompt: NPC.");
         return;
     }
     ch->pcdata->prompt = prompt;
@@ -1652,7 +1652,7 @@ void do_password(Char *ch, ArgParser args) {
             return;
         }
     }
-    if (new_pass.length() < MinPasswordLen) {
+    if (new_pass.length() < MIN_PASSWORD_LEN) {
         ch->send_line("New password must be at least five characters long.");
         return;
     }

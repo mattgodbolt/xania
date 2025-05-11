@@ -8,6 +8,7 @@
 /*************************************************************************/
 
 #include "act_comm.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
@@ -17,17 +18,16 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "Finger.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
 #include "TimeInfoData.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
 #include "handler.hpp"
-#include "interp.h"
 #include "ride.hpp"
 #include "save.hpp"
 #include "string_utils.hpp"
@@ -72,7 +72,7 @@ void announce(std::string_view buf, const Char *ch) {
     if (ch->in_room == nullptr)
         return; /* special case on creation */
 
-    for (auto &victim : descriptors().all_who_can_see(*ch) | DescriptorFilter::to_person()) {
+    for (auto &victim : ch->mud_.descriptors().all_who_can_see(*ch) | DescriptorFilter::to_person()) {
         if (!check_enum_bit(victim.comm, CommFlag::NoAnnounce) && !check_enum_bit(victim.comm, CommFlag::Quiet))
             act(buf, &victim, nullptr, ch, To::Char, MobTrig::Yes, Position::Type::Dead);
     }
@@ -123,8 +123,8 @@ void tell_to(Char *ch, Char *victim, std::string_view text) {
             Position::Type::Dead);
         if (check_enum_bit(victim->comm, CommFlag::ShowAfk)) {
             // TODO(#134) use the victim's timezone info.
-            act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", formatted_time(current_time), text), ch,
-                nullptr, victim, To::Vict, MobTrig::Yes, Position::Type::Dead);
+            act(fmt::format("|c\007AFK|C: At {}, $n told you '{}|C'.|w", formatted_time(ch->mud_.current_time()), text),
+                ch, nullptr, victim, To::Vict, MobTrig::Yes, Position::Type::Dead);
             act("|cYour message was logged onto $S screen.|w", ch, nullptr, victim, To::Char, MobTrig::Yes,
                 Position::Type::Dead);
             victim->reply = ch;
@@ -360,7 +360,7 @@ void do_quit(Char *ch) {
     Duels::terminate_duel(ch, std::nullopt, "Your duel came to an end as your opponent quit.");
     ch->send_line("|WYou quit reality for the game.|w");
     act("|W$n has left reality for the game.|w", ch);
-    log_string("{} has quit.", ch->name);
+    ch->mud_.logger().log_string("{} has quit.", ch->name);
     announce(fmt::format("|W### |P{}|W departs, seeking another reality.|w", ch->name), ch);
 
     /*
@@ -435,7 +435,7 @@ void do_follow(Char *ch, ArgParser args) {
 
 void add_follower(Char *ch, Char *master) {
     if (ch->master != nullptr) {
-        bug("Add_follower: non-null master.");
+        ch->mud_.logger().bug("Add_follower: non-null master.");
         return;
     }
 
@@ -450,7 +450,7 @@ void add_follower(Char *ch, Char *master) {
 
 void stop_follower(Char *ch) {
     if (ch->master == nullptr) {
-        bug("Stop_follower: null master.");
+        ch->mud_.logger().bug("Stop_follower: null master.");
         return;
     }
 
@@ -549,7 +549,7 @@ void do_order(Char *ch, ArgParser args) {
             found = true;
             act(fmt::format("|W$n|w orders you to '{}'.", what), ch, nullptr, och, To::Vict);
             ch->wait_state(2 * PULSE_VIOLENCE);
-            interpret(och, what);
+            ch->mud_.interpreter().interpret(och, what);
         }
     }
     if (found)

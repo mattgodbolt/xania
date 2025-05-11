@@ -5,6 +5,7 @@
 /*************************************************************************/
 #pragma once
 
+#include "Logging.hpp"
 #include "string_utils.hpp"
 #include <cstdio>
 #include <optional>
@@ -28,7 +29,7 @@ public:
           vict_found_(std::move(vict_found)), char_auto_(std::move(char_auto)), others_auto_(std::move(others_auto)) {}
     Social(std::string_view name) : name_(name) {}
 
-    [[nodiscard]] static std::optional<Social> load(FILE *fp);
+    [[nodiscard]] static std::optional<Social> load(FILE *fp, const Logger &logger);
 
     [[nodiscard]] std::string_view name() const noexcept { return name_; }
     [[nodiscard]] std::string_view char_no_arg() const noexcept { return char_no_arg_; }
@@ -52,7 +53,7 @@ private:
 
 class Socials {
 public:
-    void load(FILE *fp);
+    void load(FILE *fp, const Logger &logger);
     [[nodiscard]] const Social *find(std::string_view name) const noexcept;
     [[nodiscard]] size_t count() const noexcept;
     [[nodiscard]] const Social &random() const noexcept;

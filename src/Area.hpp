@@ -10,9 +10,12 @@
 
 #include <memory>
 #include <string>
-#include <vector>
+
+struct Mud;
 
 class Area {
+
+    Mud &mud_;
     std::string description_;
 
     ush_int age_{};
@@ -27,12 +30,12 @@ class Area {
     int highest_vnum_{};
     int num_{};
 
-    Area() = default;
+    Area(Mud &mud) : mud_(mud) {}
 
     void reset();
 
 public:
-    static Area parse(int area_num, FILE *fp, std::string filename);
+    static Area parse(int area_num, FILE *fp, std::string filename, Mud &mud);
 
     void define_vnum(int vnum);
 

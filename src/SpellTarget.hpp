@@ -5,9 +5,6 @@
 /************************************************************************/
 #pragma once
 
-#include "Logging.hpp"
-
-#include <cstddef>
 #include <string_view>
 #include <variant>
 
@@ -29,7 +26,6 @@ public:
         if (auto ptr = std::get_if<Char *>(&target_)) {
             return *ptr;
         } else {
-            bug("Critical: bad SpellTarget::getChar");
             return nullptr;
         }
     }
@@ -37,7 +33,6 @@ public:
         if (auto ptr = std::get_if<Object *>(&target_)) {
             return *ptr;
         } else {
-            bug("Critical: bad SpellTarget::getObject");
             return nullptr;
         }
     }
@@ -45,7 +40,6 @@ public:
         if (auto ptr = std::get_if<std::string_view>(&target_)) {
             return *ptr;
         } else {
-            bug("Critical: bad SpellTarget::getArguments");
             return "";
         }
     }

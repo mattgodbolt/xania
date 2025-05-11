@@ -19,14 +19,14 @@
 /*************************************************************************/
 
 #include "Ban.hpp"
+#include "Act.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
 #include "FlagFormat.hpp"
-#include "comm.hpp"
+#include "Interpreter.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
-#include "interp.h"
 #include "string_utils.hpp"
 
 #include <range/v3/algorithm/find_if.hpp>
@@ -132,7 +132,7 @@ bool Bans::allow_site(Char *ch, ArgParser args) {
     }
 }
 
-size_t Bans::load() {
+size_t Bans::load(const Logger &logger) {
     FILE *fp;
     if ((fp = dependencies_.open_read()) == nullptr) {
         return 0;
@@ -145,8 +145,8 @@ size_t Bans::load() {
             ungetc(c, fp);
         // This isn't resilient against malformed ban lines.
         const std::string name = fread_word(fp);
-        const int level = fread_number(fp);
-        const int flags = fread_flag(fp);
+        const int level = fread_number(fp, logger);
+        const int flags = fread_flag(fp, logger);
         bans_.emplace_back(std::make_unique<const Ban>(name, level, flags));
         fread_to_eol(fp);
     }

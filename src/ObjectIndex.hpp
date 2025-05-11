@@ -48,5 +48,5 @@ struct ObjectIndex {
     [[nodiscard]] bool is_no_remove() const;
 
     // Create a new unique pointer to an Object, based on this prototype.
-    [[nodiscard]] std::unique_ptr<Object> create_object();
+    [[nodiscard]] std::unique_ptr<Object> create_object(const Logger &logger);
 };

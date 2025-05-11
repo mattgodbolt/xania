@@ -3,20 +3,20 @@
 #include "Logging.hpp"
 #include "db.h"
 
-Dice Dice::from_file(FILE *fp) {
-    auto number = fread_number(fp);
+Dice Dice::from_file(FILE *fp, const Logger &logger) {
+    auto number = fread_number(fp, logger);
     auto d = fread_letter(fp);
-    auto type = fread_number(fp);
+    auto type = fread_number(fp, logger);
     auto plus = fread_letter(fp);
-    auto bonus = fread_number(fp);
+    auto bonus = fread_number(fp, logger);
     if (number <= 0)
-        bug("Bad dice: number <= 0");
+        logger.bug("Bad dice: number <= 0");
     if (type <= 0)
-        bug("Bad dice: type <= 0");
+        logger.bug("Bad dice: type <= 0");
     if (d != 'd' && d != 'D')
-        bug("Bad dice: expected 'd' or 'D', got '%c'", d);
+        logger.bug("Bad dice: expected 'd' or 'D', got '%c'", d);
     if (plus != '+')
-        bug("Bad dice: expected '+', got '%c'", plus);
+        logger.bug("Bad dice: expected '+', got '%c'", plus);
     return Dice(number, type, bonus);
 }
 

@@ -10,8 +10,8 @@
 
 using namespace std::literals;
 
-std::optional<Help> Help::load(FILE *fp, const Area *area) {
-    auto level = fread_number(fp);
+std::optional<Help> Help::load(FILE *fp, const Area *area, const Logger &logger) {
+    auto level = fread_number(fp, logger);
     auto keyword = fread_string(fp);
     if (matches_start("$", keyword))
         return {};

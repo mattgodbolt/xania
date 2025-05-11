@@ -2,6 +2,7 @@
 
 #include "ArmourClass.hpp"
 #include "Dice.hpp"
+#include "Logging.hpp"
 #include "MProgProgram.hpp"
 #include "Materials.hpp"
 #include "Position.hpp"
@@ -57,8 +58,8 @@ struct MobIndexData {
     std::vector<MProg::Program> mobprogs{};
     int progtypes{}; /* Used by MOBprogram */
 
-    static std::optional<MobIndexData> from_file(FILE *fp);
+    static std::optional<MobIndexData> from_file(FILE *fp, const Logger &logger);
 
 private:
-    MobIndexData(sh_int vnum, FILE *fp);
+    MobIndexData(sh_int vnum, FILE *fp, const Logger &logger);
 };

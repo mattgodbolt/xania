@@ -1,10 +1,10 @@
 #include "Descriptor.hpp"
+#include "Act.hpp"
 #include "Char.hpp"
 #include "Constants.hpp"
 #include "Logging.hpp"
 #include "PlayerActFlag.hpp"
 #include "TimeInfoData.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "common/mask_hostname.hpp"
 #include "string_utils.hpp"
@@ -40,7 +40,9 @@ const char *short_name_of(DescriptorState state) {
     return "<UNK>";
 }
 
-Descriptor::Descriptor(uint32_t descriptor) : channel_(descriptor), login_time_(current_time) {}
+// login_time_ always initialized to now() rather than reading from Mud.current_time() as doing so over-complicates
+// testing, and there are no upsides.
+Descriptor::Descriptor(uint32_t descriptor, Mud &mud) : channel_(descriptor), mud_(mud), login_time_(Clock::now()) {}
 
 Descriptor::~Descriptor() {
     // Ensure we don't have anything pointing back at us. No messages here in case this is during shutdown.
@@ -89,7 +91,7 @@ bool Descriptor::is_in_lobby() const noexcept {
 }
 
 bool Descriptor::is_lobby_timeout_exceeded() const noexcept {
-    return is_in_lobby() && std::chrono::duration_cast<Minutes>(current_time - login_time_) >= LobbyTimeoutMins;
+    return is_in_lobby() && std::chrono::duration_cast<Minutes>(mud_.current_time() - login_time_) >= LobbyTimeoutMins;
 }
 
 bool Descriptor::write_direct(std::string_view text) const {
@@ -102,7 +104,7 @@ bool Descriptor::write_direct(std::string_view text) const {
 
     while (!text.empty()) {
         p.nExtra = std::min<uint32_t>(text.length(), PacketMaxPayloadSize);
-        if (!send_to_doorman(&p, text.data()))
+        if (!mud_.send_to_doorman(&p, text.data()))
             return false;
         text = text.substr(p.nExtra);
     }
@@ -141,7 +143,7 @@ void Descriptor::write(std::string_view message) noexcept {
         outbuf_ += "\n\r";
 
     if (outbuf_.size() + message.size() > MaxOutputBufSize) {
-        bug("Buffer overflow. Closing.");
+        mud_.logger().bug("Buffer overflow. Closing.");
         outbuf_.clear(); // Prevent a possible loop where close() might write some last few things to the socket.
         close();
         return;
@@ -225,11 +227,11 @@ void Descriptor::close() noexcept {
 
     if (character_) {
         Duels::terminate_duel(character_, std::nullopt, "Your duel came to an end as your opponent disconnected.");
-        log_new(fmt::format("Closing link to {}.", character_->name).c_str(), CharExtraFlag::WiznetDebug,
-                (check_enum_bit(character_->act, PlayerActFlag::PlrWizInvis)
-                 || check_enum_bit(character_->act, PlayerActFlag::PlrProwl))
-                    ? character_->get_trust()
-                    : 0);
+        mud_.logger().log_new(fmt::format("Closing link to {}.", character_->name).c_str(), CharExtraFlag::WiznetDebug,
+                              (check_enum_bit(character_->act, PlayerActFlag::PlrWizInvis)
+                               || check_enum_bit(character_->act, PlayerActFlag::PlrProwl))
+                                  ? character_->get_trust()
+                                  : 0);
         if (is_playing() || state_ == DescriptorState::Disconnecting) {
             act("$n has lost $s link.", character_);
             character_->desc = nullptr;
@@ -240,7 +242,8 @@ void Descriptor::close() noexcept {
         character_ = nullptr;
         original_ = nullptr;
     } else {
-        log_new(fmt::format("Closing link to channel {}.", channel_).c_str(), CharExtraFlag::WiznetDebug, 100);
+        mud_.logger().log_new(fmt::format("Closing link to channel {}.", channel_).c_str(), CharExtraFlag::WiznetDebug,
+                              100);
     }
 
     // If doorman didn't tell us to disconnect them, then tell doorman to kill the connection, else ack the disconnect.
@@ -252,7 +255,7 @@ void Descriptor::close() noexcept {
     }
     p.channel = channel_;
     p.nExtra = 0;
-    send_to_doorman(&p, nullptr);
+    mud_.send_to_doorman(&p, nullptr);
 
     state_ = DescriptorState::Closed;
 }

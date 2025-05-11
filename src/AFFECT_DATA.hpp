@@ -5,6 +5,8 @@
 
 #include <string>
 
+struct Logger;
+
 // A single effect that affects an object or character.
 struct AFFECT_DATA {
     sh_int type{};
@@ -29,8 +31,8 @@ struct AFFECT_DATA {
     [[nodiscard]] Value worth() const noexcept;
 
     [[nodiscard]] bool affects_stats() const noexcept { return location != AffectLocation::None && modifier; }
-    [[nodiscard]] std::string describe_item_effect(bool for_imm = false) const;
-    [[nodiscard]] std::string describe_char_effect(bool for_imm = false) const;
+    [[nodiscard]] std::string describe_item_effect(bool for_imm, const Logger &logger) const;
+    [[nodiscard]] std::string describe_char_effect(bool for_imm, const Logger &logger) const;
 
     [[nodiscard]] bool is_skill() const noexcept;
     bool operator==(const AFFECT_DATA &rhs) const;

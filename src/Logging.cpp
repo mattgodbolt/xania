@@ -18,8 +18,10 @@ BugAreaFileContext::~BugAreaFileContext() {
     area_file = nullptr;
 }
 
+Logger::Logger(DescriptorList &descriptors) : descriptors_{descriptors} {}
+
 /* Reports a bug. */
-void bug(std::string_view message) {
+void Logger::bug(std::string_view message) const {
     if (area_file) {
         int iLine;
         if (area_file == stdin) {
@@ -41,7 +43,7 @@ void bug(std::string_view message) {
 }
 
 /* New log - takes a level and broadcasts to IMMs on WIZNET */
-void log_new(std::string_view str, const CharExtraFlag loglevel, int level) {
+void Logger::log_new(std::string_view str, const CharExtraFlag loglevel, int level) const {
     // One day use spdlog here?
     fmt::print(stderr, "{} :: {}\n", formatted_time(Clock::now()), str);
 
@@ -49,7 +51,7 @@ void log_new(std::string_view str, const CharExtraFlag loglevel, int level) {
         level = std::max(level, 96); // Prevent non-SOCK ppl finding out addresses
 
     auto wiznet_msg = fmt::format("|GWIZNET:|g {}|w\n\r", str);
-    for (auto &d : descriptors().playing()) {
+    for (auto &d : descriptors_.playing()) {
         auto *ch = d.person();
         if (ch->is_npc() || !ch->is_set_extra(CharExtraFlag::WiznetOn) || !ch->is_set_extra(loglevel)
             || (ch->get_trust() < level))

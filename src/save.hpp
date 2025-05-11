@@ -27,5 +27,6 @@ struct LoadCharObjResult {
     bool newly_created{};
     std::unique_ptr<Char> character;
 };
-LoadCharObjResult try_load_player(std::string_view player_name);
-void load_into_char(Char &character, LastLoginInfo &last_login, FILE *fp);
+// TODO This shouldn't be a global function
+LoadCharObjResult try_load_player(Mud &mud, std::string_view player_name);
+void load_into_char(Char &character, LastLoginInfo &last_login, FILE *fp, const Logger &logger);

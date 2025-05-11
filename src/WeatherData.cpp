@@ -3,7 +3,7 @@
 
 #include <fmt/format.h>
 
-WeatherData weather_info;
+WeatherData weather_info; // TODO fix
 
 namespace {
 
@@ -48,7 +48,7 @@ int WeatherData::pressure_direction(const TimeInfoData &tid) const {
         return mmhg_ > 1015 ? -2 : 2;
 }
 
-void WeatherData::update(Rng &rng, const TimeInfoData &tid) {
+void WeatherData::update(Rng &rng, const TimeInfoData &tid, const Logger &logger) {
     sunlight_ = sun_from_time(tid);
 
     auto change_change = pressure_direction(tid) * rng.dice(1, 4) + rng.dice(2, 6) - rng.dice(2, 6);
@@ -57,7 +57,7 @@ void WeatherData::update(Rng &rng, const TimeInfoData &tid) {
 
     switch (sky_) {
     default:
-        bug("Weather_update: bad sky {}.", static_cast<int>(sky_));
+        logger.bug("Weather_update: bad sky {}.", static_cast<int>(sky_));
         sky_ = Sky::Cloudless;
         break;
 

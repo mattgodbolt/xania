@@ -13,9 +13,10 @@
 
 struct Char;
 struct Object;
+struct Logger;
 
 int mana_for_spell(const Char *ch, const int sn);
-int slot_lookup(int slot);
+int slot_lookup(const int slot, const Logger &logger);
 bool saves_spell(int level, const Char *victim);
 void obj_cast_spell(const int sn, const int level, Char *ch, Char *victim, Object *obj, std::string_view arguments);
 bool check_dispel(int dis_level, Char *victim, int spell_num);

@@ -5,12 +5,11 @@
 /*************************************************************************/
 #pragma once
 
+#include "Logging.hpp"
 #include "MProgTriggerCtx.hpp"
-#include "Types.hpp"
 
 #include <optional>
 #include <stack>
-#include <type_traits>
 #include <variant>
 
 class Rng;
@@ -33,7 +32,7 @@ struct IfExpr {
     Operand operand;
     bool operator==(const IfExpr &other) const = default;
 
-    static std::optional<IfExpr> parse_if(std::string_view text);
+    static std::optional<IfExpr> parse_if(std::string_view text, const Logger &logger);
 };
 
 // Track if the current execution frame is executable (inherited from the parent frame)
@@ -48,10 +47,10 @@ struct Frame {
 // as well as the stack of execution frames.
 struct ExecutionCtx {
 
-    ExecutionCtx(Rng &rng, Char *pmob, const Char *pactor, const Char *prandom, const Char *pact_targ_char,
-                 const Object *pobj, const Object *pact_targ_obj)
-        : rng(rng), mob(pmob), actor(pactor), random(prandom), act_targ_char(pact_targ_char), obj(pobj),
-          act_targ_obj(pact_targ_obj) {
+    ExecutionCtx(Logger &logger, Rng &rng, Char *pmob, const Char *pactor, const Char *prandom,
+                 const Char *pact_targ_char, const Object *pobj, const Object *pact_targ_obj)
+        : logger_(logger), rng(rng), mob(pmob), actor(pactor), random(prandom), act_targ_char(pact_targ_char),
+          obj(pobj), act_targ_obj(pact_targ_obj) {
         frames.push({true, true});
     }
     // Returns the Char referenced by ifexpr's dollar argument, can be null.
@@ -59,6 +58,7 @@ struct ExecutionCtx {
     // Returns the Object referenced by ifexpr's dollar argument, can be null.
     [[nodiscard]] const Object *select_obj(const IfExpr &ifexpr) const;
 
+    Logger &logger_;
     Rng &rng;
     // The mob the program is running on
     Char *mob;
@@ -78,8 +78,8 @@ struct ExecutionCtx {
     std::stack<Frame> frames{};
 };
 
-bool compare_strings(std::string_view lhs, std::string_view opr, std::string_view rhs);
-bool compare_ints(const int lhs, std::string_view opr, const int rhs);
+bool compare_strings(std::string_view lhs, std::string_view opr, std::string_view rhs, const Logger &logger);
+bool compare_ints(const int lhs, std::string_view opr, const int rhs, const Logger &logger);
 bool evaluate_if(std::string_view ifchck, const ExecutionCtx &ctx);
 std::string expand_var(const char c, const ExecutionCtx &ctx);
 void interpret_command(std::string_view cmnd, const ExecutionCtx &ctx);

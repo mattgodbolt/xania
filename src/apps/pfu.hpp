@@ -5,6 +5,8 @@
 #include <spdlog/spdlog.h>
 #include <vector>
 
+struct Mud;
+
 namespace pfu {
 
 class UpgradeTask {
@@ -57,7 +59,7 @@ using Logger = spdlog::logger;
 // Log in one character and apply any relevant upgrades. Doesn't save the character.
 class CharUpgrader {
 public:
-    explicit CharUpgrader(std::string_view name, const Tasks &all_tasks, Logger &logger);
+    explicit CharUpgrader(Mud &mud, std::string_view name, const Tasks &all_tasks, Logger &logger);
 
     CharUpgraderResult upgrade();
 
@@ -70,6 +72,7 @@ private:
     // Filter all_tasks_ to include those that apply to the Char being upgraded.
     auto required_tasks(const Char &ch) const;
 
+    Mud &mud_;
     const std::string_view name_;
     // A temporary Descriptor required when shoe-horning the Char into the world, it has
     // a mutual reference with Char, setup in simulate_login().
@@ -80,7 +83,7 @@ private:
 
 Tasks register_tasks();
 std::vector<std::string> collect_player_names(const std::string &dirname, Logger &logger);
-void upgrade_players(const std::vector<std::string> &players, Logger &logger);
+void upgrade_players(Mud &mud, const std::vector<std::string> &players, Logger &logger);
 
 // Instantiate a player character, upgrade/tweak it, save it then extract it from the world.
 // This saves the Char out to the player file even if no UpgradeTasks are executed.
@@ -88,8 +91,8 @@ void upgrade_players(const std::vector<std::string> &players, Logger &logger);
 // implicitly unversioned (e.g. addition of the Pronouns fields) and we want those things
 // to be saved when upgrading legacy files.
 template <typename SaveChar>
-bool upgrade_player(std::string_view player, const Tasks &all_tasks, Logger &logger, SaveChar saveChar) {
-    CharUpgrader cup(player, all_tasks, logger);
+bool upgrade_player(Mud &mud, std::string_view player, const Tasks &all_tasks, Logger &logger, SaveChar saveChar) {
+    CharUpgrader cup(mud, player, all_tasks, logger);
     auto result = cup.upgrade();
     if (result) {
         saveChar(result);

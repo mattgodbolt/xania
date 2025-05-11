@@ -13,9 +13,17 @@
 #include <catch2/generators/catch_generators_range.hpp>
 #include <tuple>
 
+#include "MockMud.hpp"
+
+namespace {
+
+test::MockMud mock_mud{};
+
+}
+
 TEST_CASE("check damage tolerance") {
     using std::make_tuple;
-    Char ch{};
+    Char ch{mock_mud};
     DamageType damage_type;
     ToleranceFlag tolerance_bit;
     DamageTolerance expected;

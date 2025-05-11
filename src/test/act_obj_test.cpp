@@ -1,5 +1,6 @@
 #include "Char.hpp"
 #include "CharActFlag.hpp"
+#include "DescriptorList.hpp"
 #include "MemFile.hpp"
 #include "Object.hpp"
 #include "ObjectExtraFlag.hpp"
@@ -10,6 +11,16 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "MockMud.hpp"
+
+namespace {
+
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
+}
+
 extern bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj,
                                          GenericList<Object *> &objs_to);
 extern bool obj_move_violates_uniqueness(Char *source_char, Char *dest_char, Object *moving_obj, Object *obj_to);
@@ -19,10 +30,10 @@ TEST_CASE("unique object enforcement") {
     ObjectIndex obj_idx{.type = ObjectType::Light};
     // Default case for most tests: both the existing & moving object instances are flagged unique.
     set_enum_bit(obj_idx.extra_flags, ObjectExtraFlag::Unique);
-    Object existing_obj{&obj_idx};
-    Object moving_obj{&obj_idx};
-    Char char_from{};
-    Char char_to{};
+    Object existing_obj{&obj_idx, logger};
+    Object moving_obj{&obj_idx, logger};
+    Char char_from{mock_mud};
+    Char char_to{mock_mud};
 
     SECTION("moving to an inventory") {
         SECTION("unique object collides") {
@@ -67,7 +78,7 @@ TEST_CASE("unique object enforcement") {
             stand stand male 500
             0 0 medium 0
             )mob");
-            auto opt_char_to_idx = MobIndexData::from_file(shopkeeper.file());
+            auto opt_char_to_idx = MobIndexData::from_file(shopkeeper.file(), logger);
             REQUIRE(opt_char_to_idx);
             Shop shop{};
             char_to.mobIndex = &opt_char_to_idx.value();
@@ -88,7 +99,7 @@ TEST_CASE("unique object enforcement") {
     }
     SECTION("moving to a container") {
         ObjectIndex container_idx{.type = ObjectType::Container};
-        Object container{&container_idx};
+        Object container{&container_idx, logger};
         container.type = container_idx.type;
 
         SECTION("unique object to container collides") {

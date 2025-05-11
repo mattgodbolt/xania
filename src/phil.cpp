@@ -7,16 +7,16 @@
 /*                                                                      */
 /************************************************************************/
 
+#include "Act.hpp"
 #include "Char.hpp"
 #include "Exit.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "Room.hpp"
 #include "VnumRooms.hpp"
 #include "act_move.hpp"
-#include "comm.hpp"
 #include "db.h"
 #include "handler.hpp"
-#include "interp.h"
 #include "string_utils.hpp"
 
 #include <range/v3/iterator/operations.hpp>
@@ -49,8 +49,6 @@ std::string_view randomSocial() {
     case 5: return "nuzzle";
     case 6: return "howl";
     }
-
-    bug("in randomSocial() in phil.c : number_range outside of bounds!");
     return "";
 }
 
@@ -97,13 +95,14 @@ bool doSleepActions(Char *ch, Room *home) {
         }
         return true;
     }
+    auto &interpreter = ch->mud_.interpreter();
     if (sleepFactor > YawnAt) {
         if (random > 97) {
-            check_social(ch, "yawn", "");
+            interpreter.interpret(ch, "yawn");
             return true;
         }
         if (random > 94) {
-            check_social(ch, "stretch", "");
+            interpreter.interpret(ch, "stretch");
             return true;
         }
     }
@@ -120,7 +119,9 @@ void doRandomSocial(Char *ch) {
     if (charSelected >= charsInRoom)
         charSelected = charsInRoom - 1;
     auto *countChar = *std::next(ch->in_room->people.begin(), charSelected);
-    check_social(ch, randomSocial(), countChar->name);
+    auto &interpreter = ch->mud_.interpreter();
+    auto social = fmt::format("{} {}", randomSocial(), countChar->name);
+    interpreter.interpret(ch, social);
 }
 
 /* Find the amount of interest Phil will show in the given character, by looking up the */
@@ -168,10 +169,10 @@ bool spec_phil(Char *ch) {
     /* Check fighting state */
     if (ch->is_pos_fighting())
         return false;
-
+    const Logger &logger = ch->mud_.logger();
     /* Check sleep state */
-    if ((home = get_room(Rooms::ForreyHome)) == nullptr) {
-        bug("Couldn't get Forrey's home index.");
+    if ((home = get_room(Rooms::ForreyHome, logger)) == nullptr) {
+        ch->mud_.logger().bug("Couldn't get Forrey's home index.");
         return false;
     }
 

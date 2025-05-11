@@ -10,7 +10,7 @@
 #include "Char.hpp"
 #include "CommandSet.hpp"
 #include "Constants.hpp"
-#include "interp.h"
+#include "Interpreter.hpp"
 
 #include <fmt/format.h>
 

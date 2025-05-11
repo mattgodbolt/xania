@@ -23,13 +23,13 @@
 
 namespace {
 
-void objectbug(std::string_view str, ObjectIndex *obj) {
-    log_string("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str);
+void objectbug(std::string_view str, ObjectIndex *obj, const Logger &logger) {
+    logger.log_string("obj> {} (#{}): {}", obj->short_descr, obj->vnum, str);
 }
 
 /* report_object, takes an object_index_data obj and returns the 'worth' of an
    object in points. */
-int report_object(const Object *object) {
+int report_object(const Object *object, const Logger &logger) {
     int averagedam, allowedaverage;
     ObjectIndex *obj = object->objIndex;
     auto value =
@@ -51,7 +51,7 @@ int report_object(const Object *object) {
             allowedaverage += std::max(1, (allowedaverage) / 20);
         averagedam = (obj->value[1] * obj->value[2] + obj->value[1]) / 2;
         if ((averagedam > allowedaverage)) {
-            objectbug("average damage too high", obj);
+            objectbug("average damage too high", obj, logger);
         }
         /* Add to worth for each weapon type */
         if (check_enum_bit(obj->value[4], WeaponFlag::Flaming))
@@ -72,15 +72,15 @@ int report_object(const Object *object) {
     case ObjectType::Bomb:
     case ObjectType::Staff:
         if ((obj->value[4] > (object->level + (std::max(5, obj->level / 10)))))
-            objectbug("level of spell too high", obj);
+            objectbug("level of spell too high", obj, logger);
         break;
 
     default: break;
     }
 
     if (worth > ((obj->level / 10) + 1)) {
-        objectbug(fmt::format("points too high: has {} points (max should be {})", worth, ((obj->level / 10) + 1)),
-                  obj);
+        objectbug(fmt::format("points too high: has {} points (max should be {})", worth, ((obj->level / 10) + 1)), obj,
+                  logger);
     }
     return worth;
 }
@@ -94,7 +94,7 @@ void do_immworth(Char *ch, ArgParser args) {
         return;
     }
 
-    const auto worth = report_object(obj);
+    const auto worth = report_object(obj, ch->mud_.logger());
     const auto shouldbe = ((obj->level / 10) + 1);
     if (worth == shouldbe) {
         ch->send_line("Object '{}' has {} point(s) - exactly right.", obj->objIndex->short_descr, worth);

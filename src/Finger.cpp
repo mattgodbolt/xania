@@ -9,12 +9,12 @@
 
 #include "Finger.hpp"
 #include "ArgParser.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "WrappedFd.hpp"
 #include "db.h"
 #include "handler.hpp"
-#include "interp.h"
 #include "save.hpp"
 #include "string_utils.hpp"
 
@@ -44,7 +44,7 @@ Char *find_char_by_name(std::string_view name) {
     return nullptr;
 }
 
-FingerInfo read_char_info(std::string_view player_name) {
+FingerInfo read_char_info(std::string_view player_name, const Logger &logger) {
     FingerInfo info(player_name);
     if (auto fp = WrappedFd::open(filename_for_player(player_name))) {
         for (;;) {
@@ -58,7 +58,7 @@ FingerInfo read_char_info(std::string_view player_name) {
                 info.i_message = line[to_int(CharExtraFlag::InfoMessage)] == '1';
                 fread_to_eol(static_cast<FILE *>(fp));
             } else if (word == "invislevel" || word == "invis") {
-                info.invis_level = fread_number(static_cast<FILE *>(fp));
+                info.invis_level = fread_number(static_cast<FILE *>(fp), logger);
             } else if (word == "info_message") {
                 info.info_message = fread_string(static_cast<FILE *>(fp));
             } else if (word == "lastloginfrom") {
@@ -72,7 +72,7 @@ FingerInfo read_char_info(std::string_view player_name) {
             }
         }
     } else {
-        bug("Could not open player file '{}' to extract info.", info.name.c_str());
+        logger.bug("Could not open player file '{}' to extract info.", info.name.c_str());
     }
     return info;
 }
@@ -216,7 +216,7 @@ void do_finger(Char *ch, ArgParser args) {
                                                victim->is_set_extra(CharExtraFlag::InfoMessage)))
                            .first->second;
             } else {
-                cur = &info_cache.emplace(name, read_char_info(name)).first->second;
+                cur = &info_cache.emplace(name, read_char_info(name, ch->mud_.logger())).first->second;
             }
         }
 
@@ -284,7 +284,7 @@ void update_info_cache(Char *ch) {
         } else {
             /* If link dead, we need to grab as much
                info as possible. Death.*/
-            cur->last_login_at = formatted_time(current_time);
+            cur->last_login_at = formatted_time(ch->mud_.current_time());
         }
     }
 }

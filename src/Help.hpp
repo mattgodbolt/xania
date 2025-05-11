@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Logging.hpp"
 #include "Types.hpp"
 
 #include <fmt/core.h>
@@ -34,7 +35,7 @@ public:
     bool operator==(const Help &rhs) const;
     bool operator!=(const Help &rhs) const;
 
-    static std::optional<Help> load(FILE *fp, const Area *area);
+    static std::optional<Help> load(FILE *fp, const Area *area, const Logger &logger);
 };
 
 class HelpList {

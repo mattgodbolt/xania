@@ -5,9 +5,9 @@
 /*************************************************************************/
 #include "Duel.hpp"
 
+#include "Act.hpp"
 #include "Char.hpp"
 #include "Logging.hpp"
-#include "comm.hpp"
 #include "fight.hpp"
 #include "handler.hpp"
 #include "lookup.h"

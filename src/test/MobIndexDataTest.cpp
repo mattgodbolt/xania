@@ -1,6 +1,7 @@
 #include "MobIndexData.hpp"
 #include "Attacks.hpp"
 #include "BodySize.hpp"
+#include "DescriptorList.hpp"
 #include "Races.hpp"
 
 #include "string_utils.hpp"
@@ -11,11 +12,18 @@
 
 using namespace std::literals;
 
+namespace {
+
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
+}
+
 TEST_CASE("loading mobs") {
     SECTION("should notice the end of mobs") {
         test::MemFile empty(R"(#0
 )");
-        CHECK(MobIndexData::from_file(empty.file()) == std::nullopt);
+        CHECK(MobIndexData::from_file(empty.file(), logger) == std::nullopt);
     }
     SECTION("should load an example mob") {
         test::MemFile orc(R"mob(
@@ -39,7 +47,7 @@ stand stand male 200
 
 #0
 )mob");
-        auto mob = MobIndexData::from_file(orc.file());
+        auto mob = MobIndexData::from_file(orc.file(), logger);
         REQUIRE(mob);
         CHECK(mob->player_name == "evil orc shaman");
         CHECK(mob->short_descr == "the orc shaman");

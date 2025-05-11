@@ -1,5 +1,5 @@
 #include "DescriptorList.hpp"
-#include "Char.hpp"
+#include "Mud.hpp"
 
 void DescriptorList::reap_closed() {
     // In C++20 we get map::erase_if. For now, we copy paste from cppreference.
@@ -11,10 +11,13 @@ void DescriptorList::reap_closed() {
     }
 }
 
-Descriptor *DescriptorList::create(uint32_t channel_id) {
+Descriptor *DescriptorList::create(uint32_t channel_id, Mud &mud) {
     if (find_by_channel(channel_id))
         return nullptr;
-    return &descriptors_.emplace(channel_id, channel_id).first->second;
+    return &descriptors_
+                .emplace(std::piecewise_construct, std::forward_as_tuple(channel_id),
+                         std::forward_as_tuple(channel_id, mud))
+                .first->second;
 }
 
 Descriptor *DescriptorList::find_by_channel(uint32_t channel_id) {

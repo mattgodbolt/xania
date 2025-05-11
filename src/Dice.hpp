@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Logging.hpp"
 #include "Rng.hpp"
 
 #include <fmt/format.h>
@@ -13,7 +14,7 @@ public:
     Dice() = default;
     explicit Dice(int number, int type, int bonus = 0) : number_(number), type_(type), bonus_(bonus) {}
 
-    static Dice from_file(FILE *fp);
+    static Dice from_file(FILE *fp, const Logger &logger);
     [[nodiscard]] int number() const noexcept { return number_; }
     [[nodiscard]] int type() const noexcept { return type_; }
     [[nodiscard]] int bonus() const noexcept { return bonus_; }

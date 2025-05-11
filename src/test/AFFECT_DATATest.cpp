@@ -1,8 +1,21 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
+#include "DescriptorList.hpp"
 #include "SkillNumbers.hpp"
 
 #include <catch2/catch_test_macros.hpp>
+
+#include "MockMud.hpp"
+
+using trompeloeil::_;
+
+namespace {
+
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
+}
 
 TEST_CASE("AFFECT_DATA") {
     // Horrendous hacks here - gsn_* is only initialised globally once. TODO: remove this hack and make "skillness"
@@ -23,7 +36,7 @@ TEST_CASE("AFFECT_DATA") {
         CHECK(af.bitvector == 0);
     }
     SECTION("should apply and unapply to a character") {
-        Char ch{};
+        Char ch{mock_mud};
         ch.pcdata = std::make_unique<PcData>();
         AFFECT_DATA af;
         SECTION("affect bits") {
@@ -84,9 +97,9 @@ TEST_CASE("AFFECT_DATA") {
 
     SECTION("should name things") {
         // Just a few random checks.
-        CHECK(name(AffectLocation::Damroll) == "damage roll");
-        CHECK(name(AffectLocation::None) == "none");
-        CHECK(name(AffectLocation::Height) == "height");
+        CHECK(name(AffectLocation::Damroll, logger) == "damage roll");
+        CHECK(name(AffectLocation::None, logger) == "none");
+        CHECK(name(AffectLocation::Height, logger) == "height");
     }
 
     SECTION("should identify skills") {
@@ -98,26 +111,27 @@ TEST_CASE("AFFECT_DATA") {
     SECTION("should describe effects") {
         auto spell_with_location = AFFECT_DATA{-1, 33, 22, AffectLocation::Wis, 1, to_int(AffectFlag::Haste)};
         SECTION("for items") {
-            CHECK(spell_with_location.describe_item_effect(false) == "wisdom by 1");
-            CHECK(spell_with_location.describe_item_effect(true) == "wisdom by 1 with bits |Chaste|w, level 33");
+            CHECK(spell_with_location.describe_item_effect(false, logger) == "wisdom by 1");
+            CHECK(spell_with_location.describe_item_effect(true, logger)
+                  == "wisdom by 1 with bits |Chaste|w, level 33");
         }
         SECTION("for characters") {
             auto spell_no_location = AFFECT_DATA{-1, 33, 22, AffectLocation::None, 1, to_int(AffectFlag::Haste)};
             SECTION("spells") {
-                CHECK(spell_with_location.describe_char_effect(false) == " modifies wisdom by 1 for 22 hours");
-                CHECK(spell_with_location.describe_char_effect(true)
+                CHECK(spell_with_location.describe_char_effect(false, logger) == " modifies wisdom by 1 for 22 hours");
+                CHECK(spell_with_location.describe_char_effect(true, logger)
                       == " modifies wisdom by 1 for 22 hours with bits |Chaste|w, level 33");
                 // The case where a spell effect does not affect a specific attribute, in which
                 // case the 'affects' command shows a concise message rather than "modifies none by 0".
-                CHECK(spell_no_location.describe_char_effect(false) == " for 22 hours");
-                CHECK(spell_no_location.describe_char_effect(true)
+                CHECK(spell_no_location.describe_char_effect(false, logger) == " for 22 hours");
+                CHECK(spell_no_location.describe_char_effect(true, logger)
                       == " modifies none by 1 for 22 hours with bits |Chaste|w, level 33");
             }
             SECTION("skills") {
                 auto skill = AFFECT_DATA{gsn_sneak, 80, 0, AffectLocation::None, 0, to_int(AffectFlag::Sneak)};
                 // Similar to above, concise message for effects like sneak and ride.
-                CHECK(skill.describe_char_effect(false).empty());
-                CHECK(skill.describe_char_effect(true) == " modifies none by 0 with bits |Csneak|w, level 80");
+                CHECK(skill.describe_char_effect(false, logger).empty());
+                CHECK(skill.describe_char_effect(true, logger) == " modifies none by 0 with bits |Csneak|w, level 80");
             }
         }
     }

@@ -5,7 +5,6 @@
 /*************************************************************************/
 #include "Class.hpp"
 #include "Constants.hpp"
-#include "Logging.hpp"
 #include "Stats.hpp"
 #include "VnumObjects.hpp"
 #include "string_utils.hpp"
@@ -82,7 +81,6 @@ const std::array<Class const *, MAX_CLASS> &Class::table() { return class_table;
 
 const Class *Class::by_id(const sh_int id) {
     if (id < 0 || id >= MAX_CLASS) {
-        bug("Class::by_id: id out of range {}.", id);
         return nullptr;
     }
     return class_table[id];

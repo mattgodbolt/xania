@@ -3,6 +3,7 @@
 #include "pfu.hpp"
 #include "update.hpp"
 
+#include "MudImpl.hpp"
 #include <fmt/format.h>
 #include <lyra/lyra.hpp>
 #include <spdlog/sinks/stdout_color_sinks.h>
@@ -51,7 +52,8 @@ int main(int argc, const char **argv) {
         logger.critical("No players found!");
         exit(1);
     }
-    boot_db();
-    pfu::upgrade_players(names, logger);
+    auto mud = std::make_unique<MudImpl>();
+    boot_db(*mud.get());
+    pfu::upgrade_players(*mud.get(), names, logger);
     collect_all_garbage();
 }

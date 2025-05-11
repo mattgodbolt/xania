@@ -1,6 +1,7 @@
 #include "Area.hpp"
 #include "AreaList.hpp"
 #include "Exit.hpp"
+#include "MudImpl.hpp"
 #include "Room.hpp"
 #include "db.h"
 
@@ -69,7 +70,8 @@ int main(int argc, const char **argv) {
 
     if (chdir(area_dir.c_str()) != 0)
         throw fmt::system_error(errno, "Unable to change to area directory {}", area_dir);
-    boot_db();
+    auto mud = std::make_unique<MudImpl>();
+    boot_db(*mud.get());
 
     auto out_file = (output.empty() || output == "-") ? stdout : fopen(output.c_str(), "w");
     fmt::print(out_file, "digraph {{\n");

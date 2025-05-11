@@ -7,14 +7,14 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Act.hpp"
 #include "Char.hpp"
 #include "CommFlag.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
+#include "Interpreter.hpp"
 #include "PlayerActFlag.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
-#include "interp.h"
 
 #include <fmt/format.h>
 
@@ -114,7 +114,7 @@ void channel_command(Char *ch, std::string_view argument, const CommFlag chan_fl
         ch->set_not_afk();
         clear_enum_bit(ch->comm, chan_flag);
         ch->send_line(desc_self, argument);
-        for (auto &d : descriptors().all_but(*ch)) {
+        for (auto &d : ch->mud_.descriptors().all_but(*ch)) {
             auto *victim = d.person();
             if (!check_enum_bit(victim->comm, chan_flag) && !check_enum_bit(victim->comm, CommFlag::Quiet)) {
                 act(desc_other, ch, argument, d.character(), To::Vict, MobTrig::Yes, Position::Type::Dead);
@@ -136,7 +136,7 @@ void do_immtalk(Char *ch, std::string_view argument) {
     const char *format = check_enum_bit(ch->act, PlayerActFlag::PlrAfk) ? "|w(|cAFK|w)|W $n: |c$t|w" : "|W$n: |c$t|w";
     if (ch->get_trust() >= LEVEL_HERO)
         act(format, ch, argument, nullptr, To::Char, MobTrig::Yes, Position::Type::Dead);
-    for (auto &d : descriptors().playing()) {
+    for (auto &d : ch->mud_.descriptors().playing()) {
         if (d.character()->is_immortal() && !check_enum_bit(d.character()->comm, CommFlag::NoWiz))
             act(format, ch, argument, d.character(), To::Vict, MobTrig::Yes, Position::Type::Dead);
     }

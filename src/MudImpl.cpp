@@ -1,53 +1,33 @@
-/*************************************************************************/
-/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
-/*  See the header to file: merc.h for original code copyrights          */
-/*                                                                       */
-/*  comm.c: the core of the MUD, handles initialisation and networking   */
-/*                                                                       */
-/*************************************************************************/
-
-/*
- * Originally contained a ton of OS-specific stuff.
- * We only support linux these days...so we stopped pretending...
- */
-
-#include "comm.hpp"
+/************************************************************************/
+/*  Xania (M)ulti(U)ser(D)ungeon server source code                     */
+/*  (C) 2025 Xania Development Team                                     */
+/*  See the header to file: merc.h for original code copyrights         */
+/************************************************************************/
+#include "MudImpl.hpp"
+#include "Act.hpp"
 #include "Area.hpp"
 #include "Ban.hpp"
-#include "Char.hpp"
-#include "Class.hpp"
 #include "CommFlag.hpp"
-#include "Descriptor.hpp"
-#include "DescriptorList.hpp"
 #include "Help.hpp"
 #include "Logging.hpp"
-#include "MProg.hpp"
-#include "MobIndexData.hpp"
 #include "Note.hpp"
 #include "Object.hpp"
-#include "PcCustomization.hpp"
+#include "ObjectIndex.hpp"
 #include "PlayerActFlag.hpp"
-#include "Pronouns.hpp"
+#include "PromptFormat.hpp"
 #include "Races.hpp"
 #include "SkillNumbers.hpp"
-#include "TimeInfoData.hpp"
 #include "Titles.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
-#include "act_comm.hpp"
-#include "act_info.hpp"
 #include "common/BitOps.hpp"
+#include "common/Configuration.hpp"
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
-#include "db.h"
-#include "fight.hpp"
-#include "handler.hpp"
-#include "interp.h"
+#include "db.h" // TODO remove this
 #include "save.hpp"
 #include "skills.hpp"
 #include "string_utils.hpp"
-#include "update.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/find_if.hpp>
@@ -60,54 +40,22 @@
 #include <sys/un.h>
 #include <thread>
 
-using namespace std::literals;
+// TODO: move these?
+extern void move_active_char_from_limbo(Char *ch);
+extern void update_handler(Mud &mud);
+extern int race_lookup(std::string_view name);
+extern ObjectIndex *get_obj_index(int vnum, const Logger &logger);
+extern void obj_to_char(Object *obj, Char *ch);
+extern int get_weapon_sn(Char *ch);
+extern Room *get_room(int vnum, const Logger &logger);
+extern void char_to_room(Char *ch, Room *room);
+extern void announce(std::string_view buf, const Char *ch);
+extern void look_auto(Char *ch);
+extern std::string describe_fight_condition(const Char &victim);
 
-extern size_t max_on;
-
-/*
- * Global variables.
- */
-DescriptorList the_descriptors;
-DescriptorList &descriptors() { return the_descriptors; }
-bool merc_down; /* Shutdown       */
-bool wizlock; /* Game is wizlocked    */
-bool newlock; /* Game is newlocked    */
-
-bool read_from_descriptor(Descriptor *d, std::string_view data);
-void move_active_char_from_limbo(Char *ch);
-
-/*
- * Other local functions (OS-independent).
- */
-bool validate_player_name(std::string_view name);
-bool check_reconnect(Descriptor *d);
-bool check_playing(Descriptor *d, std::string_view name);
-void nanny(Descriptor *d, std::string_view argument);
-bool process_output(Descriptor *d, bool fPrompt);
-
-/* Handle to get to doorman */
-Fd doormanDesc;
-
-/* Send a packet to doorman */
-bool send_to_doorman(const Packet *p, const void *extra) {
-    // TODO: do something rather than return here if there's a failure
-    if (!doormanDesc.is_open())
-        return false;
-    if (p->nExtra > PacketMaxPayloadSize) {
-        bug("MUD tried to send a doorman packet with payload size {} > {}! Dropping!", p->nExtra, PacketMaxPayloadSize);
-        return false;
-    }
-    try {
-        if (p->nExtra)
-            doormanDesc.write_many(*p, gsl::span<const byte>(static_cast<const byte *>(extra), p->nExtra));
-        else
-            doormanDesc.write(*p);
-    } catch (const std::runtime_error &re) {
-        bug("Unable to write to doorman: {}", re.what());
-        return false;
-    }
-    return true;
-}
+// TODO Move into a Universe class
+extern std::vector<std::unique_ptr<Char>> char_list;
+extern std::vector<std::unique_ptr<Object>> object_list;
 
 namespace {
 
@@ -116,222 +64,109 @@ const auto NewbieWeaponSkillPct = 40u;
 const auto NewbieNumTrains = 3u;
 const auto NewbieNumPracs = 5u;
 
-void set_echo_state(Descriptor *d, int on) {
-    Packet p;
-    p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
-    p.channel = d->channel();
-    p.nExtra = 0;
-    send_to_doorman(&p, nullptr);
 }
 
-bool send_go_ahead(Descriptor *d) {
-    Packet p;
-    p.type = PACKET_GO_AHEAD;
-    p.channel = d->channel();
-    p.nExtra = 0;
-    return send_to_doorman(&p, nullptr);
-}
+MudImpl::MudImpl()
+    : logger_{std::make_unique<Logger>(descriptors_)}, interpreter_{std::make_unique<Interpreter>()},
+      main_loop_running_(true), wizlock_(false),
+      newlock_(false), control_fd_{std::nullopt}, boot_time_{std::chrono::system_clock::now()},
+      current_time_{std::chrono::system_clock::now()}, current_tick_{TimeInfoData(Clock::now())},
+      max_players_today_(0) {}
 
-void greet(Descriptor &d) {
-    const auto *greeting = HelpList::singleton().lookup(0, "greeting");
-    if (!greeting) {
-        bug("Unable to look up greeting");
-        return;
-    }
-    d.write(greeting->text());
-}
+Logger &MudImpl::logger() const { return *logger_; }
 
-bool is_being_debugged() {
-    std::ifstream t("/proc/self/status");
-    std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+Interpreter &MudImpl::interpreter() const { return *interpreter_; }
 
-    for (auto line : line_iter(str)) {
-        const auto match = "TracerPid:"sv;
-        if (matches_start(match, line))
-            return parse_number(ltrim(line.substr(match.size()))) != 0;
-    }
+DescriptorList &MudImpl::descriptors() { return descriptors_; }
 
-    return false;
-}
-
-void lobby_maybe_enable_colour(Descriptor *desc) {
-    if (desc->ansi_terminal_detected()) {
-        desc->character()->pcdata->colour = true;
-    }
-}
-
-void lobby_prompt_for_race(Descriptor *desc) {
-    do_help(desc->character(), "selectrace");
-    desc->state(DescriptorState::GetNewRace);
-}
-
-void lobby_prompt_for_class(Descriptor *desc) {
-    do_help(desc->character(), "selectclass");
-    desc->state(DescriptorState::GetNewClass);
-}
-
-// If Doorman didn't detect an ansi terminal ask the user.
-void lobby_prompt_for_ansi(Descriptor *desc) {
-    desc->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
-    desc->state(DescriptorState::GetAnsi);
-}
-
-void lobby_show_motd(Descriptor *desc) {
-    auto *ch = desc->character();
-    if (ch->pcdata->colour) {
-        ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
-    }
-    if (ch->is_immortal()) {
-        do_help(ch, "imotd");
-        desc->state(DescriptorState::ReadIMotd);
-    } else {
-        do_help(ch, "motd");
-        desc->state(DescriptorState::ReadMotd);
-    }
-}
-
-// The final step in the lobby is to save the character. In the meantime, if another new character
-// with the same name was created and saved, this prevents duplication/overwriting.
-bool lobby_char_was_created(Descriptor *desc) {
-    struct stat player_file;
-    if (!stat(filename_for_player(desc->character()->name.c_str()).c_str(), &player_file)) {
-        desc->write("Your character could not be created, please try again.\n\r");
-        desc->close();
+/* Send a packet to doorman */
+bool MudImpl::send_to_doorman(const Packet *p, const void *extra) const {
+    // TODO: do something rather than return here if there's a failure
+    if (!doorman_fd_.is_open())
         return false;
-    } else {
-        save_char_obj(desc->character());
-        return true;
+    if (p->nExtra > PacketMaxPayloadSize) {
+        logger_->bug("MUD tried to send a doorman packet with payload size {} > {}! Dropping!", p->nExtra,
+                     PacketMaxPayloadSize);
+        return false;
+    }
+    try {
+        if (p->nExtra)
+            doorman_fd_.write_many(*p, gsl::span<const byte>(static_cast<const byte *>(extra), p->nExtra));
+        else
+            doorman_fd_.write(*p);
+    } catch (const std::runtime_error &re) {
+        logger_->bug("Unable to write to doorman: {}", re.what());
+        return false;
+    }
+    return true;
+}
+
+TimeInfoData &MudImpl::current_tick() { return current_tick_; }
+
+Time MudImpl::boot_time() const { return boot_time_; }
+
+Time MudImpl::current_time() const { return current_time_; }
+
+void MudImpl::terminate(const bool close_sockets) {
+    // This cause the main loop to end on next iteration.
+    main_loop_running_ = false;
+    if (close_sockets) {
+        for (auto &d : descriptors().all())
+            d.close();
     }
 }
 
+bool MudImpl::toggle_wizlock() {
+    wizlock_ = !wizlock_;
+    return wizlock_;
 }
 
-/* where we're asked nicely to quit from the outside */
-void handle_signal_shutdown() {
-    log_string("Signal shutdown received");
-
-    /* ask everyone to save! */
-    for (auto &&uch : char_list) {
-        auto *vch = uch.get();
-        // vch->d->c check added by TM to avoid crashes when
-        // someone hasn't logged in but the mud is shut down
-        if (vch->is_pc() && vch->desc && vch->desc->is_playing()) {
-            do_save(vch);
-            vch->send_line("|RXania has been asked to shutdown by the operating system.|w");
-            if (vch->desc && vch->desc->has_buffered_output())
-                process_output(vch->desc, false);
-        }
-    }
-    merc_down = true;
-    for (auto &d : descriptors().all())
-        d.close();
+bool MudImpl::toggle_newlock() {
+    newlock_ = !newlock_;
+    return newlock_;
 }
 
-Fd init_socket(const char *pipe_file) {
-    unlink(pipe_file);
+size_t MudImpl::max_players_today() const { return max_players_today_; }
 
-    auto fd = Fd::socket(PF_UNIX, SOCK_STREAM, 0);
+void MudImpl::reset_max_players_today() { max_players_today_ = 0; }
+
+void MudImpl::send_tips() { tips_.send_tips(descriptors_); }
+
+void MudImpl::init_socket() {
+
+    const auto &config = Configuration::singleton();
+    pipe_file_ = fmt::format(PIPE_FILE, config.port(), getenv("USER") ? getenv("USER") : "unknown");
+    unlink(pipe_file_.c_str());
+    control_fd_.emplace(Fd::socket(PF_UNIX, SOCK_STREAM, 0));
     sockaddr_un xaniaAddr{};
-    strncpy(xaniaAddr.sun_path, pipe_file, sizeof(xaniaAddr.sun_path) - 1);
+    strncpy(xaniaAddr.sun_path, pipe_file_.c_str(), sizeof(xaniaAddr.sun_path) - 1);
     xaniaAddr.sun_family = PF_UNIX;
     int enabled = 1;
-    fd.setsockopt(SOL_SOCKET, SO_REUSEADDR, &enabled, sizeof(enabled)).bind(xaniaAddr).listen(3);
+    control_fd_->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enabled, sizeof(enabled)).bind(xaniaAddr).listen(3);
 
-    log_string("Waiting for doorman...");
+    logger_->log_string("Waiting for doorman...");
     try {
         sockaddr_un dont_care{};
         socklen_t dont_care_len{sizeof(sockaddr_in)};
-        doormanDesc = fd.accept(reinterpret_cast<sockaddr *>(&dont_care), &dont_care_len);
-        log_string("Doorman has connected - proceeding with boot-up");
+        doorman_fd_ = control_fd_->accept(reinterpret_cast<sockaddr *>(&dont_care), &dont_care_len);
+        logger_->log_string("Doorman has connected - proceeding with boot-up");
     } catch (const std::system_error &e) {
-        log_string("Unable to accept doorman...booting anyway");
-    }
-
-    return fd;
-}
-
-void doorman_lost() {
-    log_string("Lost connection to doorman");
-    doormanDesc.close();
-    /* Now to go through and disconnect all the characters */
-    for (auto &d : descriptors().all())
-        d.close();
-}
-
-void handle_doorman_packet(const Packet &p, std::string_view buffer) {
-    switch (p.type) {
-    case PACKET_CONNECT:
-        log_string("Incoming connection on channel {}.", p.channel);
-        if (auto *d = descriptors().create(p.channel)) {
-            greet(*d);
-        } else {
-            log_string("Duplicate channel {} on connect!", p.channel);
-        }
-        break;
-    case PACKET_RECONNECT:
-        log_string("Incoming reconnection on channel {} for {}.", p.channel, buffer);
-        if (auto *d = descriptors().create(p.channel)) {
-            greet(*d);
-            // Login name
-            d->write(fmt::format("{}\n\r", buffer));
-            nanny(d, buffer);
-            d->write("\n\r");
-
-            // Paranoid :
-            if (d->state() == DescriptorState::GetOldPassword) {
-                d->state(DescriptorState::CircumventPassword);
-                // log in
-                nanny(d, "");
-                // accept ANSIness
-                d->write("\n\r");
-                nanny(d, "");
-            }
-        } else {
-            log_string("Duplicate channel {} on reconnect!", p.channel);
-        }
-        break;
-    case PACKET_DISCONNECT:
-        if (auto *d = descriptors().find_by_channel(p.channel)) {
-            if (d->character() && d->character()->level > 1)
-                save_char_obj(d->character());
-            d->clear_output_buffer();
-            if (d->is_playing())
-                d->state(DescriptorState::Disconnecting);
-            else
-                d->state(DescriptorState::DisconnectingNp);
-            d->close();
-        } else {
-            log_string("Unable to find channel to close ({})", p.channel);
-        }
-        break;
-    case PACKET_INFO:
-        if (auto *d = descriptors().find_by_channel(p.channel)) {
-            auto *data = reinterpret_cast<const InfoData *>(buffer.data());
-            d->set_endpoint(data->netaddr, data->port, data->data);
-            d->ansi_terminal_detected(data->ansi);
-        } else {
-            log_string("Unable to associate info with a descriptor ({})", p.channel);
-        }
-        break;
-
-    case PACKET_MESSAGE:
-        if (auto *d = descriptors().find_by_channel(p.channel)) {
-            if (d->character() != nullptr)
-                d->character()->idle_timer_ticks = 0;
-            read_from_descriptor(d, buffer);
-        } else {
-            log_string("Unable to associate message with a descriptor ({})", p.channel);
-        }
-        break;
-    default: break;
+        logger_->log_string("Unable to accept doorman...booting anyway");
     }
 }
 
-void game_loop_unix(Fd control) {
+void MudImpl::boot() {
+    const auto &config = Configuration::singleton();
+    if (const auto tip_count = tips_.load(config.tip_file()); tip_count < 0)
+        logger_->log_string("Unable to load tips from file {}", config.tip_file());
+    else
+        logger_->log_string("Loaded {} tips from file {}", tip_count, config.tip_file());
+}
+
+void MudImpl::game_loop() {
     static timeval null_time;
-
     if (is_being_debugged())
-        log_string("Running under a debugger");
+        logger_->log_string("Running under a debugger");
     signal(SIGPIPE, SIG_IGN);
 
     sigset_t signals;
@@ -344,10 +179,16 @@ void game_loop_unix(Fd control) {
         perror("signal_fd");
         return;
     }
+    if (!control_fd_) {
+        logger_->log_string("Doorman socket not initialized, exiting!");
+        return;
+    }
+    doorman_init();
+    logger_->log_string("Xania is ready to rock via {}.", pipe_file_);
 
     /* Main loop */
-    while (!merc_down) {
-        current_time = Clock::now();
+    while (main_loop_running_) {
+        current_time_ = Clock::now();
 
         fd_set in_set;
         fd_set out_set;
@@ -360,13 +201,13 @@ void game_loop_unix(Fd control) {
         FD_ZERO(&in_set);
         FD_ZERO(&out_set);
         FD_ZERO(&exc_set);
-        FD_SET(control.number(), &in_set);
+        FD_SET(control_fd_->number(), &in_set);
         FD_SET(signal_fd, &in_set);
-        if (doormanDesc.is_open()) {
-            FD_SET(doormanDesc.number(), &in_set);
-            maxdesc = std::max(control.number(), doormanDesc.number());
+        if (doorman_fd_.is_open()) {
+            FD_SET(doorman_fd_.number(), &in_set);
+            maxdesc = std::max(control_fd_->number(), doorman_fd_.number());
         } else
-            maxdesc = control.number();
+            maxdesc = control_fd_->number();
         maxdesc = std::max(maxdesc, signal_fd);
 
         if (select(maxdesc + 1, &in_set, &out_set, &exc_set, &null_time) < 0) {
@@ -377,12 +218,12 @@ void game_loop_unix(Fd control) {
         if (FD_ISSET(signal_fd, &in_set)) {
             struct signalfd_siginfo info;
             if (read(signal_fd, &info, sizeof(info)) != sizeof(info)) {
-                bug("Unable to read signal info - treating as term");
+                logger_->bug("Unable to read signal info - treating as term");
                 info.ssi_signo = SIGTERM;
             }
             if (info.ssi_signo == SIGINT) {
                 if (is_being_debugged()) {
-                    log_string("Caught SIGINT but detected a debugger, trapping instead");
+                    logger_->log_string("Caught SIGINT but detected a debugger, trapping instead");
                     raise(SIGTRAP);
                 } else {
                     handle_signal_shutdown();
@@ -392,53 +233,51 @@ void game_loop_unix(Fd control) {
                 handle_signal_shutdown();
                 return;
             } else {
-                bug("Unexpected signal {}: ignoring", info.ssi_signo);
+                logger_->bug("Unexpected signal {}: ignoring", info.ssi_signo);
             }
         }
 
         /* If we don't have a connection from doorman, wait for one */
-        if (!doormanDesc.is_open()) {
-            log_string("Waiting for doorman...");
+        if (!doorman_fd_.is_open()) {
+            logger_->log_string("Waiting for doorman...");
 
             try {
                 sockaddr_un dont_care{};
                 socklen_t dont_care_len{sizeof(sockaddr_in)};
-                doormanDesc = control.accept(reinterpret_cast<sockaddr *>(&dont_care), &dont_care_len);
-                log_string("Doorman has connected.");
-                Packet pInit;
-                pInit.nExtra = pInit.channel = 0;
-                pInit.type = PACKET_INIT;
-                send_to_doorman(&pInit, nullptr);
+                doorman_fd_ = control_fd_->accept(reinterpret_cast<sockaddr *>(&dont_care), &dont_care_len);
+                logger_->log_string("Doorman has connected.");
+                doorman_init();
             } catch (const std::runtime_error &re) {
-                bug("Unable to accept doorman connection: {}", re.what());
+                logger_->bug("Unable to accept doorman connection: {}", re.what());
             }
         }
 
         /* Process doorman input, if any */
-        if (doormanDesc.is_open() && FD_ISSET(doormanDesc.number(), &in_set)) {
+        if (doorman_fd_.is_open() && FD_ISSET(doorman_fd_.number(), &in_set)) {
             Packet p{};
             std::string payload;
             do {
                 try {
-                    p = doormanDesc.read_all<Packet>();
+                    p = doorman_fd_.read_all<Packet>();
                     if (p.nExtra) {
                         if (p.nExtra > PacketMaxPayloadSize) {
-                            bug("Doorman sent a too big packet! {} > {}: dropping", p.nExtra, PacketMaxPayloadSize);
+                            logger_->bug("Doorman sent a too big packet! {} > {}: dropping", p.nExtra,
+                                         PacketMaxPayloadSize);
                             doorman_lost();
                             break;
                         }
                         payload.resize(p.nExtra);
-                        doormanDesc.read_all(gsl::span<char>(payload));
+                        doorman_fd_.read_all(gsl::span<char>(payload));
                     }
                 } catch (const std::runtime_error &re) {
-                    bug("Unable to read doorman packet: {}", re.what());
+                    logger_->bug("Unable to read doorman packet: {}", re.what());
                     doorman_lost();
                     break;
                 }
                 handle_doorman_packet(p, payload);
                 /* Reselect to see if there is more data */
                 select(maxdesc + 1, &in_set, &out_set, &exc_set, &null_time);
-            } while FD_ISSET(doormanDesc.number(), &in_set);
+            } while FD_ISSET(doorman_fd_.number(), &in_set);
         }
 
         /*
@@ -462,7 +301,7 @@ void game_loop_unix(Fd control) {
                 if (d.is_paging())
                     d.show_next_page(*incomm);
                 else if (d.is_playing())
-                    interpret(character, *incomm);
+                    interpreter_->interpret(character, *incomm);
                 else
                     nanny(&d, *incomm);
             } else if (d.is_lobby_timeout_exceeded()) {
@@ -476,12 +315,12 @@ void game_loop_unix(Fd control) {
         /*
          * Autonomous game motion.
          */
-        update_handler();
+        update_handler(*this);
 
         /*
          * Output.
          */
-        if (doormanDesc.is_open()) {
+        if (doorman_fd_.is_open()) {
             for (auto &d : descriptors().all()) {
                 if (d.processing_command() || d.has_buffered_output()) {
                     if (!process_output(&d, true)) {
@@ -500,17 +339,206 @@ void game_loop_unix(Fd control) {
         using namespace std::chrono;
         using namespace std::literals;
         constexpr auto nanos_per_pulse = duration_cast<nanoseconds>(1s) / PULSE_PER_SECOND;
-        auto next_pulse = current_time + nanos_per_pulse;
+        auto next_pulse = current_time_ + nanos_per_pulse;
         std::this_thread::sleep_until(next_pulse);
     }
 }
 
-bool read_from_descriptor(Descriptor *d, std::string_view data) {
+void MudImpl::set_echo_state(Descriptor *d, int on) {
+    Packet p;
+    p.type = on ? PACKET_ECHO_ON : PACKET_ECHO_OFF;
+    p.channel = d->channel();
+    p.nExtra = 0;
+    send_to_doorman(&p, nullptr);
+}
+
+bool MudImpl::send_go_ahead(Descriptor *d) {
+    Packet p;
+    p.type = PACKET_GO_AHEAD;
+    p.channel = d->channel();
+    p.nExtra = 0;
+    return send_to_doorman(&p, nullptr);
+}
+
+void MudImpl::greet(Descriptor &d) {
+    const auto *greeting = HelpList::singleton().lookup(0, "greeting");
+    if (!greeting) {
+        logger_->bug("Unable to look up greeting");
+        return;
+    }
+    d.write(greeting->text());
+}
+
+bool MudImpl::is_being_debugged() {
+    std::ifstream t("/proc/self/status");
+    std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+
+    for (auto line : line_iter(str)) {
+        const auto match = "TracerPid:"sv;
+        if (matches_start(match, line))
+            return parse_number(ltrim(line.substr(match.size()))) != 0;
+    }
+
+    return false;
+}
+
+void MudImpl::lobby_maybe_enable_colour(Descriptor *desc) {
+    if (desc->ansi_terminal_detected()) {
+        desc->character()->pcdata->colour = true;
+    }
+}
+
+void MudImpl::lobby_prompt_for_race(Descriptor *desc) {
+    do_help(desc->character(), "selectrace");
+    desc->state(DescriptorState::GetNewRace);
+}
+
+void MudImpl::lobby_prompt_for_class(Descriptor *desc) {
+    do_help(desc->character(), "selectclass");
+    desc->state(DescriptorState::GetNewClass);
+}
+
+// If Doorman didn't detect an ansi terminal ask the user.
+void MudImpl::lobby_prompt_for_ansi(Descriptor *desc) {
+    desc->write("Does your terminal support ANSI colour (Y/N/Return = as saved)?");
+    desc->state(DescriptorState::GetAnsi);
+}
+
+void MudImpl::lobby_show_motd(Descriptor *desc) {
+    auto *ch = desc->character();
+    if (ch->pcdata->colour) {
+        ch->send_line("This is a |RC|GO|BL|rO|gU|bR|cF|YU|PL |RM|GU|BD|W!");
+    }
+    if (ch->is_immortal()) {
+        do_help(ch, "imotd");
+        desc->state(DescriptorState::ReadIMotd);
+    } else {
+        do_help(ch, "motd");
+        desc->state(DescriptorState::ReadMotd);
+    }
+}
+
+// The final step in the lobby is to save the character. In the meantime, if another new character
+// with the same name was created and saved, this prevents duplication/overwriting.
+bool MudImpl::lobby_char_was_created(Descriptor *desc) {
+    struct stat player_file;
+    if (!stat(filename_for_player(desc->character()->name.c_str()).c_str(), &player_file)) {
+        desc->write("Your character could not be created, please try again.\n\r");
+        desc->close();
+        return false;
+    } else {
+        save_char_obj(desc->character());
+        return true;
+    }
+}
+
+/* where we're asked nicely to quit from the outside */
+void MudImpl::handle_signal_shutdown() {
+    logger_->log_string("Signal shutdown received");
+
+    /* ask everyone to save! */
+    for (auto &&uch : char_list) { // TODO remove global
+        auto *vch = uch.get();
+        // vch->d->c check added by TM to avoid crashes when
+        // someone hasn't logged in but the mud is shut down
+        if (vch->is_pc() && vch->desc && vch->desc->is_playing()) {
+            do_save(vch);
+            vch->send_line("|RXania has been asked to shutdown by the operating system.|w");
+            if (vch->desc && vch->desc->has_buffered_output())
+                process_output(vch->desc, false);
+        }
+    }
+    terminate(true);
+}
+
+void MudImpl::doorman_init() {
+    Packet pInit{.type{PACKET_INIT}, .nExtra{0}, .channel{0}, .data{}};
+    send_to_doorman(&pInit, nullptr);
+}
+
+void MudImpl::doorman_lost() {
+    logger_->log_string("Lost connection to doorman");
+    doorman_fd_.close();
+    /* Now to go through and disconnect all the characters */
+    for (auto &d : descriptors().all())
+        d.close();
+}
+
+void MudImpl::handle_doorman_packet(const Packet &p, std::string_view buffer) {
+    switch (p.type) {
+    case PACKET_CONNECT:
+        logger_->log_string("Incoming connection on channel {}.", p.channel);
+        if (auto *d = descriptors().create(p.channel, *this)) {
+            greet(*d);
+        } else {
+            logger_->log_string("Duplicate channel {} on connect!", p.channel);
+        }
+        break;
+    case PACKET_RECONNECT:
+        logger_->log_string("Incoming reconnection on channel {} for {}.", p.channel, buffer);
+        if (auto *d = descriptors().create(p.channel, *this)) {
+            greet(*d);
+            // Login name
+            d->write(fmt::format("{}\n\r", buffer));
+            nanny(d, buffer);
+            d->write("\n\r");
+
+            // Paranoid :
+            if (d->state() == DescriptorState::GetOldPassword) {
+                d->state(DescriptorState::CircumventPassword);
+                // log in
+                nanny(d, "");
+                // accept ANSIness
+                d->write("\n\r");
+                nanny(d, "");
+            }
+        } else {
+            logger_->log_string("Duplicate channel {} on reconnect!", p.channel);
+        }
+        break;
+    case PACKET_DISCONNECT:
+        if (auto *d = descriptors().find_by_channel(p.channel)) {
+            if (d->character() && d->character()->level > 1)
+                save_char_obj(d->character());
+            d->clear_output_buffer();
+            if (d->is_playing())
+                d->state(DescriptorState::Disconnecting);
+            else
+                d->state(DescriptorState::DisconnectingNp);
+            d->close();
+        } else {
+            logger_->log_string("Unable to find channel to close ({})", p.channel);
+        }
+        break;
+    case PACKET_INFO:
+        if (auto *d = descriptors().find_by_channel(p.channel)) {
+            auto *data = reinterpret_cast<const InfoData *>(buffer.data());
+            d->set_endpoint(data->netaddr, data->port, data->data);
+            d->ansi_terminal_detected(data->ansi);
+        } else {
+            logger_->log_string("Unable to associate info with a descriptor ({})", p.channel);
+        }
+        break;
+
+    case PACKET_MESSAGE:
+        if (auto *d = descriptors().find_by_channel(p.channel)) {
+            if (d->character() != nullptr)
+                d->character()->idle_timer_ticks = 0;
+            read_from_descriptor(d, buffer);
+        } else {
+            logger_->log_string("Unable to associate message with a descriptor ({})", p.channel);
+        }
+        break;
+    default: break;
+    }
+}
+
+bool MudImpl::read_from_descriptor(Descriptor *d, std::string_view data) {
     if (d->is_input_full()) {
         // Only log input for the first command exceeding the input limit
         // so that wiznet doesn't become unusable.
         if (!d->is_spammer_warned()) {
-            log_string("{} input overflow!", d->host());
+            logger_->log_string("{} input overflow!", d->host());
             d->warn_spammer();
             d->add_command("quit");
         }
@@ -525,12 +553,11 @@ bool read_from_descriptor(Descriptor *d, std::string_view data) {
 /*
  * Low level output function.
  */
-bool process_output(Descriptor *d, bool fPrompt) {
-    extern bool merc_down;
-    if (!merc_down && d->is_paging()) {
+bool MudImpl::process_output(Descriptor *d, bool fPrompt) {
+    if (main_loop_running_ && d->is_paging()) {
         d->write("[Hit Return to continue]\n\r");
         return d->flush_output();
-    } else if (fPrompt && !merc_down && d->is_playing()) {
+    } else if (fPrompt && main_loop_running_ && d->is_playing()) {
         // Retrieve the pc data for the person associated with this descriptor. The person contains user preferences
         // like prompt, colourisation and comm settings.
         const auto *person = d->person();
@@ -557,13 +584,13 @@ bool process_output(Descriptor *d, bool fPrompt) {
 /*
  * Deal with sockets that haven't logged in yet.
  */
-void nanny(Descriptor *d, std::string_view argument) {
+void MudImpl::nanny(Descriptor *d, std::string_view argument) {
     const auto &bans = Bans::singleton();
     argument = ltrim(argument);
     auto *ch = d->character();
     switch (d->state()) {
     default:
-        bug("Nanny: bad d->state() {}.", static_cast<int>(d->state()));
+        logger_->bug("Nanny: bad d->state() {}.", static_cast<int>(d->state()));
         d->close();
         return;
 
@@ -582,18 +609,18 @@ void nanny(Descriptor *d, std::string_view argument) {
             d->write("Illegal name, try another.\n\rName: ");
             return;
         }
-        auto res = try_load_player(player_name);
+        auto res = try_load_player(*this, player_name);
         ch = res.character.get();
         d->enter_lobby(std::move(res.character));
         auto existing_player = !res.newly_created;
 
         if (check_enum_bit(ch->act, PlayerActFlag::PlrDeny)) {
-            log_string("Denying access to {}@{}.", player_name, d->host());
+            logger_->log_string("Denying access to {}@{}.", player_name, d->host());
             d->write("You are denied access.\n\r");
             d->close();
             return;
         }
-        if (wizlock && ch->is_mortal()) {
+        if (wizlock_ && ch->is_mortal()) {
             d->write("The game is wizlocked.  Try again later - a reboot may be imminent.\n\r");
             d->close();
             return;
@@ -604,7 +631,7 @@ void nanny(Descriptor *d, std::string_view argument) {
             d->state(DescriptorState::GetOldPassword);
             return;
         } else {
-            if (newlock) {
+            if (newlock_) {
                 d->write("The game is newlocked.  Try again later - a reboot may be imminent.\n\r");
                 d->close();
                 return;
@@ -654,8 +681,8 @@ void nanny(Descriptor *d, std::string_view argument) {
         if (check_reconnect(d))
             return;
 
-        log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
-                ch->is_wizinvis() || ch->is_prowlinvis() ? ch->get_trust() : 0);
+        logger_->log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
+                         ch->is_wizinvis() || ch->is_prowlinvis() ? ch->get_trust() : 0);
 
         lobby_maybe_enable_colour(d);
         if (ch->pcdata->colour) {
@@ -735,7 +762,7 @@ void nanny(Descriptor *d, std::string_view argument) {
 
     case DescriptorState::GetNewPassword: {
         d->write("\n\r");
-        if (argument.length() < MinPasswordLen) {
+        if (argument.length() < MIN_PASSWORD_LEN) {
             d->write("Password must be at least five characters long.\n\rPassword: ");
             return;
         }
@@ -834,7 +861,7 @@ void nanny(Descriptor *d, std::string_view argument) {
         }
         if (const auto *chosen_class = Class::by_name(choice); chosen_class) {
             ch->pcdata->class_type = chosen_class;
-            log_string("{}@{} new player.", ch->name, d->host());
+            logger_->log_string("{}@{} new player.", ch->name, d->host());
             ch->send_line("\n\rYou may be good, neutral, or evil.");
             ch->send_to("Which alignment (G/N/E)? ");
             d->state(DescriptorState::GetAlignment);
@@ -954,14 +981,14 @@ void nanny(Descriptor *d, std::string_view argument) {
             ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
 
             do_outfit(ch);
-            auto map_uptr = get_obj_index(Objects::Map)->create_object();
+            auto map_uptr = get_obj_index(Objects::Map, *logger_)->create_object(*logger_);
             auto *map = map_uptr.get();
             object_list.push_back(std::move(map_uptr));
             obj_to_char(map, ch);
 
             ch->pcdata->learned[get_weapon_sn(ch)] = NewbieWeaponSkillPct;
 
-            char_to_room(ch, get_room(Rooms::MudschoolEntrance));
+            char_to_room(ch, get_room(Rooms::MudschoolEntrance, *logger_));
             ch->send_line("");
             do_help(ch, "NEWBIE INFO");
             ch->send_line("");
@@ -974,9 +1001,9 @@ void nanny(Descriptor *d, std::string_view argument) {
         } else if (ch->in_room) {
             char_to_room(ch, ch->in_room);
         } else if (ch->is_immortal()) {
-            char_to_room(ch, get_room(Rooms::Chat));
+            char_to_room(ch, get_room(Rooms::Chat, *logger_));
         } else {
-            char_to_room(ch, get_room(Rooms::MidgaardTemple));
+            char_to_room(ch, get_room(Rooms::MidgaardTemple, *logger_));
         }
 
         announce(fmt::format("|W### |P{}|W has entered the game.|w", ch->name), ch);
@@ -985,7 +1012,7 @@ void nanny(Descriptor *d, std::string_view argument) {
 
         /* Rohan: code to increase the player count if needed - it was only
            updated if a player did count */
-        max_on = std::max(static_cast<size_t>(ranges::distance(descriptors().all())), max_on);
+        max_players_today_ = std::max(static_cast<size_t>(ranges::distance(descriptors().all())), max_players_today_);
 
         if (ch->gold > GoldTaxThreshold && ch->is_mortal()) {
             ch->send_line("You are taxed {} gold to pay for the Mayor's bar.", (ch->gold - 250000) / 2);
@@ -1003,7 +1030,7 @@ void nanny(Descriptor *d, std::string_view argument) {
     }
 }
 
-bool validate_player_name(std::string_view name) {
+bool MudImpl::validate_player_name(std::string_view name) {
     if (is_name(name, "all auto immortal self someone something the you"))
         return false;
     if (matches(name, "DEATH"))
@@ -1031,7 +1058,7 @@ bool validate_player_name(std::string_view name) {
     return true;
 }
 
-Char *find_link_dead_player_by_name(std::string_view name) {
+Char *MudImpl::find_link_dead_player_by_name(std::string_view name) {
     const auto is_link_dead_with_name = [&name](auto &&ch) -> bool {
         return ch->is_link_dead_pc() && matches(name, ch->name);
     };
@@ -1045,22 +1072,19 @@ Char *find_link_dead_player_by_name(std::string_view name) {
 /*
  * Look for link-dead player to reconnect.
  */
-bool check_reconnect(Descriptor *d) {
+bool MudImpl::check_reconnect(Descriptor *d) {
     if (Char *ch = find_link_dead_player_by_name(d->character()->name); ch) {
         d->reconnect_from_lobby(ch);
         ch->send_line("Reconnecting.");
         act("$n has reconnected.", ch);
-        log_new(fmt::format("{}@{} reconnected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
-                (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
+        logger_->log_new(fmt::format("{}@{} reconnected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
+                         (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
         return true;
     }
     return false;
 }
 
-/*
- * Check if already playing.
- */
-bool check_playing(Descriptor *d, std::string_view name) {
+bool MudImpl::check_playing(Descriptor *d, std::string_view name) {
     for (auto &dold : descriptors().all()) {
         if (&dold != d && dold.character() != nullptr && dold.state() != DescriptorState::GetName
             && dold.state() != DescriptorState::GetOldPassword && matches(name, dold.person()->name)) {
@@ -1072,307 +1096,4 @@ bool check_playing(Descriptor *d, std::string_view name) {
     }
 
     return false;
-}
-
-/*
- * Send a page to one char.
- */
-void page_to_char(const char *txt, Char *ch) {
-    if (txt)
-        ch->page_to(txt);
-}
-
-namespace {
-
-std::string_view he_she(const Char *ch) { return subjective(*ch); }
-std::string_view him_her(const Char *ch) { return objective(*ch); }
-std::string_view his_her(const Char *ch) { return possessive(*ch); }
-std::string_view himself_herself(const Char *ch) { return reflexive(*ch); }
-
-std::string format_act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, const Char *to,
-                       const Char *targ_ch) {
-    std::string buf;
-
-    bool prev_was_dollar = false;
-    for (auto c : format) {
-        if (!std::exchange(prev_was_dollar, false)) {
-            if (c != '$') {
-                prev_was_dollar = false;
-                buf.push_back(c);
-            } else {
-                prev_was_dollar = true;
-            }
-            continue;
-        }
-
-        if (std::holds_alternative<std::nullptr_t>(arg2) && c >= 'A' && c <= 'Z') {
-            bug("Act: missing arg2 for code {} in format '{}'", c, format);
-            continue;
-        }
-
-        switch (c) {
-        default:
-            bug("Act: bad code {} in format '{}'", c, format);
-            break;
-            /* Thx alex for 't' idea */
-        case 't':
-            if (auto arg1_as_string_ptr = std::get_if<std::string_view>(&arg1)) {
-                buf += *arg1_as_string_ptr;
-            } else {
-                bug("$t passed but arg1 was not a string in '{}'", format);
-            }
-            break;
-        case 'T':
-            if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2)) {
-                buf += *arg2_as_string_ptr;
-            } else {
-                bug("$T passed but arg2 was not a string in '{}'", format);
-            }
-            break;
-        case 'n': {
-            buf += to->describe(*ch);
-        } break;
-        case 'N': {
-            buf += to->describe(*targ_ch);
-        } break;
-        case 'e': buf += he_she(ch); break;
-        case 'E': buf += he_she(targ_ch); break;
-        case 'm': buf += him_her(ch); break;
-        case 'M': buf += him_her(targ_ch); break;
-        case 's': buf += his_her(ch); break;
-        case 'S': buf += his_her(targ_ch); break;
-        case 'r': buf += himself_herself(ch); break;
-        case 'R': buf += himself_herself(targ_ch); break;
-
-        case 'p':
-            if (auto arg1_as_obj_ptr = std::get_if<const Object *>(&arg1)) {
-                auto &obj1 = *arg1_as_obj_ptr;
-                buf += to->can_see(*obj1) ? obj1->short_descr : "something";
-            } else {
-                bug("$p passed but arg1 was not an object in '{}'", format);
-                buf += "something";
-            }
-            break;
-
-        case 'P':
-            if (auto arg2_as_obj_ptr = std::get_if<const Object *>(&arg2)) {
-                auto &obj2 = *arg2_as_obj_ptr;
-                buf += to->can_see(*obj2) ? obj2->short_descr : "something";
-            } else {
-                bug("$p passed but arg2 was not an object in '{}'", format);
-                buf += "something";
-            }
-            break;
-
-        case 'd':
-            if (auto arg2_as_string_ptr = std::get_if<std::string_view>(&arg2);
-                arg2_as_string_ptr != nullptr && !arg2_as_string_ptr->empty()) {
-                buf += ArgParser(*arg2_as_string_ptr).shift();
-            } else {
-                buf += "door";
-            }
-            break;
-        }
-    }
-
-    return upper_first_character(buf) + "\n\r";
-}
-
-bool act_to_person(const Char *person, const Position::Type min_position) {
-    // Ignore folks below minimum position.
-    // Allow NPCs so that act-driven triggers can fire.
-    return person->position >= min_position;
-}
-
-std::vector<const Char *> folks_in_room(const Room *room, const Char *ch, const Char *vch, const To &type,
-                                        const Position::Type min_position) {
-    std::vector<const Char *> result;
-    if (!room) {
-        return result;
-    }
-    for (auto *person : room->people) {
-        if (!act_to_person(person, min_position))
-            continue;
-        // Never consider the character themselves (they're handled explicitly elsewhere).
-        if (person == ch)
-            continue;
-        // Ignore the victim if necessary.
-        if (type == To::NotVict && person == vch)
-            continue;
-        result.emplace_back(person);
-    }
-    return result;
-}
-
-std::vector<const Char *> collect_folks(const Char *ch, const Char *targ_ch, Act2Arg arg2, To type,
-                                        const Position::Type min_position) {
-    const Room *room{};
-
-    switch (type) {
-    case To::Char:
-        if (act_to_person(ch, min_position))
-            return {ch};
-        else
-            return {};
-
-    case To::Vict:
-        if (!targ_ch) {
-            bug("Act: null or incorrect type of target ch");
-            return {};
-        }
-        if (!targ_ch->in_room || ch == targ_ch || !act_to_person(targ_ch, min_position))
-            return {};
-
-        return {targ_ch};
-
-    case To::GivenRoom:
-        if (auto arg2_as_room_ptr = std::get_if<const Room *>(&arg2)) {
-            room = *arg2_as_room_ptr;
-        } else {
-            bug("Act: null room with To::GivenRoom.");
-            return {};
-        }
-        break;
-
-    case To::Room:
-    case To::NotVict: room = ch->in_room; break;
-    }
-
-    auto result = folks_in_room(room, ch, targ_ch, type, min_position);
-    return result;
-}
-
-}
-
-void act(std::string_view format, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To type, const MobTrig mob_trig,
-         const Position::Type min_position) {
-    if (format.empty() || !ch || !ch->in_room)
-        return;
-
-    const auto arg1_as_obj_ptr =
-        std::holds_alternative<const Object *>(arg1) ? std::get<const Object *>(arg1) : nullptr;
-    const auto *targ_ch = std::holds_alternative<const Char *>(arg2) ? std::get<const Char *>(arg2) : nullptr;
-    const auto *targ_obj = std::holds_alternative<const Object *>(arg2) ? std::get<const Object *>(arg2) : nullptr;
-    const auto mprog_target = MProg::to_target(targ_ch, targ_obj);
-
-    for (auto *to : collect_folks(ch, targ_ch, arg2, type, min_position)) {
-        auto formatted = format_act(format, ch, arg1, arg2, to, targ_ch);
-        to->send_to(formatted);
-        if (mob_trig == MobTrig::Yes) {
-            // TODO: heinous const_cast here. Safe, but annoying and worth unpicking deeper down.
-            MProg::act_trigger(formatted, const_cast<Char *>(to), ch, arg1_as_obj_ptr, mprog_target);
-        }
-    }
-}
-
-namespace {
-
-std::string format_one_prompt_part(char c, const Char &ch) {
-    switch (c) {
-    case '%': return "%";
-    case 'B': {
-        std::string bar;
-        constexpr auto NumGradations = 10u;
-        auto num_full = static_cast<float>(NumGradations * ch.hit) / ch.max_hit;
-        char prev_colour = 0;
-        for (auto loop = 0u; loop < NumGradations; ++loop) {
-            auto fullness = num_full - loop;
-            if (fullness <= 0.25f)
-                bar += ' ';
-            else {
-                char colour = 'g';
-                if (loop < NumGradations / 3)
-                    colour = 'r';
-                else if (loop < (2 * NumGradations) / 3)
-                    colour = 'y';
-                if (colour != prev_colour) {
-                    bar = bar + '|' + colour;
-                    prev_colour = colour;
-                }
-                if (fullness <= 0.5f)
-                    bar += ".";
-                else if (fullness < 1.f)
-                    bar += ":";
-                else
-                    bar += "||";
-            }
-        }
-        return bar + "|p";
-    }
-
-    case 'c': return fmt::format("{}", ch.wait);
-    case 'h': return fmt::format("{}", ch.hit);
-    case 'H': return fmt::format("{}", ch.max_hit);
-    case 'm': return fmt::format("{}", ch.mana);
-    case 'M': return fmt::format("{}", ch.max_mana);
-    case 'g': return fmt::format("{}", ch.gold);
-    case 'x':
-        return fmt::format("{}",
-                           (long int)(((long int)(ch.level + 1) * (long int)(exp_per_level(&ch, ch.pcdata->points))
-                                       - (long int)(ch.exp))));
-    case 'v': return fmt::format("{}", ch.move);
-    case 'V': return fmt::format("{}", ch.max_move);
-    case 'a':
-        if (ch.get_trust() > 10)
-            return fmt::format("{}", ch.alignment);
-        else
-            return "??";
-    case 'X': return fmt::format("{}", ch.exp);
-    case 'p':
-        if (ch.player())
-            return ch.player()->pcdata->prefix;
-        return "";
-    case 'r':
-        if (ch.is_immortal())
-            return ch.in_room ? ch.in_room->name : "";
-        break;
-    case 'W':
-        if (ch.is_immortal())
-            return ch.is_wizinvis() ? "|R*W*|p" : "-w-";
-        break;
-        /* Can be changed easily for tribes/clans etc. */
-    case 'P':
-        if (ch.is_immortal())
-            return ch.is_prowlinvis() ? "|R*P*|p" : "-p-";
-        break;
-    case 'R':
-        if (ch.is_immortal())
-            return fmt::format("{}", ch.in_room ? ch.in_room->vnum : 0);
-        break;
-    case 'z':
-        if (ch.is_immortal())
-            return ch.in_room ? ch.in_room->area->short_name() : "";
-        break;
-    case 'n': return "\n\r";
-    case 't': {
-        auto ch_timet = Clock::to_time_t(current_time);
-        char time_buf[MAX_STRING_LENGTH];
-        strftime(time_buf, sizeof(time_buf), "%H:%M:%S", gmtime(&ch_timet));
-        return time_buf;
-    }
-    default: break;
-    }
-
-    return "|W ?? |p";
-}
-
-}
-
-std::string format_prompt(const Char &ch, std::string_view prompt) {
-    if (prompt.empty()) {
-        return fmt::format("|p<{}/{}hp {}/{}m {}mv {}cd> |w", ch.hit, ch.max_hit, ch.mana, ch.max_mana, ch.move,
-                           ch.wait);
-    }
-
-    bool prev_was_escape = false;
-    std::string buf = "|p";
-    for (auto c : prompt) {
-        if (std::exchange(prev_was_escape, false)) {
-            buf += format_one_prompt_part(c, ch);
-        } else if (c == '%')
-            prev_was_escape = true;
-        else
-            buf += c;
-    }
-    return buf + "|w";
 }

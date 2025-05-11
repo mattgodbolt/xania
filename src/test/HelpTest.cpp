@@ -1,17 +1,25 @@
 #include "Help.hpp"
 
+#include "DescriptorList.hpp"
 #include "MemFile.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 
+namespace {
+
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
+}
+
 TEST_CASE("Help") {
     SECTION("should parse an end of help") {
         test::MemFile empty("0 $~");
-        CHECK(Help::load(empty.file(), nullptr) == std::nullopt);
+        CHECK(Help::load(empty.file(), nullptr, logger) == std::nullopt);
     }
     SECTION("should parse an end of help even with junk after it") {
         test::MemFile empty("0 $this isn't strictly on spec but the end code supported it~");
-        CHECK(Help::load(empty.file(), nullptr) == std::nullopt);
+        CHECK(Help::load(empty.file(), nullptr, logger) == std::nullopt);
     }
     SECTION("should parse a normal help entry") {
         test::MemFile monkeys(R"(
@@ -20,7 +28,7 @@ This is a test of the
 help parser.
 ~
 )");
-        CHECK(Help::load(monkeys.file(), nullptr)
+        CHECK(Help::load(monkeys.file(), nullptr, logger)
               == Help(nullptr, 12, "twelve monkeys", "This is a test of the\n\rhelp parser.\n\r"));
     }
     SECTION("should match appropriately") {

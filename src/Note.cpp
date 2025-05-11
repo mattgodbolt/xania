@@ -11,11 +11,11 @@
 #include "Char.hpp"
 #include "CommFlag.hpp"
 #include "DescriptorList.hpp"
+#include "Interpreter.hpp"
 #include "TimeInfoData.hpp"
 #include "common/BitOps.hpp"
 #include "common/Configuration.hpp"
 #include "db.h"
-#include "interp.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
@@ -100,7 +100,7 @@ static Note &ensure_note(Char &ch) {
     return *ch.pnote;
 }
 
-Note Note::from_file(FILE *fp) {
+Note Note::from_file(FILE *fp, const Logger &logger) {
     auto expect = [&](std::string_view expected) {
         const auto word = fread_word(fp);
         if (!matches(word, expected))
@@ -113,7 +113,7 @@ Note Note::from_file(FILE *fp) {
     Note note(expect_str("sender"));
     note.date_ = expect_str("date");
     expect("stamp");
-    note.date_stamp_ = Clock::from_time_t(fread_number(fp));
+    note.date_stamp_ = Clock::from_time_t(fread_number(fp, logger));
     note.to_list_ = expect_str("to");
     note.subject_ = expect_str("subject");
     note.text_ = expect_str("text");
@@ -143,11 +143,11 @@ NoteHandler &NoteHandler::singleton() {
     return singleton;
 }
 
-void note_initialise() {
+void note_initialise(const Time current_time, const Logger &logger) {
     const auto notes_file = Configuration::singleton().notes_file();
     auto &handler = NoteHandler::singleton();
     if (auto *fp = fopen(notes_file.c_str(), "r")) {
-        handler.read_from(fp);
+        handler.read_from(fp, current_time, logger);
         fclose(fp);
     }
 }
@@ -178,7 +178,7 @@ NoteHandler::NoteHandler(OnChangeFunc on_change_func) : on_change_func_(std::mov
 
 void NoteHandler::write_to(FILE *fp) { notes_.save(fp); }
 
-void NoteHandler::read_from(FILE *fp) {
+void NoteHandler::read_from(FILE *fp, const Time current_time, const Logger &logger) {
     for (;;) {
         int letter;
         do {
@@ -188,7 +188,7 @@ void NoteHandler::read_from(FILE *fp) {
         } while (isspace(letter));
         ungetc(letter, fp);
 
-        auto note = Note::from_file(fp);
+        auto note = Note::from_file(fp, logger);
         if (note.date_stamp() < current_time - date::weeks(2))
             continue;
         notes_.add(std::move(note));
@@ -257,13 +257,13 @@ void NoteHandler::post(Char &ch, [[maybe_unused]] ArgParser) {
         ch.send_line("You need to provide a subject.");
         return;
     }
-    ch.pnote->date(current_time);
+    ch.pnote->date(ch.mud_.current_time());
     auto &note = notes_.add(std::move(*ch.pnote));
     ch.pnote.reset();
 
     on_change_func_(*this);
 
-    for (auto &chtarg : descriptors().all_but(ch) | DescriptorFilter::to_person()) {
+    for (auto &chtarg : ch.mud_.descriptors().all_but(ch) | DescriptorFilter::to_person()) {
         if (!check_enum_bit(chtarg.comm, CommFlag::NoAnnounce) && !check_enum_bit(chtarg.comm, CommFlag::Quiet)
             && note.is_to(chtarg)) {
             chtarg.send_line("The Spirit of Hermes announces the arrival of a new note.");

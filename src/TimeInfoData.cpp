@@ -7,11 +7,6 @@
 #include <array>
 #include <string_view>
 
-// Hateful globals.
-TimeInfoData time_info;
-const Time boot_time = std::chrono::system_clock::now();
-Time current_time = std::chrono::system_clock::now();
-
 namespace {
 constexpr std::array<std::string_view, TimeInfoData::DaysPerWeek> day_name{
     "the Moon", "the Bull", "Deception", "Thunder", "Freedom", "the Great Gods", "the Sun"};

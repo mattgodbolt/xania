@@ -15,14 +15,22 @@
 #include <catch2/generators/catch_generators_range.hpp>
 #include <tuple>
 
+#include "MockMud.hpp"
+
+namespace {
+
+test::MockMud mock_mud{};
+
+}
+
 TEST_CASE("hit chance") {
     using std::make_tuple;
     const skill_type *no_skill{nullptr};
     const auto bash_damage{DamageType::Bash};
     const auto max_weapon_skill{100};
     Room room{};
-    Char attacker{};
-    Char victim{};
+    Char attacker{mock_mud};
+    Char victim{mock_mud};
     const auto mage = Class::by_name("mage");
     attacker.pcdata = std::make_unique<PcData>();
     attacker.pcdata->class_type = mage;

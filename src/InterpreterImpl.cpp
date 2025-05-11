@@ -7,17 +7,16 @@
 /*                                                                       */
 /*************************************************************************/
 
-#include "interp.h"
+#include "InterpreterImpl.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "Char.hpp"
 #include "CommFlag.hpp"
-#include "CommandSet.hpp"
 #include "Logging.hpp"
 #include "Note.hpp"
 #include "PlayerActFlag.hpp"
 #include "Socials.hpp"
 #include "act_comm.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "handler.hpp"
@@ -41,52 +40,50 @@ inline constexpr auto IM = LEVEL_IMMORTAL; /* angel */
 inline constexpr auto HE = LEVEL_HERO; /* hero */
 }
 
-enum class CommandLogLevel { Normal, Always, Never };
+struct Columniser {
+public:
+    explicit Columniser(Char *ch) : ch(ch) { buf[0] = '\0'; }
 
-extern bool fLogAll;
+    std::function<void(const std::string &name, CommandInfo info, int level)> visitor() {
+        return [this](const std::string &name, CommandInfo info, int level) {
+            (void)level;
+            visit_command(name, info);
+        };
+    }
 
-// Function object for commands run by the interpreter, the do_ functions.
-using CommandFunc = std::function<void(Char *ch, std::string_view argument)>;
-using CommandFuncNoArgs = std::function<void(Char *ch)>;
-using CommandFuncArgParser = std::function<void(Char *ch, ArgParser)>;
+    void visit_command(const std::string &name, CommandInfo info) {
+        int buf_len = strlen(buf);
+        int name_len = name.size();
+        int start_pos;
 
-struct CommandInfo {
-    CommandFunc do_fun;
-    Position::Type position;
-    sh_int level;
-    CommandLogLevel log;
-    bool show;
-    CommandInfo(CommandFunc do_fun, const Position::Type position, sh_int level, CommandLogLevel log, bool show)
-        : do_fun(std::move(do_fun)), position(position), level(level), log(log), show(show) {}
+        if (!info.show)
+            return;
+
+        if (buf[0] == '\0')
+            start_pos = 0;
+        else
+            start_pos = ((buf_len + col_width) / col_width) * col_width;
+
+        if (start_pos + name_len > max_width) {
+            strcat(buf, "\n\r");
+            ch->send_to(buf);
+            buf[0] = '\0';
+            start_pos = buf_len = 0;
+        }
+
+        if (start_pos > buf_len)
+            memset(buf + buf_len, ' ', start_pos - buf_len);
+        memcpy(buf + start_pos, name.c_str(), name_len + 1);
+    }
+
+    Char *ch;
+    char buf[MAX_STRING_LENGTH];
+    int col_width = 12;
+    int max_width = 72;
 };
 
-static CommandSet<CommandInfo> commands;
-
-static void add_command(const char *name, CommandFunc do_fun, const Position::Type position = Position::Type::Dead,
-                        sh_int level = 0, CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
-    commands.add(name, CommandInfo(std::move(do_fun), position, level, log, show), level);
-}
-
-// Add command with no args.
-static void add_command(const char *name, CommandFuncNoArgs do_fun,
-                        const Position::Type position = Position::Type::Dead, sh_int level = 0,
-                        CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
-    commands.add(
-        name, CommandInfo([f = std::move(do_fun)](Char *ch, std::string_view) { f(ch); }, position, level, log, show),
-        level);
-}
-
-// Add command that uses an ArgParser.
-static void add_command(const char *name, CommandFuncArgParser do_fun,
-                        const Position::Type position = Position::Type::Dead, sh_int level = 0,
-                        CommandLogLevel log = CommandLogLevel::Normal, bool show = true) {
-    commands.add(name,
-                 CommandInfo([f = std::move(do_fun)](Char *ch, std::string_view args) { f(ch, ArgParser(args)); },
-                             position, level, log, show),
-                 level);
-}
-
-void interp_initialise() {
+Interpreter::Impl::Impl() {
+    add_command("north", do_north, Position::Type::Standing, 0, CommandLogLevel::Never, false);
     /* Common movement commands. */
     add_command("north", do_north, Position::Type::Standing, 0, CommandLogLevel::Never, false);
     add_command("east", do_east, Position::Type::Standing, 0, CommandLogLevel::Never, false);
@@ -389,7 +386,28 @@ void interp_initialise() {
     add_command("mpforce", do_mpforce, Position::Type::Dead, 0, CommandLogLevel::Normal, false);
 }
 
-std::string apply_prefix(Char *ch, std::string_view command) {
+void Interpreter::Impl::add_command(const char *name, CommandFunc do_fun, const Position::Type position, sh_int level,
+                                    CommandLogLevel log, bool show) {
+    commands.add(name, CommandInfo(std::move(do_fun), position, level, log, show), level);
+}
+
+void Interpreter::Impl::add_command(const char *name, CommandFuncNoArgs do_fun, const Position::Type position,
+                                    sh_int level, CommandLogLevel log, bool show) {
+    commands.add(
+        name, CommandInfo([f = std::move(do_fun)](Char *ch, std::string_view) { f(ch); }, position, level, log, show),
+        level);
+}
+
+// Add command that uses an ArgParser.
+void Interpreter::Impl::add_command(const char *name, CommandFuncArgParser do_fun, const Position::Type position,
+                                    sh_int level, CommandLogLevel log, bool show) {
+    commands.add(name,
+                 CommandInfo([f = std::move(do_fun)](Char *ch, std::string_view args) { f(ch, ArgParser(args)); },
+                             position, level, log, show),
+                 level);
+}
+
+std::string Interpreter::Impl::apply_prefix(Char *ch, std::string_view command) const {
     // Unswitched MOBs don't have prefixes.  If we're switched, get the player's prefix.
     auto player = ch->player();
     if (!player || matches(command, "prefix")) {
@@ -412,67 +430,7 @@ std::string apply_prefix(Char *ch, std::string_view command) {
     }
 }
 
-/*
- * The main entry point for executing commands.
- * Can be recursively called from 'at', 'order', 'force'.
- */
-void interpret(Char *ch, std::string_view argument) {
-    const auto command_line = ltrim_copy(apply_prefix(ch, argument));
-    if (command_line.empty()) {
-        return;
-    }
-    /* No hiding. */
-    clear_enum_bit(ch->affected_by, AffectFlag::Hide);
-
-    /* Implement freeze command. */
-    if (ch->is_pc() && check_enum_bit(ch->act, PlayerActFlag::PlrFreeze)) {
-        ch->send_line("You're totally frozen!");
-        return;
-    }
-
-    auto arg_parser = ArgParser(command_line);
-    // Grab the command word.
-    // Special parsing so ' can be a command,
-    const auto command = arg_parser.commandline_shift();
-    const std::string remainder(arg_parser.remaining());
-    auto cmd_info = commands.get(command, ch->get_trust());
-    /* Look for command in socials table. */
-    if (!cmd_info.has_value()) {
-        if (!check_social(ch, command, remainder))
-            ch->send_line("Huh?");
-        // Return before logging. This is to prevent accidentally logging a typo'd "never log" command.
-        return;
-    }
-    /* Log and snoop. */
-    if (cmd_info->log != CommandLogLevel::Never) {
-        if ((ch->is_pc() && check_enum_bit(ch->act, PlayerActFlag::PlrLog)) || fLogAll
-            || cmd_info->log == CommandLogLevel::Always) {
-            int level = (cmd_info->level >= LEVEL_IMMORTAL) ? (cmd_info->level) : 0;
-            if (ch->is_pc()
-                && (check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis)
-                    || check_enum_bit(ch->act, PlayerActFlag::PlrProwl)))
-                level = std::max(level, ch->get_trust());
-            auto log_level = (cmd_info->level >= LEVEL_IMMORTAL) ? CharExtraFlag::WiznetImm : CharExtraFlag::WiznetMort;
-            if (ch->is_npc() && ch->desc && ch->desc->original()) {
-                log_new(fmt::format("Log {} (as '{}'): {}", ch->desc->original()->name, ch->name, command_line),
-                        log_level, level);
-            } else {
-                log_new(fmt::format("Log {}: {}", ch->name, command_line), log_level, level);
-            }
-        }
-        if (ch->desc)
-            ch->desc->note_input(ch->name, command_line);
-    }
-
-    /* Character not in position for command? */
-    if (ch->position < cmd_info->position) {
-        ch->send_line(ch->position.bad_position_msg());
-        return;
-    }
-    cmd_info->do_fun(ch, remainder);
-}
-
-bool check_social(Char *ch, std::string_view command, std::string_view argument) {
+bool Interpreter::Impl::check_social(Char *ch, std::string_view command, std::string_view argument) const {
     const auto social = Socials::singleton().find(command);
     if (!social)
         return false;
@@ -534,63 +492,85 @@ bool check_social(Char *ch, std::string_view command, std::string_view argument)
     return true;
 }
 
-struct Columniser {
-public:
-    explicit Columniser(Char *ch) : ch(ch) { buf[0] = '\0'; }
+void Interpreter::Impl::interpret(Char *ch, std::string_view argument) const {
+    const auto command_line = ltrim_copy(apply_prefix(ch, argument));
+    if (command_line.empty()) {
+        return;
+    }
+    /* No hiding. */
+    clear_enum_bit(ch->affected_by, AffectFlag::Hide);
 
-    std::function<void(const std::string &name, CommandInfo info, int level)> visitor() {
-        return [this](const std::string &name, CommandInfo info, int level) {
-            (void)level;
-            visit_command(name, info);
-        };
+    /* Implement freeze command. */
+    if (ch->is_pc() && check_enum_bit(ch->act, PlayerActFlag::PlrFreeze)) {
+        ch->send_line("You're totally frozen!");
+        return;
     }
 
-    void visit_command(const std::string &name, CommandInfo info) {
-        int buf_len = strlen(buf);
-        int name_len = name.size();
-        int start_pos;
-
-        if (!info.show)
-            return;
-
-        if (buf[0] == '\0')
-            start_pos = 0;
-        else
-            start_pos = ((buf_len + col_width) / col_width) * col_width;
-
-        if (start_pos + name_len > max_width) {
-            strcat(buf, "\n\r");
-            ch->send_to(buf);
-            buf[0] = '\0';
-            start_pos = buf_len = 0;
+    auto arg_parser = ArgParser(command_line);
+    // Grab the command word.
+    // Special parsing so ' can be a command,
+    const auto command = arg_parser.commandline_shift();
+    const std::string remainder(arg_parser.remaining());
+    auto cmd_info = commands.get(command, ch->get_trust());
+    /* Look for command in socials table. */
+    if (!cmd_info.has_value()) {
+        if (!check_social(ch, command, remainder))
+            ch->send_line("Huh?");
+        // Return before logging. This is to prevent accidentally logging a typo'd "never log" command.
+        return;
+    }
+    /* Log and snoop. */
+    const Logger &logger = ch->mud_.logger();
+    if (cmd_info->log != CommandLogLevel::Never) {
+        if ((ch->is_pc() && check_enum_bit(ch->act, PlayerActFlag::PlrLog))
+            || cmd_info->log == CommandLogLevel::Always) {
+            int level = (cmd_info->level >= LEVEL_IMMORTAL) ? (cmd_info->level) : 0;
+            if (ch->is_pc()
+                && (check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis)
+                    || check_enum_bit(ch->act, PlayerActFlag::PlrProwl)))
+                level = std::max(level, ch->get_trust());
+            auto log_level = (cmd_info->level >= LEVEL_IMMORTAL) ? CharExtraFlag::WiznetImm : CharExtraFlag::WiznetMort;
+            if (ch->is_npc() && ch->desc && ch->desc->original()) {
+                logger.log_new(fmt::format("Log {} (as '{}'): {}", ch->desc->original()->name, ch->name, command_line),
+                               log_level, level);
+            } else {
+                logger.log_new(fmt::format("Log {}: {}", ch->name, command_line), log_level, level);
+            }
         }
-
-        if (start_pos > buf_len)
-            memset(buf + buf_len, ' ', start_pos - buf_len);
-        memcpy(buf + start_pos, name.c_str(), name_len + 1);
+        if (ch->desc)
+            ch->desc->note_input(ch->name, command_line);
     }
 
-    Char *ch;
-    char buf[MAX_STRING_LENGTH];
-    int col_width = 12;
-    int max_width = 72;
-};
+    /* Character not in position for command? */
+    if (ch->position < cmd_info->position) {
+        ch->send_line(ch->position.bad_position_msg());
+        return;
+    }
+    cmd_info->do_fun(ch, remainder);
+}
 
-void do_commands(Char *ch) {
+void Interpreter::Impl::show_commands(Char *ch, const int min_level, const int max_level) const {
     Columniser col(ch);
+    commands.enumerate(commands.level_restrict(min_level, max_level, col.visitor()));
+    if (col.buf[0] != '\0') {
+        strcat(col.buf, "\n\r");
+        ch->send_to(col.buf);
+    }
+}
+
+Interpreter::Interpreter() : impl_{std::make_unique<Impl>()} {};
+
+Interpreter::~Interpreter() = default;
+
+/*
+ * The main entry point for executing commands.
+ * Can be recursively called from 'at', 'order', 'force'.
+ */
+void Interpreter::interpret(Char *ch, std::string_view argument) const { impl_->interpret(ch, argument); }
+
+void Interpreter::show_player_commands(Char *ch) const {
     auto max_level = (ch->get_trust() < LEVEL_HERO) ? ch->get_trust() : (LEVEL_HERO - 1);
-    commands.enumerate(commands.level_restrict(0, max_level, col.visitor()));
-    if (col.buf[0] != '\0') {
-        strcat(col.buf, "\n\r");
-        ch->send_to(col.buf);
-    }
+    impl_->show_commands(ch, 0, max_level);
 }
 
-void do_wizhelp(Char *ch) {
-    Columniser col(ch);
-    commands.enumerate(commands.level_restrict(LEVEL_HERO, ch->get_trust(), col.visitor()));
-    if (col.buf[0] != '\0') {
-        strcat(col.buf, "\n\r");
-        ch->send_to(col.buf);
-    }
-}
+void Interpreter::show_immortal_commands(Char *ch) const { impl_->show_commands(ch, LEVEL_HERO, ch->get_trust()); }

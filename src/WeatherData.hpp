@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Logging.hpp"
 #include "Rng.hpp"
 #include "TimeInfoData.hpp"
 
@@ -21,7 +22,7 @@ public:
     explicit WeatherData(Rng &rng, const TimeInfoData &tid);
     WeatherData(Sky sky, Sun sunlight) : sky_(sky), sunlight_(sunlight) {}
 
-    void update(Rng &rng, const TimeInfoData &tid);
+    void update(Rng &rng, const TimeInfoData &tid, const Logger &logger);
 
     void control(int delta) { change_ += delta; }
 

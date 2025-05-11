@@ -9,54 +9,45 @@
 
 #include "handler.hpp"
 #include "AFFECT_DATA.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "Area.hpp"
-#include "BodyPartFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Class.hpp"
-#include "CommFlag.hpp"
 #include "DamageTolerance.hpp"
 #include "DamageType.hpp"
 #include "Descriptor.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
-#include "Materials.hpp"
-#include "MorphologyFlag.hpp"
 #include "Object.hpp"
 #include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
-#include "ObjectWearFlag.hpp"
-#include "OffensiveFlag.hpp"
-#include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "Room.hpp"
 #include "RoomFlag.hpp"
 #include "SkillNumbers.hpp"
 #include "SpellTarget.hpp"
-#include "ToleranceFlag.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
 #include "Weapon.hpp"
-#include "WeaponFlag.hpp"
 #include "WeatherData.hpp"
 #include "Worn.hpp"
 #include "act_comm.hpp"
 #include "act_obj.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
-#include "interp.h"
 #include "lookup.h"
 #include "magic.h"
 #include "ride.hpp"
 #include "string_utils.hpp"
 
 #include <algorithm>
+#include <fmt/printf.h>
 #include <magic_enum/magic_enum.hpp>
 #include <range/v3/algorithm/count.hpp>
-#include <range/v3/algorithm/remove_if.hpp>
 #include <range/v3/iterator/operations.hpp>
 
 void spell_poison(int spell_num, int level, Char *ch, const SpellTarget &spell_target);
@@ -211,7 +202,6 @@ void affect_to_obj(Object *obj, const AFFECT_DATA &af) { obj->affected.add(af); 
  */
 void affect_remove(Char *ch, const AFFECT_DATA &af) {
     if (ch->affected.empty()) {
-        bug("Affect_remove: no affect.");
         return;
     }
 
@@ -221,7 +211,6 @@ void affect_remove(Char *ch, const AFFECT_DATA &af) {
 
 void affect_remove_obj(Object *obj, const AFFECT_DATA &af) {
     if (obj->affected.empty()) {
-        bug("Affect_remove_object: no affect.");
         return;
     }
 
@@ -262,7 +251,6 @@ void affect_join(Char *ch, const AFFECT_DATA &af) {
  */
 void char_from_room(Char *ch) {
     if (!ch->in_room) {
-        bug("char_from_room: null room, ch: {} #{}", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0));
         return;
     }
     if (ch->is_pc())
@@ -273,7 +261,7 @@ void char_from_room(Char *ch) {
         --ch->in_room->light;
 
     if (!ch->in_room->people.remove(ch))
-        bug("Char_from_room: ch not found.");
+        ch->mud_.logger().bug("Char_from_room: ch not found: {}, room: {}", ch->name, ch->in_room->vnum);
 
     /* MOBProgs - check to tell mobs we've left the room removed from HERE*/
 
@@ -285,7 +273,6 @@ void char_from_room(Char *ch) {
  */
 void char_to_room(Char *ch, Room *room) {
     if (!room) {
-        bug("char_to_room: null room, ch: {} #{}", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0));
         return;
     }
 
@@ -354,9 +341,7 @@ void obj_to_char(Object *obj, Char *ch) {
  */
 void obj_from_char(Object *obj) {
     Char *ch;
-
     if ((ch = obj->carried_by) == nullptr) {
-        bug("Obj_from_char: null ch.");
         return;
     }
 
@@ -364,7 +349,8 @@ void obj_from_char(Object *obj) {
         unequip_char(ch, obj);
 
     if (!ch->carrying.remove(obj))
-        bug("Obj_from_char: obj not in list.");
+        ch->mud_.logger().bug("Obj_from_char: obj not in list, ch: {}, obj: {} #{}", ch->name, obj->name,
+                              obj->objIndex->vnum);
 
     obj->carried_by = nullptr;
     ch->carry_number -= get_obj_number(obj);
@@ -436,16 +422,14 @@ void enforce_material_vulnerability(Char *ch, Object *obj) {
  */
 void equip_char(Char *ch, Object *obj, const Worn wear) {
     if (get_eq_char(ch, wear) != nullptr) {
-        bug("Equip_char: {} #{} already equipped in slot {} ({}).", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0),
-            magic_enum::enum_name<Worn>(wear), magic_enum::enum_integer<Worn>(wear));
+        obj->logger_.bug("Equip_char: {} #{} already equipped in slot {} ({}).", ch->name,
+                         (ch->is_npc() ? ch->mobIndex->vnum : 0), magic_enum::enum_name<Worn>(wear),
+                         magic_enum::enum_integer<Worn>(wear));
         return;
     }
 
     if ((obj->is_anti_evil() && ch->is_evil()) || (obj->is_anti_good() && ch->is_good())
         || (obj->is_anti_neutral() && ch->is_neutral())) {
-        /*
-         * Thanks to Morgenes for the bug fix here!
-         */
         act("You are zapped by $p and drop it.", ch, obj, nullptr, To::Char);
         act("$n is zapped by $p and drops it.", ch, obj, nullptr, To::Room);
         obj_from_char(obj);
@@ -474,7 +458,8 @@ void equip_char(Char *ch, Object *obj, const Worn wear) {
  */
 void unequip_char(Char *ch, Object *obj) {
     if (obj->worn_loc == Worn::None) {
-        bug("Unequip_char: already unequipped.");
+        obj->logger_.bug("Unequip_char: already unequipped. ch: {}, obj: {} #{}", ch->name, obj->name,
+                         obj->objIndex->vnum);
         return;
     }
 
@@ -504,15 +489,13 @@ int count_obj_list(ObjectIndex *objIndex, const GenericList<Object *> &list) {
  */
 void obj_from_room(Object *obj) {
     if (!obj->in_room) {
-        bug("obj_from_room: nullptr.");
         return;
     }
 
     if (!obj->in_room->contents.remove(obj)) {
-        bug("Obj_from_room: obj not found.");
-        return;
+        obj->logger_.bug("Obj_from_room: obj {} #{} not found in room {}.", obj->name, obj->objIndex->vnum,
+                         obj->in_room->vnum);
     }
-
     obj->in_room = nullptr;
 }
 
@@ -531,7 +514,7 @@ bool check_sub_issue(Object *obj, Char *ch) {
  */
 void obj_to_room(Object *obj, Room *room) {
     if (!room) {
-        bug("obj_to_room: null room, obj: {} #{}", obj->name, obj->objIndex->vnum);
+        obj->logger_.bug("obj_to_room: null room, obj: {} #{}", obj->name, obj->objIndex->vnum);
         return;
     }
     room->contents.add_front(obj);
@@ -564,14 +547,16 @@ void obj_to_obj(Object *obj, Object *obj_to) {
  */
 void obj_from_obj(Object *obj) {
     Object *obj_from;
-
+    if (!obj) {
+        return;
+    }
     if ((obj_from = obj->in_obj) == nullptr) {
-        bug("Obj_from_obj: null obj_from.");
+        obj->logger_.bug("Obj_from_obj: null obj_from.");
         return;
     }
 
     if (!obj_from->contains.remove(obj)) {
-        bug("Obj_from_obj: obj not found.");
+        obj->logger_.bug("Obj_from_obj: obj not found.");
         return;
     }
     obj->in_obj = nullptr;
@@ -605,7 +590,7 @@ void extract_obj(Object *obj) {
  */
 void extract_char(Char *ch, bool delete_from_world) {
     if (!ch->in_room) {
-        bug("extract_char: null room, ch: {} #{}", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0));
+        ch->mud_.logger().bug("extract_char: null room, ch: {} #{}", ch->name, (ch->is_npc() ? ch->mobIndex->vnum : 0));
         return;
     }
 
@@ -627,7 +612,7 @@ void extract_char(Char *ch, bool delete_from_world) {
     char_from_room(ch);
 
     if (!delete_from_world) {
-        char_to_room(ch, get_room(Rooms::MidgaardAltar));
+        char_to_room(ch, get_room(Rooms::MidgaardAltar, ch->mud_.logger()));
         return;
     }
 
@@ -759,9 +744,9 @@ Object *get_obj_world(Char *ch, std::string_view argument) {
 /*
  * Create a 'money' obj.
  */
-Object *create_money(const uint amount) {
-    auto make_money = [](const auto vnum) -> Object * {
-        auto obj_uptr = get_obj_index(vnum)->create_object();
+Object *create_money(const uint amount, const Logger &logger) {
+    auto make_money = [&logger](const auto vnum) -> Object * {
+        auto obj_uptr = get_obj_index(vnum, logger)->create_object(logger);
         auto *money = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
         return money;

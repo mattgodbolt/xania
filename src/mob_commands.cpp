@@ -18,18 +18,18 @@
  *  such installation can be found in INSTALL.  Enjoy........    N'Atas-Ha *
  ***************************************************************************/
 
+#include "Act.hpp"
 #include "ArgParser.hpp"
 #include "Char.hpp"
 #include "DescriptorList.hpp"
 #include "Exit.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "Object.hpp"
 #include "Worn.hpp"
-#include "comm.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "string_utils.hpp"
 
 #include <fmt/format.h>
@@ -50,7 +50,7 @@ void do_mpasound(Char *ch, std::string_view argument) {
     }
 
     if (argument.empty()) {
-        bug("mpasound: No argument from vnum {}.", ch->mobIndex->vnum);
+        ch->mud_.logger().bug("mpasound: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -73,25 +73,26 @@ void do_mpkill(Char *ch, ArgParser args) {
         ch->send_line("Huh?");
         return;
     }
+    const Logger &logger = ch->mud_.logger();
     if (args.empty()) {
-        bug("mpkill: No argument from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpkill: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     auto *victim = get_char_room(ch, args.shift());
     if (!victim) {
-        bug("mpkill: Victim not in room from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpkill: Victim not in room from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     if (victim == ch) {
-        bug("mpkill: Bad victim to attack from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpkill: Bad victim to attack from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     if (ch->is_aff_charm() && ch->master == victim) {
-        bug("mpkill: Charmed mob attacking master from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpkill: Charmed mob attacking master from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     if (ch->is_pos_fighting()) {
-        bug("mpkill: Already fighting from vnum {}", ch->mobIndex->vnum);
+        logger.bug("mpkill: Already fighting from vnum {}", ch->mobIndex->vnum);
         return;
     }
     multi_hit(ch, victim);
@@ -107,7 +108,7 @@ void do_mpjunk(Char *ch, ArgParser args) {
         return;
     }
     if (args.empty()) {
-        bug("mpjunk: No argument from vnum {}.", ch->mobIndex->vnum);
+        ch->mud_.logger().bug("mpjunk: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     auto obj_name = args.shift();
@@ -146,14 +147,15 @@ void do_mpechoaround(Char *ch, ArgParser args) {
         ch->send_line("Huh?");
         return;
     }
+    const Logger &logger = ch->mud_.logger();
     if (args.empty()) {
-        bug("mpechoaround: No argument from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpechoaround: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     auto name = args.shift();
     auto *victim = get_char_room(ch, name);
     if (!victim) {
-        bug("mpechoaround: Victim does not exist from vnum {}, arg: {}", ch->mobIndex->vnum, name);
+        logger.bug("mpechoaround: Victim does not exist from vnum {}, arg: {}", ch->mobIndex->vnum, name);
         return;
     }
     act(args.remaining(), ch, nullptr, victim, To::NotVict);
@@ -166,14 +168,15 @@ void do_mpechoat(Char *ch, ArgParser args) {
         ch->send_line("Huh?");
         return;
     }
+    const Logger &logger = ch->mud_.logger();
     if (args.empty()) {
-        bug("mpechoat: No argument from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpechoat: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     auto name = args.shift();
     auto *victim = get_char_room(ch, name);
     if (!victim) {
-        bug("mpechoat: Victim does not exist from vnum {}, arg: {}", ch->mobIndex->vnum, name);
+        logger.bug("mpechoat: Victim does not exist from vnum {}, arg: {}", ch->mobIndex->vnum, name);
         return;
     }
     act(args.remaining(), ch, nullptr, victim, To::Vict);
@@ -188,7 +191,7 @@ void do_mpecho(Char *ch, std::string_view argument) {
     }
 
     if (argument.empty()) {
-        bug("mpecho: Called w/o argument from vnum {}.", ch->mobIndex->vnum);
+        ch->mud_.logger().bug("mpecho: Called w/o argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     act(argument, ch);
@@ -202,17 +205,18 @@ void do_mpmload(Char *ch, ArgParser args) {
         ch->send_line("Huh?");
         return;
     }
+    const Logger &logger = ch->mud_.logger();
     const auto opt_vnum = args.try_shift_number();
     if (!opt_vnum) {
-        bug("mpmload: Bad vnum as arg from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpmload: Bad vnum as arg from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-    auto *mob_index = get_mob_index(*opt_vnum);
+    auto *mob_index = get_mob_index(*opt_vnum, ch->mud_.logger());
     if (!mob_index) {
-        bug("mpmload: Bad mob vnum from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpmload: Bad mob vnum from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-    auto *victim = create_mobile(mob_index);
+    auto *victim = create_mobile(mob_index, ch->mud_);
     char_to_room(victim, ch->in_room);
 }
 
@@ -221,17 +225,18 @@ void do_mpoload(Char *ch, ArgParser args) {
         ch->send_line("Huh?");
         return;
     }
+    const Logger &logger = ch->mud_.logger();
     const auto opt_vnum = args.try_shift_number();
     if (!opt_vnum) {
-        bug("mpoload: Bad syntax from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpoload: Bad syntax from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-    auto *obj_idx = get_obj_index(*opt_vnum);
+    auto *obj_idx = get_obj_index(*opt_vnum, logger);
     if (!obj_idx) {
-        bug("mpoload: Bad vnum arg from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpoload: Bad vnum arg from vnum {}.", ch->mobIndex->vnum);
         return;
     }
-    auto obj_uptr = obj_idx->create_object();
+    auto obj_uptr = obj_idx->create_object(logger);
     auto *obj = obj_uptr.get();
     object_list.push_back(std::move(obj_uptr));
     if (obj->is_takeable()) {
@@ -269,7 +274,7 @@ void do_mppurge(Char *ch, ArgParser args) {
         if (obj) {
             extract_obj(obj);
         } else {
-            bug("mppurge: Bad argument from vnum {}.", ch->mobIndex->vnum);
+            ch->mud_.logger().bug("mppurge: Bad argument from vnum {}.", ch->mobIndex->vnum);
         }
     } else if (victim->is_npc()) {
         extract_char(victim, true);
@@ -283,13 +288,14 @@ void do_mpgoto(Char *ch, ArgParser args) {
         ch->send_line("Huh?");
         return;
     }
+    const Logger &logger = ch->mud_.logger();
     if (args.empty()) {
-        bug("mpgoto: No argument from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpgoto: No argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     auto *location = find_location(ch, args.shift());
     if (!location) {
-        bug("mpgoto: No such location from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpgoto: No such location from vnum {}.", ch->mobIndex->vnum);
         return;
     }
 
@@ -307,19 +313,20 @@ void do_mpat(Char *ch, ArgParser args) {
         ch->send_line("Huh?");
         return;
     }
+    const Logger &logger = ch->mud_.logger();
     if (args.empty()) {
-        bug("mpat: Bad argument from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpat: Bad argument from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     auto *location = find_location(ch, args.shift());
     if (!location) {
-        bug("mpat: No such location from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpat: No such location from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     auto *original = ch->in_room;
     char_from_room(ch);
     char_to_room(ch, location);
-    interpret(ch, args.remaining());
+    ch->mud_.interpreter().interpret(ch, args.remaining());
     /*
      * See if 'ch' still exists before continuing!
      * Handles 'at XXXX quit' case.
@@ -341,15 +348,16 @@ void do_mptransfer(Char *ch, ArgParser args) {
         ch->send_line("Huh?");
         return;
     }
+    const Logger &logger = ch->mud_.logger();
     if (args.empty()) {
-        bug("Mptransfer - Bad syntax from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("Mptransfer - Bad syntax from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     auto whom = args.shift();
     auto where = args.shift();
     if (matches(whom, "all")) {
-        for (auto &victim :
-             descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
+        for (auto &victim : ch->mud_.descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch)
+                                | DescriptorFilter::to_character()) {
             if (victim.in_room != nullptr) {
                 do_transfer(ch, ArgParser(fmt::format("{} {}", victim.name, where)));
             }
@@ -361,22 +369,22 @@ void do_mptransfer(Char *ch, ArgParser args) {
         location = ch->in_room;
     } else {
         if (!(location = find_location(ch, where))) {
-            bug("mptransfer: No such location from vnum {}.", ch->mobIndex->vnum);
+            logger.bug("mptransfer: No such location from vnum {}.", ch->mobIndex->vnum);
             return;
         }
 
         if (room_is_private(location)) {
-            bug("mptransfer: Private room from vnum {}.", ch->mobIndex->vnum);
+            logger.bug("mptransfer: Private room from vnum {}.", ch->mobIndex->vnum);
             return;
         }
     }
     auto *victim = get_char_world(ch, whom);
     if (!victim) {
-        bug("mptransfer: No such person from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mptransfer: No such person from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     if (!victim->in_room) {
-        bug("mptransfer: Victim in Limbo from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mptransfer: Victim in Limbo from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     if (victim->fighting)
@@ -394,28 +402,30 @@ void do_mpforce(Char *ch, ArgParser args) {
         ch->send_line("Huh?");
         return;
     }
+    const Logger &logger = ch->mud_.logger();
     if (args.empty()) {
-        bug("mpforce: Bad syntax from vnum {}.", ch->mobIndex->vnum);
+        logger.bug("mpforce: Bad syntax from vnum {}.", ch->mobIndex->vnum);
         return;
     }
     auto target = args.shift();
+    auto &interpreter = ch->mud_.interpreter();
     if (matches(target, "all")) {
         for (auto &&uch : char_list) {
             auto *vch = uch.get();
             if (vch->in_room == ch->in_room && vch->get_trust() < ch->get_trust() && ch->can_see(*vch)) {
-                interpret(vch, args.remaining());
+                interpreter.interpret(vch, args.remaining());
             }
         }
     } else {
         auto *victim = get_char_room(ch, target);
         if (!victim) {
-            bug("mpforce: No such victim from vnum {}.", ch->mobIndex->vnum);
+            logger.bug("mpforce: No such victim from vnum {}.", ch->mobIndex->vnum);
             return;
         }
         if (victim == ch) {
-            bug("mpforce: Forcing oneself from vnum {}.", ch->mobIndex->vnum);
+            logger.bug("mpforce: Forcing oneself from vnum {}.", ch->mobIndex->vnum);
             return;
         }
-        interpret(victim, args.remaining());
+        interpreter.interpret(victim, args.remaining());
     }
 }

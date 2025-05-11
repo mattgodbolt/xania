@@ -4,6 +4,7 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Char.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
 #include "BodyPartFlag.hpp"
@@ -24,19 +25,15 @@
 #include "PlayerActFlag.hpp"
 #include "Races.hpp"
 #include "RoomFlag.hpp"
-#include "Sex.hpp"
 #include "SkillNumbers.hpp"
-#include "TimeInfoData.hpp"
 #include "ToleranceFlag.hpp"
 #include "Worn.hpp"
 #include "act_comm.hpp"
 #include "act_obj.hpp"
 #include "act_wiz.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "handler.hpp"
-#include "interp.h"
 #include "skills.hpp"
 #include "string_utils.hpp"
 
@@ -48,7 +45,9 @@
 #include <range/v3/view/iota.hpp>
 #include <range/v3/view/transform.hpp>
 
-Seconds Char::total_played() const { return std::chrono::duration_cast<Seconds>(current_time - logon + played); }
+Seconds Char::total_played() const {
+    return std::chrono::duration_cast<Seconds>(mud_.current_time() - login_time + played);
+}
 
 bool Char::is_npc() const { return check_enum_bit(act, CharActFlag::Npc); }
 bool Char::is_warrior() const { return check_enum_bit(act, CharActFlag::Warrior); }
@@ -215,7 +214,7 @@ int Char::get_skill(int skill_number) const {
     int skill;
 
     if (skill_number < -1 || skill_number > MAX_SKILL) {
-        bug("Bad sn {} in get_skill.", skill_number);
+        mud_.logger().bug("Bad sn {} in get_skill.", skill_number);
         return 0;
     }
 
@@ -290,7 +289,7 @@ int Char::get_skill(int skill_number) const {
 
 void Char::set_title(std::string title) {
     if (is_npc()) {
-        bug("set_title: NPC.");
+        mud_.logger().bug("set_title: NPC.");
         return;
     }
 
@@ -378,17 +377,12 @@ bool Char::can_see(const Room &room) const {
     return true;
 }
 
-int Char::num_active_ = 0;
-
-Char::Char() : name{}, logon(current_time), position(Position::Type::Standing) {
+Char::Char(Mud &mud, const Time login_at) : mud_(mud), login_time{login_at}, position(Position::Type::Standing) {
     ranges::fill(armor, -1); // #216 -1 armour is the new normal
     ranges::fill(perm_stat, 13);
-    ++num_active_;
 }
 
 Char::~Char() {
-    --num_active_;
-
     for (auto *obj : carrying)
         extract_obj(obj);
 
@@ -399,7 +393,7 @@ Char::~Char() {
 void Char::yell(std::string_view exclamation) const {
     ::act("|WYou yell '$t|W'|w", this, exclamation, nullptr, To::Char);
     for (auto &victim :
-         descriptors().all_but(*this) | DescriptorFilter::same_area(*this) | DescriptorFilter::to_character()) {
+         mud_.descriptors().all_but(*this) | DescriptorFilter::same_area(*this) | DescriptorFilter::to_character()) {
         if (!check_enum_bit(victim.comm, CommFlag::Quiet))
             ::act("|W$n yells '$t|W'|w", this, exclamation, &victim, To::Vict);
     }

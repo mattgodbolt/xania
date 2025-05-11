@@ -6,6 +6,7 @@
 
 #include "act_wiz.hpp"
 #include "AFFECT_DATA.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "Alignment.hpp"
 #include "Area.hpp"
@@ -19,6 +20,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "FlagFormat.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "MProg.hpp"
 #include "MobIndexData.hpp"
@@ -41,12 +43,10 @@
 #include "act_info.hpp"
 #include "act_move.hpp"
 #include "act_obj.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "lookup.h"
 #include "ride.hpp"
 #include "save.hpp"
@@ -62,10 +62,6 @@
 
 // Mutable global: imms can change it using the sacname command.
 std::string deity_name = "Etaine";
-
-// Log-all switch.
-// Mutable global: imms can toggle it using the log command.
-bool fLogAll = false;
 
 void do_mskills(Char *ch, ArgParser args);
 void do_maffects(Char *ch, ArgParser args);
@@ -121,7 +117,7 @@ void do_outfit(Char *ch) {
     }
     const auto equip_char_with = [&ch](const int vnum, const Worn worn) {
         if (!get_eq_char(ch, worn)) {
-            auto obj_uptr = get_obj_index(vnum)->create_object();
+            auto obj_uptr = get_obj_index(vnum, ch->mud_.logger())->create_object(ch->mud_.logger());
             auto *obj = obj_uptr.get();
             object_list.push_back(std::move(obj_uptr));
             obj->cost = 0;
@@ -132,7 +128,7 @@ void do_outfit(Char *ch) {
     equip_char_with(Objects::SchoolBanner, Worn::Light);
     equip_char_with(Objects::SchoolVest, Worn::Body);
     equip_char_with(Objects::SchoolShield, Worn::Shield);
-    equip_char_with(get_obj_index(ch->pcdata->class_type->first_weapon_vnum)->vnum, Worn::Wield);
+    equip_char_with(get_obj_index(ch->pcdata->class_type->first_weapon_vnum, ch->mud_.logger())->vnum, Worn::Wield);
     ch->send_line("You have been equipped by {}.", deity_name);
 }
 
@@ -217,7 +213,7 @@ void do_disconnect(Char *ch, ArgParser args) {
 
     if (auto opt_channel = args.try_shift_number()) {
         const uint32_t channel_num = *opt_channel;
-        for (auto &d : descriptors().all()) {
+        for (auto &d : ch->mud_.descriptors().all()) {
             if (d.channel() == channel_num) {
                 d.close();
                 ch->send_line("Ok.");
@@ -225,9 +221,8 @@ void do_disconnect(Char *ch, ArgParser args) {
             }
         }
         ch->send_line("Couldn't find a matching descriptor.");
-        return;
     } else {
-        for (auto &d : descriptors().all()) {
+        for (auto &d : ch->mud_.descriptors().all()) {
             if (d.character() && matches(d.character()->name, args.shift())) {
                 d.close();
                 ch->send_line("Ok.");
@@ -235,7 +230,6 @@ void do_disconnect(Char *ch, ArgParser args) {
             }
         }
         ch->send_line("Player not found!");
-        return;
     }
 }
 
@@ -280,7 +274,7 @@ void do_echo(Char *ch, std::string_view argument) {
         return;
     }
 
-    for (auto &victim : descriptors().playing() | DescriptorFilter::to_character()) {
+    for (auto &victim : ch->mud_.descriptors().playing() | DescriptorFilter::to_character()) {
         victim.send_line("{}{}", victim.get_trust() >= ch->get_trust() ? "global> " : "", argument);
     }
 }
@@ -291,7 +285,8 @@ void do_recho(Char *ch, std::string_view argument) {
         return;
     }
 
-    for (auto &victim : descriptors().playing() | DescriptorFilter::same_room(*ch) | DescriptorFilter::to_character()) {
+    for (auto &victim :
+         ch->mud_.descriptors().playing() | DescriptorFilter::same_room(*ch) | DescriptorFilter::to_character()) {
         victim.send_to(fmt::format("{}{}\n\r", victim.get_trust() >= ch->get_trust() ? "local> " : "", argument));
     }
 }
@@ -302,7 +297,8 @@ void do_zecho(Char *ch, std::string_view argument) {
         return;
     }
 
-    for (auto &victim : descriptors().playing() | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
+    for (auto &victim :
+         ch->mud_.descriptors().playing() | DescriptorFilter::same_area(*ch) | DescriptorFilter::to_character()) {
         victim.send_line("{}{}", victim.get_trust() >= ch->get_trust() ? "zone> " : "", argument);
     }
 }
@@ -331,7 +327,7 @@ Room *find_location(Char *ch, std::string_view arg) {
     Object *obj;
 
     if (is_number(arg))
-        return get_room(parse_number(arg));
+        return get_room(parse_number(arg), ch->mud_.logger());
 
     if (matches(arg, "here"))
         return ch->in_room;
@@ -354,8 +350,8 @@ void do_transfer(Char *ch, ArgParser args) {
     auto whom = args.shift();
     auto where = args.shift();
     if (matches(whom, "all")) {
-        for (auto &victim :
-             descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch) | DescriptorFilter::to_character()) {
+        for (auto &victim : ch->mud_.descriptors().all_visible_to(*ch) | DescriptorFilter::except(*ch)
+                                | DescriptorFilter::to_character()) {
             if (victim.in_room)
                 do_transfer(ch, ArgParser(fmt::format("{} {}", victim.name, where)));
         }
@@ -405,22 +401,14 @@ void transfer(const Char *imm, Char *victim, Room *location) {
 }
 
 void do_wizlock(Char *ch) {
-    extern bool wizlock;
-    wizlock = !wizlock;
-
-    if (wizlock)
+    if (ch->mud_.toggle_wizlock())
         ch->send_line("Game wizlocked.");
     else
         ch->send_line("Game un-wizlocked.");
 }
 
-/* RT anti-newbie code */
-
 void do_newlock(Char *ch) {
-    extern bool newlock;
-    newlock = !newlock;
-
-    if (newlock)
+    if (ch->mud_.toggle_newlock())
         ch->send_line("New characters have been locked out.");
     else
         ch->send_line("Newlock removed.");
@@ -452,7 +440,7 @@ void do_at(Char *ch, ArgParser args) {
     auto *original = ch->in_room;
     char_from_room(ch);
     char_to_room(ch, location);
-    interpret(ch, command);
+    ch->mud_.interpreter().interpret(ch, command);
 
     /*
      * See if 'ch' still exists before continuing!
@@ -630,9 +618,10 @@ void do_ostat(Char *ch, ArgParser args) {
         ch->send_line("Stat what?");
         return;
     }
+    const Logger &logger = ch->mud_.logger();
     if (const auto opt_number = args.try_shift_number(); opt_number) {
         const auto vnum = *opt_number;
-        if ((objIndex = get_obj_index(vnum)) == nullptr) {
+        if ((objIndex = get_obj_index(vnum, logger)) == nullptr) {
             ch->send_line("Nothing like that in hell, earth, or heaven.");
             return;
         }
@@ -738,7 +727,7 @@ void do_ostat(Char *ch, ArgParser args) {
         }
         const auto *atk_type = Attacks::at(obj->value[3]);
         if (!atk_type) {
-            bug("Invalid attack type {} in object #{}.", obj->value[3], obj->objIndex->vnum);
+            logger.bug("Invalid attack type {} in object #{}.", obj->value[3], obj->objIndex->vnum);
         } else {
             const auto damage_type = atk_type->damage_type;
             ch->send_line("Damage type is {}.", magic_enum::enum_name<DamageType>(damage_type));
@@ -763,11 +752,11 @@ void do_ostat(Char *ch, ArgParser args) {
     }
 
     for (auto &af : obj->affected)
-        ch->send_line("Affects {}.", af.describe_item_effect(true));
+        ch->send_line("Affects {}.", af.describe_item_effect(true, logger));
 
     if (!obj->enchanted)
         for (auto &af : obj->objIndex->affected)
-            ch->send_line("Affects {}.", af.describe_item_effect(true));
+            ch->send_line("Affects {}.", af.describe_item_effect(true, logger));
 }
 
 void do_mskills(Char *ch, ArgParser args) {
@@ -843,7 +832,7 @@ void do_maffects(Char *ch, ArgParser args) {
     }
     for (auto &af : victim->affected)
         ch->send_to(fmt::format("{}: '{}'{}.\n\r", af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
-                                af.describe_char_effect(true)));
+                                af.describe_char_effect(true, ch->mud_.logger())));
 }
 
 /* Corrected 28/8/96 by Oshea to give correct list of spells/skills. */
@@ -948,7 +937,7 @@ void do_mstat(Char *ch, std::string_view argument) {
     if (victim->is_npc()) {
         const auto *atk_type = Attacks::at(victim->attack_type);
         if (!atk_type) {
-            bug("Invalid attack type {} in mob #{}.", victim->attack_type, victim->mobIndex->vnum);
+            ch->mud_.logger().bug("Invalid attack type {} in mob #{}.", victim->attack_type, victim->mobIndex->vnum);
         } else {
             ch->send_line("Damage: {}  Message: {}", victim->damage, atk_type->verb);
         }
@@ -1025,7 +1014,7 @@ void do_mstat(Char *ch, std::string_view argument) {
 
     for (const auto &af : victim->affected)
         ch->send_line(fmt::format("{}: '{}'{}.", af.is_skill() ? "Skill" : "Spell", skill_table[af.type].name,
-                                  af.describe_char_effect(true)));
+                                  af.describe_char_effect(true, ch->mud_.logger())));
     ch->send_line("");
 }
 
@@ -1124,41 +1113,29 @@ void do_mwhere(Char *ch, ArgParser args) {
 void do_reboo(Char *ch) { ch->send_line("If you want to REBOOT, spell it out."); }
 
 void do_reboot(Char *ch) {
-    extern bool merc_down;
-
     if (!check_enum_bit(ch->act, PlayerActFlag::PlrWizInvis)) {
         do_echo(ch, fmt::format("Reboot by {}.", ch->name));
     }
     do_force(ch, ArgParser("all save"));
     do_save(ch);
-    merc_down = true;
-    // Unlike do_shutdown(), do_reboot() does not explicitly call close_socket()
-    // for every connected player. That's because close_socket() actually
-    // sends a PACKET_DISCONNECT to doorman, causing the client to get booted and
-    // that's not the desired behaviour. Instead, setting the merc_down flag will
-    // cause the main process to terminate while doorman holds onto the client's
-    // connection and then reconnect them to the mud once it's back up.
+    ch->mud_.terminate(false);
 }
 
 void do_shutdow(Char *ch) { ch->send_line("If you want to SHUTDOWN, spell it out."); }
 
 void do_shutdown(Char *ch) {
-    extern bool merc_down;
-
     auto buf = fmt::format("Shutdown by {}.", ch->name);
     do_echo(ch, buf + "\n\r");
     do_force(ch, ArgParser("all save"));
     do_save(ch);
-    merc_down = true;
-    for (auto &d : descriptors().all())
-        d.close();
+    ch->mud_.terminate(true);
 }
 
 void do_snoop(Char *ch, ArgParser args) {
     if (!ch->desc) {
         // MRG old code was split-brained about checking this. Seems like nothing would have worked if ch->desc was
         // actually null, so bugging out here.
-        bug("null ch->desc in do_snoop");
+        ch->mud_.logger().bug("null ch->desc in do_snoop");
         return;
     }
     if (args.empty()) {
@@ -1301,7 +1278,7 @@ void do_clone(Char *ch, ArgParser args) {
             return;
         }
 
-        auto *cloned_mob = create_mobile(mob->mobIndex);
+        auto *cloned_mob = create_mobile(mob->mobIndex, ch->mud_);
         clone_mobile(mob, cloned_mob);
 
         for (auto *carried : mob->carrying) {
@@ -1328,13 +1305,13 @@ void do_mload(Char *ch, ArgParser args) {
         ch->send_line("Syntax: load mob <vnum>.");
         return;
     }
-    auto *mob_index = get_mob_index(*opt_vnum);
+    auto *mob_index = get_mob_index(*opt_vnum, ch->mud_.logger());
     if (!mob_index) {
         ch->send_line("No mob has that vnum.");
         return;
     }
 
-    auto *victim = create_mobile(mob_index);
+    auto *victim = create_mobile(mob_index, ch->mud_);
     char_to_room(victim, ch->in_room);
     act("$n has created $N!", ch, nullptr, victim, To::Room);
     ch->send_line("Ok.");
@@ -1346,12 +1323,12 @@ void do_oload(Char *ch, ArgParser args) {
         ch->send_line("Syntax: load obj <vnum>.");
         return;
     }
-    auto *obj_index = get_obj_index(*opt_vnum);
+    auto *obj_index = get_obj_index(*opt_vnum, ch->mud_.logger());
     if (!obj_index) {
         ch->send_line("No object has that vnum.");
         return;
     }
-    auto obj_uptr = obj_index->create_object();
+    auto obj_uptr = obj_index->create_object(ch->mud_.logger());
     auto *obj = obj_uptr.get();
     object_list.push_back(std::move(obj_uptr));
     if (obj->is_takeable())
@@ -1544,7 +1521,7 @@ void do_restore(Char *ch, ArgParser args) {
     if (ch->get_trust() >= MAX_LEVEL && matches(target, "all")) {
         /* cure all */
 
-        for (auto &d : descriptors().playing()) {
+        for (auto &d : ch->mud_.descriptors().playing()) {
             auto *victim = d.character();
             if (victim->is_npc())
                 continue;
@@ -1623,16 +1600,6 @@ void do_log(Char *ch, ArgParser args) {
         return;
     }
     auto target = args.shift();
-    if (matches(target, "all")) {
-        if (fLogAll) {
-            fLogAll = false;
-            ch->send_line("Log ALL off.");
-        } else {
-            fLogAll = true;
-            ch->send_line("Log ALL on.");
-        }
-        return;
-    }
     auto *victim = get_char_world(ch, target);
     if (!victim) {
         ch->send_line("They aren't here.");
@@ -2475,7 +2442,7 @@ void do_sockets(Char *ch, ArgParser args) {
     int count = 0;
     const auto view_all = args.empty();
     auto target = args.shift();
-    for (auto &d : descriptors().all()) {
+    for (auto &d : ch->mud_.descriptors().all()) {
         std::string_view name;
         if (auto *victim = d.character()) {
             if (!ch->can_see(*victim))
@@ -2520,6 +2487,7 @@ void do_force(Char *ch, ArgParser args) {
         return;
     }
     const auto buf = fmt::format("$n forces you to '{}'.", command);
+    auto &interpreter = ch->mud_.interpreter();
     if (matches(target, "all")) {
         if (ch->get_trust() < DEITY) {
             ch->send_line("Not at your level!");
@@ -2530,7 +2498,7 @@ void do_force(Char *ch, ArgParser args) {
             auto *vch = uch.get();
             if (vch->is_pc() && vch->get_trust() < ch->get_trust()) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
-                interpret(vch, command);
+                interpreter.interpret(vch, command);
             }
         }
     } else if (matches(target, "players")) {
@@ -2543,7 +2511,7 @@ void do_force(Char *ch, ArgParser args) {
             auto *vch = uch.get();
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level < LEVEL_HERO) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
-                interpret(vch, command);
+                interpreter.interpret(vch, command);
             }
         }
     } else if (matches(target, "gods")) {
@@ -2556,7 +2524,7 @@ void do_force(Char *ch, ArgParser args) {
             auto *vch = uch.get();
             if (vch->is_pc() && vch->get_trust() < ch->get_trust() && vch->level >= LEVEL_HERO) {
                 act(buf, ch, nullptr, vch, To::Vict, MobTrig::No);
-                interpret(vch, command);
+                interpreter.interpret(vch, command);
             }
         }
     } else {
@@ -2581,7 +2549,7 @@ void do_force(Char *ch, ArgParser args) {
             return;
         }
         act(buf, ch, nullptr, victim, To::Vict, MobTrig::No);
-        interpret(victim, command);
+        interpreter.interpret(victim, command);
     }
 
     ch->send_line("Ok.");

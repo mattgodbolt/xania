@@ -5,11 +5,19 @@
 /*************************************************************************/
 #include "Socials.hpp"
 #include "Char.hpp"
+#include "DescriptorList.hpp"
 #include "MemFile.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "MockMud.hpp"
+
 namespace {
+
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
 constexpr auto empty = R"(empty
 $
 $
@@ -72,7 +80,7 @@ $n blows a kiss to $r, obviously very in love.
 TEST_CASE("social load") {
     SECTION("well formed social") {
         test::MemFile text(hug);
-        const auto opt_social = Social::load(text.file());
+        const auto opt_social = Social::load(text.file(), logger);
 
         REQUIRE(opt_social);
         CHECK(opt_social->name() == "hug");
@@ -86,7 +94,7 @@ TEST_CASE("social load") {
     }
     SECTION("empty social") {
         test::MemFile text(empty);
-        const auto opt_social = Social::load(text.file());
+        const auto opt_social = Social::load(text.file(), logger);
 
         REQUIRE(opt_social);
         CHECK(opt_social->name() == "empty");
@@ -100,7 +108,7 @@ TEST_CASE("social load") {
     }
     SECTION("unterminated social") {
         test::MemFile text(malformed);
-        const auto opt_social = Social::load(text.file());
+        const auto opt_social = Social::load(text.file(), logger);
 
         REQUIRE(!opt_social);
     }
@@ -108,7 +116,7 @@ TEST_CASE("social load") {
         test::MemFile text(R"(
 #0
 )");
-        const auto opt_social = Social::load(text.file());
+        const auto opt_social = Social::load(text.file(), logger);
 
         REQUIRE(!opt_social);
     }
@@ -117,7 +125,7 @@ TEST_CASE("social load") {
 TEST_CASE("socials") {
     test::MemFile text(hug_and_kiss);
     Socials socials;
-    socials.load(text.file());
+    socials.load(text.file(), logger);
     SECTION("loaded count") { CHECK(socials.count() == 2); }
     SECTION("find by full name") {
         const auto *social = socials.find("bkiss");
@@ -148,8 +156,8 @@ TEST_CASE("socials") {
         REQUIRE(!social);
     }
     SECTION("show table") {
-        Char bob{};
-        Descriptor bob_desc(1);
+        Char bob{mock_mud};
+        Descriptor bob_desc{1, mock_mud};
         bob.desc = &bob_desc;
         bob_desc.character(&bob);
         bob.pcdata = std::make_unique<PcData>();

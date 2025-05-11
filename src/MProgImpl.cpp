@@ -19,6 +19,7 @@
 #include "ArgParser.hpp"
 #include "Char.hpp"
 #include "Class.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "MProgProgram.hpp"
 #include "MProgTypeFlag.hpp"
@@ -28,7 +29,6 @@
 #include "Rng.hpp"
 #include "Room.hpp"
 #include "common/BitOps.hpp"
-#include "interp.h"
 #include "string_utils.hpp"
 
 #include <optional>
@@ -40,7 +40,7 @@ namespace MProg {
 // Mob Prog implementation internals.
 namespace impl {
 
-bool compare_strings(std::string_view lhs, std::string_view opr, std::string_view rhs) {
+bool compare_strings(std::string_view lhs, std::string_view opr, std::string_view rhs, const Logger &logger) {
     using namespace std::literals;
     if (opr == "=="sv)
         return matches(lhs, rhs);
@@ -51,11 +51,11 @@ bool compare_strings(std::string_view lhs, std::string_view opr, std::string_vie
     if (opr == "!/"sv)
         return !matches_inside(lhs, rhs);
 
-    bug("Improper MOBprog operator '{}'", opr);
+    logger.bug("Improper MOBprog operator '{}'", opr);
     return false;
 }
 
-bool compare_ints(const int lhs, std::string_view opr, const int rhs) {
+bool compare_ints(const int lhs, std::string_view opr, const int rhs, const Logger &logger) {
     using namespace std::literals;
     if (opr == "=="sv)
         return lhs == rhs;
@@ -74,7 +74,7 @@ bool compare_ints(const int lhs, std::string_view opr, const int rhs) {
     if (opr == "|"sv)
         return lhs | rhs;
 
-    bug("Improper MOBprog operator '{}'", opr);
+    logger.bug("Improper MOBprog operator '{}'", opr);
     return false;
 }
 
@@ -111,8 +111,8 @@ int get_vnum(const Char *mob) { return (mob->mobIndex ? mob->mobIndex->vnum : 0)
 
 bool expect_number_arg(const IfExpr &ifexpr, Char *mob) {
     if (!is_number(ifexpr.arg)) {
-        bug("expect_number_arg: #{} {} bad argument to '{}': {}", get_vnum(mob), mob->name, ifexpr.function,
-            ifexpr.arg);
+        mob->mud_.logger().bug("expect_number_arg: #{} {} bad argument to '{}': {}", get_vnum(mob), mob->name,
+                               ifexpr.function, ifexpr.arg);
         return false;
     }
     return true;
@@ -120,7 +120,8 @@ bool expect_number_arg(const IfExpr &ifexpr, Char *mob) {
 
 bool expect_dollar_var(const IfExpr &ifexpr, Char *mob) {
     if (ifexpr.arg.length() != 2 || ifexpr.arg[0] != '$' || !std::isalpha(ifexpr.arg[1])) {
-        bug("expect_dollar_var: #{} {} function expects a $var specifying a character or object, got: {}",
+        mob->mud_.logger().bug(
+            "expect_dollar_var: #{} {} function expects a $var specifying a character or object, got: {}",
             get_vnum(mob), mob->name, ifexpr.arg);
         return false;
     }
@@ -132,7 +133,8 @@ bool expect_dollar_var_and_number_operand(const IfExpr &ifexpr, Char *mob) {
         if (std::holds_alternative<const int>(ifexpr.operand))
             return true;
         else {
-            bug("expect_dollar_var_and_number_operand: #{} {} expected a number operand", get_vnum(mob), mob->name);
+            mob->mud_.logger().bug("expect_dollar_var_and_number_operand: #{} {} expected a number operand",
+                                   get_vnum(mob), mob->name);
             return false;
         }
     }
@@ -144,7 +146,8 @@ bool expect_dollar_var_and_sv_operand(const IfExpr &ifexpr, Char *mob) {
         if (std::holds_alternative<std::string_view>(ifexpr.operand))
             return true;
         else {
-            bug("expect_dollar_var_and_sv_operand: #{} {} expected a string view operand", get_vnum(mob), mob->name);
+            mob->mud_.logger().bug("expect_dollar_var_and_sv_operand: #{} {} expected a string view operand",
+                                   get_vnum(mob), mob->name);
             return false;
         }
     }
@@ -197,56 +200,56 @@ bool isaffected(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
 
 bool hitprcnt(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
-    return ch && compare_ints(ch->hit / ch->max_hit, ifexpr.op, std::get<const int>(ifexpr.operand));
+    return ch && compare_ints(ch->hit / ch->max_hit, ifexpr.op, std::get<const int>(ifexpr.operand), ctx.logger_);
 }
 
 bool inroom(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
-    return ch && compare_ints(ch->in_room->vnum, ifexpr.op, std::get<const int>(ifexpr.operand));
+    return ch && compare_ints(ch->in_room->vnum, ifexpr.op, std::get<const int>(ifexpr.operand), ctx.logger_);
 }
 
 bool sex(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
-    return ch && compare_ints(ch->sex.integer(), ifexpr.op, std::get<const int>(ifexpr.operand));
+    return ch && compare_ints(ch->sex.integer(), ifexpr.op, std::get<const int>(ifexpr.operand), ctx.logger_);
 }
 
 bool position(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
-    return ch && compare_ints(ch->position.integer(), ifexpr.op, std::get<const int>(ifexpr.operand));
+    return ch && compare_ints(ch->position.integer(), ifexpr.op, std::get<const int>(ifexpr.operand), ctx.logger_);
 }
 
 bool level(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
-    return ch && compare_ints(ch->level, ifexpr.op, std::get<const int>(ifexpr.operand));
+    return ch && compare_ints(ch->level, ifexpr.op, std::get<const int>(ifexpr.operand), ctx.logger_);
 }
 
 bool class_(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
     return ch && ch->is_pc()
-           && compare_ints(ch->pcdata->class_type->id, ifexpr.op, std::get<const int>(ifexpr.operand));
+           && compare_ints(ch->pcdata->class_type->id, ifexpr.op, std::get<const int>(ifexpr.operand), ctx.logger_);
 }
 
 bool goldamt(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *ch = ctx.select_char(ifexpr);
-    return ch && compare_ints(ch->gold, ifexpr.op, std::get<const int>(ifexpr.operand));
+    return ch && compare_ints(ch->gold, ifexpr.op, std::get<const int>(ifexpr.operand), ctx.logger_);
 }
 
 bool objtype(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
     const auto *sobj = ctx.select_obj(ifexpr);
     return sobj
            && compare_ints(magic_enum::enum_integer<ObjectType>(sobj->type), ifexpr.op,
-                           std::get<const int>(ifexpr.operand));
+                           std::get<const int>(ifexpr.operand), ctx.logger_);
 }
 
 bool name(const IfExpr &ifexpr, const ExecutionCtx &ctx) {
 
     if (const auto *ch = ctx.select_char(ifexpr)) {
-        return compare_strings(ch->name, ifexpr.op, std::get<std::string_view>(ifexpr.operand));
+        return compare_strings(ch->name, ifexpr.op, std::get<std::string_view>(ifexpr.operand), ctx.logger_);
     }
     if (const auto *sobj = ctx.select_obj(ifexpr)) {
-        return compare_strings(sobj->name, ifexpr.op, std::get<std::string_view>(ifexpr.operand));
+        return compare_strings(sobj->name, ifexpr.op, std::get<std::string_view>(ifexpr.operand), ctx.logger_);
     }
-    bug("Mob: #{} Unrecognized char or obj variable: {}", ctx.mob->mobIndex->vnum, ifexpr.arg);
+    ctx.logger_.bug("Mob: #{} Unrecognized char or obj variable: {}", ctx.mob->mobIndex->vnum, ifexpr.arg);
     return false;
 }
 
@@ -279,13 +282,13 @@ const std::unordered_map<std::string_view, Predicate<Validator, Cond>> predicate
 });
 
 bool evaluate_if(std::string_view ifchck, const ExecutionCtx &ctx) {
-    const auto ifexpr = IfExpr::parse_if(ifchck);
+    const auto ifexpr = IfExpr::parse_if(ifchck, ctx.logger_);
     if (!ifexpr) {
         return false;
     }
     if (auto pred = predicates.find(ifexpr->function); pred != predicates.end())
         return pred->second.test(*ifexpr, ctx);
-    bug("Mob: #{} unknown predicate: {}", ctx.mob->mobIndex->vnum, ifexpr->function);
+    ctx.logger_.bug("Mob: #{} unknown predicate: {}", ctx.mob->mobIndex->vnum, ifexpr->function);
     return false;
 }
 
@@ -396,7 +399,7 @@ std::string expand_var(const char c, const ExecutionCtx &ctx) {
             }
         break;
     case '$': buf = "$"; break;
-    default: bug("Mob: {} bad $var", ctx.mob->mobIndex->vnum); break;
+    default: ctx.logger_.bug("Mob: {} bad $var", ctx.mob->mobIndex->vnum); break;
     }
     return buf;
 }
@@ -416,7 +419,7 @@ void interpret_command(std::string_view cmnd, const ExecutionCtx &ctx) {
         }
         buf += expand_var(c, ctx);
     }
-    ::interpret(ctx.mob, buf);
+    ctx.mob->mud_.interpreter().interpret(ctx.mob, buf);
 }
 
 // Makes a new ArgParser from an iterator over a string container
@@ -474,12 +477,12 @@ void mprog_driver(Char *mob, const Program &prog, const Char *actor, const Objec
     const auto *act_targ_obj =
         std::holds_alternative<const Object *>(target) ? std::get<const Object *>(target) : nullptr;
 
-    ExecutionCtx ctx{rng, mob, actor, rndm, act_targ_ch, obj, act_targ_obj};
+    ExecutionCtx ctx{mob->mud_.logger(), rng, mob, actor, rndm, act_targ_ch, obj, act_targ_obj};
     auto line_it = prog.lines.begin();
     auto end_it = prog.lines.end();
     process_block(ctx, line_it, end_it);
     if (ctx.frames.size() > 1) {
-        bug("Mob: {} possibly unbalanced if/else/endif", ctx.mob->mobIndex->vnum);
+        mob->mud_.logger().bug("Mob: {} possibly unbalanced if/else/endif", ctx.mob->mobIndex->vnum);
     }
 }
 
@@ -505,7 +508,7 @@ std::string_view type_to_name(const TypeFlag type) {
 //   func_name(func_arg)
 //   func_name(func_arg) operator operand
 // Returns an empty optional if it couldn't be parsed.
-std::optional<IfExpr> IfExpr::parse_if(std::string_view text) {
+std::optional<IfExpr> IfExpr::parse_if(std::string_view text, const Logger &logger) {
     auto orig = text;
     text = trim(text);
     if (text.empty()) {
@@ -513,23 +516,23 @@ std::optional<IfExpr> IfExpr::parse_if(std::string_view text) {
     }
     auto open_paren = text.find_first_of("(");
     if (open_paren == std::string_view::npos) {
-        bug("parse_if: missing '(': {}", orig);
+        logger.bug("parse_if: missing '(': {}", orig);
         return std::nullopt;
     }
     auto function = trim(text.substr(0, open_paren));
     if (function.empty()) {
-        bug("parse_if: missing function name: {}", orig);
+        logger.bug("parse_if: missing function name: {}", orig);
         return std::nullopt;
     }
     text = ltrim(text.substr(open_paren + 1));
     auto close_paren = text.find_first_of(")");
     if (close_paren == std::string_view::npos) {
-        bug("parse_if: missing ')': {}", orig);
+        logger.bug("parse_if: missing ')': {}", orig);
         return std::nullopt;
     }
     auto arg = trim(text.substr(0, close_paren));
     if (arg.empty()) {
-        bug("parse_if: missing argument: {}", orig);
+        logger.bug("parse_if: missing argument: {}", orig);
         return std::nullopt;
     }
     text = ltrim(text.substr(close_paren + 1));
@@ -538,13 +541,13 @@ std::optional<IfExpr> IfExpr::parse_if(std::string_view text) {
     }
     auto after_op = text.find_first_of(" \t");
     if (after_op == std::string_view::npos) {
-        bug("parse_if: operator missing operand: {}", orig);
+        logger.bug("parse_if: operator missing operand: {}", orig);
         return std::nullopt;
     }
     auto op = trim(text.substr(0, after_op));
     text = ltrim(text.substr(after_op + 1));
     if (text.empty()) {
-        bug("parse_if: operator missing operand: {}", orig);
+        logger.bug("parse_if: operator missing operand: {}", orig);
         return std::nullopt;
     }
     if (is_number(text)) {
@@ -566,7 +569,8 @@ void exec_with_chance(Char *mob, Char *actor, Object *obj, const Target target, 
     for (const auto &mprg : mob->mobIndex->mobprogs) {
         if (mprg.type == type) {
             if (!is_number(mprg.arglist)) {
-                bug("exec_with_chance in mob #{} expected number argument: {}", mob->mobIndex->vnum, mprg.arglist);
+                mob->mud_.logger().bug("exec_with_chance in mob #{} expected number argument: {}", mob->mobIndex->vnum,
+                                       mprg.arglist);
                 continue;
             }
             if (rng.number_percent() < parse_number(mprg.arglist)) {

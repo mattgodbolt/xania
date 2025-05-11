@@ -5,6 +5,7 @@
 /*************************************************************************/
 #pragma once
 
+#include "Logging.hpp"
 #include "common/StandardBits.hpp"
 
 #include <magic_enum/magic_enum.hpp>
@@ -60,7 +61,7 @@ public:
     // Returns true if the entry was removed.
     bool allow_site(Char *ch, ArgParser args);
     // Load all bans from system/ban.lst. Returns the number of bans loaded.
-    size_t load();
+    size_t load(const Logger &logger);
     static Bans &singleton();
 
 private:

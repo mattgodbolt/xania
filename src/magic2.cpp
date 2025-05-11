@@ -5,6 +5,7 @@
 /*************************************************************************/
 
 #include "AFFECT_DATA.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -17,7 +18,6 @@
 #include "SkillTables.hpp"
 #include "VnumRooms.hpp"
 #include "act_info.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
@@ -34,7 +34,7 @@ void tornado_teleport(Char *ch, Char *victim) {
     Room *room;
 
     for (;;) {
-        room = get_room(number_range(0, 65535));
+        room = get_room(number_range(0, 65535), ch->mud_.logger());
         if (room != nullptr)
             if (ch->can_see(*room) && !check_enum_bit(room->room_flags, RoomFlag::Private)
                 && !check_enum_bit(room->room_flags, RoomFlag::Solitary))

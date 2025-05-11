@@ -7,14 +7,6 @@
 
 #include <string>
 
-// tip wizard type - OG Faramir Sep 21 1998
-class Tip {
-    std::string tip_;
+struct Char;
 
-public:
-    explicit Tip(std::string tip) : tip_(std::move(tip)) {}
-
-    [[nodiscard]] const std::string &tip() const noexcept { return tip_; }
-
-    [[nodiscard]] static Tip from_file(FILE *fp);
-};
+std::string format_prompt(const Char &ch, std::string_view prompt);

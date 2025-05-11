@@ -9,6 +9,7 @@
 
 #include "update.hpp"
 #include "AFFECT_DATA.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "Area.hpp"
 #include "Char.hpp"
@@ -19,6 +20,7 @@
 #include "Descriptor.hpp"
 #include "DescriptorList.hpp"
 #include "ExitFlag.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "MProg.hpp"
 #include "MProgTypeFlag.hpp"
@@ -39,12 +41,10 @@
 #include "act_comm.hpp"
 #include "act_move.hpp"
 #include "act_obj.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "magic.h"
 #include "save.hpp"
 #include "skills.hpp"
@@ -53,8 +53,6 @@
 #include <fmt/format.h>
 #include <range/v3/algorithm/find_if.hpp>
 #include <range/v3/algorithm/remove_if.hpp>
-
-extern size_t max_on;
 
 namespace {
 
@@ -223,27 +221,16 @@ void aggr_update() {
 }
 
 /* This function resets the player count every day */
-void count_update() {
-    struct tm *cur_time;
-    int current_day;
-    auto as_tt = Clock::to_time_t(current_time);
-    cur_time = localtime(&as_tt);
-    current_day = cur_time->tm_mday;
-    /* Initialise count_updated if this first time called */
+void count_update(Mud &mud) {
+    const auto as_tt = Clock::to_time_t(mud.current_time());
+    const auto *cur_time = localtime(&as_tt);
+    const auto current_day = cur_time->tm_mday;
     if (player_count_update_day == 0) {
         player_count_update_day = current_day;
-        return;
-    } else {
-        /* Has the day changed? */
-        if (player_count_update_day == current_day)
-            return;
-        /* Day has changed, reset max_on to 0 and change count_updated
-           to current_day, log it also */
-        else {
-            max_on = 0;
-            player_count_update_day = current_day;
-            log_string("The player counter has been reset.");
-        }
+    } else if (player_count_update_day != current_day) {
+        mud.reset_max_players_today();
+        player_count_update_day = current_day;
+        mud.logger().log_string("The player counter has been reset.");
     }
 }
 
@@ -314,13 +301,12 @@ void mobile_update() {
 /*
  * Update the weather.
  */
-void weather_update() {
-    time_info.advance();
+void weather_update(DescriptorList &descriptors, TimeInfoData &current_tick, const Logger &logger) {
     auto weather_before = weather_info;
-    weather_info.update(Rng::global_rng(), time_info);
+    weather_info.update(Rng::global_rng(), current_tick, logger);
 
     if (auto update_msg = weather_info.describe_change(weather_before); !update_msg.empty()) {
-        for (auto &d : descriptors().playing()) {
+        for (auto &d : descriptors.playing()) {
             if (d.character()->is_outside() && d.character()->is_pos_awake())
                 d.character()->send_to(update_msg);
         }
@@ -546,7 +532,7 @@ void advance_level(Char *ch) {
 
     ch->send_line("Your gain is: {}/{} hp, {}/{} m, {}/{} mv {}/{} prac.", add_hp, ch->max_hit, add_mana, ch->max_mana,
                   add_move, ch->max_move, add_prac, ch->practice);
-    log_string("### {} has made a level in room {}", ch->name, (ch->in_room ? ch->in_room->vnum : 0));
+    ch->mud_.logger().log_string("### {} has made a level in room {}", ch->name, (ch->in_room ? ch->in_room->vnum : 0));
     announce(fmt::format("|W### |P{}|W has made a level!!!|w", ch->name), ch);
 }
 
@@ -618,7 +604,7 @@ void gain_exp(Char *ch, int gain) {
  */
 void move_active_char_from_limbo(Char *ch) {
     if (ch == nullptr || ch->desc == nullptr || !ch->desc->is_playing() || ch->was_in_room == nullptr
-        || ch->in_room != get_room(Rooms::Limbo))
+        || ch->in_room != get_room(Rooms::Limbo, ch->mud_.logger()))
         return;
 
     ch->idle_timer_ticks = 0;
@@ -640,6 +626,7 @@ void move_active_char_from_limbo(Char *ch) {
 void move_idle_char_to_limbo(Char *ch) {
     if (++ch->idle_timer_ticks >= MinIdleTicksUntilLimbo) {
         if (ch->was_in_room == nullptr && ch->in_room != nullptr) {
+            const Logger &logger = ch->mud_.logger();
             ch->was_in_room = ch->in_room;
             if (ch->fighting != nullptr)
                 stop_fighting(ch, true);
@@ -649,14 +636,14 @@ void move_idle_char_to_limbo(Char *ch) {
             if (ch->level > 1)
                 save_char_obj(ch);
             char_from_room(ch);
-            char_to_room(ch, get_room(Rooms::Limbo));
+            char_to_room(ch, get_room(Rooms::Limbo, logger));
             if (ch->pet) { /* move pets too */
                 if (ch->pet->fighting)
                     stop_fighting(ch->pet, true);
                 act("$n flickers and phases out", ch->pet);
                 ch->pet->was_in_room = ch->pet->in_room;
                 char_from_room(ch->pet);
-                char_to_room(ch->pet, get_room(Rooms::Limbo));
+                char_to_room(ch->pet, get_room(Rooms::Limbo, logger));
             }
         }
     }
@@ -866,7 +853,7 @@ void collect_all_garbage() {
  * Random times to defeat tick-timing clients and players.
  */
 
-void update_handler() {
+void update_handler(Mud &mud) {
     static int pulse_area;
     static int pulse_mobile;
     static int pulse_violence;
@@ -888,17 +875,14 @@ void update_handler() {
     }
 
     if (--pulse_point <= 0) {
-        log_new("TICK", CharExtraFlag::WiznetTick, 0);
+        mud.logger().log_new("TICK", CharExtraFlag::WiznetTick, 0);
         pulse_point = PULSE_TICK;
-        /* number_range( PULSE_TICK / 2, 3 * PULSE_TICK / 2 ); */
-        weather_update();
+        mud.current_tick().advance();
+        weather_update(mud.descriptors(), mud.current_tick(), mud.logger());
         char_update();
         obj_update();
-        /*Rohan: update player counter if necessary */
-        count_update();
-
-        /* tip wizard */
-        tip_players();
+        count_update(mud);
+        mud.send_tips();
     }
 
     aggr_update();

@@ -27,6 +27,7 @@ struct Room;
  * One object.
  */
 struct Object {
+    const Logger &logger_;
     GenericList<Object *> contains;
     Object *in_obj{};
     Char *carried_by{};
@@ -53,7 +54,7 @@ struct Object {
     std::array<int, 5> value{};
     Room *destination{};
 
-    Object(ObjectIndex *obj_idx);
+    Object(ObjectIndex *obj_idx, const Logger &logger);
     Object() = delete;
     Object(Object &) = delete;
     Object(const Object &) = delete;

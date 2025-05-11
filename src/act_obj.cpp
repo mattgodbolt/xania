@@ -9,11 +9,13 @@
 
 #include "act_obj.hpp"
 #include "AFFECT_DATA.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "BodySize.hpp"
 #include "CharActFlag.hpp"
 #include "CommFlag.hpp"
 #include "ContainerFlag.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "MProg.hpp"
 #include "Materials.hpp"
@@ -36,12 +38,10 @@
 #include "Worn.hpp"
 #include "act_comm.hpp"
 #include "act_wiz.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "magic.h"
 #include "save.hpp"
 #include "skills.hpp"
@@ -182,7 +182,6 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             return;
         }
 
-        bug("Wear_obj: no free finger.");
         ch->send_line("You already wear two rings.");
         return;
     }
@@ -210,7 +209,6 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             return;
         }
 
-        bug("Wear_obj: no free neck.");
         ch->send_line("You already wear two neck items.");
         return;
     }
@@ -326,7 +324,6 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
             return;
         }
 
-        bug("Wear_obj: no free wrist.");
         ch->send_line("You already wear two wrist items.");
         return;
     }
@@ -461,12 +458,13 @@ Char *find_keeper(Char *ch) {
 
     // Shop hours.
     const auto &shop = *keeper->mobIndex->shop;
-    if (time_info.hour() < shop.open_hour) {
+    auto &current_tick = ch->mud_.current_tick();
+    if (current_tick.hour() < shop.open_hour) {
         keeper->say("Sorry, I am closed. Come back later.");
         return nullptr;
     }
 
-    if (time_info.hour() > shop.close_hour) {
+    if (current_tick.hour() > shop.close_hour) {
         keeper->say("Sorry, I am closed. Come back tomorrow.");
         return nullptr;
     }
@@ -847,7 +845,7 @@ void do_donate(Char *ch, ArgParser args) {
     }
 
     /* get the pit's Object * */
-    auto *altar = get_room(Rooms::MidgaardAltar);
+    auto *altar = get_room(Rooms::MidgaardAltar, ch->mud_.logger());
 
     auto pit_it = ranges::find(altar->contents, Objects::Pit, [](auto *obj) { return obj->objIndex->vnum; });
     if (pit_it == altar->contents.end()) {
@@ -979,7 +977,7 @@ void do_drop(Char *ch, ArgParser args) {
         ch->send_line("Drop what?");
         return;
     }
-
+    const Logger &logger = ch->mud_.logger();
     if (auto opt_number = args.try_shift_number()) {
         /* 'drop NNNN coins' */
         auto amount = *opt_number;
@@ -1010,7 +1008,7 @@ void do_drop(Char *ch, ArgParser args) {
             }
         }
 
-        obj_to_room(create_money(amount), ch->in_room);
+        obj_to_room(create_money(amount, logger), ch->in_room);
         act("$n drops some gold.", ch);
         ch->send_line("OK.");
         return;
@@ -1304,8 +1302,8 @@ void do_drink(Char *ch, ArgParser args) {
         }
         const auto *liquid = Liquid::get_by_index(obj->value[2]);
         if (!liquid) {
-            bug("{} attempted to drink a liquid having an unknown type: {} {} -> {}", ch->name, obj->objIndex->vnum,
-                obj->short_descr, obj->value[2]);
+            ch->mud_.logger().bug("{} attempted to drink a liquid having an unknown type: {} {} -> {}", ch->name,
+                                  obj->objIndex->vnum, obj->short_descr, obj->value[2]);
             return;
         }
         act("$n drinks $T from $p.", ch, obj, liquid->name, To::Room);
@@ -1599,7 +1597,7 @@ void do_brandish(Char *ch) {
     }
 
     if ((sn = staff->value[3]) < 0 || sn >= MAX_SKILL || skill_table[sn].spell_fun == 0) {
-        bug("Do_brandish: bad sn {}.", sn);
+        ch->mud_.logger().bug("Do_brandish: bad sn {}.", sn);
         return;
     }
 
@@ -1617,7 +1615,7 @@ void do_brandish(Char *ch) {
         else
             for (auto *vch : ch->in_room->people) {
                 switch (skill_table[sn].target) {
-                default: bug("Do_brandish: bad target for sn {}.", sn); return;
+                default: ch->mud_.logger().bug("Do_brandish: bad target for sn {}.", sn); return;
 
                 case Target::Ignore:
                     if (vch != ch)
@@ -1780,7 +1778,6 @@ void do_steal(Char *ch, ArgParser args) {
                 check_improve(ch, gsn_steal, false, 2);
                 multi_hit(victim, ch);
             } else {
-                log_string(buf);
                 if (!check_enum_bit(ch->act, PlayerActFlag::PlrThief)) {
                     set_enum_bit(ch->act, PlayerActFlag::PlrThief);
                     ch->send_line("|R*** You are now a THIEF!! ***|r");
@@ -1834,14 +1831,14 @@ void do_buy(Char *ch, ArgParser args) {
         ch->send_line("Buy what?");
         return;
     }
-
+    const Logger &logger = ch->mud_.logger();
     if (check_enum_bit(ch->in_room->room_flags, RoomFlag::PetShop)) {
         if (ch->is_npc())
             return;
 
-        auto *roomNext = get_room(ch->in_room->vnum + 1);
+        auto *roomNext = get_room(ch->in_room->vnum + 1, logger);
         if (!roomNext) {
-            bug("Do_buy: bad pet shop at vnum {}.", ch->in_room->vnum);
+            ch->mud_.logger().bug("Do_buy: bad pet shop at vnum {}.", ch->in_room->vnum);
             ch->send_line("Sorry, you can't buy that here.");
             return;
         }
@@ -1881,7 +1878,7 @@ void do_buy(Char *ch, ArgParser args) {
         }
 
         ch->gold -= cost;
-        auto *pet = create_mobile(pet_index->mobIndex);
+        auto *pet = create_mobile(pet_index->mobIndex, ch->mud_);
         set_enum_bit(ch->act, PlayerActFlag::PlrBoughtPet);
         set_enum_bit(pet->act, CharActFlag::Pet);
         set_enum_bit(pet->affected_by, AffectFlag::Charm);
@@ -1955,7 +1952,7 @@ void do_buy(Char *ch, ArgParser args) {
         keeper->gold += cost;
 
         if (check_enum_bit(obj->extra_flags, ObjectExtraFlag::Inventory)) {
-            auto obj_uptr = obj->objIndex->create_object();
+            auto obj_uptr = obj->objIndex->create_object(logger);
             obj = obj_uptr.get();
             object_list.push_back(std::move(obj_uptr));
         } else
@@ -1971,10 +1968,11 @@ void do_buy(Char *ch, ArgParser args) {
 }
 
 void do_list(Char *ch, ArgParser args) {
+    const Logger &logger = ch->mud_.logger();
     if (check_enum_bit(ch->in_room->room_flags, RoomFlag::PetShop)) {
-        auto *roomNext = get_room(ch->in_room->vnum + 1);
+        auto *roomNext = get_room(ch->in_room->vnum + 1, logger);
         if (!roomNext) {
-            bug("Do_list: bad pet shop at vnum {}.", ch->in_room->vnum);
+            logger.bug("Do_list: bad pet shop at vnum {}.", ch->in_room->vnum);
             ch->send_line("You can't do that here.");
             return;
         }

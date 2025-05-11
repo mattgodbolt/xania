@@ -9,6 +9,8 @@
 
 #include <unordered_map>
 
+struct Mud;
+
 class DescriptorList {
     // We hand out pointers to Descriptors, so this structure must be address-stable.
     std::unordered_map<uint32_t, Descriptor> descriptors_;
@@ -43,10 +45,8 @@ public:
     // Create a new descriptor associated with the given channel. Fails if the channel is a duplicate.
     // The returned descriptor is owned by the list, and will remain valid until the descriptor is closed and
     // reap_closed is called.
-    Descriptor *create(uint32_t channel_id);
+    Descriptor *create(uint32_t channel_id, Mud &mud);
 
     // Recover resources used by closed sockets.
     void reap_closed();
 };
-
-DescriptorList &descriptors();

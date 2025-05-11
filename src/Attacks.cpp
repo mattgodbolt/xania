@@ -75,7 +75,6 @@ int index_of(std::string_view name) {
 
 const attack_type *at(const size_t index) {
     if (index >= MaxAttackTypes) {
-        bug("Invalid attack table index: {}", index);
         return nullptr;
     } else {
         return &attack_table[index];

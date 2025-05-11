@@ -7,23 +7,35 @@
 #include "AffectFlag.hpp"
 #include "CharActFlag.hpp"
 #include "Class.hpp"
+#include "DescriptorList.hpp"
+#include "Interpreter.hpp"
+#include "Logging.hpp"
 #include "MProgTypeFlag.hpp"
 #include "MemFile.hpp"
+#include "Mud.hpp"
 #include "Object.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
 #include "Room.hpp"
+#include "common/doorman_protocol.h"
 #include "string_utils.hpp"
 #include <catch2/catch_test_macros.hpp>
 
+#include "MockMud.hpp"
 #include "MockRng.hpp"
 
 using trompeloeil::_;
 
 namespace {
 
+test::MockRng rng{};
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+Interpreter interpreter{};
+
 auto make_char(const std::string &name, Room &room, MobIndexData *mob_idx) {
-    auto ch = std::make_unique<Char>();
+    auto ch = std::make_unique<Char>(mock_mud);
     ch->name = name;
     ch->short_descr = name + " descr";
     ch->in_room = &room;
@@ -56,82 +68,82 @@ stand stand male 200
 
 #0
 )mob");
-    return *MobIndexData::from_file(orcfile.file());
+    return *MobIndexData::from_file(orcfile.file(), logger);
 }
 
-test::MockRng rng{};
 }
 
 TEST_CASE("IfExpr parse_if") {
     using namespace MProg::impl;
+    ALLOW_CALL(mock_mud, descriptors()).LR_RETURN(descriptors);
     SECTION("empty") {
         auto expr = "";
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(!result);
     }
     SECTION("whitespace only") {
         auto expr = "   ";
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(!result);
     }
     SECTION("no open paren") {
         auto expr = "func arg";
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(!result);
     }
     SECTION("no function name") {
         auto expr = "(arg)";
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(!result);
     }
     SECTION("no close paren") {
         auto expr = "func(";
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(!result);
     }
     SECTION("no function arg") {
         auto expr = "func()";
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(!result);
     }
     SECTION("function with arg") {
         auto expr = "func(arg)";
         auto expected = IfExpr{"func", "arg", "", ""};
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(*result == expected);
     }
     SECTION("function with arg ignore trailing space") {
         auto expr = "func(arg) ";
         auto expected = IfExpr{"func", "arg", "", ""};
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(*result == expected);
     }
     SECTION("function with arg ignore extra space") {
         auto expr = "func ( arg )";
         auto expected = IfExpr{"func", "arg", "", ""};
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(*result == expected);
     }
     SECTION("missing operand") {
         auto expr = "func(arg) >";
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(!result);
     }
     SECTION("function with arg, op and number operand") {
         auto expr = "func(arg) > 1";
         auto expected = IfExpr{"func", "arg", ">", 1};
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(*result == expected);
         CHECK(std::holds_alternative<const int>(result->operand));
         CHECK(std::get<const int>(result->operand) == 1);
@@ -140,7 +152,7 @@ TEST_CASE("IfExpr parse_if") {
         auto expr = "func(arg)  >  1 ";
         auto expected = IfExpr{"func", "arg", ">", 1};
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(*result == expected);
         CHECK(std::holds_alternative<const int>(result->operand));
         CHECK(std::get<const int>(result->operand) == 1);
@@ -149,7 +161,7 @@ TEST_CASE("IfExpr parse_if") {
         auto expr = "func(arg)  ==  text ";
         auto expected = IfExpr{"func", "arg", "==", "text"};
 
-        auto result = IfExpr::parse_if(expr);
+        auto result = IfExpr::parse_if(expr, logger);
         CHECK(*result == expected);
         CHECK(std::holds_alternative<std::string_view>(result->operand));
         CHECK(std::get<std::string_view>(result->operand) == "text");
@@ -158,76 +170,77 @@ TEST_CASE("IfExpr parse_if") {
 TEST_CASE("compare strings") {
     using namespace MProg::impl;
     SECTION("equals") {
-        CHECK(compare_strings("abc", "==", "abc"));
-        CHECK(compare_strings("ABC", "==", "abc"));
-        CHECK(!compare_strings("ab", "==", "abc"));
+        CHECK(compare_strings("abc", "==", "abc", logger));
+        CHECK(compare_strings("ABC", "==", "abc", logger));
+        CHECK(!compare_strings("ab", "==", "abc", logger));
     }
     SECTION("not equals") {
-        CHECK(!compare_strings("abc", "!=", "abc"));
-        CHECK(!compare_strings("ABC", "!=", "abc"));
-        CHECK(compare_strings("ab", "!=", "abc"));
+        CHECK(!compare_strings("abc", "!=", "abc", logger));
+        CHECK(!compare_strings("ABC", "!=", "abc", logger));
+        CHECK(compare_strings("ab", "!=", "abc", logger));
     }
     SECTION("match inside") {
-        CHECK(compare_strings("abc", "/", "abc"));
-        CHECK(compare_strings("ABC", "/", "abc"));
-        CHECK(compare_strings("ab", "/", "abc"));
-        CHECK(compare_strings("bc", "/", "abc"));
-        CHECK(!compare_strings("bca", "/", "abc"));
+        CHECK(compare_strings("abc", "/", "abc", logger));
+        CHECK(compare_strings("ABC", "/", "abc", logger));
+        CHECK(compare_strings("ab", "/", "abc", logger));
+        CHECK(compare_strings("bc", "/", "abc", logger));
+        CHECK(!compare_strings("bca", "/", "abc", logger));
     }
 }
 TEST_CASE("compare ints") {
     using namespace MProg::impl;
     SECTION("equals") {
-        CHECK(compare_ints(1, "==", 1));
-        CHECK(!compare_ints(1, "==", 2));
+        CHECK(compare_ints(1, "==", 1, logger));
+        CHECK(!compare_ints(1, "==", 2, logger));
     }
     SECTION("not equals") {
-        CHECK(compare_ints(1, "!=", 2));
-        CHECK(!compare_ints(1, "!=", 1));
+        CHECK(compare_ints(1, "!=", 2, logger));
+        CHECK(!compare_ints(1, "!=", 1, logger));
     }
     SECTION("greater") {
-        CHECK(compare_ints(2, ">", 1));
-        CHECK(!compare_ints(1, ">", 1));
-        CHECK(!compare_ints(1, ">", 2));
+        CHECK(compare_ints(2, ">", 1, logger));
+        CHECK(!compare_ints(1, ">", 1, logger));
+        CHECK(!compare_ints(1, ">", 2, logger));
     }
     SECTION("less") {
-        CHECK(compare_ints(1, "<", 2));
-        CHECK(!compare_ints(1, "<", 1));
-        CHECK(!compare_ints(2, "<", 1));
+        CHECK(compare_ints(1, "<", 2, logger));
+        CHECK(!compare_ints(1, "<", 1, logger));
+        CHECK(!compare_ints(2, "<", 1, logger));
     }
     SECTION("greater equal") {
-        CHECK(compare_ints(2, ">=", 1));
-        CHECK(compare_ints(1, ">=", 1));
-        CHECK(!compare_ints(1, ">=", 2));
+        CHECK(compare_ints(2, ">=", 1, logger));
+        CHECK(compare_ints(1, ">=", 1, logger));
+        CHECK(!compare_ints(1, ">=", 2, logger));
     }
     SECTION("less equal") {
-        CHECK(compare_ints(1, "<=", 2));
-        CHECK(compare_ints(1, "<=", 1));
-        CHECK(!compare_ints(2, "<=", 1));
+        CHECK(compare_ints(1, "<=", 2, logger));
+        CHECK(compare_ints(1, "<=", 1, logger));
+        CHECK(!compare_ints(2, "<=", 1, logger));
     }
     SECTION("bitand") {
-        CHECK(compare_ints(1, "&", 1));
-        CHECK(compare_ints(1, "&", 3));
-        CHECK(!compare_ints(1, "&", 2));
+        CHECK(compare_ints(1, "&", 1, logger));
+        CHECK(compare_ints(1, "&", 3, logger));
+        CHECK(!compare_ints(1, "&", 2, logger));
     }
     SECTION("bitor") {
-        CHECK(compare_ints(1, "|", 2));
-        CHECK(compare_ints(1, "|", 1));
-        CHECK(compare_ints(2, "|", 1));
-        CHECK(compare_ints(1, "|", 3));
-        CHECK(!compare_ints(0, "|", 0));
+        CHECK(compare_ints(1, "|", 2, logger));
+        CHECK(compare_ints(1, "|", 1, logger));
+        CHECK(compare_ints(2, "|", 1, logger));
+        CHECK(compare_ints(1, "|", 3, logger));
+        CHECK(!compare_ints(0, "|", 0, logger));
     }
 }
 TEST_CASE("evaluate if") {
     using namespace MProg::impl;
+    ALLOW_CALL(mock_mud, descriptors()).LR_RETURN(descriptors);
     Room room1{};
     Room room2{};
     auto mob_idx = make_mob_index();
     auto vic = make_char("vic", room1, nullptr);
     auto bob = make_char("bob", room1, &mob_idx);
     ObjectIndex obj_index{};
-    Object obj1{&obj_index};
-    ExecutionCtx ctx{rng, vic.get(), nullptr, nullptr, nullptr, nullptr, nullptr};
+    Object obj1{&obj_index, logger};
+    ExecutionCtx ctx{logger, rng, vic.get(), nullptr, nullptr, nullptr, nullptr, nullptr};
     SECTION("malformed ifexpr") {
         FORBID_CALL(rng, number_percent());
         CHECK(!evaluate_if("rand", ctx));
@@ -396,48 +409,49 @@ TEST_CASE("evaluate if") {
 }
 TEST_CASE("execution ctx selectors") {
     using namespace MProg::impl;
-    Char self{};
-    Char actor{};
-    Char act_targ_char{};
-    Char random{};
+    Char self{mock_mud};
+    Char actor{mock_mud};
+    Char act_targ_char{mock_mud};
+    Char random{mock_mud};
     ObjectIndex obj_index{};
-    Object obj{&obj_index};
-    Object act_targ_obj{&obj_index};
-    ExecutionCtx ctx{rng, &self, &actor, &random, &act_targ_char, &obj, &act_targ_obj};
+    Object obj{&obj_index, logger};
+    Object act_targ_obj{&obj_index, logger};
+    ExecutionCtx ctx{logger, rng, &self, &actor, &random, &act_targ_char, &obj, &act_targ_obj};
     SECTION("char select self") {
-        auto expr = IfExpr::parse_if("name($i) == ignored");
+        auto expr = IfExpr::parse_if("name($i) == ignored", logger);
         CHECK(ctx.select_char(*expr) == &self);
     }
     SECTION("char select actor") {
-        auto expr = IfExpr::parse_if("name($n) == ignored");
+        auto expr = IfExpr::parse_if("name($n) == ignored", logger);
         CHECK(ctx.select_char(*expr) == &actor);
     }
     SECTION("char select random") {
-        auto expr = IfExpr::parse_if("name($r) == ignored");
+        auto expr = IfExpr::parse_if("name($r) == ignored", logger);
         CHECK(ctx.select_char(*expr) == &random);
     }
     SECTION("char select act target char") {
-        auto expr = IfExpr::parse_if("name($t) == ignored");
+        auto expr = IfExpr::parse_if("name($t) == ignored", logger);
         CHECK(ctx.select_char(*expr) == &act_targ_char);
     }
     SECTION("char select unmatched") {
-        auto expr = IfExpr::parse_if("name($x) == ignored");
+        auto expr = IfExpr::parse_if("name($x) == ignored", logger);
         CHECK(!ctx.select_char(*expr));
     }
     SECTION("object select primary") {
-        auto expr = IfExpr::parse_if("name($o) == ignored");
+        auto expr = IfExpr::parse_if("name($o) == ignored", logger);
         CHECK(ctx.select_obj(*expr) == &obj);
     }
     SECTION("object select act target object") {
-        auto expr = IfExpr::parse_if("name($p) == ignored");
+        auto expr = IfExpr::parse_if("name($p) == ignored", logger);
         CHECK(ctx.select_obj(*expr) == &act_targ_obj);
     }
     SECTION("object select unmatched") {
-        auto expr = IfExpr::parse_if("name($x) == ignored");
+        auto expr = IfExpr::parse_if("name($x) == ignored", logger);
         CHECK(!ctx.select_obj(*expr));
     }
 }
 TEST_CASE("expand var") {
+    ALLOW_CALL(mock_mud, descriptors()).LR_RETURN(descriptors);
     using namespace MProg::impl;
     Room room1{};
     Room room2{};
@@ -447,10 +461,10 @@ TEST_CASE("expand var") {
     auto joe = make_char("joe", room1, &mob_idx);
     auto sid = make_char("sid", room1, &mob_idx);
     ObjectIndex axe_idx{.name{"axe"}, .short_descr{"big axe"}};
-    Object axe{&axe_idx};
+    Object axe{&axe_idx, logger};
     ObjectIndex sword_idx{.name{"sword"}, .short_descr{"sharp sword"}};
-    Object sword{&sword_idx};
-    ExecutionCtx ctx{rng, vic.get(), bob.get(), joe.get(), sid.get(), &axe, &sword};
+    Object sword{&sword_idx, logger};
+    ExecutionCtx ctx{logger, rng, vic.get(), bob.get(), joe.get(), sid.get(), &axe, &sword};
     SECTION("char name self $i") {
         auto result = expand_var('i', ctx);
         CHECK(result == "vic");
@@ -592,16 +606,18 @@ TEST_CASE("expand var") {
 }
 TEST_CASE("interpret command") {
     using namespace MProg::impl;
+    ALLOW_CALL(mock_mud, logger()).LR_RETURN(logger);
+    ALLOW_CALL(mock_mud, interpreter()).LR_RETURN(interpreter);
     Room room{};
     auto mob_idx = make_mob_index();
     auto vic = make_char("vic", room, &mob_idx);
     auto bob = make_char("bob", room, nullptr);
     // Bob is a player character so we can inspect the output of the command.
-    Descriptor bob_desc(0);
+    Descriptor bob_desc{0, mock_mud};
     bob->desc = &bob_desc;
     bob_desc.character(bob.get());
     bob->pcdata = std::make_unique<PcData>();
-    ExecutionCtx ctx{rng, vic.get(), bob.get(), nullptr, nullptr, nullptr, nullptr};
+    ExecutionCtx ctx{logger, rng, vic.get(), bob.get(), nullptr, nullptr, nullptr, nullptr};
     SECTION("smile bob") {
         interpret_command("smile $n", ctx);
         CHECK(bob_desc.buffered_output() == "\n\rVic descr smiles at you.\n\r");
@@ -610,13 +626,16 @@ TEST_CASE("interpret command") {
 TEST_CASE("mprog driver complete program") {
     using namespace MProg;
     using namespace MProg::impl;
+    ALLOW_CALL(mock_mud, descriptors()).LR_RETURN(descriptors);
+    ALLOW_CALL(mock_mud, logger()).LR_RETURN(logger);
+    ALLOW_CALL(mock_mud, interpreter()).LR_RETURN(interpreter);
     Target target{nullptr};
     Room room{};
     auto mob_idx = make_mob_index();
     auto vic = make_char("vic", room, &mob_idx);
     auto bob = make_char("bob", room, nullptr);
     // Bob is a player character so we can inspect the output of the command.
-    Descriptor bob_desc(0);
+    Descriptor bob_desc{0, mock_mud};
     bob->desc = &bob_desc;
     bob_desc.character(bob.get());
     bob->pcdata = std::make_unique<PcData>();
@@ -718,6 +737,8 @@ TEST_CASE("mprog driver complete program") {
 TEST_CASE("exec with chance") {
     using namespace MProg;
     using namespace MProg::impl;
+    ALLOW_CALL(mock_mud, logger()).LR_RETURN(logger);
+    ALLOW_CALL(mock_mud, interpreter()).LR_RETURN(interpreter);
     Target target{nullptr};
     Room room{};
     auto mob_idx = make_mob_index();
@@ -728,7 +749,7 @@ TEST_CASE("exec with chance") {
     auto vic = make_char("vic", room, &mob_idx);
     auto bob = make_char("bob", room, nullptr);
     // Bob is a player character so we can inspect the output of the command.
-    Descriptor bob_desc(0);
+    Descriptor bob_desc{0, mock_mud};
     bob->desc = &bob_desc;
     bob_desc.character(bob.get());
     bob->pcdata = std::make_unique<PcData>();

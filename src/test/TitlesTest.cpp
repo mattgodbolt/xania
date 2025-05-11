@@ -11,8 +11,16 @@
 #include <catch2/generators/catch_generators_range.hpp>
 #include <tuple>
 
+#include "MockMud.hpp"
+
+namespace {
+
+test::MockMud mock_mud{};
+
+}
+
 TEST_CASE("default title") {
-    Char player{};
+    Char player{mock_mud};
     player.pcdata = std::make_unique<PcData>();
     using std::make_tuple;
     using namespace std::literals;

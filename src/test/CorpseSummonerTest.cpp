@@ -1,5 +1,6 @@
 #include "CorpseSummoner.hpp"
 #include "CharActFlag.hpp"
+#include "DescriptorList.hpp"
 #include "Object.hpp"
 #include "ObjectExtraFlag.hpp"
 #include "ObjectType.hpp"
@@ -11,6 +12,8 @@
 #include <catch2/trompeloeil.hpp>
 #include <memory>
 #include <vector>
+
+#include "MockMud.hpp"
 
 namespace {
 
@@ -35,8 +38,12 @@ struct MockDependencies : public CorpseSummoner::Dependencies {
     MAKE_CONST_MOCK0(weaken_sn, int(), override);
 };
 
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
 std::unique_ptr<Object> make_test_obj(Room *room, ObjectIndex *obj_idx) {
-    auto obj = std::make_unique<Object>(obj_idx);
+    auto obj = std::make_unique<Object>(obj_idx, logger);
     obj->in_room = room;
     return obj;
 }
@@ -44,7 +51,7 @@ std::unique_ptr<Object> make_test_obj(Room *room, ObjectIndex *obj_idx) {
 TEST_CASE("summoner awaits") {
     MockDependencies mock;
     CorpseSummoner summoner(mock);
-    Char player{};
+    Char player{mock_mud};
     SECTION("does nothing if timer has not expired") {
         FORBID_CALL(mock, interpret(_, _));
 
@@ -63,28 +70,28 @@ TEST_CASE("summoner awaits") {
 }
 
 TEST_CASE("summoner preconditions") {
-    MockDependencies mock;
-    CorpseSummoner summoner(mock);
-    Char player{};
-    Char mob{};
+    MockDependencies mock_dependencies;
+    CorpseSummoner summoner(mock_dependencies);
+    Char player{mock_mud};
+    Char mob{mock_mud};
     SpecialFunc spec_fun_stub{[](Char *) { return true; }};
 
     SECTION("player is npc") {
-        FORBID_CALL(mock, spec_fun_summoner());
+        FORBID_CALL(mock_dependencies, spec_fun_summoner());
         set_enum_bit(player.act, CharActFlag::Npc);
 
         CHECK(!summoner.check_summoner_preconditions(&player, &mob));
     }
 
     SECTION("mob is pc") {
-        FORBID_CALL(mock, spec_fun_summoner());
+        FORBID_CALL(mock_dependencies, spec_fun_summoner());
 
         CHECK(!summoner.check_summoner_preconditions(&player, &mob));
     }
 
     SECTION("mob does not have spec_summoner") {
         set_enum_bit(mob.act, CharActFlag::Npc);
-        REQUIRE_CALL(mock, spec_fun_summoner()).RETURN(spec_fun_stub);
+        REQUIRE_CALL(mock_dependencies, spec_fun_summoner()).RETURN(spec_fun_stub);
 
         CHECK(!summoner.check_summoner_preconditions(&player, &mob));
     }
@@ -92,18 +99,18 @@ TEST_CASE("summoner preconditions") {
     SECTION("mob has spec_summoner") {
         mob.spec_fun = spec_fun_stub;
         set_enum_bit(mob.act, CharActFlag::Npc);
-        REQUIRE_CALL(mock, spec_fun_summoner()).RETURN(spec_fun_stub);
+        REQUIRE_CALL(mock_dependencies, spec_fun_summoner()).RETURN(spec_fun_stub);
 
         CHECK(summoner.check_summoner_preconditions(&player, &mob));
     }
 }
 
 TEST_CASE("is catalyst valid") {
-    MockDependencies mock;
-    CorpseSummoner summoner(mock);
-    Char player{};
+    MockDependencies mock_dependencies;
+    CorpseSummoner summoner(mock_dependencies);
+    Char player{mock_mud};
     ObjectIndex catalyst_idx{};
-    Object catalyst{&catalyst_idx};
+    Object catalyst{&catalyst_idx, logger};
 
     SECTION("item is not pc corpse summoner") {
         auto msg = summoner.is_catalyst_invalid(&player, &catalyst);
@@ -133,23 +140,23 @@ TEST_CASE("is catalyst valid") {
 }
 
 TEST_CASE("check catalyst") {
-    MockDependencies mock;
-    CorpseSummoner summoner(mock);
-    Char player{};
-    Char mob{};
+    MockDependencies mock_dependencies;
+    CorpseSummoner summoner(mock_dependencies);
+    Char player{mock_mud};
+    Char mob{mock_mud};
     ObjectIndex obj_idx{};
-    Object catalyst{&obj_idx};
+    Object catalyst{&obj_idx, logger};
 
     SECTION("with invalid catalyst") {
         trompeloeil::sequence seq;
-        REQUIRE_CALL(mock,
+        REQUIRE_CALL(mock_dependencies,
                      act("|C$n tells you '$t|C'|w", &mob, "Sorry, this item cannot be used to summon your corpse."sv,
                          &player, To::Vict, MobTrig::Yes, Position::Type::Dead))
             .IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, obj_from_char(&catalyst)).IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, obj_to_char(&catalyst, &player)).IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, act("$n gives $p to $N.", &mob, _, &player, To::NotVict)).IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, act("$n gives you $p.", &mob, _, &player, To::Vict)).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies, obj_from_char(&catalyst)).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies, obj_to_char(&catalyst, &player)).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies, act("$n gives $p to $N.", &mob, _, &player, To::NotVict)).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies, act("$n gives you $p.", &mob, _, &player, To::Vict)).IN_SEQUENCE(seq);
 
         CHECK(!summoner.check_catalyst(&player, &mob, &catalyst));
     }
@@ -158,17 +165,17 @@ TEST_CASE("check catalyst") {
         player.level = 12;
         set_enum_bit(catalyst.extra_flags, ObjectExtraFlag::SummonCorpse);
         catalyst.level = player.level - 9_s;
-        FORBID_CALL(mock, obj_from_char(&catalyst));
+        FORBID_CALL(mock_dependencies, obj_from_char(&catalyst));
 
         CHECK(summoner.check_catalyst(&player, &mob, &catalyst));
     }
 }
 
 TEST_CASE("get pc corpse world") {
-    MockDependencies mock;
-    CorpseSummoner summoner(mock);
-    Char player{};
-    Char mob{};
+    MockDependencies mock_dependencies;
+    CorpseSummoner summoner(mock_dependencies);
+    Char player{mock_mud};
+    Char mob{mock_mud};
     Room object_room{};
     Room player_room{};
     auto tests_corpse_desc{"corpse of Test"};
@@ -178,7 +185,7 @@ TEST_CASE("get pc corpse world") {
         std::vector<std::unique_ptr<Object>> obj_list;
         auto weapon = make_test_obj(&object_room, &obj_idx);
         obj_list.push_back(std::move(weapon));
-        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
+        REQUIRE_CALL(mock_dependencies, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
 
@@ -191,7 +198,7 @@ TEST_CASE("get pc corpse world") {
         auto corpse = make_test_obj(&object_room, &obj_idx);
         obj_list.push_back(std::move(corpse));
         player.in_room = &player_room;
-        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
+        REQUIRE_CALL(mock_dependencies, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
 
@@ -203,7 +210,7 @@ TEST_CASE("get pc corpse world") {
         std::vector<std::unique_ptr<Object>> obj_list;
         auto corpse = make_test_obj(&player_room, &obj_idx);
         obj_list.push_back(std::move(corpse));
-        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
+        REQUIRE_CALL(mock_dependencies, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
 
@@ -216,7 +223,7 @@ TEST_CASE("get pc corpse world") {
         auto corpse = make_test_obj(&object_room, &obj_idx);
         auto corpse_ptr = corpse.get();
         obj_list.push_back(std::move(corpse));
-        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list);
+        REQUIRE_CALL(mock_dependencies, object_list()).LR_RETURN(obj_list);
 
         auto found = summoner.get_pc_corpse_world(&player, tests_corpse_desc);
 
@@ -227,18 +234,18 @@ TEST_CASE("get pc corpse world") {
  * End to end test of the happy paths.
  */
 TEST_CASE("summon corpse") {
-    MockDependencies mock;
-    CorpseSummoner summoner(mock);
+    MockDependencies mock_dependencies;
+    CorpseSummoner summoner(mock_dependencies);
     Room object_room{};
     Room player_room{};
-    Char player{};
+    Char player{mock_mud};
     player.name = "Test";
     player.level = 12;
     player.in_room = &player_room;
-    Char mob{};
+    Char mob{mock_mud};
     mob.in_room = &player_room;
     ObjectIndex obj_index{.level = 12};
-    Object catalyst{&obj_index};
+    Object catalyst{&obj_index, logger};
     set_enum_bit(catalyst.extra_flags, ObjectExtraFlag::SummonCorpse);
     const auto weaken_sn{68};
 
@@ -249,24 +256,26 @@ TEST_CASE("summon corpse") {
         auto corpse_ptr = corpse.get();
         obj_list.push_back(std::move(corpse));
         trompeloeil::sequence seq;
-        REQUIRE_CALL(mock, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob, &catalyst,
-                               nullptr, To::Room))
+        REQUIRE_CALL(mock_dependencies, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob,
+                                            &catalyst, nullptr, To::Room))
             .IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, act("The runes on the summoning stone begin to glow more brightly!"sv, &mob, &catalyst,
-                               nullptr, To::Room))
+        REQUIRE_CALL(mock_dependencies, act("The runes on the summoning stone begin to glow more brightly!"sv, &mob,
+                                            &catalyst, nullptr, To::Room))
             .IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list).IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, obj_from_room(corpse_ptr)).IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, obj_to_room(corpse_ptr, &player_room)).IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, act("|BThere is a flash of light and a corpse materialises on the ground before you!|w"sv,
-                               &mob, nullptr, nullptr, To::Room))
+        REQUIRE_CALL(mock_dependencies, object_list()).LR_RETURN(obj_list).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies, obj_from_room(corpse_ptr)).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies, obj_to_room(corpse_ptr, &player_room)).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies,
+                     act("|BThere is a flash of light and a corpse materialises on the ground before you!|w"sv, &mob,
+                         nullptr, nullptr, To::Room))
             .IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, weaken_sn()).RETURN(weaken_sn).IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, affect_to_char(&player, _))
+        REQUIRE_CALL(mock_dependencies, weaken_sn()).RETURN(weaken_sn).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies, affect_to_char(&player, _))
             .WITH(_2.location == AffectLocation::Str && _2.type == weaken_sn)
             .IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, act("$n is knocked off $s feet!"sv, &player, nullptr, nullptr, To::Room)).IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, extract_obj(&catalyst)).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies, act("$n is knocked off $s feet!"sv, &player, nullptr, nullptr, To::Room))
+            .IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies, extract_obj(&catalyst)).IN_SEQUENCE(seq);
 
         summoner.SummonCorpse(&player, &mob, &catalyst);
 
@@ -276,17 +285,17 @@ TEST_CASE("summon corpse") {
     SECTION("failed summmon as corpse cannot be found") {
         std::vector<std::unique_ptr<Object>> obj_list;
         trompeloeil::sequence seq;
-        REQUIRE_CALL(mock, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob, &catalyst,
-                               nullptr, To::Room))
+        REQUIRE_CALL(mock_dependencies, act("$n clutches $p between $s bony fingers and begins to whisper."sv, &mob,
+                                            &catalyst, nullptr, To::Room))
             .IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, act("The runes on the summoning stone begin to glow more brightly!"sv, &mob, &catalyst,
-                               nullptr, To::Room))
+        REQUIRE_CALL(mock_dependencies, act("The runes on the summoning stone begin to glow more brightly!"sv, &mob,
+                                            &catalyst, nullptr, To::Room))
             .IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, object_list()).LR_RETURN(obj_list).IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock,
+        REQUIRE_CALL(mock_dependencies, object_list()).LR_RETURN(obj_list).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies,
                      act("The runes dim and the summoner tips $s head in shame."sv, &mob, nullptr, nullptr, To::Room))
             .IN_SEQUENCE(seq);
-        REQUIRE_CALL(mock, extract_obj(&catalyst)).IN_SEQUENCE(seq);
+        REQUIRE_CALL(mock_dependencies, extract_obj(&catalyst)).IN_SEQUENCE(seq);
 
         summoner.SummonCorpse(&player, &mob, &catalyst);
     }

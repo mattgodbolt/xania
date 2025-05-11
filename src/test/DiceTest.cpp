@@ -1,9 +1,18 @@
 #include "Dice.hpp"
 
+#include "DescriptorList.hpp"
+
 #include <catch2/catch_test_macros.hpp>
 
 #include "MemFile.hpp"
 #include "MockRng.hpp"
+
+namespace {
+
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
+}
 
 TEST_CASE("Dice tests") {
     SECTION("should be zero by default") {
@@ -30,11 +39,11 @@ TEST_CASE("Dice tests") {
     SECTION("should read from files") {
         SECTION("with d") {
             test::MemFile file("1d10+2");
-            CHECK(Dice::from_file(file.file()) == Dice(1, 10, 2));
+            CHECK(Dice::from_file(file.file(), logger) == Dice(1, 10, 2));
         }
         SECTION("with D") {
             test::MemFile file("6D13+0");
-            CHECK(Dice::from_file(file.file()) == Dice(6, 13, 0));
+            CHECK(Dice::from_file(file.file(), logger) == Dice(6, 13, 0));
         }
     }
 }

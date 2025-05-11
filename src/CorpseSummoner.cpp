@@ -8,6 +8,7 @@
 #include "AFFECT_DATA.hpp"
 #include "AffectFlag.hpp"
 #include "Char.hpp"
+#include "Interpreter.hpp"
 #include "Object.hpp"
 #include "ObjectExtraFlag.hpp"
 #include "ObjectType.hpp"
@@ -16,7 +17,6 @@
 #include "VnumRooms.hpp"
 #include "common/BitOps.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "lookup.h"
 #include "string_utils.hpp"
 
@@ -147,7 +147,7 @@ private:
 DependenciesImpl::DependenciesImpl()
     : spec_fun_summoner_{spec_lookup("spec_summoner")}, weaken_sn_{skill_lookup("weaken")} {}
 
-void DependenciesImpl::interpret(Char *ch, std::string_view msg) { ::interpret(ch, msg); }
+void DependenciesImpl::interpret(Char *ch, std::string_view msg) { ch->mud_.interpreter().interpret(ch, msg); }
 
 void DependenciesImpl::act(std::string_view msg, const Char *ch, Act1Arg arg1, Act2Arg arg2, const To to,
                            const MobTrig mob_trig, const Position::Type position) {
@@ -187,7 +187,7 @@ CorpseSummoner corpse_summoner(dependencies);
 bool spec_summoner(Char *ch) {
     if (ch->is_pos_preoccupied() || !ch->in_room || ch->in_room->vnum != Rooms::MidgaardNecropolis)
         return false;
-    corpse_summoner.summoner_awaits(ch, system_clock::to_time_t(current_time));
+    corpse_summoner.summoner_awaits(ch, system_clock::to_time_t(ch->mud_.current_time()));
     return true;
 }
 

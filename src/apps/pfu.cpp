@@ -50,13 +50,13 @@ std::vector<std::string> collect_player_names(const std::string &player_dir, Log
     return names;
 }
 
-void upgrade_players(const std::vector<std::string> &players, Logger &logger) {
+void upgrade_players(Mud &mud, const std::vector<std::string> &players, Logger &logger) {
     auto all_tasks = register_tasks();
     auto succeeded = 0;
     auto failed = 0;
     const CharSaver saver;
     for (auto &player : players) {
-        if (upgrade_player(player, all_tasks, logger, [&saver](const Char &ch) { saver.save(ch); })) {
+        if (upgrade_player(mud, player, all_tasks, logger, [&saver](const Char &ch) { saver.save(ch); })) {
             succeeded++;
         } else {
             failed++;
@@ -148,8 +148,8 @@ CharUpgraderResult::operator bool() const noexcept { return ch_ && !ch_->name.em
 
 CharUpgraderResult::operator Char &() const noexcept { return *ch_; }
 
-CharUpgrader::CharUpgrader(std::string_view name, const Tasks &all_tasks, Logger &logger)
-    : name_(name), desc_(Descriptor(0)), all_tasks_(all_tasks), logger_(logger) {}
+CharUpgrader::CharUpgrader(Mud &mud, std::string_view name, const Tasks &all_tasks, Logger &logger)
+    : mud_(mud), name_(name), desc_(Descriptor(0, mud)), all_tasks_(all_tasks), logger_(logger) {}
 
 auto CharUpgrader::required_tasks(const Char &ch) const {
     return all_tasks_ | ranges::views::filter([&ch](const auto &upgrade) { return upgrade->is_required(ch); });
@@ -177,10 +177,10 @@ Char *CharUpgrader::simulate_login() {
     if (auto fp = WrappedFd::open(filename_for_player(name_))) {
         LastLoginInfo last_login;
         // This snippet is very similar to what's in nanny() and try_load_player().
-        auto ch_uptr = std::make_unique<Char>();
+        auto ch_uptr = std::make_unique<Char>(mud_, mud_.current_time());
         auto *ch = ch_uptr.get();
         ch->pcdata = std::make_unique<PcData>();
-        load_into_char(*ch, last_login, static_cast<FILE *>(fp));
+        load_into_char(*ch, last_login, static_cast<FILE *>(fp), mud_.logger());
         // Takes ownership of the Char unique_ptr.
         char_list.push_back(std::move(ch_uptr));
         desc_.character(ch);
@@ -189,14 +189,13 @@ Char *CharUpgrader::simulate_login() {
         if (!last_login.login_from.empty()) {
             desc_.host(last_login.login_from);
         }
-        auto parsed_time = try_parse_login_at(last_login.login_at);
-        if (parsed_time) {
+        if (auto parsed_time = try_parse_login_at(last_login.login_at); parsed_time) {
             desc_.login_time(*parsed_time);
         }
         if (ch->in_room) {
             char_to_room(ch, ch->in_room);
         } else {
-            char_to_room(ch, get_room(Rooms::MidgaardTemple));
+            char_to_room(ch, get_room(Rooms::MidgaardTemple, mud_.logger()));
         }
         if (ch->pet) {
             char_to_room(ch->pet, ch->in_room);

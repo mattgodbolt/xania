@@ -8,10 +8,12 @@
 /*************************************************************************/
 
 #include "skills.hpp"
+#include "Act.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
 #include "Class.hpp"
 #include "Columner.hpp"
+#include "Interpreter.hpp"
 #include "Learning.hpp"
 #include "Logging.hpp"
 #include "PcCustomization.hpp"
@@ -19,10 +21,8 @@
 #include "Room.hpp"
 #include "SkillTables.hpp"
 #include "SkillsTabulator.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
-#include "interp.h"
 #include "lookup.h"
 #include "magic.h"
 #include "string_utils.hpp"

@@ -1,11 +1,19 @@
-#include "comm.hpp"
+#include "PromptFormat.hpp"
+#include "Act.hpp"
 
 #include "Char.hpp"
+#include "MockMud.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 
+namespace {
+
+test::MockMud mock_mud{};
+
+}
+
 TEST_CASE("prompt formatting") {
-    Char ch;
+    Char ch{mock_mud};
     ch.wait = 3;
     ch.hit = 10;
     ch.max_hit = 11;
@@ -23,8 +31,8 @@ TEST_CASE("prompt formatting") {
         SECTION("full") {
             ch.hit = 10;
             ch.max_hit = ch.hit;
-            // With ten gradations, we expect 3 pipes of red, 3 of yellow, then four of green. Pipes are doubled up to
-            // escape them.
+            // With ten gradations, we expect 3 pipes of red, 3 of yellow, then four of green. Pipes are doubled up
+            // to escape them.
             CHECK(format_prompt(ch, "%B> ")
                   // red
                   == "|p|r"

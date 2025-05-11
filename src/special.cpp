@@ -7,7 +7,9 @@
 /*                                                                       */
 /*************************************************************************/
 
+#include "Act.hpp"
 #include "Char.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
@@ -21,12 +23,10 @@
 #include "VnumRooms.hpp"
 #include "act_move.hpp"
 #include "act_obj.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "lookup.h"
 #include "magic.h"
 #include "string_utils.hpp"
@@ -202,8 +202,9 @@ bool spec_DEATH(Char *ch) {
     if (ch->is_pos_preoccupied())
         return false;
 
-    if ((home = get_room(Rooms::DeathHome)) == nullptr) {
-        bug("Couldn't get Death's home index.");
+    const Logger &logger = ch->mud_.logger();
+    if ((home = get_room(Rooms::DeathHome, logger)) == nullptr) {
+        logger.bug("Couldn't get Death's home index.");
         return false;
     }
 
@@ -646,11 +647,12 @@ bool spec_executioner(Char *ch) {
     auto *victim = pick_passive_victim(ch, [](Char *vch) { return vch->is_player_killer() || vch->is_player_thief(); });
     if (!victim)
         return false;
+    const Logger &logger = ch->mud_.logger();
     ch->yell(fmt::format("{} is a {}!  PROTECT THE INNOCENT!  MORE BLOOOOD!!!", victim->name,
                          victim->is_player_killer() ? "KILLER" : "THIEF"));
     multi_hit(ch, victim);
-    char_to_room(create_mobile(get_mob_index(Mobiles::Cityguard)), ch->in_room);
-    char_to_room(create_mobile(get_mob_index(Mobiles::Cityguard)), ch->in_room);
+    char_to_room(create_mobile(get_mob_index(Mobiles::Cityguard, logger), ch->mud_), ch->in_room);
+    char_to_room(create_mobile(get_mob_index(Mobiles::Cityguard, logger), ch->mud_), ch->in_room);
     return true;
 }
 
@@ -847,13 +849,13 @@ bool spec_mayor(Char *ch) {
     static bool move;
 
     if (!move) {
-        if (time_info.hour() == 6) {
+        if (ch->mud_.current_tick().hour() == 6) {
             path = open_path;
             move = true;
             pos = 0;
         }
 
-        if (time_info.hour() == 20) {
+        if (ch->mud_.current_tick().hour() == 20) {
             path = close_path;
             move = true;
             pos = 0;

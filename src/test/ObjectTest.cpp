@@ -5,6 +5,7 @@
 /*************************************************************************/
 #include "Object.hpp"
 #include "AffectList.hpp"
+#include "DescriptorList.hpp"
 #include "ExtraDescription.hpp"
 #include "Lights.hpp"
 #include "Materials.hpp"
@@ -23,6 +24,9 @@
 #include <vector>
 
 namespace {
+
+DescriptorList descriptors{};
+Logger logger{descriptors};
 
 unsigned int hum = to_int(ObjectExtraFlag::Hum);
 unsigned int hold = to_int(ObjectWearFlag::Hold);
@@ -93,7 +97,7 @@ TEST_CASE("Construction") {
         CHECK(obj_idx1.count == 0);
         CHECK(obj_idx2.count == 0);
         {
-            Object obj{&obj_idx1};
+            Object obj{&obj_idx1, logger};
             CHECK(obj_idx1.count == 1);
             CHECK(obj_idx2.count == 0);
         }
@@ -104,36 +108,36 @@ TEST_CASE("Construction") {
         ObjectIndex obj_idx = make_obj_idx();
 
         SECTION("Using Object constructor") {
-            Object obj{&obj_idx};
+            Object obj{&obj_idx, logger};
             validate_object(obj, obj_idx);
         }
         SECTION("Using ObjectIndex.create_object()") {
-            auto obj_uptr = obj_idx.create_object();
+            auto obj_uptr = obj_idx.create_object(logger);
             validate_object(*obj_uptr, obj_idx);
         }
     }
     SECTION("Lights") {
         SECTION("endless light") {
             ObjectIndex obj_idx{.type = ObjectType::Light, .value{0, 0, Lights::ObjectValues::EndlessMarker, 0, 0}};
-            Object obj{&obj_idx};
+            Object obj{&obj_idx, logger};
             CHECK(obj.value[2] == Lights::ObjectValues::Endless);
         }
         SECTION("transient light") {
             ObjectIndex obj_idx{.type = ObjectType::Light, .value{0, 0, 1, 0, 0}};
-            Object obj{&obj_idx};
+            Object obj{&obj_idx, logger};
             CHECK(obj.value[2] == 1);
         }
     }
     SECTION("Portals") {
         SECTION("with destination") {
             ObjectIndex obj_idx{.type = ObjectType::Portal, .value{Rooms::Limbo, 0, 0, 0, 0}};
-            Object obj{&obj_idx};
+            Object obj{&obj_idx, logger};
             CHECK(obj.destination->vnum == 2);
-            CHECK(obj.value[0] == 0);
+            CHECK(obj.value[0] == Rooms::Limbo);
         }
         SECTION("without destination") {
             ObjectIndex obj_idx{.type = ObjectType::Portal, .value{0, 0, 0, 0, 0}};
-            Object obj{&obj_idx};
+            Object obj{&obj_idx, logger};
             CHECK(obj.destination == nullptr);
             CHECK(obj.value[0] == 0);
         }
@@ -143,14 +147,14 @@ TEST_CASE("Construction") {
 TEST_CASE("Clone") {
     SECTION("simple") {
         ObjectIndex obj_idx = make_obj_idx();
-        auto orig = obj_idx.create_object();
+        auto orig = obj_idx.create_object(logger);
         auto clone = orig->clone();
         validate_object(*clone, obj_idx);
     }
     SECTION("container shallow clone") {
         ObjectIndex obj_idx = make_obj_idx();
-        auto container = obj_idx.create_object();
-        auto contained = obj_idx.create_object();
+        auto container = obj_idx.create_object(logger);
+        auto contained = obj_idx.create_object(logger);
         container->contains.add_front(contained.get());
 
         auto clone = container->clone();
@@ -163,7 +167,7 @@ TEST_CASE("Clone") {
 TEST_CASE("extract_obj and collect garbage") {
     SECTION("single") {
         ObjectIndex obj_idx = make_obj_idx();
-        auto obj_uptr = obj_idx.create_object();
+        auto obj_uptr = obj_idx.create_object(logger);
         auto *obj = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
         const auto reapable_objects_size = reapable_objects.size();
@@ -177,10 +181,10 @@ TEST_CASE("extract_obj and collect garbage") {
     }
     SECTION("with contained") {
         ObjectIndex obj_idx = make_obj_idx();
-        auto container_uptr = obj_idx.create_object();
+        auto container_uptr = obj_idx.create_object(logger);
         auto *container = container_uptr.get();
         object_list.push_back(std::move(container_uptr));
-        auto contained_uptr = obj_idx.create_object();
+        auto contained_uptr = obj_idx.create_object(logger);
         auto *contained = contained_uptr.get();
         object_list.push_back(std::move(contained_uptr));
         container->contains.add_front(contained);

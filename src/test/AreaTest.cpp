@@ -4,17 +4,29 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Area.hpp"
+
+#include "DescriptorList.hpp"
 #include "MemFile.hpp"
 #include <catch2/catch_test_macros.hpp>
 
+#include "MockMud.hpp"
+
+namespace {
+
+test::MockMud mock_mud{};
+DescriptorList descriptors{};
+Logger logger{descriptors};
+
+}
 TEST_CASE("area loading") {
+    ALLOW_CALL(mock_mud, logger()).LR_RETURN(logger);
     SECTION("happy path") {
         test::MemFile fp(R"(ignored~
 Short name~
 { 1 50} TheMoog Some kind of area~
 6200 6399
 )");
-        auto area = Area::parse(1, fp.file(), "bob");
+        auto area = Area::parse(1, fp.file(), "bob", mock_mud);
         CHECK(area.filename() == "bob");
         CHECK(area.num() == 1);
         CHECK(area.short_name() == "Short name");
@@ -32,7 +44,7 @@ Short name~
 {     } TheMoog Some kind of area~
 6200 6399
 )");
-        auto area = Area::parse(1, fp.file(), "bob");
+        auto area = Area::parse(1, fp.file(), "bob", mock_mud);
         CHECK(area.all_levels());
         CHECK(area.min_level() == 0);
         CHECK(area.max_level() == 100);
@@ -43,7 +55,7 @@ Short name~
 { 1 50} TheMoog Some kind of area~
 6200 6399
 )");
-        auto area = Area::parse(1, fp.file(), "bob");
+        auto area = Area::parse(1, fp.file(), "bob", mock_mud);
         SECTION("should starts out unoccupied") { CHECK(!area.occupied()); }
         SECTION("should need update straight away") {
             CHECK(!area.empty_since_last_reset());

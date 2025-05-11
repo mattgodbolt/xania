@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "Logging.hpp"
 #include "Types.hpp"
 
 #include <optional>
@@ -41,8 +42,8 @@ public:
     [[nodiscard]] operator Position::Type() const;
 
     [[nodiscard]] static std::optional<Position> try_from_name(std::string_view name);
-    [[nodiscard]] static Position read_from_word(FILE *fp);
-    [[nodiscard]] static Position read_from_number(FILE *fp);
+    [[nodiscard]] static Position read_from_word(FILE *fp, const Logger &logger);
+    [[nodiscard]] static Position read_from_number(FILE *fp, const Logger &logger);
 
 private:
     static std::string_view name(const Type position);

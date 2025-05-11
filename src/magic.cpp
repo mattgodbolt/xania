@@ -9,6 +9,7 @@
 
 #include "magic.h"
 #include "AFFECT_DATA.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "Alignment.hpp"
 #include "Char.hpp"
@@ -18,6 +19,7 @@
 #include "DamageType.hpp"
 #include "FlagFormat.hpp"
 #include "Format.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "Materials.hpp"
 #include "Object.hpp"
@@ -41,12 +43,10 @@
 #include "act_comm.hpp"
 #include "act_info.hpp"
 #include "act_wiz.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "lookup.h"
 #include "ride.hpp"
 #include "skills.hpp"
@@ -143,7 +143,7 @@ std::optional<SpellTarget> get_casting_spell_target(Char *ch, const int sn, std:
                                                     std::string_view original_args) {
     Char *victim;
     switch (skill_table[sn].target) {
-    default: bug("Do_cast: bad target for sn {}.", sn); return std::nullopt;
+    default: ch->mud_.logger().bug("Do_cast: bad target for sn {}.", sn); return std::nullopt;
 
     case Target::CharOffensive:
         if (entity_name.empty()) {
@@ -213,7 +213,7 @@ std::optional<SpellTarget> get_casting_spell_target(Char *ch, const int sn, std:
 std::optional<SpellTarget> get_obj_casting_spell_target(Char *ch, Char *victim, Object *obj, std::string_view arguments,
                                                         const int sn) {
     switch (skill_table[sn].target) {
-    default: bug("Obj_cast_spell: bad target for sn {}.", sn); return std::nullopt;
+    default: ch->mud_.logger().bug("Obj_cast_spell: bad target for sn {}.", sn); return std::nullopt;
 
     case Target::Ignore:
     case Target::CharObject:
@@ -288,7 +288,7 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
         ch->send_line("You don't have enough mana.");
         return;
     }
-
+    const Logger &logger = ch->mud_.logger();
     ch->wait_state(skill_table[sn].beats * 2);
 
     if (ch->is_pc() && number_percent() > ch->get_skill(sn)) {
@@ -340,7 +340,7 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
             act("You carefully add another spell to your bomb.", ch, nullptr, nullptr, To::Char);
 
         } else {
-            auto obj_uptr = get_obj_index(Objects::Bomb)->create_object();
+            auto obj_uptr = get_obj_index(Objects::Bomb, logger)->create_object(logger);
             bomb = obj_uptr.get();
             object_list.push_back(std::move(obj_uptr));
             bomb->level = ch->level;
@@ -358,7 +358,6 @@ void try_create_bomb(Char *ch, const int sn, const int mana) {
             check_improve(ch, sn, true, 8);
         }
     }
-    return;
 }
 
 /* MG's scribing command ... */
@@ -382,7 +381,8 @@ void try_create_scroll(Char *ch, const int sn, const int mana) {
         ch->send_line("You don't have enough mana.");
         return;
     }
-    auto *scroll_index = get_obj_index(Objects::Scroll);
+    const Logger &logger = ch->mud_.logger();
+    auto *scroll_index = get_obj_index(Objects::Scroll, logger);
     if (ch->carry_weight + scroll_index->weight > can_carry_w(ch)) {
         act("You cannot carry that much weight.", ch, nullptr, nullptr, To::Char);
         return;
@@ -401,7 +401,7 @@ void try_create_scroll(Char *ch, const int sn, const int mana) {
         ch->mana -= (mana * 2);
         ch->gold -= (mana * 100);
 
-        auto obj_uptr = get_obj_index(Objects::Scroll)->create_object();
+        auto obj_uptr = get_obj_index(Objects::Scroll, logger)->create_object(logger);
         auto *scroll = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
         scroll->level = ch->level;
@@ -444,7 +444,8 @@ void try_create_potion(Char *ch, const int sn, const int mana) {
         ch->send_line("You don't have enough mana.");
         return;
     }
-    const auto *potion_index = get_obj_index(Objects::Potion);
+    const Logger &logger = ch->mud_.logger();
+    const auto *potion_index = get_obj_index(Objects::Potion, logger);
     if (ch->carry_weight + potion_index->weight > can_carry_w(ch)) {
         act("You cannot carry that much weight.", ch, nullptr, nullptr, To::Char);
         return;
@@ -464,7 +465,7 @@ void try_create_potion(Char *ch, const int sn, const int mana) {
         ch->mana -= (mana * 2);
         ch->gold -= (mana * 100);
 
-        auto obj_uptr = get_obj_index(Objects::Potion)->create_object();
+        auto obj_uptr = get_obj_index(Objects::Potion, logger)->create_object(logger);
         auto *potion = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
         potion->level = ch->level;
@@ -652,7 +653,7 @@ void obj_cast_spell(const int sn, const int level, Char *ch, Char *victim, Objec
         return;
 
     if (sn >= MAX_SKILL || skill_table[sn].spell_fun == 0) {
-        bug("Obj_cast_spell: bad sn {}.", sn);
+        ch->mud_.logger().bug("Obj_cast_spell: bad sn {}.", sn);
         return;
     }
 
@@ -1139,7 +1140,8 @@ void spell_colour_spray(int sn, int level, Char *ch, const SpellTarget &spell_ta
 
 void spell_continual_light([[maybe_unused]] int sn, [[maybe_unused]] int level, Char *ch,
                            [[maybe_unused]] const SpellTarget &spell_target) {
-    auto obj_uptr = get_obj_index(Objects::LightBall)->create_object();
+    const Logger &logger = ch->mud_.logger();
+    auto obj_uptr = get_obj_index(Objects::LightBall, logger)->create_object(logger);
     auto *light = obj_uptr.get();
     object_list.push_back(std::move(obj_uptr));
     obj_to_room(light, ch->in_room);
@@ -1162,7 +1164,8 @@ void spell_control_weather(int sn, int level, Char *ch, const SpellTarget &spell
 }
 
 void spell_create_food([[maybe_unused]] int sn, int level, Char *ch, [[maybe_unused]] const SpellTarget &spell_target) {
-    auto obj_uptr = get_obj_index(Objects::Mushroom)->create_object();
+    const Logger &logger = ch->mud_.logger();
+    auto obj_uptr = get_obj_index(Objects::Mushroom, logger)->create_object(logger);
     auto *mushroom = obj_uptr.get();
     object_list.push_back(std::move(obj_uptr));
     mushroom->value[0] = 5 + level;
@@ -1173,7 +1176,8 @@ void spell_create_food([[maybe_unused]] int sn, int level, Char *ch, [[maybe_unu
 
 void spell_create_spring([[maybe_unused]] int sn, int level, Char *ch,
                          [[maybe_unused]] const SpellTarget &spell_target) {
-    auto obj_uptr = get_obj_index(Objects::Spring)->create_object();
+    const Logger &logger = ch->mud_.logger();
+    auto obj_uptr = get_obj_index(Objects::Spring, logger)->create_object(logger);
     auto *spring = obj_uptr.get();
     object_list.push_back(std::move(obj_uptr));
     spring->decay_timer_ticks = level;
@@ -2729,12 +2733,12 @@ void spell_identify(int sn, int level, Char *ch, const SpellTarget &spell_target
     if (!obj->enchanted)
         for (auto &af : obj->objIndex->affected) {
             if (af.affects_stats())
-                ch->send_line("Affects {}.", af.describe_item_effect());
+                ch->send_line("Affects {}.", af.describe_item_effect(false, ch->mud_.logger()));
         }
 
     for (auto &af : obj->affected) {
         if (af.affects_stats())
-            ch->send_line("Affects {}.", af.describe_item_effect());
+            ch->send_line("Affects {}.", af.describe_item_effect(false, ch->mud_.logger()));
     }
 }
 
@@ -2996,9 +3000,10 @@ void spell_portal([[maybe_unused]] int sn, int level, Char *ch, const SpellTarge
         ch->send_line("You cannot portal from this room.");
         return;
     }
-    const auto make_portal = [duration = ch->level / 10, portal_idx = get_obj_index(Objects::Portal)](Room *from,
-                                                                                                      Room *to) {
-        auto obj_uptr = portal_idx->create_object();
+    const Logger &logger = ch->mud_.logger();
+    const auto make_portal = [duration = ch->level / 10, portal_idx = get_obj_index(Objects::Portal, logger),
+                              &logger](Room *from, Room *to) {
+        auto obj_uptr = portal_idx->create_object(logger);
         auto *portal = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
         portal->decay_timer_ticks = duration;
@@ -3362,9 +3367,9 @@ void spell_teleport(int sn, int level, Char *ch, const SpellTarget &spell_target
         ch->send_line("You failed.");
         return;
     }
-
+    const Logger &logger = ch->mud_.logger();
     for (;;) {
-        room = get_room(number_range(0, 65535));
+        room = get_room(number_range(0, 65535), logger);
         if (room != nullptr)
             if (ch->can_see(*room) && !check_enum_bit(room->room_flags, RoomFlag::Private)
                 && !check_enum_bit(room->room_flags, RoomFlag::Solitary))
@@ -3437,8 +3442,8 @@ void spell_word_of_recall(int sn, int level, Char *ch, const SpellTarget &spell_
 
     if (victim->is_npc())
         return;
-
-    if ((location = get_room(Rooms::MidgaardTemple)) == nullptr) {
+    const Logger &logger = ch->mud_.logger();
+    if ((location = get_room(Rooms::MidgaardTemple, logger)) == nullptr) {
         victim->send_line("You are completely lost.");
         return;
     }

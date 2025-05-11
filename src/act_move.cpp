@@ -9,6 +9,7 @@
 
 #include "act_move.hpp"
 #include "AFFECT_DATA.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "Char.hpp"
 #include "CharActFlag.hpp"
@@ -16,6 +17,7 @@
 #include "ContainerFlag.hpp"
 #include "Exit.hpp"
 #include "ExitFlag.hpp"
+#include "Interpreter.hpp"
 #include "MProg.hpp"
 #include "Object.hpp"
 #include "ObjectType.hpp"
@@ -27,12 +29,10 @@
 #include "VnumRooms.hpp"
 #include "act_info.hpp"
 #include "act_wiz.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "fight.hpp"
 #include "handler.hpp"
-#include "interp.h"
 #include "ride.hpp"
 #include "skills.hpp"
 #include "string_utils.hpp"
@@ -962,8 +962,8 @@ void do_recall(Char *ch, ArgParser args) {
             }
         }
     }
-
-    auto *location = get_room(vnum);
+    const Logger &logger = ch->mud_.logger();
+    auto *location = get_room(vnum, logger);
     if (!location) {
         ch->send_line("You are completely lost.");
         return;

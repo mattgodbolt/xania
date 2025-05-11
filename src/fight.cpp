@@ -9,6 +9,7 @@
 
 #include "fight.hpp"
 #include "AFFECT_DATA.hpp"
+#include "Act.hpp"
 #include "AffectFlag.hpp"
 #include "ArmourClass.hpp"
 #include "BodySize.hpp"
@@ -23,6 +24,7 @@
 #include "Format.hpp"
 #include "HitChance.hpp"
 #include "InjuredPart.hpp"
+#include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "MProg.hpp"
 #include "Materials.hpp"
@@ -49,11 +51,9 @@
 #include "act_move.hpp"
 #include "act_obj.hpp"
 #include "act_wiz.hpp"
-#include "comm.hpp"
 #include "common/BitOps.hpp"
 #include "db.h"
 #include "handler.hpp"
-#include "interp.h"
 #include "lookup.h"
 #include "ride.hpp"
 #include "save.hpp"
@@ -64,6 +64,7 @@
 #include <fmt/format.h>
 
 #include <ctime>
+#include <fmt/printf.h>
 #include <sys/types.h>
 
 // Cap on damage deliverable by any single hit.
@@ -591,14 +592,14 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
 
     if (victim->is_pos_dead())
         return false;
-
+    const Logger &logger = ch->mud_.logger();
     /*
      * Cap the damage if required, even for imms, and bug it if it's a player doing something suspicious.
      */
     if (raw_damage > DAMAGE_CAP) {
         if (ch->is_pc() && ch->is_mortal()) {
-            bug("Player {} fighting {} in #{}, damage {} exceeds {} cap!", ch->name, victim->name, ch->in_room->vnum,
-                raw_damage, DAMAGE_CAP);
+            logger.bug("Player {} fighting {} in #{}, damage {} exceeds {} cap!", ch->name, victim->name,
+                       ch->in_room->vnum, raw_damage, DAMAGE_CAP);
         }
         adjusted_damage = DAMAGE_CAP;
     }
@@ -764,8 +765,8 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
             auto exp_level = exp_per_level(victim, victim->pcdata->points);
             auto exp_total = (victim->level * exp_level);
 
-            log_string("{} killed by {} at {}", victim->name, ch->short_name(), victim->in_room->vnum);
-            announce(fmt::format("|P###|w Sadly, {} was killed by {}.", victim->name, ch->short_name()), victim);
+            logger.log_string("{} killed by {} at {}", victim->name, ch->short_name(), victim->in_room->vnum);
+            announce(fmt::format("|W### Sadly, |P{}|W was killed by {}.", victim->name, ch->short_name()), victim);
 
             for (auto *squib : victim->in_room->people) {
                 if ((squib->is_npc()) && (squib->mobIndex->vnum == Mobiles::LesserMinionDeath)) {
@@ -791,8 +792,8 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
         } else {
 
             if (victim->level >= (ch->level + 30)) {
-                bug("|R### {} just killed {} - {} levels above them!|w", ch->short_name(), victim->short_descr,
-                    victim->level - ch->level);
+                logger.bug("|R### {} just killed {} - {} levels above them!|w", ch->short_name(), victim->short_descr,
+                           victim->level - ch->level);
             }
         }
         victim_room_vnum = victim->in_room->vnum;
@@ -1016,7 +1017,6 @@ void check_killer(Char *ch, Char *victim) {
      */
     if (check_enum_bit(ch->affected_by, AffectFlag::Charm)) {
         if (ch->master == nullptr) {
-            bug("Check_killer: {} bad AffectFlag::Charm", ch->short_name());
             affect_strip(ch, gsn_charm_person);
             clear_enum_bit(ch->affected_by, AffectFlag::Charm);
             return;
@@ -1158,7 +1158,6 @@ void update_pos(Char *victim) {
 void set_fighting(Char *ch, Char *victim) {
 
     if (ch->fighting != nullptr) {
-        bug("Set_fighting: already fighting");
         return;
     }
 
@@ -1188,22 +1187,22 @@ void stop_fighting(Char *ch, bool fBoth) {
  */
 void make_corpse(Char *ch) {
     std::string name;
-
+    const Logger &logger = ch->mud_.logger();
     Object *corpse{};
     if (ch->is_npc()) {
         name = ch->short_descr;
-        auto obj_uptr = get_obj_index(Objects::NonPlayerCorpse)->create_object();
+        auto obj_uptr = get_obj_index(Objects::NonPlayerCorpse, logger)->create_object(logger);
         corpse = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
         corpse->decay_timer_ticks = number_range(3, 6);
         if (ch->gold > 0) {
-            obj_to_obj(create_money(ch->gold), corpse);
+            obj_to_obj(create_money(ch->gold, ch->mud_.logger()), corpse);
             ch->gold = 0;
         }
         corpse->cost = 0;
     } else {
         name = ch->name;
-        auto obj_uptr = get_obj_index(Objects::PlayerCorpse)->create_object();
+        auto obj_uptr = get_obj_index(Objects::PlayerCorpse, logger)->create_object(logger);
         corpse = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
         corpse->decay_timer_ticks = number_range(25, 40);
@@ -1279,7 +1278,8 @@ void detach_injured_part(const Char *victim, std::optional<InjuredPart> opt_inju
     }
     if (part.opt_spill_obj_vnum) {
         const auto vnum = part.opt_spill_obj_vnum.value();
-        auto obj_uptr = get_obj_index(vnum)->create_object();
+        const Logger &logger = victim->mud_.logger();
+        auto obj_uptr = get_obj_index(vnum, logger)->create_object(logger);
         auto *obj = obj_uptr.get();
         object_list.push_back(std::move(obj_uptr));
         obj->decay_timer_ticks = number_range(4, 7);
@@ -1354,7 +1354,6 @@ void group_gain(Char *ch, Char *victim) {
     }
 
     if (members == 0) {
-        bug("Group_gain: members.");
         members = 1;
         group_levels = ch->level;
     }

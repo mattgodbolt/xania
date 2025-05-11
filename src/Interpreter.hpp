@@ -1,25 +1,31 @@
-/*************************************************************************/
-/*  Xania (M)ulti(U)ser(D)ungeon server source code                      */
-/*  (C) 1995-2000 Xania Development Team                                    */
-/*  See the header to file: merc.h for original code copyrights          */
-/*                                                                       */
-/*  interp.h:  a list of commands and related data                       */
-/*                                                                       */
-/*************************************************************************/
-
 #pragma once
 
-#include "ArgParser.hpp"
+#include <memory>
+#include <string_view>
 
-#include <string>
-
+struct ArgParser;
 struct Char;
-struct Room;
 
-void interp_initialise();
-bool check_social(Char *ch, std::string_view command, std::string_view argument);
-std::string apply_prefix(Char *ch, std::string_view command);
-void interpret(Char *ch, std::string_view argument);
+// Entry point to the command interpreter. Interpreter has full knowledge
+// of every command name and how it maps to each command function, including socials/emotes.
+struct Interpreter {
+public:
+    Interpreter();
+    ~Interpreter();
+    Interpreter(Interpreter const &) = delete;
+    Interpreter &operator=(Interpreter const &) = delete;
+    Interpreter(Interpreter &&) = default;
+    Interpreter &operator=(Interpreter &&) = default;
+
+    void interpret(Char *ch, std::string_view argument) const;
+    void show_player_commands(Char *ch) const;
+    void show_immortal_commands(Char *ch) const;
+
+    struct Impl;
+
+private:
+    std::unique_ptr<Impl> impl_;
+};
 
 /*
  * Command functions.
@@ -31,7 +37,6 @@ extern void do_prowl(Char *ch, ArgParser args);
 extern void do_sharpen(Char *ch);
 extern void do_ride(Char *ch, ArgParser args);
 extern void do_dismount(Char *ch);
-extern void do_accept(Char *ch);
 extern void do_advance(Char *ch, ArgParser args);
 extern void do_affected(Char *ch);
 extern void do_afk(Char *ch, std::string_view argument);
@@ -64,7 +69,6 @@ extern void do_brief(Char *ch);
 extern void do_bug(Char *ch, std::string_view argument);
 extern void do_buy(Char *ch, ArgParser args);
 extern void do_cast(Char *ch, ArgParser args);
-extern void do_cancel_chal(Char *ch, ArgParser args);
 extern void do_changes(Char *ch);
 extern void do_channels(const Char *ch);
 extern void do_clone(Char *ch, ArgParser args);
