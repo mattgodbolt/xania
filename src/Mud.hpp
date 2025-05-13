@@ -5,6 +5,7 @@
 /************************************************************************/
 #pragma once
 
+#include "Ban.hpp"
 #include "Logging.hpp"
 #include "common/Time.hpp"
 #include "common/doorman_protocol.h"
@@ -15,9 +16,10 @@ struct TimeInfoData;
 
 struct Mud {
     virtual ~Mud() = default;
-    virtual Interpreter &interpreter() const = 0;
     virtual DescriptorList &descriptors() = 0;
+    virtual Interpreter &interpreter() const = 0;
     virtual Logger &logger() const = 0;
+    virtual Bans &bans() const = 0;
     virtual bool send_to_doorman(const Packet *p, const void *extra) const = 0;
     virtual TimeInfoData &current_tick() = 0;
     virtual Time boot_time() const = 0;

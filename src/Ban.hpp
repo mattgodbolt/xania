@@ -41,7 +41,8 @@ public:
         virtual void unlink() = 0;
     };
 
-    explicit Bans(Dependencies &dependencies);
+    Bans(std::string ban_file);
+    Bans(std::unique_ptr<Dependencies> dependencies);
 
     // Returns true if site has the specified ban flag.
     bool check_ban(std::string_view site, const BanFlag ban_flag) const;
@@ -62,11 +63,10 @@ public:
     bool allow_site(Char *ch, ArgParser args);
     // Load all bans from system/ban.lst. Returns the number of bans loaded.
     size_t load(const Logger &logger);
-    static Bans &singleton();
 
 private:
     void save();
     void list(Char *ch);
-    Dependencies &dependencies_;
+    std::unique_ptr<Dependencies> dependencies_;
     std::vector<std::unique_ptr<const Ban>> bans_;
 };

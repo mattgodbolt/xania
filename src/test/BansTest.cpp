@@ -82,36 +82,36 @@ straylight.net 95 AF
 
     SECTION("load") {
         SECTION("empty file") {
-            TestDependencies dependencies(initially_empty_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(initially_empty_file);
+            Bans bans(std::move(dependencies));
 
             CHECK(bans.load(logger) == 0);
         }
         SECTION("1 ban") {
-            TestDependencies dependencies(one_ban_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_file);
+            Bans bans(std::move(dependencies));
 
             CHECK(bans.load(logger) == 1);
         }
         SECTION("2 bans") {
-            TestDependencies dependencies(two_bans_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(two_bans_file);
+            Bans bans(std::move(dependencies));
 
             CHECK(bans.load(logger) == 2);
         }
     }
     SECTION("ban site") {
         SECTION("temporary, no wildcard, all") {
-            TestDependencies dependencies(initially_empty_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(initially_empty_file);
+            Bans bans(std::move(dependencies));
             ArgParser args("straylight.net all");
 
             const auto result = bans.ban_site(&admin, args, false);
             assert_ban_site_success(admin_desc, result, initially_empty_file);
         }
         SECTION("temporary, prefix wildcard, all") {
-            TestDependencies dependencies(initially_empty_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(initially_empty_file);
+            Bans bans(std::move(dependencies));
             ArgParser args("*straylight.net all");
 
             const auto result = bans.ban_site(&admin, args, false);
@@ -119,8 +119,8 @@ straylight.net 95 AF
             assert_ban_site_success(admin_desc, result, initially_empty_file);
         }
         SECTION("temporary, no wildcard, newbies") {
-            TestDependencies dependencies(initially_empty_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(initially_empty_file);
+            Bans bans(std::move(dependencies));
             ArgParser args("straylight.net newbies");
 
             const auto result = bans.ban_site(&admin, args, false);
@@ -128,8 +128,8 @@ straylight.net 95 AF
             assert_ban_site_success(admin_desc, result, initially_empty_file);
         }
         SECTION("temporary, no wildcard, permit") {
-            TestDependencies dependencies(initially_empty_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(initially_empty_file);
+            Bans bans(std::move(dependencies));
             ArgParser args("straylight.net permit");
 
             const auto result = bans.ban_site(&admin, args, false);
@@ -137,8 +137,8 @@ straylight.net 95 AF
             assert_ban_site_success(admin_desc, result, initially_empty_file);
         }
         SECTION("temporary, bad type") {
-            TestDependencies dependencies(initially_empty_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(initially_empty_file);
+            Bans bans(std::move(dependencies));
             ArgParser args("straylight.net immortals");
 
             const auto result = bans.ban_site(&admin, args, false);
@@ -148,8 +148,8 @@ straylight.net 95 AF
                                    initially_empty_file, "");
         }
         SECTION("temporary, overrule existing ban") {
-            TestDependencies dependencies(one_ban_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_file);
+            Bans bans(std::move(dependencies));
             ArgParser args("localhost all");
             bans.load(logger);
 
@@ -160,8 +160,8 @@ straylight.net 95 AF
             assert_ban_site_success(admin_desc, result, one_ban_file);
         }
         SECTION("temporary, existing ban overrules") {
-            TestDependencies dependencies(one_ban_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_file);
+            Bans bans(std::move(dependencies));
             ArgParser args("localhost all");
             bans.load(logger);
             // Reduce admin level to test the level check.
@@ -173,8 +173,8 @@ straylight.net 95 AF
                                    one_ban_file, "localhost 100 AF\n");
         }
         SECTION("permanent, wildcard, all") {
-            TestDependencies dependencies(initially_empty_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(initially_empty_file);
+            Bans bans(std::move(dependencies));
             ArgParser args("*straylight.net all");
 
             const auto result = bans.ban_site(&admin, args, true);
@@ -183,8 +183,8 @@ straylight.net 95 AF
         }
     }
     SECTION("add with no site lists existing") {
-        TestDependencies dependencies(two_bans_file);
-        Bans bans(dependencies);
+        auto dependencies = std::make_unique<TestDependencies>(two_bans_file);
+        Bans bans(std::move(dependencies));
         bans.load(logger);
         ArgParser args("");
 
@@ -197,8 +197,8 @@ straylight.net 95 AF
     }
     SECTION("allow site") {
         SECTION("allow index 1") {
-            TestDependencies dependencies(two_bans_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(two_bans_file);
+            Bans bans(std::move(dependencies));
             bans.load(logger);
             ArgParser args("1");
 
@@ -210,8 +210,8 @@ straylight.net 95 AF
             CHECK(sv == "localhost 100 AF\n");
         }
         SECTION("allow index out of range") {
-            TestDependencies dependencies(two_bans_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(two_bans_file);
+            Bans bans(std::move(dependencies));
             bans.load(logger);
             ArgParser args("2");
 
@@ -223,8 +223,8 @@ straylight.net 95 AF
             CHECK(sv == "localhost 100 AF\nstraylight.net 95 AF\n");
         }
         SECTION("allow invalid index") {
-            TestDependencies dependencies(two_bans_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(two_bans_file);
+            Bans bans(std::move(dependencies));
             bans.load(logger);
             ArgParser args("localhost"); // allow requires an index, not a hostname
 
@@ -236,8 +236,8 @@ straylight.net 95 AF
     }
     SECTION("check ban") {
         SECTION("not banned") {
-            TestDependencies dependencies(one_ban_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_file);
+            Bans bans(std::move(dependencies));
             CHECK(bans.load(logger) == 1);
 
             const auto result = bans.check_ban("desiderata.net", BanFlag::All);
@@ -245,8 +245,8 @@ straylight.net 95 AF
             CHECK(!result);
         }
         SECTION("case insensitive") {
-            TestDependencies dependencies(one_ban_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_file);
+            Bans bans(std::move(dependencies));
             CHECK(bans.load(logger) == 1);
 
             const auto result = bans.check_ban("LOCALHOST", BanFlag::All);
@@ -254,8 +254,8 @@ straylight.net 95 AF
             CHECK(result);
         }
         SECTION("newbies, but not all, or either") {
-            TestDependencies dependencies(one_ban_newbies_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_newbies_file);
+            Bans bans(std::move(dependencies));
             CHECK(bans.load(logger) == 1);
 
             const auto all_result = bans.check_ban("localhost", BanFlag::All);
@@ -271,8 +271,8 @@ straylight.net 95 AF
             CHECK(either_result);
         }
         SECTION("by site prefix") {
-            TestDependencies dependencies(one_ban_wild_prefix_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_wild_prefix_file);
+            Bans bans(std::move(dependencies));
             CHECK(bans.load(logger) == 1);
 
             const auto result = bans.check_ban("ashpool.straylight.net", BanFlag::All);
@@ -280,8 +280,8 @@ straylight.net 95 AF
             CHECK(result);
         }
         SECTION("not by site prefix") {
-            TestDependencies dependencies(one_ban_wild_prefix_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_wild_prefix_file);
+            Bans bans(std::move(dependencies));
             CHECK(bans.load(logger) == 1);
 
             const auto result = bans.check_ban("straylight.net.bogus", BanFlag::All);
@@ -289,8 +289,8 @@ straylight.net 95 AF
             CHECK(!result);
         }
         SECTION("by site suffix") {
-            TestDependencies dependencies(one_ban_wild_suffix_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_wild_suffix_file);
+            Bans bans(std::move(dependencies));
             CHECK(bans.load(logger) == 1);
 
             const auto result = bans.check_ban("localhost", BanFlag::All);
@@ -298,8 +298,8 @@ straylight.net 95 AF
             CHECK(result);
         }
         SECTION("no longer banned after allowed") {
-            TestDependencies dependencies(one_ban_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_file);
+            Bans bans(std::move(dependencies));
             ArgParser args("0");
             CHECK(bans.load(logger) == 1);
 
@@ -312,8 +312,8 @@ straylight.net 95 AF
             CHECK(!check_result);
         }
         SECTION("permitted players only") {
-            TestDependencies dependencies(one_ban_permitted_file);
-            Bans bans(dependencies);
+            auto dependencies = std::make_unique<TestDependencies>(one_ban_permitted_file);
+            Bans bans(std::move(dependencies));
             CHECK(bans.load(logger) == 1);
 
             const auto all_result = bans.check_ban("localhost", BanFlag::All);

@@ -32,13 +32,11 @@
 #include <range/v3/algorithm/find_if.hpp>
 #include <range/v3/algorithm/remove_if.hpp>
 
-void do_ban(Char *ch, ArgParser args) { Bans::singleton().ban_site(ch, args, false); }
+void do_ban(Char *ch, ArgParser args) { ch->mud_.bans().ban_site(ch, args, false); }
 
-void do_permban(Char *ch, ArgParser args) { Bans::singleton().ban_site(ch, args, true); }
+void do_permban(Char *ch, ArgParser args) { ch->mud_.bans().ban_site(ch, args, true); }
 
-void do_allow(Char *ch, ArgParser args) { Bans::singleton().allow_site(ch, args); }
-
-Bans::Bans(Dependencies &dependencies) : dependencies_{dependencies}, bans_{} {}
+void do_allow(Char *ch, ArgParser args) { ch->mud_.bans().allow_site(ch, args); }
 
 bool Bans::check_ban(std::string_view site, const BanFlag ban_flag) const { return check_ban(site, to_int(ban_flag)); }
 
@@ -134,7 +132,7 @@ bool Bans::allow_site(Char *ch, ArgParser args) {
 
 size_t Bans::load(const Logger &logger) {
     FILE *fp;
-    if ((fp = dependencies_.open_read()) == nullptr) {
+    if ((fp = dependencies_->open_read()) == nullptr) {
         return 0;
     }
     for (;;) {
@@ -150,14 +148,14 @@ size_t Bans::load(const Logger &logger) {
         bans_.emplace_back(std::make_unique<const Ban>(name, level, flags));
         fread_to_eol(fp);
     }
-    dependencies_.close(fp);
+    dependencies_->close(fp);
     return bans_.size();
 }
 
 void Bans::save() {
     FILE *fp;
     bool found = false;
-    if ((fp = dependencies_.open_write()) == nullptr) {
+    if ((fp = dependencies_->open_write()) == nullptr) {
         perror("Error opening ban file for write");
     }
     for (auto &&ban : bans_) {
@@ -166,9 +164,9 @@ void Bans::save() {
             fmt::print(fp, "{} {} {}\n", ban->site_, ban->level_, serialize_flags(ban->ban_flags_));
         }
     }
-    dependencies_.close(fp);
+    dependencies_->close(fp);
     if (!found)
-        dependencies_.unlink();
+        dependencies_->unlink();
 }
 
 void Bans::list(Char *ch) {
@@ -193,7 +191,7 @@ void Bans::list(Char *ch) {
 
 class DependenciesImpl : public Bans::Dependencies {
 public:
-    DependenciesImpl();
+    DependenciesImpl(std::string ban_file);
     FILE *open_read();
     FILE *open_write();
     void close(FILE *fp);
@@ -204,7 +202,7 @@ private:
     std::string ban_file_;
 };
 
-DependenciesImpl::DependenciesImpl() { ban_file_ = Configuration::singleton().ban_file(); }
+DependenciesImpl::DependenciesImpl(std::string ban_file) : Dependencies() { ban_file_ = ban_file; }
 
 FILE *DependenciesImpl::open_read() { return open_file("r"); }
 
@@ -216,8 +214,6 @@ void DependenciesImpl::close(FILE *fp) { fclose(fp); }
 
 void DependenciesImpl::unlink() { ::unlink(ban_file_.c_str()); }
 
-Bans &Bans::singleton() {
-    static DependenciesImpl dependencies;
-    static Bans singleton(dependencies);
-    return singleton;
-}
+Bans::Bans(std::string ban_file) : dependencies_{std::make_unique<DependenciesImpl>(ban_file)} {}
+
+Bans::Bans(std::unique_ptr<Dependencies> dependencies) : dependencies_{std::move(dependencies)} {}

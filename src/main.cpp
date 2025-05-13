@@ -4,11 +4,9 @@
 /*  See merc.h and README for original copyrights                        */
 /*************************************************************************/
 #include "Act.hpp"
-#include "Ban.hpp"
 #include "Char.hpp"
 #include "Logging.hpp"
 #include "MudImpl.hpp"
-#include "Tip.hpp"
 #include "db.h"
 #include "version.h"
 
@@ -22,9 +20,6 @@ int main() {
     mud->init_socket();
     boot_db(*mud.get()); // TODO Move into Mud properly
     mud->boot();
-    // TODO Bans shouldn't be a singleton and should be a Mud member.
-    const auto ban_count = Bans::singleton().load(logger);
-    logger.log_string("{} site bans loaded.", ban_count);
     mud->game_loop();
     logger.log_string("Normal termination of game.");
     exit(0);

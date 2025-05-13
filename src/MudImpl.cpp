@@ -68,16 +68,18 @@ const auto NewbieNumPracs = 5u;
 
 MudImpl::MudImpl()
     : logger_{std::make_unique<Logger>(descriptors_)}, interpreter_{std::make_unique<Interpreter>()},
-      main_loop_running_(true), wizlock_(false),
+      bans_{std::make_unique<Bans>(Configuration::singleton().ban_file())}, main_loop_running_(true), wizlock_(false),
       newlock_(false), control_fd_{std::nullopt}, boot_time_{std::chrono::system_clock::now()},
       current_time_{std::chrono::system_clock::now()}, current_tick_{TimeInfoData(Clock::now())},
       max_players_today_(0) {}
+
+DescriptorList &MudImpl::descriptors() { return descriptors_; }
 
 Logger &MudImpl::logger() const { return *logger_; }
 
 Interpreter &MudImpl::interpreter() const { return *interpreter_; }
 
-DescriptorList &MudImpl::descriptors() { return descriptors_; }
+Bans &MudImpl::bans() const { return *bans_; }
 
 /* Send a packet to doorman */
 bool MudImpl::send_to_doorman(const Packet *p, const void *extra) const {
@@ -161,6 +163,8 @@ void MudImpl::boot() {
         logger_->log_string("Unable to load tips from file {}", config.tip_file());
     else
         logger_->log_string("Loaded {} tips from file {}", tip_count, config.tip_file());
+    const auto ban_count = bans_->load(*logger_);
+    logger_->log_string("{} site bans loaded.", ban_count);
 }
 
 void MudImpl::game_loop() {
@@ -437,7 +441,8 @@ void MudImpl::handle_signal_shutdown() {
     logger_->log_string("Signal shutdown received");
 
     /* ask everyone to save! */
-    for (auto &&uch : char_list) { // TODO remove global
+    for (auto &&uch : char_list) {
+        // TODO remove global
         auto *vch = uch.get();
         // vch->d->c check added by TM to avoid crashes when
         // someone hasn't logged in but the mud is shut down
@@ -585,7 +590,6 @@ bool MudImpl::process_output(Descriptor *d, bool fPrompt) {
  * Deal with sockets that haven't logged in yet.
  */
 void MudImpl::nanny(Descriptor *d, std::string_view argument) {
-    const auto &bans = Bans::singleton();
     argument = ltrim(argument);
     auto *ch = d->character();
     switch (d->state()) {
@@ -636,7 +640,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
                 d->close();
                 return;
             }
-            if (bans.check_ban(d->raw_full_hostname(), to_int(BanFlag::Newbies) | to_int(BanFlag::All))) {
+            if (bans_->check_ban(d->raw_full_hostname(), to_int(BanFlag::Newbies) | to_int(BanFlag::All))) {
                 d->write("Your site has been banned.\n\r");
                 d->close();
                 return;
@@ -658,7 +662,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
             d->close();
             return;
         }
-        // falls through
+    // falls through
     case DescriptorState::CircumventPassword:
         if (ch->pcdata->pwd.empty()) {
             d->write("Oopsie! Null password!\n\r");
@@ -668,8 +672,8 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
 
         set_echo_state(d, 1);
 
-        if ((!ch->is_set_extra(CharExtraFlag::Permit) && (bans.check_ban(d->raw_full_hostname(), BanFlag::Permit)))
-            || bans.check_ban(d->raw_full_hostname(), BanFlag::All)) {
+        if ((!ch->is_set_extra(CharExtraFlag::Permit) && (bans_->check_ban(d->raw_full_hostname(), BanFlag::Permit)))
+            || bans_->check_ban(d->raw_full_hostname(), BanFlag::All)) {
             d->write("Your site has been banned.  Sorry.\n\r");
             d->close();
             return;
