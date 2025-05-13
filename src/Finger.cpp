@@ -13,6 +13,7 @@
 #include "Logging.hpp"
 #include "TimeInfoData.hpp"
 #include "WrappedFd.hpp"
+#include "common/Configuration.hpp"
 #include "db.h"
 #include "handler.hpp"
 #include "save.hpp"
@@ -44,9 +45,9 @@ Char *find_char_by_name(std::string_view name) {
     return nullptr;
 }
 
-FingerInfo read_char_info(std::string_view player_name, const Logger &logger) {
+FingerInfo read_char_info(std::string_view player_name, std::string_view dir_path, const Logger &logger) {
     FingerInfo info(player_name);
-    if (auto fp = WrappedFd::open(filename_for_player(player_name))) {
+    if (auto fp = WrappedFd::open(filename_for_player(player_name, dir_path))) {
         for (;;) {
             const std::string word = lower_case(fread_word(static_cast<FILE *>(fp)));
             if (feof(static_cast<FILE *>(fp)))
@@ -203,7 +204,9 @@ void do_finger(Char *ch, ArgParser args) {
 
     victim = find_char_by_name(name);
     struct stat player_file;
-    if (!stat(filename_for_player(name).c_str(), &player_file)) {
+    const auto &config = ch->mud_.config();
+    const auto player_dir = config.player_dir();
+    if (!stat(filename_for_player(name, player_dir).c_str(), &player_file)) {
         /* Player exists in player directory */
         const FingerInfo *cur = search_info_cache(name);
         if (!cur) {
@@ -216,7 +219,7 @@ void do_finger(Char *ch, ArgParser args) {
                                                victim->is_set_extra(CharExtraFlag::InfoMessage)))
                            .first->second;
             } else {
-                cur = &info_cache.emplace(name, read_char_info(name, ch->mud_.logger())).first->second;
+                cur = &info_cache.emplace(name, read_char_info(name, player_dir, ch->mud_.logger())).first->second;
             }
         }
 

@@ -17,8 +17,10 @@
 using namespace pfu;
 
 namespace {
+
 spdlog::logger logger = spdlog::logger("pfutest");
 std::unique_ptr<Mud> mud;
+
 }
 
 struct LoadTinyMudOnce : Catch::EventListenerBase {
@@ -38,9 +40,8 @@ CATCH_REGISTER_LISTENER(LoadTinyMudOnce)
 
 TEST_CASE("collect player names") {
     SECTION("all non-empty player files found") {
-        const auto player_dir = Configuration::singleton().player_dir();
 
-        const auto names = collect_player_names(player_dir, logger);
+        const auto names = collect_player_names(mud->config().player_dir(), logger);
 
         std::vector<std::string> expected = {"Versionfour"};
         REQUIRE(names == expected);
@@ -58,7 +59,6 @@ TEST_CASE("register tasks") {
 TEST_CASE("upgrade player") {
     SECTION("v4 to latest") {
         const auto all_tasks = register_tasks();
-        const auto player_dir = Configuration::singleton().player_dir();
         test::MemFile god_file;
         test::MemFile player_file;
         const CharSaver saver;
@@ -67,7 +67,7 @@ TEST_CASE("upgrade player") {
             [&god_file, &player_file, &saver](const Char &ch) { saver.save(ch, god_file.file(), player_file.file()); });
         REQUIRE(result == true);
         SECTION("upgraded file matches expected") {
-            auto expected = test::read_whole_file(player_dir + "/expected-upgrades/Versionfour");
+            auto expected = test::read_whole_file(mud->config().player_dir() + "/expected-upgrades/Versionfour");
             auto actual = player_file.as_string_view();
 
             CHECK(actual == expected);

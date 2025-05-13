@@ -10,12 +10,14 @@
 #include "common/Time.hpp"
 #include "common/doorman_protocol.h"
 
+struct Configuration;
 struct DescriptorList;
 struct Interpreter;
 struct TimeInfoData;
 
 struct Mud {
     virtual ~Mud() = default;
+    virtual Configuration &config() const = 0;
     virtual DescriptorList &descriptors() = 0;
     virtual Interpreter &interpreter() const = 0;
     virtual Logger &logger() const = 0;

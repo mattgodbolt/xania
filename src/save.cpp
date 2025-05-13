@@ -833,24 +833,21 @@ void fread_pet(Char *ch, FILE *fp) {
 
 } // namespace
 
-std::string filename_for_player(std::string_view player_name) {
-    return fmt::format("{}{}", Configuration::singleton().player_dir(), initial_caps_only(player_name));
-}
-
-std::string filename_for_god(std::string_view player_name) {
-    return fmt::format("{}{}", Configuration::singleton().gods_dir(), initial_caps_only(player_name));
+std::string filename_for_player(std::string_view player_name, std::string_view dir_path) {
+    return fmt::format("{}{}", dir_path, initial_caps_only(player_name));
 }
 
 void CharSaver::save(const Char &ch) const {
     if (!ch.player()) // At the moment NPCs can't be persisted.
         return;
+    const auto &config = ch.mud_.config();
     const Char *player = ch.player();
     FILE *god_file = nullptr;
     // Only open the god file if it's an imm so we don't end up an empty god file for mortals.
     if (player->is_immortal()) {
-        god_file = fopen(filename_for_god(ch.name).c_str(), "w");
+        god_file = fopen(filename_for_player(ch.name, config.gods_dir()).c_str(), "w");
     }
-    FILE *player_file = fopen(filename_for_player(ch.name).c_str(), "w");
+    FILE *player_file = fopen(filename_for_player(ch.name, config.player_dir()).c_str(), "w");
     save(ch, god_file, player_file);
     if (god_file)
         fclose(god_file);
@@ -951,8 +948,9 @@ LoadCharObjResult try_load_player(Mud &mud, std::string_view player_name) {
     ch->comm = to_int(CommFlag::Combine) | to_int(CommFlag::Prompt) | to_int(CommFlag::ShowAfk)
                | to_int(CommFlag::ShowDefence);
     ranges::fill(ch->perm_stat, 13);
-
-    auto *fp = fopen(filename_for_player(player_name).c_str(), "r");
+    const auto &config = mud.config();
+    const auto player_dir = config.player_dir();
+    auto *fp = fopen(filename_for_player(player_name, player_dir).c_str(), "r");
     if (fp) {
         res.newly_created = false;
         LastLoginInfo ignored;

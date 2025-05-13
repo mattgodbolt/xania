@@ -67,8 +67,3 @@ int Configuration::int_env(const std::string &envkey, const int default_value) c
     const auto value = std::getenv(envkey.c_str());
     return value ? atoi(value) : default_value;
 }
-
-Configuration &Configuration::singleton() {
-    static Configuration singleton;
-    return singleton;
-}

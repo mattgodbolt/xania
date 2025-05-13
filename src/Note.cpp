@@ -131,7 +131,8 @@ void Note::remove_line() { text_ = remove_last_line(text_); }
 
 NoteHandler &NoteHandler::singleton() {
     static auto on_change = [](NoteHandler &handler) {
-        const auto notes_file = Configuration::singleton().notes_file();
+        const Configuration config; // TODO use a reference to central config once notes is no longer a singleton
+        const auto notes_file = config.notes_file();
         if (auto *file = fopen(notes_file.c_str(), "w")) {
             handler.write_to(file);
             fclose(file);
@@ -143,8 +144,7 @@ NoteHandler &NoteHandler::singleton() {
     return singleton;
 }
 
-void note_initialise(const Time current_time, const Logger &logger) {
-    const auto notes_file = Configuration::singleton().notes_file();
+void note_initialise(const Time current_time, const std::string &notes_file, const Logger &logger) {
     auto &handler = NoteHandler::singleton();
     if (auto *fp = fopen(notes_file.c_str(), "r")) {
         handler.read_from(fp, current_time, logger);

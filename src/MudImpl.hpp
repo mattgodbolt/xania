@@ -11,6 +11,7 @@
 #include "Mud.hpp"
 #include "TimeInfoData.hpp"
 #include "Tips.hpp"
+#include "common/Configuration.hpp"
 #include "common/Fd.hpp"
 #include "common/doorman_protocol.h"
 
@@ -26,6 +27,7 @@ public:
     MudImpl &operator=(MudImpl &&) = delete;
     virtual ~MudImpl() = default;
 
+    Configuration &config() const override;
     DescriptorList &descriptors() override;
     Logger &logger() const override;
     Interpreter &interpreter() const override;
@@ -68,6 +70,7 @@ private:
     bool check_reconnect(Descriptor *d);
     bool check_playing(Descriptor *d, std::string_view name);
 
+    std::unique_ptr<Configuration> config_;
     DescriptorList descriptors_;
     std::unique_ptr<Logger> logger_;
     std::unique_ptr<Interpreter> interpreter_;

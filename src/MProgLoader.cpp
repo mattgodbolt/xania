@@ -101,7 +101,7 @@ bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mob
 }
 
 // Snarf a MOBprogram section from the area file.
-void load_mobprogs(FILE *fp, const Logger &logger) {
+void load_mobprogs(FILE *fp, std::string_view area_dir, const Logger &logger) {
     char letter;
     auto area_last = AreaList::singleton().back();
     if (area_last == nullptr) {
@@ -120,7 +120,7 @@ void load_mobprogs(FILE *fp, const Logger &logger) {
             const auto vnum = fread_number(fp, logger);
             if (auto *mob = get_mob_index(vnum, logger)) {
                 const auto file_name = fread_word(fp);
-                const auto file_path = fmt::format("{}{}", Configuration::singleton().area_dir(), file_name);
+                const auto file_path = fmt::format("{}{}", area_dir, file_name);
                 if (auto prog_file = WrappedFd::open(file_path)) {
                     if (!read_program(file_name, static_cast<FILE *>(prog_file), mob, logger)) {
                         exit(1);

@@ -9,8 +9,7 @@
 #include <string_view>
 
 // The base directory is the installation root. Defaults to "..".
-std::string filename_for_player(std::string_view player_name);
-std::string filename_for_god(std::string_view player_name);
+std::string filename_for_player(std::string_view player_name, std::string_view dir_path);
 
 class CharSaver {
 public:

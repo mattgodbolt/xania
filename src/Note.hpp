@@ -108,4 +108,4 @@ private:
 };
 
 void do_note(Char *ch, std::string_view argument);
-void note_initialise(Time current_time, const Logger &logger);
+void note_initialise(Time current_time, const std::string &notes_file, const Logger &logger);

@@ -49,8 +49,10 @@ void do_delete(Char *ch, std::string_view argument) {
         } else {
             /* Added by Rohan - to delete the cached info, if it has been
              cached of course! */
+            const auto &config = ch->mud_.config();
+            const auto player_dir = config.player_dir();
             remove_info_for_player(ch->name);
-            auto strsave = filename_for_player(ch->name);
+            auto strsave = filename_for_player(ch->name, player_dir);
             do_quit(ch); // ch is invalid after this
             unlink(strsave.c_str());
             return;
@@ -317,19 +319,20 @@ void save_player_suggestion(const Char *ch, std::string_view raw_suggestion, con
 }
 
 void do_bug(Char *ch, std::string_view argument) {
-    save_player_suggestion(ch, argument, Configuration::singleton().bug_file(),
-                           "Please provide a brief description of the bug!",
+    const auto file = ch->mud_.config().bug_file();
+    save_player_suggestion(ch, argument, file, "Please provide a brief description of the bug!",
                            "|RBug logged! If you're lucky it may even get fixed!|w", "Shucks, unable to log the bug.");
 }
 
 void do_idea(Char *ch, std::string_view argument) {
-    save_player_suggestion(ch, argument, Configuration::singleton().ideas_file(),
-                           "Please provide a brief description of your idea!",
+    const auto file = ch->mud_.config().ideas_file();
+    save_player_suggestion(ch, argument, file, "Please provide a brief description of your idea!",
                            "|WIdea logged. This is |RNOT|W an identify command.|w", "Bummer, unable to log the idea.");
 }
 
 void do_typo(Char *ch, std::string_view argument) {
-    save_player_suggestion(ch, argument, Configuration::singleton().typo_file(), "A typo you say? Tell us where!",
+    const auto file = ch->mud_.config().typo_file();
+    save_player_suggestion(ch, argument, file, "A typo you say? Tell us where!",
                            "|WTypo logged. One day we'll fix it, or buy a spellchecker.|w",
                            "Golly, unable to log the typo.");
 }

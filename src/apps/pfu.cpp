@@ -174,7 +174,9 @@ CharUpgraderResult CharUpgrader::upgrade() {
 }
 
 Char *CharUpgrader::simulate_login() {
-    if (auto fp = WrappedFd::open(filename_for_player(name_))) {
+    const auto &config = mud_.config();
+    const auto player_dir = config.player_dir();
+    if (auto fp = WrappedFd::open(filename_for_player(name_, player_dir))) {
         LastLoginInfo last_login;
         // This snippet is very similar to what's in nanny() and try_load_player().
         auto ch_uptr = std::make_unique<Char>(mud_, mud_.current_time());

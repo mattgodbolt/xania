@@ -46,13 +46,13 @@ int main(int argc, const char **argv) {
     if (verbose) {
         logger.set_level(spdlog::level::debug);
     }
-    const auto player_dir = Configuration::singleton().player_dir();
+    auto mud = std::make_unique<MudImpl>();
+    const auto player_dir = mud->config().player_dir();
     const auto names = pfu::collect_player_names(player_dir, logger);
     if (names.empty()) {
         logger.critical("No players found!");
         exit(1);
     }
-    auto mud = std::make_unique<MudImpl>();
     boot_db(*mud.get());
     pfu::upgrade_players(*mud.get(), names, logger);
     collect_all_garbage();

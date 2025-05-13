@@ -67,11 +67,14 @@ const auto NewbieNumPracs = 5u;
 }
 
 MudImpl::MudImpl()
-    : logger_{std::make_unique<Logger>(descriptors_)}, interpreter_{std::make_unique<Interpreter>()},
-      bans_{std::make_unique<Bans>(Configuration::singleton().ban_file())}, main_loop_running_(true), wizlock_(false),
+    : config_{std::make_unique<Configuration>()}, logger_{std::make_unique<Logger>(descriptors_)},
+      interpreter_{std::make_unique<Interpreter>()}, bans_{std::make_unique<Bans>(config_->ban_file())},
+      main_loop_running_(true), wizlock_(false),
       newlock_(false), control_fd_{std::nullopt}, boot_time_{std::chrono::system_clock::now()},
       current_time_{std::chrono::system_clock::now()}, current_tick_{TimeInfoData(Clock::now())},
       max_players_today_(0) {}
+
+Configuration &MudImpl::config() const { return *config_; }
 
 DescriptorList &MudImpl::descriptors() { return descriptors_; }
 
@@ -136,8 +139,7 @@ void MudImpl::send_tips() { tips_.send_tips(descriptors_); }
 
 void MudImpl::init_socket() {
 
-    const auto &config = Configuration::singleton();
-    pipe_file_ = fmt::format(PIPE_FILE, config.port(), getenv("USER") ? getenv("USER") : "unknown");
+    pipe_file_ = fmt::format(PIPE_FILE, config_->port(), getenv("USER") ? getenv("USER") : "unknown");
     unlink(pipe_file_.c_str());
     control_fd_.emplace(Fd::socket(PF_UNIX, SOCK_STREAM, 0));
     sockaddr_un xaniaAddr{};
@@ -158,11 +160,10 @@ void MudImpl::init_socket() {
 }
 
 void MudImpl::boot() {
-    const auto &config = Configuration::singleton();
-    if (const auto tip_count = tips_.load(config.tip_file()); tip_count < 0)
-        logger_->log_string("Unable to load tips from file {}", config.tip_file());
+    if (const auto tip_count = tips_.load(config_->tip_file()); tip_count < 0)
+        logger_->log_string("Unable to load tips from file {}", config_->tip_file());
     else
-        logger_->log_string("Loaded {} tips from file {}", tip_count, config.tip_file());
+        logger_->log_string("Loaded {} tips from file {}", tip_count, config_->tip_file());
     const auto ban_count = bans_->load(*logger_);
     logger_->log_string("{} site bans loaded.", ban_count);
 }
@@ -426,7 +427,8 @@ void MudImpl::lobby_show_motd(Descriptor *desc) {
 // with the same name was created and saved, this prevents duplication/overwriting.
 bool MudImpl::lobby_char_was_created(Descriptor *desc) {
     struct stat player_file;
-    if (!stat(filename_for_player(desc->character()->name.c_str()).c_str(), &player_file)) {
+    const auto player_dir = config_->player_dir();
+    if (!stat(filename_for_player(desc->character()->name.c_str(), player_dir).c_str(), &player_file)) {
         desc->write("Your character could not be created, please try again.\n\r");
         desc->close();
         return false;

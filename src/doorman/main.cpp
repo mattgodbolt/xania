@@ -49,8 +49,8 @@ int Main(Logger &log, int argc, char *argv[]) {
 
     // Prevent crashing on SIGPIPE if the MUD goes down, or if a connection goes funny.
     signal(SIGPIPE, SIG_IGN);
-
-    Doorman doorman(Configuration::singleton().port());
+    const Configuration config;
+    Doorman doorman(config.port());
 
     // Loop forever.
     for (;;) {

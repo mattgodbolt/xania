@@ -31,8 +31,6 @@ public:
     [[nodiscard]] std::string notes_file() const;
     [[nodiscard]] uint port() const;
 
-    static Configuration &singleton();
-
 private:
     [[nodiscard]] bool is_valid_dir(const char *dirname) const;
     [[nodiscard]] std::string require_path_env(const std::string &envkey) const;

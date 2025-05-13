@@ -13,6 +13,7 @@
 namespace test {
 
 struct MockMud : public trompeloeil::mock_interface<Mud> {
+    IMPLEMENT_CONST_MOCK0(config);
     IMPLEMENT_MOCK0(descriptors);
     IMPLEMENT_CONST_MOCK0(logger);
     IMPLEMENT_CONST_MOCK0(interpreter);

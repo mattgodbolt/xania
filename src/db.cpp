@@ -189,7 +189,8 @@ void maxfilelimit() {
 /* Big mama top level function. */
 void boot_db(Mud &mud) {
 
-    const Logger &logger = mud.logger();
+    const Logger &logger = mud.logger(); // TODO once boot_db moves into Mud these can go away
+    const Configuration &config = mud.config();
     /* open file fix */
     maxfilelimit();
     fBootDb = true;
@@ -211,7 +212,6 @@ void boot_db(Mud &mud) {
     /* Read in all the area files. */
     {
         FILE *fpList;
-        const auto &config = Configuration::singleton();
         const auto area_file = config.area_file();
         if ((fpList = fopen(area_file.c_str(), "r")) == nullptr) {
             perror(area_file.c_str());
@@ -263,7 +263,7 @@ void boot_db(Mud &mud) {
                 else if (matches(word, "SPECIALS"))
                     load_specials(area_fp, logger);
                 else if (matches(word, "MOBPROGS"))
-                    MProg::load_mobprogs(area_fp, logger);
+                    MProg::load_mobprogs(area_fp, config.area_dir(), logger);
                 else {
                     logger.bug("Boot_db: bad section name.");
                     exit(1);
@@ -279,7 +279,7 @@ void boot_db(Mud &mud) {
     fBootDb = false;
     AreaList::singleton().sort();
     area_update();
-    note_initialise(mud.current_time(), logger);
+    note_initialise(mud.current_time(), config.notes_file(), logger);
     wiznet_initialise();
 }
 
