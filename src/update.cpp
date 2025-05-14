@@ -861,7 +861,7 @@ void update_handler(Mud &mud) {
 
     if (--pulse_area <= 0) {
         pulse_area = number_range(PULSE_AREA / 2, 3 * PULSE_AREA / 2);
-        area_update();
+        area_update(mud.areas());
     }
 
     if (--pulse_mobile <= 0) {

@@ -76,7 +76,7 @@ int main(int argc, const char **argv) {
     auto out_file = (output.empty() || output == "-") ? stdout : fopen(output.c_str(), "w");
     fmt::print(out_file, "digraph {{\n");
 
-    for (auto &a : AreaList::singleton()) {
+    for (auto &a : mud->areas()) {
         if (filter_area && a->num() != filter_area)
             continue;
         render_area(out_file, a.get());

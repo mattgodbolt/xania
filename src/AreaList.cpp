@@ -7,11 +7,6 @@
 AreaList::AreaList() = default;
 AreaList::~AreaList() = default;
 
-AreaList &AreaList::singleton() {
-    static AreaList singleton;
-    return singleton;
-}
-
 // Sort the areas so that:
 // - the lowest level ones come first
 // - those with same minimum level,  those with narrowest level range come first

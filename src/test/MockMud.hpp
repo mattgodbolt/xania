@@ -18,6 +18,7 @@ struct MockMud : public trompeloeil::mock_interface<Mud> {
     IMPLEMENT_CONST_MOCK0(logger);
     IMPLEMENT_CONST_MOCK0(interpreter);
     IMPLEMENT_CONST_MOCK0(bans);
+    IMPLEMENT_CONST_MOCK0(areas);
     IMPLEMENT_CONST_MOCK2(send_to_doorman);
     IMPLEMENT_MOCK0(current_tick);
     IMPLEMENT_CONST_MOCK0(boot_time);

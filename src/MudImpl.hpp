@@ -5,6 +5,7 @@
 /************************************************************************/
 #pragma once
 
+#include "AreaList.hpp"
 #include "DescriptorList.hpp"
 #include "Interpreter.hpp"
 #include "Logging.hpp"
@@ -32,6 +33,7 @@ public:
     Logger &logger() const override;
     Interpreter &interpreter() const override;
     Bans &bans() const override;
+    AreaList &areas() const override;
     bool send_to_doorman(const Packet *p, const void *extra) const override;
     TimeInfoData &current_tick() override;
     Time boot_time() const override;
@@ -75,6 +77,7 @@ private:
     std::unique_ptr<Logger> logger_;
     std::unique_ptr<Interpreter> interpreter_;
     std::unique_ptr<Bans> bans_;
+    std::unique_ptr<AreaList> areas_;
     bool main_loop_running_;
     bool wizlock_;
     bool newlock_;

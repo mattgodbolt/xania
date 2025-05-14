@@ -6,6 +6,7 @@
 #include "MudImpl.hpp"
 #include "Act.hpp"
 #include "Area.hpp"
+#include "AreaList.hpp"
 #include "Ban.hpp"
 #include "CommFlag.hpp"
 #include "Help.hpp"
@@ -69,7 +70,7 @@ const auto NewbieNumPracs = 5u;
 MudImpl::MudImpl()
     : config_{std::make_unique<Configuration>()}, logger_{std::make_unique<Logger>(descriptors_)},
       interpreter_{std::make_unique<Interpreter>()}, bans_{std::make_unique<Bans>(config_->ban_file())},
-      main_loop_running_(true), wizlock_(false),
+      areas_{std::make_unique<AreaList>()}, main_loop_running_(true), wizlock_(false),
       newlock_(false), control_fd_{std::nullopt}, boot_time_{std::chrono::system_clock::now()},
       current_time_{std::chrono::system_clock::now()}, current_tick_{TimeInfoData(Clock::now())},
       max_players_today_(0) {}
@@ -83,6 +84,8 @@ Logger &MudImpl::logger() const { return *logger_; }
 Interpreter &MudImpl::interpreter() const { return *interpreter_; }
 
 Bans &MudImpl::bans() const { return *bans_; }
+
+AreaList &MudImpl::areas() const { return *areas_; }
 
 /* Send a packet to doorman */
 bool MudImpl::send_to_doorman(const Packet *p, const void *extra) const {

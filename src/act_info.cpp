@@ -1724,7 +1724,7 @@ void do_scan(Char *ch) {
 void do_alist(Char *ch) {
     auto format_str = "{:3} {:29} {:<5}-{:>5} {:12}\n\r"sv;
     auto buffer = fmt::format(fmt::runtime(format_str), "Num", "Area Name", "Lvnum", "Uvnum", "Filename");
-    for (auto &pArea : AreaList::singleton())
+    for (auto &pArea : ch->mud_.areas())
         buffer += fmt::format(fmt::runtime(format_str), pArea->num(), pArea->short_name(), pArea->lowest_vnum(),
                               pArea->highest_vnum(), pArea->filename());
     ch->page_to(buffer);

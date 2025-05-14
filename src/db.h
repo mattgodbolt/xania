@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 
+struct AreaList;
 struct Object;
 struct ObjectIndex;
 struct ExtraDescription;
@@ -40,7 +41,7 @@ extern bool fBootDb; // TODO kill
 // Initializes the in-memory database from the area files.
 void boot_db(Mud &mud);
 
-void area_update();
+void area_update(const AreaList &areas);
 Char *create_mobile(MobIndexData *mobIndex, Mud &mud);
 void clone_mobile(Char *parent, Char *clone);
 void clone_object(Object *parent, Object *clone);

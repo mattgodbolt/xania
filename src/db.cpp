@@ -167,11 +167,11 @@ static bool area_header_found;
 /* Local booting procedures. */
 void init_mm(Time current_time);
 void load_area(FILE *fp, const std::string &area_name, Mud &mud);
-void load_helps(FILE *fp, const Logger &logger);
-void load_mobiles(FILE *fp, const Logger &logger);
-void load_objects(FILE *fp, const Logger &logger);
-void load_resets(FILE *fp, const Logger &logger);
-void load_rooms(FILE *fp, const Logger &logger);
+void load_helps(FILE *fp, AreaList &areas, const Logger &logger);
+void load_mobiles(FILE *fp, AreaList &areas, const Logger &logger);
+void load_objects(FILE *fp, AreaList &areas, const Logger &logger);
+void load_resets(FILE *fp, const AreaList &areas, const Logger &logger);
+void load_rooms(FILE *fp, const AreaList &areas, const Logger &logger);
 void load_shops(FILE *fp, const Logger &logger);
 void load_specials(FILE *fp, const Logger &logger);
 void map_exit_destinations(const Logger &logger);
@@ -191,6 +191,7 @@ void boot_db(Mud &mud) {
 
     const Logger &logger = mud.logger(); // TODO once boot_db moves into Mud these can go away
     const Configuration &config = mud.config();
+    AreaList &areas = mud.areas();
     /* open file fix */
     maxfilelimit();
     fBootDb = true;
@@ -247,15 +248,15 @@ void boot_db(Mud &mud) {
                 else if (matches(word, "AREA"))
                     load_area(area_fp, area_name, mud);
                 else if (matches(word, "HELPS"))
-                    load_helps(area_fp, logger);
+                    load_helps(area_fp, areas, logger);
                 else if (matches(word, "MOBILES"))
-                    load_mobiles(area_fp, logger);
+                    load_mobiles(area_fp, areas, logger);
                 else if (matches(word, "OBJECTS"))
-                    load_objects(area_fp, logger);
+                    load_objects(area_fp, areas, logger);
                 else if (matches(word, "RESETS"))
-                    load_resets(area_fp, logger);
+                    load_resets(area_fp, areas, logger);
                 else if (matches(word, "ROOMS"))
-                    load_rooms(area_fp, logger);
+                    load_rooms(area_fp, areas, logger);
                 else if (matches(word, "SHOPS"))
                     load_shops(area_fp, logger);
                 else if (matches(word, "SOCIALS"))
@@ -263,7 +264,7 @@ void boot_db(Mud &mud) {
                 else if (matches(word, "SPECIALS"))
                     load_specials(area_fp, logger);
                 else if (matches(word, "MOBPROGS"))
-                    MProg::load_mobprogs(area_fp, config.area_dir(), logger);
+                    MProg::load_mobprogs(area_fp, areas, config.area_dir(), logger);
                 else {
                     logger.bug("Boot_db: bad section name.");
                     exit(1);
@@ -277,34 +278,32 @@ void boot_db(Mud &mud) {
     }
     map_exit_destinations(logger);
     fBootDb = false;
-    AreaList::singleton().sort();
-    area_update();
+    areas.sort();
+    area_update(areas);
     note_initialise(mud.current_time(), config.notes_file(), logger);
     wiznet_initialise();
 }
 
 /* Snarf an 'area' header line. */
 void load_area(FILE *fp, const std::string &area_name, Mud &mud) {
-    auto &area_list = AreaList::singleton();
-    auto area_obj = Area::parse(gsl::narrow<int>(area_list.count()), fp, area_name, mud);
-
-    AreaList::singleton().add(std::make_unique<Area>(std::move(area_obj)));
-
+    auto &areas = mud.areas();
+    auto area_obj = Area::parse(gsl::narrow<int>(areas.count()), fp, area_name, mud);
+    areas.add(std::make_unique<Area>(std::move(area_obj)));
     area_header_found = true;
 }
 
 /* Snarf a help section. */
-void load_helps(FILE *fp, const Logger &logger) {
-    while (auto help = Help::load(fp, area_header_found ? AreaList::singleton().back() : nullptr, logger))
+void load_helps(FILE *fp, AreaList &areas, const Logger &logger) {
+    while (auto help = Help::load(fp, area_header_found ? areas.back() : nullptr, logger))
         HelpList::singleton().add(std::move(*help));
 }
 
-void load_resets(FILE *fp, const Logger &logger) {
+void load_resets(FILE *fp, const AreaList &areas, const Logger &logger) {
     Room *room;
     int iLastRoom = 0;
     int iLastObj = 0;
 
-    auto area_last = AreaList::singleton().back();
+    auto area_last = areas.back();
     if (area_last == nullptr) {
         logger.bug("Load_resets: no #AREA seen yet.");
         exit(1);
@@ -393,9 +392,9 @@ void load_resets(FILE *fp, const Logger &logger) {
 }
 
 /* Snarf a room section. */
-void load_rooms(FILE *fp, const Logger &logger) {
+void load_rooms(FILE *fp, const AreaList &areas, const Logger &logger) {
 
-    auto area_last = AreaList::singleton().back();
+    auto area_last = areas.back();
     if (area_last == nullptr) {
         logger.bug("load_rooms: no #AREA seen yet.");
         exit(1);
@@ -546,15 +545,15 @@ void load_specials(FILE *fp, const Logger &logger) {
 
 namespace {
 
-void assign_area_vnum(int vnum) { AreaList::singleton().back()->define_vnum(vnum); }
+void assign_area_vnum(AreaList &areas, const int vnum) { areas.back()->define_vnum(vnum); }
 
 }
 
 /*
  * Snarf a mob section.  new style
  */
-void load_mobiles(FILE *fp, const Logger &logger) {
-    auto area_last = AreaList::singleton().back();
+void load_mobiles(FILE *fp, AreaList &areas, const Logger &logger) {
+    auto area_last = areas.back();
     if (!area_last) {
         logger.bug("Load_mobiles: no #AREA seen yet!");
         exit(1);
@@ -564,7 +563,7 @@ void load_mobiles(FILE *fp, const Logger &logger) {
         if (!maybe_mob)
             break;
 
-        assign_area_vnum(maybe_mob->vnum);
+        assign_area_vnum(areas, maybe_mob->vnum);
         add_mob_index(std::move(*maybe_mob), logger);
     }
 }
@@ -572,10 +571,10 @@ void load_mobiles(FILE *fp, const Logger &logger) {
 /*
  * Snarf an obj section. new style
  */
-void load_objects(FILE *fp, const Logger &logger) {
+void load_objects(FILE *fp, AreaList &areas, const Logger &logger) {
     char temp; /* Used for Death's Wear Strings bit */
 
-    auto area_last = AreaList::singleton().back();
+    auto area_last = areas.back();
     if (!area_last) {
         logger.bug("Load_objects: no #AREA section found yet!");
         exit(1);
@@ -772,7 +771,7 @@ void load_objects(FILE *fp, const Logger &logger) {
             logger.bug("load_objects: vnum {} duplicated.", vnum);
             exit(1);
         }
-        assign_area_vnum(vnum);
+        assign_area_vnum(areas, vnum);
     }
 }
 
@@ -819,8 +818,8 @@ void map_exit_destinations(const Logger &logger) {
     }
 }
 
-void area_update() {
-    for (auto &pArea : AreaList::singleton())
+void area_update(const AreaList &areas) {
+    for (auto &pArea : areas)
         pArea->update();
 }
 
@@ -1503,7 +1502,7 @@ void do_areas(Char *ch, ArgParser args) {
     const Area *area_column2{};
     std::string_view colour_column2;
     int num_found = 0;
-    for (auto &area : AreaList::singleton()) {
+    for (auto &area : ch->mud_.areas()) {
         std::string_view colour = "|w";
         // Is it outside the requested range?
         if (area->min_level() > maxLevel || area->max_level() < minLevel)
@@ -1544,7 +1543,7 @@ void do_areas(Char *ch, ArgParser args) {
 }
 
 void do_memory(Char *ch) {
-    ch->send_line("Areas   {:5}", AreaList::singleton().count());
+    ch->send_line("Areas   {:5}", ch->mud_.areas().count());
     ch->send_line("Helps   {:5}", HelpList::singleton().count());
     ch->send_line("Socials {:5}", Socials::singleton().count());
     ch->send_line("Mobs    {:5}", mob_indexes.size()); // TODO globals should be part of a Universe class

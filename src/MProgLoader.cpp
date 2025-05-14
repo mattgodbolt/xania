@@ -101,9 +101,9 @@ bool read_program(std::string_view file_name, FILE *prog_file, MobIndexData *mob
 }
 
 // Snarf a MOBprogram section from the area file.
-void load_mobprogs(FILE *fp, std::string_view area_dir, const Logger &logger) {
+void load_mobprogs(FILE *fp, const AreaList &areas, std::string_view area_dir, const Logger &logger) {
     char letter;
-    auto area_last = AreaList::singleton().back();
+    auto area_last = areas.back();
     if (area_last == nullptr) {
         logger.bug("load_mobprogs: no #AREA seen yet!");
         exit(1);

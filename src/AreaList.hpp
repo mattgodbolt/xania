@@ -1,9 +1,8 @@
 #pragma once
 
+#include "Area.hpp"
 #include <memory>
 #include <vector>
-
-class Area;
 
 class AreaList {
     std::vector<std::unique_ptr<Area>> areas_;
@@ -24,6 +23,4 @@ public:
     }
 
     [[nodiscard]] size_t count() const noexcept { return areas_.size(); }
-
-    static AreaList &singleton();
 };
