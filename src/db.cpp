@@ -167,7 +167,7 @@ static bool area_header_found;
 /* Local booting procedures. */
 void init_mm(Time current_time);
 void load_area(FILE *fp, const std::string &area_name, Mud &mud);
-void load_helps(FILE *fp, AreaList &areas, const Logger &logger);
+void load_helps(FILE *fp, HelpList &helps, AreaList &areas, const Logger &logger);
 void load_mobiles(FILE *fp, AreaList &areas, const Logger &logger);
 void load_objects(FILE *fp, AreaList &areas, const Logger &logger);
 void load_resets(FILE *fp, const AreaList &areas, const Logger &logger);
@@ -248,7 +248,7 @@ void boot_db(Mud &mud) {
                 else if (matches(word, "AREA"))
                     load_area(area_fp, area_name, mud);
                 else if (matches(word, "HELPS"))
-                    load_helps(area_fp, areas, logger);
+                    load_helps(area_fp, mud.help(), areas, logger);
                 else if (matches(word, "MOBILES"))
                     load_mobiles(area_fp, areas, logger);
                 else if (matches(word, "OBJECTS"))
@@ -293,9 +293,9 @@ void load_area(FILE *fp, const std::string &area_name, Mud &mud) {
 }
 
 /* Snarf a help section. */
-void load_helps(FILE *fp, AreaList &areas, const Logger &logger) {
+void load_helps(FILE *fp, HelpList &helps, AreaList &areas, const Logger &logger) {
     while (auto help = Help::load(fp, area_header_found ? areas.back() : nullptr, logger))
-        HelpList::singleton().add(std::move(*help));
+        helps.add(std::move(*help));
 }
 
 void load_resets(FILE *fp, const AreaList &areas, const Logger &logger) {
@@ -1544,7 +1544,7 @@ void do_areas(Char *ch, ArgParser args) {
 
 void do_memory(Char *ch) {
     ch->send_line("Areas   {:5}", ch->mud_.areas().count());
-    ch->send_line("Helps   {:5}", HelpList::singleton().count());
+    ch->send_line("Helps   {:5}", ch->mud_.help().count());
     ch->send_line("Socials {:5}", Socials::singleton().count());
     ch->send_line("Mobs    {:5}", mob_indexes.size()); // TODO globals should be part of a Universe class
     ch->send_line("Chars   {:5}", char_list.size());

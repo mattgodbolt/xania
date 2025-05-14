@@ -32,11 +32,6 @@ bool Help::operator!=(const Help &rhs) const { return !(rhs == *this); }
 
 std::string_view Help::area_name() const noexcept { return area_ ? area_->description() : "(no area)"sv; }
 
-HelpList &HelpList::singleton() {
-    static HelpList singleton;
-    return singleton;
-}
-
 const Help *HelpList::lookup(int level, std::string_view keyword) const noexcept {
     if (auto it = ranges::find_if(helps_, [&](const Help &h) { return h.matches(level, keyword); }); it != helps_.end())
         return &*it;

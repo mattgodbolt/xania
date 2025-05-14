@@ -70,8 +70,8 @@ const auto NewbieNumPracs = 5u;
 MudImpl::MudImpl()
     : config_{std::make_unique<Configuration>()}, logger_{std::make_unique<Logger>(descriptors_)},
       interpreter_{std::make_unique<Interpreter>()}, bans_{std::make_unique<Bans>(config_->ban_file())},
-      areas_{std::make_unique<AreaList>()}, main_loop_running_(true), wizlock_(false),
-      newlock_(false), control_fd_{std::nullopt}, boot_time_{std::chrono::system_clock::now()},
+      areas_{std::make_unique<AreaList>()}, help_{std::make_unique<HelpList>()}, main_loop_running_(true),
+      wizlock_(false), newlock_(false), control_fd_{std::nullopt}, boot_time_{std::chrono::system_clock::now()},
       current_time_{std::chrono::system_clock::now()}, current_tick_{TimeInfoData(Clock::now())},
       max_players_today_(0) {}
 
@@ -86,6 +86,8 @@ Interpreter &MudImpl::interpreter() const { return *interpreter_; }
 Bans &MudImpl::bans() const { return *bans_; }
 
 AreaList &MudImpl::areas() const { return *areas_; }
+
+HelpList &MudImpl::help() const { return *help_; }
 
 /* Send a packet to doorman */
 bool MudImpl::send_to_doorman(const Packet *p, const void *extra) const {
@@ -369,7 +371,7 @@ bool MudImpl::send_go_ahead(Descriptor *d) {
 }
 
 void MudImpl::greet(Descriptor &d) {
-    const auto *greeting = HelpList::singleton().lookup(0, "greeting");
+    const auto *greeting = help_->lookup(0, "greeting");
     if (!greeting) {
         logger_->bug("Unable to look up greeting");
         return;

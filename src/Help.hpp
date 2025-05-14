@@ -45,8 +45,6 @@ public:
     void add(Help help) { helps_.emplace_back(std::move(help)); }
     [[nodiscard]] const Help *lookup(int level, std::string_view keyword) const noexcept;
     [[nodiscard]] size_t count() const noexcept { return helps_.size(); }
-
-    static HelpList &singleton();
 };
 
 template <>

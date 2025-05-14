@@ -1139,7 +1139,7 @@ void do_weather(Char *ch) {
 
 void do_help(Char *ch, std::string_view argument) {
     const std::string topic{argument.empty() ? "summary" : argument};
-    if (auto *help = HelpList::singleton().lookup(ch->get_trust(), topic)) {
+    if (auto *help = ch->mud_.help().lookup(ch->get_trust(), topic)) {
         if (help->level() >= 0 && !matches(topic, "imotd"))
             ch->send_line("|W{}|w", help->keyword());
         ch->page_to(help->text());
