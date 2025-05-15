@@ -431,7 +431,7 @@ std::string Interpreter::Impl::apply_prefix(Char *ch, std::string_view command) 
 }
 
 bool Interpreter::Impl::check_social(Char *ch, std::string_view command, std::string_view argument) const {
-    const auto social = Socials::singleton().find(command);
+    const auto social = ch->mud_.socials().find(command);
     if (!social)
         return false;
 

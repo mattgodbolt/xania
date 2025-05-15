@@ -78,9 +78,4 @@ void Socials::show_table(Char *ch) const noexcept {
                      [&col](const auto &name) { col.add(name); });
 }
 
-Socials &Socials::singleton() {
-    static Socials singleton;
-    return singleton;
-}
-
-void do_socials(Char *ch) { Socials::singleton().show_table(ch); }
+void do_socials(Char *ch) { ch->mud_.socials().show_table(ch); }

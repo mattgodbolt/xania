@@ -192,6 +192,7 @@ void boot_db(Mud &mud) {
     const Logger &logger = mud.logger(); // TODO once boot_db moves into Mud these can go away
     const Configuration &config = mud.config();
     AreaList &areas = mud.areas();
+    Socials &socials = mud.socials();
     /* open file fix */
     maxfilelimit();
     fBootDb = true;
@@ -245,7 +246,7 @@ void boot_db(Mud &mud) {
                 const auto word = fread_word(area_fp);
                 if (word[0] == '$')
                     break;
-                else if (matches(word, "AREA"))
+                if (matches(word, "AREA"))
                     load_area(area_fp, area_name, mud);
                 else if (matches(word, "HELPS"))
                     load_helps(area_fp, mud.help(), areas, logger);
@@ -260,7 +261,7 @@ void boot_db(Mud &mud) {
                 else if (matches(word, "SHOPS"))
                     load_shops(area_fp, logger);
                 else if (matches(word, "SOCIALS"))
-                    Socials::singleton().load(area_fp, logger);
+                    socials.load(area_fp, logger);
                 else if (matches(word, "SPECIALS"))
                     load_specials(area_fp, logger);
                 else if (matches(word, "MOBPROGS"))
@@ -1545,7 +1546,7 @@ void do_areas(Char *ch, ArgParser args) {
 void do_memory(Char *ch) {
     ch->send_line("Areas   {:5}", ch->mud_.areas().count());
     ch->send_line("Helps   {:5}", ch->mud_.help().count());
-    ch->send_line("Socials {:5}", Socials::singleton().count());
+    ch->send_line("Socials {:5}", ch->mud_.socials().count());
     ch->send_line("Mobs    {:5}", mob_indexes.size()); // TODO globals should be part of a Universe class
     ch->send_line("Chars   {:5}", char_list.size());
     ch->send_line("Objs    {:5}", object_indexes.size());

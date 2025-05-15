@@ -59,8 +59,6 @@ public:
     [[nodiscard]] const Social &random() const noexcept;
     void show_table(Char *ch) const noexcept;
 
-    static Socials &singleton();
-
 private:
     std::vector<Social> socials_;
 };

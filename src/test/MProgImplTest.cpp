@@ -23,16 +23,78 @@
 
 #include "MockMud.hpp"
 #include "MockRng.hpp"
+#include "Socials.hpp"
 
 using trompeloeil::_;
 
 namespace {
+
+constexpr auto social_db = R"(
+smile
+You smile happily.
+$n smiles happily.
+You smile at $M.
+$n beams a smile at $N.
+$n smiles at you.
+There's no one by that name around.
+You smile at yourself.
+$n smiles at $r.
+#
+
+bonk
+***BONK!!!***
+$
+You bonk $N on the head for being such a moron.
+$n bonks $N on the head for being such an UTTER moron.
+$n bonks you on the head for being so foolish.
+***BONK*** they left...
+You bonk yourself, fool that you are.
+$n bonks $r and grimaces in pain.
+#
+
+barf
+You barf all over the floor - yeuch!
+$n barfs all over the floor - yeuch!
+You barf at $N - seek psychiatric help!
+$n barfs over $N - he needs help!
+$n barfs all over you - how vile!
+You barf at no-one in particular.
+You barf all over yourself - I hope that suit isn't dry-clean only!
+$n barfs all over $r - how disgusting.
+#
+
+thumb
+You slowly raise your thumb in great sarcasm.
+$n slowly raises $s thumb in sarcasm.
+Feeling an overwhelming surge of sarcasm, you raise your thumb at $N!
+$n raises his thumb sarcastically at $N!
+$n's thumb twists up towards you in great sarcasm!
+You thumb no-one in particular.
+Unconvinced with your own sincerity, you thumb yourself violently!
+$n raises $s thumb at $r in great sarcasm! Weird!
+#
+
+gibber
+You gibber insanely!
+$n gibbers like a madman!
+You gibber nonsense at $N.
+$n gibbers nonsensically at $N.
+$n gibbers at you - why ???
+You gibber at no-one in particular.
+You must me madder than I thought!
+The madman $n gibbers at $r!
+#
+
+
+#0
+)";
 
 test::MockRng rng{};
 test::MockMud mock_mud{};
 DescriptorList descriptors{};
 Logger logger{descriptors};
 Interpreter interpreter{};
+Socials socials{};
 
 auto make_char(const std::string &name, Room &room, MobIndexData *mob_idx) {
     auto ch = std::make_unique<Char>(mock_mud);
@@ -606,8 +668,11 @@ TEST_CASE("expand var") {
 }
 TEST_CASE("interpret command") {
     using namespace MProg::impl;
+    test::MemFile social_file(social_db);
+    socials.load(social_file.file(), logger);
     ALLOW_CALL(mock_mud, logger()).LR_RETURN(logger);
     ALLOW_CALL(mock_mud, interpreter()).LR_RETURN(interpreter);
+    ALLOW_CALL(mock_mud, socials()).LR_RETURN(socials);
     Room room{};
     auto mob_idx = make_mob_index();
     auto vic = make_char("vic", room, &mob_idx);
@@ -626,9 +691,12 @@ TEST_CASE("interpret command") {
 TEST_CASE("mprog driver complete program") {
     using namespace MProg;
     using namespace MProg::impl;
+    test::MemFile social_file(social_db);
+    socials.load(social_file.file(), logger);
     ALLOW_CALL(mock_mud, descriptors()).LR_RETURN(descriptors);
     ALLOW_CALL(mock_mud, logger()).LR_RETURN(logger);
     ALLOW_CALL(mock_mud, interpreter()).LR_RETURN(interpreter);
+    ALLOW_CALL(mock_mud, socials()).LR_RETURN(socials);
     Target target{nullptr};
     Room room{};
     auto mob_idx = make_mob_index();
@@ -645,7 +713,7 @@ TEST_CASE("mprog driver complete program") {
         if rand(50)
             smile $n
         else
-            bonk $n
+            gibber $n
         endif
         )prg";
         const auto lines = split_lines<std::vector<std::string>>(script);
@@ -655,10 +723,10 @@ TEST_CASE("mprog driver complete program") {
             mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
             CHECK(bob_desc.buffered_output() == "\n\rVic descr smiles at you.\n\r");
         }
-        SECTION("if fail, bonk bob") {
+        SECTION("if fail, gibber bob") {
             REQUIRE_CALL(rng, number_percent()).RETURN(51);
             mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
-            CHECK(bob_desc.buffered_output() == "\n\rVic descr bonks you on the head for being so foolish.\n\r");
+            CHECK(bob_desc.buffered_output() == "\n\rVic descr gibbers at you - why ???\n\r");
         }
     }
     SECTION("program with nested if/else") {
@@ -673,7 +741,7 @@ TEST_CASE("mprog driver complete program") {
             if rand(25)
                 gibber $n
             else
-                noogie $n
+                smile $n
             endif
         endif
         )prg";
@@ -699,46 +767,48 @@ TEST_CASE("mprog driver complete program") {
             mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
             CHECK(bob_desc.buffered_output() == "\n\rVic descr gibbers at you - why ???\n\r");
         }
-        SECTION("if fail-fail, noogie bob") {
+        SECTION("if fail-fail, smile bob") {
             REQUIRE_CALL(rng, number_percent()).RETURN(51).IN_SEQUENCE(seq);
             REQUIRE_CALL(rng, number_percent()).RETURN(26).IN_SEQUENCE(seq);
             mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
-            CHECK(bob_desc.buffered_output()
-                  == "\n\rOh NO, vic descr grabs you, throws you in a head lock and NOOGIES you!\n\r");
+            CHECK(bob_desc.buffered_output() == "\n\rVic descr smiles at you.\n\r");
         }
     }
     SECTION("program with single if/else and two commands") {
         auto script = R"prg(
         if rand(50)
-            hug $n
-            fart $n
+            smile $n
+            bonk $n
         else
-            sniff $n
-            poke $n
+            barf $n
+            thumb $n
         endif
         )prg";
         const auto lines = split_lines<std::vector<std::string>>(script);
         Program program{TypeFlag::Greet, "", lines};
-        SECTION("if success, hug/fart bob") {
+        SECTION("if success, smile/bonk bob") {
             REQUIRE_CALL(rng, number_percent()).RETURN(50);
             mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
             CHECK(bob_desc.buffered_output()
-                  == "\n\rVic descr hugs you.\n\rVic descr farts in your direction.  You gasp for air.\n\r");
+                  == "\n\rVic descr smiles at you.\n\rVic descr bonks you on the head for being so foolish.\n\r");
         }
-        SECTION("if fail, sniff/poke bob") {
+        SECTION("if fail, barf/thumb bob") {
             REQUIRE_CALL(rng, number_percent()).RETURN(51);
             mprog_driver(vic.get(), program, bob.get(), nullptr, target, rng);
             CHECK(bob_desc.buffered_output()
-                  == "\n\rVic descr sniffs sadly at the way you are treating them.\n\rVic descr pokes you in the "
-                     "ribs.\n\r");
+                  == "\n\rVic descr barfs all over you - how vile!\n\rVic descr's thumb twists up towards you in great "
+                     "sarcasm!\n\r");
         }
     }
 }
 TEST_CASE("exec with chance") {
     using namespace MProg;
     using namespace MProg::impl;
+    test::MemFile social_file(social_db);
+    socials.load(social_file.file(), logger);
     ALLOW_CALL(mock_mud, logger()).LR_RETURN(logger);
     ALLOW_CALL(mock_mud, interpreter()).LR_RETURN(interpreter);
+    ALLOW_CALL(mock_mud, socials()).LR_RETURN(socials);
     Target target{nullptr};
     Room room{};
     auto mob_idx = make_mob_index();

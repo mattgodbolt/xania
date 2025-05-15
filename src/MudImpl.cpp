@@ -87,6 +87,8 @@ AreaList &MudImpl::areas() { return areas_; }
 
 HelpList &MudImpl::help() { return help_; }
 
+Socials &MudImpl::socials() { return socials_; }
+
 /* Send a packet to doorman */
 bool MudImpl::send_to_doorman(const Packet *p, const void *extra) const {
     // TODO: do something rather than return here if there's a failure

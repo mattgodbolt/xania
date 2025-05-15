@@ -700,7 +700,7 @@ bool spec_puff(Char *ch) {
                 return false;
         }
     }
-    const auto &rnd_social = Socials::singleton().random();
+    const auto &rnd_social = ch->mud_.socials().random();
     /* Choose some manner of silliness to perpetrate.  */
 
     silliness = number_range(1, 100);
