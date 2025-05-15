@@ -29,13 +29,13 @@ public:
     MudImpl &operator=(MudImpl &&) = delete;
     virtual ~MudImpl() = default;
 
-    Configuration &config() const override;
+    Configuration &config() override;
     DescriptorList &descriptors() override;
-    Logger &logger() const override;
-    Interpreter &interpreter() const override;
-    Bans &bans() const override;
-    AreaList &areas() const override;
-    HelpList &help() const override;
+    Logger &logger() override;
+    Interpreter &interpreter() override;
+    Bans &bans() override;
+    AreaList &areas() override;
+    HelpList &help() override;
     bool send_to_doorman(const Packet *p, const void *extra) const override;
     TimeInfoData &current_tick() override;
     Time boot_time() const override;
@@ -74,13 +74,13 @@ private:
     bool check_reconnect(Descriptor *d);
     bool check_playing(Descriptor *d, std::string_view name);
 
-    std::unique_ptr<Configuration> config_;
+    Configuration config_;
     DescriptorList descriptors_;
-    std::unique_ptr<Logger> logger_;
-    std::unique_ptr<Interpreter> interpreter_;
-    std::unique_ptr<Bans> bans_;
-    std::unique_ptr<AreaList> areas_;
-    std::unique_ptr<HelpList> help_;
+    Logger logger_;
+    Interpreter interpreter_;
+    Bans bans_;
+    AreaList areas_;
+    HelpList help_;
     bool main_loop_running_;
     bool wizlock_;
     bool newlock_;

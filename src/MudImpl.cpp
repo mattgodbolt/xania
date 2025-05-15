@@ -68,26 +68,24 @@ const auto NewbieNumPracs = 5u;
 }
 
 MudImpl::MudImpl()
-    : config_{std::make_unique<Configuration>()}, logger_{std::make_unique<Logger>(descriptors_)},
-      interpreter_{std::make_unique<Interpreter>()}, bans_{std::make_unique<Bans>(config_->ban_file())},
-      areas_{std::make_unique<AreaList>()}, help_{std::make_unique<HelpList>()}, main_loop_running_(true),
-      wizlock_(false), newlock_(false), control_fd_{std::nullopt}, boot_time_{std::chrono::system_clock::now()},
+    : logger_{descriptors_}, bans_{config_.ban_file()}, main_loop_running_(true), wizlock_(false),
+      newlock_(false), control_fd_{std::nullopt}, boot_time_{std::chrono::system_clock::now()},
       current_time_{std::chrono::system_clock::now()}, current_tick_{TimeInfoData(Clock::now())},
       max_players_today_(0) {}
 
-Configuration &MudImpl::config() const { return *config_; }
+Configuration &MudImpl::config() { return config_; }
 
 DescriptorList &MudImpl::descriptors() { return descriptors_; }
 
-Logger &MudImpl::logger() const { return *logger_; }
+Logger &MudImpl::logger() { return logger_; }
 
-Interpreter &MudImpl::interpreter() const { return *interpreter_; }
+Interpreter &MudImpl::interpreter() { return interpreter_; }
 
-Bans &MudImpl::bans() const { return *bans_; }
+Bans &MudImpl::bans() { return bans_; }
 
-AreaList &MudImpl::areas() const { return *areas_; }
+AreaList &MudImpl::areas() { return areas_; }
 
-HelpList &MudImpl::help() const { return *help_; }
+HelpList &MudImpl::help() { return help_; }
 
 /* Send a packet to doorman */
 bool MudImpl::send_to_doorman(const Packet *p, const void *extra) const {
@@ -95,8 +93,8 @@ bool MudImpl::send_to_doorman(const Packet *p, const void *extra) const {
     if (!doorman_fd_.is_open())
         return false;
     if (p->nExtra > PacketMaxPayloadSize) {
-        logger_->bug("MUD tried to send a doorman packet with payload size {} > {}! Dropping!", p->nExtra,
-                     PacketMaxPayloadSize);
+        logger_.bug("MUD tried to send a doorman packet with payload size {} > {}! Dropping!", p->nExtra,
+                    PacketMaxPayloadSize);
         return false;
     }
     try {
@@ -105,7 +103,7 @@ bool MudImpl::send_to_doorman(const Packet *p, const void *extra) const {
         else
             doorman_fd_.write(*p);
     } catch (const std::runtime_error &re) {
-        logger_->bug("Unable to write to doorman: {}", re.what());
+        logger_.bug("Unable to write to doorman: {}", re.what());
         return false;
     }
     return true;
@@ -144,7 +142,7 @@ void MudImpl::send_tips() { tips_.send_tips(descriptors_); }
 
 void MudImpl::init_socket() {
 
-    pipe_file_ = fmt::format(PIPE_FILE, config_->port(), getenv("USER") ? getenv("USER") : "unknown");
+    pipe_file_ = fmt::format(PIPE_FILE, config_.port(), getenv("USER") ? getenv("USER") : "unknown");
     unlink(pipe_file_.c_str());
     control_fd_.emplace(Fd::socket(PF_UNIX, SOCK_STREAM, 0));
     sockaddr_un xaniaAddr{};
@@ -153,30 +151,30 @@ void MudImpl::init_socket() {
     int enabled = 1;
     control_fd_->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enabled, sizeof(enabled)).bind(xaniaAddr).listen(3);
 
-    logger_->log_string("Waiting for doorman...");
+    logger_.log_string("Waiting for doorman...");
     try {
         sockaddr_un dont_care{};
         socklen_t dont_care_len{sizeof(sockaddr_in)};
         doorman_fd_ = control_fd_->accept(reinterpret_cast<sockaddr *>(&dont_care), &dont_care_len);
-        logger_->log_string("Doorman has connected - proceeding with boot-up");
+        logger_.log_string("Doorman has connected - proceeding with boot-up");
     } catch (const std::system_error &e) {
-        logger_->log_string("Unable to accept doorman...booting anyway");
+        logger_.log_string("Unable to accept doorman...booting anyway");
     }
 }
 
 void MudImpl::boot() {
-    if (const auto tip_count = tips_.load(config_->tip_file()); tip_count < 0)
-        logger_->log_string("Unable to load tips from file {}", config_->tip_file());
+    if (const auto tip_count = tips_.load(config_.tip_file()); tip_count < 0)
+        logger_.log_string("Unable to load tips from file {}", config_.tip_file());
     else
-        logger_->log_string("Loaded {} tips from file {}", tip_count, config_->tip_file());
-    const auto ban_count = bans_->load(*logger_);
-    logger_->log_string("{} site bans loaded.", ban_count);
+        logger_.log_string("Loaded {} tips from file {}", tip_count, config_.tip_file());
+    const auto ban_count = bans_.load(logger_);
+    logger_.log_string("{} site bans loaded.", ban_count);
 }
 
 void MudImpl::game_loop() {
     static timeval null_time;
     if (is_being_debugged())
-        logger_->log_string("Running under a debugger");
+        logger_.log_string("Running under a debugger");
     signal(SIGPIPE, SIG_IGN);
 
     sigset_t signals;
@@ -190,11 +188,11 @@ void MudImpl::game_loop() {
         return;
     }
     if (!control_fd_) {
-        logger_->log_string("Doorman socket not initialized, exiting!");
+        logger_.log_string("Doorman socket not initialized, exiting!");
         return;
     }
     doorman_init();
-    logger_->log_string("Xania is ready to rock via {}.", pipe_file_);
+    logger_.log_string("Xania is ready to rock via {}.", pipe_file_);
 
     /* Main loop */
     while (main_loop_running_) {
@@ -228,12 +226,12 @@ void MudImpl::game_loop() {
         if (FD_ISSET(signal_fd, &in_set)) {
             struct signalfd_siginfo info;
             if (read(signal_fd, &info, sizeof(info)) != sizeof(info)) {
-                logger_->bug("Unable to read signal info - treating as term");
+                logger_.bug("Unable to read signal info - treating as term");
                 info.ssi_signo = SIGTERM;
             }
             if (info.ssi_signo == SIGINT) {
                 if (is_being_debugged()) {
-                    logger_->log_string("Caught SIGINT but detected a debugger, trapping instead");
+                    logger_.log_string("Caught SIGINT but detected a debugger, trapping instead");
                     raise(SIGTRAP);
                 } else {
                     handle_signal_shutdown();
@@ -243,22 +241,22 @@ void MudImpl::game_loop() {
                 handle_signal_shutdown();
                 return;
             } else {
-                logger_->bug("Unexpected signal {}: ignoring", info.ssi_signo);
+                logger_.bug("Unexpected signal {}: ignoring", info.ssi_signo);
             }
         }
 
         /* If we don't have a connection from doorman, wait for one */
         if (!doorman_fd_.is_open()) {
-            logger_->log_string("Waiting for doorman...");
+            logger_.log_string("Waiting for doorman...");
 
             try {
                 sockaddr_un dont_care{};
                 socklen_t dont_care_len{sizeof(sockaddr_in)};
                 doorman_fd_ = control_fd_->accept(reinterpret_cast<sockaddr *>(&dont_care), &dont_care_len);
-                logger_->log_string("Doorman has connected.");
+                logger_.log_string("Doorman has connected.");
                 doorman_init();
             } catch (const std::runtime_error &re) {
-                logger_->bug("Unable to accept doorman connection: {}", re.what());
+                logger_.bug("Unable to accept doorman connection: {}", re.what());
             }
         }
 
@@ -271,8 +269,8 @@ void MudImpl::game_loop() {
                     p = doorman_fd_.read_all<Packet>();
                     if (p.nExtra) {
                         if (p.nExtra > PacketMaxPayloadSize) {
-                            logger_->bug("Doorman sent a too big packet! {} > {}: dropping", p.nExtra,
-                                         PacketMaxPayloadSize);
+                            logger_.bug("Doorman sent a too big packet! {} > {}: dropping", p.nExtra,
+                                        PacketMaxPayloadSize);
                             doorman_lost();
                             break;
                         }
@@ -280,7 +278,7 @@ void MudImpl::game_loop() {
                         doorman_fd_.read_all(gsl::span<char>(payload));
                     }
                 } catch (const std::runtime_error &re) {
-                    logger_->bug("Unable to read doorman packet: {}", re.what());
+                    logger_.bug("Unable to read doorman packet: {}", re.what());
                     doorman_lost();
                     break;
                 }
@@ -311,7 +309,7 @@ void MudImpl::game_loop() {
                 if (d.is_paging())
                     d.show_next_page(*incomm);
                 else if (d.is_playing())
-                    interpreter_->interpret(character, *incomm);
+                    interpreter_.interpret(character, *incomm);
                 else
                     nanny(&d, *incomm);
             } else if (d.is_lobby_timeout_exceeded()) {
@@ -371,9 +369,9 @@ bool MudImpl::send_go_ahead(Descriptor *d) {
 }
 
 void MudImpl::greet(Descriptor &d) {
-    const auto *greeting = help_->lookup(0, "greeting");
+    const auto *greeting = help_.lookup(0, "greeting");
     if (!greeting) {
-        logger_->bug("Unable to look up greeting");
+        logger_.bug("Unable to look up greeting");
         return;
     }
     d.write(greeting->text());
@@ -432,7 +430,7 @@ void MudImpl::lobby_show_motd(Descriptor *desc) {
 // with the same name was created and saved, this prevents duplication/overwriting.
 bool MudImpl::lobby_char_was_created(Descriptor *desc) {
     struct stat player_file;
-    const auto player_dir = config_->player_dir();
+    const auto player_dir = config_.player_dir();
     if (!stat(filename_for_player(desc->character()->name.c_str(), player_dir).c_str(), &player_file)) {
         desc->write("Your character could not be created, please try again.\n\r");
         desc->close();
@@ -445,7 +443,7 @@ bool MudImpl::lobby_char_was_created(Descriptor *desc) {
 
 /* where we're asked nicely to quit from the outside */
 void MudImpl::handle_signal_shutdown() {
-    logger_->log_string("Signal shutdown received");
+    logger_.log_string("Signal shutdown received");
 
     /* ask everyone to save! */
     for (auto &&uch : char_list) {
@@ -469,7 +467,7 @@ void MudImpl::doorman_init() {
 }
 
 void MudImpl::doorman_lost() {
-    logger_->log_string("Lost connection to doorman");
+    logger_.log_string("Lost connection to doorman");
     doorman_fd_.close();
     /* Now to go through and disconnect all the characters */
     for (auto &d : descriptors().all())
@@ -479,15 +477,15 @@ void MudImpl::doorman_lost() {
 void MudImpl::handle_doorman_packet(const Packet &p, std::string_view buffer) {
     switch (p.type) {
     case PACKET_CONNECT:
-        logger_->log_string("Incoming connection on channel {}.", p.channel);
+        logger_.log_string("Incoming connection on channel {}.", p.channel);
         if (auto *d = descriptors().create(p.channel, *this)) {
             greet(*d);
         } else {
-            logger_->log_string("Duplicate channel {} on connect!", p.channel);
+            logger_.log_string("Duplicate channel {} on connect!", p.channel);
         }
         break;
     case PACKET_RECONNECT:
-        logger_->log_string("Incoming reconnection on channel {} for {}.", p.channel, buffer);
+        logger_.log_string("Incoming reconnection on channel {} for {}.", p.channel, buffer);
         if (auto *d = descriptors().create(p.channel, *this)) {
             greet(*d);
             // Login name
@@ -505,7 +503,7 @@ void MudImpl::handle_doorman_packet(const Packet &p, std::string_view buffer) {
                 nanny(d, "");
             }
         } else {
-            logger_->log_string("Duplicate channel {} on reconnect!", p.channel);
+            logger_.log_string("Duplicate channel {} on reconnect!", p.channel);
         }
         break;
     case PACKET_DISCONNECT:
@@ -519,7 +517,7 @@ void MudImpl::handle_doorman_packet(const Packet &p, std::string_view buffer) {
                 d->state(DescriptorState::DisconnectingNp);
             d->close();
         } else {
-            logger_->log_string("Unable to find channel to close ({})", p.channel);
+            logger_.log_string("Unable to find channel to close ({})", p.channel);
         }
         break;
     case PACKET_INFO:
@@ -528,7 +526,7 @@ void MudImpl::handle_doorman_packet(const Packet &p, std::string_view buffer) {
             d->set_endpoint(data->netaddr, data->port, data->data);
             d->ansi_terminal_detected(data->ansi);
         } else {
-            logger_->log_string("Unable to associate info with a descriptor ({})", p.channel);
+            logger_.log_string("Unable to associate info with a descriptor ({})", p.channel);
         }
         break;
 
@@ -538,7 +536,7 @@ void MudImpl::handle_doorman_packet(const Packet &p, std::string_view buffer) {
                 d->character()->idle_timer_ticks = 0;
             read_from_descriptor(d, buffer);
         } else {
-            logger_->log_string("Unable to associate message with a descriptor ({})", p.channel);
+            logger_.log_string("Unable to associate message with a descriptor ({})", p.channel);
         }
         break;
     default: break;
@@ -550,7 +548,7 @@ bool MudImpl::read_from_descriptor(Descriptor *d, std::string_view data) {
         // Only log input for the first command exceeding the input limit
         // so that wiznet doesn't become unusable.
         if (!d->is_spammer_warned()) {
-            logger_->log_string("{} input overflow!", d->host());
+            logger_.log_string("{} input overflow!", d->host());
             d->warn_spammer();
             d->add_command("quit");
         }
@@ -601,7 +599,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
     auto *ch = d->character();
     switch (d->state()) {
     default:
-        logger_->bug("Nanny: bad d->state() {}.", static_cast<int>(d->state()));
+        logger_.bug("Nanny: bad d->state() {}.", static_cast<int>(d->state()));
         d->close();
         return;
 
@@ -626,7 +624,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
         auto existing_player = !res.newly_created;
 
         if (check_enum_bit(ch->act, PlayerActFlag::PlrDeny)) {
-            logger_->log_string("Denying access to {}@{}.", player_name, d->host());
+            logger_.log_string("Denying access to {}@{}.", player_name, d->host());
             d->write("You are denied access.\n\r");
             d->close();
             return;
@@ -647,7 +645,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
                 d->close();
                 return;
             }
-            if (bans_->check_ban(d->raw_full_hostname(), to_int(BanFlag::Newbies) | to_int(BanFlag::All))) {
+            if (bans_.check_ban(d->raw_full_hostname(), to_int(BanFlag::Newbies) | to_int(BanFlag::All))) {
                 d->write("Your site has been banned.\n\r");
                 d->close();
                 return;
@@ -679,8 +677,8 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
 
         set_echo_state(d, 1);
 
-        if ((!ch->is_set_extra(CharExtraFlag::Permit) && (bans_->check_ban(d->raw_full_hostname(), BanFlag::Permit)))
-            || bans_->check_ban(d->raw_full_hostname(), BanFlag::All)) {
+        if ((!ch->is_set_extra(CharExtraFlag::Permit) && (bans_.check_ban(d->raw_full_hostname(), BanFlag::Permit)))
+            || bans_.check_ban(d->raw_full_hostname(), BanFlag::All)) {
             d->write("Your site has been banned.  Sorry.\n\r");
             d->close();
             return;
@@ -692,8 +690,8 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
         if (check_reconnect(d))
             return;
 
-        logger_->log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
-                         ch->is_wizinvis() || ch->is_prowlinvis() ? ch->get_trust() : 0);
+        logger_.log_new(fmt::format("{}@{} has connected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
+                        ch->is_wizinvis() || ch->is_prowlinvis() ? ch->get_trust() : 0);
 
         lobby_maybe_enable_colour(d);
         if (ch->pcdata->colour) {
@@ -872,7 +870,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
         }
         if (const auto *chosen_class = Class::by_name(choice); chosen_class) {
             ch->pcdata->class_type = chosen_class;
-            logger_->log_string("{}@{} new player.", ch->name, d->host());
+            logger_.log_string("{}@{} new player.", ch->name, d->host());
             ch->send_line("\n\rYou may be good, neutral, or evil.");
             ch->send_to("Which alignment (G/N/E)? ");
             d->state(DescriptorState::GetAlignment);
@@ -992,14 +990,14 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
             ch->set_title(fmt::format("the {}", Titles::default_title(*ch)));
 
             do_outfit(ch);
-            auto map_uptr = get_obj_index(Objects::Map, *logger_)->create_object(*logger_);
+            auto map_uptr = get_obj_index(Objects::Map, logger_)->create_object(logger_);
             auto *map = map_uptr.get();
             object_list.push_back(std::move(map_uptr));
             obj_to_char(map, ch);
 
             ch->pcdata->learned[get_weapon_sn(ch)] = NewbieWeaponSkillPct;
 
-            char_to_room(ch, get_room(Rooms::MudschoolEntrance, *logger_));
+            char_to_room(ch, get_room(Rooms::MudschoolEntrance, logger_));
             ch->send_line("");
             do_help(ch, "NEWBIE INFO");
             ch->send_line("");
@@ -1012,9 +1010,9 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
         } else if (ch->in_room) {
             char_to_room(ch, ch->in_room);
         } else if (ch->is_immortal()) {
-            char_to_room(ch, get_room(Rooms::Chat, *logger_));
+            char_to_room(ch, get_room(Rooms::Chat, logger_));
         } else {
-            char_to_room(ch, get_room(Rooms::MidgaardTemple, *logger_));
+            char_to_room(ch, get_room(Rooms::MidgaardTemple, logger_));
         }
 
         announce(fmt::format("|W### |P{}|W has entered the game.|w", ch->name), ch);
@@ -1088,8 +1086,8 @@ bool MudImpl::check_reconnect(Descriptor *d) {
         d->reconnect_from_lobby(ch);
         ch->send_line("Reconnecting.");
         act("$n has reconnected.", ch);
-        logger_->log_new(fmt::format("{}@{} reconnected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
-                         (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
+        logger_.log_new(fmt::format("{}@{} reconnected.", ch->name, d->host()), CharExtraFlag::WiznetDebug,
+                        (ch->is_wizinvis() || ch->is_prowlinvis()) ? ch->get_trust() : 0);
         return true;
     }
     return false;

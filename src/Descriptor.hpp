@@ -44,7 +44,7 @@ const char *short_name_of(DescriptorState state);
 class Descriptor {
     static constexpr size_t MaxInbufBacklog = 50u;
     uint32_t channel_{};
-    const Mud &mud_;
+    Mud &mud_;
     std::list<std::string> pending_commands_;
     bool is_spammer_warned_{};
     std::string last_command_;
