@@ -35,7 +35,7 @@ int main(int argc, const char **argv) {
 
     if (chdir(area_dir.c_str()) != 0)
         throw fmt::system_error(errno, "Unable to change to area directory {}", area_dir);
-    auto mud = std::make_unique<MudImpl>();
+    const auto mud = std::make_unique<MudImpl>();
     boot_db(*mud.get());
 
     struct AreaInfo {

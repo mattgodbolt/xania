@@ -14,7 +14,7 @@
 
 int main() {
 
-    auto mud = std::make_unique<MudImpl>();
+    const auto mud = std::make_unique<MudImpl>();
     const auto &logger = mud->logger();
     logger.log_string("Xania {} booting...", get_build_full_version());
     mud->init_socket();

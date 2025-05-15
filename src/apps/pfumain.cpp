@@ -46,7 +46,7 @@ int main(int argc, const char **argv) {
     if (verbose) {
         logger.set_level(spdlog::level::debug);
     }
-    auto mud = std::make_unique<MudImpl>();
+    const auto mud = std::make_unique<MudImpl>();
     const auto player_dir = mud->config().player_dir();
     const auto names = pfu::collect_player_names(player_dir, logger);
     if (names.empty()) {
