@@ -281,7 +281,6 @@ void boot_db(Mud &mud) {
     fBootDb = false;
     areas.sort();
     area_update(areas);
-    note_initialise(mud.current_time(), config.notes_file(), logger);
     wiznet_initialise();
 }
 

@@ -15,6 +15,7 @@ struct Configuration;
 struct DescriptorList;
 struct HelpList;
 struct Interpreter;
+struct NoteHandler;
 struct Socials;
 struct TimeInfoData;
 
@@ -28,6 +29,7 @@ struct Mud {
     virtual AreaList &areas() = 0;
     virtual HelpList &help() = 0;
     virtual Socials &socials() = 0;
+    virtual NoteHandler &notes() = 0;
     virtual bool send_to_doorman(const Packet *p, const void *extra) const = 0;
     virtual TimeInfoData &current_tick() = 0;
     virtual Time boot_time() const = 0;

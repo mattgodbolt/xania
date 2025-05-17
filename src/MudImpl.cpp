@@ -68,8 +68,8 @@ const auto NewbieNumPracs = 5u;
 }
 
 MudImpl::MudImpl()
-    : logger_{descriptors_}, bans_{config_.ban_file()}, main_loop_running_(true), wizlock_(false),
-      newlock_(false), control_fd_{std::nullopt}, boot_time_{std::chrono::system_clock::now()},
+    : logger_{descriptors_}, bans_{config_.ban_file()}, notes_{config_.notes_file()}, main_loop_running_(true),
+      wizlock_(false), newlock_(false), control_fd_{std::nullopt}, boot_time_{std::chrono::system_clock::now()},
       current_time_{std::chrono::system_clock::now()}, current_tick_{TimeInfoData(Clock::now())},
       max_players_today_(0) {}
 
@@ -88,6 +88,8 @@ AreaList &MudImpl::areas() { return areas_; }
 HelpList &MudImpl::help() { return help_; }
 
 Socials &MudImpl::socials() { return socials_; }
+
+NoteHandler &MudImpl::notes() { return notes_; }
 
 /* Send a packet to doorman */
 bool MudImpl::send_to_doorman(const Packet *p, const void *extra) const {
@@ -171,6 +173,8 @@ void MudImpl::boot() {
         logger_.log_string("Loaded {} tips from file {}", tip_count, config_.tip_file());
     const auto ban_count = bans_.load(logger_);
     logger_.log_string("{} site bans loaded.", ban_count);
+    const auto note_count = notes_.load(config_.notes_file(), current_time(), logger_);
+    logger_.log_string("{} notes loaded.", note_count);
 }
 
 void MudImpl::game_loop() {
@@ -1034,7 +1038,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
             char_to_room(ch->pet, ch->in_room);
             act("|P$n|W has entered the game.", ch->pet);
         }
-        if (const auto num_unread = NoteHandler::singleton().num_unread(*ch); num_unread > 0) {
+        if (const auto num_unread = ch->mud_.notes().num_unread(*ch); num_unread > 0) {
             ch->send_line("\n\rYou have {} new note{} waiting.", num_unread, (num_unread == 1) ? "" : "s");
         }
         break;

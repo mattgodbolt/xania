@@ -76,23 +76,26 @@ public:
     using OnChangeFunc = std::function<void(NoteHandler &)>;
 
 private:
+    const std::string notes_file_;
     OnChangeFunc on_change_func_;
     Notes notes_;
     CommandSet<void (NoteHandler::*)(Char &, ArgParser)> sub_commands;
 
 public:
-    explicit NoteHandler(OnChangeFunc on_change_func);
+    explicit NoteHandler(const std::string &notes_file);
+    // For testing
+    explicit NoteHandler(const std::string &notes_file, OnChangeFunc on_change_func);
     void add_for_testing(Note note) { notes_.add(std::move(note)); }
-    void read_from(FILE *fp, Time current_time, const Logger &logger);
+    size_t load(const std::string &notes_file, const Time current_time, const Logger &logger);
     void write_to(FILE *fp);
     void on_command(Char &ch, ArgParser args);
     [[nodiscard]] int num_unread(const Char &ch) const { return notes_.num_unread(ch); }
 
-    static NoteHandler &singleton();
-
     [[nodiscard]] const Notes &notes() const { return notes_; }
 
 private:
+    OnChangeFunc on_note_change();
+    void read_from(FILE *fp, Time current_time, const Logger &logger);
     void read(Char &ch, ArgParser args);
     void list(Char &ch, ArgParser args);
     void add_line(Char &ch, ArgParser args);
@@ -108,4 +111,3 @@ private:
 };
 
 void do_note(Char *ch, std::string_view argument);
-void note_initialise(Time current_time, const std::string &notes_file, const Logger &logger);

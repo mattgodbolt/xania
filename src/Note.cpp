@@ -129,27 +129,16 @@ void Note::to_list(std::string_view to_list) { to_list_ = to_list; }
 void Note::add_line(std::string_view line) { text_ += fmt::format("{}\n\r", line); }
 void Note::remove_line() { text_ = remove_last_line(text_); }
 
-NoteHandler &NoteHandler::singleton() {
-    static auto on_change = [](NoteHandler &handler) {
-        const Configuration config; // TODO use a reference to central config once notes is no longer a singleton
-        const auto notes_file = config.notes_file();
-        if (auto *file = fopen(notes_file.c_str(), "w")) {
+NoteHandler::OnChangeFunc NoteHandler::on_note_change() {
+    auto on_change = [](NoteHandler &handler) {
+        if (auto *file = fopen(handler.notes_file_.c_str(), "w")) {
             handler.write_to(file);
             fclose(file);
         } else {
-            perror(notes_file.c_str());
+            perror(handler.notes_file_.c_str());
         }
     };
-    static NoteHandler singleton(on_change);
-    return singleton;
-}
-
-void note_initialise(const Time current_time, const std::string &notes_file, const Logger &logger) {
-    auto &handler = NoteHandler::singleton();
-    if (auto *fp = fopen(notes_file.c_str(), "r")) {
-        handler.read_from(fp, current_time, logger);
-        fclose(fp);
-    }
+    return on_change;
 }
 
 void do_note(Char *ch, std::string_view args) {
@@ -157,11 +146,14 @@ void do_note(Char *ch, std::string_view args) {
         return;
     }
     auto note_remainder = smash_tilde(args);
-    auto &handler = NoteHandler::singleton();
+    auto &handler = ch->mud_.notes();
     handler.on_command(*ch, ArgParser(note_remainder));
 }
 
-NoteHandler::NoteHandler(OnChangeFunc on_change_func) : on_change_func_(std::move(on_change_func)) {
+NoteHandler::NoteHandler(const std::string &notes_file) : NoteHandler(notes_file, on_note_change()) {}
+
+NoteHandler::NoteHandler(const std::string &notes_file, OnChangeFunc on_change_func)
+    : notes_file_{notes_file}, on_change_func_{std::move(on_change_func)} {
     sub_commands.add("read", &NoteHandler::read);
     sub_commands.add("list", &NoteHandler::list);
     sub_commands.add("+", &NoteHandler::add_line);
@@ -177,6 +169,14 @@ NoteHandler::NoteHandler(OnChangeFunc on_change_func) : on_change_func_(std::mov
 }
 
 void NoteHandler::write_to(FILE *fp) { notes_.save(fp); }
+
+size_t NoteHandler::load(const std::string &notes_file, const Time current_time, const Logger &logger) {
+    if (auto *fp = fopen(notes_file.c_str(), "r")) {
+        read_from(fp, current_time, logger);
+        fclose(fp);
+    }
+    return notes_.notes().size();
+}
 
 void NoteHandler::read_from(FILE *fp, const Time current_time, const Logger &logger) {
     for (;;) {

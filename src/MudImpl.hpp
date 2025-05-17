@@ -11,6 +11,7 @@
 #include "Interpreter.hpp"
 #include "Logging.hpp"
 #include "Mud.hpp"
+#include "Note.hpp"
 #include "Socials.hpp"
 #include "TimeInfoData.hpp"
 #include "Tips.hpp"
@@ -38,6 +39,7 @@ public:
     AreaList &areas() override;
     HelpList &help() override;
     Socials &socials() override;
+    NoteHandler &notes() override;
     bool send_to_doorman(const Packet *p, const void *extra) const override;
     TimeInfoData &current_tick() override;
     Time boot_time() const override;
@@ -84,6 +86,7 @@ private:
     AreaList areas_;
     HelpList help_;
     Socials socials_;
+    NoteHandler notes_;
     bool main_loop_running_;
     bool wizlock_;
     bool newlock_;

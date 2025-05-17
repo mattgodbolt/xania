@@ -210,7 +210,8 @@ TEST_CASE("Note command handling") {
     jenny_desc.character(&jenny);
 
     bool was_saved{};
-    NoteHandler handler([&](NoteHandler &) { was_saved = true; });
+    auto notes_file = "ignored.txt";
+    NoteHandler handler(notes_file, [&](NoteHandler &) { was_saved = true; });
     SECTION("reading") {
         Note moog_note("TheMoog");
         moog_note.subject("So here it is");
