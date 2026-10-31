@@ -1,7 +1,7 @@
 [requires]
 catch2/3.11.0
 fmt/12.1.0
-ms-gsl/4.1.0
+ms-gsl/5.0.1
 trompeloeil/49
 spdlog/1.17.0
 date/3.0.3
