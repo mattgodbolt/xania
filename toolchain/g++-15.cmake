@@ -1,0 +1,2 @@
+set(CMAKE_C_COMPILER gcc-15 CACHE FILEPATH "MUD C compiler")
+set(CMAKE_CXX_COMPILER g++-15 CACHE FILEPATH "MUD C++ compiler")

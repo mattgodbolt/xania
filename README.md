@@ -11,7 +11,7 @@ We chat about the mud [here](https://discord.gg/Xsstufyt8t). Feel free to drop i
 
 ## Building and running
 
-If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 24.0.4 and Arch Linux.
+If you want to build and run Xania locally, you'll need a modern Linux. We test it on Ubuntu 26 and Arch Linux.
 
 It works within **Docker** including when hosted by **Windows Subsystem for Linux**. To learn more about this see
 the Docker-specific [tutorial](docker-dev/README.md)!
@@ -23,7 +23,7 @@ It has been reported to work on Fedora 34 too.
 Here are the Ubuntu steps for installing some prerequisites:
 
 ```bash
-# Install gcc-13 and g++-13.
+# Install gcc-15 and g++-15.
 $ sudo apt install build-essential manpages-dev software-properties-common
 $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 
@@ -33,7 +33,7 @@ $ sudo apt install ninja-build
 # And you'll need the following...
 $ sudo apt install git make curl
 
-# Local builds autodetect g++-13 and use it for compilation, but fallback to g++-12.
+# Local builds autodetect g++-15 and use it for compilation, but fallback to g++-13.
 # clang-19 works too (see later section).  If you want to build with a different compiler
 # create a new cmake toolchain file e.g. "toolchain/mycompilers.cmake" and set the compiler
 # variables in it. Then invoke make specifying the leading part of your toolchain name in 
@@ -49,7 +49,7 @@ $ make TOOLCHAIN=mycompilers test
 
 ### CMake
 
-You'll also need a recent version of __cmake__. The build is configured to require at least version 3.28,
+You'll also need a recent version of __cmake__. The build is configured to require at least version 3.31,
 although older versions may work.
 On Ubuntu 22 or later and Arch, the cmake package is present in the main repository.
 ```bash
@@ -109,9 +109,9 @@ You can selectively nuke cached libraries, for example:
 
 ```bash
 # Remove all versions of fmt from the cache
-$ ./cmake-build-debug/.tools/conda-25.1.1-2/bin/conan remove -c fmt/*
+$ ./cmake-build-debug/.tools/conda-26.9.4-0/bin/conan remove -c fmt/*
 # Remove all cached libraries from the cache
-$ ./cmake-build-debug/.tools/conda-25.1.1-2/bin/conan remove -c "*"
+$ ./cmake-build-debug/.tools/conda-26.9.4-0/bin/conan remove -c "*"
 ```
 
 ### Creating an immortal account
