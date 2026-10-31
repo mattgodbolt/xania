@@ -166,6 +166,7 @@ TEST_CASE("Clone") {
 
 TEST_CASE("extract_obj and collect garbage") {
     SECTION("single") {
+        collect_all_garbage();
         ObjectIndex obj_idx = make_obj_idx();
         auto obj_uptr = obj_idx.create_object(logger);
         auto *obj = obj_uptr.get();
