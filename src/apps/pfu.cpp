@@ -71,8 +71,8 @@ std::optional<Time> try_parse_login_at(const std::string &login_at) {
     }
     // Includes older formats used for login time.
     for (const auto format : {"%Y-%m-%d %H:%M:%SZ", "%Y-%m-%d %H:%M:%S", "%a %b %d %H:%M:%S %Y"}) {
-        std::stringstream ss{login_at};
-        if (Time t; ss >> date::parse(format, t))
+        std::istringstream ss{login_at};
+        if (Time t; date::from_stream(ss, format, t))
             return t;
     }
     return std::nullopt;

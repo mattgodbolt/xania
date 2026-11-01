@@ -4,7 +4,7 @@ fmt/12.1.0
 ms-gsl/5.0.1
 trompeloeil/49
 spdlog/1.17.0
-date/3.0.3
+date/3.0.5
 range-v3/0.12.0
 lyra/1.8.0
 magic_enum/0.9.8
