@@ -423,9 +423,10 @@ void wear_obj(Char *ch, Object *obj, bool fReplace) {
         ch->send_line("You can't wear, wield, or hold that.");
 }
 
-bool is_mass_looting_npc_undroppable_obj(const Object *obj, const Object *container, const char looting_all_item_dot) {
-    return container->type == ObjectType::Npccorpse && looting_all_item_dot == '\0'
-           && (obj->is_no_drop() || obj->is_no_remove());
+// True if obj shouldn't be taken by a plain "get all <corpse>" (which autoloot also uses): undroppable items stay on
+// NPC corpses unless the player asks for them by name ("get <name> corpse" or "get all.<name> corpse").
+bool is_mass_looting_npc_undroppable_obj(const Object *obj, const Object *container, const bool is_unnamed_all) {
+    return container->type == ObjectType::Npccorpse && is_unnamed_all && (obj->is_no_drop() || obj->is_no_remove());
 }
 
 Char *shopkeeper_in(const Room &room) {
@@ -624,8 +625,14 @@ void do_get(Char *ch, ArgParser args) {
     if (matches(arg2, "from"))
         arg2 = args.shift();
 
+    // "all" takes everything; "all.<name>" takes everything called <name>, and arg1 becomes just the <name>.
+    const auto is_all = matches(arg1, "all");
+    const auto is_all_named = matches_start("all.", arg1);
+    if (is_all_named)
+        arg1.remove_prefix(4);
+
     if (arg2.empty()) {
-        if (!matches(arg1, "all") && !matches_start("all.", arg1)) {
+        if (!is_all && !is_all_named) {
             /* 'get obj' */
             auto *obj = get_obj_list(ch, arg1, ch->in_room->contents);
             if (!obj) {
@@ -638,17 +645,17 @@ void do_get(Char *ch, ArgParser args) {
             /* 'get all' or 'get all.obj' */
             found = false;
             for (auto *obj : ch->in_room->contents) {
-                if ((arg1[3] == '\0' || is_name(&arg1[4], obj->name)) && ch->can_see(*obj)) {
+                if ((is_all || is_name(arg1, obj->name)) && ch->can_see(*obj)) {
                     found = true;
                     get_obj(ch, obj, nullptr);
                 }
             }
 
             if (!found) {
-                if (arg1[3] == '\0')
+                if (is_all)
                     ch->send_line("I see nothing here.");
                 else
-                    act("I see no $T here.", ch, nullptr, &arg1[4], To::Char);
+                    act("I see no $T here.", ch, nullptr, arg1, To::Char);
             }
         }
     } else {
@@ -682,11 +689,6 @@ void do_get(Char *ch, ArgParser args) {
             act("The $d is closed.", ch, nullptr, container->name, To::Char);
             return;
         }
-        const auto is_all = matches(arg1, "all");
-        const auto is_all_named = matches_start("all.", arg1);
-        if (is_all_named) {
-            arg1.remove_prefix(4);
-        }
         if (!(is_all || is_all_named)) {
             /* 'get obj container' */
             auto *obj = get_obj_list(ch, arg1, container->contains);
@@ -704,7 +706,7 @@ void do_get(Char *ch, ArgParser args) {
                         ch->send_line("Don't be so greedy!");
                         return;
                     }
-                    if (is_mass_looting_npc_undroppable_obj(obj, container, arg1[3])) {
+                    if (is_mass_looting_npc_undroppable_obj(obj, container, is_all)) {
                         act("You refrain from looting $p as it appears to be undroppable. You can still 'get' it using "
                             "its name.",
                             ch, obj, nullptr, To::Char);
