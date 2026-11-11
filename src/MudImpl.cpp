@@ -708,7 +708,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
         break;
 
     case DescriptorState::BreakConnect:
-        switch (argument[0]) {
+        switch (first_char(argument)) {
         case 'y':
         case 'Y':
             for (auto &d_old : descriptors().all()) {
@@ -737,7 +737,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
         break;
 
     case DescriptorState::ConfirmNewName:
-        switch (argument[0]) {
+        switch (first_char(argument)) {
         case 'y':
         case 'Y':
             set_echo_state(d, 0);
@@ -851,7 +851,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
         break;
     }
     case DescriptorState::GetNewSex: {
-        if (auto sex = Sex::try_from_char(argument[0])) {
+        if (auto sex = Sex::try_from_char(first_char(argument))) {
             ch->sex = *sex;
             ch->pcdata->true_sex = *sex;
         } else {
@@ -887,7 +887,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
         break;
     }
     case DescriptorState::GetAlignment:
-        switch (argument[0]) {
+        switch (first_char(argument)) {
         case 'g':
         case 'G': ch->alignment = Alignment::Saintly; break;
         case 'n':
@@ -912,7 +912,7 @@ void MudImpl::nanny(Descriptor *d, std::string_view argument) {
 
     case DescriptorState::DefaultChoice:
         d->write("\n\r");
-        switch (argument[0]) {
+        switch (first_char(argument)) {
         case 'y':
         case 'Y':
             ch->pcdata->customization = PcCustomization{};
