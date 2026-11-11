@@ -629,8 +629,14 @@ void extract_char(Char *ch, bool delete_from_world) {
             wch->reply = nullptr;
         }
     }
-    if (ch->desc)
+    // Detach both ways. ch stays in char_list until collect_all_garbage() at the end of the pulse, and the descriptor
+    // may be closed and freed before then (do_quit closes it, DescriptorList::reap_closed() frees it), so the
+    // character must not keep pointing at it: char_update()'s get_trust(), get_skill() and autosave all follow
+    // ch->desc.
+    if (ch->desc) {
         ch->desc->character(nullptr);
+        ch->desc = nullptr;
+    }
 
     reapable_chars.push_back(ch); // See collect_all_garbage()
 }
