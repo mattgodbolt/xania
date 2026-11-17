@@ -426,6 +426,20 @@ TEST_CASE("is_name()") {
     }
 }
 
+TEST_CASE("first_char") {
+    SECTION("the first character of a reply") {
+        CHECK(first_char("yes") == 'y');
+        CHECK(first_char("N") == 'N');
+        CHECK(first_char(" x") == ' ');
+    }
+    SECTION("an empty reply gives '\\0' instead of reading past the end") { CHECK(first_char("") == '\0'); }
+    SECTION("an empty view into a longer string is still empty") {
+        constexpr std::string_view line{"yes"};
+        CHECK(first_char(line.substr(3)) == '\0');
+    }
+    static_assert(first_char("") == '\0' && first_char("g") == 'g');
+}
+
 TEST_CASE("is vowel") {
     SECTION("valid") {
         auto vowel = GENERATE('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U');

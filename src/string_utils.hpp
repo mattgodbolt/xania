@@ -30,6 +30,10 @@
 
 [[nodiscard]] bool is_vowel(const char c);
 
+// The first character of str, or '\0' if str is empty. For code that switches on the first letter of a reply,
+// where str[0] on an empty string_view would read past its end.
+[[nodiscard]] constexpr char first_char(std::string_view str) noexcept { return str.empty() ? '\0' : str.front(); }
+
 // Given a string like 14.foo, return 14 and 'foo'.
 [[nodiscard]] std::pair<int, std::string_view> number_argument(std::string_view argument);
 
