@@ -97,21 +97,21 @@ TEST_CASE("compare weapons") {
     }
 }
 
-TEST_CASE("compare armor") {
+TEST_CASE("compare armour") {
     auto plate_index = make_index(ObjectType::Armor, body, {5, 5, 5, 0, 0}, {});
     Object plate{&plate_index, logger};
-    SECTION("armor class vs magic counts") {
+    SECTION("armour class vs magic counts") {
         auto robe_index = make_index(ObjectType::Armor, body, {4, 4, 4, 4, 0}, {});
         Object robe{&robe_index, logger};
         CHECK(compare(robe, plate) == std::vector{"$p looks better than $P."sv}); // 16 against 15
     }
-    SECTION("an AC affect counts once for each of the four armor classes") {
+    SECTION("an AC affect counts once for each of the four armour classes") {
         auto mail_index = make_index(ObjectType::Armor, body, {4, 4, 4, 0, 0}, {{AffectLocation::Ac, -1}});
         Object mail{&mail_index, logger};
-        CHECK(ObjectComparison::armor_score(mail) == 16);
+        CHECK(ObjectComparison::armour_score(mail) == 16);
         CHECK(compare(mail, plate) == std::vector{"$p looks better than $P."sv});
     }
-    SECTION("armor's other bonuses get lines, damroll included") {
+    SECTION("armour's other bonuses get lines, damroll included") {
         auto spiked_index = make_index(ObjectType::Armor, body, {5, 5, 5, 0, 0},
                                        {{AffectLocation::Damroll, 1}, {AffectLocation::SavingPara, -2}});
         Object spiked{&spiked_index, logger};
@@ -142,7 +142,7 @@ TEST_CASE("compare things worn in the same place") {
         Object rod{&rod_index, logger};
         CHECK(compare(protection, rod) == std::vector{"$p and $P look about the same."sv});
     }
-    SECTION("an armor ring's own armor class counts") {
+    SECTION("an armour ring's own armour class counts") {
         auto band_index = make_index(ObjectType::Armor, finger, {1, 1, 1, 1, 0}, {});
         Object band{&band_index, logger};
         CHECK(compare(band, pink)

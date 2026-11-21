@@ -506,12 +506,12 @@ Syntax: compare <object>
 
 COMPARE compares two objects in your inventory.  If both objects are weapons,
 it will report the one that hits harder, counting its damage bonus.  If both
-objects are armor, it will report the one with the better armor class, counting
-armor class against magic and any armor class bonus.
+objects are armour, it will report the one with the better armour class, counting
+armour class against magic and any armour class bonus.
 
 It then tells you, roughly, how the first object's other bonuses differ from
 the second's: whether it would make you stronger or weaker, healthier, better
-guarded against magic, and so on.  Objects other than weapons and armor, such
+guarded against magic, and so on.  Objects other than weapons and armour, such
 as rings and amulets, can be compared too if they are worn in the same place,
 and get these lines alone.  For exact numbers, use identify or lore.
 

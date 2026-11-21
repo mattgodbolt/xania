@@ -30,7 +30,7 @@ AffectLocation counted_as(const AffectLocation location) {
 
 struct StatLine {
     AffectLocation location;
-    bool lower_is_better; // saving throws (and armor class modifiers, though AC is scored by armor_score)
+    bool lower_is_better; // saving throws (and armour class modifiers, though AC is scored by armour_score)
     std::string_view better;
     std::string_view worse;
 };
@@ -76,7 +76,7 @@ int weapon_score(const Object &weapon) {
     return (1 + weapon.value[2]) * weapon.value[1] + 2 * total_modifier(weapon, AffectLocation::Damroll);
 }
 
-int armor_score(const Object &obj) {
+int armour_score(const Object &obj) {
     const auto values = obj.type == ObjectType::Armor ? obj.value[0] + obj.value[1] + obj.value[2] + obj.value[3] : 0;
     return values - 4 * total_modifier(obj, AffectLocation::Ac);
 }
@@ -92,8 +92,8 @@ Result compare(const Object &a, const Object &b) {
     auto in_verdict = AffectLocation::None;
     if (both(ObjectType::Weapon) || both(ObjectType::Armor)) {
         const auto weapons = both(ObjectType::Weapon);
-        const auto score_a = weapons ? weapon_score(a) : armor_score(a);
-        const auto score_b = weapons ? weapon_score(b) : armor_score(b);
+        const auto score_a = weapons ? weapon_score(a) : armour_score(a);
+        const auto score_b = weapons ? weapon_score(b) : armour_score(b);
         result.lines.emplace_back(score_a == score_b  ? "$p and $P look about the same."
                                   : score_a > score_b ? "$p looks better than $P."
                                                       : "$p looks worse than $P.");
@@ -105,9 +105,9 @@ Result compare(const Object &a, const Object &b) {
     for (const auto &stat : StatLines) {
         if (stat.location == in_verdict)
             continue;
-        // How much better a is than b: armor class counts the armor's own values too, as the verdict does.
+        // How much better a is than b: armour class counts the armour's own values too, as the verdict does.
         const auto advantage = stat.location == AffectLocation::Ac
-                                   ? armor_score(a) - armor_score(b)
+                                   ? armour_score(a) - armour_score(b)
                                    : (total_modifier(a, stat.location) - total_modifier(b, stat.location))
                                          * (stat.lower_is_better ? -1 : 1);
         if (advantage == 0)
