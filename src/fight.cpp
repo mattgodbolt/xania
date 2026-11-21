@@ -41,6 +41,7 @@
 #include "SkillNumbers.hpp"
 #include "SkillTables.hpp"
 #include "TimeInfoData.hpp"
+#include "VampiricDrain.hpp"
 #include "VnumMobiles.hpp"
 #include "VnumObjects.hpp"
 #include "VnumRooms.hpp"
@@ -706,17 +707,26 @@ bool damage(Char *ch, Char *victim, const int raw_damage, const AttackType atk_t
      * Hurt the victim.
      * Inform the victim of his new state.
      */
+    const auto apply_immortal_floor = [victim] {
+        if (victim->is_pc() && victim->level >= LEVEL_IMMORTAL && victim->hit < 1)
+            victim->hit = 1;
+    };
     victim->hit -= adjusted_damage;
-    if (victim->is_pc() && victim->level >= LEVEL_IMMORTAL && victim->hit < 1)
-        victim->hit = 1;
+    apply_immortal_floor();
     update_pos(victim);
 
+    // A vampiric weapon drinks from ordinary weapon hits only: spells and skill attacks (backstab, bash...) arrive
+    // here as a skill_type, and a hit that killed has nothing left to drink.
     wield = get_eq_char(ch, Worn::Wield);
-
-    if ((wield != nullptr) && (wield->type == ObjectType::Weapon)
-        && (check_enum_bit(wield->value[4], WeaponFlag::Vampiric))) {
-        ch->hit += (adjusted_damage / 100) * 10;
-        victim->hit -= (adjusted_damage / 100) * 10;
+    if (victim != ch && std::holds_alternative<const attack_type *>(atk_type) && !victim->is_pos_dead()
+        && wield != nullptr && wield->type == ObjectType::Weapon
+        && check_enum_bit(wield->value[4], WeaponFlag::Vampiric)) {
+        if (VampiricDrain::drain(*ch, *victim, adjusted_damage) > 0) {
+            act("$p drinks from $N.", ch, wield, victim, To::Char);
+            act("You feel $p drinking your life.", ch, wield, victim, To::Vict);
+            apply_immortal_floor();
+            update_pos(victim);
+        }
     }
 
     switch (victim->position) {
