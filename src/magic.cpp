@@ -2451,7 +2451,7 @@ void spell_harm(int sn, int level, Char *ch, const SpellTarget &spell_target) {
     auto dam_level = get_direct_dmg_and_level(level, FireballHarmDamage);
     if (saves_spell(dam_level.second, victim))
         dam_level.first /= 2;
-    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Fire);
+    damage(ch, victim, dam_level.first, &skill_table[sn], DamageType::Harm);
 }
 
 void spell_regeneration(int sn, int level, Char *ch, const SpellTarget &spell_target) {
