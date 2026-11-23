@@ -29,6 +29,7 @@
 #include "Logging.hpp"
 #include "Materials.hpp"
 #include "Object.hpp"
+#include "ObjectComparison.hpp"
 #include "ObjectExtraFlag.hpp"
 #include "ObjectIndex.hpp"
 #include "ObjectType.hpp"
@@ -1340,7 +1341,7 @@ void do_equipment(Char *ch) {
 namespace {
 Object *find_comparable(Char *ch, Object *obj_to_compare_to) {
     for (auto *obj : ch->carrying) {
-        if (obj->worn_loc != Worn::None && ch->can_see(*obj) && obj_to_compare_to->type == obj->type
+        if (obj->worn_loc != Worn::None && ch->can_see(*obj)
             && (obj_to_compare_to->wear_flags & obj->wear_flags & (~to_int(ObjectWearFlag::Take))) != 0) {
             return obj;
         }
@@ -1376,40 +1377,8 @@ void do_compare(Char *ch, ArgParser args) {
         }
     }
 
-    std::string_view msg;
-    int value1 = 0;
-    int value2 = 0;
-
-    if (obj1 == obj2) {
-        msg = "You compare $p to itself.  It looks about the same.";
-    } else if (obj1->type != obj2->type) {
-        msg = "You can't compare $p and $P.";
-    } else {
-        switch (obj1->type) {
-        default: msg = "You can't compare $p and $P."; break;
-
-        case ObjectType::Armor:
-            value1 = obj1->value[0] + obj1->value[1] + obj1->value[2];
-            value2 = obj2->value[0] + obj2->value[1] + obj2->value[2];
-            break;
-
-        case ObjectType::Weapon:
-            value1 = (1 + obj1->value[2]) * obj1->value[1];
-            value2 = (1 + obj2->value[2]) * obj2->value[1];
-            break;
-        }
-    }
-
-    if (msg.empty()) {
-        if (value1 == value2)
-            msg = "$p and $P look about the same.";
-        else if (value1 > value2)
-            msg = "$p looks better than $P.";
-        else
-            msg = "$p looks worse than $P.";
-    }
-
-    act(msg, ch, obj1, obj2, To::Char);
+    for (const auto line : ObjectComparison::compare(*obj1, *obj2).lines)
+        act(line, ch, obj1, obj2, To::Char);
 }
 
 void do_credits(Char *ch) { do_help(ch, "diku"); }
