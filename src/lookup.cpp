@@ -31,6 +31,12 @@
  * Lookup a skill by name.
  */
 int skill_lookup(std::string_view name) {
+    // No skill has an empty name, and name[0] below needs one character (an empty argument, from "cast ''" or
+    // "practice ''", used to read past the end here). Don't drop the name[0] test instead: matches_start()
+    // takes "" as a prefix of every skill.
+    if (name.empty())
+        return -1;
+
     int sn;
 
     for (sn = 0; sn < MAX_SKILL; sn++) {

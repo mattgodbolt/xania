@@ -34,3 +34,13 @@ TEST_CASE("looks up skills") {
             check_spell(x.name, x.name);
     }
 }
+
+TEST_CASE("an empty skill name matches nothing") {
+    // "practice ''" passes an empty view: this read name[0] past its end (debug builds aborted).
+    CHECK(skill_lookup("") == -1);
+    CHECK(skill_lookup(std::string_view{}) == -1);
+    constexpr std::string_view quoted{"''"};
+    CHECK(skill_lookup(quoted.substr(1, 0)) == -1); // an empty view into a longer string, as ArgParser makes it
+    // A one-letter prefix still works.
+    CHECK(skill_lookup("s") != -1);
+}
