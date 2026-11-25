@@ -22,6 +22,7 @@
 #include "Exit.hpp"
 #include "ExitFlag.hpp"
 #include "Format.hpp"
+#include "Headbutt.hpp"
 #include "HitChance.hpp"
 #include "InjuredPart.hpp"
 #include "Interpreter.hpp"
@@ -352,7 +353,7 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
 
     /* now for the skills */
 
-    number = number_range(0, 7);
+    number = number_range(0, 8);
 
     switch (number) {
     case (0):
@@ -401,6 +402,11 @@ void mob_hit(Char *ch, Char *victim, const skill_type *opt_skill) {
         if (check_enum_bit(ch->off_flags, OffensiveFlag::Crush)) {
             /* do_crush(ch,"") */;
         }
+        break;
+
+    case (8):
+        if (check_enum_bit(ch->off_flags, OffensiveFlag::Headbutt))
+            do_headbutt(ch, ArgParser(""));
         break;
     }
 }
@@ -2294,7 +2300,8 @@ void do_headbutt(Char *ch, ArgParser args) {
         ch->send_line("You cannot headbutt whilst mounted.");
         return;
     }
-    if (victim->is_pc() && !Duels::is_duel_in_progress(ch, victim)) {
+    // A player may only headbutt another player in a duel. A mob may headbutt the player it's fighting.
+    if (ch->is_pc() && victim->is_pc() && !Duels::is_duel_in_progress(ch, victim)) {
         ch->send_line("You can only legally headbutt a player if you are duelling with them.");
         return;
     }
@@ -2310,8 +2317,7 @@ void do_headbutt(Char *ch, ArgParser args) {
         damage(ch, victim, number_range(ch->level / 3, ch->level), &skill_table[gsn_headbutt], DamageType::Bash);
         check_improve(ch, gsn_headbutt, true, 2);
 
-        chance = chance - ch->level + victim->level;
-        if ((chance < 5) || !victim->is_aff_blind()) {
+        if (Headbutt::blinds(chance, ch->level, victim->level, victim->is_aff_blind())) {
             act("$n is blinded by the blood running into $s eyes!", victim);
             victim->send_line("Blood runs into your eyes - you can't see!");
             AFFECT_DATA af;
@@ -2326,7 +2332,7 @@ void do_headbutt(Char *ch, ArgParser args) {
         }
     } else {
         act("$N dodges your headbutt. You feel disoriented.", ch, nullptr, victim, To::Char);
-        act("$N dodges $n's headbutt.", ch, nullptr, victim, To::Room);
+        act("$N dodges $n's headbutt.", ch, nullptr, victim, To::NotVict);
         act("You dodge $n's headbutt.", ch, nullptr, victim, To::Vict);
         ch->wait_state(skill_table[gsn_headbutt].beats / 2);
     }

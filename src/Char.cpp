@@ -269,6 +269,9 @@ int Char::get_skill(int skill_number) const {
         else if (skill_number == gsn_berserk && check_enum_bit(off_flags, OffensiveFlag::Berserk))
             skill = std::max(30, level / 3);
 
+        else if (skill_number == gsn_headbutt && check_enum_bit(off_flags, OffensiveFlag::Headbutt))
+            skill = std::max(30, level / 3);
+
         else if (skill_number == gsn_sword || skill_number == gsn_dagger || skill_number == gsn_spear
                  || skill_number == gsn_mace || skill_number == gsn_axe || skill_number == gsn_flail
                  || skill_number == gsn_whip || skill_number == gsn_polearm)
