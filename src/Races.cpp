@@ -36,7 +36,7 @@ const struct race_type race_table[] = {
     {"half-elf", true, 0, to_int(AffectFlag::Infrared), 0, 0, 0, to_int(ToleranceFlag::Iron), A | H | M | V,
      A | B | C | D | E | F | G | H | I | J | K},
 
-    {"dragon", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | K | P | U | V | X},
+    {"dragon", true, 0, 0, 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | K | P | Q | U | V | X},
 
     {"eagle", true, 0, to_int(AffectFlag::Flying), 0, 0, 0, 0, A | H | M | V, A | C | D | E | F | H | J | P | K | U},
 
