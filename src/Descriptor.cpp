@@ -157,8 +157,9 @@ void Descriptor::page_to(std::string_view page) noexcept {
         return;
 
     page_outbuf_ = split_lines<decltype(page_outbuf_)>(page);
-    // Drop the last line if it's purely whitespace.
-    if (!page_outbuf_.empty() && ltrim(page_outbuf_.back()).empty())
+    // Drop trailing lines that are purely whitespace, so there's never a "[Hit Return to continue]" with nothing after
+    // it.
+    while (!page_outbuf_.empty() && ltrim(page_outbuf_.back()).empty())
         page_outbuf_.pop_back();
     show_next_page("");
 }
