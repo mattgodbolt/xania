@@ -78,7 +78,7 @@ Lancelot, the greatest of all of Arthur's knights, looks every bit as splendid a
 tales tell.  Tall and muscular, his long tressess cover some of his battle scars.
 ~
 human~
-GT CDEFHTVZaacc 950 0
+GT CDEFHTVaacc 950 0
 95 48 15d20+7500 6d4+500 10d9+48 pound
 -61 -61 -61 -46
 CDEFGIKLOT AB DEJMNOQ HI
@@ -123,7 +123,7 @@ The priest of the old God sighs gently at your intrusion.  "We don't often get
 new disciples." he moans.
 ~
 human~
-BCGHQ CHVZaacc 1000 0
+BCGHQ CHVaacc 1000 0
 72 35 12d10+4500 10d6+700 7d10+35 divine
 -50 -50 -50 -43
 ACDEFGKNOQ AB CJKQ D
@@ -182,7 +182,7 @@ This stalwart soldier looks like he could stand on guard all day, his bladder
 control is phenomenal his face never twitches.
 ~
 human~
-BGTcc HNZcc 500 0
+BGTcc HNcc 500 0
 53 27 12d20+1800 1d1+339 5d10+27 slash
 -40 -40 -40 -30
 CDEFHJKU AB 0 R

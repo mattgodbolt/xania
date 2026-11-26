@@ -129,7 +129,7 @@ A Knight of Zun is here.
 A Knight from the city of Zun is here to prove himself in battle.
 ~
 human~
-TL CHZ 450 0
+TL CH 450 0
 65 10 2d100+2700 1d1+699 12d5+15 smash
 -58 -57 -60 -38
 CEHIKNT LP C 0
@@ -179,7 +179,7 @@ black slayer.  These creatures can not be harmed by any magic except
 fire and can drain health from a man!
 ~
 human~
-F DKNZ -1000 0
+F DKN -1000 0
 70 10 1d1+4199 1d1+299 10d6+20 wrath
 -62 -61 -63 -55
 FGO BIJKO MPQS HNY
@@ -195,7 +195,7 @@ Black-robed mages are to be feared.  They are masters of the greater path
 and able to cast devastating spells, while protected from most magic.
 ~
 human~
-R HNVZ 0 0
+R HNV 0 0
 75 10 20d5+5000 20d5+1000 10d5+20 slap
 -66 -63 -64 -60
 FK 0 BCHIJK 0
