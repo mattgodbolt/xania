@@ -40,13 +40,13 @@ TEST_CASE("AFFECT_DATA") {
         ch.pcdata = std::make_unique<PcData>();
         AFFECT_DATA af;
         SECTION("affect bits") {
-            ch.affected_by = to_int(AffectFlag::DarkVision);
+            ch.affected_by = to_int(AffectFlag::Haste);
             af.bitvector = to_int(AffectFlag::Charm);
             af.apply(ch);
             CHECK(check_enum_bit(ch.affected_by, AffectFlag::Charm));
-            CHECK(check_enum_bit(ch.affected_by, AffectFlag::DarkVision));
+            CHECK(check_enum_bit(ch.affected_by, AffectFlag::Haste));
             af.unapply(ch);
-            CHECK(ch.affected_by == to_int(AffectFlag::DarkVision));
+            CHECK(ch.affected_by == to_int(AffectFlag::Haste));
         }
         auto test_stat = [&](AffectLocation location, auto get) {
             auto stat_before = get();

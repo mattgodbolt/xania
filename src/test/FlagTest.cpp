@@ -223,7 +223,7 @@ TEST_CASE("flag test") {
                     == "|Cblind invisible detect_evil detect_invis detect_magic detect_hidden talon sanctuary "
                        "faerie_fire "
                        "infrared curse protection_evil poison protection_good sneak hide sleep charm flying pass_door "
-                       "haste calm plague weaken dark_vision berserk swim regeneration octarine_fire lethargy|w");
+                       "haste calm plague weaken berserk swim regeneration octarine_fire lethargy|w");
             }
         }
         SECTION("all object wear flags") {
