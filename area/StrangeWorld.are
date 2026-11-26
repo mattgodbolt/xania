@@ -67,7 +67,7 @@ creature from the outer-space.  You have no way of knowing it and you can hear
 it roaring loudly.
 ~
 unique~
-GHU BHNTZ 800 0
+GHU BHNT 800 0
 70 18 30d30+3600 1d1+99 3d4+22 blast
 -47 -47 -47 -28
 AEFOU ABOPQR 0 CK
@@ -83,7 +83,7 @@ The skull is glowing with a ghastly fluorescent green color.  It seems like
 it will swallow you.  Otherwise it is motionless.
 ~
 unique~
-FG HNTZ 1000 0
+FG HNT 1000 0
 70 18 30d30+3600 1d1+99 5d3+17 digestion
 -46 -46 -47 -29
 BDUE A PR Q
@@ -135,7 +135,7 @@ Bomberman, but yet it is evil.  You feel that you are blown by a very strong
 tornado originating from him.  Watch out!
 ~
 dwarf~
-BFGT CEHJNZ -900 0
+BFGT CEHJN -900 0
 88 35 20d70+5800 1d1+299 6d5+33 suction
 -65 -66 -66 -36
 DEFHNU ABI 0 H
@@ -152,7 +152,7 @@ Bomberman, but yet it is evil.  You hear the sound of thunder as he raises his
 hands.  Smoke is coming out of his palms.  Be careful!
 ~
 dwarf~
-BGT CDEHJNZ -600 0
+BGT CDEHJN -600 0
 88 24 10d50+4500 1d1+299 6d4+33 smash
 -57 -57 -64 -33
 CEFHNU AB 0 HL
@@ -169,7 +169,7 @@ Bomberman, but yet it is evil.  You feel painful as he is casting spells which
 cause the room to rain very heavily.  Ouch, the rain hurts!
 ~
 dwarf~
-BGTF CDHJNVZ -900 0
+BGTF CDHJNV -900 0
 88 35 20d70+5900 1d1+299 7d5+33 pound
 -59 -61 -61 -27
 CDEFHNU ABI 0 HJ
@@ -186,7 +186,7 @@ Bomberman, but yet it is evil.  You see sudden flashes of light appearing in
 the room and the lightning almost strikes you!
 ~
 dwarf~
-BGT CEHJNZ -700 0
+BGT CEHJN -700 0
 88 30 20d65+5100 1d1+299 7d4+33 chop
 -57 -57 -63 -35
 CEFHNU AB JK H
@@ -287,7 +287,7 @@ that you can feel that he carries an evil grin rather than a warm smile.  If
 you have been to the tomb, you should know who he is...
 ~
 human~
-BFT CDEHJNQTZ 1000 0
+BFT CDEHJNQT 1000 0
 105 40 20d80+8100 1d1+599 5d5+22 pierce
 -65 -66 -66 -36
 ACDEFLU 0 0 N 

@@ -106,7 +106,7 @@ He looks mean, and you just might have a small problem killing him, but he
 looks like a great prize!!!
 ~
 school monster~
-B JZ 0 0
+B J 0 0
 2 1 2d2+20 1d1+99 1d4+1 claw
 -7 -7 -7 -5
 FN 0 0 0
@@ -219,7 +219,7 @@ This four limbed monstrosity is protected by layers of hair and sinew.
 It looks mean.  You'd better run.
 ~
 school monster~
-FUT Z 0 0
+FUT 0 0 0
 5 1 5d5+55 1d1+99 1d6+3 bite
 -10 -10 -10 -7
 EKM 0 HI 0

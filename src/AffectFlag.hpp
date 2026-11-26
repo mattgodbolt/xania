@@ -41,7 +41,7 @@ enum class AffectFlag : unsigned int {
     Calm = W,
     Plague = X,
     Weaken = Y,
-    DarkVision = Z,
+    // Z unused currently (was the unimplemented dark_vision, see #246)
     Berserk = aa,
     Swim = bb,
     Regeneration = cc,
@@ -80,20 +80,19 @@ constexpr auto Haste = AF{AffectFlag::Haste, "haste"};
 constexpr auto Calm = AF{AffectFlag::Calm, "calm"};
 constexpr auto Plague = AF{AffectFlag::Plague, "plague"};
 constexpr auto Weaken = AF{AffectFlag::Weaken, "weaken"};
-constexpr auto DarkVision = AF{AffectFlag::DarkVision, "dark_vision"};
 constexpr auto Berserk = AF{AffectFlag::Berserk, "berserk"};
 constexpr auto Swim = AF{AffectFlag::Swim, "swim"};
 constexpr auto Regeneration = AF{AffectFlag::Regeneration, "regeneration"};
 constexpr auto OctarineFire = AF{AffectFlag::OctarineFire, "octarine_fire"};
 constexpr auto Lethargy = AF{AffectFlag::Lethargy, "lethargy"};
 
-constexpr auto NumAffectFlags = 30;
+constexpr auto NumAffectFlags = 29;
 
 constexpr std::array<AF, NumAffectFlags> AllAffectFlags = {
-    {Blind,      Invisible, DetectEvil, DetectInvis,    DetectMagic,  DetectHidden,   Talon,  Sanctuary,
-     FaerieFire, Infrared,  Curse,      ProtectionEvil, Poison,       ProtectionGood, Sneak,  Hide,
-     Sleep,      Charm,     Flying,     PassDoor,       Haste,        Calm,           Plague, Weaken,
-     DarkVision, Berserk,   Swim,       Regeneration,   OctarineFire, Lethargy}};
+    {Blind,      Invisible, DetectEvil,   DetectInvis,    DetectMagic, DetectHidden,   Talon,  Sanctuary,
+     FaerieFire, Infrared,  Curse,        ProtectionEvil, Poison,      ProtectionGood, Sneak,  Hide,
+     Sleep,      Charm,     Flying,       PassDoor,       Haste,       Calm,           Plague, Weaken,
+     Berserk,    Swim,      Regeneration, OctarineFire,   Lethargy}};
 
 // Returns a string containing the names of all flag bits that are set on current_val.
 template <typename Bits>

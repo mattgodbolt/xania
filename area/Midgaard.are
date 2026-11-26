@@ -193,7 +193,7 @@ indicate that he is ready to respond at a moment's notice.
 As he speaks, his sonorous voice leaves you feeling enlightened.
 ~
 human~
-BMTV CDFHJZ 1000 0
+BMTV CDFHJ 1000 0
 86 30 1d1+6999 1d1+999 4d10+30 slash
 -43 -43 -43 -35
 ACDEFHIKLNOT ABP CD 0
@@ -232,7 +232,7 @@ vast amount of knowledge she possesses. She is wearing fine magic clothing,
 and you notice that she is surrounded by a blue shimmering aura.
 ~
 elf~
-BKRV DEFJZ 1000 0
+BKRV DEFJ 1000 0
 36 0 1d1+1999 1d1+999 3d8+24 magic
 -30 -30 -30 -30
 FG ABCD 0 0
@@ -247,7 +247,7 @@ You are in no doubt that this guildmaster is truly close to your god; he has
 a peaceful, loving look. You notice that he is surrounded by a white aura.
 ~
 human~
-BKQV CDEFHZ 1000 0
+BKQV CDEFH 1000 0
 36 0 1d1+1999 1d1+999 3d8+24 divine
 -30 -30 -30 -30
 EFHIK ABCD 0 0
@@ -262,7 +262,7 @@ You see your mighty guildmaster in his glowing suit of armour. He appears to
 be a formidable warrior and evidently, you are in capable hands.
 ~
 human~
-BKSV DFZ 1000 0
+BKSV DF 1000 0
 36 0 1d1+1999 1d1+199 3d8+24 punch
 -30 -30 -30 -30
 BEFHJN ABCD 0 0
@@ -919,7 +919,7 @@ in every movement nearby. Her bright yellow beak curves to a fine point and
 the hardened sinews of her talons twitch rhythmically.
 ~
 bird~
-BV CDFJZ 1000 0
+BV CDFJ 1000 0
 80 30 10d100+2500 1d1+99 5d6+30 claw
 -40 -40 -40 -32
 FHQT ABP C 0

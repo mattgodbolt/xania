@@ -61,20 +61,18 @@ const struct race_type race_table[] = {
      to_int(ToleranceFlag::Mental) | to_int(ToleranceFlag::Lightning), A | H | M | V,
      A | B | C | D | E | F | G | H | J | K},
 
-    {"bat", false, 0, to_int(AffectFlag::Flying) | to_int(AffectFlag::DarkVision),
-     to_int(OffensiveFlag::Dodge) | to_int(OffensiveFlag::Fast), 0, 0, to_int(ToleranceFlag::Light), A | G | W,
-     A | C | D | E | F | H | J | K | P},
+    {"bat", false, 0, to_int(AffectFlag::Flying), to_int(OffensiveFlag::Dodge) | to_int(OffensiveFlag::Fast), 0, 0,
+     to_int(ToleranceFlag::Light), A | G | W, A | C | D | E | F | H | J | K | P},
 
     {"bear", false, 0, 0, to_int(OffensiveFlag::Crush) | to_int(OffensiveFlag::Disarm) | to_int(OffensiveFlag::Berserk),
      0, to_int(ToleranceFlag::Bash) | to_int(ToleranceFlag::Cold), 0, A | G | V,
      A | B | C | D | E | F | H | J | K | U | V},
 
-    {"cat", false, 0, to_int(AffectFlag::DarkVision), to_int(OffensiveFlag::Fast) | to_int(OffensiveFlag::Dodge), 0, 0,
-     0, A | G | V, A | C | D | E | F | H | J | K | Q | U | V},
+    {"cat", false, 0, 0, to_int(OffensiveFlag::Fast) | to_int(OffensiveFlag::Dodge), 0, 0, 0, A | G | V,
+     A | C | D | E | F | H | J | K | Q | U | V},
 
-    {"centipede", false, 0, to_int(AffectFlag::DarkVision), 0, 0,
-     to_int(ToleranceFlag::Pierce) | to_int(ToleranceFlag::Cold), to_int(ToleranceFlag::Bash),
-     O | Y /* insect, snake  */, A | F | Q | X},
+    {"centipede", false, 0, 0, 0, 0, to_int(ToleranceFlag::Pierce) | to_int(ToleranceFlag::Cold),
+     to_int(ToleranceFlag::Bash), O | Y /* insect, snake  */, A | F | Q | X},
 
     {"dog", false, 0, 0, to_int(OffensiveFlag::Fast), 0, 0, 0, A | G | V, A | C | D | E | F | H | J | K | U | V},
 
@@ -86,8 +84,8 @@ const struct race_type race_table[] = {
     {"fido", false, 0, 0, to_int(OffensiveFlag::Dodge) | to_int(OffensiveFlag::AssistRace), 0, 0,
      to_int(ToleranceFlag::Magic), B | G | V, A | C | D | E | F | H | J | K | Q | V},
 
-    {"fox", false, 0, to_int(AffectFlag::DarkVision), to_int(OffensiveFlag::Fast) | to_int(OffensiveFlag::Dodge), 0, 0,
-     0, A | G | V, A | C | D | E | F | H | J | K | Q | U | V},
+    {"fox", false, 0, 0, to_int(OffensiveFlag::Fast) | to_int(OffensiveFlag::Dodge), 0, 0, 0, A | G | V,
+     A | C | D | E | F | H | J | K | Q | U | V},
 
     {"goblin", false, 0, to_int(AffectFlag::Infrared), 0, 0, to_int(ToleranceFlag::Disease),
      to_int(ToleranceFlag::Magic), A | H | M | V, A | B | C | D | E | F | G | H | I | J | K},

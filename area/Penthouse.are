@@ -35,7 +35,7 @@ it appears to be quite a friendly looking entity, especially considering
 the circumstances of its existence.
 ~
 undead~
-OQTVc CDHNTUVZ 0 0
+OQTVc CDHNTUV 0 0
 100 50 1d1+8984 1d1+1183 15d7+55 cleave
 -45 -45 -45 -33
 ACDEFHIKU ABHILMNR CDO 0
@@ -52,7 +52,7 @@ brittle grey whiskers protrudes from the shadowy hood.
 It says...SQUEAK.
 ~
 unique~
-IHOUV HUNCDEFTZ 0 0
+IHOUV HUNCDEFT 0 0
 100 30 1d1+30000 1d1+15000 1d1+30 scratch
 -45 -45 -45 -45
 EFIKMN ADHINR 0 0
@@ -66,7 +66,7 @@ A large black wolf stands here....his teeth gleeming!
 The wolf stares back at you with a mischevious glint in his eye!
 ~
 unique~
-CIHOUV HUNCDEFTZ 10 0
+CIHOUV HUNCDEFT 10 0
 60 30 1d1+25000 1d1+1000 1d1+2000 scratch
 -45 -45 -45 -45
 EFIKMN ADHINR 0 0
@@ -81,7 +81,7 @@ ShebA PurrS AT YoU LovinglY (HaS AnY OnE FeD HeR?)
 WelL ArD TigeR SitS HerE GuardinG LuxoR WitH HeR EntirE BeinG
 ~
 unique~
-IHOUV HUNCDEFTZ 10 0
+IHOUV HUNCDEFT 10 0
 91 30 1d1+30000 1d1+15000 1d1+30 scratch
 -45 -45 -45 -45
 EFIKMN ADHINR 0 0
@@ -96,7 +96,7 @@ You see Shaiga, the gorgeous Bengal tiger lying here.
 It looks like a big wooly pussy.
 ~
 unique~
-IHOUV HUNCDEFTZ 10 0
+IHOUV HUNCDEFT 10 0
 113 38 1d1+24000 1d1+15000 12d6+38 claw
 -53 -53 -53 -53
 EFIKMN ABLOQP 0 0
@@ -112,7 +112,7 @@ Forbidden names for new characters. This is a very limited list, so beyond these
 player names that are against the spirit of the game on a case by case basis.
 ~
 unique~
-IHOUV HUNCDEFTZ 10 0
+IHOUV HUNCDEFT 10 0
 113 38 1d1+24000 1d1+15000 12d6+38 claw
 -53 -53 -53 -53
 EFIKMN ABLOQP 0 0

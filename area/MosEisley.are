@@ -218,7 +218,7 @@ does not seem to notice you, or if he does, he sure doesn't seem to
 care.
 ~
 human~
-TG HZ -100 0
+TG H -100 0
 70 0 20d100+2500 1d1+599 5d10+30 hit
 -35 -35 -35 -25
 CEFN A BC 0
